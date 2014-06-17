@@ -1,0 +1,745 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: wp-columna\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-26 17:42+0100\n"
+"PO-Revision-Date: 2013-02-26 17:42+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: C:\\xampplite\\htdocs\\wp\\wp-content\\plugins\\\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-SearchPath-0: wp-columna\n"
+
+#: wp-columna/wp-columna.php:51
+msgid "Add columns to visual editor and the page."
+msgstr "Agrega columnas a editor visual y las páginas."
+
+#~ msgid ""
+#~ "Single category reciprocal link directory with pagination and permalinks, "
+#~ "uses Wordpress default pages and links, simple and complete."
+#~ msgstr ""
+#~ "Directorio de enlaces recíproca de única categoría con paginación y "
+#~ "enlaces permanentes, utiliza páginas y enlaces por defecto de Wordpress."
+
+#~ msgid "%page_number%"
+#~ msgstr "%numero_pagina%"
+
+#~ msgid "Your link %link_title% is submitted and is pending for administrator"
+#~ msgstr ""
+#~ "Tu enlace %titulo_enlace% ha sido presentado y está pendiente para el "
+#~ "administrador"
+
+#~ msgid ""
+#~ "Your link has not been approved due to reciprocal link or other issues, "
+#~ "contact administrator."
+#~ msgstr ""
+#~ "Tu enlace no ha sido aprobado por vínculo de reciprocidad o de otras "
+#~ "cuestiones, contacta al administrador."
+
+#~ msgid ""
+#~ "Your link has been removed from our link directory due to our reciprocal "
+#~ "link agreement, you have 4 days to undo the changes before your link is "
+#~ "permanently deleted."
+#~ msgstr ""
+#~ "Tu enlace ha sido eliminado del nuestro directorio de enlaces, debido a "
+#~ "nuestro acuerdo de enlace recíproco, tiene 4 días para deshacer el cambio "
+#~ "antes de que su vínculo se elimina permanentemente."
+
+#~ msgid "Your link has been approved and added to the directory."
+#~ msgstr ""
+#~ "Tu enlace ha sido aprobado y añadido al nuestro directorio de enlace."
+
+#~ msgid "Submission Form"
+#~ msgstr "Formulario de presentación"
+
+#~ msgid "Links"
+#~ msgstr "Enlaces"
+
+#~ msgid "Page "
+#~ msgstr "página "
+
+#~ msgid "Captcha image mismatched"
+#~ msgstr "La imagen Captcha no coincide "
+
+#~ msgid "Your link already exists in the directory"
+#~ msgstr "Tu enlace ya existe en el directorio"
+
+#~ msgid "Link URL is incorrect"
+#~ msgstr "URL del enlace es incorrecto"
+
+#~ msgid "Reciprocal link URL is incorrect"
+#~ msgstr "URL del enlace recíproco es incorrecto"
+
+#~ msgid "Email address is incorrect"
+#~ msgstr "Dirección de correo electrónico es incorrecta"
+
+#~ msgid "Reciprocal link must be on the same domain"
+#~ msgstr "El enlaces recíprocos no está en el mismo dominio que el enlace"
+
+#~ msgid "Reciprocal link not found"
+#~ msgstr "Enlace recíproco no encontrado"
+
+#~ msgid "%link_title%"
+#~ msgstr "%titulo_enlace%"
+
+#~ msgid "Fields marked with a <span class=\"req\">*</span> are required."
+#~ msgstr ""
+#~ "Los campos marcados con un <span class=\"req\">*</ span> son obligatorios."
+
+#~ msgid "Title"
+#~ msgstr "Título"
+
+#~ msgid "Please complete this mandatory field"
+#~ msgstr "Por favor completa este campo"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Description"
+#~ msgstr "Descripción"
+
+#~ msgid "Limit"
+#~ msgstr "Limite"
+
+#~ msgid "Your Name"
+#~ msgstr "Tu Numbre"
+
+#~ msgid "Your Email"
+#~ msgstr "Tu Email"
+
+#~ msgid "Reciprocal Link"
+#~ msgstr "Enlace Recíproco"
+
+#~ msgid ""
+#~ "We require the Reciprocal link to be on the same domain as the link you "
+#~ "are submitting"
+#~ msgstr ""
+#~ "Requerimos que el recíproco a estar en el mismo dominio que el enlace va "
+#~ "a enviar"
+
+#~ msgid ""
+#~ "To validate the reciprocal link please include the<br>following HTML code "
+#~ "in the page at the URL<br>specified above, before submitting this form"
+#~ msgstr ""
+#~ "Para validar el enlace recíproco por favor incluya <br> la siguiente "
+#~ "código HTML en la pagina con el URL <br> especificada más arriba, antes "
+#~ "de enviar este formulario"
+
+#~ msgid "Enter the code shown"
+#~ msgstr "Ingrese el código de la imagen"
+
+#~ msgid "This helps prevent automated registrations"
+#~ msgstr "Esto ayuda a prevenir registros automáticos"
+
+#~ msgid "Agreement"
+#~ msgstr "Condiciones"
+
+#~ msgid "I AGREE with the"
+#~ msgstr "Estoy de acuerdo con las"
+
+#~ msgid "submission terms"
+#~ msgstr "términos de presentación"
+
+#~ msgid "Submit Link"
+#~ msgstr "Enviar Enlace"
+
+#~ msgid "Submit new link"
+#~ msgstr "Enviar un nuevo enlace"
+
+#~ msgid "Link"
+#~ msgstr "Enlace"
+
+#~ msgid "out of"
+#~ msgstr "de"
+
+#~ msgid "displayed"
+#~ msgstr "demostrado"
+
+#~ msgid "First"
+#~ msgstr "Primero"
+
+#~ msgid "Previous"
+#~ msgstr "Anterior"
+
+#~ msgid "Next"
+#~ msgstr "Siguiente"
+
+#~ msgid "Last"
+#~ msgstr "Última"
+
+#~ msgid "Link Rocket %s"
+#~ msgstr "Link Rocket %s"
+
+#~ msgid "Settings"
+#~ msgstr "Ajustes"
+
+#~ msgid "All Links"
+#~ msgstr "Todos los enlaces"
+
+#~ msgid "Links per page"
+#~ msgstr "Enlaces por página"
+
+#~ msgid "Link Rocket"
+#~ msgstr "Link Rocket"
+
+#~ msgid "How it Works"
+#~ msgstr "Como Funciona"
+
+#~ msgid "Administration"
+#~ msgstr "Administración"
+
+#~ msgid "Generals"
+#~ msgstr "Generales"
+
+#~ msgid "Directory Pages"
+#~ msgstr "Páginas del Directorio"
+
+#~ msgid "For more information:"
+#~ msgstr "Para más información:"
+
+#~ msgid "Plugin Support Forum"
+#~ msgstr "Foro de Soporte de Plugin"
+
+#~ msgid "License"
+#~ msgstr "Licencia"
+
+#~ msgid "overview"
+#~ msgstr "vista general"
+
+#~ msgid ""
+#~ "Link Rocket is a single category reciprocal / cross link directory that "
+#~ "uses Wordpress default links, pages and the power of Wordpress to obtain "
+#~ "links for difrrent pages and titles of your website or other URLs and "
+#~ "ensure their existence at all time"
+#~ msgstr ""
+#~ "Rocket Link es un directorio de enlace recíproco / cross de una sola "
+#~ "categoría, directorio de enlaces que utiliza  las páginas y enlaces por "
+#~ "defecto de WordPress para obtener enlaces a páginas y URL difrrent tuyas"
+
+#~ msgid ""
+#~ "This plugin helps you grow your SEO by sharing your website power in "
+#~ "exchange of reciprocal / cross links"
+#~ msgstr ""
+#~ "Este plugin te ayuda a hacer crecer su optimización SEO por compartir su "
+#~ "poder de sitio web a cambio de enlaces recíprocos / cross"
+
+#~ msgid ""
+#~ "Link Rocket has few basic and essential settings where you can automate "
+#~ "everything as well as modifying notification messages and emails templates"
+#~ msgstr ""
+#~ "Rocket Link tiene pocos ajustes básicos y esenciales donde se puede "
+#~ "automatizar todo, modificación de plantillas de mensajes y correos "
+#~ "electrónicos de notificación"
+
+#~ msgid ""
+#~ "This plugin does not use Ajax nor GET parameter for directory pages "
+#~ "instead it uses powerful SEO boosting Wordpress page permalinks"
+#~ msgstr ""
+#~ "Este plugin no utiliza Ajax ni parámetro GET para las páginas del "
+#~ "directorio en su lugar utiliza paginas por defecto de Wordpress cob "
+#~ "permalinks"
+
+#~ msgid ""
+#~ "After activation plugin will create 1 link page and 1 submission page, "
+#~ "link page will be parenting future subpages, these subpages are directory "
+#~ "pagination pages (page2,page3...). creation, modification and elimination "
+#~ "of the pages are done automatically by plugin and you can modify these "
+#~ "pages"
+#~ msgstr ""
+#~ "Después de activación el plugin creará una página de presentación y otra "
+#~ "de directorio, página del directorio se mantienen subpáginas, estas son "
+#~ "las subpáginas de paginación del directorio(página 2, página 3 ...). "
+#~ "creación, modificación y eliminación de las páginas se realiza de forma "
+#~ "automática por el plugin."
+
+#~ msgid "Plugin uses Wordpress default links for storing information"
+#~ msgstr ""
+#~ "El Plugin utiliza enlaces por defecto de Wordpress para la grabación de "
+#~ "información"
+
+#~ msgid ""
+#~ "You can add links using submission form or Wordpress admin area, you can "
+#~ "find the extra Link Rocket panel on Wordpress links admin panel"
+#~ msgstr ""
+#~ "Puedes agregar enlaces usando formulario de presentación o el área de "
+#~ "administración de enlaces de Wordpress, puedes encontrar el panel "
+#~ "adicional de Link Rocket en el panel de administración de enlaces de "
+#~ "Wordpress"
+
+#~ msgid ""
+#~ "Submission through form contains many levels of spam filtering, you can "
+#~ "also add submission terms and Captcha image confirmation"
+#~ msgstr ""
+#~ "Presentación a través de formulario contiene niveles de filtrado de "
+#~ "correo no deseado, también puede agregar términos de presentación y "
+#~ "confirmación de la imagen de Captcha"
+
+#~ msgid ""
+#~ "Link Rocket has two sections, Pendings and All Links, pending links are "
+#~ "links which are submitted but are not being displayed"
+#~ msgstr ""
+#~ "Link Rocket tiene dos secciones, todos los enlaces y pendientes, "
+#~ "pendientes son los enlaces que no se muestran"
+
+#~ msgid ""
+#~ "You can apply one of these actions to a link individually or in group: "
+#~ "Approve, Reject, Pending, Delete, Test"
+#~ msgstr ""
+#~ "puedes solicitar una de estas acciones a un enlace de forma individual o "
+#~ "en grupo: Aprobar, Rechazar, Pendiente, Eliminar, Test"
+
+#~ msgid "Approve"
+#~ msgstr "Aprobar"
+
+#~ msgid ""
+#~ "it will publish a link in the directory, position is depending on the "
+#~ "date of submission"
+#~ msgstr ""
+#~ "se publicaa el  enlace en el directorio, la posición es en función de la "
+#~ "fecha de presentación"
+
+#~ msgid "Reject"
+#~ msgstr "Rechazar"
+
+#~ msgid ""
+#~ "it is only applicable to pending links and it will delete the link and "
+#~ "notify the submitter for the reason"
+#~ msgstr ""
+#~ "es aplicable únicamente a los enlaces pendientes y se eliminará el enlace "
+#~ "y notificar al remitente por la razón"
+
+#~ msgid "Pending"
+#~ msgstr "Pendiente"
+
+#~ msgid ""
+#~ "it is only applicable to published Links and will hide the link from the "
+#~ "directory keeping it pending and notifying the submitter for an action"
+#~ msgstr ""
+#~ "sólo es aplicable a los enlaces publicados y ocultará el enlace desde el "
+#~ "directorio manteniéndola en espera con notificación al remitente"
+
+#~ msgid "Delete"
+#~ msgstr "Eliminar"
+
+#~ msgid "it will delete the link without notifying the submitter"
+#~ msgstr "se eliminará el enlace sin notificar al remitente"
+
+#~ msgid "Test"
+#~ msgstr "Comprobar"
+
+#~ msgid ""
+#~ "it will check your target link at the reciprocal URL and return the status"
+#~ msgstr ""
+#~ "se comprobará su enlace a la URL de destino recíproco y devolver el estado"
+
+#~ msgid "Test Result Status"
+#~ msgstr "Estado del Resultados de la prueba"
+
+#~ msgid "Link not checked"
+#~ msgstr "Enlace no comprobado"
+
+#~ msgid "Link does not exist"
+#~ msgstr "Enlace no existe"
+
+#~ msgid "Link found"
+#~ msgstr "Enlace encontrado"
+
+#~ msgid "Page does not exist"
+#~ msgstr "Página no existe"
+
+#~ msgid "Site not reachable"
+#~ msgstr "La página no alcanzable"
+
+#~ msgid ""
+#~ "Reciprocal target link is the link you require users to add to their "
+#~ "website, it allows any URL"
+#~ msgstr ""
+#~ "Enlace recíproco de destino es el enlace que los visitantes tengan que "
+#~ "añadir a su página web, permite a cualquier URL"
+
+#~ msgid ""
+#~ "Link rocket category is a Wordpress link category where all directory "
+#~ "submissions stores"
+#~ msgstr ""
+#~ "Categoría de Link rocket es una categoría de enlaces de Wordpress por "
+#~ "defecto donde almacena todas las comunicaciones presentaciones"
+
+#~ msgid ""
+#~ "Link per page is the quantity of links on each directory front-end page, "
+#~ "back-end pages have screen option for the same functionality"
+#~ msgstr ""
+#~ "Enlace por página es la cantidad de enlaces en cada pagina del directorio "
+#~ "de enlace"
+
+#~ msgid ""
+#~ "Pagination link text is the title of each link on pagination, 1,2,3 or "
+#~ "page-1, page-2..."
+#~ msgstr ""
+#~ "Texto de enlaces de paginación es el título de cada enlace de pagina de "
+#~ "la paginación, 1, 2, 3 o pagina-1, pagina-2"
+
+#~ msgid ""
+#~ "[link-rocket-indexer], Indexer shortcode is a list of links to last pages "
+#~ "of the link directory, use text widget to insert it"
+#~ msgstr ""
+#~ "[link-rocket-indexer], Código corto de indizador es una lista de enlaces "
+#~ "a las últimas páginas del directorio de enlaces, utilice widget de texto "
+#~ "para insertarlo"
+
+#~ msgid ""
+#~ "Link Rocket automatically creates, modifies, eliminates necessary pages "
+#~ "of the directory but you can also modify the pages"
+#~ msgstr ""
+#~ "Link Rocket crea, modifica y elimina las páginas necesarias del "
+#~ "directorio automáticamente, también puede modificar las páginas "
+#~ "manualmente "
+
+#~ msgid ""
+#~ "Here in this section of the setting you can rebuild the pages all in one "
+#~ "automatically, this is for changing the text name of the title and "
+#~ "permalink of the pages"
+#~ msgstr ""
+#~ "Aquí puedes reconstruir rodas las páginas del directorio en una forma "
+#~ "automática, esto es para cambiar el nombre del título y el enlace "
+#~ "permanente de las páginas"
+
+#~ msgid ""
+#~ "by changing and rebuilding pages to other name you lose the old directory "
+#~ "permalinks"
+#~ msgstr ""
+#~ "mediante el cambio y la reconstrucción de las páginas a otro nombre "
+#~ "pierden los permalinks de directorio existentes"
+
+#~ msgid ""
+#~ "Here is a list of 3 actions which you must avoid doing with pages created "
+#~ "by this plugin: deleting pages, changing relationship, changing subpage "
+#~ "order numbers"
+#~ msgstr ""
+#~ "Es una lista de 3 acciones que debe evitar hacer con las páginas creadas "
+#~ "por este plugin: eliminar páginas, cambiar la relación, el cambio de "
+#~ "números de orden de subpágina "
+
+#~ msgid "Target URL"
+#~ msgstr "URL de Destino"
+
+#~ msgid "Target Title"
+#~ msgstr "Título de Destino"
+
+#~ msgid "Submitter Name"
+#~ msgstr "Nombre de Remitente "
+
+#~ msgid "Submitter Email"
+#~ msgstr "Email de Remitente "
+
+#~ msgid "Add new"
+#~ msgstr "Añadir nuevo"
+
+#~ msgid "Search result for"
+#~ msgstr "Resultado de búsqueda para"
+
+#~ msgid "Links Approved"
+#~ msgstr "Enlaces Aprobados"
+
+#~ msgid "Links are pending, user contacted"
+#~ msgstr "Los enlaces están en modo pendiente, usuario notificado"
+
+#~ msgid "Links Deleted"
+#~ msgstr "Enlaces Eliminados"
+
+#~ msgid "Links Tested"
+#~ msgstr "Enlaces Comprobados"
+
+#~ msgid "All"
+#~ msgstr "Todos"
+
+#~ msgid "Pendings"
+#~ msgstr "Pendientes"
+
+#~ msgid "Search Links"
+#~ msgstr "Buscar Enlaces"
+
+#~ msgid "Search Link Rocket"
+#~ msgstr "Buscar Link Rocket"
+
+#~ msgid "Bulk Actions"
+#~ msgstr "Acciones en lote"
+
+#~ msgid "Apply"
+#~ msgstr "Aplicar"
+
+#~ msgid " link"
+#~ msgstr "Enlace"
+
+#~ msgid " links"
+#~ msgstr "Enlaces"
+
+#~ msgid "Target Link"
+#~ msgstr "Enlace Destino"
+
+#~ msgid "Submitter"
+#~ msgstr "Remitente "
+
+#~ msgid "Date"
+#~ msgstr "Fecha"
+
+#~ msgid "You are about to delete this link"
+#~ msgstr "Estás a punto de eliminar este enlace"
+
+#~ msgid "Accept"
+#~ msgstr "Aceptar"
+
+#~ msgid "to delete it"
+#~ msgstr "para eliminarlo"
+
+#~ msgid "No links"
+#~ msgstr "No enlaces"
+
+#~ msgid "Settings updated"
+#~ msgstr "Ajustes actualizados"
+
+#~ msgid "Pages are rebuilt"
+#~ msgstr "Las páginas se reconstruye"
+
+#~ msgid "Reciprocal target link title"
+#~ msgstr "Título del enlace recíproco destino"
+
+#~ msgid "Reciprocal target link URL"
+#~ msgstr "URL del enlace recíproco destino"
+
+#~ msgid "Allow Cross Links"
+#~ msgstr "Permitir Enlaces Crusados"
+
+#~ msgid "allow reciprocal links from different domain as the link submitted"
+#~ msgstr ""
+#~ "permitir enlace recíproco a estar en dominio diferente que el enlace "
+#~ "presentado"
+
+#~ msgid "Link Rocket category"
+#~ msgstr "Categoría de Link Rocket"
+
+#~ msgid "Choose a category"
+#~ msgstr "Elige una categoría"
+
+#~ msgid "needs page rebuild after saving"
+#~ msgstr ""
+#~ "después de guardar cambios necesita la reconstrucción de las páginas"
+
+#~ msgid "default 50"
+#~ msgstr "50 por defecto"
+
+#~ msgid "Text for pagination links"
+#~ msgstr "Texto de enlaces de paginación"
+
+#~ msgid "Page count for indexer shortcode "
+#~ msgstr "Recuento de páginas del indexador"
+
+#~ msgid "Title for submission page"
+#~ msgstr "Título de página de presentación"
+
+#~ msgid "Link directory page title"
+#~ msgstr "Título de la página de directory"
+
+#~ msgid "title for link directory parent page"
+#~ msgstr "título para la página principal de directorio"
+
+#~ msgid "Link directory subpage title"
+#~ msgstr "Título de la sub-página del directorio"
+
+#~ msgid "title for link directory subpages, page2, page3"
+#~ msgstr ""
+#~ "título de las páginas del directorio enlaces secundarios, Página2, Página3"
+
+#~ msgid "Saves on page rebuild"
+#~ msgstr "Cambios sólo con reconstruir las páginas"
+
+#~ msgid "You are about to rebuild the link directory pages"
+#~ msgstr "Estás a punto de reconstruirlas páginas del directorio de enlace"
+
+#~ msgid "Click Ok"
+#~ msgstr "Aceptar"
+
+#~ msgid "to proceed"
+#~ msgstr "para proceder"
+
+#~ msgid "Rebuild Pages"
+#~ msgstr "Reconstruir Páginas"
+
+#~ msgid "Auto approval"
+#~ msgstr "Aprobación automática"
+
+#~ msgid ""
+#~ "automatic reciprocal link check while submission, if true link confirms"
+#~ msgstr ""
+#~ "prueba automática de enlace recíproco, mientras la presentación, "
+#~ "confirmará la presentación"
+
+#~ msgid "Max link title characters"
+#~ msgstr "Máximo de caracteres de título"
+
+#~ msgid "maximum amount of character allowed in links titles"
+#~ msgstr "cantidad máxima de caracteres permitidos en títulos de enlaces"
+
+#~ msgid "Max link description characters"
+#~ msgstr "Máximo de caracteres de descripción"
+
+#~ msgid "maximum amount of character allowed in links description"
+#~ msgstr ""
+#~ "importe máximo de caracteres permitido en la descripción de los vínculos"
+
+#~ msgid "Use CAPTCHA"
+#~ msgstr "Utilizar CAPTCHA"
+
+#~ msgid "use captcha image confirmation for submission / antispam"
+#~ msgstr ""
+#~ "utilizar la confirmación de la imagen captcha para la presentación / anti-"
+#~ "spam"
+
+#~ msgid "Submission agreement"
+#~ msgstr "Terminos de presentación"
+
+#~ msgid "URL of the agreement page, leave empty to deactivate"
+#~ msgstr "URL de la página de acuerdo, dejar en blanco para desactivar"
+
+#~ msgid "Link submitted message template"
+#~ msgstr "Plantilla de fin de presentación"
+
+#~ msgid "message shown after link submission"
+#~ msgstr "mensaje que se muestra después de la presentación de enlace"
+
+#~ msgid "tags"
+#~ msgstr "etiquetas"
+
+#~ msgid "Email Notifications"
+#~ msgstr "Notificaciones por correo"
+
+#~ msgid "Admin recipients"
+#~ msgstr "Destinatarios de admin"
+
+#~ msgid "add more, seprate by comma"
+#~ msgstr "añadir mas separados con coma"
+
+#~ msgid "Rejection template"
+#~ msgstr "Plantilla de rechazo"
+
+#~ msgid "%submitter_name%"
+#~ msgstr "%numbre_remitente%"
+
+#~ msgid "%link%"
+#~ msgstr "%enlace%"
+
+#~ msgid "%target_link%"
+#~ msgstr "%enlace_destino%"
+
+#~ msgid "%reciprocal_url%"
+#~ msgstr "%url_reciprico%"
+
+#~ msgid "Approval template"
+#~ msgstr "Plantilla de aprobados"
+
+#~ msgid "Pending mode template"
+#~ msgstr "Plantilla de pendiente"
+
+#~ msgid "Save changes"
+#~ msgstr "Guardar cambios"
+
+#~ msgid "Your Link is Rejected"
+#~ msgstr "Su enlace está Rechazado"
+
+#~ msgid "Your Link is Approved"
+#~ msgstr "Su enlace está aprobado"
+
+#~ msgid "Your Link is Pending"
+#~ msgstr "Su enlace está pendiente"
+
+#~ msgid "A user submitted a new link to your Wordpress Link database"
+#~ msgstr ""
+#~ "Un nuevo presentación de enlace a su base de datos de enlaces de Wordpress"
+
+#~ msgid "Link Title"
+#~ msgstr "Título de Enlace"
+
+#~ msgid "Link URL"
+#~ msgstr "URL de Enlace"
+
+#~ msgid "Link Description"
+#~ msgstr "Descripción de Enlace"
+
+#~ msgid "Moderate Link"
+#~ msgstr "Moderar Enlace"
+
+#~ msgid "Message generated by Link Rocket for Wordpress"
+#~ msgstr "Mensaje generado por Link Rocket para Wordpress"
+
+#~ msgid "New Link Added!"
+#~ msgstr "Nuevo Enlaces!"
+
+#~ msgid ""
+#~ "Powerful link directory using Wordpress default pages and links, simple "
+#~ "and fast indexing (Reciprocal & Cross link) directory."
+#~ msgstr ""
+#~ "Directorio de enlaces recíproco y crusados con las páginas y los enlaces "
+#~ "por defecto de Wordpress con un indexación muy rápida."
+
+#~ msgid "Pendings %s"
+#~ msgstr "Pendientes %s"
+
+#~ msgid "pending link"
+#~ msgstr "enlace pendiente"
+
+#~ msgid "pending links"
+#~ msgstr "enlaces pendientes"
+
+#~ msgid "no pending links"
+#~ msgstr "no enlaces pendientes"
+
+#~ msgid "No link is pending for administration"
+#~ msgstr "Ningun enlace queda pendiente"
+
+#~ msgid "Filter"
+#~ msgstr "filtrar"
+
+#~ msgid "No approved links in database"
+#~ msgstr "No hay enlaces aprobados en la base de datos"
+
+#~ msgid "Form page title"
+#~ msgstr "Título de la página de formulario"
+
+#~ msgid "Automation"
+#~ msgstr "Automatización"
+
+#~ msgid "Reciprocal checker"
+#~ msgstr "Comprobador de enlaces recíprocos"
+
+#~ msgid "reciprocal link checker, before insertion"
+#~ msgstr "comprobador de enlaces recíprocos, antes de la inserción"
+
+#~ msgid "links bypass pending mode, only if \"reciprocal checker\" is active"
+#~ msgstr ""
+#~ "Los enlaces se saltan el modo pendiente, solo si \"comprobador recíproco"
+#~ "\" este activado"
+
+#~ msgid "Link Rejection"
+#~ msgstr "Enlaces rechazada"
+
+#~ msgid "Link Approved"
+#~ msgstr "Enlace Aprobado"
+
+#~ msgid "%link_url%"
+#~ msgstr "%url_enlace%"
+
+#, fuzzy
+#~ msgid "Link Name"
+#~ msgstr "Enlaces por página"
+
+#~ msgid "Plugin Settings"
+#~ msgstr "Ajustes de Plugin"
+
+#~ msgid "%link_number%"
+#~ msgstr "%numero_enlace%"
+
+#~ msgid "Reciprocal Links"
+#~ msgstr "Enlaces Recíprocos"

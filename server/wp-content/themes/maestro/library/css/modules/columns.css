@@ -1,0 +1,59 @@
+/*
+Default style for WP-Columna plugin
+*/
+/* Structures */
+/* line 6, ../../scss/modules/columns.scss */
+.all-columns {
+  width: 100%;
+  float: left;
+  clear: both;
+}
+
+/* line 11, ../../scss/modules/columns.scss */
+.one-half,
+.one-third,
+.two-third {
+  float: left;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 10px;
+  margin-left: 0;
+}
+
+/* line 20, ../../scss/modules/columns.scss */
+.one-half {
+  width: 48.5%;
+}
+
+/* line 23, ../../scss/modules/columns.scss */
+.one-third {
+  width: 30%;
+}
+
+/* line 26, ../../scss/modules/columns.scss */
+.two-third {
+  width: 67%;
+}
+
+/* line 29, ../../scss/modules/columns.scss */
+.first {
+  clear: left;
+  margin-right: 3%;
+}
+
+/* line 33, ../../scss/modules/columns.scss */
+.last {
+  margin-left: 3%;
+}
+
+/* line 37, ../../scss/modules/columns.scss */
+.one-third.first,
+.one-third.first + .one-third,
+.one-third.first + .one-third + .one-third.last {
+  width: 31.3%;
+}
+
+/* line 43, ../../scss/modules/columns.scss */
+.one-third.first + .two-third {
+  width: 65.7%;
+}

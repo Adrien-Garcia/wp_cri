@@ -1,0 +1,45 @@
+/*
+Default style for WP-Columna plugin
+*/
+
+/* Structures */
+.all-columns {
+	width: 100%;
+	float: left;
+	clear: both;
+}
+.one-half,
+.one-third,
+.two-third {
+	float: left;
+	margin-top: 0;
+	margin-right: 0;
+	margin-bottom: 10px;
+	margin-left: 0;
+}
+.one-half {
+    width: 48.5%;
+}
+.one-third {
+    width: 30%;
+}
+.two-third {
+    width: 67%;
+}
+.first {
+	clear: left;
+	margin-right: 3%;
+}
+.last {
+	margin-left: 3%;
+}
+
+.one-third.first,
+.one-third.first + .one-third,
+.one-third.first + .one-third + .one-third.last{
+	width:31.3%;
+}
+
+.one-third.first + .two-third{
+	width:65.7%;
+}
