@@ -33,7 +33,7 @@ body {
 	
 	&:before{
 		
-		content:$data-image-arrow-11;
+		content:url($data-image-arrow-11);
 		top:0;
 		left:-50px;
 	
