@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 
     },
 
-    grunticon: {
+    /*grunticon: {
 
       myIcons: {
 
@@ -46,8 +46,34 @@ module.exports = function(grunt) {
           }],
 
           options: {
-            loadersnippet: "grunticon.loader.js"
+            
           }
+      }
+
+    },*/
+
+    datauri: {
+
+      options: {
+
+        colors: {      // a color mapping object that will map
+                     // files named with the following scheme
+                     // `truck.colors-red-green.svg` into separate datauri vars.
+          red: '#00ffff',
+          green: '#ff00ff'
+
+        }
+
+      },
+
+      myicons: {
+
+        files: {
+
+         'scss/modules/_datauri_variables.scss' : 'images/origin/*.{png,jpg,gif,svg}'
+
+        }
+
       }
 
     },
@@ -68,15 +94,15 @@ module.exports = function(grunt) {
 
       },
 
-      another: {
+      icon: {
 
-        files: ['images/origin/*.*'],
-        tasks: ['grunticon']
+        files: ['images/origin/*.{png,jpg,gif,svg}'],
+        tasks: ['datauri']
 
       },
 
       options: {
-        spawn: false,
+        spawn: true,
         event: ['changed','added','deleted'],
         livereload: 35729
       }
@@ -94,10 +120,13 @@ module.exports = function(grunt) {
   // Watch task
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  // GruntIcon
-  grunt.loadNpmTasks('grunt-grunticon');
+  // datauri
+  grunt.loadNpmTasks('grunt-datauri-variables');
+
+  // Grunticon
+  //grunt.loadNpmTasks('grunt-grunticon');
 
   // Default task(s).
-  grunt.registerTask('default', ['uglify','sass','watch','grunticon:myIcons']);
+  grunt.registerTask('default', ['uglify','sass','datauri','watch']);
 
 };

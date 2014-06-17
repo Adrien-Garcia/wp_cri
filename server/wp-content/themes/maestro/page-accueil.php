@@ -29,6 +29,7 @@
 						</header> <?php // end article header ?>
 
 						<section class="entry-content cf" itemprop="articleBody">
+						
 							<?php
 								// the content (pretty self explanatory huh)
 								the_content();
@@ -52,6 +53,9 @@
 									'link_after'  => '</span>',
 								) );
 							?>
+							
+							<a class="test-sprite">Test-sprite</a>
+							
 						</section> <?php // end article section ?>
 
 						<footer class="article-footer cf">
@@ -79,8 +83,6 @@
 					<?php endif; ?>
 
 				</div>
-
-				<?php get_sidebar(); ?>
 
 		</div>
 

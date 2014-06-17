@@ -22,7 +22,23 @@ body {
 	color: $text-color;
 	background-color: $gray;
   	-webkit-font-smoothing: antialiased;
-  	border:2px solid red;
+}
+
+.test-sprite{
+	
+	/*background:url($data-image-arrow-11) 0 0 no-repeat;*/
+	border:1px solid red;
+	
+	position:relative;
+	
+	&:before{
+		
+		content:$data-image-arrow-11;
+		top:0;
+		left:-50px;
+	
+	}
+	
 }
 
 /********************

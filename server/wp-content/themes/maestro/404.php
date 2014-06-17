@@ -28,7 +28,7 @@
 
 							<footer class="article-footer">
 
-									<p><?php _e( 'This is the 404.php template.', 'bonestheme' ); ?></p>
+									<p><a href="/" title="<?php _e( 'Back to home.', 'bonestheme' ); ?>"><?php _e( 'Back to home.', 'bonestheme' ); ?></a></p>
 
 							</footer>
 
