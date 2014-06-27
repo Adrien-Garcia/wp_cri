@@ -107,10 +107,40 @@ function loadGravatars() {
 */
 jQuery(document).ready(function($) {
 	
-  /*
-   * Let's fire off the gravatar function
-   * You can remove this if you don't need it
-  */
+	/*
+	 * Obfusction des liens menant vers l'accueil & de www.addonline.fr
+	 */
+	demoer = {'home':'hmdjf@|'};
+	$('.lienhome').bind('click', function(){
+		str = demoer["home"];
+		str = str.replace('h', 'http://');
+		str = str.replace('m', 'www');
+		str = str.replace('d', '.');
+		str = str.replace('j', 'minceur');
+		str = str.replace('j', 'discount');
+		str = str.replace('@', '.');
+		str = str.replace('|', 'com');
+		document.location=str;
+	});
+	
+	aolink = {'oafooter':'gkey@&'};
+	$('.lienao').bind('click', function(){
+		str = aolink["oafooter"];
+		str = str.replace('g', 'http://');
+		str = str.replace('k', 'www');
+		str = str.replace('e', '.');
+		str = str.replace('y', 'addonline');
+		str = str.replace('@', '.');
+		str = str.replace('&', 'fr');
+		document.location=str;
+	});
+
+	
+	
+	/*
+	 * Let's fire off the gravatar function
+	 * You can remove this if you don't need it
+	 */
   loadGravatars();
 
 
