@@ -64,6 +64,11 @@ template {
  *    user zoom.
  */
 
+html,
+body{
+  height:100%;
+}
+
 html {
     font-family: sans-serif; /* 1 */
     -ms-text-size-adjust: 100%; /* 2 */
