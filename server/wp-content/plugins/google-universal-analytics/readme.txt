@@ -1,10 +1,10 @@
 === Google Universal Analytics ===
 Contributors: audriusd
 Donate link: http://onlineads.lt/
-Tags: javascript, tracking, google, analytics, universal, statistics, google analytics, universal analytics, google universal analytics, classic, custom, woocommerce, ecommerce
+Tags: javascript, tracking, google, analytics, universal, statistics, google analytics, universal analytics, google universal analytics, classic, custom, nexusad
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 2.3.2
+Stable tag: 2.3.4
 License: GPLv2 or later
 
 Adds the latest Google Universal Analytics JavaScript tracking code to your WordPress website. Many options!
@@ -15,10 +15,16 @@ Adding Google Analytics code to your website has never been easier. Simply copy 
 
 Why Google Universal Analytics is better than the usual Google Analytics? 
 
-* Custom dimensions & metrics;
-* Online/Offline data sync;
-* Multi-platform tracking;
-* Simplified configuration controls;
+* Event tracking (track downloads, mailto links, clicks on external URLs and Call tracking);
+* Remarketing;
+* Demographics and Interests reporting;
+* IP Anonymization;
+* Enhanced Link Attribution;
+* Custom domain configuration;
+* Disable Google Analytics tracking for specific WordPress users;
+* Older Google Analytics tracking available;
+* Tracking code customization;
+* Simplified user interface;
 * It is the new analytics standard set by Google;
 * ...and more.
 
@@ -48,12 +54,16 @@ The same way you entered it the first time: Admin > Google Universal Analytics (
 
 = How can I get support? =
 
-[Fill in contact form at our website](http://onlineads.lt/contact-us/). We usually reply within 24 hours.
+[Fill in contact form at our website](http://onlineads.lt/contact-us/). I usually reply within 24 hours.
 Also, do not hesitate to contact us if you have any questions regarding [Google Analytics](http://onlineads.lt/contact-us/). 
 
 = Feature that I need is not available with this plugin. How can I recommend a new feature? =
 
 [Submit your idea at our website](http://onlineads.lt/contact-us/).
+
+= How can I subscribe to periodic Google Analytics reports? =
+
+Check it out [nexusAd tool](https://nexusad.com).
 
 == Screenshots ==
 
@@ -61,6 +71,14 @@ Also, do not hesitate to contact us if you have any questions regarding [Google 
 1. Google Analytics and Google Universal Analytics compared.
 
 == Changelog ==
+
+= 2.3.4 =
+* Support for Gzip archive (.gz), Torrent (.torrent) and ComicBook Reader File (.cbr) tracking (event tracking) added.
+* Clicks on phone numbers (tel:...) are now tracked as events. 
+
+= 2.3.3 =
+* Enhanced Link Attribution feature added. 
+* Small fixes.
 
 = 2.3.2 =
 * Google Universal Analytics plugin now supports Lithuanian and Spanish languages!
@@ -114,6 +132,14 @@ Also, do not hesitate to contact us if you have any questions regarding [Google 
 
 == Upgrade Notice ==
 
+= 2.3.4 =
+* Support for Gzip archive (.gz), Torrent (.torrent) and ComicBook Reader File (.cbr) tracking (event tracking) added.
+* Clicks on phone numbers (tel:...) are now tracked as events. 
+
+= 2.3.3 =
+* New feature: Enhanced Link Attribution 
+* Small fixes.
+
 = 2.3.2 =
 * Spanish and Lithuanian language support
 
@@ -145,7 +171,7 @@ Also, do not hesitate to contact us if you have any questions regarding [Google 
 * Important: Bug fixed. After updating enter full tracking code (not just Web Property ID). 
 
 = 1.1 =
-Tracking code updated. 
+* Tracking code update. 
 
 = 1.0 =
-Initial release. 
+* Initial release. 

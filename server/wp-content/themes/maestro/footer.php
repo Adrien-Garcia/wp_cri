@@ -3,7 +3,9 @@
 				<div id="inner-footer" class="wrap cf">
 
 					<nav role="navigation">
+
 						<?php nav_pied_de_page(); ?>
+						
 					</nav>
 
 					<p class="source-org copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo( 'name' ); ?>. <a class="lienao">Créations site web</a></p>

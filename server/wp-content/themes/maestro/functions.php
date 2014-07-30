@@ -20,6 +20,9 @@ require_once( 'library/admin.php' );
 // CUSTOMIZE BREADCRUMBS
 require_once( 'library/breadcrumbs.php' );
 
+// SNIPPETS
+require_once( 'library/snippets.php' );
+
 /*********************
 LAUNCH BONES
 Let's get everything up and running.
@@ -202,81 +205,11 @@ can replace these fonts, change it in your scss files
 and be up and running in seconds.
 */
 function bones_fonts() {
-  wp_register_style('googleFonts', 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic');
-  wp_enqueue_style( 'googleFonts');
+  /*wp_register_style('googleFonts', 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic');
+  wp_enqueue_style( 'googleFonts');*/
 }
 
 add_action('wp_print_styles', 'bones_fonts');
 
 
-/************* TRONQUAGE DE CONTENU	 *************************************************************************************************************/
-/* ATTENTION : Eviter d'utiliser sur the_content(). Privilégier l'excerpt ou tout autre contenu non mis en forme
- * via une éditeur WYSIWYG
-*/
-function truncate($string, $max_length, $replacement = '', $trunc_at_space = false)
-{
-	$max_length -= strlen($replacement);
-	$string_length = strlen($string);
-
-	if($string_length <= $max_length)
-		return $string;
-
-	if( $trunc_at_space && ($space_position = strrpos($string, ' ', $max_length-$string_length)) )
-		$max_length = $space_position;
-
-	return substr_replace($string, $replacement, $max_length);
-}
-
-/************* EXCERPT POUR LES PAGES *************************************************************************************************************/
-add_action( 'init', 'my_add_excerpts_to_pages' );
-function my_add_excerpts_to_pages() {
-	add_post_type_support( 'page', 'excerpt' );
-}
-
-/************* GRAVITY FORMS **********************************************************************************************************************/
-
-// --- Donne accès à gravity form au role éditeur
-function add_grav_forms(){
-	$role = get_role('editor');
-	$role->add_cap('gform_full_access');
-}
-add_action('admin_init','add_grav_forms');
-
-/************ PARTAGE DES MODELES *****************************************************************************************************************/
-function my_save_post($id)
-{
-	$p = get_post($id);
-	if ($p->post_type === 'tinymcetemplates') {
-		if (isset($_POST['_tinymcetemplates-share'])) {
-			update_post_meta($id, '_tinymcetemplates-share', 1);
-		}
-	}
-}
-add_action('save_post', 'my_save_post', 11);
-
-/******** Modifie les éléments disponible de TinyMCE **********************************************************************************************/
-function mce_mod( $init ) {
-	$init['block_formats'] = 'Paragraph=p;Heading 2=h2;Heading 3=h3;Heading 4=h4';
-
-	/*$style_formats = array (
-			array( 'title' => 'Bold text', 'inline' => 'b' ),
-			array( 'title' => 'Red text', 'inline' => 'span', 'styles' => array( 'color' => '#ff0000' ) ),
-			array( 'title' => 'Red header', 'block' => 'h1', 'styles' => array( 'color' => '#ff0000' ) ),
-			array( 'title' => 'Example 1', 'inline' => 'span', 'classes' => 'example1' ),
-			array( 'title' => 'Example 2', 'inline' => 'span', 'classes' => 'example2' )
-	);
-
-	$init['style_formats'] = json_encode( $style_formats );
-
-	$init['style_formats_merge'] = false;*/
-	return $init;
-}
-add_filter('tiny_mce_before_init', 'mce_mod');
-
-/*function mce_add_buttons( $buttons ){
-	array_splice( $buttons, 1, 0, 'styleselect' );
-	return $buttons;
-}
-add_filter( 'mce_buttons_2', 'mce_add_buttons' );*/
-
-/* DON'T DELETE THIS CLOSING TAG */ ?>
+?>

@@ -1,43 +1,43 @@
 <?php get_header(); ?>
 
-			<div id="content">
+	<div id="content">
 
-				<div id="inner-content" class="wrap cf">
+		<div id="inner-content" class="wrap cf">
 
-					<div id="main" class="m-all t-2of3 d-5of7 cf" role="main">
+			<div id="main" class="m-all t-2of3 d-5of7 cf" role="main">
 
-						<article id="post-not-found" class="hentry cf">
+				<article id="post-not-found" class="hentry cf">
 
-							<header class="article-header">
+					<header class="article-header">
 
-								<h1><?php _e( 'Epic 404 - Article Not Found', 'bonestheme' ); ?></h1>
+						<h1><?php _e( 'Epic 404 - Article Not Found', 'bonestheme' ); ?></h1>
 
-							</header>
+					</header>
 
-							<section class="entry-content">
+					<section class="entry-content">
 
-								<p><?php _e( 'The article you were looking for was not found, but maybe try looking again!', 'bonestheme' ); ?></p>
+						<p><?php _e( 'The article you were looking for was not found, but maybe try looking again!', 'bonestheme' ); ?></p>
 
-							</section>
+					</section>
 
-							<section class="search">
+					<section class="search">
 
-									<p><?php get_search_form(); ?></p>
+						<p><?php get_search_form(); ?></p>
 
-							</section>
+					</section>
 
-							<footer class="article-footer">
+					<footer class="article-footer">
 
-									<p><a href="/" title="<?php _e( 'Back to home.', 'bonestheme' ); ?>"><?php _e( 'Back to home.', 'bonestheme' ); ?></a></p>
+						<p><a href="/" title="<?php _e( 'Back to home.', 'bonestheme' ); ?>"><?php _e( 'Back to home.', 'bonestheme' ); ?></a></p>
 
-							</footer>
+					</footer>
 
-						</article>
-
-					</div>
-
-				</div>
+				</article>
 
 			</div>
+
+		</div>
+
+	</div>
 
 <?php get_footer(); ?>
