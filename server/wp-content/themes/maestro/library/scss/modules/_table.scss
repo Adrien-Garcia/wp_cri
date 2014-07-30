@@ -1,0 +1,48 @@
+table {
+	width: 100%;
+	margin-bottom: 1.5em;
+	border:1px solid $table-border;
+
+	caption {
+		margin: 0 0 7px;
+		font-size: 0.75em;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+}
+
+tr {
+	
+	&:nth-child(odd) {
+		
+		background:$table-row-odd;
+
+	}
+
+	&:nth-child(even) {
+		
+		background:$table-row-even;
+
+	}
+
+}
+
+td {
+
+	padding: 7px;
+	border-right:1px solid $table-cell-border;
+
+	&:last-child {
+		border-right: 0;
+	}
+}
+
+th {
+	
+	background:$table-th;
+
+	&:last-child {
+		border-right: 0;
+	}
+
+}

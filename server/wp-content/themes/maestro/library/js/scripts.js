@@ -116,8 +116,8 @@ jQuery(document).ready(function($) {
 		str = str.replace('h', 'http://');
 		str = str.replace('m', 'www');
 		str = str.replace('d', '.');
-		str = str.replace('j', 'minceur');
-		str = str.replace('j', 'discount');
+		str = str.replace('j', 'adresse');
+		str = str.replace('f', 'projet');
 		str = str.replace('@', '.');
 		str = str.replace('|', 'com');
 		document.location=str;

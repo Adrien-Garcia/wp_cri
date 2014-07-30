@@ -20,7 +20,6 @@ body {
 	font-size: 100%;
 	line-height: 1.5;
 	color: $text-color;
-	background-color: $gray;
   	-webkit-font-smoothing: antialiased;
 }
 
@@ -216,13 +215,11 @@ POSTS & CONTENT STYLES
 			border: 1px solid $border-color;
 
 			header {
-				border-bottom: 1px solid $light-gray;
 				padding: 1.5em;
 			}
 
 			footer {
 				padding: 1.5em;
-				border-top: 1px solid $light-gray;
 
 				p {
 					margin: 0;
@@ -257,7 +254,6 @@ POSTS & CONTENT STYLES
 
 		/* post meta */
 		.byline {
-			color: $meta-gray;
 			font-style: italic;
 			margin: 0;
 
@@ -293,53 +289,10 @@ POSTS & CONTENT STYLES
 
 			}
 
-			table {
-				width: 100%;
-				border: 1px solid $gray;
-				margin-bottom: 1.5em;
-
-				caption {
-					margin: 0 0 7px;
-					font-size: 0.75em;
-					color: $meta-gray;
-					text-transform: uppercase;
-					letter-spacing: 1px;
-				}
-			}
-
-			tr {
-				border-bottom: 1px solid $gray;
-
-				&:nth-child(even) {
-					background-color: $light-gray;
-				}
-			}
-
-			td {
-				padding: 7px;
-				border-right: 1px solid $gray;
-
-				&:last-child {
-					border-right: 0;
-				}
-			}
-
-			th {
-				background-color: $light-gray;
-				border-bottom: 1px solid $gray;
-				border-right: 1px solid $gray;
-
-				&:last-child {
-					border-right: 0;
-				}
-			}
-
 			blockquote {
 				margin: 0 0 1.5em 0.75em;
 				padding: 0 0 0 0.75em;
-				border-left: 3px solid $blue;
 				font-style: italic;
-				color: $meta-gray;
 
 				&:before {}
 
@@ -383,7 +336,6 @@ POSTS & CONTENT STYLES
 
 			pre {
 				background: $black;
-				color: $light-gray;
 				font-size: 0.9em;
 				padding: 1.5em;
 				margin: 0 0 1.5em;
@@ -468,7 +420,6 @@ PAGE NAVI STYLES
       float: left;
       display: inline;
       overflow: hidden;
-      border-right: 1px solid $gray;
     }
 
     a, span {
@@ -481,10 +432,8 @@ PAGE NAVI STYLES
       padding: 0.75em;
       min-width: 1em;
       display: block;
-      color: $blue;
 
       &:hover, &:focus {
-      	background-color: $blue;
       	color: $white;
       }
     }
@@ -524,7 +473,6 @@ COMMENT STYLES
 #comments-title {
 	padding: 0.75em;
 	margin: 0;
-	border-top: 1px solid $light-gray;
 
 	/* number of comments span */
 	span {}
@@ -551,7 +499,6 @@ COMMENT STYLES
 	clear: both;
 	overflow: hidden;
 	padding: 1.5em;
-	border-bottom: 1px solid $light-gray;
 
 	.comment-author {
 		padding: 7px;
@@ -576,7 +523,6 @@ COMMENT STYLES
 			font-style: italic;
 
 			a {
-				color: $meta-gray;
 				text-decoration: none;
 
 				&:hover {
@@ -642,10 +588,10 @@ COMMENT STYLES
 	/* general comment classes */
 	&.alt {}
 	&.odd {
-		background-color: $white;
+
 	}
 	&.even {
-		background: $light-gray;
+
 	}
 	&.parent {}
 	&.comment {}
@@ -715,7 +661,6 @@ COMMENT FORM STYLES
 .comment-respond {
 	@extend .cf;
 	padding: 1.5em;
-	border-top: 1px solid $light-gray;
 }
 
 	#reply-title {
@@ -723,7 +668,6 @@ COMMENT FORM STYLES
 	}
 
 	.logged-in-as {
-		color: $meta-gray;
 		font-style: italic;
 		margin: 0;
 
@@ -738,7 +682,6 @@ COMMENT FORM STYLES
 
 	.form-allowed-tags {
 		padding: 1.5em;
-		background-color: $light-gray;
 		font-size: 0.9em;
 	}
 
@@ -817,7 +760,6 @@ FOOTER STYLES
 .footer {
 	clear: both;
 	background-color: $black;
-	color: $light-gray;
 }
 
 	/*

@@ -48,16 +48,15 @@ textarea,
   border-radius: 3px;
   vertical-align: middle;
   box-shadow: none;
-  border: 0;
+  border:1px solid $input-border;
   width: 100%;
   max-width: 400px;
-  background-color: $gray;
   @include transition(background-color 0.24s ease-in-out);
 
   // a focused input (or hovered on)
   &:focus,
   &:active {
-    background-color: lighten($gray, 4%);
+    border-color:darken($input-border, 20%);
   } // end hover or focus
 
   // error notification
@@ -88,7 +87,6 @@ textarea,
   &[disabled],
   &.is-disabled {
     cursor: not-allowed;
-    border-color: $disabled-gray;
     opacity: 0.6;
 
     &:focus,
