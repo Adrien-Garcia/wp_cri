@@ -20,6 +20,7 @@ understand (what's inside the media queries). We also need to
 import the mixins file so SASS can understand the variables.
 ******************************************************************/
 
+@import "modules/datauri_variables.scss"; // import datauri
 @import "partials/variables"; // import variables
 @import "partials/mixins"; // import mixins
 @import "partials/ie_grid"; // import grid

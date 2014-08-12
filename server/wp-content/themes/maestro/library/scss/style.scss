@@ -16,6 +16,9 @@ http://thesassway.com/advanced/modular-css-naming-conventions
 
 ******************************************************************/
 
+// datauri
+@import "modules/datauri_variables.scss";
+
 /*********************
 IMPORTING PARTIALS
 These files are needed at the beginning so that we establish all
@@ -63,9 +66,6 @@ you hate oysters, then the world is your peanut butter & jelly sandwich.
 
 // columns (override)
 @import "modules/columns";
-
-// datauri
-@import "modules/datauri_variables.scss";
 
 /*********************
 BASE (MOBILE) SIZE
@@ -154,3 +154,6 @@ be set to display none.
 	@import "partials/print";
 
 }
+
+// Editor styles
+//@import "modules/editor-styles";
