@@ -37,6 +37,35 @@ module.exports = function(grunt) {
 
     },
 
+    image: {
+
+      dynamic: {
+
+        options: {
+          pngquant: true,
+          optipng: true,
+          advpng: true,
+          zopflipng: true,
+          pngcrush: true,
+          pngout: true,
+          mozjpeg: true,
+          jpegRecompress: true,
+          jpegoptim: true,
+          gifsicle: true,
+          svgo: true
+        },
+
+        files: [{
+          expand: true,
+          cwd: 'images/origin/', 
+          src: ['**/*.{png,jpg,gif,svg}'],
+          dest: 'images/origin/'
+        }]
+
+      }
+
+    },
+
     datauri: {
 
       options: {
@@ -102,6 +131,9 @@ module.exports = function(grunt) {
   // Load SASS task
   grunt.loadNpmTasks('grunt-contrib-sass');
 
+  // Load image optims task
+  grunt.loadNpmTasks('grunt-image');
+
   // Watch task
   grunt.loadNpmTasks('grunt-contrib-watch');
 
@@ -109,6 +141,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-datauri-variables');
 
   // Default task(s).
-  grunt.registerTask('default', ['datauri','sass','uglify','watch']);
+  grunt.registerTask('default', ['image', 'datauri', 'sass', 'uglify','watch']);
 
 };

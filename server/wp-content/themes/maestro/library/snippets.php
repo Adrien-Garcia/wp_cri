@@ -164,7 +164,7 @@ add_action( 'admin_head', 'add_menu_icons_styles' );
 add_editor_style();
 
 function my_theme_add_editor_styles() {
-	add_editor_style( 'custom-editor-styles.css' );
+	add_editor_style( 'front-back-styles.css' );
 }
 add_action( 'init', 'my_theme_add_editor_styles' );
 
