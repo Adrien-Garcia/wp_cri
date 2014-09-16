@@ -22,6 +22,9 @@ Digging into WP - http://digwp.com/2010/10/customize-wordpress-dashboard/
 
 */
 
+/************* DESACTIVATION MAJ AUTOMATIQUE *****/
+define( 'WP_AUTO_UPDATE_CORE', false );
+
 /************* DASHBOARD WIDGETS *****************/
 
 // disable default dashboard widgets
