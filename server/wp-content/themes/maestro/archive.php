@@ -7,11 +7,13 @@
 			<div id="main" class="m-all t-2of3 d-5of7 cf" role="main">
 
 				<?php if (is_category()) { ?>
+				
 					<h1 class="archive-title h2">
 						<span><?php _e( 'Posts Categorized:', 'bonestheme' ); ?></span> <?php single_cat_title(); ?>
 					</h1>
 
 				<?php } elseif (is_tag()) { ?>
+				
 					<h1 class="archive-title h2">
 						<span><?php _e( 'Posts Tagged:', 'bonestheme' ); ?></span> <?php single_tag_title(); ?>
 					</h1>
@@ -69,7 +71,7 @@
 
 				<?php endwhile; ?>
 
-				<?php bones_page_navi(); ?>
+				<?php wp_pagenavi(); ?>
 
 				<?php else : ?>
 

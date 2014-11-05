@@ -164,7 +164,7 @@ add_action( 'admin_head', 'add_menu_icons_styles' );
 add_editor_style();
 
 function my_theme_add_editor_styles() {
-	add_editor_style( 'custom-editor-styles.css' );
+	add_editor_style( 'front-back-styles.css' );
 }
 add_action( 'init', 'my_theme_add_editor_styles' );
 
@@ -406,7 +406,7 @@ add_action('template_redirect', 'load_cat_parent_template');
 function namespace_add_custom_types( $query ) {
   if( is_category() || is_tag() && empty( $query->query_vars['suppress_filters'] ) ) {
     $query->set( 'post_type', array(
-     'post', array('custom_type','custom_type_2')
+     'post', 'nav_menu_item'
     ));
     return $query;
   }
@@ -429,5 +429,40 @@ function searchAll( $query ) {
 
 // The hook needed to search ALL content
 add_filter( 'the_search_query', 'searchAll' );
+
+
+/*
+ Gestion des couleurs dans TinyMCE
+ Remplacer les codes HEXA par ceux fournis sur la maquette
+*/
+function tiny_mce_custom_palette($init) {
+	// Code à décommenter lors du passage à Wordpress v4+
+	/*
+		$default_colours = '
+	      "000000", "Noir",
+	      "535353", "Gris foncé",
+	      "989898", "Gris intermédiaire",
+	      "a1a1a1", "Gris clair",
+	      "fb9200", "Orange"
+	      ';
+	 	$custom_colours = '';
+	
+	  	$init['textcolor_map'] = '['.$default_colours.','.$custom_colours.']';
+	  	$init['textcolor_rows'] = 6; // expand colour grid to 6 rows
+	
+	  	return $init;
+	*/
+	
+	// Wordpress v3.4
+	$colors = '000000,535353,989898,a1a1a1,fb9200';
+	
+	$init['theme_advanced_text_colors'] = $colors;
+	$init['theme_advanced_more_colors'] = false;
+	$init['theme_advanced_background_colors'] = $colors;
+	
+	return $init;
+}
+
+add_filter('tiny_mce_before_init', 'tiny_mce_custom_palette');
 
 ?>
