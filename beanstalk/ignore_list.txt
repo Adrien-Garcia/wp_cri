@@ -1,0 +1,14 @@
+**/.gitignore
+.htaccess
+wp-config.php 
+sitemap.xml
+wp-content/uploads/*
+wp-content/blogs.dir/*
+wp-content/cache/*
+wp-content/files_mf/*
+*.sublime-.
+wp-content/themes/roots/node_modules
+wp-content/themes/roots/library/.sass-cache
+wp-content/themes/maestro/node_modules
+wp-content/themes/maestro/library/.sass-cache
+**/.DS_Store
