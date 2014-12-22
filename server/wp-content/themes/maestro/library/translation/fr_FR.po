@@ -11,20 +11,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.6.10\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Poedit-Language: French\n"
-"X-Poedit-Country: FRANCE\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-SearchPath-0: C:\\devl\\wordpress\\wp_maestro\\server\\wp-content\\themes\\maestro\n"
+"Language: fr_FR\n"
+"X-Poedit-SearchPath-0: C:\\devl\\wordpress\\wp_maestro\\server\\wp-content"
+"\\themes\\maestro\n"
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/404.php:13
 msgid "Epic 404 - Article Not Found"
 msgstr "Article non trouvé"
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/404.php:19
-msgid "The article you were looking for was not found, but maybe try looking again!"
-msgstr "L'article que vous demandez n'a pas été trouvé, essayez une nouvelle recherche"
+msgid ""
+"The article you were looking for was not found, but maybe try looking again!"
+msgstr ""
+"L'article que vous demandez n'a pas été trouvé, essayez une nouvelle "
+"recherche"
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/404.php:31
 msgid "Back to home."
@@ -32,8 +35,12 @@ msgstr "Retour à l'accueil."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/archive-custom_type.php:35
 #, php-format
-msgid "Posted <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> by <span class=\"author\">%3$s</span>."
-msgstr "Publié le <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> par <span class=\"author\">%3$s</span>."
+msgid ""
+"Posted <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> by "
+"<span class=\"author\">%3$s</span>."
+msgstr ""
+"Publié le <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> par "
+"<span class=\"author\">%3$s</span>."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/archive-custom_type.php:35
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/archive.php:54
@@ -67,7 +74,9 @@ msgstr "Rien à afficher."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/archive-custom_type.php:66
 msgid "This is the error message in the custom posty type archive template."
-msgstr "Ceci est le message d'erreur dans la page des archives de type d'article personnalisé."
+msgstr ""
+"Ceci est le message d'erreur dans la page des archives de type d'article "
+"personnalisé."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/archive.php:11
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/taxonomy-custom_cat.php:23
@@ -194,8 +203,12 @@ msgstr "Ceci est le message d'erreur de la page index.php."
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/page.php:20
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/search.php:19
 #, fuzzy, php-format
-msgid "Posted <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> by <span class=\"author\">%3$s</span>"
-msgstr "Publié le <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> par <span class=\"author\">%3$s</span>."
+msgid ""
+"Posted <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> by "
+"<span class=\"author\">%3$s</span>"
+msgstr ""
+"Publié le <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> par "
+"<span class=\"author\">%3$s</span>."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/page-accueil.php:49
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/page.php:43
@@ -236,13 +249,21 @@ msgstr "Ceci est le message d'erreur de la page search.php."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/sidebar.php:16
 msgid "This is a widget ready area. Add some and they will appear here."
-msgstr "Ceci est une zone de réception de widgets. Ajoutez en et ils apparaîtront ici."
+msgstr ""
+"Ceci est une zone de réception de widgets. Ajoutez en et ils apparaîtront "
+"ici."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/single-custom_type.php:36
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/taxonomy-custom_cat.php:35
 #, php-format
-msgid "Posted <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> by <span class=\"author\">%3$s</span> <span class=\"amp\">&</span> filed under %4$s."
-msgstr "Publié le <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> par <span class=\"author\">%3$s</span> <span class=\"amp\">&</span> classé dans %4$s."
+msgid ""
+"Posted <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> by "
+"<span class=\"author\">%3$s</span> <span class=\"amp\">&</span> filed under "
+"%4$s."
+msgstr ""
+"Publié le <time class=\"updated\" datetime=\"%1$s\" pubdate>%2$s</time> par "
+"<span class=\"author\">%3$s</span> <span class=\"amp\">&</span> classé dans "
+"%4$s."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/single-custom_type.php:68
 msgid "Custom Tags:"
@@ -250,7 +271,8 @@ msgstr "Tags personnalisés :"
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/single-custom_type.php:88
 msgid "This is the error message in the single-custom_type.php template."
-msgstr "Ceci est le message d'erreur de la page single-custom_type.php template."
+msgstr ""
+"Ceci est le message d'erreur de la page single-custom_type.php template."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/single.php:42
 msgid "This is the error message in the single.php template."
@@ -265,8 +287,13 @@ msgid "This is the error message in the taxonomy-custom_cat.php template."
 msgstr "Ceci est le message d'erreur de la page taxonomy-custom_cat.php."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/library/admin.php:99
-msgid "<span id=\"footer-thankyou\">Developed by <a href=\"http://yoursite.com\" target=\"_blank\">Your Site Name</a></span>. Built using <a href=\"http://themble.com/bones\" target=\"_blank\">Bones</a>."
-msgstr "<span id=\"footer-thankyou\">Developpé par <a href=\"http://www.addonline.fr\" target=\"_blank\">Addonline</a></span>."
+msgid ""
+"<span id=\"footer-thankyou\">Developed by <a href=\"http://yoursite.com\" "
+"target=\"_blank\">Your Site Name</a></span>. Built using <a href=\"http://"
+"themble.com/bones\" target=\"_blank\">Bones</a>."
+msgstr ""
+"<span id=\"footer-thankyou\">Developpé par <a href=\"http://www.jetpulp.fr\" "
+"target=\"_blank\">Jetpulp</a></span>."
 
 #: C:\devl\wordpress\wp_maestro\server\wp-content\themes\maestro/library/bones.php:82
 #, php-format
