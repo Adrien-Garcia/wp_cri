@@ -21,55 +21,55 @@
 
 		<div id="inner-content" class="wrap cf">
 
-				<div id="main" class="m-all t-2of3 d-5of7 cf" role="main">
-				
-					<?php if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
+			<div id="main" class="m-all t-2of3 d-5of7 cf" role="main">
+			
+				<?php if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
 
-					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
+				<article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
 
-						<header class="article-header">
+					<header class="article-header">
 
-							<h1 class="single-title custom-post-type-title"><?php the_title(); ?></h1>
+						<h1 class="single-title custom-post-type-title"><?php the_title(); ?></h1>
 
-						</header>
+					</header>
 
-						<section class="entry-content cf">
+					<section class="entry-content cf">
 
-							<?php the_content(); ?>
+						<?php the_content(); ?>
 
-						</section> <!-- end article section -->
+					</section> <!-- end article section -->
 
-						<footer class="article-footer">
+					<footer class="article-footer">
 
-							<p class="tags"><?php echo get_the_term_list( get_the_ID(), 'custom_tag', '<span class="tags-title">' . __( 'Custom Tags:', 'bonestheme' ) . '</span> ', ', ' ) ?></p>
+						<p class="tags"><?php echo get_the_term_list( get_the_ID(), 'custom_tag', '<span class="tags-title">' . __( 'Custom Tags:', 'bonestheme' ) . '</span> ', ', ' ) ?></p>
 
-						</footer>
+					</footer>
 
-					</article>
+				</article>
 
-					<?php endwhile; ?>
+				<?php endwhile; ?>
 
-					<?php else : ?>
+				<?php else : ?>
 
-							<article id="post-not-found" class="hentry cf">
-								<header class="article-header">
-									<h1><?php _e( 'Oops, Post Not Found!', 'bonestheme' ); ?></h1>
-								</header>
-								<section class="entry-content">
-									<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'bonestheme' ); ?></p>
-								</section>
-								<footer class="article-footer">
-									<p><?php _e( 'This is the error message in the single-custom_type.php template.', 'bonestheme' ); ?></p>
-								</footer>
-							</article>
+						<article id="post-not-found" class="hentry cf">
+							<header class="article-header">
+								<h1><?php _e( 'Oops, Post Not Found!', 'bonestheme' ); ?></h1>
+							</header>
+							<section class="entry-content">
+								<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'bonestheme' ); ?></p>
+							</section>
+							<footer class="article-footer">
+								<p><?php _e( 'This is the error message in the single-custom_type.php template.', 'bonestheme' ); ?></p>
+							</footer>
+						</article>
 
-					<?php endif; ?>
+				<?php endif; ?>
 
-				</div>
+			</div>
 
-				<?php /*get_sidebar();*/ ?>
+			<?php /*get_sidebar();*/ ?>
 
 		</div>
 

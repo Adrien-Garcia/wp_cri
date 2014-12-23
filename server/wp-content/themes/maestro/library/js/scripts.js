@@ -123,13 +123,13 @@ jQuery(document).ready(function($) {
 		document.location=str;
 	});
 	
-	aolink = {'oafooter':'gkey@&'};
-	$('.lienao').bind('click', function(){
-		str = aolink["oafooter"];
+	aolink = {'jpfooter':'gkey@&'};
+	$('.lienjp').bind('click', function(){
+		str = aolink["jpfooter"];
 		str = str.replace('g', 'http://');
 		str = str.replace('k', 'www');
 		str = str.replace('e', '.');
-		str = str.replace('y', 'addonline');
+		str = str.replace('y', 'jetpulp');
 		str = str.replace('@', '.');
 		str = str.replace('&', 'fr');
 		document.location=str;

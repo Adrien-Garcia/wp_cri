@@ -66,6 +66,7 @@ a, a:visited {
   /* on hover */
   &:hover, &:focus {
     color: $link-hover;
+    outline:none;
   }
 
   /* on click */
@@ -100,7 +101,7 @@ ul, ol{
 
     &:before{
 
-      content:"-";
+      content:"\25CF";
       position:absolute;
       top:0;
       left:0;
@@ -119,7 +120,7 @@ ul, ol{
 
         &:before{
 
-          content:"\25CF";
+          content:"-";
 
         }
 

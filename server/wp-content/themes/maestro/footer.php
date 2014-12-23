@@ -8,7 +8,7 @@
 						
 					</nav>
 
-					<p class="source-org copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo( 'name' ); ?>. <a class="lienao">Créations site web</a></p>
+					<p class="source-org copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo( 'name' ); ?>. <a class="lienjp">Créations site web</a></p>
 
 				</div>
 
