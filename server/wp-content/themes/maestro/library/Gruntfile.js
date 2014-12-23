@@ -33,6 +33,7 @@ module.exports = function(grunt) {
             dest: 'css/',
             ext: '.css'
           }]
+
         }
 
     },

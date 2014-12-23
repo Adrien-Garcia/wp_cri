@@ -51,12 +51,11 @@ We can break them up as much as we want or just keep them all in one.
 I mean, you can do whatever you want. The world is your oyster. Unless
 you hate oysters, then the world is your peanut butter & jelly sandwich.
 *********************/
+// Front back styles
+@import "front-back-styles";
 
 // alert boxes
 @import "modules/alerts";
-
-// buttons
-@import "modules/buttons";
 
 // forms (inputs & labels)
 @import "modules/forms";
@@ -67,8 +66,14 @@ you hate oysters, then the world is your peanut butter & jelly sandwich.
 // columns (override)
 @import "modules/columns";
 
-// columns (override)
-@import "modules/front-back-styles";
+// navigation
+@import "modules/navigation";
+
+// comments
+// @import "modules/comments";
+
+// pagination
+@import "modules/pagination";
 
 /*********************
 BASE (MOBILE) SIZE
@@ -157,6 +162,3 @@ be set to display none.
 	@import "partials/print";
 
 }
-
-// Editor styles
-//@import "modules/editor-styles";

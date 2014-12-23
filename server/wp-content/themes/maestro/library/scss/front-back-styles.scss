@@ -1,0 +1,243 @@
+// Sass variables
+@import "partials/variables";
+
+// typography
+@import "partials/typography";
+
+// import mixins
+@import "partials/mixins";
+
+/******************************************************************************************/
+/* HEADINGS
+/* - Pour les sites responsive, la taille des typos est à spécifier dans chaque breakpoints
+/* - Les couleurs se configurent dans _variables.scss
+/******************************************************************************************/
+
+
+h1, .h1 {
+  font-size: 2.5em;
+  line-height: 1.333em;
+  color:$h1-color;
+}
+
+h2, .h2 {
+  font-size: 1.75em;
+  line-height: 1.4em;
+  margin-bottom: 0.375em;
+  color:$h2-color;
+}
+
+h3, .h3 {
+  font-size: 1.125em;
+  color:$h3-color;
+}
+
+h4, .h4 {
+  font-size: 1.1em;
+  font-weight: 700;
+  color:$h4-color;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4{
+
+  text-rendering: optimizelegibility;
+  font-weight: 500;
+
+  /*
+  if you're going to use webfonts, be sure to check your weights
+  http://css-tricks.com/watch-your-font-weight/
+  */
+
+  /* removing text decoration from all headline links */
+  a {
+    text-decoration: none;
+  }
+
+}
+
+/*********************************************************************************************
+/* LIENS
+/* - Courleur & comportement génériques. A surcharger pour les différentes partie de la charte
+*********************************************************************************************/
+
+a, a:visited {
+  color: $link-color;
+
+  /* on hover */
+  &:hover, &:focus {
+    color: $link-hover;
+  }
+
+  /* on click */
+  &:active {
+
+  }
+
+  /* mobile tap color */
+  &:link {
+    /*
+    this highlights links on iPhones/iPads.
+    so it basically works like the :hover selector
+    for mobile devices.
+    */
+    -webkit-tap-highlight-color : rgba( 0, 0, 0, 0.3 );
+  }
+}
+
+/****************/
+/* LISTS
+/****************/
+
+ul, ol{
+
+  margin:20px 0 20px 20px;
+
+  li{
+
+    position:relative;
+    padding:0 0 0 15px;
+    list-style-type: none;
+
+    &:before{
+
+      content:"-";
+      position:absolute;
+      top:0;
+      left:0;
+
+    }
+
+    a{
+
+
+
+    }
+
+    ul, ol{
+
+      li{
+
+        &:before{
+
+          content:"\25CF";
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+/****************/
+/* PARAGRAPHS
+/****************/
+p{
+
+  text-color:$text-color;
+
+  -ms-word-break: break-all;
+   -ms-word-wrap: break-all;
+     word-break: break-word;
+     word-break: break-word;
+  // cleaning up the ragged lines and breaks
+  -webkit-hyphens: none;
+     -moz-hyphens: none;
+          hyphens: none;
+  // sets a minimum number of characters before and after the break
+  -webkit-hyphenate-before: 2;
+   -webkit-hyphenate-after: 3;
+           hyphenate-lines: 3;
+  // enabling fancy ligatures when available
+  -webkit-font-feature-settings: "liga", "dlig";
+   -moz-font-feature-settings: "liga=1, dlig=1";
+      -ms-font-feature-settings: "liga", "dlig";
+       -o-font-feature-settings: "liga", "dlig";
+          font-feature-settings: "liga", "dlig";
+
+}
+
+/*********************
+BUTTON DEFAULTS
+*********************/
+
+%btn {
+
+  display: inline-block;
+  position: relative;
+
+  font-family: $sans-serif;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: normal;
+
+  padding: 5px 24px;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+  
+  @include transition(all 0.14s ease-in-out);
+
+  &:hover,
+  &:focus {
+    
+  }
+
+  // click
+  &:active {
+    
+  }
+
+}
+
+/*********************
+BTN-1
+*********************/
+a.btn-1 {
+
+  @extend %btn;
+
+  background:$btn-1-background;
+  color: $btn-1-text;
+
+  &:hover,
+  &:focus {
+    color: $white;
+    background:lighten($btn-1-background, 10%);
+    text-decoration: none;
+  }
+
+  &:active {
+    
+  }
+
+}
+
+/*************************************
+MEDIA (uniquement pour la partie back)
+*************************************/
+/* entry content */
+.mce-content-body {
+
+  .alignleft, img.alignleft {
+    margin-right: 1.5em;
+    display: inline;
+    float: left;
+  }
+  .alignright, img.alignright {
+    margin-left: 1.5em;
+    display: inline;
+    float: right;
+  }
+  .aligncenter, img.aligncenter {
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    clear: both;
+  }
+
+}
+
