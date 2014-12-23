@@ -6,3 +6,5 @@ readme.txt
 *.docx
 *.bak
 *.log
+*.old
+*.md

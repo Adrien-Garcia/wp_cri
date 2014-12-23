@@ -145,7 +145,16 @@ function add_menu_icons_styles(){
  
 <style>
 #adminmenu .menu-icon-event div.wp-menu-image:before { 
-  <!--content: '\f145';-->
+ 	content: '\f145';
+}
+#adminmenu .menu-icon-slides div.wp-menu-image:before {
+	content: "\f233";
+}
+#adminmenu #menu-posts-cookielawinfo div.wp-menu-image:before {
+	content: "\f348";
+}
+#adminmenu .toplevel_page_mappress div.wp-menu-image:before {
+	content: "\f231";
 }
 </style>
  
