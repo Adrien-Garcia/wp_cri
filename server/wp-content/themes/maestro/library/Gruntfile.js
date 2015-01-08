@@ -131,6 +131,7 @@ module.exports = function(grunt) {
 
   // Load SASS task
   grunt.loadNpmTasks('grunt-contrib-sass');
+  //grunt.loadNpmTasks('grunt-sass'); // voir https://github.com/sindresorhus/grunt-sass
 
   // Load image optims task
   grunt.loadNpmTasks('grunt-image');
