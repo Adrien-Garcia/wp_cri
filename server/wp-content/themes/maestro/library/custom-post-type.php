@@ -67,7 +67,7 @@ function custom_post_slides() {
 }
 
 // adding the function to the Wordpress init
-add_action( 'init', 'custom_post_slides');
+// add_action( 'init', 'custom_post_slides');
 	
 /*
 for more information on taxonomies, go here:

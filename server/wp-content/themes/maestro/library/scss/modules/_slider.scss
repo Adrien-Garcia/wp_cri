@@ -1,0 +1,28 @@
+#slider{
+
+	.bxslider{
+
+		margin:0;
+
+	}
+
+	li{
+
+		padding:0;
+
+		&:before{
+
+			display:none;
+
+		}
+
+	}
+
+	img{
+
+		max-width: 100%;
+		height:auto;
+
+	}
+
+}
