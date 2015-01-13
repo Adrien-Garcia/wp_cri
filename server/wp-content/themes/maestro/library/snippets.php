@@ -145,16 +145,22 @@ function add_menu_icons_styles(){
  
 <style>
 #adminmenu .menu-icon-event div.wp-menu-image:before { 
-  <!--content: '\f145';-->
+ 	content: '\f145';
+}
+#adminmenu .menu-icon-slides div.wp-menu-image:before {
+	content: "\f233";
+}
+#adminmenu #menu-posts-cookielawinfo div.wp-menu-image:before {
+	content: "\f348";
+}
+#adminmenu .toplevel_page_mappress div.wp-menu-image:before {
+	content: "\f231";
 }
 </style>
  
 <?php
 }
 add_action( 'admin_head', 'add_menu_icons_styles' );
-
-
-
 
 
 /**
@@ -164,11 +170,9 @@ add_action( 'admin_head', 'add_menu_icons_styles' );
 add_editor_style();
 
 function my_theme_add_editor_styles() {
-	add_editor_style( 'front-back-styles.css' );
+	add_editor_style( 'library/css/front-back-styles.css' );
 }
 add_action( 'init', 'my_theme_add_editor_styles' );
-
-
 
 
 /**
@@ -464,5 +468,28 @@ function tiny_mce_custom_palette($init) {
 }
 
 add_filter('tiny_mce_before_init', 'tiny_mce_custom_palette');
+
+
+/*
+ Supprime les entrée 'Personnaliser' & 'Arrière-plan' du menu apparence (tous les utilisateurs).
+*/
+function remove_customize() {
+    $customize_url_arr = array();
+    $customize_url_arr[] = 'customize.php'; // 3.x
+    $customize_url = add_query_arg( 'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'customize.php' );
+    $customize_url_arr[] = $customize_url; // 4.0 & 4.1
+    if ( current_theme_supports( 'custom-header' ) && current_user_can( 'customize') ) {
+        $customize_url_arr[] = add_query_arg( 'autofocus[control]', 'header_image', $customize_url ); // 4.1
+        $customize_url_arr[] = 'custom-header'; // 4.0
+    }
+    if ( current_theme_supports( 'custom-background' ) && current_user_can( 'customize') ) {
+        $customize_url_arr[] = add_query_arg( 'autofocus[control]', 'background_image', $customize_url ); // 4.1
+        $customize_url_arr[] = 'custom-background'; // 4.0
+    }
+    foreach ( $customize_url_arr as $customize_url ) {
+        remove_submenu_page( 'themes.php', $customize_url );
+    }
+}
+add_action( 'admin_menu', 'remove_customize', 999 );
 
 ?>

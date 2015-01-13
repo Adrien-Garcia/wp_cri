@@ -1,10 +1,10 @@
 === Google Universal Analytics ===
 Contributors: audriusd
 Donate link: http://onlineads.lt/
-Tags: javascript, tracking, google, analytics, universal, statistics, google analytics, universal analytics, google universal analytics, classic, custom, nexusad
+Tags: javascript, tracking, google, analytics, universal, statistics, google analytics, universal analytics, user id, google universal analytics, classic, custom, nexusad
 Requires at least: 3.0
-Tested up to: 3.9.1
-Stable tag: 2.3.4
+Tested up to: 4.0.1
+Stable tag: 2.4.2
 License: GPLv2 or later
 
 Adds the latest Google Universal Analytics JavaScript tracking code to your WordPress website. Many options!
@@ -15,10 +15,12 @@ Adding Google Analytics code to your website has never been easier. Simply copy 
 
 Why Google Universal Analytics is better than the usual Google Analytics? 
 
+* User ID tracking (track user across different devices);
 * Event tracking (track downloads, mailto links, clicks on external URLs and Call tracking);
-* Remarketing;
+* Remarketing (Google AdWords, Display Advertising);
 * Demographics and Interests reporting;
 * IP Anonymization;
+* SSL security for tracking data;
 * Enhanced Link Attribution;
 * Custom domain configuration;
 * Disable Google Analytics tracking for specific WordPress users;
@@ -61,7 +63,7 @@ Also, do not hesitate to contact us if you have any questions regarding [Google 
 
 [Submit your idea at our website](http://onlineads.lt/contact-us/).
 
-= How can I subscribe to periodic Google Analytics reports? =
+= How can I create and subscribe to periodic Google Analytics reports? =
 
 Check it out [nexusAd tool](https://nexusad.com).
 
@@ -71,6 +73,17 @@ Check it out [nexusAd tool](https://nexusad.com).
 1. Google Analytics and Google Universal Analytics compared.
 
 == Changelog ==
+
+= 2.4.2 =
+* Small updates.
+
+= 2.4.1 =
+* Bug fixes.
+
+= 2.4 =
+* Tested with WordPress 4.0
+* Tracking data to Google is now passed through a secure connection - SSL (even if your website is not using it).
+* Enabled User ID tracking by default. 
 
 = 2.3.4 =
 * Support for Gzip archive (.gz), Torrent (.torrent) and ComicBook Reader File (.cbr) tracking (event tracking) added.
@@ -131,6 +144,18 @@ Check it out [nexusAd tool](https://nexusad.com).
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.4.2 =
+* Small updates. 
+* WordPress 4.0.1 compatability.
+
+= 2.4.1 =
+* Bug fixes. 
+
+= 2.4 =
+* WordPress 4.0 compatability.
+* User ID tracking.
+* Improved security of Google Analytics data (SSL layer added).
 
 = 2.3.4 =
 * Support for Gzip archive (.gz), Torrent (.torrent) and ComicBook Reader File (.cbr) tracking (event tracking) added.

@@ -1,3 +1,10 @@
 /*.sublime-project
 /*.sublime-workspace
 readme.txt
+*.map
+*.doc
+*.docx
+*.bak
+*.log
+*.old
+*.md

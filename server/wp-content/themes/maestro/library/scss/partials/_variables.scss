@@ -17,12 +17,29 @@ Need help w/ choosing your colors? Try this site out:
 http://0to255.com/
 *********************/
 
+/* alerts */
 $alert-yellow:      #ebe16f;
 $alert-red:         #fbe3e4;
 $alert-green:       #e6efc2;
 $alert-blue:        #d5edf8;
 
-$black:             #575757; /* Bon ok c'est pas noir, mais sinon on voyait pas le logo AO :) */
+/* input */
+$input-border:		#e1e1e1;
+
+/* tables */
+$table-border:		#ccc;
+$table-th: 			#C2C2C2;
+$table-row-odd:     #fff;
+$table-row-even:    #e1e1e1;
+$table-cell-border: #ccc;
+
+/* Charte */
+$h1-color:			#000;
+$h2-color:			#e1e1e1;
+$h3-color:			#666;
+$h4-color:			#333;
+
+$black:             #575757;
 $white:             #fff;
 
 $text-color:        #5c6b80;
@@ -30,18 +47,5 @@ $text-color:        #5c6b80;
 $link-color:        #2980b9;
 $link-hover:        darken($link-color, 9%);
 
-$border-color:      #ccc;
-
-$input-border:		#e1e1e1;
-
-$table-border:		#ccc;
-$table-th: 			#C2C2C2;
-$table-row-odd:     #fff;
-$table-row-even:    #e1e1e1;
-$table-cell-border: #ccc;
-
-/*
-Here's a great tutorial on how to
-use color variables properly:
-http://sachagreif.com/sass-color-variables/
-*/
+$btn-1-background:  #666666;
+$btn-1-text:  		#000;

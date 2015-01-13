@@ -51,12 +51,11 @@ We can break them up as much as we want or just keep them all in one.
 I mean, you can do whatever you want. The world is your oyster. Unless
 you hate oysters, then the world is your peanut butter & jelly sandwich.
 *********************/
+// Front back styles
+@import "front-back-styles";
 
 // alert boxes
 @import "modules/alerts";
-
-// buttons
-@import "modules/buttons";
 
 // forms (inputs & labels)
 @import "modules/forms";
@@ -67,8 +66,17 @@ you hate oysters, then the world is your peanut butter & jelly sandwich.
 // columns (override)
 @import "modules/columns";
 
-// columns (override)
-@import "modules/front-back-styles";
+// navigation
+@import "modules/navigation";
+
+// comments
+// @import "modules/comments";
+
+// pagination
+@import "modules/pagination";
+
+// pagination
+@import "modules/slider";
 
 /*********************
 BASE (MOBILE) SIZE
@@ -89,7 +97,7 @@ tweeners.
 @media only screen and (min-width: 481px) {
 
 	// styles in 481up.scss
-	@import "breakpoints/481up";
+	// @import "breakpoints/481up"; // Penser à réactiver dans ie.scss
 
 } // end of media query
 
@@ -112,10 +120,10 @@ This is the average viewing window. So Desktops, Laptops, and
 in general anyone not viewing on a mobile device. Here's where
 you can add resource intensive styles.
 *********************/
-@media only screen and (min-width: 1030px) {
+@media only screen and (min-width: 1024px) {
 
-	// styles in 1030up.scss
-	@import "breakpoints/1030up";
+	// styles in 1024up.scss
+	@import "breakpoints/1024up";
 
 } // end of media query
 
@@ -126,7 +134,7 @@ This is for the larger monitors and possibly full screen viewers.
 @media only screen and (min-width: 1240px) {
 
 	// styles in 1240up.scss
-	@import "breakpoints/1240up";
+	// @import "breakpoints/1240up";
 
 } // end of media query
 
@@ -141,7 +149,7 @@ query for retina AND a certain size if you want. Go Nuts.
        only screen and (min-device-pixel-ratio: 1.5) {
 
 	// styles in 2x.scss
-	@import "breakpoints/2x";
+	// @import "breakpoints/2x";
 
 } // end of media query
 
@@ -157,6 +165,3 @@ be set to display none.
 	@import "partials/print";
 
 }
-
-// Editor styles
-//@import "modules/editor-styles";

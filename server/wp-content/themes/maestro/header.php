@@ -5,66 +5,66 @@
 <!--[if (IE 8)&!(IEMobile)]><html <?php language_attributes(); ?> class="no-js lt-ie9"><![endif]-->
 <!--[if gt IE 8]><!--> <html <?php language_attributes(); ?> class="no-js"><!--<![endif]-->
 
-	<head>
-		<meta charset="utf-8">
+<head>
+	<meta charset="utf-8">
 
-		<?php // Google Chrome Frame for IE ?>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<?php // Google Chrome Frame for IE ?>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-		<title><?php wp_title(''); ?></title>
+	<title><?php wp_title(''); ?></title>
 
-		<?php // mobile meta (hooray!) ?>
-		<meta name="HandheldFriendly" content="True">
-		<meta name="MobileOptimized" content="320">
-		<meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no, initial-scale=1.0"/>
+	<?php // mobile meta (hooray!) ?>
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no, initial-scale=1.0"/>
 
-		<?php // icons & favicons (for more: http://www.jonathantneal.com/blog/understand-the-favicon/) ?>
-		<link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/library/images/apple-icon-touch.png">
-		<link rel="icon" href="<?php echo get_template_directory_uri(); ?>/favicon.png">
-		<!--[if IE]>
-			<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico">
-		<![endif]-->
-		<?php // or, set /favicon.ico for IE10 win ?>
-		<meta name="msapplication-TileColor" content="#f01d4f">
-		<meta name="msapplication-TileImage" content="<?php echo get_template_directory_uri(); ?>/library/images/win8-tile-icon.png">
+	<?php // icons & favicons (for more: http://www.jonathantneal.com/blog/understand-the-favicon/) ?>
+	<link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/library/images/apple-icon-touch.png">
+	<link rel="icon" href="<?php echo get_template_directory_uri(); ?>/favicon.png">
+	<!--[if IE]>
+		<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico">
+	<![endif]-->
+	<?php // or, set /favicon.ico for IE10 win ?>
+	<meta name="msapplication-TileColor" content="#f01d4f">
+	<meta name="msapplication-TileImage" content="<?php echo get_template_directory_uri(); ?>/library/images/win8-tile-icon.png">
 
-		<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
+	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
 
-		<?php // wordpress head functions ?>
-		<?php wp_head(); ?>
-		<?php // end of wordpress head ?>
+	<?php // wordpress head functions ?>
+	<?php wp_head(); ?>
+	<?php // end of wordpress head ?>
 
-		<?php // drop Google Analytics Here ?>
-		<?php // end analytics ?>
+	<?php // drop Google Analytics Here ?>
+	<?php // end analytics ?>
 
-	</head>
+</head>
 
-	<body <?php body_class(); ?>>
+<body <?php body_class(); ?>>
 
-		<div id="container">
+	<div id="container">
 
-			<header class="header" role="banner">
+		<header class="header" role="banner">
 
-				<div id="inner-header" class="wrap cf">
+			<div id="inner-header" class="wrap cf">
 
-					<?php if( is_front_page() ) : ?>
-						<h1>
-							<a class="lienhome" rel="nofollow"><?php bloginfo('name'); ?></a>
-						</h1>
-						<?php else :?>
-						<p id="logo" class="h1">
-							<a class="lienhome" rel="nofollow"><?php bloginfo('name'); ?></a>
-						</p>
-					<?php endif; ?>
+				<?php if( is_front_page() ) : ?>
+					<h1>
+						<a class="lienhome" rel="nofollow"><?php bloginfo('name'); ?></a>
+					</h1>
+					<?php else :?>
+					<p id="logo" class="h1">
+						<a class="lienhome" rel="nofollow"><?php bloginfo('name'); ?></a>
+					</p>
+				<?php endif; ?>
 
-					<?php // if you'd like to use the site description you can un-comment it below ?>
-					<?php // bloginfo('description'); ?>
+				<?php // if you'd like to use the site description you can un-comment it below ?>
+				<?php // bloginfo('description'); ?>
 
 
-					<nav role="navigation">
-						<?php nav_principal(); ?>
-					</nav>
+				<nav role="navigation">
+					<?php nav_principal(); ?>
+				</nav>
 
-				</div>
+			</div>
 
-			</header>
+		</header>
