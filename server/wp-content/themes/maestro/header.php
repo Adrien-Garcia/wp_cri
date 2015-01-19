@@ -41,6 +41,10 @@
 
 <body <?php body_class(); ?>>
 
+	<!--[if lt IE 9]>
+	    <p class="chromeframe" style="position:fixed; top:0; left:0; z-index:9999; width:80%; height:auto; line-height:initial; padding:15px 0; background:#e52929; color:#fff; font-weight:bold; text-align:center;">Vous utilisez un navigateur <strong>obsolète</strong>. Merci de <a style="color:#fff;" href="http://browsehappy.com/" target="_blank">mettre à jour votre navigateur</a> pour améliorer votre expérience.</p>
+	<![endif]-->
+
 	<div id="container">
 
 		<header class="header" role="banner">
