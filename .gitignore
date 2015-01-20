@@ -8,7 +8,10 @@ readme.txt
 *.log
 *.old
 *.md
+*.launch
 /.externalToolsBuilders
+/.externalToolsBuilders/*
 /.settings
 .buildpath
 .project
+/.externalToolBuilders/
