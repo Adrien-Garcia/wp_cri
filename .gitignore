@@ -8,3 +8,7 @@ readme.txt
 *.log
 *.old
 *.md
+/.externalToolsBuilders
+/.settings
+.buildpath
+.project
