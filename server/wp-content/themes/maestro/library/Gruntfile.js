@@ -144,5 +144,6 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['image', 'datauri', 'sass', 'uglify','watch']);
+  grunt.registerTask('prod', ['image', 'datauri', 'sass', 'uglify','watch']);
 
 };
