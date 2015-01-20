@@ -1,4 +1,5 @@
 **/.gitignore
+**/.gitattributes
 .htaccess
 wp-config.php 
 sitemap.xml
@@ -6,6 +7,8 @@ wp-content/uploads/*
 wp-content/blogs.dir/*
 wp-content/cache/*
 wp-content/files_mf/*
+wp-content/ewww/*
+wp-content/w3tc-config/*
 *.sublime-.
 wp-content/themes/maestro/node_modules
 wp-content/themes/maestro/library/.sass-cache
@@ -20,4 +23,3 @@ wp-content/themes/maestro/library/.sass-cache
 *.txt
 *.rb
 *.json
-Grunfile.js
