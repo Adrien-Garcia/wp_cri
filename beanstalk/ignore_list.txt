@@ -24,3 +24,4 @@ wp-content/themes/maestro/library/.sass-cache
 *.txt
 *.rb
 *.json
+.project
