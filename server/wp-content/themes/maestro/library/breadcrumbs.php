@@ -9,7 +9,7 @@ function custom_breadcrumbs() {
   $after = '</span>'; // tag after the current crumb
   
   global $post;
-  $homeLink = get_bloginfo('url');
+  $homeLink = esc_url( home_url() );
   
   if (is_home() || is_front_page()) {
   
@@ -27,10 +27,10 @@ function custom_breadcrumbs() {
     } elseif( is_archive() ){
       $thisCat = get_category(get_query_var('cat'), false);
       if ($thisCat->parent != 0) echo get_category_parents($thisCat->parent, TRUE, ' ' . $delimiter . ' ');
-      echo $before . 'Archive by category "' . single_cat_title('', false) . '"' . $after;
+      echo $before . __('Archive by category : ','bonestheme') . single_cat_title('', false) . $after;
 
     }elseif ( is_search() ) {
-      echo $before . 'Search results for "' . get_search_query() . '"' . $after;
+      echo $before . __('Search results for : ','bonestheme') . get_search_query() . $after;
   
     } elseif ( is_day() ) {
       echo '<a href="' . get_year_link(get_the_time('Y')) . '">' . get_the_time('Y') . '</a> ' . $delimiter . ' ';
@@ -88,12 +88,12 @@ function custom_breadcrumbs() {
       if ($showCurrent == 1) echo ' ' . $delimiter . ' ' . $before . get_the_title() . $after;
   
     } elseif ( is_tag() ) {
-      echo $before . 'Posts tagged "' . single_tag_title('', false) . '"' . $after;
+      echo $before . __('Posts tagged : ','bonestheme') . single_tag_title('', false) . $after;
   
     } elseif ( is_author() ) {
        global $author;
       $userdata = get_userdata($author);
-      echo $before . 'Articles posted by ' . $userdata->display_name . $after;
+      echo $before . __('Articles posted by ','bonestheme') . $userdata->display_name . $after;
   
     } elseif ( is_404() ) {
       echo $before . 'Error 404' . $after;
@@ -101,7 +101,7 @@ function custom_breadcrumbs() {
   
     if ( get_query_var('paged') ) {
       if ( is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author() ) echo ' (';
-      echo __('Page') . ' ' . get_query_var('paged');
+      echo __('Page','bonestheme') . ' ' . get_query_var('paged');
       if ( is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author() ) echo ')';
     }
   

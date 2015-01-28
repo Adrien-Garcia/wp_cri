@@ -104,8 +104,9 @@ add_filter( 'image_size_names_choose', 'bones_custom_image_sizes' );
 
 function bones_custom_image_sizes( $sizes ) {
     return array_merge( $sizes, array(
-        'bones-thumb-600' => __('600px by 150px'),
-        'bones-thumb-300' => __('300px by 100px'),
+        'slider-accueil-mobile' => __('600px by 320px','bonestheme'),
+        'slider-accueil-tablette' => __('1024px by 400px','bonestheme'),
+        'slider-accueil-pc' => __('1366px by 600px','bonestheme'),
     ) );
 }
 
