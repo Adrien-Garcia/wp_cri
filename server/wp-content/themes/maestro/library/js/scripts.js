@@ -106,7 +106,7 @@ function loadGravatars() {
  * Put all your regular jQuery in here.
 */
 jQuery(document).ready(function($) {
-	
+
 	/*
 	 * Obfusction des liens menant vers l'accueil & de www.addonline.fr
 	 */
