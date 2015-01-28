@@ -4,21 +4,21 @@
 
 		<div id="inner-content" class="wrap cf">
 
-			<div id="main" class="m-all t-2of3 d-5of7 cf" role="main">
+			<div id="main" class="cf" role="main">
 			
 				<?php if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
 
 				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+					<article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
 
 					 	<header class="article-header">
 
-					    	<h1 class="entry-title single-title" itemprop="headline"><?php the_title(); ?></h1>
+					    	<h1 class="entry-title single-title"><?php the_title(); ?></h1>
 
 					  	</header>
 
-					  	<section class="entry-content cf" itemprop="articleBody">
+					  	<section class="entry-content cf">
 
 					  		<?php if( in_category(6) ) : ?>
 
