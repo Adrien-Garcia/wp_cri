@@ -12,7 +12,7 @@ sidebars, comments, ect.
 require_once( 'library/bones.php' );
 
 // USE THIS TEMPLATE TO CREATE CUSTOM POST TYPES EASILY
-require_once( 'library/custom-post-type.php' );
+//require_once( 'library/custom-post-type.php' );
 
 // CUSTOMIZE THE WORDPRESS ADMIN (off by default)
 require_once( 'library/admin.php' );
@@ -104,8 +104,9 @@ add_filter( 'image_size_names_choose', 'bones_custom_image_sizes' );
 
 function bones_custom_image_sizes( $sizes ) {
     return array_merge( $sizes, array(
-        'bones-thumb-600' => __('600px by 150px'),
-        'bones-thumb-300' => __('300px by 100px'),
+        'slider-accueil-mobile' => __('600px by 320px','bonestheme'),
+        'slider-accueil-tablette' => __('1024px by 400px','bonestheme'),
+        'slider-accueil-pc' => __('1366px by 600px','bonestheme'),
     ) );
 }
 

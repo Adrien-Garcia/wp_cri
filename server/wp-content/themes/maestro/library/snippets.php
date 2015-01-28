@@ -322,7 +322,7 @@ function gkp_add_sticky_post_support()
 	<?php if ( $typenow == 'custom_type' && current_user_can( 'edit_others_posts' ) ) : ?>
 	<script>
 	jQuery(function($) {
-		var sticky = "<br/><span id='sticky-span'><input id='sticky' name='sticky' type='checkbox' value='sticky' <?php checked( is_sticky( $post->ID ) ); ?> /> <label for='sticky' class='selectit'><?php _e( "Stick this post to the front page" ); ?></label><br /></span>";	
+		var sticky = "<br/><span id='sticky-span'><input id='sticky' name='sticky' type='checkbox' value='sticky' <?php checked( is_sticky( $post->ID ) ); ?> /> <label for='sticky' class='selectit'><?php _e( 'Stick this post to the front page','bonestheme' ); ?></label><br /></span>";	
 		$('[for=visibility-radio-public]').append(sticky);	
 	});
 	</script>
@@ -389,7 +389,7 @@ function load_cat_parent_template()
 
     // trace back the parent hierarchy and locate a template
     while ($cat && !is_wp_error($cat)) {
-        $template = TEMPLATEPATH . "/category-{$cat->slug}.php";
+        $template = get_template_directory() . "/category-{$cat->slug}.php";
 
         if (file_exists($template)) {
             load_template($template);
