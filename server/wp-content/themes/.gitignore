@@ -4,3 +4,5 @@
 library/.sass-cache
 library/node_modules
 *.map
+/.sass-cache/
+/node_modules/
