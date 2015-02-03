@@ -56,3 +56,102 @@ header.php file to see what they are:
 .lt-ie8 .class { ... }
 
 */
+
+.lt-ie9{
+
+	#ob_page {
+		display:block;
+	    width: 100%;
+	    height: 100%;
+	    text-align: center;
+	    margin: 0px auto;
+	    position: relative;
+	    top: 0px;
+	    left : 0px;
+	    z-index: 50005;
+	    position : absolute;
+	    background:#fff;
+	    color:#000;
+	}
+
+	#ob_logo {
+	    width: 344px;
+	    height: 81px;
+	    position: absolute;
+	    top: 61px;
+	    left: 50%;
+	    margin-left: -177px;
+	    text-indent: -5000px;
+	}
+
+	#ob_page p {
+	    display: block;
+	    width: 480px;
+	    position: absolute;
+	    top: 190px;
+	    font-family: Helvetica, Arial;
+	    font-size:12px;
+	    line-height: 18px;
+	    left : 50%;
+	    margin-left : -240px;
+	    margin-top : 30px;
+	}
+
+	#ob_liens_nav {
+	    width: 500px;
+	    position: absolute;
+	    top:320px;
+	    left : 50%;
+	    margin-left: -235px;
+	}
+
+	#ob_liens_nav.mac {
+	   margin-left: -328px;
+	    width: 670px;
+	}
+
+	#ob_liens_nav a {
+	    display: block;
+	    float: left;
+	    width: 100px;
+	    height: 134px;
+	    margin-left: 20px;
+	    background-position: center top;
+	    background-repeat: no-repeat;
+	    text-decoration: none;
+	    outline: none;
+	    color:#000;
+	}
+
+	#ob_liens_nav.mac a{
+	 width: 200px;
+	}
+
+	#ob_liens_nav a span{
+	    position : relative;
+	    top : 80px;
+	    display: block;
+	    font-size: 12px;
+	    line-height: 18px;
+	    font-family: Helvetica, Arial;
+	}
+
+	#ob_liens_nav a:first-child {
+	    margin-left: 6px;
+	}
+
+
+	#ob_liens_nav a#chrome{background-image: url('../images/browsers/chrome.png');}
+	#ob_liens_nav a#firefox{background-image: url('../images/browsers/firefox.png');}
+	#ob_liens_nav a#safari{background-image: url('../images/browsers/safari.png');}
+	#ob_liens_nav a#ie{background-image: url('../images/browsers/ie.png');}
+
+
+	#ob_liens_nav div#safari_text {
+	    margin-left: -37px;
+	    position: relative;
+	    top: 120px;
+	    width: 180px;
+	}
+
+}

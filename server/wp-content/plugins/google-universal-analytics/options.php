@@ -1,4 +1,4 @@
-<div class="wrap">
+<div class="wrap">
   <?php if( isset($_GET['settings-updated']) ) { ?>    <div id="message" class="updated">        <p><strong><?php _e('Settings saved.') ?></strong></p>    </div>  <?php } ?>    <h2><?php echo __('Google Universal Analytics', 'gua'); ?></h2>  
   <br />
   <div class="col-lg-6 row">
@@ -102,9 +102,9 @@
         </div>
       </div>
     </form>
-  </div>
-  <div class="clearfix"></div>
-  <div class="row col-lg-6"><?php echo __('Have a question? Drop it at', 'gua'); ?> <a href="http://onlineads.lt/?utm_source=WordPress&utm_medium=Google%20Universal%20Analytics%202.4.1&utm_content=Google%20Universal%20Analytics&utm_campaign=WordPress%20plugins" title="Google Universal Analytics">OnlineAds.lt</a> </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="row col-lg-6"><?php echo __('Have a question? Drop it at', 'gua'); ?> <a href="http://onlineads.lt/?utm_source=WordPress&utm_medium=Google%20Universal%20Analytics%202.4.1&utm_content=Google%20Universal%20Analytics&utm_campaign=WordPress%20plugins" title="Google Universal Analytics">OnlineAds.lt</a> </div>
   </br></br>
   <strong>Pro Tip:</strong> For periodic Google Analytics data reporting use <a href="https://nexusad.com/?utm_source=wordpress&utm_medium=Google%2BUniversal%2BAnalytics%2B2.4.1&utm_campaign=wp_plugins" title="nexusAd" target="_blank">nexusAd tool</a>. 
 </div>
