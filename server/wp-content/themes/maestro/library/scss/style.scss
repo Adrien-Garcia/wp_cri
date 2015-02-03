@@ -19,6 +19,9 @@ http://thesassway.com/advanced/modular-css-naming-conventions
 // datauri
 @import "modules/datauri_variables.scss";
 
+// sprite
+@import "modules/spritesheet.scss";
+
 /*********************
 IMPORTING PARTIALS
 These files are needed at the beginning so that we establish all

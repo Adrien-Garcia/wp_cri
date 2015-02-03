@@ -69,28 +69,29 @@ module.exports = function(grunt) {
 
     datauri: {
 
-      options: {
-
-        colors: {      // a color mapping object that will map
-                     // files named with the following scheme
-                     // `truck.colors-red-green.svg` into separate datauri vars.
-          red: '#00ffff',
-          green: '#ff00ff'
-
-        }
-
-      },
-
       myicons: {
 
         files: {
 
-         'maestro/library/scss/modules/_datauri_variables.scss' : 'maestro/library/images/origin/*.{png,jpg,gif,svg}'
+         'maestro/library/scss/modules/_datauri_variables.scss' : 'maestro/library/images/datauris/*.{png,jpg,gif,svg}'
 
         }
 
       }
 
+    },
+    
+    sprite:{
+    	
+    	all: {
+    		
+    		src: 'maestro/library/images/origin/*.png',
+    		dest: 'maestro/library/images/sprites/spritesheet.png',
+    		imgPath: '../images/sprites/spritesheet.png',
+    		destCss: 'maestro/library/scss/modules/_spritesheet.scss'
+    			
+	    }
+    
     },
 
     watch: { // Watch task
@@ -111,10 +112,17 @@ module.exports = function(grunt) {
 
       icon: {
 
-        files: ['maestro/library/images/origin/*.{png,jpg,gif,svg}'],
+        files: ['maestro/library/images/datauris/*.{png,jpg,gif,svg}'],
         tasks: ['datauri']
 
       },
+      
+      sprite: {
+
+	      files: ['maestro/library/images/origin/*.{png,jpg,gif,svg}'],
+	      tasks: ['sprite']
+	
+	    },
 
       options: {
         spawn: true,
@@ -141,9 +149,11 @@ module.exports = function(grunt) {
 
   // datauri
   grunt.loadNpmTasks('grunt-datauri-variables');
+  
+  // grunt-spritesmith
+  grunt.loadNpmTasks('grunt-spritesmith');
 
   // Default task(s).
-  grunt.registerTask('default', ['image', 'datauri', 'sass', 'uglify','watch']);
-  grunt.registerTask('prod', ['image', 'datauri', 'sass', 'uglify','watch']);
+  grunt.registerTask('default', ['image', 'datauri', 'sprite', 'sass', 'uglify','watch']);
 
 };
