@@ -1,253 +1,234 @@
-/******************************************************************
-Site Name:
-Author:
+/**
+ * Profound Grid
+ * 
+ * Built in Sass (SCSS) this responsive/adaptive grid supports both fixed and fluid layouts, 
+ * relative and fixed gutters, as well as your choice of semantic markup or generic '.grid-x' classes.
+ * 
+ * The biggest difference to other grid systems is the use of negative margins for column
+ * placements, avoiding the subpixel rounding issues that usually break/uglify fluid layouts
+ * in some browsers.
+ * 
+ * Nested columns are supported too, without having to reset the grid on each level. 
+ *
+ * Credits/Inspiration:
+ * -------------------
+ * Semantic Grid: http://www.semantic.gs
+ * Susy: http://susy.oddbird.net
+ * Negative Grid: http://chrisplaneta.com/freebies/negativegrid-fluid-css-grid-by-chris-planeta/
+ *
+ * @author Profound Creative Studio
+ * @url http://www.profoundgrid.com
+ * @url http://www.weareprofound.com 
+ */
 
-Stylesheet: Grid Stylesheet
+ ////////////////////////////////////////////////////////////////////////////////
+// Defaults (feel free to override)
+////////////////////////////////////////////////////////////////////////////////
 
-I've seperated the grid so you can swap it out easily. It's
-called at the top the style.scss stylesheet.
+$total_columns:   12;     //        //
+$total_width:   960px;    // px|100%    // px = fixed, 100% = fluid
+$gutter_width:    1%;     // px|%     // px = fixed, % = fluid
+$container_margin:  1%;     // auto|px|%  //
 
-There are a ton of grid solutions out there. You should definitely
-experiment with your own. Here are some recommendations:
-
-http://gridsetapp.com - Love this site. Responsive Grids made easy.
-http://susy.oddbird.net/ - Grids using Compass. Very elegant.
-http://gridpak.com/ - Create your own responsive grid.
-https://github.com/dope/lemonade - Neat lightweight grid.
+$class_container: 'row';    //        //
+$class_column:    'col';    //        //
+$class_push:    'push';   //        //
 
 
-The grid below is a custom built thingy I modeled a bit after
-Gridset. It's VERY basic and probably shouldn't be used on
-your client projects. The idea is you learn how to roll your
-own grids. It's better in the long run and allows you full control
-over your project's layout.
+////////////////////////////////////////////////////////////////////////////////
+// GRID MATH
+////////////////////////////////////////////////////////////////////////////////
 
-******************************************************************/
+@function element_width($column_index){
+  @if ($total_width == 100%){
+      $not_rounded_value: (((100% + $gutter_width)/$total_columns)*$column_index)-$gutter_width;
+      $not_rounded_value: $not_rounded_value * 100;
+      $rounded_value: round($not_rounded_value)/100;
+      @return $rounded_value;
+  }@else{
+    @return ((($total_width + $gutter_width)/$total_columns)*$column_index)-$gutter_width;
+  }
+}
 
-// using a mixin since we can't use placeholder selectors
-@mixin grid-col {
-  float: left;
-  padding-right: 0.75em;
+@function column_width(){
+  @if ($total_width == 100%){
+      $not_rounded_value: (((100% + $gutter_width)/$total_columns))-$gutter_width;
+      $not_rounded_value: $not_rounded_value * 100;
+      $rounded_value: round($not_rounded_value)/100;
+      @return $rounded_value * 1%;
+  }@else{
+    @return ($total_width - ($gutter_width*($total_columns - 1)))/$total_columns;
+  }
+}
+
+@function container_width(){
+  @if ($total_width == 100%){
+    @if ($container_margin == auto){
+      @return 100%;
+    }
+    @return 100% - 2*$container_margin;
+  } @else {
+    @return $total_width;
+  }
+}
+////////////////////////////////////////////////////////////////////////////////
+// BASIC MIXINS
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Clearfix
+ */
+@mixin clearfix(){
+  overflow: hidden;
+  *zoom: 1;
+}
+
+/**
+ * Legacy Clearfix
+ */
+@mixin legacy-pie-clearfix(){
+  *zoom: 1;
+
+  :after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    clear: both;
+    overflow: hidden;
+    visibility: hidden;
+  }
+}
+
+/**
+ * Establish the grid-containing element.
+ */
+@mixin container(){
+  width: container_width(); 
+  margin: 0 $container_margin;
+}
+
+/**
+ * Align an element to the grid.
+ */
+@mixin column($_columns_width, $_padding_columns:null){
+  float: left; 
+  margin-right: -100%;
+  $_width_perc: element_width($_columns_width);
+    width: $_width_perc;       
+
+    @if($_padding_columns != null){
+      @include push($_padding_columns);
+    }
+}
+
+/**
+ * Apply to any column to make it the last one of the current row.
+ */
+@mixin column_omega(){
+  
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// MARGIN MIXINS
+////////////////////////////////////////////////////////////////////////////////
+
+@mixin pre(){}
+@mixin post(){}
+@mixin squish(){}
+
+@mixin push($_column_index){
+  $_width_perc: 0;
+  @if ($total_width == 100%){
+    $_width_perc: ($gutter_width + element_width($_column_index));
+  }@else{
+    //$_width_perc: (column_width() + $gutter_width)*$_column_index;
+    $_width_perc: ($gutter_width + element_width($_column_index));
+  }
+  
+  margin-left: $_width_perc;       
+}
+
+@mixin pull(){}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// HELPER CLASSES
+////////////////////////////////////////////////////////////////////////////////
+
+@mixin generate_helper_classes(){
+
+  /* Helper Class: Container */
+  .#{$class_container}{
+    @include container();
+  }
+
+  /* Helper Class: Columns */ 
+  @for $i from 1 through $total_columns{
+    .#{$class_column}#{$i} {
+      @include column($i)
+    }
+  }
+
+  /* Helper Class: Horizontal Position */ 
+  @for $i from 0 through ($total_columns - 1){
+    .#{$class_push}#{$i} {
+      @include push($i);
+    }
+  }
 
 }
 
-// the last column
-.last-col {
-  float: right;
-  padding-right: 0 !important;
+@mixin generate_grid_positions($_column_selector, $_element_width){
+
+  $_cols_per_row: floor($total_columns / $_element_width);
+
+  // create rule for each element
+  @for $i from 1 through $_cols_per_row{
+
+    #{$_column_selector}:nth-child(#{$_cols_per_row}n+#{$i}){
+      @include push((($i - 1)*$_element_width));
+      margin-bottom: $gutter_width;
+
+      @if ($i == 1) {
+        clear: both;
+        @include clearfix();
+      }@else{
+        clear: none;
+      }
+    } 
+  }
 }
 
+@mixin generate_grid_positions_legacy($_column_selector, $_element_width, $_elements_in_grid:$total_columns){
 
-/*
-Mobile Grid Styles
-These are the widths for the mobile grid.
-There are four types, but you can add or customize
-them however you see fit.
-*/
-@media (max-width: 767px) {
+  $_cols_per_row: floor($total_columns / $_element_width);
+  $_current_col:1;
 
-  .m-all {
-    @include grid-col;
-    width: 100%;
-    padding-right: 0;
+  // create rule for each element
+  @for $i from 1 through $_elements_in_grid{
+
+    $selector: #{$_column_selector};
+    @for $ii from 2 through $i{
+      $selector: #{$selector}+#{$_column_selector};
+    }
+
+
+    #{$selector}{
+      @include push((($_current_col - 1)*$_element_width));
+      margin-bottom: $gutter_width;
+
+      @if ($_current_col == 1) {
+        clear: both;
+        @include legacy-pie-clearfix();
+      }@else{
+        clear: none;
+      }
+
+      $_current_col: $_current_col + 1;
+      @if ($_current_col > $_cols_per_row){
+        $_current_col:1;
+      }
+    } 
   }
-
-  .m-1of2 {
-    @include grid-col;
-    width: 50%;
-  }
-
-  .m-1of3 {
-    @include grid-col;
-    width: 33.33%;
-  }
-
-  .m-2of3 {
-    @include grid-col;
-    width: 66.66%;
-  }
-
-  .m-1of4 {
-    @include grid-col;
-    width: 25%;
-  }
-
-  .m-3of4 {
-    @include grid-col;
-    width: 75%;
-  }
-
-} // end mobile styles
-
-
-/* Portrait tablet to landscape */
-@media (min-width: 768px) and (max-width: 1029px) {
-
-  .t-all {
-    @include grid-col;
-    width: 100%;
-    padding-right: 0;
-  }
-
-  .t-1of2 {
-    @include grid-col;
-    width: 50%;
-  }
-
-  .t-1of3 {
-    @include grid-col;
-    width: 33.33%;
-  }
-
-  .t-2of3 {
-    @include grid-col;
-    width: 66.66%;
-  }
-
-  .t-1of4 {
-    @include grid-col;
-    width: 25%;
-  }
-
-  .t-3of4 {
-    @include grid-col;
-    width: 75%;
-  }
-
-  .t-1of5 {
-    @include grid-col;
-    width: 20%;
-  }
-
-  .t-2of5 {
-    @include grid-col;
-    width: 40%;
-  }
-
-  .t-3of5 {
-    @include grid-col;
-    width: 60%;
-  }
-
-  .t-4of5 {
-    @include grid-col;
-    width: 80%;
-  }
-
-} // end tablet
-
-/* Landscape to small desktop */
-@media (min-width: 1030px) {
-
-  .d-all  {
-    @include grid-col;
-    width: 100%;
-    padding-right: 0;
-  }
-
-  .d-1of2 {
-    @include grid-col;
-    width: 50%;
-  }
-
-  .d-1of3 {
-    @include grid-col;
-    width: 33.33%;
-  }
-
-  .d-2of3 {
-    @include grid-col;
-    width: 66.66%;
-  }
-
-  .d-1of4 {
-    @include grid-col;
-    width: 25%;
-  }
-
-  .d-3of4 {
-    @include grid-col;
-    width: 75%;
-  }
-
-  .d-1of5 {
-    @include grid-col;
-    width: 20%;
-  }
-
-  .d-2of5 {
-    @include grid-col;
-    width: 40%;
-  }
-
-  .d-3of5 {
-    @include grid-col;
-    width: 60%;
-  }
-
-  .d-4of5 {
-    @include grid-col;
-    width: 80%;
-  }
-
-  .d-1of6 {
-    @include grid-col;
-    width: 16.6666666667%;
-  }
-
-  .d-1of7 {
-    @include grid-col;
-    width: 14.2857142857%;
-  }
-
-  .d-2of7 {
-    @include grid-col;
-    width: 28.5714286%;
-  }
-
-  .d-3of7 {
-    @include grid-col;
-    width: 42.8571429%;
-  }
-
-  .d-4of7 {
-    @include grid-col;
-    width: 57.1428572%;
-  }
-
-  .d-5of7 {
-    @include grid-col;
-    width: 71.4285715%;
-  }
-
-  .d-6of7 {
-    @include grid-col;
-    width: 85.7142857%;
-  }
-
-  .d-1of8 {
-    @include grid-col;
-    width: 12.5%;
-  }
-
-  .d-1of9 {
-    @include grid-col;
-    width: 11.1111111111%;
-  }
-
-  .d-1of10 {
-    @include grid-col;
-    width: 10%;
-  }
-
-  .d-1of11 {
-    @include grid-col;
-    width: 9.09090909091%;
-  }
-
-  .d-1of12 {
-    @include grid-col;
-    width: 8.33%;
-  }
-
-} // end desktop styles
+}
