@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp theme bones\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-28 17:31+0100\n"
+"POT-Creation-Date: 2015-02-05 09:58+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: Pierre-Emmanuel Fringant <pierre.fringant@gmail.com>\n"
@@ -102,40 +102,40 @@ msgstr "Plus de commentaires &rarr;"
 msgid "Comments are closed."
 msgstr "Les commentaires sont clos."
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:107
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:108
 msgid "600px by 320px"
 msgstr "600px par 150px"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:108
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:109
 msgid "1024px by 400px"
 msgstr "300px par 100px"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:109
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:110
 msgid "1366px by 600px"
 msgstr "300px par 100px"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:127
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:128
 msgid "Sidebar 1"
 msgstr "Barre latérale 1"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:128
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:129
 msgid "The first (primary) sidebar."
 msgstr "La première et principale barre latérale."
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:183
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:184
 #, php-format
 msgid "<cite class=\"fn\">%1$s</cite> %2$s"
 msgstr "<cite class=\"fn\">%1$s</cite> %2$s"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:183
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:184
 msgid "(Edit)"
 msgstr "(Editer)"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:184
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:185
 msgid "F jS, Y"
 msgstr "j F Y"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:189
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/functions.php:190
 msgid "Your comment is awaiting moderation."
 msgstr "Votre commentaire est en attente de modération"
 
@@ -152,51 +152,127 @@ msgstr ""
 "<span id=\"footer-thankyou\">Developpé par <a href=\"http://www.jetpulp.fr\" "
 "target=\"_blank\">Jetpulp</a></span>."
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:82
-#, php-format
-msgid "Page %s"
-msgstr "Page %s"
-
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:231
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:200
 msgid "The Main Menu"
 msgstr "Le Menu Principal"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:232
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:201
 msgid "Footer Links"
 msgstr "Liens du pied de page"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:324
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:297
 msgid "No Related Posts Yet!"
 msgstr "Aucun article en rapport"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:369
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:342
 msgid "Read "
 msgstr "Lire"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:369
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/bones.php:342
 #: C:\Devl\wp_maestro\server\wp-content\themes\maestro/search.php:23
 msgid "Read more &raquo;"
 msgstr "Lire la suite &raquo;"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:30
-msgid "Archive by category : "
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:6
+msgid "Home"
+msgstr "Accueil"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:28
+msgid "Archive for "
 msgstr "Archives par catégorie :"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:33
-msgid "Search results for : "
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:99
+msgid "Search results for "
 msgstr "Résultats de recherche pour :"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:91
-msgid "Posts tagged : "
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:102
+msgid "Posts tagged "
 msgstr "Articles taggés :"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:96
-msgid "Articles posted by "
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:107
+msgid "All posts by "
 msgstr "Articles créer par :"
 
-#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:104
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:110
+msgid "Error 404 "
+msgstr "Erreur 404"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/breadcrumbs.php:115
 msgid "Page"
 msgstr "Page"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:31
+msgid "Slides"
+msgstr "Carousels"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:32
+msgid "Slide"
+msgstr "Diaporama"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:33
+msgid "All Slides"
+msgstr "Tous les diaporamas"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:34
+msgid "Add New"
+msgstr "Ajouter nouveau"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:35
+msgid "Add New Slide"
+msgstr "Ajouter un diaporama"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:36
+msgid "Edit"
+msgstr "Editer"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:37
+msgid "Edit Slide"
+msgstr "Modifier le diaporama"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:38
+msgid "New Slide"
+msgstr "Ajouter un diaporama"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:39
+msgid "View Slide"
+msgstr "Voir le diaporama"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:40
+msgid "Search Slide"
+msgstr "Rechercher un diaporama"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:41
+msgid "Nothing found in the Database."
+msgstr "Rien trouvé dans la base de données"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:42
+msgid "Nothing found in Trash"
+msgstr "Rien trouvé dans la corbeille"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-post-type.php:45
+msgid "Content for home slides"
+msgstr "Contenu pour le carousel de la page d'accueil"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-theme-settings.php:12
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-theme-settings.php:29
+msgid "Theme Settings"
+msgstr "Options du thème"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-theme-settings.php:34
+msgid "Options saved"
+msgstr "Options enregistrées"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-theme-settings.php:45
+msgid "Enable Google Tracking"
+msgstr "Activer Google Analytics"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-theme-settings.php:48
+msgid "Enter your analytics tracking code"
+msgstr "Entrez votre code Google Analytics"
+
+#: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/custom-theme-settings.php:55
+msgid "Save changes"
+msgstr "Sauvegarder"
 
 #: C:\Devl\wp_maestro\server\wp-content\themes\maestro/library/snippets.php:325
 msgid "Stick this post to the front page"
@@ -241,49 +317,13 @@ msgstr ""
 msgid "This is the error message in the single.php template."
 msgstr "Ceci est le message d'erreur de la page single.php template."
 
+#~ msgid "Page %s"
+#~ msgstr "Page %s"
+
 #~ msgid "This is the error message in the custom posty type archive template."
 #~ msgstr ""
 #~ "Ceci est le message d'erreur dans la page des archives de type d'article "
 #~ "personnalisé."
-
-#~ msgid "Slides"
-#~ msgstr "Carousels"
-
-#~ msgid "Slide"
-#~ msgstr "Diaporama"
-
-#~ msgid "All Slides"
-#~ msgstr "Tous les diaporamas"
-
-#~ msgid "Add New"
-#~ msgstr "Ajouter nouveau"
-
-#~ msgid "Add New Slide"
-#~ msgstr "Ajouter un diaporama"
-
-#~ msgid "Edit"
-#~ msgstr "Editer"
-
-#~ msgid "Edit Slide"
-#~ msgstr "Modifier le diaporama"
-
-#~ msgid "New Slide"
-#~ msgstr "Ajouter un diaporama"
-
-#~ msgid "View Slide"
-#~ msgstr "Voir le diaporama"
-
-#~ msgid "Search Slide"
-#~ msgstr "Rechercher un diaporama"
-
-#~ msgid "Nothing found in the Database."
-#~ msgstr "Rien trouvé dans la base de données"
-
-#~ msgid "Nothing found in Trash"
-#~ msgstr "Rien trouvé dans la corbeille"
-
-#~ msgid "Content for home slides"
-#~ msgstr "Contenu pour le carousel de la page d'accueil"
 
 #~ msgid "Custom Tags:"
 #~ msgstr "Tags personnalisés :"

@@ -32,16 +32,19 @@
 	<?php wp_head(); ?>
 	<?php // end of wordpress head ?>
 
-	<?php // drop Google Analytics Here ?>
-	<?php // end analytics ?>
 
 </head>
 
 <body <?php body_class(); ?>>
 
-	<!--[if lt IE 9]>
-		<?php echo get_template_part("content","oldbrowser"); ?>
-	<![endif]-->
+	<?php 
+	/*
+	 * Google Analytics
+	 * Ne pas déplacer cette ligne.
+	 * Ne rien mettre avant
+	 */
+	echo get_template_part("content","ga");
+	?>
 
 	<div id="container">
 

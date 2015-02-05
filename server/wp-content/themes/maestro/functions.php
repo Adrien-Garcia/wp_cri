@@ -17,6 +17,9 @@ require_once( 'library/custom-post-type.php' );
 // CUSTOMIZE THE WORDPRESS ADMIN (off by default)
 require_once( 'library/admin.php' );
 
+// CUSTOMIZE THEME SETTINGS (off by default)
+require_once( 'library/custom-theme-settings.php' );
+
 // CUSTOMIZE BREADCRUMBS
 require_once( 'library/breadcrumbs.php' );
 
