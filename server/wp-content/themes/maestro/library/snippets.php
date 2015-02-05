@@ -41,7 +41,7 @@ class Menu_With_Description extends Walker_Nav_Menu {
 
 
 /**
- * Noeud d'arborescence basé sur élément de menu actif / A insérer dans votre template (généralement sidebar.php) (voir plus bas pour utilisation)
+ * Noeud d'arborescence basÃ© sur Ã©lÃ©ment de menu actif / A insÃ©rer dans votre template (gÃ©nÃ©ralement sidebar.php) (voir plus bas pour utilisation)
  *
  */
 add_filter( 'wp_nav_menu_objects', 'my_wp_nav_menu_objects_sub_menu', 10, 2 );
@@ -135,9 +135,9 @@ if( !empty($sidebarmenu) ) :
 *******************************************************************************************************************************/
 
 /**
- * Icones personnalisés pour les différents custome posts
- * - Remplacer le selecteur ".menu-icon-xxxx" par la classe voulu (peut etre trouvé avec l'inspecteur)
- * - http://melchoyce.github.io/dashicons/ pour récupérer le code de l'icône (copy CSS)
+ * Icones personnalisÃ©s pour les diffï¿½rents custome posts
+ * - Remplacer le selecteur ".menu-icon-xxxx" par la classe voulu (peut etre trouvÃ© avec l'inspecteur)
+ * - http://melchoyce.github.io/dashicons/ pour rÃ©cupÃ©rer le code de l'icÃ´ne (copy CSS)
  *
  */
 function add_menu_icons_styles(){
@@ -164,7 +164,7 @@ add_action( 'admin_head', 'add_menu_icons_styles' );
 
 
 /**
- * Feuille de styles pour l'éditeur
+ * Feuille de styles pour l'ï¿½diteur
  *
  */
 add_editor_style();
@@ -176,7 +176,7 @@ add_action( 'init', 'my_theme_add_editor_styles' );
 
 
 /**
- * Modifie les éléments disponible de TinyMCE
+ * Modifie les Ã©lÃ©ments disponible de TinyMCE
  *
  */
 function mce_mod( $init ) {
@@ -217,7 +217,7 @@ function my_add_excerpts_to_pages() {
 
 
 /**
- * gravity form pour role éditeur
+ * gravity form pour role Ã©diteur
  *
  */
 function add_grav_forms(){
@@ -229,7 +229,7 @@ add_action('admin_init','add_grav_forms');
 
 
 /**
- * Partage des modèles
+ * Partage des modÃ¨les
  *
  */
 function my_save_post($id)
@@ -247,7 +247,7 @@ add_action('save_post', 'my_save_post', 11);
 
 
 /**
- * Désactivation complète des formulaires
+ * DÃ©sactivation complÃ¨te des commentaires
  *
  */
 function df_disable_comments_post_types_support() {
@@ -310,7 +310,7 @@ add_action('init', 'df_disable_comments_admin_bar');
 /**
  * Sticky pour custom posts
  * - Remplacer "$typenow == 'custom_type'" par le nom de votre custom post
- * - Possibilité d'en rajouter : $typenow == 'custom_type' || $typenow == 'custom_type_2' || etc ...
+ * - Possibilitï¿½ d'en rajouter : $typenow == 'custom_type' || $typenow == 'custom_type_2' || etc ...
  *
  */
 add_action( 'admin_footer-post.php', 'gkp_add_sticky_post_support' );
@@ -337,7 +337,7 @@ function gkp_add_sticky_post_support()
 
 
 /**
- * Catégories de média différente de celles des posts/pages etc...
+ * CatÃ©gories de mÃ©dia diffÃ©rente de celles des posts/pages etc...
  *
  */
 add_filter( 'wpmediacategory_taxonomy', function(){ return 'category_media'; }, 1 ); //requires PHP 5.3 or newer
@@ -351,8 +351,8 @@ add_filter( 'wpmediacategory_taxonomy', function(){ return 'category_media'; }, 
 
 /**
  * Tronquage contenu
- * ATTENTION : Eviter d'utiliser sur the_content(). Privilégier l'excerpt ou tout autre contenu non mis en forme
- * via une éditeur WYSIWYG
+ * ATTENTION : Eviter d'utiliser sur the_content(). PrivilÃ©gier l'excerpt ou tout autre contenu non mis en forme
+ * via une ï¿½diteur WYSIWYG
  *
  */
 function truncate($string, $max_length, $replacement = '', $trunc_at_space = false)
@@ -374,7 +374,7 @@ function truncate($string, $max_length, $replacement = '', $trunc_at_space = fal
 
 
 /**
- * Attribution du template de la catégorie parent aux catégories enfants (si modèle de catégorie spécifique)
+ * Attribution du template de la catÃ©gorie parent aux catÃ©gories enfants (si modÃ¨le de catÃ©gorie spÃ©cifique)
  *
  */
 function load_cat_parent_template()
@@ -421,7 +421,7 @@ add_filter( 'pre_get_posts', 'namespace_add_custom_types' );
 
 
 /**
- * Permet d'afficher les customs posts dans les résulats de recherche
+ * Permet d'afficher les customs posts dans les rï¿½sulats de recherche
  * - Remplacer 'custom_type_x' par le nom de vos customs posts
  */
 function searchAll( $query ) {
@@ -440,12 +440,12 @@ add_filter( 'the_search_query', 'searchAll' );
  Remplacer les codes HEXA par ceux fournis sur la maquette
 */
 function tiny_mce_custom_palette($init) {
-	// Code à décommenter lors du passage à Wordpress v4+
+	// Code ï¿½ dï¿½commenter lors du passage ï¿½ Wordpress v4+
 	/*
 		$default_colours = '
 	      "000000", "Noir",
-	      "535353", "Gris foncé",
-	      "989898", "Gris intermédiaire",
+	      "535353", "Gris foncï¿½",
+	      "989898", "Gris intermï¿½diaire",
 	      "a1a1a1", "Gris clair",
 	      "fb9200", "Orange"
 	      ';
@@ -471,7 +471,7 @@ add_filter('tiny_mce_before_init', 'tiny_mce_custom_palette');
 
 
 /*
- Supprime les entrée 'Personnaliser' & 'Arrière-plan' du menu apparence (tous les utilisateurs).
+ Supprime les entrï¿½e 'Personnaliser' & 'Arriï¿½re-plan' du menu apparence (tous les utilisateurs).
 */
 function remove_customize() {
     $customize_url_arr = array();
