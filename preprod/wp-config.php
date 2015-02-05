@@ -20,13 +20,13 @@
 
 // ** Réglages MySQL - Votre hébergeur doit vous fournir ces informations. ** //
 /** Nom de la base de données de WordPress. */
-define('DB_NAME', 'wp_maestro');
+define('DB_NAME', 'bdd_preprod');
 
 /** Utilisateur de la base de données MySQL. */
-define('DB_USER', 'wp');
+define('DB_USER', 'user_preprod');
 
 /** Mot de passe de la base de données MySQL. */
-define('DB_PASSWORD', 'wp');
+define('DB_PASSWORD', 'pwd_preprod');
 
 /** Adresse de l'hébergement MySQL. */
 define('DB_HOST', 'localhost');
@@ -91,10 +91,10 @@ define('WPLANG', 'fr_FR');
 define('WP_DEBUG', false);
 
 /* Sous domaine pour composants de la charte */
-define('WP_CONTENT_URL', 'http://theme.wp-maestro.laurent.jetpulp.dev/wp-content');
+define('WP_CONTENT_URL', 'http://theme.URLPREPROD/wp-content');
 
 /* Cookie */
-define('COOKIE_DOMAIN', 'http://wp-maestro.laurent.jetpulp.dev');
+define('COOKIE_DOMAIN', 'http://URLPREPROD');
 
 /* C'est tout, ne touchez pas à ce qui suit ! Bon blogging ! */
 
