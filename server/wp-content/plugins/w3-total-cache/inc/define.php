@@ -657,6 +657,7 @@ function w3_get_domain_url_regexp() {
  */
 function w3_get_home_url() {
     static $home_url = null;
+    $home_url = get_home_url();
     
     if ($home_url === null) {
         $config = w3_instance('W3_Config');
