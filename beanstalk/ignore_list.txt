@@ -18,13 +18,8 @@ sitemap.xml
 **/*.rb
 **/*.json
 **/.project
-wp-content/themes/maestro/node_modules
-wp-content/themes/maestro/library/.sass-cache
-wp-content/themes/maestro/library/scss
-wp-content/themes/maestro/library/Gruntfile.js
-wp-content/themes/maestro/library/config.rb
-wp-content/themes/maestro/library/package.json
-wp-content/themes/maestro/library/js/scripts.js
+wp-content/grunt/node_modules
+wp-content/grunt/.sass-cache
 wp-content/uploads/*
 wp-content/blogs.dir/*
 wp-content/cache/*
