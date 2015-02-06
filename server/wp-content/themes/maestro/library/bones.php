@@ -97,14 +97,17 @@ function bones_scripts_and_styles() {
 
   if (!is_admin()) {
 
+  		wp_deregister_script( 'jquery' );
+  		wp_deregister_script( 'jquery-migrate' );
+  		
+  		// jquery
+  		wp_register_script( 'jquery', get_stylesheet_directory_uri() . '/library/js/min/jquery.min.js', array(), '1.11.1', false );
+  		
+  		// jquery migrate
+  		wp_register_script( 'jquery-migrate', get_stylesheet_directory_uri() . '/library/js/min/jquery-migrate.min.js', array('jquery'), '1.2.1', false );
+  	
 		// modernizr (without media query polyfill)
 		wp_register_script( 'bones-modernizr', get_stylesheet_directory_uri() . '/library/js/min/modernizr.custom.min.js', array(), '2.5.3', false );
-
-		// bxslider
-		wp_register_script( 'bxslider', get_stylesheet_directory_uri() . '/library/js/min/jquery.bxslider.min.js', array(), '4.1.2', false );
-
-		// picturefill
-		wp_register_script( 'picturefill', get_stylesheet_directory_uri() . '/library/js/min/picturefill.min.js', array(), '2.1.0-beta', false );
 
 		// register main stylesheet
 		wp_register_style( 'bones-stylesheet', get_stylesheet_directory_uri() . '/library/css/style.css', array(), '', 'all' );
@@ -121,26 +124,25 @@ function bones_scripts_and_styles() {
 	    }
 
 		//adding scripts file in the footer
+	    wp_register_script( 'bxslider', get_stylesheet_directory_uri() . '/library/js/min/jquery.bxslider.min.js', array('jquery'), '4.1.2', true );
+	    wp_register_script( 'picturefill', get_stylesheet_directory_uri() . '/library/js/min/picturefill.min.js', array(), '2.1.0-beta', true );
 		wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/scripts.js', array( 'jquery' ), '', true );
 
-		// enqueue styles and scripts
+		// enqueue scripts
+		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'jquery-migrate' );
 		wp_enqueue_script( 'bones-modernizr' );
 		wp_enqueue_script( 'bxslider' );
 		wp_enqueue_script( 'picturefill' );
-
+		wp_enqueue_script( 'bones-js' );
+		
+		// enqueue styles
 		wp_enqueue_style( 'bones-stylesheet' );
 		wp_enqueue_style( 'bxslider-stylesheet' );
 		wp_enqueue_style( 'bones-ie-only' );
 
 		$wp_styles->add_data( 'bones-ie-only', 'conditional', 'lt IE 9' ); // add conditional wrapper around ie stylesheet
 
-		/*
-		I recommend using a plugin to call jQuery
-		using the google cdn. That way it stays cached
-		and your site will load faster.
-		*/
-		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'bones-js' );
 
 	}
 }

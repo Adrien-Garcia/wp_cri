@@ -4,13 +4,19 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
+    
+    dirs: {
+    	
+    	library: '../wp-content/themes/maestro/library'
+    	
+    },
 
     uglify: { // javascript minification
       
       build: {
 
         files: {
-          'maestro/library/js/min/scripts.min.js': ['maestro/library/js/scripts.js']
+        	'<%= dirs.library %>/js/min/scripts.min.js': ['<%= dirs.library %>/js/scripts.js']
         }
 
       }
@@ -28,9 +34,9 @@ module.exports = function(grunt) {
 
           files: [{
             expand: true,
-            cwd: 'maestro/library/scss',
+            cwd: '<%= dirs.library %>/scss',
             src: ['*.scss','!_*'],
-            dest: 'maestro/library/css',
+            dest: '<%= dirs.library %>/css',
             ext: '.css'
           }]
 
@@ -58,9 +64,9 @@ module.exports = function(grunt) {
 
         files: [{
           expand: true,
-          cwd: 'maestro/library/images/origin/', 
-          src: ['maestro/library/**/*.{png,jpg,gif,svg}'],
-          dest: 'maestro/library/images/origin/'
+          cwd: '<%= dirs.library %>/images/origin/', 
+          src: ['<%= dirs.library %>/**/*.{png,jpg,gif,svg}'],
+          dest: '<%= dirs.library %>/images/origin/'
         }]
 
       }
@@ -73,7 +79,7 @@ module.exports = function(grunt) {
 
         files: {
 
-         'maestro/library/scss/modules/_datauri_variables.scss' : 'maestro/library/images/datauris/*.{png,jpg,gif,svg}'
+         '<%= dirs.library %>/scss/modules/_datauri_variables.scss' : '<%= dirs.library %>/images/datauris/*.{png,jpg,gif,svg}'
 
         }
 
@@ -85,10 +91,10 @@ module.exports = function(grunt) {
     	
     	all: {
     		
-    		src: 'maestro/library/images/origin/*.png',
-    		dest: 'maestro/library/images/sprites/spritesheet.png',
+    		src: '<%= dirs.library %>/images/origin/*.png',
+    		dest: '<%= dirs.library %>/images/sprites/spritesheet.png',
     		imgPath: '../images/sprites/spritesheet.png',
-    		destCss: 'maestro/library/scss/modules/_spritesheet.scss'
+    		destCss: '<%= dirs.library %>/scss/modules/_spritesheet.scss'
     			
 	    }
     
@@ -98,28 +104,28 @@ module.exports = function(grunt) {
 
       scripts: {
 
-        files: ['maestro/library/js/scripts.js'],
+        files: ['<%= dirs.library %>/js/scripts.js'],
         tasks: ['uglify']
 
       },
 
       css: {
 
-        files: ['maestro/library/scss/**/*.scss'],
+        files: ['<%= dirs.library %>/scss/**/*.scss'],
         tasks: ['sass']
 
       },
 
       icon: {
 
-        files: ['maestro/library/images/datauris/*.{png,jpg,gif,svg}'],
+        files: ['<%= dirs.library %>/images/datauris/*.{png,jpg,gif,svg}'],
         tasks: ['datauri']
 
       },
       
       sprite: {
 
-	      files: ['maestro/library/images/origin/*.{png,jpg,gif,svg}'],
+	      files: ['<%= dirs.library %>/images/origin/*.{png,jpg,gif,svg}'],
 	      tasks: ['sprite']
 	
 	    },

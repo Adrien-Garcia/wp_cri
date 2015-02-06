@@ -156,6 +156,9 @@ function add_menu_icons_styles(){
 #adminmenu .toplevel_page_mappress div.wp-menu-image:before {
 	content: "\f231";
 }
+#adminmenu .toplevel_page_settings div.wp-menu-image:before {
+	content: "\f108";
+}
 </style>
  
 <?php
