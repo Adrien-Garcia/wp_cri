@@ -91,10 +91,12 @@ define('WPLANG', 'fr_FR');
 define('WP_DEBUG', false);
 
 /* Sous domaine pour composants de la charte */
-define('WP_CONTENT_URL', 'http://theme.wp-maestro.laurent.jetpulp.dev/wp-content');
+if ( !defined('WP_CONTENT_URL') )
+	define('WP_CONTENT_URL', 'http://static.wp-maestro.laurent.jetpulp.dev/wp-content');
 
 /* Cookie */
-define('COOKIE_DOMAIN', 'http://wp-maestro.laurent.jetpulp.dev');
+if ( !defined('COOKIE_DOMAIN') )
+	define('COOKIE_DOMAIN', 'http://wp-maestro.laurent.jetpulp.dev');
 
 /* C'est tout, ne touchez pas à ce qui suit ! Bon blogging ! */
 

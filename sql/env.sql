@@ -12,6 +12,6 @@ UPDATE wp_postmeta SET meta_value = replace(meta_value, 'http://www.ancien-site.
 
 
 /* Sous domaines (images & static) */
-update wp_options set option_value = "http://images.nouveau-site.com/wp-content/uploads" where option_name = "upload_url_path";
+UPDATE wp_options set option_value = "http://images.nouveau-site.com/wp-content/uploads" where option_name = "upload_url_path";
 UPDATE wp_posts SET post_content = REPLACE(post_content,'http://www.ancien-site.com/wp-content/uploads','http://images.nouveau-site.com/wp-content/uploads')
 UPDATE wp_posts SET guid = REPLACE(guid,'http://www.ancien-site.com/wp-content/uploads','http://images.nouveau-site.com/wp-content/uploads')

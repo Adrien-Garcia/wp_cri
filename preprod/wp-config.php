@@ -91,10 +91,12 @@ define('WPLANG', 'fr_FR');
 define('WP_DEBUG', false);
 
 /* Sous domaine pour composants de la charte */
-define('WP_CONTENT_URL', 'http://theme.URLPREPROD/wp-content');
+if ( !defined('WP_CONTENT_URL') )
+	define('WP_CONTENT_URL', 'http://static.URLPREPROD/wp-content');
 
 /* Cookie */
-define('COOKIE_DOMAIN', 'http://URLPREPROD');
+if ( !defined('COOKIE_DOMAIN') )
+	define('COOKIE_DOMAIN', 'http://URLPREPROD');
 
 /* C'est tout, ne touchez pas à ce qui suit ! Bon blogging ! */
 

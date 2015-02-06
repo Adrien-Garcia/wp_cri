@@ -179,7 +179,7 @@ return array(
 		0 => '127.0.0.1:11211',
 	),
 	'minify.memcached.persistant' => true,
-	'minify.rewrite' => true,
+	'minify.rewrite' => false,
 	'minify.options' => array(
 	),
 	'minify.symlinks' => array(
@@ -207,11 +207,11 @@ return array(
 			'default' => array(
 				'include' => array(
 					'files' => array(
-						0 => 'wp-content/plugins/cookie-law-info/css/cli-style.css',
-						1 => 'wp-content/plugins/mappress-google-maps-for-wordpress/css/mappress.css',
-						2 => 'wp-content/plugins/wp-columna/style.css',
-						3 => 'wp-content/plugins/wp-pagenavi/pagenavi-css.css',
-						4 => 'wp-content/themes/maestro/library/css/style.css',
+						0 => 'http://static.wordpress.preprod.addonline.biz/wp-content/plugins/cookie-law-info/css/cli-style.css',
+						1 => 'http://static.wordpress.preprod.addonline.biz/wp-content/plugins/mappress-google-maps-for-wordpress/css/mappress.css',
+						2 => 'http://static.wordpress.preprod.addonline.biz/wp-content/plugins/wp-columna/style.css',
+						3 => 'http://static.wordpress.preprod.addonline.biz/wp-content/plugins/wp-pagenavi/pagenavi-css.css',
+						4 => 'http://static.wordpress.preprod.addonline.biz/wp-content/themes/maestro/library/css/style.css',
 					),
 				),
 			),
@@ -225,7 +225,7 @@ return array(
 	'minify.js.body.embed_type' => 'blocking',
 	'minify.js.combine.footer' => false,
 	'minify.js.footer.embed_type' => 'blocking',
-	'minify.js.strip.comments' => true,
+	'minify.js.strip.comments' => false,
 	'minify.js.strip.crlf' => true,
 	'minify.js.groups' => array(
 		'3a256' => array(
@@ -234,13 +234,13 @@ return array(
 					'files' => array(
 						0 => 'wp-includes/js/jquery/jquery.js',
 						1 => 'wp-includes/js/jquery/jquery-migrate.min.js',
-						2 => 'wp-content/plugins/cookie-law-info/js/cookielawinfo.js',
-						3 => 'wp-content/themes/maestro/library/js/min/modernizr.custom.min.js',
+						2 => 'http://static.wordpress.preprod.addonline.biz/wp-content/plugins/cookie-law-info/js/cookielawinfo.js',
+						3 => 'http://static.wordpress.preprod.addonline.biz/wp-content/themes/maestro/library/js/min/modernizr.custom.min.js',
 					),
 				),
 				'include-footer' => array(
 					'files' => array(
-						0 => 'wp-content/themes/maestro/library/js/scripts.js',
+						0 => 'http://static.wordpress.preprod.addonline.biz/wp-content/themes/maestro/library/js/scripts.js',
 					),
 				),
 			),
