@@ -116,7 +116,7 @@ function custom_breadcrumbs() {
 			if ( is_category() || is_day() || is_month() || is_year() || is_search() || is_tag() || is_author() ) echo ')';
 		}
 	
-		echo '</div></div>';
+		echo '</div>';
 	
 	}
 	
