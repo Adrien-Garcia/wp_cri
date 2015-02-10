@@ -4,51 +4,51 @@
 
 		<div id="inner-content" class="wrap cf">
 
-				<div id="main" class="cf" role="main">
-				
-					<?php if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
+			<div id="main" class="cf" role="main">
+			
+				<?php if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
 
-					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
+				<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
 
-						<header class="article-header">
+					<header class="article-header">
 
-							<h1 class="page-title" itemprop="headline"><?php the_title(); ?></h1>
+						<h1 class="page-title" itemprop="headline"><?php the_title(); ?></h1>
 
-						</header> <?php // end article header ?>
+					</header> <?php // end article header ?>
 
-						<section class="entry-content cf" itemprop="articleBody">
+					<section class="entry-content cf" itemprop="articleBody">
 
-							<?php the_content(); ?>
+						<?php the_content(); ?>
 
-						</section> <?php // end article section ?>
+					</section> <?php // end article section ?>
 
-						<footer class="article-footer cf">
+					<footer class="article-footer cf">
 
-						</footer>
+					</footer>
 
-					</article>
+				</article>
 
-					<?php endwhile; else : ?>
+				<?php endwhile; else : ?>
 
-							<article id="post-not-found" class="hentry cf">
-								<header class="article-header">
-									<h1><?php _e( 'Oops, Post Not Found!', 'bonestheme' ); ?></h1>
-								</header>
-								<section class="entry-content">
-									<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'bonestheme' ); ?></p>
-								</section>
-								<footer class="article-footer">
-										<p><?php _e( 'This is the error message in the page.php template.', 'bonestheme' ); ?></p>
-								</footer>
-							</article>
+						<article id="post-not-found" class="hentry cf">
+							<header class="article-header">
+								<h1><?php _e( 'Oops, Post Not Found!', 'bonestheme' ); ?></h1>
+							</header>
+							<section class="entry-content">
+								<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'bonestheme' ); ?></p>
+							</section>
+							<footer class="article-footer">
+									<p><?php _e( 'This is the error message in the page.php template.', 'bonestheme' ); ?></p>
+							</footer>
+						</article>
 
-					<?php endif; ?>
+				<?php endif; ?>
 
-				</div>
+			</div>
 
-				<?php /*get_sidebar();*/ ?>
+			<?php /*get_sidebar();*/ ?>
 
 		</div>
 

@@ -44,31 +44,15 @@ module.exports = function(grunt) {
 
     },
 
-    image: {
-
-      dynamic: {
-
-        options: {
-          pngquant: true,
-          optipng: true,
-          advpng: true,
-          zopflipng: true,
-          pngcrush: true,
-          pngout: true,
-          mozjpeg: true,
-          jpegRecompress: true,
-          jpegoptim: true,
-          gifsicle: true,
-          svgo: true
-        },
-
+    imagemin: {
+    
+      dynamic: {                         // Another target
         files: [{
-          expand: true,
-          cwd: '<%= dirs.library %>/images/origin/', 
-          src: ['<%= dirs.library %>/**/*.{png,jpg,gif,svg}'],
-          dest: '<%= dirs.library %>/images/origin/'
+          expand: true,                  // Enable dynamic expansion
+          cwd: '<%= dirs.library %>/images/origin', 
+          src: ['**/*.{png,jpg,gif,svg}'],
+          dest: '<%= dirs.library %>/images/origin'
         }]
-
       }
 
     },
@@ -91,7 +75,7 @@ module.exports = function(grunt) {
     	
     	all: {
     		
-    		src: '<%= dirs.library %>/images/origin/*.png',
+    		src: '<%= dirs.library %>/images/origin/*.{png,jpg,gif}',
     		dest: '<%= dirs.library %>/images/sprites/spritesheet.png',
     		imgPath: '../images/sprites/spritesheet.png',
     		destCss: '<%= dirs.library %>/scss/modules/_spritesheet.scss'
@@ -122,6 +106,13 @@ module.exports = function(grunt) {
         tasks: ['datauri']
 
       },
+
+      imagemin: {
+
+        files: ['<%= dirs.library %>/images/origin/*.{png,jpg,gif,svg}'],
+        tasks: ['imagemin']
+
+      },
       
       sprite: {
 
@@ -132,8 +123,7 @@ module.exports = function(grunt) {
 
       options: {
         spawn: true,
-        event: ['changed','added','deleted'],
-        livereload: 35729
+        event: ['changed','added','deleted']
       }
 
     }
@@ -147,8 +137,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   //grunt.loadNpmTasks('grunt-sass'); // voir https://github.com/sindresorhus/grunt-sass
 
-  // Load image optims task
-  grunt.loadNpmTasks('grunt-image');
+  // Load imagemin task
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
 
   // Watch task
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -160,6 +150,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-spritesmith');
 
   // Default task(s).
-  grunt.registerTask('default', ['image', 'datauri', 'sprite', 'sass', 'uglify','watch']);
+  grunt.registerTask('default', ['imagemin', 'datauri', 'sprite', 'sass', 'uglify','watch']);
 
 };

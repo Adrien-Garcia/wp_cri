@@ -96,7 +96,7 @@ if ( !defined('WP_CONTENT_URL') )
 
 /* Cookie */
 if ( !defined('COOKIE_DOMAIN') )
-	define('COOKIE_DOMAIN', 'http://wp-maestro.laurent.jetpulp.dev');
+	//define('COOKIE_DOMAIN', 'http://wp-maestro.laurent.jetpulp.dev');
 
 /* C'est tout, ne touchez pas à ce qui suit ! Bon blogging ! */
 

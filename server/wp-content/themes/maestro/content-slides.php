@@ -9,33 +9,35 @@
 
 			<li>
 
-			<span>
-				<?php the_sub_field("titre"); ?>
-			</span>
+				<a onclick="ga('send', 'event', 'Slider accueil', 'click', '<?php the_sub_field("titre"); ?>');" class="slide-full-link" href="<?php the_sub_field("lien_bouton"); ?>" title="<?php the_sub_field("libelle_bouton"); ?>"></a>
 
-			<?php if( get_sub_field("image") ): ?>
+				<span>
+					<?php the_sub_field("titre"); ?>
+				</span>
 
-				<?php $slider_img_src = get_sub_field("image","slider-accueil-mobile"); ?>
-				<?php $slider_img_2_src = get_sub_field("image","slider-accueil-tablette" ); ?>
-				<?php $slider_img_3_src = get_sub_field("image","slider-accueil-pc" ); ?>
+				<?php if( get_sub_field("image") ): ?>
 
-				<?php /* Activer picturefill si projet responsive */ ?>
-				<picture>
-					<!--[if IE 9]><video style="display: none;"><![endif]-->
-					<source srcset="<?php echo $slider_img_src['url']; ?>" media="(max-width: 760px)">
-					<source srcset="<?php echo $slider_img_2_src['url']; ?>" media="(max-width: 1030px)">
-					<source srcset="<?php echo $slider_img_3_src['url']; ?>" media="(min-width: 1360px)">
-					<!--[if IE 9]></video><![endif]-->
-					<img srcset="<?php echo $slider_img_src['url']; ?>" alt="<?php the_sub_field('titre'); ?> : <?php the_sub_field('description'); ?>">
-				</picture>
+					<?php $slider_img_src = get_sub_field("image","slider-accueil-mobile"); ?>
+					<?php $slider_img_2_src = get_sub_field("image","slider-accueil-tablette" ); ?>
+					<?php $slider_img_3_src = get_sub_field("image","slider-accueil-pc" ); ?>
 
-			<?php endif; ?>
+					<?php /* Activer picturefill si projet responsive */ ?>
+					<picture>
+						<!--[if IE 9]><video style="display: none;"><![endif]-->
+						<source srcset="<?php echo $slider_img_src['url']; ?>" media="(max-width: 760px)">
+						<source srcset="<?php echo $slider_img_2_src['url']; ?>" media="(max-width: 1030px)">
+						<source srcset="<?php echo $slider_img_3_src['url']; ?>" media="(min-width: 1360px)">
+						<!--[if IE 9]></video><![endif]-->
+						<img srcset="<?php echo $slider_img_src['url']; ?>" alt="<?php the_sub_field('titre'); ?> : <?php the_sub_field('description'); ?>">
+					</picture>
 
-			<div>
-				<?php the_sub_field("description"); ?>
-			</div>
+				<?php endif; ?>
 
-			<a href="<?php the_sub_field("lien_bouton"); ?>" title="<?php the_sub_field("libelle_bouton"); ?>"><?php the_sub_field("libelle_bouton"); ?></a>
+				<div>
+					<?php the_sub_field("description"); ?>
+				</div>
+
+				<a onclick="ga('send', 'event', 'Slider accueil', 'click', '<?php the_sub_field("titre"); ?>');" href="<?php the_sub_field("lien_bouton"); ?>" title="<?php the_sub_field("libelle_bouton"); ?>"><?php the_sub_field("libelle_bouton"); ?></a>
 
 			</li>
 
