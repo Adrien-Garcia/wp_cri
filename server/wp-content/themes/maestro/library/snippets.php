@@ -444,30 +444,20 @@ add_filter( 'the_search_query', 'searchAll' );
 */
 function tiny_mce_custom_palette($init) {
 	// Code � d�commenter lors du passage � Wordpress v4+
-	/*
-		$default_colours = '
-	      "000000", "Noir",
-	      "535353", "Gris fonc�",
-	      "989898", "Gris interm�diaire",
-	      "a1a1a1", "Gris clair",
-	      "fb9200", "Orange"
-	      ';
-	 	$custom_colours = '';
-	
-	  	$init['textcolor_map'] = '['.$default_colours.','.$custom_colours.']';
-	  	$init['textcolor_rows'] = 6; // expand colour grid to 6 rows
-	
-	  	return $init;
-	*/
-	
-	// Wordpress v3.4
-	$colors = '000000,535353,989898,a1a1a1,fb9200';
-	
-	$init['theme_advanced_text_colors'] = $colors;
-	$init['theme_advanced_more_colors'] = false;
-	$init['theme_advanced_background_colors'] = $colors;
-	
-	return $init;
+
+	$default_colours = '
+      "000000", "Noir",
+      "535353", "Gris fonc�",
+      "989898", "Gris interm�diaire",
+      "a1a1a1", "Gris clair",
+      "fb9200", "Orange"
+      ';
+ 	$custom_colours = '';
+
+  	$init['textcolor_map'] = '['.$default_colours.','.$custom_colours.']';
+  	$init['textcolor_rows'] = 6; // expand colour grid to 6 rows
+
+  	return $init;
 }
 
 add_filter('tiny_mce_before_init', 'tiny_mce_custom_palette');
