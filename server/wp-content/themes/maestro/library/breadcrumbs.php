@@ -1,7 +1,7 @@
 <?php
 function custom_breadcrumbs() {
 	
-	$chevron = '</div><span class="chevron">&#8250;</span><span itemprop="child" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
+	$chevron = '<span class="chevron">&#8250;</span><span itemprop="child" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
 	$chevron_home ='<span class="chevron">&#8250;</span><span itemprop="child" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">';
 	$home = __('Home','bonestheme'); // text for the 'Home' link
 	$before = '<span class="breadcrumb-current" itemprop="title">'; // tag before the current crumb
