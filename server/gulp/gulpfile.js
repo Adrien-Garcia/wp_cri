@@ -5,6 +5,8 @@ var gulp = require('gulp'),
 	rename = require('gulp-rename'),
 	spritesmith = require('gulp.spritesmith'),
 	imagemin = require('gulp-imagemin'),
+	browserSync = require('browser-sync'),
+	reload      = browserSync.reload,
 	uglify = require('gulp-uglify');
 
 var sourcemaps = require('gulp-sourcemaps');
@@ -22,6 +24,7 @@ gulp.task('sass', function() {
 	    .pipe(minifycss())
 	    .pipe(sourcemaps.write())
 	    .pipe(gulp.dest(libPath+'/css'))
+	    .pipe(reload({stream: true}))
 	    
 });
 
@@ -54,15 +57,25 @@ gulp.task('sprite', function() {
 
 });
 
+
+gulp.task('browser-sync', function() {
+
+    browserSync({
+        proxy: "wp-maestro.laurent.jetpulp.dev",
+        browser: ["google chrome", "firefox"]
+    });
+
+});
+
 gulp.task('watch', function() {
 	 
 	/* WATCH task */
-	 gulp.watch(libPath+'/scss/**/*.scss', ['sass']);
-	 gulp.watch(libPath+'/js/*.js', ['uglify']);
+	 gulp.watch(libPath+'/scss/**/*.scss', ['sass']).on('change', reload);
+	 gulp.watch(libPath+'/js/*.js', ['uglify']).on('change', reload);
 	 gulp.watch(libPath+'/images/origin/*.*', ['sprite']);
 
 });
 
-gulp.task('default', ['sass', 'uglify', 'sprite', 'watch'], function() {
+gulp.task('default', ['sass', 'uglify', 'sprite', 'browser-sync', 'watch'], function() {
 
 });
