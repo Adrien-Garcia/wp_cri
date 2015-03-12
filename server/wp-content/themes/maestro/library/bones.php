@@ -224,7 +224,7 @@ function nav_principal() {
 	'container_class' => 'menu clearfix',           // Classe du conteneur
 	'menu' => 'Menu principal',                     // Nom du menu
 	'menu_class' => 'nav top-nav clearfix',         // Classe du menu
-	'theme_location' => 'nav-principale',           // Localisation du menu dans le thème
+	'theme_location' => 'main-nav',           // Localisation du menu dans le thème
 	'before' => '',                                 // Balisage avant le menu
 	'after' => '',                                  // Balisage après le menu
 	'link_before' => '',                            // Balisage avant chaque lien
@@ -246,7 +246,7 @@ function nav_pied_de_page() {
 	'container_class' => 'footer-menu clearfix',    // Classe du conteneur
 	'menu' => 'Menu pied de page',                  // Nom du menu
 	'menu_class' => 'nav footer-nav clearfix',      // Classe du menu
-	'theme_location' => 'nav-pied-de-page',         // Localisation du menu dans le thème
+	'theme_location' => 'footer-links',         // Localisation du menu dans le thème
 	'before' => '',                                 // Balisage avant le menu
 	'after' => '',                                  // Balisage après le menu
 	'link_before' => '',                            // Balisage avant chaque lien
