@@ -99,6 +99,11 @@ if ( isset( $rocket_cache_reject_cookies ) && preg_match( '#(' . $rocket_cache_r
 	return;
 }
 
+// Don't cache page with these user agents
+if ( isset( $rocket_cache_reject_ua, $_SERVER['HTTP_USER_AGENT'] ) && preg_match( '#(' . $rocket_cache_reject_ua . ')#', $_SERVER['HTTP_USER_AGENT'] ) ) {
+	return;
+}
+
 // Don't cache if mobile detection is activated
 if ( ! isset( $rocket_cache_mobile ) && (preg_match('#^.*(2.0\ MMP|240x320|400X240|AvantGo|BlackBerry|Blazer|Cellphone|Danger|DoCoMo|Elaine/3.0|EudoraWeb|Googlebot-Mobile|hiptop|IEMobile|KYOCERA/WX310K|LG/U990|MIDP-2.|MMEF20|MOT-V|NetFront|Newt|Nintendo\ Wii|Nitro|Nokia|Opera\ Mini|Palm|PlayStation\ Portable|portalmmm|Proxinet|ProxiNet|SHARP-TQ-GX10|SHG-i900|Small|SonyEricsson|Symbian\ OS|SymbianOS|TS21i-10|UP.Browser|UP.Link|webOS|Windows\ CE|WinWAP|YahooSeeker/M1A1-R2D2|iPhone|iPod|Android|BlackBerry9530|LG-TU915\ Obigo|LGE\ VX|webOS|Nokia5800).*#i', $_SERVER['HTTP_USER_AGENT']) || preg_match('#^(w3c\ |w3c-|acs-|alav|alca|amoi|audi|avan|benq|bird|blac|blaz|brew|cell|cldc|cmd-|dang|doco|eric|hipt|htc_|inno|ipaq|ipod|jigs|kddi|keji|leno|lg-c|lg-d|lg-g|lge-|lg/u|maui|maxo|midp|mits|mmef|mobi|mot-|moto|mwbp|nec-|newt|noki|palm|pana|pant|phil|play|port|prox|qwap|sage|sams|sany|sch-|sec-|send|seri|sgh-|shar|sie-|siem|smal|smar|sony|sph-|symb|t-mo|teli|tim-|tosh|tsm-|upg1|upsi|vk-v|voda|wap-|wapa|wapi|wapp|wapr|webc|winw|winw|xda\ |xda-).*#i', substr($_SERVER['HTTP_USER_AGENT'], 0, 4))) ) {
 	return;
@@ -143,11 +148,21 @@ function do_rocket_callback( $buffer )
 	  * @param bool true will force caching search results
 	 */
 	$rocket_cache_search = apply_filters( 'rocket_cache_search', false );
-
+	
+	/**
+	  * Allow to override the DONOTCACHEPAGE behavior.
+	  * To warn conflict with some plugins like Thrive Leads.
+	  *
+	  * @since 2.5
+	  *
+	  * @param bool true will force the override
+	 */
+	$rocket_override_donotcachepage = apply_filters( 'rocket_override_donotcachepage', false );
+	
 	if ( strlen( $buffer ) > 255
 		&& ( function_exists( 'is_404' ) && ! is_404() ) // Don't cache 404
 		&& ( function_exists( 'is_search' ) && ! is_search() || $rocket_cache_search ) // Don't cache search results
-		&& ( ! defined( 'DONOTCACHEPAGE' ) || ! DONOTCACHEPAGE ) // Don't cache template that use this constant
+		&& ( ! defined( 'DONOTCACHEPAGE' ) || ! DONOTCACHEPAGE || $rocket_override_donotcachepage ) // Don't cache template that use this constant
 	) {
 		global $request_uri_path;
 
@@ -158,14 +173,23 @@ function do_rocket_callback( $buffer )
 		// - Minification HTML/CSS/JavaScript
 		$buffer = apply_filters( 'rocket_buffer', $buffer );
 
-		// Create cache folders of the request uri
-		rocket_mkdir_p( $request_uri_path );
+		/**
+		  * Allow to the generate the caching file
+		  *
+		  * @since 2.5
+		  *
+		  * @param bool true will force the caching file generation
+		 */
+		if ( apply_filters( 'do_rocket_generate_caching_files', true ) ) {
+			// Create cache folders of the request uri
+			rocket_mkdir_p( $request_uri_path );
 
-		// Save the cache file
-		rocket_put_content( $request_uri_path . '/index.html', $buffer . get_rocket_footprint() );
+			// Save the cache file
+			rocket_put_content( $request_uri_path . '/index.html', $buffer . get_rocket_footprint() );
 
-		if ( function_exists( 'gzencode' ) ) {
-			rocket_put_content( $request_uri_path . '/index.html_gzip', gzencode ( $buffer . get_rocket_footprint(), apply_filters( 'rocket_gzencode_level_compression', 3 ) ) );
+			if ( function_exists( 'gzencode' ) ) {
+				rocket_put_content( $request_uri_path . '/index.html_gzip', gzencode ( $buffer . get_rocket_footprint(), apply_filters( 'rocket_gzencode_level_compression', 3 ) ) );
+			}
 		}
 
 		// Send headers with the last modified time of the cache file

@@ -27,10 +27,8 @@ function __rocket_settings_action_links( $actions )
  * @since 2.2
  *
  */
-
 add_action( 'plugin_row_meta', '__rocket_plugin_row_meta', 10, 3 );
 function __rocket_plugin_row_meta( $plugin_meta, $plugin_file, $plugin_data ) {
-
 	if ( 'wp-rocket/wp-rocket.php' == $plugin_file ) {
 
 		$update_plugins = get_site_transient( 'update_plugins' );
@@ -96,9 +94,22 @@ function __rocket_add_admin_css_js()
 	wp_enqueue_script( 'jquery-ui-droppable', null, array( 'jquery', 'jquery-ui-core' ), null, true );
 	wp_enqueue_script( 'options-wp-rocket', WP_ROCKET_ADMIN_JS_URL . 'options.js', array( 'jquery', 'jquery-ui-core' ), WP_ROCKET_VERSION, true );
 	wp_enqueue_script( 'fancybox-wp-rocket', WP_ROCKET_ADMIN_JS_URL . 'vendors/jquery.fancybox.pack.js', array( 'options-wp-rocket' ), WP_ROCKET_VERSION, true );
+	wp_enqueue_script( 'sweet-alert-wp-rocket', WP_ROCKET_ADMIN_JS_URL . 'vendors/sweet-alert.min.js', array( 'options-wp-rocket' ), WP_ROCKET_VERSION, true );
 
 	wp_enqueue_style( 'options-wp-rocket', WP_ROCKET_ADMIN_CSS_URL . 'options.css', array(), WP_ROCKET_VERSION );
 	wp_enqueue_style( 'fancybox-wp-rocket', WP_ROCKET_ADMIN_CSS_URL . 'fancybox/jquery.fancybox.css', array( 'options-wp-rocket' ), WP_ROCKET_VERSION );
+	
+	// Sweet Alert
+	$translation_array = array(
+		'warning_title'  	 => __( 'Are you sure?', 'rocket' ),
+		'cloudflare_title'   => __( 'CloudFlare Settings', 'rocket' ),
+		'minify_text'  		 => sprintf( __( 'In case of any display errors we recommend following our documentation: %s You can also contact our support if you need help implementing that.', 'rocket' ), 'http://docs.wp-rocket.me/article/19-resolving-issues-with-minification/' ),
+		'cloudflare_text'    => __( 'Click "Save Changes" to activate the Cloudflare tab.', 'rocket' ),
+		'confirmButtonText'  => __( 'Yes, I\'m sure!', 'rocket' ),
+		'cancelButtonText' 	 => __( 'Cancel', 'rocket' )
+	);
+	wp_localize_script( 'options-wp-rocket', 'sawpr', $translation_array );
+	wp_enqueue_style( 'sweet-alert-wp-rocket', WP_ROCKET_ADMIN_CSS_URL . 'sweet-alert.css', array( 'options-wp-rocket' ), WP_ROCKET_VERSION );
 }
 
 /**
@@ -159,8 +170,10 @@ function rocket_dismiss_boxes( $args )
 			if ( defined( 'DOING_AJAX' ) ) {
 				wp_send_json( array( 'error' => 0 ) );
 			} else {
-				wp_safe_redirect( wp_get_referer() );
-				die();
+				if ( ! defined( 'WP_ROCKET_NO_REDIRECT' ) ) {
+					wp_safe_redirect( wp_get_referer() );
+					die();
+				}
 			}
 		}
 	}
@@ -285,28 +298,6 @@ function __rocket_do_options_export()
 }
 
 /**
- * Activate the auto-update feature from the admin notice
- *
- * @since 2.4
- */
-add_action( 'admin_post_rocket_autoupdate_ok', '__rocket_activate_autoupdate' );
-function __rocket_activate_autoupdate()
-{
-	if ( ! isset( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], 'rocket_autoupdate_ok' ) ) {
-		wp_nonce_ays( '' );
-	}
-
-	$options = get_option( WP_ROCKET_SLUG );
-	$options['autoupdate'] = 1;
-	update_option( WP_ROCKET_SLUG, $options);
-	rocket_dismiss_box( 'rocket_ask_for_autoupdate' );
-
-	wp_safe_redirect( wp_get_referer() );
-	die();
-
-}
-
-/**
  * Do the rollback
  *
  * @since 2.4
@@ -345,13 +336,110 @@ function __rocket_rollback()
 		$plugin = 'wp-rocket/wp-rocket.php';
 		$nonce = 'upgrade-plugin_' . $plugin;
 		$url = 'update.php?action=upgrade-plugin&plugin=' . urlencode( $plugin );
-		$upgrader = new Plugin_Upgrader( new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin' ) ) );
+		$upgrader_skin = new Plugin_Upgrader_Skin( compact( 'title', 'nonce', 'url', 'plugin' ) );
+		$upgrader = new Plugin_Upgrader( $upgrader_skin );
 		$upgrader->upgrade( $plugin );
+
+		// Uncheck the autoupdate option to avoid an infinite update loop
+		$options = get_option( WP_ROCKET_SLUG );
+		if ( isset( $options['autoupdate'] ) ) {
+			unset( $options['autoupdate'] );
+		}
+		define( 'WP_ROCKET_NO_REDIRECT', true );
+		update_option( WP_ROCKET_SLUG, $options );
 
 		wp_die( '', sprintf( __( '%s Update Rollback', 'rocket' ), WP_ROCKET_PLUGIN_NAME ), array( 'response' => 200 ) );
 
 	}
-
-
 }
 
+/**
+ * Add "Cache options" metabox
+ *
+ * @since 2.5
+ *
+ */
+add_action( 'add_meta_boxes', '__rocket_cache_options_meta_boxes' );
+function __rocket_cache_options_meta_boxes() {
+	if ( current_user_can( apply_filters( 'rocket_capacity', 'manage_options' ) ) ) {
+		$cpts = get_post_types( array( 'public'=>true ), 'objects' );
+
+		foreach( $cpts as $cpt => $cpt_object ) {
+			$label = $cpt_object->labels->singular_name;
+			add_meta_box( 'rocket_post_exclude', sprintf( __( 'Cache Options', 'rocket' ), $label ), '__rocket_display_cache_options_meta_boxes', $cpt, 'side', 'core' );
+		}
+	}
+}
+
+/*
+ * Displays some checkbox to de/activate some cache options
+ *
+ * @since 2.5
+ */
+function __rocket_display_cache_options_meta_boxes() {
+	/** This filter is documented in inc/admin-bar.php */
+	if ( current_user_can( apply_filters( 'rocket_capacity', 'manage_options' ) ) ) {
+		global $post;
+		wp_nonce_field( 'rocket_box_option_' . $post->ID, '_rocketnonce', false, true );
+		?>
+
+		<div class="misc-pub-section">
+			<p><?php _e( 'Activate these options on this post:', 'rocket' ) ;?></p>
+			<?php
+			$fields = array(
+				'lazyload' 		=> 'LazyLoad',
+				'minify_html'	=> __( 'HTML Minification', 'rocket' ),
+				'minify_css'	=> __( 'CSS Minification', 'rocket' ),
+				'minify_js' 	=> __( 'JS Minification', 'rocket' ),
+				'cdn'			=> __( 'CDN', 'rocket' ),
+			);
+
+			foreach ( $fields as $field => $label ) {
+				$disabled = disabled( ! get_rocket_option( $field ), true, false );
+				$title    = $disabled ? ' title="' . sprintf( __( 'Activate first the %s option.', 'rocket' ), esc_attr( $label ) ) . '"' : '';
+				$class    = $disabled ? ' class="rkt-disabled"' : '';
+				$checked   = ! $disabled ? checked( ! get_post_meta( $post->ID, '_rocket_exclude_' . $field, true ), true, false ) : '';
+ 				?>
+
+				<input name="rocket_post_exclude_hidden[<?php echo $field; ?>]" type="hidden" value="on">
+				<input name="rocket_post_exclude[<?php echo $field; ?>]" id="rocket_post_exclude_<?php echo $field; ?>" type="checkbox"<?php echo $title; ?><?php echo $checked; ?><?php echo $disabled; ?>>
+				<label for="rocket_post_exclude_<?php echo $field; ?>"<?php echo $title; ?><?php echo $class; ?>><?php echo $label; ?></label><br>
+
+				<?php
+			}
+			?>
+
+			<p class="rkt-note"><?php _e( '<strong>Note:</strong> These options aren\'t applied if you added this post in the "Never cache the following pages" option.', 'rocket' ); ?></p>
+		</div>
+
+	<?php
+	}
+}
+
+/*
+ * Manage the cache options from the metabox.
+ *
+ * @since 2.5
+ */
+add_action( 'save_post', '__rocket_save_metabox_options' );
+function __rocket_save_metabox_options() {
+	if ( current_user_can( apply_filters( 'rocket_capacity', 'manage_options' ) ) &&
+		isset( $_POST['post_ID'], $_POST['rocket_post_exclude_hidden'], $_POST['_rocketnonce'] ) ) {
+
+		check_admin_referer( 'rocket_box_option_' . $_POST['post_ID'], '_rocketnonce' );
+
+		$fields = array( 'lazyload', 'minify_html', 'minify_css', 'minify_js', 'cdn' );
+
+		foreach ( $fields as $field ) {
+			if ( isset( $_POST['rocket_post_exclude_hidden'][ $field ] ) && $_POST['rocket_post_exclude_hidden'][ $field ] ) {
+				if ( isset( $_POST['rocket_post_exclude'][ $field ] ) ) {
+					delete_post_meta( $_POST['post_ID'], '_rocket_exclude_' . $field );
+				} else {
+					if ( get_rocket_option( $field ) ) {
+						update_post_meta( $_POST['post_ID'], '_rocket_exclude_' . $field, true );
+					}
+				}
+			}
+		}
+	}
+}

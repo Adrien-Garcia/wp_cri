@@ -41,7 +41,7 @@ function rocket_field( $args )
 		$placeholder 		= isset( $args['placeholder'] ) ? 'placeholder="'. $args['placeholder'].'" ' : '';
 		$label 				= isset( $args['label'] ) ? $args['label'] : '';
 		$default			= isset( $args['default'] ) ? $args['default'] : '';
-		$readonly			= isset( $args['readonly'] ) ? ' readonly="readonly"' : '';
+		$readonly			= isset( $args['readonly'] ) && $args['readonly'] ? ' readonly="readonly" disabled="disabled"' : '';
 
 		if( ! isset( $args['fieldset'] ) || 'start' == $args['fieldset'] ){
 			echo '<fieldset class="fieldname-'.sanitize_html_class( $args['name'] ).' fieldtype-'.sanitize_html_class( $args['type'] ).'">';
@@ -59,7 +59,7 @@ function rocket_field( $args )
 
 				$number_options = $args['type']=='number' ? ' min="0" class="small-text"' : '';
 				$autocomplete = in_array( $args['name'], array( 'consumer_key', 'consumer_email' ) ) ? ' autocomplete="off"' : '';
-				$disabled = ( 'consumer_key' == $args['name'] && defined( 'WP_ROCKET_KEY' ) ) || ( 'consumer_email' == $args['name'] && defined( 'WP_ROCKET_EMAIL' ) ) ? ' disabled="disabled"' : '';
+				$disabled = ( 'consumer_key' == $args['name'] && defined( 'WP_ROCKET_KEY' ) ) || ( 'consumer_email' == $args['name'] && defined( 'WP_ROCKET_EMAIL' ) ) ? ' disabled="disabled"' : $readonly;
 				?>
 
 					<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
@@ -78,7 +78,7 @@ function rocket_field( $args )
 				?>
 
 					<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
-					<label><textarea id="<?php echo $args['label_for']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" cols="50" rows="5"><?php echo $value; ?></textarea>
+					<label><textarea id="<?php echo $args['label_for']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" cols="50" rows="5"<?php echo $readonly; ?>><?php echo $value; ?></textarea>
 					</label>
 
 				<?php
@@ -87,7 +87,7 @@ function rocket_field( $args )
 			case 'checkbox' : ?>
 
 					<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
-					<label><input type="checkbox" id="<?php echo $args['name']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" value="1" <?php checked( get_rocket_option( $args['name'], 0 ), 1 ); ?>/> <?php echo $args['label']; ?>
+					<label><input type="checkbox" id="<?php echo $args['name']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]" value="1"<?php echo $readonly; ?> <?php checked( get_rocket_option( $args['name'], 0 ), 1 ); ?>/> <?php echo $args['label']; ?>
 					</label>
 
 			<?php
@@ -96,7 +96,7 @@ function rocket_field( $args )
 			case 'select' : ?>
 
 					<legend class="screen-reader-text"><span><?php echo $args['label_screen']; ?></span></legend>
-					<label>	<select id="<?php echo $args['name']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]">
+					<label>	<select id="<?php echo $args['name']; ?>" name="wp_rocket_settings[<?php echo $args['name']; ?>]"<?php echo $readonly; ?>>
 							<?php foreach( $args['options'] as $val => $title) { ?>
 								<option value="<?php echo $val; ?>" <?php selected( get_rocket_option( $args['name'] ), $val ); ?>><?php echo $title; ?></option>
 							<?php } ?>
@@ -533,7 +533,8 @@ function rocket_display_options()
 		'<a href="https://wordpress.org/plugins/wp-mobile-detector/" target="_blank">WP Mobile Detector</a>',
 		'<a href="https://wordpress.org/plugins/wiziapp-create-your-own-native-iphone-app" target="_blank">wiziApp</a>',
 		'<a href="https://wordpress.org/plugins/wordpress-mobile-pack/" target="_blank">WordPress Mobile Pack</a>',
-		'<a href="https://wordpress.org/plugins/wp-mobilizer/" target="_blank">WP-Mobilizer</a>'
+		'<a href="https://wordpress.org/plugins/wp-mobilizer/" target="_blank">WP-Mobilizer</a>',
+		'<a href="https://wordpress.org/plugins/wp-mobile-edition/" target="_blank">WP Mobile Edition</a>'
 	);
 	add_settings_field(
 		'rocket_mobile',
@@ -692,6 +693,11 @@ function rocket_display_options()
 				'name'         => 'reject_uri',
 				'description'  => __( 'Enter the URL of pages to reject (one per line).', 'rocket' ) . '<br/>' . __( 'You can use regular expressions (regex).', 'rocket' )
 			),
+			array(
+				'type'         => 'helper_help',
+				'name'         => 'cache_reject_ua',
+				'description'  => __( '<strong>Note:</strong> The cart and checkout pages are auto-excluded from the cache for WooCommerce, Easy Digital Download, iThemes Exchange, Jigoshop & WP-Shop.', 'rocket' )
+			),
 		)
 	);
 	add_settings_field(
@@ -733,6 +739,25 @@ function rocket_display_options()
 		)
 	);
 	add_settings_field(
+		'rocket_reject_ua',
+		__( 'Never send cache pages for these user agents:', 'rocket' ),
+		'rocket_field',
+		'advanced',
+		'rocket_display_imp_options',
+		array(
+			array(
+				'type'         => 'textarea',
+				'label_for'    => 'cache_reject_ua',
+				'label_screen' => __( 'Never send cache pages for these user agents:', 'rocket' ),
+			),
+			array(
+				'type'         => 'helper_help',
+				'name'         => 'cache_reject_ua',
+				'description'  => __( 'Enter the user agents name to reject (one per line).', 'rocket' ) . '<br/>'  . __( 'You can use regular expressions (regex).', 'rocket' )
+			)
+		)
+	);
+	add_settings_field(
 		'rocket_exclude_css',
 		__( '<b>CSS</b> files to exclude from minification:', 'rocket' ),
 		'rocket_field',
@@ -747,7 +772,7 @@ function rocket_display_options()
 			array(
 				'type'         => 'helper_help',
 				'name'         => 'exclude_css',
-				'description'  => __( 'Enter the URL of <b>CSS</b> files to reject (one per line).', 'rocket' )
+				'description'  => __( 'Enter the URL of <b>CSS</b> files to reject (one per line).', 'rocket' ) . '<br/>' . __( 'You can use regular expressions (regex).', 'rocket' )
 				),
 		)
 	);
@@ -766,7 +791,7 @@ function rocket_display_options()
 			array(
 				'type'         => 'helper_help',
 				'name'         => 'exclude_js',
-				'description'  => __( 'Enter the URL of <b>JS</b> files to reject (one per line).', 'rocket' )
+				'description'  => __( 'Enter the URL of <b>JS</b> files to reject (one per line).', 'rocket' ) . '<br/>' . __( 'You can use regular expressions (regex).', 'rocket' )
 				),
 		)
 	);
@@ -826,9 +851,147 @@ function rocket_display_options()
 				),
 		)
 	);
-
+	
+	// CloudFlare
+	add_settings_section( 'rocket_display_cloudflare_options', 'CloudFlare', '__return_false', 'cloudflare' );
+	add_settings_field(
+		'rocket_cloudflare_email',
+		__( 'CloudFlare Account Email', 'rocket' ),
+		'rocket_field',
+		'cloudflare',
+		'rocket_display_cloudflare_options',
+		array(
+			array(
+				'type'         => 'text',
+				'label_for'    => 'cloudflare_email',
+				'label_screen' => __( 'CloudFlare Account Email', 'rocket' ),
+			)
+		)
+	);
+	add_settings_field(
+		'rocket_cloudflare_api_key',
+		__( 'API Key', 'rocket' ),
+		'rocket_field',
+		'cloudflare',
+		'rocket_display_cloudflare_options',
+		array(
+			array(
+				'type'         => 'text',
+				'label_for'    => 'cloudflare_api_key',
+				'label_screen' => __( 'API Key', 'rocket' ),
+			),
+			array(
+				'type' 		   => 'helper_description',
+				'name'         => 'cloudflare_api_key',
+				'description'  => sprintf( __( '<strong>Note:</strong> Where do I find my CloudFlare API key? <a href=%s"">Learn more</a>', 'rocket' ), 'https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-CloudFlare-API-key-' ),
+			)
+		)
+	);
+	add_settings_field(
+		'rocket_cloudflare_domain',
+		__( 'Domain', 'rocket' ),
+		'rocket_field',
+		'cloudflare',
+		'rocket_display_cloudflare_options',
+		array(
+			array(
+				'type'         => 'text',
+				'label_for'    => 'cloudflare_domain',
+				'label_screen' => __( 'Domain', 'rocket' ),
+			)
+		)
+	);
+	add_settings_field(
+		'rocket_cloudflare_devmode',
+		__( 'Development Mode', 'rocket' ),
+		'rocket_field',
+		'cloudflare',
+		'rocket_display_cloudflare_options',
+		array(
+			array(
+				'type'         => 'select',
+				'label_for'    => 'cloudflare_devmode',
+				'label_screen' => __( 'Development Mode', 'rocket' ),
+				'options'	   => array(
+					0 => __( 'Off', 'rocket' ),
+					1 => __( 'On', 'rocket' )
+				),
+			),
+			array(
+				'type' 		   => 'helper_description',
+				'name'         => 'cloudflare_devmode',
+				'description'  => sprintf( __( 'Temporarily enter development mode on your website. <a href=%s"">Learn more</a>', 'rocket' ), 'https://support.cloudflare.com/hc/en-us/articles/200168246' ),
+			)
+		)
+	);
+	add_settings_field(
+		'rocket_cloudflare_auto_settings',
+		__( 'Auto enable the optimal CloudFlare settings (props WP Rocket)', 'rocket' ),
+		'rocket_field',
+		'cloudflare',
+		'rocket_display_cloudflare_options',
+		array(
+			array(
+				'type'         => 'select',
+				'label_for'    => 'cloudflare_auto_settings',
+				'label_screen' => __( 'Auto enable the optimal CloudFlare settings (props WP Rocket)', 'rocket' ),
+				'options'	   => array(
+					0 => __( 'No', 'rocket' ),
+					1 => __( 'Yes', 'rocket' )
+				),
+			),
+			array(
+				'type' 		   => 'helper_description',
+				'name'         => 'cloudflare_auto_settings',
+				'description'  => __( 'We select the best CloudFlare configuration for speed, performance grade and compatibility.', 'rocket' ),
+			)
+		)
+	);
+	add_settings_field(
+		'rocket_purge_cloudflare',
+		__( 'Clear cache', 'rocket' ),
+		'rocket_button',
+		'cloudflare',
+		'rocket_display_cloudflare_options',
+		array(
+			'button'=>array(
+				'button_label' => __( 'Clear cache', 'rocket' ),
+				'url'		   => wp_nonce_url( admin_url( 'admin-post.php?action=rocket_purge_cloudflare' ), 'rocket_purge_cloudflare' ),
+			),
+			'helper_description'=>array(
+				'name'         => 'purge_cloudflare',
+				'description'  => sprintf(__( 'Immediately purge cached resources for your website. <a href="%s" target="_blank">Learn more</a>', 'rocket' ), 'https://support.cloudflare.com/hc/en-us/articles/200169246' )
+			),
+		)
+	);
+	
 	// Content Delivery Network
 	add_settings_section( 'rocket_display_cdn_options', __( 'Content Delivery Network options', 'rocket' ), '__return_false', 'cdn' );
+	add_settings_field(
+		'rocket_do_cloudflare',
+		'CloudFlare',
+		'rocket_field',
+		'cdn',
+		'rocket_display_cdn_options',
+		array(
+			array(
+				'type'         => 'checkbox',
+				'label'        => __( 'Enable CloudFlare settings tab.', 'rocket' ),
+				'label_for'    => 'do_cloudflare',
+				'label_screen' => 'CloudFlare'
+			),
+			array(
+				'type' 		  => 'helper_description',
+				'name' 		  => 'rocket_do_cloudflare',
+				'description' => __( 'This option allows you to configure some CloudFlare settings like development mode, purge cache and a recommended configuration.', 'rocket' )
+			),
+			array(
+				'type' 		  => 'helper_description',
+				'name' 		  => 'rocket_do_cloudflare',
+				'description' => __( '<strong>Note:</strong> If you are using CloudFlare, configure the options in the CloudFlare tab. The CDN settings below <strong>do not apply</strong> to CloudFlare.', 'rocket' )
+			)
+		)
+    );
 	add_settings_field(
 		'rocket_cdn',
 		__( 'CDN:', 'rocket' ),
@@ -850,13 +1013,48 @@ function rocket_display_options()
 		)
 	);
 	add_settings_field(
+		'rocket_cdn_on_ssl',
+		'CDN & SSL:',
+		'rocket_field',
+		'cdn',
+		'rocket_display_cdn_options',
+		array(
+			array(
+				'type'         => 'checkbox',
+				'label'        => __('Disable CDN on HTTPS pages.', 'rocket' ),
+				'label_for'    => 'cdn_ssl',
+				'label_screen' => 'CDN & SSL:',
+			)
+		)
+	);
+	add_settings_field(
 		'rocket_cdn_cnames',
 		__( 'Replace site\'s hostname with:', 'rocket' ),
 		'rocket_cnames_module',
 		'cdn',
 		'rocket_display_cdn_options'
 	);
-
+	add_settings_field(
+		'rocket_cdn_reject_files',
+		__( 'Rejected files:', 'rocket' ),
+		'rocket_field',
+		'cdn',
+		'rocket_display_cdn_options',
+		array(
+			array(
+				'type'         => 'textarea',
+				'label_for'    => 'cdn_reject_files',
+				'label_screen' => __( 'Rejected files:', 'rocket' ),
+			),
+			array(
+				'type'         => 'helper_help',
+				'name'         => 'cdn_reject_files',
+				'description'  => __( 'Specify the URL files that should not use the CDN. (one per line).', 'rocket' ) . '<br/>' . __( 'You can use regular expressions (regex).', 'rocket' )
+			),
+		)
+	);
+	
+	// White Label
 	add_settings_section( 'rocket_display_white_label', __( 'White Label', 'rocket' ), '__return_false', 'white_label' );
 	add_settings_field(
 		'rocket_wl_plugin_name',
@@ -953,24 +1151,6 @@ function rocket_display_options()
 	// Tools
 	add_settings_section( 'rocket_display_tools', __( 'Tools', 'rocket' ), '__return_false', 'tools' );
 
-	add_settings_field(
-		'rocket_autoupdate',
-		__( 'Auto-update', 'rocket' ),
-		'rocket_field',
-		'tools',
-		'rocket_display_tools',
-		array(
-			array(
-				'type'         => 'checkbox',
-				'label'        => 	apply_filters( 'rocket_autoupdate_only_minor_versions', false ) ? 
-									__( 'Yes, please update this plugin automatically for next available <b>Minor</b> & <b>Fix Bugs</b> versions.', 'rocket' ) :
-									__( 'Yes, please update this plugin for all next available versions.', 'rocket' ),
-				'label_for'    => 'autoupdate',
-				'label_screen' => __( 'Auto-update', 'rocket' )
-			)
-		)
-    );
-
     if ( ! rocket_is_white_label() ) {
 		add_settings_field(
 			'rocket_do_beta',
@@ -1051,9 +1231,6 @@ function rocket_display_options()
 
     if ( current_user_can( 'update_plugins' ) ) {
 		$temp_description = __( 'Please backup your settings before, use the "Download options" button above.', 'rocket' );
-		if ( get_rocket_option( 'autoupdate' ) ) {
-			$temp_description .= __( '<br>Also, the "Auto-update" feature will be deactivated, do not activate it again if you don\'t want to upgrade.', 'rocket' );
-		}
 	    add_settings_field(
 			'rocket_rollback',
 			__( 'Update Rollback', 'rocket' ),
@@ -1189,19 +1366,24 @@ function rocket_display_options()
 	<h2><?php echo WP_ROCKET_PLUGIN_NAME; ?> <small><sup><?php echo WP_ROCKET_VERSION; ?></sup></small></h2>
 	<form action="options.php" id="rocket_options" method="post" enctype="multipart/form-data">
 		<?php settings_fields( 'wp_rocket' ); ?>
-		<?php rocket_hidden_fields( array( 'consumer_key', 'consumer_email', 'secret_key', 'license', 'secret_cache_key', 'minify_css_key', 'minify_js_key', 'version' ) ); ?>
+		<?php rocket_hidden_fields( array( 'consumer_key', 'consumer_email', 'secret_key', 'license', 'secret_cache_key', 'minify_css_key', 'minify_js_key', 'version', 'cloudflare_old_settings' ) ); ?>
 		<?php submit_button(); ?>
 		<h2 class="nav-tab-wrapper hide-if-no-js">
 			<?php if( rocket_valid_key() ) { ?>
 				<a href="#tab_basic" class="nav-tab"><?php _e( 'Basic options', 'rocket' ); ?></a>
 				<a href="#tab_advanced" class="nav-tab"><?php _e( 'Advanced options', 'rocket' ); ?></a>
+				<?php if ( get_rocket_option( 'do_cloudflare' ) ) { ?>
+					<a href="#tab_cloudflare" class="nav-tab">CloudFlare</a>
+				<?php } ?>
 				<a href="#tab_cdn" class="nav-tab"><?php _e( 'CDN', 'rocket' ); ?></a>
 				<?php if( defined( 'WP_RWL' ) ) { ?>
 					<a href="#tab_whitelabel" class="nav-tab"><?php _e( 'White Label', 'rocket' ); ?></a>
 				<?php } ?>
 				<a href="#tab_tools" class="nav-tab"><?php _e( 'Tools', 'rocket' ); ?></a>
 				<?php if ( ! rocket_is_white_label() ) { ?>
-					<a href="#tab_tutorials" class="nav-tab"><?php _e( 'Tutorials', 'rocket' ); ?></a>
+					<?php if( defined( 'WPLANG' ) && 'fr_FR' == WPLANG || 'fr_FR' == get_locale() ) { ?>
+						<a href="#tab_tutorials" class="nav-tab"><?php _e( 'Tutorials', 'rocket' ); ?></a>
+					<?php } ?>
 					<a href="#tab_faq" class="nav-tab"><?php _e( 'FAQ', 'rocket' ); ?></a>
 					<a href="#tab_support" class="nav-tab file-error"><?php _e( 'Support', 'rocket' ); ?></a>
 				<?php } ?>
@@ -1218,6 +1400,7 @@ function rocket_display_options()
 			<?php if( rocket_valid_key() ) { ?>
 				<div class="rkt-tab" id="tab_basic"><?php do_settings_sections( 'basic' ); ?></div>
 				<div class="rkt-tab" id="tab_advanced"><?php do_settings_sections( 'advanced' ); ?></div>
+				<div class="rkt-tab" id="tab_cloudflare" <?php echo get_rocket_option( 'do_cloudflare' ) ? '' : 'style="display:none"'; ?>><?php do_settings_sections( 'cloudflare' ); ?></div>
 				<div class="rkt-tab" id="tab_cdn"><?php do_settings_sections( 'cdn' ); ?></div>
 				<?php $class_hidden = !defined( 'WP_RWL' ) ? ' hidden' : ''; ?>
 				<div class="rkt-tab<?php echo $class_hidden; ?>" id="tab_whitelabel"><?php do_settings_sections( 'white_label' ); ?></div>
@@ -1261,7 +1444,7 @@ function rocket_sanitize_css( $file )
 {
 	$file = preg_replace( '#\?.*$#', '', $file );
 	$ext = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
-	return $ext=='css' ? $file : false;
+	return $ext=='css' ? trim( $file ) : false;
 }
 
 /**
@@ -1273,7 +1456,7 @@ function rocket_sanitize_js( $file )
 {
 	$file = preg_replace( '#\?.*$#', '', $file );
 	$ext  = strtolower( pathinfo( $file, PATHINFO_EXTENSION ) );
-	return $ext == 'js' ? $file : false;
+	return $ext == 'js' ? trim( $file ) : false;
 }
 
 /**
@@ -1378,6 +1561,21 @@ function rocket_settings_callback( $inputs )
 	}
 
 	/*
+	 * Option : Never send cache pages for these user agents
+	 */
+	if ( ! empty( $inputs['cache_reject_ua'] ) ) {
+		if ( ! is_array( $inputs['cache_reject_ua'] ) ) {
+			$inputs['cache_reject_ua'] = explode( "\n", $inputs['cache_reject_ua'] );
+		}
+		$inputs['cache_reject_ua'] = array_map( 'trim', $inputs['cache_reject_ua'] );
+		$inputs['cache_reject_ua'] = array_map( 'esc_textarea', $inputs['cache_reject_ua'] );
+		$inputs['cache_reject_ua'] = (array) array_filter( $inputs['cache_reject_ua'] );
+		$inputs['cache_reject_ua'] = array_unique( $inputs['cache_reject_ua'] );
+	} else {
+		$inputs['cache_reject_ua'] = array();
+	}
+
+	/*
 	 * Option : CSS files to exclude of the minification
 	 */
 	if ( ! empty( $inputs['exclude_css'] ) ) {
@@ -1461,14 +1659,7 @@ function rocket_settings_callback( $inputs )
 	$inputs['wl_author_URI']  = isset( $inputs['wl_author_URI'] )  ? esc_url( $inputs['wl_author_URI'] )            : get_rocket_option( 'wl_author_URI' );
 	$inputs['wl_description'] = isset( $inputs['wl_description'] ) ? (array)$inputs['wl_description']               : get_rocket_option( 'wl_description' );
 	$inputs['wl_plugin_slug'] = sanitize_key( $inputs['wl_plugin_name'] );
-
-	/*
-	 * Autoupdate
-	 */
-	if ( isset( $inputs['autoupdate'] ) && 1 == $inputs['autoupdate'] ) {
-		rocket_dismiss_box( 'rocket_ask_for_autoupdate' );
-	}
-
+	
 	/*
 	 * Option : CDN
 	 */
@@ -1488,6 +1679,21 @@ function rocket_settings_callback( $inputs )
 		$inputs['cdn_cnames'] 	= array_values( $inputs['cdn_cnames'] );
 		ksort( $inputs['cdn_zone'] );
 		$inputs['cdn_zone'] 	= array_values( $inputs['cdn_zone'] );
+	}
+
+	/*
+	 * Option : Files to exclude of the CDN process
+	 */
+	if ( ! empty( $inputs['cdn_reject_files'] ) ) {
+		if ( ! is_array( $inputs['cdn_reject_files'] ) ) {
+			$inputs['cdn_reject_files'] = explode( "\n", $inputs['cdn_reject_files'] );
+		}
+		$inputs['cdn_reject_files'] = array_map( 'trim', $inputs['cdn_reject_files'] );
+		$inputs['cdn_reject_files'] = array_map( 'rocket_clean_exclude_file', $inputs['cdn_reject_files'] );
+		$inputs['cdn_reject_files'] = (array) array_filter( $inputs['cdn_reject_files'] );
+		$inputs['cdn_reject_files'] = array_unique( $inputs['cdn_reject_files'] );
+	} else {
+		$inputs['cdn_reject_files'] = array();
 	}
 
 	if ( isset( $_FILES['import'] )
@@ -1532,7 +1738,7 @@ function rocket_settings_callback( $inputs )
 
 	if ( rocket_valid_key() && ! empty( $inputs['secret_key'] ) && ! isset( $inputs['ignore'] ) ) {
 		unset( $inputs['ignore'] );
-		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.' ), 'updated' );
+		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.', 'rocket' ), 'updated' );
 	}
 
 	return $inputs;
@@ -1553,7 +1759,10 @@ function rocket_settings_callback( $inputs )
 add_action( 'update_option_' . WP_ROCKET_SLUG, 'rocket_after_save_options', 10, 2 );
 function rocket_after_save_options( $oldvalue, $value )
 {
-
+	if ( ! ( is_array( $oldvalue ) && is_array( $value ) ) ) {
+		return;
+	}
+	
 	// This values do not need to clean the cache domain
 	$removed = array( 'purge_cron_interval' => true, 'purge_cron_unit' => true, 'wl_plugin_name' => true, 'wl_plugin_URI' => true, 'wl_author' => true, 'wl_author_URI' => true, 'wl_description' => true, 'wl_plugin_slug' => true );
 
@@ -1575,7 +1784,29 @@ function rocket_after_save_options( $oldvalue, $value )
 	if ( ! empty( $_POST ) && ( $oldvalue['minify_js'] != $value['minify_js'] || $oldvalue['exclude_js']  != $value['exclude_js'] ) ) {
 		rocket_clean_minify( 'js' );
 	}
-
+	
+	// Update CloudFlare Development Mode
+	if ( ! empty( $_POST ) && ( $oldvalue['cloudflare_devmode'] != $value['cloudflare_devmode'] ) ) {
+		set_rocket_cloudflare_devmode( (bool) $value['cloudflare_devmode'] );
+	}
+	
+	// Update CloudFlare settings
+	if ( ! empty( $_POST ) && ( $oldvalue['cloudflare_auto_settings'] != $value['cloudflare_auto_settings'] ) ) {		
+		$cf_old_settings = explode( ',', $value['cloudflare_old_settings'] );
+		
+		// Set Cache Level to Aggressive 
+		$cf_cache_lvl = ( isset( $cf_old_settings[0] ) && $value['cloudflare_auto_settings'] == 0 ) ? $cf_old_settings[0] : 'agg';
+		set_rocket_cloudflare_cache_lvl( $cf_cache_lvl );
+		
+		// Active Minification for HTML, CSS & JS
+		$cf_minify = ( isset( $cf_old_settings[1] ) && $value['cloudflare_auto_settings'] == 0 ) ? $cf_old_settings[1] : 7;
+		set_rocket_cloudflare_minify( $cf_minify );
+		
+		// Deactive Rocket Loader to prevent conflicts
+		$cf_async = ( isset( $cf_old_settings[2] ) && $value['cloudflare_auto_settings'] == 0 ) ? $cf_old_settings[2] : false;
+		set_rocket_cloudflare_async( $cf_async );
+	}
+	
 	// Update .htaccess file rules
 	flush_rocket_htaccess( ! rocket_valid_key() );
 
@@ -1586,12 +1817,12 @@ function rocket_after_save_options( $oldvalue, $value )
 	if ( ! defined( 'WP_CACHE' ) || ! WP_CACHE ) {
 		set_rocket_wp_cache_define( true );
 	}
-
+	
 	// Redirect on the correct page slug name to avoid false negative error message
 	if ( ! empty( $_POST ) && $oldvalue['wl_plugin_name'] != $value['wl_plugin_name'] &&
 		isset( $_POST['option_page'], $_POST['action'] ) && 'wp_rocket' == $_POST['option_page'] && 'update' == $_POST['action'] )
 	{
-		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.' ), 'updated' );
+		add_settings_error( 'general', 'settings_updated', __( 'Settings saved.', 'rocket' ), 'updated' );
 		set_transient( 'settings_errors', get_settings_errors(), 30 );
 		wp_redirect( admin_url( 'options-general.php?page=' . sanitize_key( $value['wl_plugin_name'] ) . '&settings-updated=true' ) );
 		die();
@@ -1606,7 +1837,7 @@ function rocket_after_save_options( $oldvalue, $value )
 add_filter( 'pre_update_option_' . WP_ROCKET_SLUG, 'rocket_pre_main_option', 10, 2 );
 function rocket_pre_main_option( $newvalue, $oldvalue )
 {
-	if ( ( $newvalue['purge_cron_interval'] != $oldvalue['purge_cron_interval'] ) || ( $newvalue['purge_cron_unit'] != $oldvalue['purge_cron_unit'] ) ) {
+	if ( ( isset( $newvalue['purge_cron_interval'], $oldvalue['purge_cron_interval'] ) && $newvalue['purge_cron_interval'] != $oldvalue['purge_cron_interval'] ) || 	( isset( $newvalue['purge_cron_unit'], $oldvalue['purge_cron_unit'] ) && $newvalue['purge_cron_unit'] != $oldvalue['purge_cron_unit'] ) ) {
 		// Clear WP Rocket cron
 		if ( wp_next_scheduled( 'rocket_purge_time_event' ) ) {
 			wp_clear_scheduled_hook( 'rocket_purge_time_event' );
@@ -1628,6 +1859,15 @@ function rocket_pre_main_option( $newvalue, $oldvalue )
 		$newvalue['minify_js_key'] = create_rocket_uniqid();
 	}
 
+	// Save old CloudFlare settings
+	if ( ( isset( $newvalue['cloudflare_auto_settings'], $oldvalue['cloudflare_auto_settings'] ) && $newvalue['cloudflare_auto_settings'] != $oldvalue['cloudflare_auto_settings'] && $newvalue['cloudflare_auto_settings'] == 1 ) ) {
+		$cf_settings = get_rocket_cloudflare_settings();
+		$cf_settings = array( $cf_settings->cache_lvl, (int) $cf_settings->minify, ! is_string( $cf_settings->async ) ? (int) $cf_settings->async : $cf_settings->async );
+		$cf_settings = array_filter( $cf_settings );
+		
+		$newvalue['cloudflare_old_settings'] = ( isset ( $cf_settings ) ) ? implode( ',' , $cf_settings ) : '';
+	}
+
 	if ( ! defined( 'WP_ROCKET_ADVANCED_CACHE' ) ) {
 		rocket_generate_advanced_cache_file();
 	}
@@ -1641,28 +1881,11 @@ function rocket_pre_main_option( $newvalue, $oldvalue )
 }
 
 /**
- * Function used to print all hidden fields from rocket to avoid the loss of these.
- *
- * @since 2.1
- */
-function rocket_hidden_fields( $fields )
-{
-	if ( ! is_array( $fields ) ) {
-		return;
-	}
-
-	foreach ( $fields as $field ) {
-		echo '<input type="hidden" name="wp_rocket_settings[' . $field . ']" value="' . esc_attr( get_rocket_option( $field ) ) . '" />';
-	}
-}
-
-/**
  * Outputs the form used by the importers to accept the data to be imported
  *
  * @since 2.2
  */
 function rocket_import_upload_form() {
-
 	/**
 	 * Filter the maximum allowed upload size for import files.
 	 *
@@ -1676,14 +1899,14 @@ function rocket_import_upload_form() {
 	$size = size_format( $bytes );
 	$upload_dir = wp_upload_dir();
 	if ( ! empty( $upload_dir['error'] ) ) {
-		?><div class="error"><p><?php _e('Before you can upload your import file, you will need to fix the following error:'); ?></p>
+		?><div class="error"><p><?php _e( 'Before you can upload your import file, you will need to fix the following error:', 'rocket' ); ?></p>
 		<p><strong><?php echo $upload_dir['error']; ?></strong></p></div><?php
-	}else{
+	} else {
 		?>
 		<p>
 		<input type="file" id="upload" name="import" size="25" />
 		<br />
-		<label for="upload"><?php echo apply_filters( 'rocket_help', __( 'Choose a file from your computer:' ) . ' (' . sprintf( __('Maximum size: %s' ), $size ) . ')', 'upload', 'help' ); ?></label>
+		<label for="upload"><?php echo apply_filters( 'rocket_help', __( 'Choose a file from your computer:', 'rocket' ) . ' (' . sprintf( __( 'Maximum size: %s', 'rocket' ), $size ) . ')', 'upload', 'help' ); ?></label>
 		<input type="hidden" name="max_file_size" value="<?php echo $bytes; ?>" />
 		</p>
 		<?php submit_button( __( 'Upload file and import settings', 'rocket' ), 'button', 'import' );

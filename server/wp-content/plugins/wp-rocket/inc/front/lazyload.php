@@ -15,7 +15,7 @@ function rocket_lazyload_script() {
 		return;
 	}
 
-	echo '<script type="text/javascript">(function(a,e){function f(){var d=0;if(e.body&&e.body.offsetWidth){d=e.body.offsetHeight}if(e.compatMode=="CSS1Compat"&&e.documentElement&&e.documentElement.offsetWidth){d=e.documentElement.offsetHeight}if(a.innerWidth&&a.innerHeight){d=a.innerHeight}return d}function b(g){var d=ot=0;if(g.offsetParent){do{d+=g.offsetLeft;ot+=g.offsetTop}while(g=g.offsetParent)}return{left:d,top:ot}}function c(){var l=e.querySelectorAll("[data-lazy-original]");var j=a.pageYOffset||e.documentElement.scrollTop||e.body.scrollTop;var d=f();for(var k=0;k<l.length;k++){var h=l[k];var g=b(h).top;if(g<(d+j)){h.src=h.getAttribute("data-lazy-original");h.removeAttribute("data-lazy-original")}}}if(a.addEventListener){a.addEventListener("DOMContentLoaded",c,false);a.addEventListener("scroll",c,false)}else{a.attachEvent("onload",c);a.attachEvent("onscroll",c)}})(window,document);</script>';
+	echo '<script type="text/javascript">!function(t,e){function o(){var o=0;return e.body&&e.body.offsetWidth&&(o=e.body.offsetHeight),"CSS1Compat"==e.compatMode&&e.documentElement&&e.documentElement.offsetWidth&&(o=e.documentElement.offsetHeight),t.innerWidth&&t.innerHeight&&(o=t.innerHeight),o}function n(t){var e=ot=0;if(t.offsetParent)do e+=t.offsetLeft,ot+=t.offsetTop;while(t=t.offsetParent);return{left:e,top:ot}}function a(){for(var a=e.querySelectorAll("[data-lazy-src],[data-lazy-original]"),r=t.pageYOffset||e.documentElement.scrollTop||e.body.scrollTop,i=o(),d=0;d<a.length;d++){var f=a[d];if("img"==f.tagName.toLowerCase()){var l=n(f).top;if(i+r>l){var c=f.getAttribute("data-lazy-original")?"data-lazy-original":"data-lazy-src",s=f.getAttribute(c);f.src=s,f.removeAttribute(c)}}}}t.addEventListener?(t.addEventListener("DOMContentLoaded",a,!1),t.addEventListener("scroll",a,!1)):(t.attachEvent("onload",a),t.attachEvent("onscroll",a))}(window,document);</script>';
 }
 
 /**
@@ -51,14 +51,17 @@ function rocket_lazyload_images( $html ) {
 /**
  * Used to check if we have to LazyLoad this or not
  *
+ * @since 2.5	 Don't apply LazyLoad on all images from LayerSlider
+ * @since 2.4.2	 Don't apply LazyLoad on all images from Media Grid
  * @since 2.3.11 Don't apply LazyLoad on all images from Timthumb
  * @since 2.3.10 Don't apply LazyLoad on all images from Revolution Slider & Justified Image Grid
  * @since 2.3.8  Don't apply LazyLoad on captcha from Really Simple CAPTCHA
  * @since 2.2
  */
 function __rocket_lazyload_replace_callback( $matches ) {
-	if ( strpos( $matches[1] . $matches[3], 'data-no-lazy=' ) === false && strpos( $matches[1] . $matches[3], 'data-lazy-original=' ) === false && strpos( $matches[1] . $matches[3], 'data-bgposition=' ) === false && strpos( $matches[2], '/wpcf7_captcha/' ) === false && strpos( $matches[2], 'timthumb.php?src' ) === false && strpos( $matches[1] . $matches[3], 'data-envira-src' ) === false ) {
-		$html = sprintf( '<img%1$s src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-lazy-original=%2$s%3$s><noscript><img%1$s src=%2$s%3$s></noscript>',
+	// TO DO - improve this code with a preg_match
+	if ( strpos( $matches[1] . $matches[3], 'data-no-lazy=' ) === false && strpos( $matches[1] . $matches[3], 'data-lazy-original=' ) === false && strpos( $matches[1] . $matches[3], 'data-lazy-src=' ) === false && strpos( $matches[1] . $matches[3], 'data-src=' ) === false && strpos( $matches[1] . $matches[3], 'data-bgposition=' ) === false && strpos( $matches[2], '/wpcf7_captcha/' ) === false && strpos( $matches[2], 'timthumb.php?src' ) === false && strpos( $matches[1] . $matches[3], 'data-envira-src=' ) === false && strpos( $matches[1] . $matches[3], 'fullurl=' ) === false && strpos( $matches[1] . $matches[3], 'lazy-slider-img=' ) === false ) {
+		$html = sprintf( '<img%1$s src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-src=%2$s%3$s><noscript><img%1$s src=%2$s%3$s></noscript>',
 						$matches[1], $matches[2], $matches[3] );
 
 		/**
@@ -169,11 +172,24 @@ function rocket_translate_smiley( $matches ) {
 	// Don't lazy-load if process is stopped with a hook
 	 if ( apply_filters( 'do_rocket_lazyload', true ) && ( ! defined( 'DONOTLAZYLOAD' ) || ! DONOTLAZYLOAD ) ) {
 
-		return sprintf( ' <img src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-original="%s" alt="%s" class="wp-smiley" /> ', esc_url( $src_url ), esc_attr( $smiley ) );
+		return sprintf( ' <img src="data:image/gif;base64,R0lGODdhAQABAPAAAP///wAAACwAAAAAAQABAEACAkQBADs=" data-lazy-src="%s" alt="%s" class="wp-smiley" /> ', esc_url( $src_url ), esc_attr( $smiley ) );
 
 	} else {
 
 		return sprintf( ' <img src="%s" alt="%s" class="wp-smiley" /> ', esc_url( $src_url ), esc_attr( $smiley ) );
 
 	}
+}
+
+/**
+ * Check if we need to exclude LazyLoad on specific posts
+ *
+ * @since 2.5
+ */
+add_filter( 'do_rocket_lazyload', '__rocket_deactivate_lazyload_on_specific_posts', 11 );
+function __rocket_deactivate_lazyload_on_specific_posts() {
+	if ( is_rocket_post_excluded_option( 'lazyload' ) ) {
+		return false;
+	}
+	return true;
 }

@@ -31,8 +31,8 @@ function __deactivate_rocket_specify_image_dimensions_with_layerslider()
  *
  * @since 2.2.4
  */
-add_filter( 'rocket_minify_html_options', '__deactivate_jsMinifier_with_appbanner' );
-function __deactivate_jsMinifier_with_appbanner( $html_options ) {
+add_filter( 'rocket_minify_html_options', '__deactivate_rocket_jsMinifier_with_appbanner' );
+function __deactivate_rocket_jsMinifier_with_appbanner( $html_options ) {
 	 if ( isset( $html_options['jsMinifier'] ) && class_exists( 'AppBanners' ) ) {
 	 	unset( $html_options['jsMinifier'] );
 	 }
@@ -44,14 +44,14 @@ function __deactivate_jsMinifier_with_appbanner( $html_options ) {
  *
  * @since 2.3.10
  */
-add_filter( 'envira_gallery_output_image_attr', '__deactivate_lazyload_on_envira_gallery', PHP_INT_MAX );
-function __deactivate_lazyload_on_envira_gallery( $attr ) {
-	return $attr . ' data-no-lazy="1"';
+add_filter( 'envira_gallery_output_image_attr', '__deactivate_rocket_lazyload_on_envira_gallery', PHP_INT_MAX );
+function __deactivate_rocket_lazyload_on_envira_gallery( $attr ) {
+	return $attr . ' data-no-lazy="1" ';
 }
 
-add_filter( 'envira_gallery_indexable_images', '__deactivate_lazyload_on_envira_gallery_indexable_images', PHP_INT_MAX );
-function __deactivate_lazyload_on_envira_gallery_indexable_images( $images ) {
-	$images = str_replace( '<img ' , '<img data-no-lazy="1"', $images );
+add_filter( 'envira_gallery_indexable_images', '__deactivate_rocket_lazyload_on_envira_gallery_indexable_images', PHP_INT_MAX );
+function __deactivate_rocket_lazyload_on_envira_gallery_indexable_images( $images ) {
+	$images = str_replace( '<img' , '<img data-no-lazy="1" ', $images );
 	
 	return $images;
 }
@@ -65,4 +65,31 @@ add_filter( 'metaslider_nivo_slider_image_attributes', '__deactivate_rocket_lazy
 function __deactivate_rocket_lazyload_on_metaslider( $slide ) {
 	$slide['data-no-lazy'] = 1;
 	return $slide;
+}
+
+/**
+ * Conflict with Soliloquy: don't apply LazyLoad on all images
+ *
+ * @since 2.4.2
+ */
+add_filter( 'soliloquy_output_image_attr', '__deactivate_rocket_lazyload_on_soliloquy', PHP_INT_MAX );
+function __deactivate_rocket_lazyload_on_soliloquy( $attr ) {
+	return $attr . ' data-no-lazy="1" ';
+}
+
+add_filter( 'soliloquy_indexable_images', '__deactivate_rocket_lazyload_on_soliloquy_indexable_images', PHP_INT_MAX );
+function __deactivate_rocket_lazyload_on_soliloquy_indexable_images( $images ) {
+	$images = str_replace( '<img' , '<img data-no-lazy="1" ', $images );
+	
+	return $images;
+}
+
+/**
+ * Conflict with Thrive Leads: override the DONOTCACHEPAGE behavior because this plugin add this constant!
+ *
+ * @since 2.5
+ */
+add_filter( 'rocket_override_donotcachepage', '__override_rocket_donotcachepage_on_thrive_leads' );
+function __override_rocket_donotcachepage_on_thrive_leads() {
+	return defined( 'TVE_LEADS_VERSION' ) && TVE_LEADS_VERSION > 0;
 }
