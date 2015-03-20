@@ -63,10 +63,6 @@
 					</p>
 				<?php endif; ?>
 
-				<?php // if you'd like to use the site description you can un-comment it below ?>
-				<?php // bloginfo('description'); ?>
-
-
 				<nav role="navigation">
 					<?php nav_principal(); ?>
 				</nav>

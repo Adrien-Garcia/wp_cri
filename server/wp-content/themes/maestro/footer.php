@@ -19,10 +19,9 @@
 		<!--[if lt IE 9]>
 			<?php echo get_template_part("content","oldbrowser"); ?>
 		<![endif]-->
-
-		<?php // all js scripts are loaded in library/bones.php ?>
+		
 		<?php wp_footer(); ?>
 		
 	</body>
 
-</html> <!-- end of site. what a ride! -->
+</html>
