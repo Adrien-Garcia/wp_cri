@@ -16,7 +16,7 @@
 
 		</div>
 		
-		<!--[if lt IE 9]>
+		<!--[if lte IE 9]>
 			<?php echo get_template_part("content","oldbrowser"); ?>
 		<![endif]-->
 		
