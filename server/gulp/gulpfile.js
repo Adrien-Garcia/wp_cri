@@ -46,7 +46,7 @@ gulp.task('uglify', function() {
 gulp.task('sprite', function() {
     
 	/* SPRITE task */
-	var spriteData = gulp.src(libPath+'/images/origin/*.*')
+	var spriteData = gulp.src(libPath+'/images/origin/*.{png,jpg,gif}')
 		.pipe(spritesmith({
 			imgName: 'spritesheet.png',
 			imgPath: '../images/sprites/spritesheet.png',
@@ -81,8 +81,6 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('default', ['sass', 'uglify', 'sprite', 'browser-sync', 'watch'], function() {
-
-});
+gulp.task('default', ['sass', 'uglify', 'sprite', 'browser-sync', 'watch'], function() {});
 
 
