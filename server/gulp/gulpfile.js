@@ -7,19 +7,24 @@ var gulp = require('gulp'),
 	imagemin = require('gulp-imagemin'),
 	browserSync = require('browser-sync'),
 	reload      = browserSync.reload,
-	uglify = require('gulp-uglify');
+	uglify = require('gulp-uglify'),
+	sourcemaps = require('gulp-sourcemaps'),
+	minimist = require('minimist'),
+	themePath = '../wp-content/themes/maestro',
+	libPath = '../wp-content/themes/maestro/library',
+	knownOptions = {
+	  string: 'env'
+	};
+	options = minimist(process.argv.slice(2), knownOptions);
 
-var sourcemaps = require('gulp-sourcemaps');
-
-var libPath = '../wp-content/themes/maestro/library';
 
 gulp.task('sass', function() {
-	
+
 	/* SASS task */
 	gulp.src(libPath+'/scss/*.scss')
 		.pipe(sourcemaps.init())
     	.pipe(sass({ style: 'expanded' }))
-    	.pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1'))
+    	.pipe(autoprefixer('last 2 version'))
     	.pipe(gulp.dest(libPath+'/css'))
 	    .pipe(minifycss())
 	    .pipe(sourcemaps.write())
@@ -57,11 +62,10 @@ gulp.task('sprite', function() {
 
 });
 
-
 gulp.task('browser-sync', function() {
 
-    browserSync({
-        proxy: "wp-maestro.laurent.jetpulp.dev",
+	browserSync({
+        proxy: options.env,
         browser: ["google chrome", "firefox"]
     });
 
@@ -70,12 +74,15 @@ gulp.task('browser-sync', function() {
 gulp.task('watch', function() {
 	 
 	/* WATCH task */
-	 gulp.watch(libPath+'/scss/**/*.scss', ['sass']).on('change', reload);
-	 gulp.watch(libPath+'/js/*.js', ['uglify']).on('change', reload);
-	 gulp.watch(libPath+'/images/origin/*.*', ['sprite']);
+	 gulp.watch(libPath+'/scss/**/*.scss', ['sass']);
+	 gulp.watch(libPath+'/js/*.js', ['uglify', browserSync.reload]);
+	 gulp.watch(libPath+'/images/origin/*.*', ['sprite']).on('change', browserSync.reload);
+	 gulp.watch(themePath+'/**/*.php').on('change', browserSync.reload);
 
 });
 
 gulp.task('default', ['sass', 'uglify', 'sprite', 'browser-sync', 'watch'], function() {
 
 });
+
+
