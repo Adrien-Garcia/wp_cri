@@ -281,7 +281,8 @@ FOOTER STYLES
 
 	.copyright {
 
-		.lienjp{
+		a,
+		span{
 
 			position:relative;
 			padding:0 30px 0 0;
@@ -301,11 +302,12 @@ FOOTER STYLES
 
 			}
 
-			&:hover:after{
 
-				
+		}
 
-			}
+		a:hover{
+
+			
 
 		}
 

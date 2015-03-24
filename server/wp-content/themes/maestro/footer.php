@@ -8,7 +8,19 @@
 						
 					</nav>
 
-					<p class="source-org copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo( 'name' ); ?>. <a class="lienjp">Créations site web</a></p>
+					<p class="source-org copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo( 'name' ); ?>.
+					<?php
+					/* Lien JETPULP à générer avec l'outil interne :
+					 * http://wpplayground.jetpulp.fr/link_generator
+					 * Le lien doit uniquement être actif sur la page d'accueil.
+					 * Sur toutes les autres pages, c'est un span.
+					 */ ?>
+					<?php if( is_front_page() ) : ?> 
+						
+					<?php else : ?>
+						
+					<?php endif; ?>
+					</p>
 
 				</div>
 
