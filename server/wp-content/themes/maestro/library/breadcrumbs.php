@@ -69,9 +69,17 @@ function custom_breadcrumbs() {
 			$parent_id  = $post->post_parent;
 			$breadcrumbs = array();
 			while ($parent_id) {
-				$page = get_page($parent_id);
-				//Ordernary bread crump
-				$breadcrumbs[] = '<a href="' . get_permalink($page->ID) . '" itemprop="url"><span itemprop="title">' . get_the_title($page->ID) . '</span></a>';
+				$page = get_post($parent_id);
+				// Check if page should be accessible in breancrumbs
+				$in_crumbs = get_post_meta($parent_id, 'in_crumbs', true);
+
+				//Ordernary bread crumb
+				if( $in_crumbs == "Non" ){
+					$breadcrumbs[] = '<a class="no-link"><span itemprop="title">' . get_the_title($page->ID) . '</span></a>';
+				}
+				else{
+					$breadcrumbs[] = '<a href="' . get_permalink($page->ID) . '" itemprop="url"><span itemprop="title">' . get_the_title($page->ID) . '</span></a>';
+				}
 				$parent_id  = $page->post_parent;
 			}
 			//The current page

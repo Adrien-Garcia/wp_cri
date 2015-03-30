@@ -17,7 +17,11 @@ class GFFormDisplay {
 		GFCommon::log_debug( "GFFormDisplay::process_form(): Starting to process form (#{$form_id}) submission." );
 
 		//reading form metadata
-		$form = RGFormsModel::get_form_meta( $form_id );
+		$form = GFAPI::get_form( $form_id );
+
+		if ( ! $form['is_active'] || $form['is_trash'] ) {
+			return;
+		}
 
 		if ( rgar( $form, 'requireLogin' ) ) {
 			if ( ! is_user_logged_in() ) {
@@ -508,8 +512,8 @@ class GFFormDisplay {
 		if ( isset( $_POST['gform_send_resume_link'] ) ) {
 			$save_email_confirmation = self::handle_save_email_confirmation( $form, $ajax );
 			if ( is_wp_error( $save_email_confirmation ) ) { // Failed email validation
-				$resume_token = rgpost('gform_resume_token');
-				$incomplete_submission_info = GFFormsModel::get_incomplete_submission_values( rgpost('gform_resume_token') );
+				$resume_token = rgpost( 'gform_resume_token' );
+				$incomplete_submission_info = GFFormsModel::get_incomplete_submission_values( rgpost( 'gform_resume_token' ) );
 				if ( $incomplete_submission_info['form_id'] == $form_id ) {
 					$submission_details_json                = $incomplete_submission_info['submission'];
 					$submission_details                     = json_decode( $submission_details_json, true );
@@ -813,7 +817,7 @@ class GFFormDisplay {
 							'var is_form = form_content.length > 0 && ! is_redirect && ! is_confirmation;' .
 							'if(is_form){' .
 								"jQuery('#gform_wrapper_{$form_id}').html(form_content.html());" .
-								"{$scroll_position['default']}" .
+				                "setTimeout( function() { /* delay the scroll by 50 milliseconds to fix a bug in chrome */ {$scroll_position['default']} }, 50 );" .
 								"if(window['gformInitDatepicker']) {gformInitDatepicker();}" .
 								"if(window['gformInitPriceFields']) {gformInitPriceFields();}" .
 								"var current_page = jQuery('#gform_source_page_number_{$form_id}').val();" .
@@ -2320,7 +2324,7 @@ class GFFormDisplay {
 
 		$css_class = apply_filters( "gform_field_css_class_{$form['id']}", apply_filters( 'gform_field_css_class', trim( $css_class ), $field, $form ), $field, $form );
 
-		$style = ! empty( $form ) && ! $is_admin && RGFormsModel::is_field_hidden( $form, $field, $field_values ) ? "style='display:none;'" : '';
+		$style = '';
 
 		$field_id = $is_admin || empty( $form ) ? "field_$id" : 'field_' . $form['id'] . "_$id";
 

@@ -493,6 +493,9 @@ div.gf_page_steps+div.validation_error { margin-top: 1em }
     max-height: 1px !important;
     overflow: hidden;
 }
+.gform_wrapper .gf_invisible {
+    visibility: hidden; position: absolute; left: -9999px;
+}
 .gform_wrapper .ginput_full br, .gform_wrapper .ginput_left br, .gform_wrapper .ginput_right br { display: none !important }
 .gform_wrapper ul.gfield_checkbox li, .gform_wrapper ul.gfield_radio li { padding: 0 !important }
 .gform_wrapper ul.gfield_radio li input+input { margin-left: .25em }
