@@ -170,7 +170,6 @@ add_action( 'admin_head', 'add_menu_icons_styles' );
  * Feuille de styles pour l'�diteur
  *
  */
-add_editor_style();
 
 function my_theme_add_editor_styles() {
 	add_editor_style( 'library/css/front-back-styles.css' );
