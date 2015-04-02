@@ -12,21 +12,32 @@ At the bottom of this section, we provide information about the spritesheet itse
 $spritesheet: width height image $spritesheet-sprites;
 */
 $delete-name: 'delete';
-$delete-x: 0px;
+$delete-x: 17px;
 $delete-y: 0px;
-$delete-offset-x: 0px;
+$delete-offset-x: -17px;
 $delete-offset-y: 0px;
 $delete-width: 16px;
 $delete-height: 16px;
-$delete-total-width: 16px;
-$delete-total-height: 16px;
+$delete-total-width: 33px;
+$delete-total-height: 38px;
 $delete-image: '../images/sprites/spritesheet.png';
-$delete: (0px, 0px, 0px, 0px, 16px, 16px, 16px, 16px, '../images/sprites/spritesheet.png', 'delete', );
-$spritesheet-width: 16px;
-$spritesheet-height: 16px;
+$delete: (17px, 0px, -17px, 0px, 16px, 16px, 33px, 38px, '../images/sprites/spritesheet.png', 'delete', );
+$jetpulp-name: 'jetpulp';
+$jetpulp-x: 0px;
+$jetpulp-y: 0px;
+$jetpulp-offset-x: 0px;
+$jetpulp-offset-y: 0px;
+$jetpulp-width: 17px;
+$jetpulp-height: 38px;
+$jetpulp-total-width: 33px;
+$jetpulp-total-height: 38px;
+$jetpulp-image: '../images/sprites/spritesheet.png';
+$jetpulp: (0px, 0px, 0px, 0px, 17px, 38px, 33px, 38px, '../images/sprites/spritesheet.png', 'jetpulp', );
+$spritesheet-width: 33px;
+$spritesheet-height: 38px;
 $spritesheet-image: '../images/sprites/spritesheet.png';
-$spritesheet-sprites: ($delete, );
-$spritesheet: (16px, 16px, '../images/sprites/spritesheet.png', $spritesheet-sprites, );
+$spritesheet-sprites: ($delete, $jetpulp, );
+$spritesheet: (33px, 38px, '../images/sprites/spritesheet.png', $spritesheet-sprites, );
 
 /*
 The provided mixins are intended to be used with the array-like variables

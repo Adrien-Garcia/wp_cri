@@ -10,6 +10,8 @@ var gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
 	sourcemaps = require('gulp-sourcemaps'),
 	minimist = require('minimist'),
+    plumber = require('gulp-plumber'),
+    concat = require('gulp-concat'),
 	themePath = '../wp-content/themes/maestro',
 	libPath = '../wp-content/themes/maestro/library',
 	knownOptions = {
@@ -23,8 +25,10 @@ gulp.task('sass', function() {
 	/* SASS task */
 	gulp.src(libPath+'/scss/*.scss')
 		.pipe(sourcemaps.init())
+        .pipe(plumber())
     	.pipe(sass({ style: 'expanded' }))
     	.pipe(autoprefixer('last 2 version'))
+        .pipe(plumber.stop())
     	.pipe(gulp.dest(libPath+'/css'))
 	    .pipe(minifycss())
 	    .pipe(sourcemaps.write())
@@ -74,13 +78,13 @@ gulp.task('browser-sync', function() {
 gulp.task('watch', function() {
 	 
 	/* WATCH task */
+     gulp.watch(libPath+'/images/origin/*.*', ['sprite']).on('change', browserSync.reload);
 	 gulp.watch(libPath+'/scss/**/*.scss', ['sass']);
 	 gulp.watch(libPath+'/js/*.js', ['uglify', browserSync.reload]);
-	 gulp.watch(libPath+'/images/origin/*.*', ['sprite']).on('change', browserSync.reload);
 	 gulp.watch(themePath+'/**/*.php').on('change', browserSync.reload);
 
 });
 
-gulp.task('default', ['sass', 'uglify', 'sprite', 'browser-sync', 'watch'], function() {});
+gulp.task('default', ['sass', 'sprite', 'uglify','browser-sync', 'watch'], function() {});
 
 

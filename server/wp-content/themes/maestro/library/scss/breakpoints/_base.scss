@@ -292,10 +292,7 @@ FOOTER STYLES
 
 				content: "";
 				display: block;
-				width: 23px;
-				height: 14px;
-				background: url($data-image-ao) 0 0 no-repeat;
-				background-size: 100% 100%;
+                @include sprite($jetpulp);
 				position: absolute;
 				top: 3px;
 				right: 0;
