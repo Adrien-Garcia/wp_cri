@@ -70,6 +70,8 @@ gulp.task('browser-sync', function() {
 
 	browserSync({
         proxy: options.env,
+        host:  options.env,
+        open: "external",
         browser: ["google chrome", "firefox"]
     });
 
