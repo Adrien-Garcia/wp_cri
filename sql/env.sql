@@ -1,3 +1,7 @@
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #
+# Pensez à passer ces requêtes AVANT le changement de prefixe des tables de la BDD
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! #
+
 # Environnement : devl vers prod
 update wp_options set option_value = "URLDEPROD" where option_name in("siteurl", "home");
 
