@@ -78,9 +78,10 @@ define('WPLANG', 'fr_FR');
 * développement.
 */ 
 define('WP_DEBUG', false);
+
 /* Sous domaine pour composants de la charte */
 if ( !defined('WP_CONTENT_URL') )
-define('WP_CONTENT_URL', 'http://static.wp-maestro.laurent.jetpulp.dev/wp-content');
+define('WP_CONTENT_URL', 'http://static.'.$_SERVER['SERVER_NAME'].'/wp-content');
 /* Cookie */
 if ( !defined('COOKIE_DOMAIN') )
 //define('COOKIE_DOMAIN', 'http://wp-maestro.laurent.jetpulp.dev');
