@@ -82,12 +82,15 @@ define('WP_DEBUG', false);
 /* Sous domaine pour composants de la charte */
 if ( !defined('WP_CONTENT_URL') )
 define('WP_CONTENT_URL', 'http://static.'.$_SERVER['SERVER_NAME'].'/wp-content');
+
 /* Cookie */
 if ( !defined('COOKIE_DOMAIN') )
 //define('COOKIE_DOMAIN', 'http://wp-maestro.laurent.jetpulp.dev');
+
 /* C'est tout, ne touchez pas à ce qui suit ! Bon blogging ! */
 /** Chemin absolu vers le dossier de WordPress. */
 if ( !defined('ABSPATH') )
 define('ABSPATH', dirname(__FILE__) . '/');
+
 /** Réglage des variables de WordPress et de ses fichiers inclus. */
 require_once(ABSPATH . 'wp-settings.php');
