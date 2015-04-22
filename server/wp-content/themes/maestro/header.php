@@ -7,6 +7,7 @@
 <!--[if gt IE 9]><!--> <html <?php language_attributes(); ?> class="no-js"><!--<![endif]-->
 
 <head>
+
 	<meta charset="utf-8">
 
 	<?php // Google Chrome Frame for IE ?>
@@ -33,7 +34,6 @@
 	<?php // wordpress head functions ?>
 	<?php wp_head(); ?>
 	<?php // end of wordpress head ?>
-
 
 </head>
 
