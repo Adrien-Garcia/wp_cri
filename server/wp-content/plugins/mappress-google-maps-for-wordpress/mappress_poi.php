@@ -19,8 +19,8 @@ class Mappress_Poi extends Mappress_Obj {
 	function __sleep() {
 		return array('address', 'body', 'correctedAddress', 'iconid', 'point', 'poly', 'kml', 'title', 'type', 'viewport');
 	}
-	
-	function __construct($atts) {
+
+	function __construct($atts = '') {
 		parent::__construct($atts);
 	}
 
@@ -43,13 +43,11 @@ class Mappress_Poi extends Mappress_Obj {
 		if (!class_exists('Mappress_Pro'))
 			return new WP_Error('geocode', 'MapPress Pro required for geocoding', 'mappress');
 
-		// If point has a lat/lng then no geocoding, but set address, title
+		// If point has a lat/lng then no geocoding
 		if (!empty($this->point['lat']) && !empty($this->point['lng'])) {
 			if ($this->address)
 				$this->correctedAddress = $this->address;
-
 			$this->viewport = null;
-
 		} else {
 			$location = Mappress::$geocoders->geocode($this->address);
 
@@ -75,54 +73,44 @@ class Mappress_Poi extends Mappress_Obj {
 
 	function set_html() {
 		global $mappress, $post;
-  
+
 		if (class_exists('Mappress_Pro')) {
 			$html = $mappress->get_template($this->map()->options->templatePoi, array('poi' => $this));
 			$html = apply_filters('mappress_poi_html', $html, $this);
 		} else {
-			$html = "<div class='mapp-iw'>" 
-			. "<div class='mapp-title'>" . $this->title . "</div>" 
-			. "<div class='mapp-body'>" . $this->body . "</div>" 
+			$html = "<div class='mapp-iw'>"
+			. "<div class='mapp-title'>" . $this->title . "</div>"
+			. "<div class='mapp-body'>" . $this->body . "</div>"
 			. "<div class='mapp-links'>" . $this->get_links() . "</div>"
 			. "</div>";
-		}		
+		}
 		$this->html = $html;
 	}
-	
-	function set_iconid() {
-		$this->iconid = apply_filters('mapress_poi_iconid', $this->iconid, $this);		
-	}
-			  
-	/**
-	* Sets the poi title and url 
-	* - may replace title with post title (used in sorting)
-	* - sets poi url if mashupClick=true, 
-	* 
-	*/
-	function set_title() {		
-		$map = $this->map();			
 
-		// If using option to click directly to post, save the post's permalink
-		if ($map->options->mashupClick && $this->postid)
-			$this->url = get_permalink($this->postid);
-		
-		// If a filter exists, use it instead of this function
-		if (has_filter('mappress_poi_title')) {
-			$this->title = apply_filters('mappress_poi_title', '', $this);		
-			return;
-		}
-		
+	function set_iconid() {
+		$this->iconid = apply_filters('mappress_poi_iconid', $this->iconid, $this);
+	}
+
+	/**
+	* Sets the poi title and url
+	* - may replace title with post title (used in sorting)
+	* - sets poi url if mashupClick=true,
+	*
+	*/
+	function set_title() {
+		$map = $this->map();
+
 		$style = ($this->postid) ? $map->options->mashupTitle : 'poi';
-		
+
 		if ($style == 'post') {
 			$post = get_post($this->postid);
 			$this->title = $post->post_title;
-		} 		
+		}
 	}
 
 	/**
 	* Sets the poi body based on style settings; replaces original body
-	* 
+	*
 	*/
 	function set_body() {
 		$map = $this->map();
@@ -134,52 +122,41 @@ class Mappress_Poi extends Mappress_Obj {
 		}
 
 		$style = ($this->postid) ? $map->options->mashupBody : 'poi';
-			
+
 		// Get the post excerpt
-		if ($style == 'post') 
+		if ($style == 'post')
 			$this->body = $this->get_post_excerpt();
-			
+
 		if ($style == 'address')
 			$this->body = $this->get_address();
-	}
-	
-	
-	/**
-	* Get the linked post, if any
-	*/
-	function get_post() {
-		if (!$this->postid)
-			return null;
-
-		return get_post($this->postid);
 	}
 
 	/**
 	* Get the poi title
-	* 
+	*
 	*/
 	function get_title() {
 		return $this->title;
 	}
-	
+
 	/**
 	* Based on style settings, gets either the poi title or a link to the underlying post with poi title as text
-	* 
+	*
 	*/
 	function get_title_link() {
-		$map = $this->map();			
+		$map = $this->map();
 		$link = ($this->postid) ? $map->options->mashupLink : false;
 		return ($link) ? "<a href='" . get_permalink($this->postid) . "'>$this->title</a>" : $this->title;
-	}	
-	
+	}
+
 	/**
 	* Get the poi body
-	* 
+	*
 	*/
 	function get_body() {
 		return $this->body;
-	}	
-	
+	}
+
 	/**
 	* Get a post excerpt for a poi
 	* Uses the WP get_the_excerpt(), which requires postdata to be set up.
@@ -188,13 +165,12 @@ class Mappress_Poi extends Mappress_Obj {
 	*/
 	function get_post_excerpt() {
 		global $post;
-		
+
 		$post = get_post($this->postid);
 		if (empty($this->postid) || empty($post))
-			return "";                       
+			return "";
 
 		$old_post = ($post) ? clone($post) : null;
-		$post = get_post($this->postid);
 		setup_postdata($post);
 		$html = get_the_excerpt();
 
@@ -203,17 +179,8 @@ class Mappress_Poi extends Mappress_Obj {
 			$post = $old_post;
 			setup_postdata($post);
 		}
-		
+
 		return $html;
-	}
-
-	
-	
-	function get_custom($field, $single = true) {
-		if (!$this->postid)
-			return "";
-
-		return get_post_meta($this->postid, $field, $single);
 	}
 
 	/**
@@ -246,7 +213,7 @@ class Mappress_Poi extends Mappress_Obj {
 			if (in_array('directions_to', $links) && $map->options->directions != 'none')
 				$a[] = $this->get_directions_link(array('to' => $this, 'text' => __('Directions to', 'mappress')));
 			if (in_array('directions_from', $links) && $map->options->directions != 'none')
-				$a[] = $this->get_directions_link(array('from' => $this, 'to' => '', 'text' => __('Directions from')));
+				$a[] = $this->get_directions_link(array('from' => $this, 'to' => '', 'text' => __('Directions from', 'mappress')));
 		}
 
 		// Zoom isn't available in poi list by default
@@ -261,7 +228,7 @@ class Mappress_Poi extends Mappress_Obj {
 	}
 
 	function get_icon() {
-		$map = $this->map();		
+		$map = $this->map();
 		return Mappress_Icons::get_icon($this->iconid, $map->options->defaultIcon);
 	}
 
@@ -276,8 +243,8 @@ class Mappress_Poi extends Mappress_Obj {
 		$map = $this->map();
 
 		extract(wp_parse_args($args, array(
-			'from' => '',
-			'to' => $this,      // Default is 'to' current poi
+			'from' => $map->options->from,
+			'to' => $map->options->to,
 			'focus' => true,
 			'text' => __('Directions', 'mappress')
 		)));
@@ -343,19 +310,23 @@ class Mappress_Poi extends Mappress_Obj {
 	* @param mixed $args - arguments to pass to WP get_the_post_thumbnail() function
 	*/
 	function get_thumbnail( $args = '' ) {
-		if (!$this->postid)
+		$map = $this->map();
+
+		if (!$this->postid || !$map->options->thumbs)
 			return '';
 
-		$map = $this->map();
-		if ($map->options->thumbs) {
-			if (isset($args['size']))
-				$size = $args['size'];
-			else
-				$size = ($map->options->thumbSize) ? $map->options->thumbSize : array($map->options->thumbWidth, $map->options->thumbHeight);
-			return get_the_post_thumbnail($this->postid, $size, $args);
-		}
-		
-		return "";
+		if (isset($args['size']))
+			$size = $args['size'];
+		else
+			$size = ($map->options->thumbSize) ? $map->options->thumbSize : array($map->options->thumbWidth, $map->options->thumbHeight);
+
+		$html = get_the_post_thumbnail($this->postid, $size, $args);
+
+		// If linking poi to underlying post, then link the featured image
+		if ($map->options->mashupLink)
+			$html = "<a href='" . get_permalink($this->postid) . "'>$html</a>";
+
+		return $html;
 	}
 }
 ?>

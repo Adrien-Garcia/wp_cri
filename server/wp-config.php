@@ -1,4 +1,5 @@
 <?php
+define('WP_CACHE', true); // Added by WP Rocket
 /**
 * La configuration de base de votre installation WordPress.
 *
@@ -84,7 +85,7 @@ if ( !defined('WP_CONTENT_URL') )
 define('WP_CONTENT_URL', 'http://static.'.$_SERVER['SERVER_NAME'].'/wp-content');
 
 /* Cookie */
-if ( !defined('COOKIE_DOMAIN') )
+//if ( !defined('COOKIE_DOMAIN') )
 //define('COOKIE_DOMAIN', 'http://wp-maestro.laurent.jetpulp.dev');
 
 /* C'est tout, ne touchez pas à ce qui suit ! Bon blogging ! */
