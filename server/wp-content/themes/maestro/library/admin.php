@@ -25,7 +25,6 @@ Digging into WP - http://digwp.com/2010/10/customize-wordpress-dashboard/
 // Manage upadtes
 define('WP_AUTO_UPDATE_CORE', 'minor');
 
-
 /************* DASHBOARD WIDGETS *****************/
 
 // disable default dashboard widgets
