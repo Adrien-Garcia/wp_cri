@@ -2,13 +2,29 @@
 # This file is distributed under the same license as the Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-04-07 20:52:59+0000\n"
+"PO-Revision-Date: 2015-04-24 17:05:32+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: GlotPress/1.0-alpha-1000\n"
 "Project-Id-Version: Development\n"
+
+#: views/notice.php:90
+msgid "The key you entered could not be verified."
+msgstr "La clé que vous avez entrée n’a pas pu être vérifiée."
+
+#: views/config.php:95
+msgid "All systems functional."
+msgstr "Tous les systèmes fonctionnent."
+
+#: views/config.php:95
+msgid "Enabled."
+msgstr "Activé."
+
+#: views/config.php:92
+msgid "Temporarily disabled."
+msgstr "Temporairement désactivé."
 
 #: views/config.php:86
 msgid "Your Web server cannot make SSL requests; contact your Web host and ask them to add support for SSL requests."
@@ -31,6 +47,10 @@ msgid "Spam in the <a href=\"%1$s\">spam folder</a> older than 1 day is deleted 
 msgid_plural "Spam in the <a href=\"%1$s\">spam folder</a> older than %2$d days is deleted automatically."
 msgstr[0] "Les messages dans le <a href=\"%1$s\">dossier des indésirables</a> depuis plus de 1 jour sont supprimés automatiquement."
 msgstr[1] "Les messages dans le <a href=\"%1$s\">dossier des indésirables</a> depuis plus de %2$d jours sont supprimés automatiquement."
+
+#. Description of the plugin/theme
+msgid "Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from comment and trackback spam</strong>. It keeps your site protected from spam even while you sleep. To get started: 1) Click the \"Activate\" link to the left of this description, 2) <a href=\"http://akismet.com/get/\">Sign up for an Akismet API key</a>, and 3) Go to your Akismet configuration page, and save your API key."
+msgstr "Utilisé par des millions de sites, Akismet est très probablement la meilleure méthode au monde pour <strong>protéger votre blog contre les commentaires et les rétroliens abusifs</strong>. Il maintient votre site protégé contre le spam, même pendant votre sommeil. Pour vous lancer : 1) Cliquez sur le lien « Activer » à gauche de cette description, 2) <a href=\"http://akismet.com/get/\">Inscrivez-vous pour récupérer votre clé d’API Akismet</a>, 3) Accédez à la page de configuration Akismet de votre blog, et renseignez votre clé d’API."
 
 #. Plugin URI of the plugin/theme
 msgid "http://akismet.com/"
