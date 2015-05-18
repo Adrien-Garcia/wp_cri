@@ -620,6 +620,7 @@ abstract class GFFeedAddOn extends GFAddOn {
 		$result   = false;
 
 		if ( $is_valid ) {
+			$settings = $this->filter_settings( $sections, $settings );
 			$feed_id = $this->save_feed_settings( $feed_id, $form_id, $settings );
 			if ( $feed_id ){
 				GFCommon::add_message( $this->get_save_success_message( $sections ) );
@@ -1043,7 +1044,11 @@ abstract class GFFeedAddOn extends GFAddOn {
 		return rgar( $paypal_feed['meta'], "delay_{$this->_slug}" ) && $has_payment && ! $is_delayed;
 	}
 
-	public function get_single_submission_feed( $entry, $form = false ) {
+	public function get_single_submission_feed( $entry = false, $form = false ) {
+
+		if( ! $entry && ! $form ) {
+			return false;
+		}
 
 		$feed = false;
 
@@ -1054,7 +1059,12 @@ abstract class GFFeedAddOn extends GFAddOn {
 		} else if( $entry['id'] ) {
 
 			$feeds = $this->get_feeds_by_entry( $entry['id'] );
-			$feed  = empty( $feeds ) ? false : $this->get_feed( $feeds[0] );
+
+			if( empty( $feeds ) ) {
+				$feed = $this->get_single_submission_feed( false, $form );
+			} else {
+				$feed = $this->get_feed( $feeds[0] );
+			}
 
 		} else if ( $form ) {
 

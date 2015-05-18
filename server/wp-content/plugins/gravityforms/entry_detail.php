@@ -1034,7 +1034,7 @@ class GFEntryDetail {
 							?>
 							<div id="gf_payment_status" class="gf_payment_detail">
 								<?php echo __( 'Status', 'gravityforms' ) ?>:
-								<span id="gform_payment_status"><?php echo esc_html( $payment_status );?></span>
+								<span id="gform_payment_status"><?php echo $payment_status; // May contain HTML ?></span>
 							</div>
 
 							<?php
@@ -1044,7 +1044,7 @@ class GFEntryDetail {
 								?>
 								<div id="gf_payment_date" class="gf_payment_detail">
 									<?php echo $lead['transaction_type'] == 2 ? __( 'Start Date', 'gravityforms' ) : __( 'Date', 'gravityforms' ) ?>:
-									<span id='gform_payment_date'><?php echo esc_html( $payment_date ); ?></span>
+									<span id='gform_payment_date'><?php echo $payment_date; // May contain HTML ?></span>
 								</div>
 							<?php
 							}
@@ -1054,7 +1054,7 @@ class GFEntryDetail {
 								?>
 								<div id="gf_payment_transaction_id" class="gf_payment_detail">
 									<?php echo $lead['transaction_type'] == 2 ? __( 'Subscription Id', 'gravityforms' ) : __( 'Transaction Id', 'gravityforms' ); ?>:
-									<span id='gform_payment_transaction_id'><?php echo esc_html( $transaction_id ); ?></span>
+									<span id='gform_payment_transaction_id'><?php echo $transaction_id; // May contain HTML ?></span>
 								</div>
 							<?php
 							}
@@ -1064,7 +1064,7 @@ class GFEntryDetail {
 								?>
 								<div id="gf_payment_amount" class="gf_payment_detail">
 									<?php echo $lead['transaction_type'] == 2 ? __( 'Recurring Amount', 'gravityforms' ) : __( 'Amount', 'gravityforms' ); ?>:
-									<span id='gform_payment_amount'><?php echo esc_html( $payment_amount );?></span>
+									<span id='gform_payment_amount'><?php echo $payment_amount; // May contain HTML ?></span>
 								</div>
 							<?php
 							}

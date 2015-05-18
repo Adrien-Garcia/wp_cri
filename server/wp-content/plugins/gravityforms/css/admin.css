@@ -3682,6 +3682,7 @@ table.gforms_form_settings th {
 	padding: 8px 0;
 }
 
+
 .show_advanced_settings_container {
 	border-top: 1px solid #EEE;
 	padding: 5px;
@@ -4268,13 +4269,7 @@ span.ginput_right input.medium,
     margin-right: 8px;
 }
 
-.gaddon-section .settings-field-map-table thead tr th {
-    border-bottom: 1px solid #ccc !important;
-}
 
-.gaddon-section .settings-field-map-table tbody tr td {
-    border-bottom: 1px dotted #eee !important;
-}
 
 /* resize the sub-settings tables for more verbose inputs ----------------------------------------------------*/
 
