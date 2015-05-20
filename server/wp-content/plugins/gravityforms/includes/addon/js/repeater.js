@@ -177,7 +177,7 @@ jQuery.fn.repeater = function( options ) {
     self.addNewItem = function( elem ) {
 
         var index = jQuery( elem ).attr( 'data-index' );
-
+        index = parseInt( index );
         self.callbacks.beforeAddNew( this, index );
         self.items.splice( index + 1, 0, self.getBaseObject() );
         self.callbacks.addNew( this, index );

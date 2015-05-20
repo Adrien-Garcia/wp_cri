@@ -58,6 +58,7 @@ define('NONCE_SALT',       'g p*oJH!f2bSNmJZ diEfM7Et^&GU_-s6`m*TBv5#u,S+)%iA9T5
 * Vous pouvez installer plusieurs WordPress sur une seule base de données
 * si vous leur donnez chacune un préfixe unique. 
 * N'utilisez que des chiffres, des lettres non-accentuées, et des caractères soulignés!
+* Pour changer le nom des tables dans votre BDD : http://wpchannel.com/modifier-prefixe-base-donnees-wordpress-apres-installation/
 */
 $table_prefix  = 'opgrf_';
 /**

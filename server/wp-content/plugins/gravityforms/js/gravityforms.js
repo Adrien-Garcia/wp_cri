@@ -1210,6 +1210,9 @@ var gform = {
         }
     });
 
+    gfMultiFileUploader.setup = function (uploadElement){
+        setup( uploadElement );
+    };
 
     function setup(uploadElement){
         var settings = $(uploadElement).data('settings');

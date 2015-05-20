@@ -469,7 +469,7 @@ class GFEntryList {
 
 		function resetResendNotificationsUI() {
 
-			jQuery('#notification_admin, #notification_user').attr('checked', false);
+			jQuery(".gform_notifications").attr('checked', false);
 			jQuery('#notifications_container .message, #notifications_override_settings').hide();
 
 		}
@@ -746,11 +746,6 @@ class GFEntryList {
 				overflow: hidden;
 				white-space: nowrap;
 			}
-
-			.message {
-				margin: 15px 0 0 !important;
-			}
-
 			.gform-filter-operator {
 				width: 100px
 			}
