@@ -49,8 +49,8 @@ function get_rocket_option( $option, $default = false )
  * @return bool 		   True if the option is deactivated
  */
 function is_rocket_post_excluded_option( $option ) {
-	if( is_home() && isset( $GLOBALS['wp_query']->queried_object ) ) {
-		$post_id = $GLOBALS['wp_query']->queried_object->ID;
+	if( is_home() ) {
+		$post_id = get_queried_object_id();
 	}
 	
 	if ( is_singular() ) {
@@ -114,7 +114,8 @@ function get_rocket_purge_cron_interval()
 /**
  * Get all uri we don't cache
  *
- * @since 2.4.1 Auto-exclude WordPress JSON API
+ * @since 2.6	Using json_get_url_prefix() to auto-exclude the WordPress REST API
+ * @since 2.4.1 Auto-exclude WordPress REST API
  * @since 2.0
  *
  * @return array List of rejected uri
@@ -122,8 +123,28 @@ function get_rocket_purge_cron_interval()
 function get_rocket_cache_reject_uri()
 {
 	$uri = get_rocket_option( 'cache_reject_uri', array() );
+	
+	// Exclude cart & checkout pages from e-commerce plugins
 	$uri = array_merge( $uri, get_rocket_ecommerce_exclude_pages() );
-	$uri[] = '/wp-json/*';
+		
+	// Exclude hide login plugins
+	$uri = array_merge( $uri, get_rocket_logins_exclude_pages() );
+	
+	/**
+	  * By default, don't cache the WP REST API.
+	  *
+	  * @since 2.5.12
+	  *
+	  * @param bool false will force to cache the WP REST API
+	 */
+	$rocket_cache_reject_wp_rest_api = apply_filters( 'rocket_cache_reject_wp_rest_api', true );
+	
+	// Exclude WP REST API
+	if( function_exists( 'json_get_url_prefix' ) && $rocket_cache_reject_wp_rest_api ) {
+		$uri[] = '/' . json_get_url_prefix() . '/(.*)';	
+	}
+	
+	// Exclude feeds
 	$uri[] = '.*/' . $GLOBALS['wp_rewrite']->feed_base . '/';
 	
 	/**
@@ -236,9 +257,7 @@ function get_rocket_cdn_cnames( $zone = 'all' )
 	$zone 		 = is_array( $zone ) ? $zone : (array) $zone;
 
 	foreach( $cnames as $k=>$_urls ) {
-
 		if ( in_array( $cnames_zone[$k], $zone ) ) {
-
 			$_urls = explode( ',' , $_urls );
 			$_urls = array_map( 'trim' , $_urls );
 
@@ -246,7 +265,6 @@ function get_rocket_cdn_cnames( $zone = 'all' )
 				$hosts[] = $url;
 			}
 		}
-
 	}
 	return $hosts;
 }
@@ -271,6 +289,99 @@ function get_rocket_cache_query_string() {
 	$query_strings = apply_filters( 'rocket_cache_query_strings', $query_strings );
 
 	return $query_strings;
+}
+
+/**
+ * Get all CSS files to exclude to the minification.
+ *
+ * @since 2.6
+ *
+ * @return array List of excluded CSS files.
+ */
+function get_rocket_exclude_css() {
+	global $rocket_excluded_enqueue_css;
+	
+	$css_files = get_rocket_option( 'exclude_css', array() );
+	$css_files = array_unique( array_merge( $css_files, (array) $rocket_excluded_enqueue_css ) );
+	
+	/**
+	 * Filter CSS files to exclude to the minification.
+	 *
+	 * @since 2.6
+	 *
+	 * @param array $css_files List of excluded CSS files.
+	*/
+	$css_files = apply_filters( 'rocket_exclude_css', $css_files );
+	
+	return $css_files;
+}
+
+/**
+ * Get all JS files to exclude to the minification.
+ *
+ * @since 2.6
+ *
+ * @return array List of excluded JS files.
+ */
+function get_rocket_exclude_js() {	
+	$js_files = get_rocket_option( 'exclude_js', array() );
+	
+	/**
+	 * Filter JS files to exclude to the minification.
+	 *
+	 * @since 2.6
+	 *
+	 * @param array $css_files List of excluded JS files.
+	*/
+	$js_files = apply_filters( 'rocket_exclude_js', $js_files );
+	
+	return $js_files;
+}
+
+/**
+ * Get all JS files to move in the footer during the minification.
+ *
+ * @since 2.6
+ *
+ * @return array List of JS files.
+ */
+function get_rocket_minify_js_in_footer() {
+	global $rocket_enqueue_js_in_footer;
+	
+	$js_files = get_rocket_option( 'minify_js_in_footer', array() );
+	$js_files = array_map( 'rocket_set_internal_url_scheme', $js_files );
+	$js_files = array_unique( array_merge( $js_files, (array) $rocket_enqueue_js_in_footer ) );
+	
+	/**
+	 * Filter JS files to move in the footer during the minification.
+	 *
+	 * @since 2.6
+	 *
+	 * @param array $js_files List of JS files.
+	*/
+	$js_files = apply_filters( 'rocket_minify_js_in_footer', $js_files );
+	
+	return $js_files;
+}
+
+/**
+ * Get list of JS files to deferred.
+ *
+ * @since 2.6
+ *
+ * @return array List of JS files.
+ */
+function get_rocket_deferred_js_files() {
+	/**
+	 * Filter list of Deferred JavaScript files
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param array List of Deferred JavaScript files
+	 */
+	$deferred_js_files = apply_filters( 'rocket_minify_deferred_js', get_rocket_option( 'deferred_js_files', array() ) );
+	
+	return $deferred_js_files;
 }
 
 /**
