@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the EWWW Image Optimizer package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2015-05-01 20:33:07+0000\n"
+"PO-Revision-Date: 2015-05-27 22:19:38+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,7 +22,7 @@ msgstr "Licença Excedida"
 #: bulk.php:351 flag-integration.php:187 nextcellent-integration.php:369
 #: nextgen-integration.php:344 nextgen2-integration.php:386
 msgid "Optimization stopped, reload page to resume."
-msgstr "Otimização parada. Recaregue a página para retomar."
+msgstr "Otimização parada. Recarregue a página para retomar."
 
 #: bulk.php:352 flag-integration.php:188 nextcellent-integration.php:370
 #: nextgen-integration.php:345 nextgen2-integration.php:387

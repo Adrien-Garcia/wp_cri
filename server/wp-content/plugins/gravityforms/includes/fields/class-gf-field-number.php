@@ -10,7 +10,7 @@ class GF_Field_Number extends GF_Field {
 	public $type = 'number';
 
 	public function get_form_editor_field_title() {
-		return __( 'Number', 'gravityforms' );
+		return esc_attr__( 'Number', 'gravityforms' );
 	}
 
 	function get_form_editor_field_settings() {
@@ -72,10 +72,10 @@ class GF_Field_Number extends GF_Field {
 		} elseif ( $this->type == 'quantity' ) {
 			if ( intval( $value ) != $value ) {
 				$this->failed_validation  = true;
-				$this->validation_message = empty( $field['errorMessage'] ) ? __( 'Please enter a valid quantity. Quantity cannot contain decimals.', 'gravityforms' ) : $field['errorMessage'];
+				$this->validation_message = empty( $field['errorMessage'] ) ? esc_html__( 'Please enter a valid quantity. Quantity cannot contain decimals.', 'gravityforms' ) : $field['errorMessage'];
 			} elseif ( ! empty( $value ) && ( ! is_numeric( $value ) || intval( $value ) != floatval( $value ) || intval( $value ) < 0 ) ) {
 				$this->failed_validation  = true;
-				$this->validation_message = empty( $field['errorMessage'] ) ? __( 'Please enter a valid quantity', 'gravityforms' ) : $field['errorMessage'];
+				$this->validation_message = empty( $field['errorMessage'] ) ? esc_html__( 'Please enter a valid quantity', 'gravityforms' ) : $field['errorMessage'];
 			}
 		}
 
@@ -109,13 +109,13 @@ class GF_Field_Number extends GF_Field {
 		$message = '';
 
 		if ( is_numeric( $min ) && is_numeric( $max ) ) {
-			$message = sprintf( __( 'Please enter a value between %s and %s.', 'gravityforms' ), "<strong>$min</strong>", "<strong>$max</strong>" );
+			$message = sprintf( esc_html__( 'Please enter a value between %s and %s.', 'gravityforms' ), "<strong>$min</strong>", "<strong>$max</strong>" );
 		} elseif ( is_numeric( $min ) ) {
-			$message = sprintf( __( 'Please enter a value greater than or equal to %s.', 'gravityforms' ), "<strong>$min</strong>" );
+			$message = sprintf( esc_html__( 'Please enter a value greater than or equal to %s.', 'gravityforms' ), "<strong>$min</strong>" );
 		} elseif ( is_numeric( $max ) ) {
-			$message = sprintf( __( 'Please enter a value less than or equal to %s.', 'gravityforms' ), "<strong>$max</strong>" );
+			$message = sprintf( esc_html__( 'Please enter a value less than or equal to %s.', 'gravityforms' ), "<strong>$max</strong>" );
 		} elseif ( $this->failed_validation ) {
-			$message = __( 'Please enter a valid number', 'gravityforms' );
+			$message = esc_html__( 'Please enter a valid number', 'gravityforms' );
 		}
 
 		return $message;
@@ -193,7 +193,7 @@ class GF_Field_Number extends GF_Field {
 		return GFCommon::format_number( $value, $this->numberFormat, $currency, $include_thousands_sep );
 	}
 
-	public function get_value_merge_tag( $value, $input_id, $entry, $form, $modifier, $raw_value, $url_encode, $esc_html, $format ) {
+	public function get_value_merge_tag( $value, $input_id, $entry, $form, $modifier, $raw_value, $url_encode, $esc_html, $format, $nl2br ) {
 		$include_thousands_sep = apply_filters( 'gform_include_thousands_sep_pre_format_number', $modifier != 'value', $this );
 
 		return GFCommon::format_number( $value, $this->numberFormat, rgar( $entry, 'currency' ), $include_thousands_sep );
