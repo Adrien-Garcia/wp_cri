@@ -1,7 +1,6 @@
 var gulp = require('gulp'),
 	sass = require('gulp-sass'),
 	autoprefixer = require('gulp-autoprefixer'),
-	minifycss = require('gulp-minify-css'),
 	rename = require('gulp-rename'),
 	spritesmith = require('gulp.spritesmith'),
 	imagemin = require('gulp-imagemin'),
@@ -15,7 +14,8 @@ var gulp = require('gulp'),
 	themePath = '../wp-content/themes/maestro',
 	libPath = '../wp-content/themes/maestro/library',
 	knownOptions = {
-	  string: 'env'
+	  string: 'env',
+	  string: 'nav'
 	};
 	options = minimist(process.argv.slice(2), knownOptions);
 
@@ -26,11 +26,11 @@ gulp.task('sass', function() {
 	gulp.src(libPath+'/scss/*.scss')
 		.pipe(sourcemaps.init())
         .pipe(plumber())
-    	.pipe(sass({ style: 'expanded' }))
+    	.pipe(sass({ style: 'compressed' }))
     	.pipe(autoprefixer('last 2 version'))
         .pipe(plumber.stop())
     	.pipe(gulp.dest(libPath+'/css'))
-	    .pipe(minifycss())
+	    //.pipe(minifycss())
 	    .pipe(sourcemaps.write())
 	    .pipe(gulp.dest(libPath+'/css'))
 	    .pipe(reload({stream: true}))
@@ -72,7 +72,8 @@ gulp.task('browser-sync', function() {
         proxy: options.env,
         host:  options.env,
         open: "external",
-        browser: ["google chrome", "firefox"]
+        //browser: ["google chrome", "firefox"]
+        browser: options.nav
     });
 
 });
