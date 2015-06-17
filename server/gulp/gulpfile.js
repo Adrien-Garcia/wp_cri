@@ -30,7 +30,6 @@ gulp.task('sass', function() {
     	.pipe(autoprefixer('last 2 version'))
         .pipe(plumber.stop())
     	.pipe(gulp.dest(libPath+'/css'))
-	    //.pipe(minifycss())
 	    .pipe(sourcemaps.write())
 	    .pipe(gulp.dest(libPath+'/css'))
 	    .pipe(reload({stream: true}))
@@ -72,7 +71,6 @@ gulp.task('browser-sync', function() {
         proxy: options.env,
         host:  options.env,
         open: "external",
-        //browser: ["google chrome", "firefox"]
         browser: options.nav
     });
 
