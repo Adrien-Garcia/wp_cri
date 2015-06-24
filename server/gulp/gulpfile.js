@@ -33,21 +33,21 @@ gulp.task('sass', function() {
 	    .pipe(sourcemaps.write())
 	    .pipe(gulp.dest(libPath+'/css'))
 	    .pipe(reload({stream: true}))
-	    
+
 });
 
 gulp.task('uglify', function() {
-	
+
 	/* JS task */
 	gulp.src(libPath+'/js/*.js')
     	.pipe(uglify())
     	.pipe(rename({suffix: '.min'}))
     	.pipe(gulp.dest(libPath+'/js/min/'))
-    	
+
 });
 
 gulp.task('sprite', function() {
-    
+
 	/* SPRITE task */
 	var spriteData = gulp.src(libPath+'/images/origin/*.{png,jpg,gif}')
 		.pipe(spritesmith({
@@ -55,11 +55,11 @@ gulp.task('sprite', function() {
 			imgPath: '../images/sprites/spritesheet.png',
 			cssName: '_spritesheet.scss'
 		}));
-	
+
 	  	spriteData.img
 	  		.pipe(imagemin())
 	  		.pipe(gulp.dest(libPath+'/images/sprites/'));
-	  				
+
 	  	spriteData.css
 	  		.pipe(gulp.dest(libPath+'/scss/modules/'));
 
@@ -77,7 +77,7 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('watch', function() {
-	 
+
 	/* WATCH task */
      gulp.watch(libPath+'/images/origin/*.*', ['sprite']).on('change', browserSync.reload);
 	 gulp.watch(libPath+'/scss/**/*.scss', ['sass']);
@@ -87,5 +87,3 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['sass', 'sprite', 'uglify','browser-sync', 'watch'], function() {});
-
-
