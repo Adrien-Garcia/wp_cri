@@ -134,6 +134,8 @@ jQuery(document).ready(function($) {
 		str = str.replace('&', 'fr');
 		document.location=str;
 	});
+	
+	console.log("test hook btk");
 
 	
 	

@@ -13,20 +13,31 @@ $spritesheet: width height image $spritesheet-sprites;
 */
 $delete-name: 'delete';
 $delete-x: 0px;
-$delete-y: 0px;
+$delete-y: 106px;
 $delete-offset-x: 0px;
-$delete-offset-y: 0px;
+$delete-offset-y: -106px;
 $delete-width: 16px;
 $delete-height: 16px;
-$delete-total-width: 16px;
-$delete-total-height: 16px;
+$delete-total-width: 300px;
+$delete-total-height: 122px;
 $delete-image: '../images/sprites/spritesheet.png';
-$delete: (0px, 0px, 0px, 0px, 16px, 16px, 16px, 16px, '../images/sprites/spritesheet.png', 'delete', );
-$spritesheet-width: 16px;
-$spritesheet-height: 16px;
+$delete: (0px, 106px, 0px, -106px, 16px, 16px, 300px, 122px, '../images/sprites/spritesheet.png', 'delete', );
+$login-logo-name: 'login-logo';
+$login-logo-x: 0px;
+$login-logo-y: 0px;
+$login-logo-offset-x: 0px;
+$login-logo-offset-y: 0px;
+$login-logo-width: 300px;
+$login-logo-height: 106px;
+$login-logo-total-width: 300px;
+$login-logo-total-height: 122px;
+$login-logo-image: '../images/sprites/spritesheet.png';
+$login-logo: (0px, 0px, 0px, 0px, 300px, 106px, 300px, 122px, '../images/sprites/spritesheet.png', 'login-logo', );
+$spritesheet-width: 300px;
+$spritesheet-height: 122px;
 $spritesheet-image: '../images/sprites/spritesheet.png';
-$spritesheet-sprites: ($delete, );
-$spritesheet: (16px, 16px, '../images/sprites/spritesheet.png', $spritesheet-sprites, );
+$spritesheet-sprites: ($delete, $login-logo, );
+$spritesheet: (300px, 122px, '../images/sprites/spritesheet.png', $spritesheet-sprites, );
 
 /*
 The provided mixins are intended to be used with the array-like variables
