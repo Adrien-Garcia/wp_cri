@@ -27,7 +27,9 @@ $_REQUEST['updated'] = false;
 <div>
 
 	<h2><?php echo __( 'Theme Settings','bonestheme' ) //your admin panel title ?></h2>
-	
+    
+    <h3><?php echo __( 'Google Tracking','bonestheme' ) ?></h3>
+    	
 	<?php
 	//show saved options message
 	if ( false !== $_REQUEST['updated'] ) : ?>

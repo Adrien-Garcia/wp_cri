@@ -22,9 +22,9 @@ define('WP_CACHE', false); // Added by WP Rocket
 /** Nom de la base de données de WordPress. */
 define('DB_NAME', 'wp_maestro');
 /** Utilisateur de la base de données MySQL. */
-define('DB_USER', 'wp');
+define('DB_USER', 'root');
 /** Mot de passe de la base de données MySQL. */
-define('DB_PASSWORD', 'wp');
+define('DB_PASSWORD', '');
 /** Adresse de l'hébergement MySQL. */
 define('DB_HOST', 'localhost');
 /** Jeu de caractères à utiliser par la base de données lors de la création des tables. */
@@ -61,7 +61,7 @@ define('NONCE_SALT',       'g p*oJH!f2bSNmJZ diEfM7Et^&GU_-s6`m*TBv5#u,S+)%iA9T5
 * N'utilisez que des chiffres, des lettres non-accentuées, et des caractères soulignés!
 * Pour changer le nom des tables dans votre BDD : http://wpchannel.com/modifier-prefixe-base-donnees-wordpress-apres-installation/
 */
-$table_prefix  = 'opgrf_';
+$table_prefix  = 'wp_';
 /**
 * Langue de localisation de WordPress, par défaut en Anglais.
 *
