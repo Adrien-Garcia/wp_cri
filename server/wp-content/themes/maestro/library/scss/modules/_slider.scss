@@ -25,4 +25,48 @@
 
 	}
 
+	&.slider-full{
+
+	    position: relative;
+	    overflow: hidden;
+
+		& + #content{
+		
+			margin: 0;
+		
+		}
+
+		.bx-wrapper {
+		
+		    height: 100%;
+		    margin: 0;
+		    overflow: hidden;
+		    padding: 0;
+		    position: relative;
+		    
+		    .bx-viewport {
+		    
+			    height: 100% !important;
+			    
+			}
+			
+			.bxslider {
+			
+				height: 100%;
+				    
+			    li{
+			    
+			    	background-position: center center;
+				    background-repeat: no-repeat;
+				    background-size: cover;
+				    height: 100%;
+			    
+			    }
+			    
+			}
+		    
+		}
+		
+	}
+
 }

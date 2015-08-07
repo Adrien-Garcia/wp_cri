@@ -133,11 +133,7 @@ jQuery(document).ready(function($) {
 		str = str.replace('@', '.');
 		str = str.replace('&', 'fr');
 		document.location=str;
-	});
-	
-	console.log("test hook btk");
-
-	
+	});	
 	
 	/*
 	 * Let's fire off the gravatar function

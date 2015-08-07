@@ -84,7 +84,7 @@ define('WP_DEBUG', false);
 
 /* Sous domaine pour composants de la charte */
 if ( !defined('WP_CONTENT_URL') )
-define('WP_CONTENT_URL', 'http://static.'.$_SERVER['SERVER_NAME'].'/wp-content');
+define('WP_CONTENT_URL', 'http://'.$_SERVER['SERVER_NAME'].'/wp-content');
 
 /* Cookie */
 //if ( !defined('COOKIE_DOMAIN') )
