@@ -35,6 +35,19 @@ gulp.task('sass', function() {
 	    .pipe(reload({stream: true}))
 
 });
+ 											// PROD VERSION
+											gulp.task('sass-prod', function() {
+												
+												gulp.src(libPath+'/scss/*.scss')
+													
+											        .pipe(plumber())
+											    	.pipe(sass({ style: 'compressed' }))
+											    	.pipe(autoprefixer('last 2 version'))
+											        .pipe(plumber.stop())
+											    	.pipe(gulp.dest(libPath+'/css'))
+												    //.pipe(minifycss())
+											
+											});
 
 gulp.task('uglify', function() {
 
@@ -43,7 +56,7 @@ gulp.task('uglify', function() {
     	.pipe(uglify())
     	.pipe(rename({suffix: '.min'}))
     	.pipe(gulp.dest(libPath+'/js/min/'))
-
+    	//.pipe(minifycss())
 });
 
 gulp.task('sprite', function() {
@@ -87,3 +100,6 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['sass', 'sprite', 'uglify','browser-sync', 'watch'], function() {});
+gulp.task('prod', ['sass-prod', 'sprite', 'uglify'], function() {});
+
+

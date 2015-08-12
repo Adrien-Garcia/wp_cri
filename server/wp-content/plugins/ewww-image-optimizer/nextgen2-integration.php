@@ -83,7 +83,6 @@ class ewwwngg {
 			nggdb::update_image_meta($image_id, $image->meta_data);
 			$ewww_debug .= 'storing results for full size image<br>';
 		}
-		ewww_image_optimizer_debug_log();
 		return $image;
 	}
 
@@ -225,9 +224,6 @@ class ewwwngg {
 
 	// output the action link for the manage gallery page
 	function ewww_render_optimize_action_link($id, $image) {
-/*		global $ewww_debug;
-		$ewww_debug .= print_r($image, true);
-		ewww_image_optimizer_debug_log();*/
 		if ( ! current_user_can( apply_filters( 'ewww_image_optimizer_manual_permissions', '' ) ) )  {
 			return '';
 		}
@@ -457,6 +453,11 @@ class ewwwngg {
 		// get an image object
 		$image = $storage->object->_image_mapper->find($id);
 		$image = $this->ewww_added_new_image ($image, $storage);
+		global $ewww_exceed;
+		if ( ! empty ( $ewww_exceed ) ) {
+			echo '-9exceeded';
+			die();
+		}
 		// output the results of the optimization
 		printf("<p>" . __('Optimized image:', EWWW_IMAGE_OPTIMIZER_DOMAIN) . " <strong>%s</strong><br>", basename($storage->object->get_image_abspath($image, 'full')));
 		// get an array of sizes available for the $image
@@ -531,7 +532,8 @@ if ( ! class_exists( 'EWWWIO_Gallery_Storage' ) && class_exists( 'Mixin' ) && ! 
 			if ( $success ) {
 				//$filename = $this->object->get_image_abspath($image, $size);
 				$filename = $success->fileName;
-				ewww_image_optimizer_aux_images_loop( $filename, true );
+				ewww_image_optimizer( $filename );
+//				ewww_image_optimizer_aux_images_loop( $filename, true );
 				$ewww_debug .= "nextgen dynamic thumb saved: $filename <br>";
 				$image_size = filesize($filename);
 				$ewww_debug .= "optimized size: $image_size <br>";

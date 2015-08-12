@@ -1,11 +1,19 @@
-<div>
-	<?php _e('Add POI', 'mappress'); ?>:
-	<input size='60' type='text' id='mapp_e_saddr' />
-	<button id='mapp_e_search' class='button-primary'><span class='mapp-search-button'></span></button>
-	<a href='#' id='mapp_e_myloc'><?php _e('My location', 'mappress'); ?></a>
-	<div id='mapp_e_saddr_err' style='display:none'></div>
+
+<div class='mapp-table mapp-searchbox'>
+	<div>
+		<div class='mapp-max'>
+			<input style='width:100%' type='text' id='mapp_e_saddr' placeholder='<?php _e('Add POI', 'mappress'); ?>'/>
+		</div>
+		<div>
+			<button id='mapp_e_search' class='button button-primary mapp-search-button'></button>
+		</div>
+		<div>
+			<button id='mapp_e_myloc' class='button mapp-geolocate-button' title='<?php _e('My location', 'mappress');?>'></button>
+		</div>
+	</div>
 </div>
-							  
+<div id='mapp_e_saddr_err' style='display:none'></div>
+
 <div class='mapp-e-edit-panel'>
 	<table class='mapp-e-editor'>
 		<tr>
@@ -21,6 +29,6 @@
 			</td>
 		</tr>
 	</table>
-</div>        
-							  
+</div>
+
 <?php require Mappress::$basedir . "/forms/map_editor_infobox.php"; ?>

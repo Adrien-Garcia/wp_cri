@@ -1,10 +1,10 @@
 <?php
 	$width = $map->width();
 	$height = $map->height();
-	
+
 	$id = $map->name . '_layout';
 	$style = "width: $width; " . $map->get_layout_style();
-	$class = "mapp-layout mapp-align-" . $map->options->alignment;
+	$class = $map->get_layout_class();
 ?>
 
 <?php echo $map->get_show_link(); ?>

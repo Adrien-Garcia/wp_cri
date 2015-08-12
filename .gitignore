@@ -7,7 +7,6 @@ readme.txt
 *.bak
 *.log
 *.old
-*.md
 *.launch
 /.externalToolsBuilders
 /.externalToolsBuilders/*
@@ -17,7 +16,6 @@ readme.txt
 /.externalToolBuilders/
 
 ############
-## Grunt
+## Gulp
 ############
-server/grunt/.sass-cache/
-server/grunt/node_modules/
+server/gulp/node_modules/

@@ -49,10 +49,6 @@ class Mappress_Map extends Mappress_Obj {
 				$this->height = ($this->height) ? $this->height : $size['height'];
 			}
 		}
-
-		// Default title
-		if (empty($this->title))
-			$this->title = __('Untitled', 'mappress');
 	}
 
 	static function register() {
@@ -101,21 +97,18 @@ class Mappress_Map extends Mappress_Obj {
 
 	static function meta_box($post) {
 		global $mappress;
-
 		$mappress->enqueue_editor();
 		require(Mappress::$basedir . '/forms/map_media.php');
 	}
 
 	static function ajax_create() {
 		ob_start();
-
 		$map = new Mappress_Map();
 		Mappress::ajax_response('OK', array('map' => $map));
 	}
 
 	static function ajax_get($mapid) {
 		ob_start();
-
 		$mapid = (isset($_GET['mapid'])) ? $_GET['mapid']  : null;
 		$map = ($mapid) ? self::get($mapid) : null;
 		if (!$map)
@@ -349,30 +342,27 @@ class Mappress_Map extends Mappress_Obj {
 	* @param mixed $atts - override attributes.  Attributes applied from options -> map -> $atts
 	*/
 	function display($atts = null) {
-		global $mappress;
-
 		static $div = 0;
+		global $mappress;
 
 		$this->update($atts);
 		$this->options->update($atts);
 
-		// Assign a map name, if none was provided
+		// Assign a map name, if none was provided.  Uniqid is used for for ajax to prevent repeating ids
 		if (empty($this->name)) {
-			$this->name = "mapp$div";
+			$this->name = (defined('DOING_AJAX') && DOING_AJAX) ? "mapp" . uniqid() : "mapp$div";
 			$div++;
 		}
 
-		// Enqueue the map
-		$mappress->enqueue_map($this);
-
 		// Layout
 		if (class_exists('Mappress_Pro'))
-			return $mappress->get_template($this->options->template, array('map' => $this));
+			$html = $mappress->get_template($this->options->template, array('map' => $this));
+		else
+			$html = $mappress->get_template('map_layout', array('map' => $this));
 
-		ob_start();
-		$map = $this;
-		require(Mappress::$basedir . '/templates/map_layout.php');
-		return ob_get_clean();
+		// Enqueue or output map
+		$html .= $mappress->enqueue_map($this);
+		return $html;
 	}
 
 	/**
@@ -387,7 +377,6 @@ class Mappress_Map extends Mappress_Obj {
 
 		// Prepare the pois
 		foreach($this->pois as $poi) {
-			$poi->set_iconid();
 			$poi->set_title();
 			$poi->set_body();
 		}
@@ -402,6 +391,40 @@ class Mappress_Map extends Mappress_Obj {
 
 		// Last chance to alter map before display
 		do_action('mappress_map_display', $this);
+	}
+
+	/**
+	* Autoicons
+	*/
+	function autoicons() {
+		// Nothing to do if there are no POIs
+		if (!count($this->pois))
+			return;
+
+		// Currently only taxonomies are supported
+		foreach ((array) Mappress::$options->autoicons as $autoicon) {
+			$autoicon = (object) wp_parse_args($autoicon, array('key' => null, 'value' => null, 'iconid' => null));
+			$term = get_term_by('slug', $autoicon->value, $autoicon->key);
+			if (!is_object($term))
+				continue;
+
+			$objects = get_objects_in_term($term->term_id, $autoicon->key);
+
+			// Error, e.g. invalid taxonomy
+			if (!is_array($objects))
+				continue;
+
+			$objects = array_flip($objects);
+			foreach($this->pois as &$poi) {
+				if (array_key_exists($poi->postid, $objects)) {
+					$poi->iconid = $autoicon->iconid;
+				}
+			}
+		}
+
+		// Filter
+		foreach($this->pois as &$poi)
+			$poi->iconid = apply_filters('mappress_poi_iconid', $poi->iconid, $poi);
 	}
 
 	/**
@@ -446,35 +469,21 @@ class Mappress_Map extends Mappress_Obj {
 
 		$html = "<table class='mapp-m-map-list'>";
 		foreach($maps as $map)
-			$html .= "<tr data-mapid='$map->mapid'><td><b><a href='#' class='mapp-maplist-title mapp-maplist-edit'>[$map->mapid] $map->title</a></b>$actions</td></tr>";
+			$html .= "<tr data-mapid='$map->mapid'><td><b><a href='#' class='mapp-maplist-title mapp-maplist-edit'>[$map->mapid] " . esc_html($map->title) . "</a></b>$actions</td></tr>";
 
 		$html .= "</table>";
 		return $html;
 	}
 
-	function get_border_style() {
-		$style = '';
-
-		$border = $this->options->border;
-		if (isset($border['style']) && $border['style']) {
-			$style .= sprintf("border: %spx %s %s; ", $border['width'], $border['style'], $border['color']);
-
-			if (isset($border['radius']) && $border['radius']) {
-				$radius = $border['radius'] . 'px';
-				$style .= " border-radius: $radius; -moz-border-radius: $radius; -webkit-border-radius: $radius; -o-border-radius:$radius; ";
-			}
-		}
-
-		if (isset($border['shadow']) && $border['shadow'])
-			$style .= " -moz-box-shadow: 10px 10px 5px #888; -webkit-box-shadow: 10px 10px 5px #888; box-shadow: 10px 10px 5px #888;";
-
-		return $style;
+	function get_layout_class() {
+		$class = "mapp-layout";
+		$class .= ($this->options->alignment && $this->options->alignment != 'default') ? " mapp-align-{$this->options->alignment}" : '';
+		$class .= (wp_is_mobile()) ? " mobile" : '';
+		return $class;
 	}
 
 	function get_layout_style() {
-		$style = $this->get_border_style();
-		if ($this->options->hidden)
-			$style .= ' display:none;';
+		$style = ($this->options->hidden) ? ' display:none;' : '';
 		return $style;
 	}
 

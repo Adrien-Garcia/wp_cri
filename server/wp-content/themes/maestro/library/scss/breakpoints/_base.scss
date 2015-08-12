@@ -36,6 +36,19 @@ HEADER STYLES
 
 .header {
 	background-color: $black;
+	
+	h1 {
+		position: relative;
+		/*&:after {
+			content: "";
+			@include sprite($login-logo);
+			position: absolute;
+			top: -15px;
+			left: -58px;
+			background-color: #575757;
+		}*/
+	}
+	
 }
 
 	#logo {
