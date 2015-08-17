@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
 "Project-Id-Version: 4.2.x\n"
 
 #: wp-signup.php:716
@@ -442,7 +442,7 @@ msgstr "Il ne semble pas y avoir de fichier <code>wp-config.php</code>. J&rsquo;
 msgid "Links for %s"
 msgstr "Liens pour %s"
 
-#: wp-includes/wp-db.php:2990
+#: wp-includes/wp-db.php:2979
 msgid "<strong>ERROR</strong>: WordPress %1$s requires MySQL %2$s or higher"
 msgstr "<strong>ERREUR</strong>&nbsp;: WordPress %1$s requiert MySQL %2$s ou une version supérieure."
 
@@ -635,16 +635,16 @@ msgstr "(WordPress n&rsquo;a pas pu établir de connexion sécurisée vers WordP
 msgid "An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href=\"https://wordpress.org/support/\">support forums</a>."
 msgstr "Une erreur inattendue s&rsquo;est produite. Quelque chose semble ne pas fonctionner avec WordPress.org ou la configuration de ce serveur. Si vous continuez à rencontrer des problèmes, veuillez essayer les <a href=\"http://www.wordpress-fr.net/support\">forums de support</a>."
 
-#: wp-includes/theme.php:1969
+#: wp-includes/theme.php:1948
 msgid "Customizer"
 msgstr "Outil de personnalisation"
 
 #. translators: 1: Theme support 2: hook name
-#: wp-includes/theme.php:1635
+#: wp-includes/theme.php:1614
 msgid "Theme support for %1$s should be registered before the %2$s hook."
 msgstr "La reconnaissance de %1$s par le thème doit être enregistrée avec le point d'accroche %2$s"
 
-#: wp-includes/theme.php:1504
+#: wp-includes/theme.php:1483
 msgid "You need to pass an array of types."
 msgstr "Vous devez passer un tableau de types."
 
@@ -1567,33 +1567,33 @@ msgstr "Dans <code>%1$s</code>, utilisez la méthode <code>%2$s</code>, pas la f
 msgid "Conditional query tags do not work before the query is run. Before then, they always return false."
 msgstr "Les balises de requête conditionnelle ne fonctionnent pas avant le lancement de la requête. Avant cela, elles renvoient toujours le booléen <code>false</code>."
 
-#: wp-includes/post.php:3891 wp-includes/script-loader.php:449
+#: wp-includes/post.php:3892 wp-includes/script-loader.php:449
 #: wp-includes/script-loader.php:510
 msgctxt "tag delimiter"
 msgid ","
 msgstr ", "
 
-#: wp-includes/post.php:3459
+#: wp-includes/post.php:3460
 msgid "The page template is invalid."
 msgstr "Le modèle de page est invalide."
 
-#: wp-includes/post.php:3395
+#: wp-includes/post.php:3396
 msgid "Could not insert post into the database"
 msgstr "Impossible d&rsquo;insérer l&rsquo;article dans la base de données"
 
-#: wp-includes/post.php:3380
+#: wp-includes/post.php:3381
 msgid "Could not update post in the database"
 msgstr "Impossible de mettre à jour l&rsquo;article dans la base de données"
 
-#: wp-includes/post.php:3236
+#: wp-includes/post.php:3237
 msgid "Whoops, the provided date is invalid."
 msgstr "Oups, la date fournie n&rsquo;est pas valable."
 
-#: wp-includes/post.php:3168
+#: wp-includes/post.php:3169
 msgid "Content, title, and excerpt are empty."
 msgstr "Le contenu de l&rsquo;article, le titre et l&rsquo;extrait sont vides."
 
-#: wp-includes/post.php:3011
+#: wp-includes/post.php:3012
 msgid "Passing an integer number of posts is deprecated. Pass an array of arguments instead."
 msgstr "Il n&rsquo;est pas recommandé de passer un nombre entier d&rsquo;articles&nbsp;; il est préférable de passer un tableau d&rsquo;arguments."
 
@@ -3632,12 +3632,12 @@ msgstr "Modifier"
 msgid "Comments Feed"
 msgstr "Flux des commentaires"
 
-#: wp-includes/l10n.php:940
+#: wp-includes/l10n.php:944
 msgctxt "translations"
 msgid "Available"
 msgstr "Disponible"
 
-#: wp-includes/l10n.php:922
+#: wp-includes/l10n.php:926
 msgctxt "translations"
 msgid "Installed"
 msgstr "Installé"
@@ -4127,33 +4127,33 @@ msgid "ERROR: This is not a valid feed template."
 msgstr "ERREUR&nbsp;: ce n&rsquo;est pas un flux valide."
 
 #. translators: used to join items in a list with only 2 items
-#: wp-includes/formatting.php:3690
+#: wp-includes/formatting.php:3830
 msgid "%s and %s"
 msgstr "%s et %s"
 
 #. translators: used to join last two items in a list with more than 2 times
-#: wp-includes/formatting.php:3688
+#: wp-includes/formatting.php:3828
 msgid "%s, and %s"
 msgstr "%s et %s"
 
 #. translators: used to join items in a list with more than 2 items
-#: wp-includes/formatting.php:3686
+#: wp-includes/formatting.php:3826
 msgid "%s, %s"
 msgstr "%s, %s"
 
-#: wp-includes/formatting.php:3487
+#: wp-includes/formatting.php:3612
 msgid "The timezone you have entered is not valid. Please select a valid timezone."
 msgstr "Le fuseau horaire ne semble pas être valide. Veuillez en choisir une valide."
 
-#: wp-includes/formatting.php:3440
+#: wp-includes/formatting.php:3557
 msgid "The Site address you entered did not appear to be a valid URL. Please enter a valid URL."
 msgstr "L&rsquo;adresse de site que vous avez saisie ne semble pas être valide. Veuillez entrer une adresse valide."
 
-#: wp-includes/formatting.php:3429
+#: wp-includes/formatting.php:3544
 msgid "The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL."
 msgstr "L&rsquo;adresse de WordPress que vous avez saisie ne semble pas être valide. Veuillez entrer une adresse valide."
 
-#: wp-includes/formatting.php:3339
+#: wp-includes/formatting.php:3444
 msgid "The email address entered did not appear to be a valid email address. Please enter a valid email address."
 msgstr "L&rsquo;adresse de messagerie fournie ne semble pas être valide. Veuillez saisir une adresse valide."
 
@@ -4163,47 +4163,47 @@ msgstr "L&rsquo;adresse de messagerie fournie ne semble pas être valide. Veuill
 #. translators: If your word count is based on single characters (East Asian
 #. characters), 		   enter 'characters'. Otherwise, enter 'words'. Do not
 #. translate into your own language.
-#: wp-includes/formatting.php:2667 wp-includes/script-loader.php:379
+#: wp-includes/formatting.php:2770 wp-includes/script-loader.php:379
 msgctxt "word count: words or characters?"
 msgid "words"
 msgstr "words"
 
-#: wp-includes/formatting.php:2662 wp-includes/general-template.php:2721
+#: wp-includes/formatting.php:2765 wp-includes/general-template.php:2721
 msgid "&hellip;"
 msgstr "&hellip;"
 
-#: wp-includes/formatting.php:2575
+#: wp-includes/formatting.php:2678
 msgid "%s year"
 msgid_plural "%s years"
 msgstr[0] "%s année"
 msgstr[1] "%s années"
 
-#: wp-includes/formatting.php:2570
+#: wp-includes/formatting.php:2673
 msgid "%s month"
 msgid_plural "%s months"
 msgstr[0] "%s mois"
 msgstr[1] "%s mois"
 
-#: wp-includes/formatting.php:2565
+#: wp-includes/formatting.php:2668
 msgid "%s week"
 msgid_plural "%s weeks"
 msgstr[0] "%s semaine"
 msgstr[1] "%s semaines"
 
-#: wp-includes/formatting.php:2560
+#: wp-includes/formatting.php:2663
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] "%s jour"
 msgstr[1] "%s jours"
 
-#: wp-includes/formatting.php:2555
+#: wp-includes/formatting.php:2658
 msgid "%s hour"
 msgid_plural "%s hours"
 msgstr[0] "%s heure"
 msgstr[1] "%s heures"
 
 #. translators: min=minute
-#: wp-includes/formatting.php:2550
+#: wp-includes/formatting.php:2653
 msgid "%s min"
 msgid_plural "%s mins"
 msgstr[0] "%s minute"
@@ -4258,7 +4258,7 @@ msgid "&#8221;"
 msgstr "&nbsp;&raquo;"
 
 #. translators: opening curly double quote
-#: wp-includes/formatting.php:62 wp-includes/formatting.php:3927
+#: wp-includes/formatting.php:62 wp-includes/formatting.php:4067
 msgctxt "opening curly double quote"
 msgid "&#8220;"
 msgstr "&laquo;&nbsp;"
@@ -5353,8 +5353,8 @@ msgstr "Désolé, vous n&rsquo;avez pas l&rsquo;autorisation de modifier cet art
 #: wp-includes/class-wp-xmlrpc-server.php:4986
 #: wp-includes/class-wp-xmlrpc-server.php:5476
 #: wp-includes/class-wp-xmlrpc-server.php:5524
-#: wp-includes/class-wp-xmlrpc-server.php:5648 wp-includes/post.php:3124
-#: wp-includes/post.php:3582
+#: wp-includes/class-wp-xmlrpc-server.php:5648 wp-includes/post.php:3125
+#: wp-includes/post.php:3583
 msgid "Invalid post ID."
 msgstr "Identifiant de l&rsquo;article non valide."
 
@@ -5746,7 +5746,7 @@ msgstr "Votre navigateur ne supporte pas les accès direct au presse-papier. Veu
 
 #: wp-includes/class-wp-editor.php:974 wp-includes/script-loader.php:395
 #: wp-includes/script-loader.php:474 wp-includes/script-loader.php:482
-#: wp-includes/script-loader.php:586 wp-includes/theme.php:1968
+#: wp-includes/script-loader.php:586 wp-includes/theme.php:1947
 msgid "The changes you made will be lost if you navigate away from this page."
 msgstr "Les modifications que vous avez faites seront perdues si vous changez de page."
 
