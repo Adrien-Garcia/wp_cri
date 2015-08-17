@@ -1,0 +1,12 @@
+.srb_success {
+    background-color:#e5FFe5;
+}
+.srb_error {
+    background-color:#FFE5E5;
+}
+.srb_warning {
+    background-color: #fff9e5;
+}
+.srb_info {
+    background-color: #d4faff;
+}
