@@ -61,7 +61,7 @@ define('NONCE_SALT',       'g p*oJH!f2bSNmJZ diEfM7Et^&GU_-s6`m*TBv5#u,S+)%iA9T5
 * N'utilisez que des chiffres, des lettres non-accentuées, et des caractères soulignés!
 * Pour changer le nom des tables dans votre BDD : http://wpchannel.com/modifier-prefixe-base-donnees-wordpress-apres-installation/
 */
-$table_prefix  = 'wp_';
+$table_prefix  = 'opgrf_';
 /**
 * Langue de localisation de WordPress, par défaut en Anglais.
 *
@@ -84,7 +84,7 @@ define('WP_DEBUG', false);
 
 /* Sous domaine pour composants de la charte */
 if ( !defined('WP_CONTENT_URL') )
-define('WP_CONTENT_URL', 'http://static'.$_SERVER['SERVER_NAME'].'/wp-content');
+define('WP_CONTENT_URL', 'http://static.'.$_SERVER['SERVER_NAME'].'/wp-content');
 
 /* Cookie */
 //if ( !defined('COOKIE_DOMAIN') )
