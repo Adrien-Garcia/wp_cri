@@ -40,7 +40,7 @@
 
 <body <?php body_class(); ?>>
 
-	<?php 
+	<?php
 	/*
 	 * Google Analytics
 	 * Ne pas déplacer cette ligne.
