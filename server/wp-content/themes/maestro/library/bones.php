@@ -126,7 +126,9 @@ function bones_scripts_and_styles() {
 		//adding scripts file in the footer
 	    wp_register_script( 'bxslider', get_stylesheet_directory_uri() . '/library/js/min/jquery.bxslider.min.js', array('jquery'), '4.1.2', true );
 	    wp_register_script( 'picturefill', get_stylesheet_directory_uri() . '/library/js/min/picturefill.min.js', array(), '2.1.0-beta', true );
-		wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/min/scripts.min.js', array( 'jquery' ), '', true );
+	    wp_register_script( 'slider', get_stylesheet_directory_uri() . '/library/js/min/slider.min.js', array( 'jquery' ), '', true );
+	    wp_register_script( 'enquire', get_stylesheet_directory_uri() . '/library/js/min/enquire.min.js', array( 'jquery' ), '', true );
+	    wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/min/scripts.min.js', array( 'jquery' ), '', true );
 
 		// enqueue scripts
 		wp_enqueue_script( 'jquery' );
@@ -135,6 +137,8 @@ function bones_scripts_and_styles() {
 		wp_enqueue_script( 'bxslider' );
 		wp_enqueue_script( 'picturefill' );
 		wp_enqueue_script( 'bones-js' );
+		wp_enqueue_script( 'enquire' );
+		wp_enqueue_script( 'slider' );
 		
 		// enqueue styles
 		wp_enqueue_style( 'bones-stylesheet' );

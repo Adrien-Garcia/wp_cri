@@ -41,6 +41,8 @@ $_REQUEST['updated'] = false;
 		
 		<div>
 			
+			<h3><?php echo __( 'Google Tracking','bonestheme' )?></h3>
+			
 			<input id="theme_settings[enable_tracking]" name="theme_settings[enable_tracking]" type="checkbox" value="1" <?php checked( '1', $options['enable_tracking'] ); ?> />
 			<label for="theme_settings[enable_tracking]"><?php echo __( 'Enable Google Tracking',"bonestheme" ); ?></label>
 			<br/>
@@ -51,12 +53,79 @@ $_REQUEST['updated'] = false;
 		
 		</div>
 		
+		<hr>
+		
+		<div>
+		
+            <h3><?php echo __( 'Slider Options','bonestheme' ) ?></h3>
+            
+            <h4><?php echo __( 'General','bonestheme' ) ?></h4>
+            
+            <input id="full" type="radio" name="theme_settings[slider]" value="full"<?php checked( 'full' == $options['slider'] ); ?> />
+            <label for="full"><?php echo __( 'Enable "Full Slider"',"bonestheme" ); ?></label><br />
+            <input id="normal" type="radio" name="theme_settings[slider]" value="normal"<?php checked( 'normal' == $options['slider'] ); ?> />
+            <label for="normal"><?php echo __( 'Enable "Normal Slider"',"bonestheme" ); ?></label><br />
+            <input id="none" type="radio" name="theme_settings[slider]" value="none"<?php checked( 'none' == $options['slider'] ); ?> />
+            <label for="none"><?php echo __( 'Disable Slider',"bonestheme" ); ?></label><br><br>
+        
+            <input id="theme_settings[enable_responsive]" name="theme_settings[enable_responsive]" type="checkbox" value="1" <?php checked( '1', $options['enable_responsive'] ); ?> />
+			<label for="theme_settings[enable_responsive]"><?php echo __( 'Enable Responsive Slider',"bonestheme" ); ?></label>
+        
+            <h4><?php echo __( 'BxSlider parameters','bonestheme' ) ?></h4>
+            
+            <label><?php echo __( 'Mode',"bonestheme" ); ?></label>
+            <select id="theme_settings[mode]" name="theme_settings[mode]">
+              <option value="horizontal" <?php selected( 'horizontal' == $options['mode'] ); ?>>horizontal</option> 
+              <option value="vertical" <?php selected( 'vertical' == $options['mode'] ); ?>>vertical</option>
+              <option value="fade" <?php selected( 'fade' == $options['mode'] ); ?>>fade</option>
+            </select><br><br>
+            
+            <label><?php echo __( 'Speed',"bonestheme" ); ?></label>
+            <input id="theme_settings[speed]" type="text" name="theme_settings[speed]" value="<?php esc_attr_e( $options['speed'] ); ?>"><br><br>
+            
+            <label><?php echo __( 'InfiniteLoop',"bonestheme" ); ?></label>
+            <select id="theme_settings[infiniteLoop]" name="theme_settings[infiniteLoop]">
+              <option value="true" <?php selected( 'true' == $options['infiniteLoop'] ); ?>>true</option> 
+              <option value="false" <?php selected( 'false' == $options['infiniteLoop'] ); ?>>false</option>
+            </select><br><br>
+            
+            <label><?php echo __( 'Pager',"bonestheme" ); ?></label>
+            <select id="theme_settings[pager]" name="theme_settings[pager]">
+              <option value="true" <?php selected( 'true' == $options['pager'] ); ?>>true</option> 
+              <option value="false" <?php selected( 'false' == $options['pager'] ); ?>>false</option>
+            </select><br><br>
+            
+            <label><?php echo __( 'PagerType',"bonestheme" ); ?></label>
+            <select id="theme_settings[pagerType]" name="theme_settings[pagerType]">
+              <option value="full" <?php selected( 'full' == $options['pagerType'] ); ?>>full</option> 
+              <option value="short" <?php selected( 'short' == $options['pagerType'] ); ?>>short</option>
+            </select><br><br>
+            
+            <label><?php echo __( 'Controls',"bonestheme" ); ?></label>
+            <select id="theme_settings[controls]" name="theme_settings[controls]">
+              <option value="true" <?php selected( 'true' == $options['controls'] ); ?>>true</option> 
+              <option value="false" <?php selected( 'false' == $options['controls'] ); ?>>false</option>
+            </select><br><br>
+            
+        </div>
+		
+		<hr>
+		
+		<div>
+ 
+            <h3><?php echo __( 'Mobile Menu Options','bonestheme' ) ?></h3>
+            
+            <input id="theme_settings[enable_menu]" name="theme_settings[enable_menu]" type="checkbox" value="1" <?php checked( '1', $options['enable_menu'] ); ?> />
+			<label for="theme_settings[enable_menu]"><?php echo __( 'Enable Mobile Menu',"bonestheme" ); ?></label>
+            
+        </div>
+		
 		<p>
 			<input name="submit" id="submit" class="button button-primary button-large" value="<?php echo __( 'Save changes','bonestheme' ); ?>" type="submit">
 		</p>
 		
-	</form>
-
+	</form>	
+        
 </div><!-- END wrap -->
 
 <?php
