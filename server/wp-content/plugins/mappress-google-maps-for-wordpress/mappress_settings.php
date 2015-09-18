@@ -3,7 +3,8 @@
 * Options
 */
 class Mappress_Options extends Mappress_Obj {
-	var $alignment,
+	var $adaptive,
+		$alignment,
 		$autoicons,
 		$apiKey,
 		$autodisplay = 'top',
@@ -162,6 +163,7 @@ class Mappress_Settings {
 
 		add_settings_section('misc_settings', __('Miscellaneous', 'mappress'), array($this, 'section_settings'), 'mappress');
 		add_settings_field('sizes', __('Map sizes', 'mappress'), array($this, 'set_sizes'), 'mappress', 'misc_settings');
+		add_settings_field('adaptive', __('Adaptive display', 'mappress'), array($this, 'set_adaptive'), 'mappress', 'misc_settings');
 		add_settings_field('footer', __('Scripts', 'mappress'), array($this, 'set_footer'), 'mappress', 'misc_settings');
 		add_settings_field('css', __('CSS', 'mappress'), array($this, 'set_css'), 'mappress', 'misc_settings');
 	}
@@ -215,6 +217,10 @@ class Mappress_Settings {
 		echo "<p>";
 		echo __("Use the settings below to automatically create maps from custom fields.");
 		echo "</p>";
+	}
+
+	function set_adaptive() {
+		echo self::checkbox($this->options->adaptive, 'mappress_options[adaptive]', __("Recenter maps when window is resized", 'mappress'));
 	}
 
 	function set_post_types() {

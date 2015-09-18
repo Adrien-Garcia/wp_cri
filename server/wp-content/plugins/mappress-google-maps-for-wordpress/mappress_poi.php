@@ -76,6 +76,7 @@ class Mappress_Poi extends Mappress_Obj {
 
 		if (class_exists('Mappress_Pro')) {
 			$html = $mappress->get_template($this->map()->options->templatePoi, array('poi' => $this));
+			$html = apply_filters('mappress_poi_html', $html, $this);
 		} else {
 			$html = "<div class='mapp-iw'>"
 			. "<div class='mapp-title'>" . $this->title . "</div>"
@@ -87,43 +88,28 @@ class Mappress_Poi extends Mappress_Obj {
 	}
 
 	/**
-	* Sets the poi title and url
-	* - may replace title with post title (used in sorting)
-	* - sets poi url if mashupClick=true,
-	*
+	* Prepare poi for output
 	*/
-	function set_title() {
+	function prepare() {
 		$map = $this->map();
 
-		$style = ($this->postid) ? $map->options->mashupTitle : 'poi';
-
-		if ($style == 'post') {
+		// Set title
+		if ($map->options->mashupTitle = 'post' && $this->postid) {
 			$post = get_post($this->postid);
 			$this->title = $post->post_title;
-		}
-	}
-
-	/**
-	* Sets the poi body based on style settings; replaces original body
-	*
-	*/
-	function set_body() {
-		$map = $this->map();
-
-		// If a filter exists, use it instead of this function
-		if (has_filter('mappress_poi_body')) {
-			$this->body = apply_filters('mappress_poi_body', $this->body, $this);
-			return;
 		}
 
 		$style = ($this->postid) ? $map->options->mashupBody : 'poi';
 
-		// Get the post excerpt
-		if ($style == 'post')
+		// Set body
+		if ($map->options->mashupBody == 'post' && $this->postid)
 			$this->body = $this->get_post_excerpt();
-
-		if ($style == 'address')
+		else if ($map->options->mashupBody == 'address')
 			$this->body = $this->get_address();
+
+		// Set URL
+		if ($this->postid && ($map->options->mashupClick == 'post' || $map->options->mashupLink))
+			$this->url = get_permalink($this->postid);
 	}
 
 	/**
@@ -140,8 +126,8 @@ class Mappress_Poi extends Mappress_Obj {
 	*/
 	function get_title_link() {
 		$map = $this->map();
-		$link = ($this->postid) ? $map->options->mashupLink : false;
-		return ($link) ? "<a href='" . get_permalink($this->postid) . "'>$this->title</a>" : $this->title;
+		$link = ($this->postid && $map->options->mashupLink) ? sprintf("<a href='%s'>%s</a>", $this->url, esc_html($this->title)) : $this->title;
+		return $link;
 	}
 
 	/**
@@ -199,7 +185,7 @@ class Mappress_Poi extends Mappress_Obj {
 	function get_links($context = '') {
 		$map = $this->map();
 
-		$links = apply_filters('mappress_poi_links', $map->options->poiLinks, $context, $this);
+		$links = $map->options->poiLinks;
 
 		$a = array();
 
@@ -219,7 +205,7 @@ class Mappress_Poi extends Mappress_Obj {
 			return "";
 
 		$html = implode('&nbsp;&nbsp;', $a);
-		return apply_filters('mappress_poi_links_html', $html, $context, $this);
+		return $html;
 	}
 
 	function get_icon() {
@@ -278,7 +264,7 @@ class Mappress_Poi extends Mappress_Obj {
 	function get_open_link ($args = '') {
 		$map = $this->map();
 		extract(wp_parse_args($args, array(
-			'title' => $this->get_title(),
+			'title' => $this->title,
 			'zoom' => null
 		)));
 
@@ -319,7 +305,7 @@ class Mappress_Poi extends Mappress_Obj {
 
 		// If linking poi to underlying post, then link the featured image
 		if ($map->options->mashupLink)
-			$html = "<a href='" . get_permalink($this->postid) . "'>$html</a>";
+			$html = "<a href='" . $this->url . "'>$html</a>";
 
 		return $html;
 	}

@@ -376,10 +376,8 @@ class Mappress_Map extends Mappress_Obj {
 			$poi->map($this);
 
 		// Prepare the pois
-		foreach($this->pois as $poi) {
-			$poi->set_title();
-			$poi->set_body();
-		}
+		foreach($this->pois as $poi)
+			$poi->prepare();
 
 		// Sort the pois
 		if ($this->options->sort)
