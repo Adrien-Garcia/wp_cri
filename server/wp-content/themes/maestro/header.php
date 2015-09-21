@@ -34,6 +34,7 @@
 	<?php // wordpress head functions ?>
 	<?php wp_head(); ?>
 	<?php // end of wordpress head ?>
+
 	
 </head>
 
