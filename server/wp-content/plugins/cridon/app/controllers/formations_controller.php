@@ -1,14 +1,20 @@
 <?php
 
 class FormationsController extends MvcPublicController {
+    /*
+     * We use the standard function for wordpress for queries ( query_posts() ) in views
+     */
     public function show() {
-        $entity = $this->model->find_by_id($this->params['id']);
-        
-        if (empty($entity)) {
-            MvcError::fatal('Object not found!');
-        }
-        $this->set('entity', $entity);
-        $this->set('post', $entity->post);
+        global $wpdb;
+        global $custom_global_join;
+        $custom_global_join = ' JOIN '.$this->model->table.' ON '.$wpdb->posts.'.ID = '.$this->model->table.'.post_id';
+        global $custom_global_where;
+        $custom_global_where = ' AND '.$this->model->table.'.id = ' . $this->params['id'];        
+    }
+    public function index() {
+        global $wpdb;
+        global $custom_global_join;
+        $custom_global_join = ' JOIN '.$this->model->table.' ON '.$wpdb->posts.'.ID = '.$this->model->table.'.post_id';
     }
 }
 

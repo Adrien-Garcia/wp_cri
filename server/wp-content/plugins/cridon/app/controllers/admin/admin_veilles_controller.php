@@ -1,5 +1,17 @@
 <?php
 
+/**
+ *
+ * This file is part of project 
+ *
+ * File name : admin_veilles_controller.php
+ * Project   : wp_cridon
+ *
+ * @author Etech
+ * @contributor Fabrice MILA
+ *
+ */
+
 class AdminVeillesController extends MvcAdminController {
     
     var $default_columns = array('id', 'post' => array('label'=> 'Titre' ,'value_method' => 'post_edit_link'));
@@ -32,7 +44,7 @@ class AdminVeillesController extends MvcAdminController {
     public function post_edit_link($object)
     {      
         $aOptionList = array(
-                '__name'    => 'post_title'
+            '__name'    => 'post_title'
         );
         $this->prepareData($aOptionList, $object->post);
         return empty($object->post) ? null : '<a href="'.$this->postEditUrl($object, $this).'" title="Edit">'.$object->post->__name.'</a>';

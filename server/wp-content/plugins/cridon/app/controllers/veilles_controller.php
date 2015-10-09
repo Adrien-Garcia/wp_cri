@@ -1,5 +1,17 @@
 <?php
 
+/**
+ *
+ * This file is part of project 
+ *
+ * File name : veilles_controller.php
+ * Project   : wp_cridon
+ *
+ * @author Etech
+ * @contributor Fabrice MILA
+ *
+ */
+
 class VeillesController extends MvcPublicController {
     /*
      * We use the standard function for wordpress for queries ( query_posts() ) in views

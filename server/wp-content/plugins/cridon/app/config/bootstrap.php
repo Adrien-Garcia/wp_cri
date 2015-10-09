@@ -81,7 +81,7 @@ function on_post_import( $post_ID ) {
                 'controller' => $v[ 'controller' ],
                 'action'     => $v[ 'action' ]
             );
-            $adminUrl = MvcRouter::admin_url($options);
+            $adminUrl  = MvcRouter::admin_url($options);
             $adminUrl .= '&flash=success';
             wp_redirect( $adminUrl, 301 );
             exit; 

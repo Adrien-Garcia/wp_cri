@@ -3,12 +3,14 @@
 
 class QueryBuilder{
     
+    public $lastInsertId;
     protected $wpdb;
     
     public function __construct()
     {
         global $wpdb;
         $this->wpdb = $wpdb;
+        $this->lastInsertId = false;
     }
     
     public function find( $options ){
@@ -64,6 +66,178 @@ class QueryBuilder{
             'conditions' => $conditions
         );       
         $this->delete($options);
+    }
+    
+    private function constructJoin( $option ){
+        if( isset( $option[ 'type'] ) ){
+            switch ( $option[ 'type'] ){
+                case 'left':
+                    $sql = ' LEFT JOIN ';
+                    break;
+                case 'right':
+                    $sql = ' RIGHT JOIN ';
+                    break;
+                case 'full':
+                    $sql = ' FULL JOIN ';            
+                    break;
+                default:
+                    $sql = ' INNER JOIN ';            
+            }            
+        }else{
+            $sql = ' INNER JOIN ';            
+        }
+        $table = $this->wpdb->prefix.$option['table'];
+        $sql .= $table.' ON '.$option['column'].' ';
+        return $sql;
+    }
+    public function findAll( $table , $options = array() ,$primaryKey = 'id' ){
+        $table = $this->wpdb->prefix.$table;
+        $sql = 'SELECT ';         
+        if( isset( $options['fields'] ) ){
+            if( is_array( $options['fields'] ) ){
+                $sql .= implode( ', ',$options['fields'] );
+            }
+            else{
+                $sql .= $options['fields'];
+            }
+        }
+        else{
+            $sql .='*';
+        }
+        if (isset($options['synonym'])) {
+            $synonym = $options['synonym'];
+        } else {
+            $synonym = $table;
+        }
+        $sql .= ' FROM '.$table.' as '.$synonym.' ';
+        //construnct join
+        if( isset( $options['join'] ) ){
+            if( is_array( $options['join'] ) ){
+                foreach( $options['join'] as $option ){
+                    $sql .= $this->constructJoin( $option );
+                }
+            }
+        }
+        //construct conditions
+        if( isset( $options['conditions'] ) ){
+            $sql .= 'WHERE ';
+            if( !is_array( $options['conditions'] ) ){
+                $sql .= $options['conditions'];
+            }
+            else{
+                $cond = array();
+                foreach( $options['conditions'] as $k=>$v ){
+                    if( !is_numeric( $v ) ){
+                        $v = '"'.mysqli_real_escape_string( $v ).'"'; //clean
+                    }                    
+                    $cond[] = "$k = $v";
+                }
+                $sql .= implode( ' AND ',$cond );
+            }            
+        }
+        if( isset( $options['not'] ) ){
+            if ( !isset($options['conditions'] ) ) {
+                $sql .= 'WHERE ';
+            } else {
+                $sql .= ' AND ';
+            }
+            $cond = array();
+            foreach( $options['not'] as $k=>$v ){
+                if( !is_numeric($v) ){
+                    $v = '"'.mysqli_real_escape_string($v).'"'; //clean
+                }                    
+                $cond[] = "$k <> $v";
+            }
+            $sql .= implode( ' AND ',$cond );                
+        }
+        if( isset( $options['in'] ) && !empty( $options['in'] ) ){
+            if ( !isset($options['conditions'] ) && !isset( $options['not'] )) {
+                $sql .= 'WHERE ';                
+            }else{
+                $sql .= ' AND ';
+            }
+            $cond = array();
+            foreach( $options['in'] as $k => $v ){
+                foreach( $v as $l=>$w ){
+                    if( !is_numeric( $w ) ){
+                        $w = '"'.mysqli_real_escape_string( $w ).'"'; //clean
+                    }
+                    $cond[] = "$w";
+                }
+                $sql .= $k.' IN ('.implode(' ,',$cond).' )';
+                if( count( $options['in']) > 1 ){
+                    $sql .= ' AND ';
+                }
+            }
+        }
+        if( isset( $options['group'] ) ){
+            $sql .= ' GROUP BY '.$options['group'];
+        }
+        $sql .= ' ORDER BY '.$primaryKey;
+        if( isset( $options['order'] ) ){
+            $sql .= ' '.$options['order'];
+        }else{
+            $sql .= ' ASC';
+        }
+        if( isset( $options['limit'] ) ){
+            $sql .= ' LIMIT '.$options['limit'];
+        }
+        return $this->wpdb->get_results( $sql );
+    }
+    public function findOne( $table , $options = array() ,$primaryKey = 'id' ){
+        $options['limit'] = 1;
+        $results = $this->findAll( $table, $options, $primaryKey );
+        return ( empty( $results ) ) ? null : $results[0];
+    }
+    private function format( $value ){
+        if( is_float( $value ) || is_double( $value )){
+            return "%f";                    
+        }
+        elseif( is_int( $value ) ){
+            return "%d";                    
+        }
+        return "%s";
+    }
+    public function save( $data,$table,$primaryKey ){
+        $table = $this->wpdb->prefix.$table;
+        $key = $primaryKey;
+        $fields = array();
+        $values = array();
+        $d = array();
+        foreach( $data as $k => $v ){ 
+            if( isset( $data->$key )&& !empty( $data->$key ) ){
+                if( $k !== $key ){
+                    $fields[] = "$k= ". $this->format( $v );        
+                }
+            }else{
+                $fields[] = "$k";
+                $values[] = $this->format( $v ); 
+            }
+            $d[] = $v;                    
+        }
+        //update
+        if( isset( $data->$key )&& !empty( $data->$key ) ){
+            $this->id = $data->$key;
+            if (isset($data->$key)) {
+                unset($data->$key);
+            }
+            $sql = 'UPDATE '.$table.' SET '.implode(',',$fields).' WHERE '.$key.'= %d';            
+            $action = 'update';
+        }
+        else{
+            if ( isset( $data->$key ) ) {
+                unset( $data->$key );
+            }
+            $sql = 'INSERT INTO '.$table.'('.implode(',',$fields).') VALUES( '.implode(',',$values).' )';
+            $action = 'insert';
+        }
+        $this->wpdb->query( $this->wpdb->prepare( $sql, $d ) );
+        if( $action == 'insert' ){
+            if( $this->wpdb->insert_id ){
+                $this->lastInsertId = $this->wpdb->insert_id;
+            }
+        }
+        return true;
     }
 }
 

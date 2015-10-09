@@ -1,10 +1,17 @@
 <?php
+
 /**
- * Sample controller for downloading files in front
  *
- * @author ETECH
+ * This file is part of project 
+ *
+ * File name : documents_controller.php
+ * Project   : wp_cridon
+ *
+ * @author Etech
  * @contributor Fabrice MILA
+ *
  */
+
 class DownloadsController extends MvcPublicController{
     
     public function downloadQuestion(){

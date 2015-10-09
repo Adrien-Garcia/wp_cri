@@ -18,31 +18,6 @@ class ActuCridon extends MvcModel {
         }
         parent::delete($id);
     }
-    public function create($data) {  
-        if( isset( $data[$this->name]['post_id'] ) ){
-            $qb = new QueryBuilder();
-            $options = array(
-                'table'         => 'postmeta',
-                'attributes'    => 'post_id,meta_key,meta_value',
-                'values'        => $data[$this->name]['post_id'].',"_cridon_post_value",'.Config::$data[ $this->name ][ 'value' ]
-            );       
-            $qb->insert($options);
-        }
-        return parent::create($data);
-    }
-    public function save($data) {
-        if( isset( $data[$this->name]['post_id'] ) ){
-            $qb = new QueryBuilder();
-            $options = array(
-                'table'         => 'postmeta',
-                'attributes'    => 'post_id,meta_key,meta_value',
-                'values'        => $data[$this->name]['post_id'].',"_cridon_post_value",'.Config::$data[ $this->name ][ 'value' ]
-            );       
-            $qb->insert($options);
-        }
-        return parent::save($data);
-    }
-    
 }
 
 ?>

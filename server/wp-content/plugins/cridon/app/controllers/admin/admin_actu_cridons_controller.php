@@ -1,5 +1,17 @@
 <?php
 
+/**
+ *
+ * This file is part of project 
+ *
+ * File name : admin_actu_cridon_controller.php
+ * Project   : wp_cridon
+ *
+ * @author Etech
+ * @contributor Fabrice MILA
+ *
+ */
+
 class AdminActuCridonsController extends MvcAdminController {
     
     var $default_columns = array('id', 'post' => array('label'=> 'Titre' ,'value_method' => 'post_edit_link'));
