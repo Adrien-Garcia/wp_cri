@@ -42,7 +42,7 @@ class QueryBuilder{
     
     public function deletePost( $post_ID ){
         // Delete postmeta before deleting post
-        $this->detelePostMeta($post_ID);
+        $this->deletePostMeta( $post_ID );
         //Delete trash ...
         $conditions_2 = 'post_parent = '.$post_ID;
         $options_2 = array(
@@ -50,6 +50,8 @@ class QueryBuilder{
             'conditions' => $conditions_2
         );       
         $this->delete($options_2);
+        // Delete comment
+        $this->deleteComment( $post_ID );
         // Delete post
         $conditions = 'ID = '.$post_ID;
         $options = array(
@@ -59,7 +61,29 @@ class QueryBuilder{
         $this->delete($options);
     }
     
-    private function detelePostMeta( $post_ID ){
+    private function deleteCommentMeta( $comment_ID ){
+        $conditions = 'comment_id = '.$comment_ID;
+        $options = array(
+            'table' => 'commentmeta',
+            'conditions' => $conditions
+        );       
+        $this->delete($options);
+    }
+    private function deleteComment( $post_ID ){
+        $conditions = 'comment_post_ID = '.$post_ID;
+        $options = array(
+            'table' => 'comments',
+            'conditions' => $conditions
+        );  
+        $aComments = $this->findAll( 'comments', $options,'comment_ID' );
+        if( !empty( $aComments ) ){
+            foreach ( $aComments as $comment ){
+                $this->deleteCommentMeta( $comment->comment_ID );
+            }            
+        }
+        $this->delete($options);
+    }
+    private function deletePostMeta( $post_ID ){
         $conditions = 'post_id = '.$post_ID;
         $options = array(
             'table' => 'postmeta',
@@ -199,6 +223,7 @@ class QueryBuilder{
         return "%s";
     }
     public function save( $data,$table,$primaryKey ){
+        $this->lastInsertId = false; // init
         $table = $this->wpdb->prefix.$table;
         $key = $primaryKey;
         $fields = array();
