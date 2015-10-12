@@ -11,43 +11,37 @@ class Config {
     // Les modèles associés à cri_posts
     // avec les noms des tables sans les préfixes
     public static $data = array(
-        'veilles' => array(                    //Indice correspondant aux noms de fichier de controlleur 
-            'value'             => 'veilles', // Nécessaire à la correspondance
-            'name_metabox'      => 'Veille', // Titre au niveau du metabox
-            'name'              => 'veille', // nom de la table
-            'controller'        => 'veilles', // contrôleur pour la redirection après ajout de post
-            'action'            => 'index' // action associée au contrôleur
+        'veilles' => array(                    // Indice correspondant aux noms de fichier de controlleur 
+            'value'             => 'veilles',  // Nécessaire à la correspondance
+            'name'              => 'veille',   // Nom de la table
+            'controller'        => 'veilles',  // Contrôleur pour la redirection après ajout de post
+            'action'            => 'index'     // Action associée au contrôleur
         ),
         'flashes' => array(
             'value'             => 'flashes',
-            'name_metabox'      => 'Flash',
             'name'              => 'flash',
-            'controller'        => 'flashes', // contrôleur pour la redirection après ajout de post
-            'action'            => 'index' // action associée au contrôleur
+            'controller'        => 'flashes', 
+            'action'            => 'index' 
         ),
         'actu_cridons' => array(
             'value'             => 'actu_cridons',
-            'name_metabox'      => 'Actus Cridon',
             'name'              => 'actu_cridon',
-            'controller'        => 'actu_cridons', // contrôleur pour la redirection après ajout de post
-            'action'            => 'index' // action associée au contrôleur
+            'controller'        => 'actu_cridons', 
+            'action'            => 'index' 
         ),
         'formations' => array(
             'value'             => 'formations',
-            'name_metabox'      => 'Formation',
             'name'              => 'formation',
-            'controller'        => 'formations', // contrôleur pour la redirection après ajout de post
-            'action'            => 'index' // action associée au contrôleur
+            'controller'        => 'formations', 
+            'action'            => 'index' 
         ),
         'cahier_cridons' => array(
             'value'             => 'cahier_cridons',
-            'name_metabox'      => 'Cahier Cridon',
             'name'              => 'cahier_cridon',
-            'controller'        => 'cahier_cridons', // contrôleur pour la redirection après ajout de post
-            'action'            => 'index' // action associée au contrôleur
+            'controller'        => 'cahier_cridons', 
+            'action'            => 'index' 
         )
     );
-    public static $titleMetabox = 'Cridon contenu';
 
     // option list of document type    
     public static $optionDocumentType = array(
