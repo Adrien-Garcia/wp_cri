@@ -50,8 +50,7 @@ function insertInTable( $table,$post_ID ){
 // deleting in post table and in others table
 add_action( 'delete_post', 'before_deleting' );
 function before_deleting( $post_ID ){
-    global $post_type;   
-    if ( $post_type != 'post' ) return;
+    if( wp_is_post_revision( $post_ID ) ) return;
     deleteAllById( $post_ID );
 }
 function deleteAllById( $post_ID ){
@@ -62,7 +61,7 @@ function deleteAllById( $post_ID ){
         if( $object ){
             $wpdb->query( 'DELETE FROM '.$wpdb->prefix.'document WHERE type = "'.$table.'" AND id_externe ='.$object->id );
         }
-        $wpdb->query( 'DELETE FROM '.$wpdb->prefix.$table['name'].' WHERE post_id = '.$post_ID );
+        $wpdb->query( 'DELETE FROM '.$wpdb->prefix.$table.' WHERE post_id = '.$post_ID );
     }
 }
 function findBy( $table, $post_ID ){
