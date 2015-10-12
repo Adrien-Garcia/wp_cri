@@ -16,6 +16,8 @@ class Flash extends MvcModel {
                 $qb->deletePost( $model[0]->post_id );
             }
         }
+        //Delete document
+        $qb->deleteDocument( $this , $id );
         parent::delete($id);
     }
 }

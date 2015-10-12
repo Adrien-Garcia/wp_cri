@@ -10,16 +10,14 @@ class Formation extends MvcModel {
     public function delete($id) {
         $qb = new QueryBuilder();
         $model = $qb->find( array( 'attributes' => array('id,post_id'), 'model' => $this->name , 'conditions' => 'id = '.$id ) );
-        if( count( $model ) > 0 ){
+        if( !empty( $model ) ){
             if( $model[0]->post_id != null ){
-                $conditions = 'post_id = '.$model[0]->post_id. ' AND meta_key = "_cridon_post_value" AND meta_value = '.Config::$data[ $this->name ][ 'value' ];
-                $options = array(
-                    'table' => 'postmeta',
-                    'conditions' => $conditions
-                );       
-                $qb->delete($options);
+                //Delete post
+                $qb->deletePost( $model[0]->post_id );
             }
         }
+        //Delete document
+        $qb->deleteDocument( $this , $id );
         parent::delete($id);
     }
 }

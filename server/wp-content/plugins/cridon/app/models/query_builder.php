@@ -40,6 +40,17 @@ class QueryBuilder{
         $this->wpdb->query( 'INSERT INTO '.$this->wpdb->prefix.$options['table'].'('.$options['attributes'].') VALUE('.$options['values'].')' );
     }
     
+    public function deleteDocument( $model,$object_id ){
+        $table = $model->table;
+        $type = str_replace( $this->wpdb->prefix, '', $table);
+        $conditions = 'type="'.$type.'" AND id_externe='.$object_id ;
+        $options = array(
+            'table'       => 'document',
+            'conditions'  => $conditions
+        );
+        $this->delete( $options );
+    }
+    
     public function deletePost( $post_ID ){
         // Delete postmeta before deleting post
         $this->deletePostMeta( $post_ID );
