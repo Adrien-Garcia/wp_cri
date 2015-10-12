@@ -43,7 +43,7 @@ class Config {
             'value'             => 'cahier_cridons',
             'name_metabox'      => 'Cahier Cridon',
             'name'              => 'cahier_cridon',
-            'controller'        => 'cahier_cridon', // contrôleur pour la redirection après ajout de post
+            'controller'        => 'cahier_cridons', // contrôleur pour la redirection après ajout de post
             'action'            => 'index' // action associée au contrôleur
         )
     );
