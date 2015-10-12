@@ -4,7 +4,7 @@
  *
  * This file is part of project 
  *
- * File name : documents_controller.php
+ * File name : downloads_controller.php
  * Project   : wp_cridon
  *
  * @author Etech
