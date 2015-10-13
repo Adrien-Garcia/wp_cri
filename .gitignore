@@ -12,6 +12,7 @@ readme.txt
 /.externalToolsBuilders/*
 /.settings
 .buildpath
+.idea
 
 /.externalToolBuilders/
 

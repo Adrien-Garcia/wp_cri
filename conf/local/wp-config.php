@@ -20,7 +20,7 @@ define('WP_CACHE', false); // Added by WP Rocket
 */
 // ** Réglages MySQL - Votre hébergeur doit vous fournir ces informations. ** //
 /** Nom de la base de données de WordPress. */
-define('DB_NAME', 'wp_maestro');
+define('DB_NAME', 'wp_cridon');
 /** Utilisateur de la base de données MySQL. */
 define('DB_USER', 'root');
 /** Mot de passe de la base de données MySQL. */
@@ -88,7 +88,7 @@ define('WP_CONTENT_URL', 'http://static.'.$_SERVER['SERVER_NAME'].'/wp-content')
 
 /* Cookie */
 //if ( !defined('COOKIE_DOMAIN') )
-//define('COOKIE_DOMAIN', 'http://wp-maestro.laurent.jetpulp.dev');
+//define('COOKIE_DOMAIN', 'http://wp_cridon.laurent.jetpulp.dev');
 
 /* C'est tout, ne touchez pas à ce qui suit ! Bon blogging ! */
 /** Chemin absolu vers le dossier de WordPress. */

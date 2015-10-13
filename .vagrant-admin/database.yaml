@@ -1,8 +1,8 @@
 type: mysql
-name: wp_maestro
-backup_path: wp_maestro_*.sql
+name: wp_cridon
+backup_path: wp_cridon_*.sql
 backup_local: true
 update: |
-  UPDATE core_config_data SET value='http://wp-maestro.username.jetpulp.dev/' WHERE value='http://www.wp-maestro.com/';
+  UPDATE core_config_data SET value='http://wp_cridon.username.jetpulp.dev/' WHERE value='http://www.wp-maestro.com/';
   UPDATE core_config_data SET value='1' WHERE path='dev/log/active';
   UPDATE core_config_data SET value='1' WHERE path='dev/template/allow_symlink';
