@@ -88,7 +88,7 @@ define('WP_CONTENT_URL', 'http://static.'.$_SERVER['SERVER_NAME'].'/wp-content')
 
 /* Cookie */
 //if ( !defined('COOKIE_DOMAIN') )
-//define('COOKIE_DOMAIN', 'http://wp_cridon.laurent.jetpulp.dev');
+//define('COOKIE_DOMAIN', 'http://wp-cridon.username.jetpulp.dev');
 
 /* C'est tout, ne touchez pas à ce qui suit ! Bon blogging ! */
 /** Chemin absolu vers le dossier de WordPress. */
