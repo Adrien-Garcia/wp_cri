@@ -1,5 +1,5 @@
 [mirror]
-beanstalk = git@addonline.git.beanstalkapp.com:/addonline/wp_maestro.git
+#beanstalk = git@addonline.git.beanstalkapp.com:/addonline/wp_cridon.git
 
 [gitlab]
 mirror_for_user = php
