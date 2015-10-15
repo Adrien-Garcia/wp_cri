@@ -13,11 +13,12 @@
 				
 				<div class="falsh-info">
 					<div class="titre">
-						<?php echo get_field('Flash info'); ?>
+						<?php _e('Flash info'); ?>
+						<?php _e( 'focus', 'maestro' ); ?>
 					</div>
 					<div class="content">
 						<div class="texte">Surendettement des particuliers – Protection des consommateurs – Effacement de la créance...</div>
-						<a href=""><?php echo get_field('Lire'); ?></a>						
+						<a href=""><?php _e('Lire'); ?></a>						
 					</div>
 				</div>
 
@@ -25,8 +26,8 @@
 					<div class="block consulter">
 						<div class="content">
 							<h2>
-								<?php echo get_field('Consulter'); ?>
-								<span><?php echo get_field('un expert juridique'); ?></span>
+								<?php _e('Consulter'); ?>
+								<span><?php _e('un expert juridique'); ?></span>
 							</h2>
 						</div>						
 					</div>
@@ -34,8 +35,8 @@
 					<div class="block rechercher">
 						<div class="content">
 							<h2>
-								<?php echo get_field('Rechercher'); ?>
-								<span><?php echo get_field('dans les bases de connaissances'); ?></span>
+								<?php _e('Rechercher'); ?>
+								<span><?php _e('dans les bases de connaissances'); ?></span>
 							</h2>
 						</div>						
 					</div>
@@ -43,8 +44,8 @@
 					<div class="block acceder">
 						<div class="content">
 							<h2>
-								<?php echo get_field('Accéder'); ?>
-								<span><?php echo get_field('à ma veille juridique'); ?></span>
+								<?php _e('Accéder'); ?>
+								<span><?php _e('à ma veille juridique'); ?></span>
 							</h2>
 						</div>						
 					</div>
@@ -56,8 +57,8 @@
    			<div id="inner-content" class="wrap cf">
 
    				<div id="onglets">
-   					<h3 class="juridique"><?php echo get_field('Veille juridique'); ?></h3>   				
-   					<h3 class="formations"><?php echo get_field('Formations'); ?></h3>
+   					<h3 class="juridique"><?php _e('Veille juridique'); ?></h3>   				
+   					<h3 class="formations"><?php _e('Formations'); ?></h3>
    				</div>
    				<div class="details">
    					<div id="accordion-juridique">
@@ -74,19 +75,19 @@
 									<img src="" alt="" />
 									<h4>Droit Social</h4>
 									<div class="chapeau-categorie"></div>
-									<a href=""><?php echo get_field('Lire'); ?></a>
+									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 								<li>
 									<img src="" alt="" />
 									<h4>Droit Social</h4>
 									<div class="chapeau-categorie"></div>
-									<a href=""><?php echo get_field('Lire'); ?></a>
+									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 								<li>
 									<img src="" alt="" />
 									<h4>Droit Social</h4>
 									<div class="chapeau-categorie"></div>
-									<a href=""><?php echo get_field('Lire'); ?></a>
+									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 							</ul>
 					       
@@ -103,17 +104,17 @@
 								<li>
 									<h4>Droit Social 2</h4>
 									<div class="chapeau-categorie"></div>
-									<a href=""><?php echo get_field('Lire'); ?></a>
+									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 								<li>
 									<h4>Droit Social 2</h4>
 									<div class="chapeau-categorie"></div>
-									<a href=""><?php echo get_field('Lire'); ?></a>
+									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 								<li>
 									<h4>Droit Social 2</h4>
 									<div class="chapeau-categorie"></div>
-									<a href=""><?php echo get_field('Lire'); ?></a>
+									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 							</ul>
 					       
@@ -130,23 +131,23 @@
 								<li>
 									<h4>Droit Social 3</h4>
 									<div class="chapeau-categorie"></div>
-									<a href=""><?php echo get_field('Lire'); ?></a>
+									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 								<li>
 									<h4>Droit Social 3</h4>
 									<div class="chapeau-categorie"></div>
-									<a href=""><?php echo get_field('Lire'); ?></a>
+									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 								<li>
 									<h4>Droit Social 3</h4>
 									<div class="chapeau-categorie"></div>
-									<a href=""><?php echo get_field('Lire'); ?></a>
+									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 							</ul>					       
 					      </div>
 					    </div>
 
-					    <a href="#" title=""><?php echo get_field('Toute la veille juridique'); ?></a>
+					    <a href="#" title=""><?php _e('Toute la veille juridique'); ?></a>
    						
    					</div>
 
@@ -166,22 +167,22 @@
 				<div class="cridon-app">
 					<div class="content">
 						<img src="" alt="" class="main">
-						<h2><?php echo get_field('Le cridon dans ma poche'); ?> </h2>
-						<a href="#" title=""><?php echo get_field('Découvrir notre application !'); ?> </a>
+						<h2><?php _e('Le cridon dans ma poche'); ?> </h2>
+						<a href="#" title=""><?php _e('Découvrir notre application !'); ?> </a>
 						<img src="" alt="" class="appli">
 					</div>
 				</div>
 				<div class="veille-juridique">
 					<div class="content">
-						<h2><?php echo get_field('Veille juridique personnalisée'); ?> </h2>
-						<a href="" title=""><?php echo get_field('S\'abonner à votre veille !'); ?> </a>
+						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
+						<a href="" title=""><?php _e('S\'abonner à votre veille !'); ?> </a>
 						<img src="" alt="" class="appli">
 					</div>
 				</div>
 				<div class="info-flash-exclu">
 					<div class="content">
-						<h2><?php echo get_field('Info flash en exclusivité'); ?> </h2>
-						<a href="#" title=""><?php echo get_field('S\'inscrire à votre newsletter'); ?> </a>						
+						<h2><?php _e('Info flash en exclusivité'); ?> </h2>
+						<a href="#" title=""><?php _e('S\'inscrire à votre newsletter'); ?> </a>						
 					</div>
 				</div>
 			
@@ -191,8 +192,8 @@
 		<div class="row_03">
 			<div id="inner-content" class="wrap cf">
 				<h2>
-					<?php echo get_field('La vie'); ?>
-					<span><?php echo get_field('du cridon'); ?> </span>
+					<?php _e('La vie'); ?>
+					<span><?php _e('du cridon'); ?> </span>
 				</h2>
 				<div class="actualite">
 					<img src="" alt="">
@@ -207,10 +208,10 @@
 						<div class="description">
 							Untur am esto tem. Dolorit ipicien isitata in por aliquisqui sitatem porio. Os qui officitent vidit apiderrores venim sim quae <s>pa nus restrumenis</s> eataspe nihitati aceaquiatio eum eate dia secto exeriberit ut volora il idit alit, andae rat....
 						</div>
-						<a href="#" title=""><?php echo get_field('Lire'); ?></a>
+						<a href="#" title=""><?php _e('Lire'); ?></a>
 					</div>
 				</div>
-				<a href="" title=""><?php echo get_field('Toute la vie du CRIDON'); ?></a>
+				<a href="" title=""><?php _e('Toute la vie du CRIDON'); ?></a>
 			</div>
 		</div>	
 
@@ -218,16 +219,16 @@
 			<div id="inner-content" class="wrap cf">
 				<ul id="">
 					<li class="formations">
-						<?php echo get_field('Le catalogue formations'); ?>
-						<a href="#" title=""><?php echo get_field('Consulter'); ?></a>
+						<?php _e('Le catalogue formations'); ?>
+						<a href="#" title=""><?php _e('Consulter'); ?></a>
 					</li>
 					<li class="cahier">
-						<?php echo get_field('Les cahiers du cridon'); ?>
-						<a href="#" title=""><?php echo get_field('Consulter'); ?></a>
+						<?php _e('Les cahiers du cridon'); ?>
+						<a href="#" title=""><?php _e('Consulter'); ?></a>
 					</li>
 					<li class="services">
-						<?php echo get_field('Les services plus'); ?>
-						<a href="#" title=""><?php echo get_field('Consulter'); ?></a>
+						<?php _e('Les services plus'); ?>
+						<a href="#" title=""><?php _e('Consulter'); ?></a>
 					</li>
 				</ul>
 			</div>

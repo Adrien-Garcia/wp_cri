@@ -30,8 +30,7 @@ $icons: (
     icon-catalogue: '\EA03',
     icon-menu-compte: '\EA04',
     icon-menu-mobile: '\EA05',
-    icon-servicesplus: '\EA06',
-    logo-cridon: '\EA07'
+    icon-servicesplus: '\EA06'
 );
 
 @each $name, $icon in $icons {

@@ -83,7 +83,8 @@
 						<?php // nav_principal(); ?>
 					</nav>
 
-					<a id="bt-nav-mobile" href="#">nav mobile</a>
+					<a id="bt-nav-mobile" href="#"></a>
+					<a id="bt-account" href="#"></a>
 
 				</div>
 			</div>
