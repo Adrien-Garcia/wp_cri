@@ -166,3 +166,33 @@ ICONES SVG
            box-shadow: $params;
  }
 
+
+
+
+ @mixin bt-crayon($fond, $color) {
+   height: 14px;
+    width: 37px;
+    position: relative;
+    background: $fond;
+    color:$color;
+    font-size: 10px;
+    text-decoration: none;
+    @extend .do-sm;
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+
+
+    &:after{
+      content:'';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 7px 0 7px 9px;
+      border-color: transparent transparent transparent $fond;
+      position: absolute;
+      top: 0;
+      right: -9px;
+    }
+ }
+
