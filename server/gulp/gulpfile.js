@@ -3,6 +3,7 @@ var gulp = require('gulp'),
 	autoprefixer = require('gulp-autoprefixer'),
 	minifycss = require('gulp-minify-css'),
 	rename = require('gulp-rename'),
+	concat = require('gulp-concat'),
 	spritesmith = require('gulp.spritesmith'),
 	imagemin = require('gulp-imagemin'),
 	browserSync = require('browser-sync'),
@@ -77,13 +78,21 @@ gulp.task('iconfont', function () {
 gulp.task('uglify', function() {
 	
 	/* JS task */
-	gulp.src(libPath+'/js/*.js')
+	gulp.src(libPath+'/js/!(app).js')
         .pipe(plumber())
     	.pipe(uglify())
     	.pipe(rename({suffix: '.min'}))
         .pipe(plumber.stop())
     	.pipe(gulp.dest(libPath+'/js/min/'));
     	
+    /* JS task */
+	gulp.src([libPath+'/js/app.js', libPath+'/js/application/*.js'])
+        .pipe(plumber())
+        .pipe(concat('app.concat.js'))
+    	.pipe(uglify())
+    	.pipe(rename("app.min.js"))
+        .pipe(plumber.stop())
+    	.pipe(gulp.dest(libPath+'/js/min/'));
 });
 
 gulp.task('sprite', function() {
@@ -110,7 +119,7 @@ gulp.task('browser-sync', function() {
 
 	browserSync({
         proxy: options.env,
-        browser: ["google chrome", "firefox"],
+        browser: ["firefox"],
         host: options.env,
         open: 'external'
     });
@@ -129,7 +138,7 @@ gulp.task('watch', function() {
      gulp.watch(libPath+'/images/origin/*.*', ['sprite']).on('change', browserSync.reload);
      gulp.watch(libPath+'/images/svgicons/*.*', ['iconfont']).on('change', browserSync.reload);
 	 gulp.watch(libPath+'/scss/**/*.scss', ['sass']);
-	 gulp.watch(libPath+'/js/*.js', ['uglify', browserSync.reload]);
+	 gulp.watch(libPath+'/js/**/*.js', ['uglify', browserSync.reload]);
 	 gulp.watch(themePath+'/**/*.php').on('change', browserSync.reload);
 
 });
