@@ -51,23 +51,40 @@
 	<div id="container">
 
 		<header class="header" role="banner">
-
-			<div id="inner-header" class="wrap cf">
-
-				<?php if( is_front_page() ) : ?>
-					<h1>
-						<a class="lienhome" rel="nofollow"><?php bloginfo('name'); ?></a>
-					</h1>
-					<?php else :?>
-					<p id="logo" class="h1">
-						<a class="lienhome" rel="nofollow"><?php bloginfo('name'); ?></a>
-					</p>
-				<?php endif; ?>
-
-				<nav role="navigation">
-					<?php nav_principal(); ?>
-				</nav>
-
+			<div class="header-sup">
+				<div id="inner-header" class="wrap cf">
+					<div class="logo-partenaires">
+						<img src="" alt="">
+						<img src="" alt="">
+					</div>
+					<div class="consultation">
+						<?php echo get_field('Consultation au 04 37 24 79 24 de 14h00 à 17h30'); ?>
+					</div>
+					<a class="contacter" href=""><?php echo get_field('Contacter'); ?></a>
+					<a class="poser-question" href=""><?php echo get_field('Posez une question'); ?></a>
+					<a class="acceder-compte desktop" href=""><?php echo get_field('acceder à mon compte'); ?></a>
+				</div>
 			</div>
 
+			<div class="header-bottom">
+				<div id="inner-header" class="wrap cf">
+
+					<?php if( is_front_page() ) : ?>
+						<h1>
+							<a class="lienhome" rel="nofollow"></a>
+						</h1>
+						<?php else :?>
+						<p id="logo" class="h1">
+							<a class="lienhome" rel="nofollow"></a>
+						</p>
+					<?php endif; ?>
+
+					<nav role="navigation">
+						<?php // nav_principal(); ?>
+					</nav>
+
+					<a id="bt-nav-mobile" href="#">nav mobile</a>
+
+				</div>
+			</div>
 		</header>

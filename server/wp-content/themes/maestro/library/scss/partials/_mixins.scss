@@ -70,3 +70,99 @@ probably best not to use it. I mean, were you going to anyway? */
 }
 
 
+/*******************************************************************
+ BORDER RADIUS
+*/
+
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+
+/*****************
+ICONES SVG
+*/
+
+@mixin svgicon($name, $fontsize, $lineheight, $color){
+    @extend .icon;
+    @extend .icon-#{$name};
+    font-size:$fontsize;
+    line-height:$lineheight;
+    color:$color;
+}
+
+
+
+/*******************************************************************
+@_06 OPACITY
+*/
+
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+
+/**********************************************
+
+*/
+
+// generic transform
+@mixin transform($transforms) {
+	-moz-transform: $transforms;
+	  -o-transform: $transforms;
+	 -ms-transform: $transforms;
+ -webkit-transform: $transforms;
+         transform: $transforms;
+}
+
+
+// rotate
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+ 
+// scale
+@mixin scale($scale) {
+	 @include transform(scale($scale));
+} 
+// translate
+@mixin translate ($x, $y) {
+   @include transform(translate($x, $y));
+}
+
+// skew
+@mixin skew ($x, $y) {
+   @include transform(skew(#{$x}deg, #{$y}deg));
+}
+
+//transform origin
+@mixin transform-origin ($origin) {
+    moz-transform-origin: $origin;
+	 -o-transform-origin: $origin;
+	-ms-transform-origin: $origin;
+-webkit-transform-origin: $origin;
+        transform-origin: $origin;
+}
+
+
+/*******************************************************************
+
+@_08 BOX SHADOWS
+
+*******************************************************************/
+/* exemple d'utilisation
+@include box-shadow(0px 0px 5px #666);
+*/
+ @mixin box-shadow($params) {
+   -webkit-box-shadow: $params;
+      -moz-box-shadow: $params;
+           box-shadow: $params;
+ }
+

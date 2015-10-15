@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'aux-font';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../fonts/svgfont/aux-font.eot');
+    src: url('../fonts/svgfont/aux-font.woff2') format('woff2'),
+         url('../fonts/svgfont/aux-font.woff') format('woff'),
+         url('../fonts/svgfont/aux-font.ttf') format('truetype'),
+         url('../fonts/svgfont/aux-font.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/svgfont/aux-font.svg#aux-font') format('svg');
+
+}
+
+.icon[class^="icon-"],
+.icon[class*=" icon-"] {
+    display: inline-block;
+    font-family: 'aux-font';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-transform: none;
+}
+
+$icons: (
+    ico-consulter: '\EA01',
+    icon-cahier: '\EA02',
+    icon-catalogue: '\EA03',
+    icon-menu-compte: '\EA04',
+    icon-menu-mobile: '\EA05',
+    icon-servicesplus: '\EA06',
+    logo-cridon: '\EA07'
+);
+
+@each $name, $icon in $icons {
+    .icon-#{$name}:before {
+        font-family: 'aux-font';
+        content: $icon;
+    }
+}

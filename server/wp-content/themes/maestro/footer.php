@@ -1,27 +1,71 @@
 			<footer class="footer" role="contentinfo">
 
-				<div id="inner-footer" class="wrap cf">
+				<div class="footer-top">
+					<div id="inner-footer" class="wrap cf">
 
-					<nav role="navigation">
+						<div class="block-left">
+							<div class="chapeau">
+								Une équipe de spécialistes au service des notaires.
+								Le CRIDON GRAND EST accompagne depuis un demi-siècle le notariat dans sa démarche de sécurité juridique dans l'intérêt des citoyens.
+							</div>
+							<div class="descriptif">
+								Ut dolupta tincta solor mosapidi omnis quiatur ehendesti aboribu sandebis voloreh eniscidunt et et re etur, enihil illaudae adigent.
+								Ri ni is doluptatur? Faceatis sendictem volupit, im et poreris doles im quas eate eaquat qui ium qui delenectium invelis imeneceptas volenditis acescid modi santio totassi tiature pelendistior a derspidem sit autasi cor sum verum qui voluptaera vid quassunt estius, sapiciatem volut ut remodit ionsequis volentiande.
+							</div>
+						</div>
 
-						<?php nav_pied_de_page(); ?>
+						<div class="block-right">
+							<ul>
+								<li class="application">
+									<h4>
+										<?php echo get_field('Le cridon dans ma poche'); ?>
+										<a href="#"><?php echo get_field('Découvrir notre application'); ?></a>
+									</h4>
+								</li>
+								<li class="veille">
+									<h4>
+										<?php echo get_field('Veille juridique personnalisée'); ?>
+										<a href="#"><?php echo get_field('S\'abonner à votre veille'); ?></a>
+									</h4>
+								</li>
+								<li class="flash">
+									<h4>
+										<?php echo get_field('Flash info en exclusivité'); ?>
+										<a href="#"><?php echo get_field('S\'inscrire à votre newsletter'); ?></a>
+									</h4>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="footer-bottom">
+					<div id="inner-footer" class="wrap cf">
+
+						<p class="source-org copyright"> <?php bloginfo( 'name' ); ?> &copy; <?php echo date('Y'); ?> .
+
+						<nav role="navigation">
+
+							<?php nav_pied_de_page(); ?>
+							
+						</nav>
+
 						
-					</nav>
+						<?php
+						/* Lien JETPULP à générer avec l'outil interne :
+						 * http://wpplayground.jetpulp.fr/link_generator
+						 * Le lien doit uniquement être actif sur la page d'accueil.
+						 * Sur toutes les autres pages, c'est un span.
+						 */ ?>
+						<?php if( is_front_page() ) : ?> 
+							<a href="http://www.jetpulp.fr" class="class2 logoJP" title="Jetpulp" target="_blank">Jetpulp</a>
+						<?php else : ?>
+							<span class="class2 logoJP" title="Jetpulp"></span>
+						<?php endif; ?>
+						</p>
 
-					<p class="source-org copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo( 'name' ); ?>.
-					<?php
-					/* Lien JETPULP à générer avec l'outil interne :
-					 * http://wpplayground.jetpulp.fr/link_generator
-					 * Le lien doit uniquement être actif sur la page d'accueil.
-					 * Sur toutes les autres pages, c'est un span.
-					 */ ?>
-					<?php if( is_front_page() ) : ?> 
-						
-					<?php else : ?>
-						
-					<?php endif; ?>
-					</p>
-
+					</div>
 				</div>
 
 			</footer>

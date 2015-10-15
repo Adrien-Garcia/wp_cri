@@ -18,34 +18,47 @@ http://0to255.com/
 *********************/
 
 /* alerts */
-$alert-yellow:      #ebe16f;
-$alert-red:         #fbe3e4;
-$alert-green:       #e6efc2;
-$alert-blue:        #d5edf8;
+$alert-yellow: #ebe16f;
+$alert-red: #fbe3e4;
+$alert-green: #e6efc2;
+$alert-blue:  #d5edf8;
 
 /* input */
-$input-border:		#e1e1e1;
+$input-border:	#e1e1e1;
 
 /* tables */
-$table-border:		#ccc;
-$table-th: 			#C2C2C2;
-$table-row-odd:     #fff;
-$table-row-even:    #e1e1e1;
+$table-border: #ccc;
+$table-th: #C2C2C2;
+$table-row-odd: #fff;
+$table-row-even: #e1e1e1;
 $table-cell-border: #ccc;
 
 /* Charte */
-$h1-color:			#000;
-$h2-color:			#e1e1e1;
-$h3-color:			#666;
-$h4-color:			#333;
+$h1-color: #000;
+$h2-color: #e1e1e1;
+$h3-color: #666;
+$h4-color: #333;
 
-$black:             #575757;
-$white:             #fff;
+$black: #575757;
+$white: #fff;
 
-$text-color:        #5c6b80;
+$text-color: #2e4867;
 
-$link-color:        #2980b9;
-$link-hover:        darken($link-color, 9%);
+$link-color: #2980b9;
+$link-hover: darken($link-color, 9%);
 
 $btn-1-background:  #666666;
 $btn-1-text:  		#000;
+
+
+$vert: #009999;
+$bleu: #2e4867;
+$jaune: #ffd500;
+$rouge: #b9003f;
+$gris: #d0d0d0;
+$gris-appli: #b7b8b8;
+
+
+
+
+

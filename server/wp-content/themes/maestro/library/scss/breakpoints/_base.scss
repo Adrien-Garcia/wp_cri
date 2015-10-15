@@ -15,6 +15,7 @@ body {
 	line-height: 1.5;
 	color: $text-color;
   	-webkit-font-smoothing: antialiased;
+  	box-sizing: border-box;
 }
 
 /*********************
@@ -26,8 +27,10 @@ LAYOUT & GRID STYLES
 	position:relative;
 }
 .wrap {
-	width: 96%;
+	width: 320px;
+	border:solid 1px green;
 	margin: 0 auto;
+	padding: 0 10px;
 }
 
 /*********************
@@ -35,24 +38,83 @@ HEADER STYLES
 *********************/
 
 .header {
-	background-color: $black;
-	
-	h1 {
-		position: relative;
-		/*&:after {
-			content: "";
-			@include sprite($login-logo);
-			position: absolute;
-			top: -15px;
-			left: -58px;
-			background-color: #575757;
-		}*/
+	background-color: #FFF;
+	height:60px;
+	position: fixed;
+	width: 100%; 
+	@include box-shadow(0px 4px 10px 0px #999999);
+	margin: 0;
+	padding: 0;
+
+	.header-sup{ display: none;}
+
+	.header-bottom{
+
+		#inner-header{
+			position: relative;
+
+			h1 {	
+		
+				width: 100%;
+				height: 60px;
+				margin: 0 auto;
+				padding: 0;
+				
+				background: url(../images/logo-cridon.svg);
+				background-size: 214px 41px;
+				background-repeat: no-repeat;
+				background-position: center center;
+
+
+				&:after{
+					content:none;
+					//@include sprite($logo-cridon-mobile);			
+					position: relative;
+					top: 0px;
+					left: 0px;
+					width: 214px;
+					height: 41px;
+
+				} 
+			}
+
+			#bt-nav-mobile{
+				position: absolute;
+				top: 0;
+				left: 0;
+				text-indent: -2000em;
+				display: block;
+				width: 100%;
+				height: 60px;
+				border:solid 1px red;
+
+				
+
+				&:before{
+					display:block;
+					@include svgicon('icon-menu-mobile', 15px, 15px,'');					
+					position:absolute;
+					top:22px;
+					left:15px;
+					z-index:20;
+				}
+
+			}
+
+
+		}
 	}
+
+	
+
+	
+	
+	
 	
 }
 
 	#logo {
-		margin: 0.75em 0;
+		margin: 0.75em 0; 
 
 		a {
 			color: $white;
@@ -65,7 +127,7 @@ POSTS & CONTENT STYLES
 *********************/
 
 #content {
-	margin-top: 1.5em;
+	//margin-top: 1.5em;
 	padding:0 0 104px 0; /* Hauteur du footer */
 }
 
@@ -262,6 +324,41 @@ SIDEBARS & ASIDES
 FOOTER STYLES
 *********************/
 
+.logoJP {
+		position:relative;
+		color:white;
+		padding:0 0 0 18px;
+		font-size:11px;
+		text-decoration:underline;
+		-webkit-transition:opacity .2s;
+		transition:opacity .2s;
+		opacity:.6;
+		font-family:Arial;
+
+		&::before{
+			content:'';
+			display:block;
+			width:17px;
+			height:19px;
+			position:absolute;
+			top:-5px;
+			left:0;
+			background-repeat:no-repeat;
+			background-position:0 -19px;
+			opacity:.8;transition:opacity .2s;
+			-webkit-transition:opacity .2s;
+			background-image:url(../images/signature_footer.png);
+		}
+
+	}
+
+	
+
+	a.logoJP:hover{opacity: 1;
+
+		&:before{opacity: 1;}
+	}
+
 .footer {
 	clear: both;
 	width:100%;
@@ -322,6 +419,10 @@ FOOTER STYLES
 		}
 
 	}
+
+	
+
+	
 
 
 /*************************************************************************************************************
