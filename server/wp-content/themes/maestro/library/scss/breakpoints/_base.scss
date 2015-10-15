@@ -28,7 +28,7 @@ LAYOUT & GRID STYLES
 }
 .wrap {
 	width: 300px;
-	border:solid 1px green;
+	//border:solid 1px green;
 	margin: 0 auto;
 	
 }
@@ -41,6 +41,7 @@ HEADER STYLES
 	background-color: #FFF;
 	height:60px;
 	position: fixed;
+	z-index: 6000;
 	width: 100%; 
 	@include box-shadow(0px 4px 10px 0px #999999);
 	margin: 0;
@@ -156,7 +157,7 @@ body.page-template-front-page{
 			.falsh-info{
 				width: 100%;
 				background: $gris;
-				padding: 20px 10px 10px 10px;
+				padding: 10px 10px 10px 10px;
 
 				.titre{
 					color:$rouge;
@@ -167,7 +168,7 @@ body.page-template-front-page{
 					position: relative;
 
 					.close, .open{
-						font-size: 48px;
+						
 						line-height: 48px;
 						@extend .do-el;
 						color:$bleu;
@@ -181,12 +182,15 @@ body.page-template-front-page{
 					.close{
 						transform: rotate(45deg);
 						top: -20px;
+						font-size: 48px;
 						
 					}
 
 					.open{
 						transform: rotate(90deg);
-						top: -14px;
+						top: -11px;
+						visibility: hidden;
+						font-size: 40px;
 					}
 
 				}
@@ -207,6 +211,16 @@ body.page-template-front-page{
 						margin-top: 12px;
 
 					}
+				}
+
+				&.closed{
+					.content,.close{visibility: hidden;}
+
+					.content{height: 0;}
+
+					.open{visibility: visible;}
+
+					.titre{margin-bottom: 0;}
 				}
 
 			}
@@ -237,9 +251,10 @@ body.page-template-front-page{
 							width: 50%;
 							position: absolute;
 							top: 0;
-							background: $vert;
 							display: block;
-							height: 146px;
+							height: 146px;							
+							
+
 						}
 
 						&:before{
@@ -272,7 +287,7 @@ body.page-template-front-page{
 							span{
 								display: block;
 								font-size: 24px;
-								line-height: 24px;
+								line-height: 18px;
 								font-family: 'EB Garamond';
 								color:#FFF;
 								text-transform: none;
@@ -298,6 +313,9 @@ body.page-template-front-page{
 
 				.consulter{
 
+					background: url(../images/origin/bg-consulter-mobile.png);
+					background-size: cover;
+
 					h2:before{
 						display:block;
 						@include svgicon('icon-consulter', 28px, 28px, #FFFFFF);					
@@ -305,7 +323,217 @@ body.page-template-front-page{
 						top:-32px;
 						left:calc( 50% - 15px ); 
 					}
+
+					.content{
+						&:before, &:after{
+							background: $vert;
+							@include gradient-opacity(rgba(0,153,153,0.6),rgba(0,153,153,1));
+						}
+					}
 				}
+
+				.rechercher{
+
+					background: url(../images/origin/bg-rechercher-mobile.png);
+					background-size: cover;
+
+					h2:before{
+						display:block;
+						@include svgicon('icon-rechercher', 28px, 28px, #FFFFFF);					
+						position:absolute;
+						top:-32px;
+						left:calc( 50% - 15px ); 
+					}
+
+					.content{
+
+						&:before, &:after{
+							background: $bleu;
+							@include gradient-opacity(rgba(46,72,103,0.6),rgba(46,72,103,1));
+						}
+						
+					}
+
+				}
+
+				.acceder{
+
+					background: url(../images/origin/bg-acceder-mobile.png);
+					background-size: cover;
+
+					h2:before{
+						display:block;
+						@include svgicon('icon-rechercher', 28px, 28px, #FFFFFF);					
+						position:absolute;
+						top:-32px;
+						left:calc( 50% - 15px ); 
+					}
+
+					.content{
+						&:before, &:after{
+							
+							background: $jaune;
+							@include gradient-opacity(rgba(255,213,0,0.6),rgba(255,213,0,1));
+							
+						}
+					}
+
+				}
+			}
+
+		}
+
+
+		.row_02{
+			padding-top: 44px;
+			position: relative;
+
+			&:before{
+
+				@include sprite ($before-bg-bandeau);
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 50%;
+				margin-left: -43px;
+
+			}
+
+			#onglets{
+
+				width: 100%;
+				float: left;
+				//padding-bottom: 20px;
+				border-bottom:solid 4px $vert;
+				margin-bottom: 10px;
+
+				h3{
+					@extend .do-sm;
+					text-transform: uppercase;
+					color:$bleu;
+					font-size: 20px;
+					line-height: 60px;
+					vertical-align: middle;
+					text-decoration: underline;
+
+					border-bottom:solid 16px #FFF;
+
+					width: 50%;
+					float: left;
+					text-align: center;
+
+					margin: 0;
+					padding: 0;
+
+
+				}
+
+				h3.open{
+					color:$vert;
+					text-decoration: none;
+					border-bottom:solid 16px $vert;
+				}
+			}
+
+			.details{
+				width: 100%;
+				clear: both;
+				float: none;
+
+				.accordion{
+
+					.panel{
+
+						//height: 60px;
+						//overflow: hidden;
+
+						.date{
+							height: 60px;
+							font-size: 25px;
+							@extend .do-re;
+							text-transform: uppercase;
+							text-align: center;
+							//background: $vert;
+							line-height: 60px;
+							color:#FFF;
+							position: relative;
+							display: block;
+
+							&:before{
+								content:'';
+								@include sprite($angle-before-date-accordion-mobile);
+								position: absolute;
+								top: 0px; 
+								left: 50%;
+								margin-left: -23px;
+
+
+							}
+
+							&:after{
+									
+								content:'';
+								position: absolute;
+								bottom: -15px; 
+								left: 50%;
+								margin-left: -23px;
+								z-index: 2000;
+							}
+
+
+
+						}
+
+
+						&:nth-child(1){							
+							.date{
+								background: $vj_01;
+								&:after{
+									@include sprite($angle-after-date-accordion-mobile_01);									
+								}
+							}
+						}
+
+						&:nth-child(2){
+							.date{
+							background: $vj_02; 
+								&:after{
+									@include sprite($angle-after-date-accordion-mobile_02);									
+								}
+							}
+						}
+
+						&:nth-child(3){
+							.date{
+								background: $vj_03; 
+								&:after{
+									@include sprite($angle-after-date-accordion-mobile_03);									
+								}
+							}
+						}
+						.content{
+							height: auto;
+						}
+
+					}
+
+					.blockEnd{
+						height: 20px;
+						width: 100%;
+						background: $vj_04;
+					}
+
+				}
+
+				div.closed{
+
+					
+					height: 60px;
+
+					.content{display: none;}
+
+				}
+				
 			}
 
 		}

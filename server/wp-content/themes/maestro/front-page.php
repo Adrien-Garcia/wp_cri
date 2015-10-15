@@ -20,7 +20,7 @@
 					</div>
 					<div class="content">
 						<div class="texte">Surendettement des particuliers – Protection des consommateurs – Effacement de la créance...</div>
-						<a href=""><?php _e('Lire'); ?></a>						
+						<a href="#"><?php _e('Lire'); ?></a>						
 					</div>
 				</div>
 
@@ -31,7 +31,7 @@
 								<?php _e('Consulter'); ?>
 								<span><?php _e('un expert juridique'); ?></span>
 							</h2>
-							<a href="">+</a>
+							<a href="#">+</a>
 						</div>						
 					</div>
 
@@ -51,7 +51,7 @@
 								<?php _e('Accéder'); ?>
 								<span><?php _e('à ma veille juridique'); ?></span>
 							</h2>
-							<a href="">+</a>
+							<a href="#">+</a>
 						</div>						
 					</div>
 				</div>
@@ -62,11 +62,11 @@
    			<div id="inner-content" class="wrap cf">
 
    				<div id="onglets">
-   					<h3 class="juridique"><?php _e('Veille juridique'); ?></h3>   				
+   					<h3 class="juridique open"><?php _e('Veille juridique'); ?></h3>   				
    					<h3 class="formations"><?php _e('Formations'); ?></h3>
    				</div>
    				<div class="details">
-   					<div id="accordion-juridique">
+   					<div id="accordion-juridique" class="accordion">
 
    						<div class="panel">
 					      <div class="date">
@@ -98,7 +98,7 @@
 					       
 					      </div>
 					    </div>
-					    <div class="panel">
+					    <div class="panel closed">
 					      <div class="date">
 					      	<span class="jour">4</span>
 					      	<span class="mois">sept</span>
@@ -125,7 +125,7 @@
 					       
 					      </div>
 					    </div>
-					    <div class="panel">
+					    <div class="panel closed">
 					      <div class="date">
 					      	<span class="jour">31</span>
 					      	<span class="mois">sept</span>
@@ -151,6 +151,7 @@
 							</ul>					       
 					      </div>
 					    </div>
+					    <div class="blockEnd"></div>
 
 					    <a href="#" title=""><?php _e('Toute la veille juridique'); ?></a>
    						
