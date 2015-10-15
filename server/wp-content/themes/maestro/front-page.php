@@ -68,13 +68,13 @@
    				<div class="details">
    					<div id="accordion-juridique" class="accordion js-tab-veille">
 
-   						<div class="panel">
+   						<div class="panel js-accordion-content">
 					      <div class="date js-accordion-button">
 					      	<span class="jour">10</span>
 					      	<span class="mois">sept</span>
 					      	<span class="annee">2015</span> 
 					      </div>
-					      <div class="content js-accordion-content">
+					      <div class="content">
 							<ul>
 								<li>
 									<img src="" alt="" />
@@ -98,13 +98,13 @@
 					       
 					      </div>
 					    </div>
-					    <div class="panel closed">
+					    <div class="panel closed js-accordion-content">
 					      <div class="date js-accordion-button">
 					      	<span class="jour">4</span>
 					      	<span class="mois">sept</span>
 					      	<span class="annee">2015</span> 
 					      </div>
-					      <div class="content js-accordion-content">
+					      <div class="content">
 							<ul>
 								<li>
 									<h4>Droit Social 2</h4>
@@ -125,13 +125,13 @@
 					       
 					      </div>
 					    </div>
-					    <div class="panel closed">
+					    <div class="panel closed js-accordion-content">
 					      <div class="date js-accordion-button">
 					      	<span class="jour">31</span>
 					      	<span class="mois">sept</span>
 					      	<span class="annee">2015</span> 
 					      </div>
-					      <div class="content js-accordion-content">
+					      <div class="content">
 							<ul>
 								<li>
 									<h4>Droit Social 3</h4>
