@@ -11,7 +11,7 @@
    		<div class="row_01">
    			<div id="inner-content" class="wrap cf">
 				
-				<div class="falsh-info">
+				<div class="falsh-info js-flash-info">
 					<div class="titre">
 						<?php _e('Flash info'); ?>
 
@@ -22,6 +22,7 @@
 						<div class="texte">Surendettement des particuliers – Protection des consommateurs – Effacement de la créance...</div>
 						<a href=""><?php _e('Lire'); ?></a>						
 					</div>
+					<div class="js-flash-toggle">close</div>
 				</div>
 
 				<div class="block_03">
