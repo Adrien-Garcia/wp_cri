@@ -103,8 +103,8 @@ App.Home = {
      */
 
     eventAccordionOpen: function(src) {
-        this.$accordionContent.removeClass('open');
-        src.nextAll(this.accordionContentSelector).addClass('open');
+        this.$accordionContent.addClass('closed');
+        src.parent(this.accordionContentSelector).removeClass('closed');
     },
 
     accordionOpenFirst: function(parent) {
@@ -114,8 +114,8 @@ App.Home = {
         if (!parent instanceof jQuery) {
             parent = $(parent);
         }
-        this.$accordionContent.removeClass('open');
-        parent.find(this.accordionContentSelector).first().addClass('open');
+        this.$accordionContent.addClass('closed');
+        parent.find(this.accordionContentSelector).first().removeClass('closed');
 
 
     },
