@@ -15,14 +15,13 @@
 					<div class="titre">
 						<?php _e('Flash info'); ?>
 
-						<span class="close">+</span>
-						<span class="open">></span>
+						<span class="close js-flash-close">+</span>
+						<span class="open js-flash-open">></span>
 					</div>
 					<div class="content">
 						<div class="texte">Surendettement des particuliers – Protection des consommateurs – Effacement de la créance...</div>
 						<a href=""><?php _e('Lire'); ?></a>						
 					</div>
-					<div class="js-flash-toggle">close</div>
 				</div>
 
 				<div class="block_03">
@@ -63,19 +62,19 @@
    			<div id="inner-content" class="wrap cf">
 
    				<div id="onglets">
-   					<h3 class="juridique"><?php _e('Veille juridique'); ?></h3>   				
-   					<h3 class="formations"><?php _e('Formations'); ?></h3>
+   					<h3 class="juridique js-tab-veille-open"><?php _e('Veille juridique'); ?></h3>   				
+   					<h3 class="formations js-tab-formation-open"><?php _e('Formations'); ?></h3>
    				</div>
    				<div class="details">
-   					<div id="accordion-juridique">
+   					<div id="accordion-juridique" class="js-tab-veille">
 
    						<div class="panel">
-					      <div class="date">
+					      <div class="date js-accordion-button">
 					      	<span class="jour">10</span>
 					      	<span class="mois">sept</span>
 					      	<span class="annee">2015</span> 
 					      </div>
-					      <div class="content">
+					      <div class="content js-accordion-content">
 							<ul>
 								<li>
 									<img src="" alt="" />
@@ -100,12 +99,12 @@
 					      </div>
 					    </div>
 					    <div class="panel">
-					      <div class="date">
+					      <div class="date js-accordion-button">
 					      	<span class="jour">4</span>
 					      	<span class="mois">sept</span>
 					      	<span class="annee">2015</span> 
 					      </div>
-					      <div class="content">
+					      <div class="content js-accordion-content">
 							<ul>
 								<li>
 									<h4>Droit Social 2</h4>
@@ -127,12 +126,12 @@
 					      </div>
 					    </div>
 					    <div class="panel">
-					      <div class="date">
+					      <div class="date js-accordion-button">
 					      	<span class="jour">31</span>
 					      	<span class="mois">sept</span>
 					      	<span class="annee">2015</span> 
 					      </div>
-					      <div class="content">
+					      <div class="content js-accordion-content">
 							<ul>
 								<li>
 									<h4>Droit Social 3</h4>
@@ -158,7 +157,7 @@
    					</div>
 
 
-   					<div id="accordion-formations">
+   					<div id="accordion-formations" class="js-tab-formation">
 
    						Lorem ipsum
    						

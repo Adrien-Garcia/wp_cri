@@ -13,6 +13,6 @@ App = {
 }
 
 jQuery(document).ready(function($) {
-    App.Flash.init();
+    App.Home.init();
     
 });
