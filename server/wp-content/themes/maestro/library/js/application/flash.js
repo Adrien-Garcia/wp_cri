@@ -3,7 +3,8 @@
 App.Flash = {
 
     flashBlockSelector          : '.js-flash-info',
-    eventFlashToggleSelector    : '.js-flash-toggle',
+    eventFlashOpenSelector      : '.js-flash-open',
+    eventFlashCloseSelector     : '.js-flash-close',
     $flashBlock                 : null,
     $flashToggle                : null,
 
@@ -12,7 +13,9 @@ App.Flash = {
         this.debug("Flash : init start");
 
         this.$flashBlock        = $(this.flashBlockSelector);
-        this.$flashToggle       = $(this.eventFlashToggleSelector);
+        this.$flashToggle       = $(this.eventFlashOpenSelector).add(this.eventFlashCloseSelector);
+
+        this.addListeners();
 
         this.debug("Flash : init end");
 
@@ -23,11 +26,12 @@ App.Flash = {
      */
 
     addListeners: function() {
-        
+        var self = this;
+
         this.debug("Flash : addListeners start");
 
-        this.$flashToggle.on("click", function(e) {
-           this.eventFlashToggle($(this));
+        this.$flashOpen.on("click", function(e) {
+           self.eventFlashToggle($(this));
         });
 
         this.debug("Flash : addListeners end");
