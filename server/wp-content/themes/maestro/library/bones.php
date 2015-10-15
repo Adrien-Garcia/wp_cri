@@ -115,8 +115,12 @@ function bones_scripts_and_styles() {
 		// bxslider stylesheet
 		wp_register_style( 'bxslider-stylesheet', get_stylesheet_directory_uri() . '/library/css/modules/jquery.bxslider.css', array(), '', 'all' );
 
-
+		// GARAMOND
 		wp_register_style('wpb-googleFonts', 'fonts.googleapis.com/css?family=EB+Garamond');
+
+		// DOSIS
+		wp_register_style('wpb-googleFonts', 'fonts.googleapis.com/css?family=Dosis:400,200,300,500,600,800,700');
+
 
 		// ie-only style sheet
 		wp_register_style( 'bones-ie-only', get_stylesheet_directory_uri() . '/library/css/ie.css', array(), '' );

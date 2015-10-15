@@ -28,9 +28,11 @@ $icons: (
     ico-consulter: '\EA01',
     icon-cahier: '\EA02',
     icon-catalogue: '\EA03',
-    icon-menu-compte: '\EA04',
-    icon-menu-mobile: '\EA05',
-    icon-servicesplus: '\EA06'
+    icon-consulter: '\EA04',
+    icon-menu-compte: '\EA05',
+    icon-menu-mobile: '\EA06',
+    icon-rechercher: '\EA07',
+    icon-servicesplus: '\EA08'
 );
 
 @each $name, $icon in $icons {

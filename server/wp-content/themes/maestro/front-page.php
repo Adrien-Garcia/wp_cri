@@ -14,7 +14,9 @@
 				<div class="falsh-info js-flash-info">
 					<div class="titre">
 						<?php _e('Flash info'); ?>
-						<?php _e( 'focus', 'maestro' ); ?>
+
+						<span class="close">+</span>
+						<span class="open">></span>
 					</div>
 					<div class="content">
 						<div class="texte">Surendettement des particuliers – Protection des consommateurs – Effacement de la créance...</div>
@@ -23,13 +25,14 @@
 					<div class="js-flash-toggle">close</div>
 				</div>
 
-				<div class="3_block">
+				<div class="block_03">
 					<div class="block consulter">
 						<div class="content">
 							<h2>
 								<?php _e('Consulter'); ?>
 								<span><?php _e('un expert juridique'); ?></span>
 							</h2>
+							<a href="">+</a>
 						</div>						
 					</div>
 
@@ -39,6 +42,7 @@
 								<?php _e('Rechercher'); ?>
 								<span><?php _e('dans les bases de connaissances'); ?></span>
 							</h2>
+							<a href="">+</a>
 						</div>						
 					</div>
 
@@ -48,6 +52,7 @@
 								<?php _e('Accéder'); ?>
 								<span><?php _e('à ma veille juridique'); ?></span>
 							</h2>
+							<a href="">+</a>
 						</div>						
 					</div>
 				</div>
