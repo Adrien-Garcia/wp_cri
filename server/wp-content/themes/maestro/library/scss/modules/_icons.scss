@@ -32,7 +32,8 @@ $icons: (
     icon-menu-compte: '\EA05',
     icon-menu-mobile: '\EA06',
     icon-rechercher: '\EA07',
-    icon-servicesplus: '\EA08'
+    icon-servicesplus: '\EA08',
+    icon-vieducridon: '\EA09'
 );
 
 @each $name, $icon in $icons {

@@ -615,6 +615,10 @@ body.page-template-front-page{
 		.row_03{
 			width: 100%;
 			background: #e6e6e6;
+			padding: 50px 0 40px 0;
+			background: #e6e6e6;
+			float: none;
+			clear: both;
 
 			h2{
 				@extend .do-bo; 
@@ -622,6 +626,7 @@ body.page-template-front-page{
 				color:#FFF;
 				font-size: 18px;
 				line-height: 20px;
+				margin:0 0 5px 0;
 					
 			}
 
@@ -653,7 +658,7 @@ body.page-template-front-page{
 
 				.content{
 
-					img.img-main{
+					.img-main{
 						position: absolute;
 						left: -10px;
 						bottom: 0;
@@ -670,9 +675,8 @@ body.page-template-front-page{
 
 					h2{
 						width: 160px;
-						margin: 0 0 0 50%;
-						padding: 0;
-						margin-bottom: 5px;
+						margin: 0 0 5px 50%;
+						padding: 0 11px 0 0;						
 					}
 
 					> a{
@@ -689,35 +693,223 @@ body.page-template-front-page{
 				}
 			}
 
-			.veille-juridique{
-				background: $jaune-accueil;
-				text-align: center;
-				width: 145px;
-				margin-right: 10px;
-				float: left;
-				display: table-cell;
-				padding: 0 10px;
-				vertical-align: middle;
-				height: 176px;
-
-				> a{	
-					width: 120px;						
-					margin: 0 0 0 50%;
-
-					&:after{							
-						top: 40px;
-						left: 20px;
-					}
-
-				} 
-			}
-
-			.info-flash-exclu{
+			.info-flash-exclu, .veille-juridique{
 				width: 145px;
 				float: left;
 				position: relative;
+				text-align: center;
+				height: 176px;
+				padding: 25px 10px 25px 10px;
+
+				h2{
+					
+					padding: 0;
+				}
+				a{	
+					&:after{							
+						top: 40px;
+						left: 50%;
+						margin-left: -9px;
+					}
+				} 
+			}
+
+			.veille-juridique{
+				background: $jaune-accueil;
+				margin-right: 10px;
+				
+				display: inline-block;
+
+				a{
+					width: 100px;
+					margin: 0 auto;
+				}
+				
+			}
+
+			.info-flash-exclu{
+				background: $text-color;
+
+				h2{
+					padding: 0 10px;
+				}	
+			}
+
+			
+		}
+
+		.row_04{
+
+			width: 100%;
+			float: none;
+			clear: both;
+			position: relative;
+			padding: 60px 0 40px 0;
+
+			&:before{
+				background-image: url(../images/sprites/spritesheet.png);
+			    background-position: -506px -263px;
+			    width: 86px;
+			    height: 43px;
+			    content: '';
+			    position: absolute;
+			    top: 0;
+			    left: 50%;
+			    margin-left: -43px;
+			}
+
+			h2{
+				@extend .do-sm; 
+				font-size: 30px;
+				line-height: 24px;
+				color:$bleu;
+				text-transform: uppercase; 
+				margin: 0 0 30px 0;
+				padding: 0;
+				text-align: center;
+				position: relative;
+
+				span{
+					display: block;
+					text-transform: none;
+					font-family: $garamond;
+					font-size: 24px;
+					line-height: 30px;
+
+				}				
+
+				&:before{
+					display:block;
+					@include svgicon('icon-vieducridon', 15px, 15px,$rouge);	 				
+					position: absolute;
+				    bottom: -19px;
+				    left: 50%;
+				    margin-left: -40px;				
+				}
+				
 
 			}
+
+			.actualite{
+				width: 100%;
+
+				>img{
+					height: 150px;
+					width: 100%;
+					margin: 0;
+					padding: 0;
+					display: block;
+				}
+
+				.date{
+					width: 100%;
+					height: 60px;
+					background: $text-color;
+					margin: 0;
+					padding: 0;
+					text-align: center;
+					position: relative;
+
+					&:after{
+						
+						content:'';
+						@include sprite($after-titre-actu-hp-mobile);
+						position: absolute;
+					    bottom: -15px;
+					    left: 50%;
+					    margin-left: -23px;
+					}
+
+					span{
+						text-transform: uppercase;
+						@extend .do-re;
+						font-size: 25px;
+						color:#FFF;
+						height: 60px;
+						line-height: 60px;
+					}
+				}
+
+				.content{
+					padding: 30px 0;
+
+					> h3{
+
+						font-size: 20px;
+						@extend .do-re;
+						line-height: 18px;
+						color:$vert;
+						text-align: center;
+						padding: 0;
+						margin: 10px 0;
+
+					}
+
+					.chapeau{
+						font-size: 18px;
+						color:$rouge;
+						font-family: $garamond;
+						text-align: center;
+						width: 100%;
+						line-height: 20px;
+						margin-bottom: 10px;
+
+					} 
+
+					.description{
+						font-family: $helvetica;
+						font-size: 13px;
+						width: 100%;
+						text-align: center;
+						line-height: 18px;
+						height: 90px;
+						overflow: hidden;
+
+						s{
+							background: $jaune;
+							text-decoration: none;
+
+						}
+
+
+					}
+
+					> a{
+
+						@include bt-crayon($rouge, #FFFFFF);
+						margin: 10px auto 0 auto;
+
+					}
+
+				}
+
+			}
+
+			a.LienVieCridon{/*Lien toutes la veille juridique*/
+				font-family: $garamond;
+				color:$rouge;
+				text-decoration: underline;
+				width: 100%;
+				display: inline-block;
+				text-align: center;
+				font-size: 16px;
+				margin: 0 0 20px 0;
+				position: relative;
+
+
+				&:after{
+					content:'+';
+					@extend .do-el;
+					font-size: 40px;
+					display: block;
+					position: absolute;
+					top: 0;
+					left: 50%;
+					margin-left: -9px;
+
+				}
+			}
+
 		}
 	}
 
