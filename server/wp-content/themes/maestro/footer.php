@@ -1,19 +1,41 @@
 			<footer class="footer" role="contentinfo">
 
 				<div class="footer-top">
-					<div id="inner-footer" class="wrap cf">
+					
+					<div class="block-links">
+						<div id="inner-top-footer" class="wrap cf">
+							<ul id="">
+								<li class="formations">
+									<?php _e('Le catalogue formations'); ?>
+									<a href="#" title=""><?php _e('Consulter'); ?></a>
+								</li>
+								<li class="cahier">
+									<?php _e('Les cahiers du cridon'); ?>
+									<a href="#" title=""><?php _e('Consulter'); ?></a>
+								</li>
+								<li class="services">
+									<?php _e('Les services plus'); ?>
+									<a href="#" title=""><?php _e('Consulter'); ?></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="footer-cridon">
+						<div id="inner-footer" class="wrap cf">
 
-						<div class="block-left">
-							<div class="chapeau">
-								Une équipe de spécialistes au service des notaires.
-								Le CRIDON GRAND EST accompagne depuis un demi-siècle le notariat dans sa démarche de sécurité juridique dans l'intérêt des citoyens.
-							</div>
-							<div class="descriptif">
-								Ut dolupta tincta solor mosapidi omnis quiatur ehendesti aboribu sandebis voloreh eniscidunt et et re etur, enihil illaudae adigent.
-								Ri ni is doluptatur? Faceatis sendictem volupit, im et poreris doles im quas eate eaquat qui ium qui delenectium invelis imeneceptas volenditis acescid modi santio totassi tiature pelendistior a derspidem sit autasi cor sum verum qui voluptaera vid quassunt estius, sapiciatem volut ut remodit ionsequis volentiande.
+
+							<div class="block-left">
+								<div class="chapeau">
+									<span>Une équipe de spécialistes au service des notaires.</span>
+									<p>Le CRIDON GRAND EST accompagne depuis un demi-siècle le notariat dans sa démarche de sécurité juridique dans l'intérêt des citoyens.
+									</p>
+								</div>
+								<div class="descriptif">
+									Ut dolupta tincta solor mosapidi omnis quiatur ehendesti aboribu sandebis voloreh eniscidunt et et re etur, enihil illaudae adigent.
+									Ri ni is doluptatur? Faceatis sendictem volupit, im et poreris doles im quas eate eaquat qui ium qui delenectium invelis imeneceptas volenditis acescid modi santio totassi tiature pelendistior a derspidem sit autasi cor sum verum qui voluptaera vid quassunt estius, sapiciatem volut ut remodit ionsequis volentiande.
+								</div>
 							</div>
 						</div>
-
 						<div class="block-right">
 							<ul>
 								<li class="application">
@@ -36,14 +58,13 @@
 								</li>
 							</ul>
 						</div>
-
-					</div>
+					</div>	
 				</div>
 				
 				<div class="footer-bottom">
 					<div id="inner-footer" class="wrap cf">
 
-						<p class="source-org copyright"> <?php bloginfo( 'name' ); ?> &copy; <?php echo date('Y'); ?> .
+						<p class="source-org copyright"> <b>Cridon</b> <span>Grand Est</span> copyright &copy; <?php echo date('Y'); ?></p>
 
 						<nav role="navigation">
 
@@ -63,7 +84,6 @@
 						<?php else : ?>
 							<span class="class2 logoJP" title="Jetpulp"></span>
 						<?php endif; ?>
-						</p>
 
 					</div>
 				</div>
