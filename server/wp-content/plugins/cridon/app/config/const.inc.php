@@ -6,9 +6,13 @@
  * @contributor Joelio
  */
 
-// notaire
+// notaire role
 if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
 	define( 'CONST_NOTAIRE_ROLE', 'notaire' );
+}
+// administrator role
+if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
+	define( 'CONST_ADMIN_ROLE', 'administrator' );
 }
 
 // wpmvc prefix
@@ -38,3 +42,21 @@ if ( !defined( 'CONST_ODBC_DATABASE' ) ) {
 if ( !defined( 'CONST_ODBC_TABLE_NOTAIRE' ) ) {
 	define( 'CONST_ODBC_TABLE_NOTAIRE', 'notaire' );
 }
+
+// login
+if ( !defined( 'CONST_LOGIN_ERROR_MSG' ) ) {
+    define( 'CONST_LOGIN_ERROR_MSG', 'Les informations de connexion sont incorrectes. En cas d\'erreurs répétées, nous vous invitons à contacter le Cridon de Lyon afin de recevoir vos identifiants' );
+}
+if ( !defined( 'CONST_TPL_FORM_ID' ) ) {
+    define( 'CONST_TPL_FORM_ID', 'loginForm' );
+}
+if ( !defined( 'CONST_TPL_ERRORBLOCK_ID' ) ) {
+    define( 'CONST_TPL_ERRORBLOCK_ID', 'loginError' );
+}
+if ( !defined( 'CONST_TPL_LOGINFIELD_ID' ) ) {
+    define( 'CONST_TPL_LOGINFIELD_ID', 'login' );
+}
+if ( !defined( 'CONST_TPL_PASSWORDFIELD_ID' ) ) {
+    define( 'CONST_TPL_PASSWORDFIELD_ID', 'password' );
+}
+
