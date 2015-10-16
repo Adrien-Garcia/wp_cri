@@ -14,6 +14,13 @@
 
 class CridonTools {
     
+    /**
+     * Split array
+     * 
+     * @param array $data
+     * @param string $attr
+     * @return array
+     */
     private function splitArray( $data,$attr ){
         $aSplit = array();
         $tmp = array();
@@ -34,7 +41,20 @@ class CridonTools {
         }
         return $aSplit;
     }
-	
+
+    /**
+     * Build new data with under array
+     * 
+     * @param type $model Model name
+     * @param type $data Results of query
+     * @param type $attr correspond in date in this context
+     * @param type $attributes Old attributes in the result
+     * @param type $newAttributes New attributes to return
+     * @param type $nb_per_date Number of objects in date
+     * @param type $index Index of array who contain objects
+     * @param type $format_date Date format of date
+     * @return array
+     */
     public function buildSubArray( $model,$data,$attr,$attributes,$newAttributes,$nb_per_date,$index,$format_date ){
         $newData = array();     
         $aSplit = $this->splitArray( $data,$attr );

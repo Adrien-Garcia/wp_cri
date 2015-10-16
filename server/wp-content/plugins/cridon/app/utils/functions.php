@@ -130,7 +130,7 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
             )
         ),
         'conditions' => 'p.post_status = "publish"',
-        'order' => 'ASC'
+        'order' => 'DESC'
     );
     $results = criQueryPosts( $options,'CAST(p.post_date AS DATE)' );
     $tools = $cri_container->get( 'tools' );
