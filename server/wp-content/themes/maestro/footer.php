@@ -1,7 +1,28 @@
 			<footer class="footer" role="contentinfo">
 
 				<div class="footer-top">
+					
+					<div class="block-links">
+						<div id="inner-top-footer" class="wrap cf">
+							<ul id="">
+								<li class="formations">
+									<?php _e('Le catalogue formations'); ?>
+									<a href="#" title=""><?php _e('Consulter'); ?></a>
+								</li>
+								<li class="cahier">
+									<?php _e('Les cahiers du cridon'); ?>
+									<a href="#" title=""><?php _e('Consulter'); ?></a>
+								</li>
+								<li class="services">
+									<?php _e('Les services plus'); ?>
+									<a href="#" title=""><?php _e('Consulter'); ?></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
 					<div id="inner-footer" class="wrap cf">
+
 
 						<div class="block-left">
 							<div class="chapeau">

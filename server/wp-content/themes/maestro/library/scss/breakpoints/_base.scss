@@ -970,10 +970,26 @@ FOOTER STYLES
 	clear: both;
 	width:100%;
 	background-color: $black;
-	height:104px;
-	position:absolute;
 	bottom:0;
 	left:0;
+
+	.block-links {
+		background: $bg-top-footer;
+
+		ul {
+			li {
+				width: 100%;
+				display: block;
+				height: 90px;
+			}
+		}
+	}
+	.block-left {
+		.descriptif {
+			display: none;
+		}
+	}
+
 }
 
 	/*
