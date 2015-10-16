@@ -79,19 +79,19 @@
 								<li>
 									<img src="" alt="" />
 									<h4>Droit Social</h4>
-									<div class="chapeau-categorie"></div>
+									<div class="chapeau-categorie">Surendettement des particuliers – Protection des consommateurs – Effacement de la  créance...</div>
 									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 								<li>
 									<img src="" alt="" />
 									<h4>Droit Social</h4>
-									<div class="chapeau-categorie"></div>
+									<div class="chapeau-categorie">Surendettement des particuliers – Protection des consommateurs – Effacement de la  créance...</div>
 									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 								<li>
 									<img src="" alt="" />
 									<h4>Droit Social</h4>
-									<div class="chapeau-categorie"></div>
+									<div class="chapeau-categorie">Surendettement des particuliers – Protection des consommateurs – Effacement de la  créance...</div>
 									<a href=""><?php _e('Lire'); ?></a>
 								</li>
 							</ul>
@@ -160,7 +160,7 @@
 
    					<div id="accordion-formations" class="js-tab-formation">
 
-   						Lorem ipsum
+   						
    						
    					</div>
    				</div>
@@ -172,17 +172,17 @@
 			<div id="inner-content" class="wrap cf">
 				<div class="cridon-app">
 					<div class="content">
-						<img src="" alt="" class="main">
+						<img src="" alt="" class="img-main" />
 						<h2><?php _e('Le cridon dans ma poche'); ?> </h2>
-						<a href="#" title=""><?php _e('Découvrir notre application !'); ?> </a>
-						<img src="" alt="" class="appli">
+						<a href="#" title=""><?php _e('Découvrir notre application !'); ?></a>
+						<img src="" alt="" class="appli" />
 					</div>
 				</div>
 				<div class="veille-juridique">
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
 						<a href="" title=""><?php _e('S\'abonner à votre veille !'); ?> </a>
-						<img src="" alt="" class="appli">
+						<img src="" alt="" class="appli" />
 					</div>
 				</div>
 				<div class="info-flash-exclu">
@@ -202,7 +202,7 @@
 					<span><?php _e('du cridon'); ?> </span>
 				</h2>
 				<div class="actualite">
-					<img src="" alt="">
+					<img src="" alt="" />
 					<div class="date">
 						<span class="jour">1</span>
 						<span class="mois">sept</span>
