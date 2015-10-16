@@ -172,7 +172,7 @@
 			<div id="inner-content" class="wrap cf">
 				<div class="cridon-app">
 					<div class="content">
-						<img src="" alt="" class="img-main" />
+						<div src="" alt="" class="img-main"></div>
 						<h2><?php _e('Le cridon dans ma poche'); ?> </h2>
 						<a href="#" title=""><?php _e('Découvrir notre application !'); ?></a>
 						<img src="" alt="" class="appli" />
@@ -181,7 +181,7 @@
 				<div class="veille-juridique">
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
-						<a href="" title=""><?php _e('S\'abonner à votre veille !'); ?> </a>
+						<a href="" title=""><?php _e('S\'abonner à votre veille !'); ?></a>
 						<img src="" alt="" class="appli" />
 					</div>
 				</div>
@@ -195,12 +195,14 @@
 			</div>
 		</div>
 
-		<div class="row_03">
+		<div class="row_04">
 			<div id="inner-content" class="wrap cf">
+				
 				<h2>
 					<?php _e('La vie'); ?>
-					<span><?php _e('du cridon'); ?> </span>
+					<span><?php _e('du CRIDON'); ?> </span>
 				</h2>
+
 				<div class="actualite">
 					<img src="" alt="" />
 					<div class="date">
@@ -208,6 +210,7 @@
 						<span class="mois">sept</span>
 						<span class="annee">2015</span>
 					</div>
+
 					<div class="content">
 						<h3>LE CRIDON</h3>
 						<div class="chapeau">accueil la Chambre interdépartementale des Notaires de Savoie et de Haute-Savoie.</div>
@@ -217,11 +220,12 @@
 						<a href="#" title=""><?php _e('Lire'); ?></a>
 					</div>
 				</div>
-				<a href="" title=""><?php _e('Toute la vie du CRIDON'); ?></a>
+
+				<a href="#" title="Lorem" class="LienVieCridon" > <?php _e('Toute la vie du CRIDON'); ?> </a>
 			</div>
 		</div>	
 
-		<div class="row_03">
+		<div class="row_05">
 			<div id="inner-content" class="wrap cf">
 				<ul id="">
 					<li class="formations">
