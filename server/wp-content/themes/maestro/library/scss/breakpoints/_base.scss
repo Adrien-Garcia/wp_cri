@@ -286,11 +286,12 @@ body.page-template-front-page{
 
 							span{
 								display: block;
-								font-size: 24px;
+								font-size: 22px;
 								line-height: 18px;
 								font-family: 'EB Garamond';
 								color:#FFF;
 								text-transform: none;
+								font-weight: normal;
 
 							}
 						}
@@ -488,6 +489,7 @@ body.page-template-front-page{
 						&:nth-child(1){							
 							.date{
 								background: $vj_01;
+								&:before{content:none;}
 								&:after{
 									@include sprite($angle-after-date-accordion-mobile_01);									
 								}
@@ -513,6 +515,51 @@ body.page-template-front-page{
 						}
 						.content{
 							height: auto;
+							padding-top: 40px;
+
+							> ul{
+								margin: 0;
+								padding: 0;
+
+								> li{
+
+									margin: 0;
+									padding: 0;
+									list-style-type: none;
+
+									>img{
+										height: 30px;
+										width: 30px;
+										margin:0 auto;
+										display: block;
+									}
+
+									h4{
+										font-size: 20px;
+										color:$bleu;
+										text-transform: uppercase;
+										text-align: center;
+										@extend .do-re;
+										margin: 0;
+										padding: 0;
+									}
+
+									.chapeau-categorie{
+										font-size: 13px;
+										font-family: $helvetica;
+										display: block;
+										text-align: center;
+										line-height: 18px;
+
+									}
+
+									>a {
+										@include bt-crayon($vert, #FFFFFF);
+										margin:10px auto 30px auto;
+
+									}
+								}
+							}
 						}
 
 					}
@@ -521,6 +568,31 @@ body.page-template-front-page{
 						height: 20px;
 						width: 100%;
 						background: $vj_04;
+					}
+					
+					> a{/*Lien toutes la veille juridique*/
+						font-family: $garamond;
+						color:$rouge;
+						text-decoration: underline;
+						width: 100%;
+						display: inline-block;
+						text-align: center;
+						font-size: 16px;
+						margin: 30px 0 50px 0;
+						position: relative;
+
+
+						&:after{
+							content:'+';
+							@extend .do-el;
+							font-size: 40px;
+							display: block;
+							position: absolute;
+							top: 0;
+							left: 50%;
+							margin-left: -9px;
+
+						}
 					}
 
 				}
@@ -533,9 +605,119 @@ body.page-template-front-page{
 					.content{display: none;}
 
 				}
+
+
 				
 			}
 
+		}
+
+		.row_03{
+			width: 100%;
+			background: #e6e6e6;
+
+			h2{
+				@extend .do-bo; 
+				text-transform: uppercase;
+				color:#FFF;
+				font-size: 18px;
+				line-height: 20px;
+					
+			}
+
+			a{
+				font-size: 16px;
+				line-height: 18px;
+				font-family: $garamond;
+				color:#FFF;
+				text-decoration: underline;				
+				display: block;
+				position: relative;
+
+				&:after{
+					content:'+';
+					@extend .do-el;
+					font-size: 40px;
+					display: block;
+					position: absolute;	
+				}
+			}
+
+			.cridon-app{
+				width: 100%;
+				height: 145px;
+				background: $gris-appli;
+				padding-top: 20px;
+				position: relative;
+				margin-bottom: 10px;
+
+				.content{
+
+					img.img-main{
+						position: absolute;
+						left: -10px;
+						bottom: 0;
+						width: 150px;
+						height: 178px;
+						background: url(../images/origin/img-main-appli-mobile.png);
+						    background-position: top right;
+						border:0px;
+						text-decoration: none;
+
+					}
+
+					img.appli{display: none;}
+
+					h2{
+						width: 160px;
+						margin: 0 0 0 50%;
+						padding: 0;
+						margin-bottom: 5px;
+					}
+
+					> a{
+						
+						width: 120px;						
+						margin: 0 0 0 50%;
+
+						&:after{							
+							top: 40px;
+							left: 0;
+						}
+
+					} 
+				}
+			}
+
+			.veille-juridique{
+				background: $jaune-accueil;
+				text-align: center;
+				width: 145px;
+				margin-right: 10px;
+				float: left;
+				display: table-cell;
+				padding: 0 10px;
+				vertical-align: middle;
+				height: 176px;
+
+				> a{	
+					width: 120px;						
+					margin: 0 0 0 50%;
+
+					&:after{							
+						top: 40px;
+						left: 20px;
+					}
+
+				} 
+			}
+
+			.info-flash-exclu{
+				width: 145px;
+				float: left;
+				position: relative;
+
+			}
 		}
 	}
 
