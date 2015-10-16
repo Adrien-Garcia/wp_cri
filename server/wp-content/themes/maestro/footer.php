@@ -26,8 +26,9 @@
 
 							<div class="block-left">
 								<div class="chapeau">
-									Une équipe de spécialistes au service des notaires.
-									Le CRIDON GRAND EST accompagne depuis un demi-siècle le notariat dans sa démarche de sécurité juridique dans l'intérêt des citoyens.
+									<span>Une équipe de spécialistes au service des notaires.</span>
+									<p>Le CRIDON GRAND EST accompagne depuis un demi-siècle le notariat dans sa démarche de sécurité juridique dans l'intérêt des citoyens.
+									</p>
 								</div>
 								<div class="descriptif">
 									Ut dolupta tincta solor mosapidi omnis quiatur ehendesti aboribu sandebis voloreh eniscidunt et et re etur, enihil illaudae adigent.
@@ -63,7 +64,7 @@
 				<div class="footer-bottom">
 					<div id="inner-footer" class="wrap cf">
 
-						<p class="source-org copyright"> <?php bloginfo( 'name' ); ?> &copy; <?php echo date('Y'); ?> .
+						<p class="source-org copyright"> <b>Cridon</b> <span>Grand Est</span> copyright &copy; <?php echo date('Y'); ?></p>
 
 						<nav role="navigation">
 
@@ -83,7 +84,6 @@
 						<?php else : ?>
 							<span class="class2 logoJP" title="Jetpulp"></span>
 						<?php endif; ?>
-						</p>
 
 					</div>
 				</div>
