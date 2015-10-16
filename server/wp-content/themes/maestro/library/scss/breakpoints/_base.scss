@@ -975,12 +975,79 @@ FOOTER STYLES
 
 	.block-links {
 		background: $bg-top-footer;
-
+		padding: 40px 0;
 		ul {
+			margin: 0;
 			li {
 				width: 100%;
 				display: block;
 				height: 90px;
+				margin-bottom: 10px;
+				text-align: right;
+				padding: 25px 10px 10px;
+				color: $white;
+				@extend .do-bo;
+				font-size: 18px;
+				text-transform: uppercase;
+				position: relative;
+				a {
+					display: block;
+					color: $white;
+					font-size: 16px;
+					text-decoration: underline;
+					font-family: $garamond;
+					text-transform: none;
+					font-weight: normal;
+					padding-right: 25px;
+					position: relative;
+
+					&:after{
+						content:'+';
+						@extend .do-el;
+						font-size: 40px;
+						display: block;
+						position: absolute;
+						line-height: 10px;
+						right: 0;
+						top: 0;
+					}
+				}
+				&:after {
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 50px;
+					display: block;
+					@include sprite($angle-before-links-footer-mobile);
+				}
+				&:before {
+					content: "";
+					position: absolute;
+					display: block;
+					bottom: 10px;
+					font-weight: normal;
+				}
+				&.formations {
+					background: $bleu;
+					&:before {
+						@include svgicon('icon-catalogue', 60px, 60px,$white);					
+
+					}
+				}
+				&.cahier {
+					background: $vert;
+					&:before {
+						@include svgicon('icon-cahier', 60px, 60px,$white);					
+
+					}
+				}
+				&.services {
+					background: $jaune-accueil;
+					&:before {
+						@include svgicon('icon-servicesplus', 60px, 60px,$white);					
+
+					}
+				}
 			}
 		}
 	}
@@ -988,6 +1055,10 @@ FOOTER STYLES
 		.descriptif {
 			display: none;
 		}
+	}
+
+	.footer-cridon {
+		
 	}
 
 }
