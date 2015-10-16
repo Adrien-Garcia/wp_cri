@@ -45,10 +45,11 @@ class NotairesController extends BasePublicController
         if ( !is_user_logged_in()
              || ( !in_array( CONST_NOTAIRE_ROLE, $this->current_user->roles ) )
         ) {
-            $adminUrl = get_bloginfo( 'url' ) . '/login/';
-            $this->redirect( $adminUrl );
+            // redirect user to home page
+            $this->redirect( home_url() );
         }
 
+        // set user data in template
         $this->set('users', $this->current_user);
     }
 }

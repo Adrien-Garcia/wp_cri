@@ -17,7 +17,27 @@ class Container {
     private $registries = array();
     private $instances = array();
     private $factories = array();
-    
+
+    /**
+     * @var string : login form attribute id
+     */
+    private $loginFormId;
+
+    /**
+     * @var string : login field attribute id
+     */
+    private $loginFieldId;
+
+    /**
+     * @var string : password field attribute id
+     */
+    private $passwordFieldId;
+
+    /**
+     * @var string : error bloc attribute id
+     */
+    private $errorBlocId;
+
     /**
      * Save immediately a instance of object in array of instances <br/><br/>
      * 
@@ -102,5 +122,69 @@ class Container {
      */
     public function setFactory( $key, callable $resolver ){
         $this->factories[$key] = $resolver;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLoginFormId()
+    {
+        return $this->loginFormId;
+    }
+
+    /**
+     * @param string $loginFormId
+     */
+    public function setLoginFormId($loginFormId)
+    {
+        $this->loginFormId = $loginFormId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLoginFieldId()
+    {
+        return $this->loginFieldId;
+    }
+
+    /**
+     * @param string $loginFieldId
+     */
+    public function setLoginFieldId($loginFieldId)
+    {
+        $this->loginFieldId = $loginFieldId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordFieldId()
+    {
+        return $this->passwordFieldId;
+    }
+
+    /**
+     * @param string $passwordFieldId
+     */
+    public function setPasswordFieldId($passwordFieldId)
+    {
+        $this->passwordFieldId = $passwordFieldId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorBlocId()
+    {
+        return $this->errorBlocId;
+    }
+
+    /**
+     * @param string $errorBlocId
+     */
+    public function setErrorBlocId($errorBlocId)
+    {
+        $this->errorBlocId = $errorBlocId;
     }
 }

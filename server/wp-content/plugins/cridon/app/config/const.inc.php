@@ -47,16 +47,19 @@ if ( !defined( 'CONST_ODBC_TABLE_NOTAIRE' ) ) {
 if ( !defined( 'CONST_LOGIN_ERROR_MSG' ) ) {
     define( 'CONST_LOGIN_ERROR_MSG', 'Les informations de connexion sont incorrectes. En cas d\'erreurs répétées, nous vous invitons à contacter le Cridon de Lyon afin de recevoir vos identifiants' );
 }
+if ( !defined( 'CONST_LOGIN_EMPTY_ERROR_MSG' ) ) {
+    define( 'CONST_LOGIN_EMPTY_ERROR_MSG', 'Merci de bien remplir votre identifiant et mot de passe !' );
+}
 if ( !defined( 'CONST_TPL_FORM_ID' ) ) {
-    define( 'CONST_TPL_FORM_ID', 'loginForm' );
+    define( 'CONST_TPL_FORM_ID', 'loginFormId' );
 }
 if ( !defined( 'CONST_TPL_ERRORBLOCK_ID' ) ) {
-    define( 'CONST_TPL_ERRORBLOCK_ID', 'loginError' );
+    define( 'CONST_TPL_ERRORBLOCK_ID', 'errorMsgId' );
 }
 if ( !defined( 'CONST_TPL_LOGINFIELD_ID' ) ) {
-    define( 'CONST_TPL_LOGINFIELD_ID', 'login' );
+    define( 'CONST_TPL_LOGINFIELD_ID', 'loginFieldId' );
 }
 if ( !defined( 'CONST_TPL_PASSWORDFIELD_ID' ) ) {
-    define( 'CONST_TPL_PASSWORDFIELD_ID', 'password' );
+    define( 'CONST_TPL_PASSWORDFIELD_ID', 'passwordFieldId' );
 }
 

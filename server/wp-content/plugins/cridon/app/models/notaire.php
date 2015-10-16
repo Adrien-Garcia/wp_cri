@@ -114,4 +114,18 @@ class Notaire extends MvcModel
         }
     }
 
+    /**
+     * Hook for sanitize_user
+     *
+     * @param mixed $user
+     * @param mixed $raw_user
+     * @param boolean $strict
+     *
+     * @return mixed
+     */
+    public function custom_sanitize_user($user, $raw_user, $strict)
+    {
+        return $raw_user;
+    }
+
 }

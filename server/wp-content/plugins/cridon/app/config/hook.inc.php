@@ -79,6 +79,7 @@ function append_js_files()
 {
     require_once ABSPATH . WPINC . '/pluggable.php';
 
+    // only in front
     if (!is_admin()) {
 
         wp_enqueue_script('cridon', plugins_url('cridon/app/public/js/cridon_login.js'), array('jquery'));
@@ -86,9 +87,14 @@ function append_js_files()
             'cridon',
             'jsvar',
             array(
-                'ajaxurl'     => admin_url('admin-ajax.php'),
-                'login_nonce' => wp_create_nonce("process_login_nonce"),
-                'error_msg'   => CONST_LOGIN_ERROR_MSG,
+                'ajaxurl'           => admin_url('admin-ajax.php'),
+                'login_nonce'       => wp_create_nonce("process_login_nonce"),
+                'error_msg'         => CONST_LOGIN_ERROR_MSG,
+                'empty_error_msg'   => CONST_LOGIN_EMPTY_ERROR_MSG,
+                'form_id'           => CONST_TPL_FORM_ID,
+                'login_field_id'    => CONST_TPL_LOGINFIELD_ID,
+                'password_field_id' => CONST_TPL_PASSWORDFIELD_ID,
+                'error_bloc_id'     => CONST_TPL_ERRORBLOCK_ID,
             )
         );
     }
