@@ -342,54 +342,13 @@ body.page-template-front-page{
 		}
 
 		.row_02{
-			padding-top: 44px;
-			position: relative;
+			padding-top: 20px;
 
 			&:before{
-
-				@include sprite ($before-bg-bandeau);
-				content: '';
-				position: absolute;
-				top: 0;
-				left: 50%;
-				margin-left: -43px;
-
 			}
 
 			#onglets{
-
-				/*width: 100%;
-				float: left;
-				//padding-bottom: 20px;
-				border-bottom:solid 4px $vert;
-				margin-bottom: 10px;
-
-				h3{
-					@extend .do-sm;
-					text-transform: uppercase;
-					color:$bleu;
-					font-size: 20px;
-					line-height: 60px;
-					vertical-align: middle;
-					text-decoration: underline;
-
-					border-bottom:solid 16px #FFF;
-
-					width: 50%;
-					float: left;
-					text-align: center;
-
-					margin: 0;
-					padding: 0;
-
-
-				}
-
-				h3.open{
-					color:$vert;
-					text-decoration: none;
-					border-bottom:solid 16px $vert;
-				}*/
+				margin-bottom: 40px;				
 			}
 
 			.details{
@@ -399,46 +358,41 @@ body.page-template-front-page{
 
 				.accordion{
 
+					text-align: center; 
+
 					.panel{
 
-						//height: 60px;
-						//overflow: hidden;
+						height: 225px;
+						width: 440px;
+						float: left;
+
 
 						.date{
 							height: 225px;
 							width: 100px;
 							float: left;
 							padding: 55px 0;
-							/*
-							font-size: 25px;
-							@extend .do-re;
-							text-transform: uppercase;
-							text-align: center;
-							//background: $vert;
-							line-height: 60px;
-							color:#FFF;
-							position: relative;
-							display: block;*/
+							
 
 							&:before{
-								/*content:'';
-								@include sprite($angle-before-date-accordion-mobile);
-								position: absolute;
-								top: 0px; 
-								left: 50%;
-								margin-left: -23px;*/
+								
+								@include rotate(-90);
+								top: 50%;
+								margin-top: -7px; 
+								left:8px; 
+								
+								
 
 
 							}
 
 							&:after{
-									
-								content:'';
-								position: absolute;
+								
+								@include rotate(-90);
 								top: 50%; 
-								right: 0px;
+								left:inherit;
+								right: -30px;
 								margin-top: -7px;
-								z-index: 2000;
 							}
 
 							span{
@@ -465,76 +419,59 @@ body.page-template-front-page{
 						}
 
 
-						&:nth-child(1){							
-							.date{
-								background: $vj_01;
-								&:before{content:none;}
-								&:after{
-									@include sprite($angle-after-date-accordion-mobile_01);									
-								}
-							}
-						}
-
-						&:nth-child(2){
-							.date{
-							background: $vj_02; 
-								&:after{
-									@include sprite($angle-after-date-accordion-mobile_02);									
-								}
-							}
-						}
-
-						&:nth-child(3){
-							.date{
-								background: $vj_03; 
-								&:after{
-									@include sprite($angle-after-date-accordion-mobile_03);									
-								}
-							}
-						}
+						
 						.content{
-							height: auto;
-							padding-top: 40px;
+							
+
+							width: 340px;
+							height: 225px;
+							float: left;
+							padding: 0 20px 0 20px;
 
 							> ul{
-								margin: 0;
-								padding: 0;
+								
 
 								> li{
 
-									margin: 0;
-									padding: 0;
-									list-style-type: none;
+									
+									float: none;
+									clear: both;
+									
+
+									&:first-child{padding-bottom: 4px};
+									&:nth-child(2){padding:2px 0};
+									&:last-child{padding-top: 4px};
 
 									>img{
-										height: 30px;
-										width: 30px;
-										margin:0 auto;
-										display: block;
+										
+										margin:0 0 43px 0;
+										float: left;
+										margin-right: 10px;
 									}
 
 									h4{
-										font-size: 20px;
-										color:$bleu;
-										text-transform: uppercase;
-										text-align: center;
-										@extend .do-re;
-										margin: 0;
-										padding: 0;
-									}
-
-									.chapeau-categorie{
-										font-size: 13px;
-										font-family: $helvetica;
-										display: block;
-										text-align: center;
+										
+										text-align: left;
+										float: left;
+										width: calc(100% - 40px);
 										line-height: 18px;
+										margin-bottom: 5px;
+									}
+
+									.chapeau-categorie{										
+
+										text-align: left; 
+										float: left;
+										width: calc(100% - 40px);
+										height: 36px;
+										overflow: hidden;
 
 									}
 
-									>a {
-										@include bt-crayon($vert, #FFFFFF);
-										margin:10px auto 30px auto;
+									> a {									
+										
+										float: right;
+										margin: 0;
 
 									}
 								}
@@ -544,34 +481,18 @@ body.page-template-front-page{
 					}
 
 					.blockEnd{
-						height: 20px;
-						width: 100%;
-						background: $vj_04;
+						height: 225px;
+						width: 20px;
+						float: right;
+						
 					}
 					
 					> a{/*Lien toutes la veille juridique*/
-						font-family: $garamond;
-						color:$rouge;
-						text-decoration: underline;
+						
+						margin: 40px 0 60px 0;
 						width: 100%;
-						display: inline-block;
-						text-align: center;
-						font-size: 16px;
-						margin: 30px 0 50px 0;
-						position: relative;
 
-
-						&:after{
-							content:'+';
-							@extend .do-el;
-							font-size: 40px;
-							display: block;
-							position: absolute;
-							top: 0;
-							left: 50%;
-							margin-left: -9px;
-
-						}
+						&:after{}
 					}
 
 				}
@@ -579,13 +500,264 @@ body.page-template-front-page{
 				div.closed{
 
 					
-					height: 60px;
+					/*height: 60px;*/
 
-					.content{display: none;}
+					width: 100px !important;
+
+					.content{
+						width: 0px !important;
+
+						ul{ opacity: 0;}
+					}
 
 				}
 
 
+				
+			}
+
+		}
+
+		.row_03{
+
+			h2{
+
+
+				font-size: 30px;
+				line-height: 35px;
+					
+			}
+
+			a{
+				font-size: 20px;
+				line-height: 20px;
+
+				&:after{
+				}
+
+				span{
+				}
+			}
+
+			.cridon-app{
+				width: 100%;
+				height: 175px;
+				padding:35px 0;
+				margin-bottom: 20px;
+
+				.content{
+
+					.img-main{						
+						background: url(../images/origin/img-main-appli-tablette.png);
+						width: 242px;
+						height: 210px;
+						left: 0;
+						
+
+					}
+
+					.img-appli{
+						
+						background: url(../images/origin/ico-appli-tablette.png);
+						width: 242px;
+						height: 210px;
+						display: none;
+						position: absolute;
+						right: 50px;
+						bottom: 20px; 
+						width: 70px;
+						height: 116px;
+						display: block;
+					}
+
+					h2{
+						width: 215px;
+						margin: 0 0 0 280px;					
+					} 
+
+					> a{
+						
+						width: 230px;						
+						margin: 5px 0 0 280px; 
+
+						&:after{							
+							top: 20px;
+							/*left: 0;*/
+						}
+
+					} 
+				}
+			}
+
+			.info-flash-exclu, .veille-juridique{
+				width: 320px;
+				padding: 35px 0;				
+
+				h2{					
+					
+				}
+				a{	
+					margin-top: 5px;
+					width: 100%;
+					&:after{	
+
+						top: 20px;
+					}
+				} 
+			}
+
+			.veille-juridique{
+				
+				margin-right: 20px;				
+
+				a{
+					width: 100%;
+					margin: 0 auto;
+				}
+				
+			}
+
+			.info-flash-exclu{				
+
+				h2{
+					padding: 0; 
+					margin: 0;
+				}	
+			}
+
+			
+		}
+
+		.row_04{
+			
+			padding: 60px 0 20px 0;			
+
+			
+
+			h2{
+				
+				font-size: 50px;
+				line-height: 40px;
+
+				span{					
+
+					font-size: 30px;
+
+				}				
+
+				
+
+			}
+
+			.actualite{
+				width: 100%;
+
+				>img{
+					height: 310px;
+					margin-bottom: 40px;
+					
+				}
+
+				.date{
+					width: 180px;
+					height: 225px;
+					padding: 55px 0;
+					float: left;
+
+					
+					&:after{
+
+						@include rotate(-90);
+					    bottom: 50%;
+					    margin-bottom: -10px;
+					    left: inherit;
+					    top: inherit;
+					    margin-left: 0;
+					    right: -30px;
+					}
+
+					span{
+					
+						display: block; 
+						line-height: inherit;
+						height: auto;
+					}
+
+
+					.jour{
+						font-size: 72px;
+						line-height: 60px;
+					}
+					.mois{
+						font-size: 30px;
+						line-height: 40px;
+
+					}
+					.annee{
+						font-size: 18px;
+						line-height: 15px;
+					}
+				}
+
+				.content{
+					width: 480px;
+					float: left;
+					padding: 0 20px 0 40px;
+					position: relative;
+    				height: 225px;
+					
+
+					> h3{
+
+						font-size: 30px;
+						line-height: 22px;
+						text-align: left;
+						margin: 0;						
+
+					}
+
+					.chapeau{
+						text-align: left;
+						font-size: 20px;
+						margin-top: 10px;						
+
+					} 
+
+					.description{
+						
+						text-align: left;
+						font-size: 15px;
+						position: absolute;
+						bottom: 40px;
+						height: 72px;
+						width: 430px;
+						
+
+						s{
+							
+
+						}
+
+
+					}
+
+					> a{
+
+						
+						margin: 0;
+						position: absolute;
+						bottom: 0px;
+
+					}
+
+				}
+
+			}
+
+			a.LienVieCridon{/*Lien toutes la veille juridique*/
+
+					
+				margin: 40px 0 22px 0;
 				
 			}
 
@@ -600,7 +772,7 @@ body.page-template-front-page{
 
 
 
-
+ 
 
 
 
@@ -729,24 +901,204 @@ SIDEBARS & ASIDES
 FOOTER STYLES
 *********************/
 
-/*
-you'll probably need to do quite a bit
-of overriding here if you styled them for
-mobile. Make sure to double check these!
-*/
-.footer-links {
-	ul {
-		li {
-			a {
-				&:hover {}
+.footer {	
+
+	.block-links {
+
+		
+		padding: 40px 0;
+
+		ul {
+			height: 65px;
+
+			li {
+				width: 210px;
+				height: 65px;
+				overflow: hidden;
+				float: left;
+				font-size: 13px;
+				line-height: 21px;
+				padding: 15px 10px; 				
+
+				a {
+					
+					bottom: 10px;
+					font-size: 14px;
+					padding-right: 15px;
+
+					&:after{
+						font-size: 21px;
+						top: 4px;
+						
+					}
+				}
+
+				&:after {
+					
+					@include sprite($angle-before-links-footer-tablette);
+					left: 40px;
+				}
+
+				&:before {
+					bottom: 7px;
+				}
+
+				&.formations {
+					margin-right: 15px;
+					
+
+					&:before {
+						@include svgicon('icon-catalogue', 52px, 52px,$white);				
+
+					}
+				}
+
+				&.cahier {
+					margin-right: 15px;
+					
+
+					&:before {
+					@include svgicon('icon-cahier', 52px, 52px,$white);			
+
+					}
+				}
+
+				&.services {
+					
+					&:before {
+						@include svgicon('icon-servicesplus', 52px, 52px,$white);		
+
+					}
+				}
 			}
-			/*
-			be careful with the depth of your menus.
-			it's very rare to have multi-depth menus in
-			the footer.
-			*/
-			ul {}
 		}
 	}
-} /* end .footer-links */
+
+	.footer-cridon {
+		padding: 45px 0;
+		min-height: 410px; 
+
+		.block-left {
+			width: 330px;
+			float: left;
+			text-align: left;
+			padding:0 10px 0 54px; 
+			position: relative;
+
+
+			&:before {
+				
+				@include sprite($logo-cridon-footer-tablette);
+				margin: 0 0 0 -54px;
+
+			}
+
+			&:after{
+				content:'';
+				@include sprite($partenaire-footer);
+				position: absolute;
+				bottom: -100px;
+				left: 50px;
+			}
+
+			.chapeau {
+				text-align: left;
+				margin-top: 20px;
+				
+				span {
+					
+					font-size: 20px;
+					line-height: 20px;
+				}
+				p {
+					
+					font-size: 15px; 
+					line-height: 18px;
+				}
+			} 
+			.descriptif {
+				
+			}
+		}
+		&:after {
+			
+		}
+
+	}
+	.block-right {
+		display: block;
+		width: 330px;
+		float: left;
+		padding-left: 10px;
+
+		ul{
+			margin: 0;
+			padding: 0;
+
+			li{
+				margin: 0 0 40px 0;
+				padding: 10px 0 10px 55px;
+				height: 70px;
+				border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+				
+				&:before{
+					display:block;
+					@include svgicon('icon-rechercher', 40px, 40px, #FFFFFF);					
+					position:absolute;
+					top:10px;
+					left: 0px;
+					z-index: 9999;
+				}
+
+				h4{
+					color:#FFF;
+					@extend .do-bo;
+					text-transform: uppercase;
+					margin: 0 0 8px 0;
+					padding: 0;
+					font-size: 18px;
+					line-height: 14px;
+				}
+
+				a{
+					@include lien-souligne(#FFF);
+					padding-right: 20px; 
+
+					&:after{
+						right: 0;
+						top: -3px;
+						font-size: 30px;
+					}
+
+				}
+
+				&:last-child{ margin-bottom: 0;} 
+			}
+		}
+	}
+	.footer-bottom {
+		
+		padding: 35px 0;
+
+		nav {
+
+			font-size: 14px;
+			margin-top: 5px;
+
+			ul{
+				display: inline-block;
+
+				
+			}
+
+			
+		}
+		.logoJP {
+			
+			margin-top: 10px;
+
+		}
+	}
+
+}
 

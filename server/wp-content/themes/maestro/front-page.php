@@ -153,7 +153,7 @@
 					    </div>
 					    <div class="blockEnd"></div>
 
-					    <a href="#" title=""><?php _e('Toute la veille juridique'); ?></a>
+					    <a href="#" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
    						
    					</div>
 
@@ -174,21 +174,21 @@
 					<div class="content">
 						<div src="" alt="" class="img-main"></div>
 						<h2><?php _e('Le cridon dans ma poche'); ?> </h2>
-						<a href="#" title=""><?php _e('Découvrir notre application !'); ?></a>
-						<img src="" alt="" class="appli" />
+						<a href="#" title=""><span><?php _e('Découvrir notre application !'); ?></span></a>
+						<div src="" alt="" class="img-appli" ></div>
 					</div>
 				</div>
 				<div class="veille-juridique">
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
-						<a href="" title=""><?php _e('S\'abonner à votre veille !'); ?></a>
+						<a href="" title=""><span><?php _e('S\'abonner à votre veille !'); ?></span></a>
 						<img src="" alt="" class="appli" />
 					</div>
 				</div>
 				<div class="info-flash-exclu">
 					<div class="content">
 						<h2><?php _e('Info flash en exclusivité'); ?> </h2>
-						<a href="#" title=""><?php _e('S\'inscrire à votre newsletter'); ?> </a>						
+						<a href="#" title=""><span><?php _e('S\'inscrire à votre newsletter'); ?></span> </a>						
 					</div>
 				</div>
 			
@@ -221,28 +221,11 @@
 					</div>
 				</div>
 
-				<a href="#" title="Lorem" class="LienVieCridon" > <?php _e('Toute la vie du CRIDON'); ?> </a>
+				<a href="#" title="Lorem" class="LienVieCridon" ><span> <?php _e('Toute la vie du CRIDON'); ?> </span></a>
 			</div>
 		</div>	
 
-		<!--div class="row_05">
-			<div id="inner-content" class="wrap cf">
-				<ul id="">
-					<li class="formations">
-						<?php _e('Le catalogue formations'); ?>
-						<a href="#" title=""><?php _e('Consulter'); ?></a>
-					</li>
-					<li class="cahier">
-						<?php _e('Les cahiers du cridon'); ?>
-						<a href="#" title=""><?php _e('Consulter'); ?></a>
-					</li>
-					<li class="services">
-						<?php _e('Les services plus'); ?>
-						<a href="#" title=""><?php _e('Consulter'); ?></a>
-					</li>
-				</ul>
-			</div>
-		</div!-->
+		
 
 
 	
