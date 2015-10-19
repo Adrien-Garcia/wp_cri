@@ -26,15 +26,18 @@
 
 $icons: (
     ico-consulter: '\EA01',
-    icon-cahier: '\EA02',
-    icon-catalogue: '\EA03',
-    icon-compte: '\EA04',
-    icon-consulter: '\EA05',
-    icon-menu-compte: '\EA06',
-    icon-menu-mobile: '\EA07',
-    icon-rechercher: '\EA08',
-    icon-servicesplus: '\EA09',
-    icon-vieducridon: '\EA0A'
+    icon-appli: '\EA02',
+    icon-cahier: '\EA03',
+    icon-catalogue: '\EA04',
+    icon-compte: '\EA05',
+    icon-consulter: '\EA06',
+    icon-menu-compte: '\EA07',
+    icon-menu-mobile: '\EA08',
+    icon-nl: '\EA09',
+    icon-rechercher: '\EA0A',
+    icon-servicesplus: '\EA0B',
+    icon-veille: '\EA0C',
+    icon-vieducridon: '\EA0D'
 );
 
 @each $name, $icon in $icons {

@@ -7,23 +7,22 @@
 							<ul id="">
 								<li class="formations">
 									<?php _e('Le catalogue formations'); ?>
-									<a href="#" title=""><?php _e('Consulter'); ?></a>
+									<a href="#" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 								<li class="cahier">
 									<?php _e('Les cahiers du cridon'); ?>
-									<a href="#" title=""><?php _e('Consulter'); ?></a>
+									<a href="#" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
-								<li class="services">
+								<li class="services"> 
 									<?php _e('Les services plus'); ?>
-									<a href="#" title=""><?php _e('Consulter'); ?></a>
+									<a href="#" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 							</ul>
 						</div>
 					</div>
+
 					<div class="footer-cridon">
 						<div id="inner-footer" class="wrap cf">
-
-
 							<div class="block-left">
 								<div class="chapeau">
 									<span>Une équipe de spécialistes au service des notaires.</span>
@@ -35,30 +34,24 @@
 									Ri ni is doluptatur? Faceatis sendictem volupit, im et poreris doles im quas eate eaquat qui ium qui delenectium invelis imeneceptas volenditis acescid modi santio totassi tiature pelendistior a derspidem sit autasi cor sum verum qui voluptaera vid quassunt estius, sapiciatem volut ut remodit ionsequis volentiande.
 								</div>
 							</div>
-						</div>
-						<div class="block-right">
-							<ul>
-								<li class="application">
-									<h4>
-										<?php echo get_field('Le cridon dans ma poche'); ?>
-										<a href="#"><?php echo get_field('Découvrir notre application'); ?></a>
-									</h4>
-								</li>
-								<li class="veille">
-									<h4>
-										<?php echo get_field('Veille juridique personnalisée'); ?>
-										<a href="#"><?php echo get_field('S\'abonner à votre veille'); ?></a>
-									</h4>
-								</li>
-								<li class="flash">
-									<h4>
-										<?php echo get_field('Flash info en exclusivité'); ?>
-										<a href="#"><?php echo get_field('S\'inscrire à votre newsletter'); ?></a>
-									</h4>
-								</li>
-							</ul>
-						</div>
-					</div>	
+							<div class="block-right">
+								<ul>
+									<li class="application">
+										<h4><?php  _e('Le cridon dans ma poche'); ?></h4>
+										<a href="#"><span><?php _e('Découvrir notre application'); ?></span></a>
+									</li>
+									<li class="veille">
+										<h4><?php  _e('Veille juridique personnalisée'); ?></h4>
+										<a href="#"><span><?php _e('S\'abonner à votre veille'); ?></span></a>	
+									</li>
+									<li class="flash">
+										<h4><?php _e('Flash info en exclusivité'); ?></h4>
+										<a href="#"><span><?php _e('S\'inscrire à votre newsletter'); ?></span></a>
+									</li>
+								</ul>
+							</div>
+						</div>	
+					</div>
 				</div>
 				
 				<div class="footer-bottom">
@@ -87,6 +80,7 @@
 
 					</div>
 				</div>
+				
 
 			</footer>
 

@@ -227,7 +227,7 @@ body.page-template-front-page{
 
 			.block_03{
 
-				margin-top: 10px;
+				padding: 10px 0 40px 0;
 
 				.block {
 
@@ -446,6 +446,7 @@ body.page-template-front-page{
 				float: none;
 
 				.accordion{
+					text-align: center;
 
 					.panel{
 
@@ -575,30 +576,14 @@ body.page-template-front-page{
 					}
 					
 					> a{/*Lien toutes la veille juridique*/
-						font-family: $garamond;
-						color:$rouge;
-						text-decoration: underline;
-						width: 100%;
-						display: inline-block;
-						text-align: center;
-						font-size: 16px;
+						@include lien-souligne($rouge);
 						margin: 30px 0 50px 0;
-						position: relative;
-
-
 						&:after{
-							content:'+';
-							@extend .do-el;
-							font-size: 40px;
-							display: block;
-							position: absolute;
-							top: 0;
-							left: 50%;
+							top: 20px;
+							left: 50%; 
 							margin-left: -9px;
-
 						}
 					}
-
 				}
 
 				div.closed{
@@ -635,28 +620,18 @@ body.page-template-front-page{
 			}
 
 			a{
-				font-size: 16px;
-				line-height: 18px;
-				font-family: $garamond;
-				color:#FFF;
-				text-decoration: underline;				
-				display: block;
+				@include lien-souligne(#FFF);
 				position: relative;
 
-				&:after{
-					content:'+';
-					@extend .do-el;
-					font-size: 40px;
-					display: block;
-					position: absolute;	
-				}
+				&:after{}
+				
 			}
 
 			.cridon-app{
 				width: 100%;
 				height: 145px;
 				background: $gris-appli;
-				padding-top: 20px;
+				padding: 20px 0 0 50%;
 				position: relative;
 				margin-bottom: 10px;
 
@@ -675,18 +650,19 @@ body.page-template-front-page{
 
 					}
 
-					img.appli{display: none;}
+					.img-appli{display: none;}
 
 					h2{
 						width: 160px;
-						margin: 0 0 5px 50%;
+						margin: 0 0 5px 0;
 						padding: 0 11px 0 0;						
 					}
 
 					> a{
 						
 						width: 120px;						
-						margin: 0 0 0 50%;
+						margin: 0 0 0 0;
+						text-align:left;
 
 						&:after{							
 							top: 40px;
@@ -725,7 +701,7 @@ body.page-template-front-page{
 				display: inline-block;
 
 				a{
-					width: 100px;
+					width: 105px;
 					margin: 0 auto;
 				}
 				
@@ -737,6 +713,11 @@ body.page-template-front-page{
 				h2{
 					padding: 0 10px;
 				}	
+
+				a{
+					width: 98px;
+					margin: 0 auto;
+				}
 			}
 
 			
@@ -748,18 +729,17 @@ body.page-template-front-page{
 			float: none;
 			clear: both;
 			position: relative;
-			padding: 60px 0 40px 0;
+			padding: 60px 0 40px 0;			
 
 			&:before{
-				background-image: url(../images/sprites/spritesheet.png);
-			    background-position: -506px -263px;
-			    width: 86px;
-			    height: 43px;
-			    content: '';
-			    position: absolute;
-			    top: 0;
-			    left: 50%;
-			    margin-left: -43px;
+
+				@include sprite ($before-bg-bandeau);
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 50%;
+				margin-left: -43px;
+
 			}
 
 			h2{
@@ -779,16 +759,17 @@ body.page-template-front-page{
 					font-family: $garamond;
 					font-size: 24px;
 					line-height: 30px;
+					font-weight: normal;
 
 				}				
 
 				&:before{
 					display:block;
-					@include svgicon('icon-vieducridon', 15px, 15px,$rouge);	 				
+					@include svgicon('icon-vieducridon', 10px, 10px,$rouge);	 				
 					position: absolute;
 				    bottom: -19px;
 				    left: 50%;
-				    margin-left: -40px;				
+				    margin-left: -27px;				
 				}
 				
 
@@ -890,24 +871,17 @@ body.page-template-front-page{
 			}
 
 			a.LienVieCridon{/*Lien toutes la veille juridique*/
-				font-family: $garamond;
-				color:$rouge;
-				text-decoration: underline;
-				width: 100%;
-				display: inline-block;
-				text-align: center;
-				font-size: 16px;
+
+				@include lien-souligne($rouge);				
 				margin: 0 0 20px 0;
 				position: relative;
+				width: 100%;
 
 
-				&:after{
-					content:'+';
-					@extend .do-el;
-					font-size: 40px;
-					display: block;
-					position: absolute;
-					top: 0;
+
+
+				&:after{				
+					top: 20px;
 					left: 50%;
 					margin-left: -9px;
 
@@ -1161,11 +1135,11 @@ FOOTER STYLES
 
 	
 
-	a.logoJP:hover{opacity: 1;
-		color:white;
-	
-		&:before{opacity: 1;}
-	}
+a.logoJP:hover{opacity: 1;
+	color:white;
+
+	&:before{opacity: 1;}
+}
 
 .footer {
 	clear: both;
@@ -1174,11 +1148,16 @@ FOOTER STYLES
 	bottom:0;
 	left:0;
 
+
+
 	.block-links {
+
 		background: $bg-top-footer;
 		padding: 40px 0;
+
 		ul {
 			margin: 0;
+
 			li {
 				width: 100%;
 				display: block;
@@ -1191,28 +1170,25 @@ FOOTER STYLES
 				font-size: 18px;
 				text-transform: uppercase;
 				position: relative;
+
 				a {
-					display: block;
-					color: $white;
-					font-size: 16px;
-					text-decoration: underline;
-					font-family: $garamond;
+					@include lien-souligne(#FFF);
+					
 					text-transform: none;
 					font-weight: normal;
 					padding-right: 25px;
-					position: relative;
+					position: absolute;
+					bottom: 15px;
+					right: 10px;
 
 					&:after{
-						content:'+';
-						@extend .do-el;
-						font-size: 40px;
-						display: block;
-						position: absolute;
+						
 						line-height: 10px;
 						right: 0;
 						top: 0;
 					}
 				}
+
 				&:after {
 					content: "";
 					position: absolute;
@@ -1221,6 +1197,7 @@ FOOTER STYLES
 					display: block;
 					@include sprite($angle-before-links-footer-mobile);
 				}
+
 				&:before {
 					content: "";
 					position: absolute;
@@ -1228,22 +1205,28 @@ FOOTER STYLES
 					bottom: 10px;
 					font-weight: normal;
 				}
+
 				&.formations {
 					background: $bleu;
+
 					&:before {
 						@include svgicon('icon-catalogue', 60px, 60px,$white);					
 
 					}
 				}
+
 				&.cahier {
 					background: $vert;
+
 					&:before {
 						@include svgicon('icon-cahier', 60px, 60px,$white);					
 
 					}
 				}
+
 				&.services {
 					background: $jaune-accueil;
+
 					&:before {
 						@include svgicon('icon-servicesplus', 60px, 60px,$white);					
 
