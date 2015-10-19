@@ -14,6 +14,9 @@ if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
 	define( 'CONST_ADMIN_ROLE', 'administrator' );
 }
+if ( !defined( 'CONST_LOGIN_SEPARATOR' ) ) {
+    define( 'CONST_LOGIN_SEPARATOR', '~' );
+}
 
 // wpmvc prefix
 if ( !defined( 'CONST_WPMVC_PREFIX' ) ) {
