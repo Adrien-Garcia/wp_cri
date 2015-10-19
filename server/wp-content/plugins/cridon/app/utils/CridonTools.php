@@ -26,16 +26,16 @@ class CridonTools {
         $tmp = array();
         $tmpDate = ( empty( $data ) ) ? null : $data[0]->$attr;
         foreach ( $data as $key=>$value ){
-            if( $tmpDate == $value->$attr ){
+            if( $tmpDate == $value->$attr ){//Si la date est toujours les mêmes alors stocker la valeur
                 $tmp[] = $value;
                 $tmpDate = $value->$attr;
             }else{
                 $aSplit[] = $tmp;
                 $tmp = array();
                 $tmp[] = $value;
-                $tmpDate = $value->$attr;
+                $tmpDate = $value->$attr;// l'itération courante
             }
-            if( count( $data ) - 1 === $key ){
+            if( count( $data ) - 1 === $key ){ // Si nous arrivons déjà à la fin
                 $aSplit[] = $tmp;
             }
         }
@@ -57,7 +57,7 @@ class CridonTools {
      */
     public function buildSubArray( $model,$data,$attr,$attributes,$newAttributes,$nb_per_date,$index,$format_date ){
         $newData = array();     
-        $aSplit = $this->splitArray( $data,$attr );
+        $aSplit = $this->splitArray( $data,$attr );//Reconstruit le tableau en ayant plusieurs petits tableaux contenant les mêmes dates
         $option = array(
             'controller' => $model.'s',
             'action'     => 'show'
@@ -67,21 +67,21 @@ class CridonTools {
             $tmpRes = array();
             $tmpNews = array();
             foreach( $val as $k1=>$v1){
-                if( $count_per_date <= $nb_per_date ){
+                if( $count_per_date <= $nb_per_date ){ //Si le nombre d'éléments n'atteint pas encore les limites autorisés
                     $date = new DateTime( $v1->$attr );
-                    $tmpRes['date'] = $date->format( $format_date );
+                    $tmpRes['date'] = $date->format( $format_date );//Formater la date au format voulu
                     $cls = new stdClass();
-                    foreach ( $attributes as $k2=>$v2 ){
+                    foreach ( $attributes as $k2=>$v2 ){ //Recréer les attributs avec celui les nouveaux customisés
                         $cls->$newAttributes[$k2] = $v1->$v2;
                     }
                     $option['id'] = $v1->join_id;
                     $cls->link = MvcRouter::public_url($option);
                     $tmpNews[] = $cls;
-                    if( count( $val ) - 1 === $k1 ){
+                    if( count( $val ) - 1 === $k1 ){// Si nous sommes déjà à la fin faire un push dans le tableau final
                         $tmpRes[$index] = $tmpNews;
                         $newData[] = $tmpRes;
                     }
-                }else{
+                }else{ //Si le nombre d'objet est atteint alors mettre dans le tableau final
                     $tmpRes[$index] = $tmpNews;
                     $newData[] = $tmpRes;
                     break;
