@@ -57,12 +57,18 @@
 						<img src="" alt="">
 						<img src="" alt="">
 					</div>
-					<div class="consultation">
-						<?php echo get_field('Consultation au 04 37 24 79 24 de 14h00 à 17h30'); ?>
-					</div>
-					<a class="contacter" href=""><?php echo get_field('Contacter'); ?></a>
-					<a class="poser-question" href=""><?php echo get_field('Posez une question'); ?></a>
-					<a class="acceder-compte desktop" href=""><?php echo get_field('acceder à mon compte'); ?></a>
+					<a href="#" class="rechercher">
+						<?php _e('Rechercher dans les bases de connaissances'); ?>
+					</a>
+					<a class="contacter" href="#">
+						<?php _e('Contacter'); ?>
+					</a>
+					<a class="poser-question" href="#">
+						<?php _e('Posez une question'); ?>
+					</a>
+					<a class="acceder-compte desktop" href="#">
+						<?php _e('acceder à mon compte'); ?>
+					</a>
 				</div>
 			</div>
 

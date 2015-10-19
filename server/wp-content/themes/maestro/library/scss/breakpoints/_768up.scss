@@ -13,9 +13,27 @@ come into play. Have fun!
 ******************************************************************/
 
 
+
 /*********************
 GENERAL STYLES
 *********************/
+
+
+@import "partials/normalize";
+
+// Sass variables
+@import "partials/variables";
+
+// typography
+@import "partials/typography";
+
+// Sass functions
+@import "partials/functions";
+
+// import mixins
+@import "partials/mixins";
+
+@import "modules/spritesheet.scss";
 
 body {}
 
@@ -24,16 +42,578 @@ LAYOUT & GRID STYLES
 *********************/
 
 .wrap {
-	width: 760px;
+	width: 660px;
+	position: relative;
 }
 
 /*********************
 HEADER STYLES
 *********************/
 
-.header {}
+.header {
+	height:130px;
 
-	#logo {}
+	.header-sup{
+
+		display: block;
+		height: 50px;
+		background: $vj_01; 
+		
+
+		
+
+		.logo-partenaires{
+			display: none;
+
+		}
+
+		.rechercher{
+			width: 300px;
+			height: 30px;
+			background:$vert;
+			display: block;
+			position: absolute;
+			top: 10px;
+			left: 0;
+			text-decoration: none;
+
+			@extend .do-sm;
+			font-size: 12px;
+			color:#FFF;
+			text-transform: uppercase;
+			line-height: 30px;
+			padding-left: 40px;
+
+			&:before{
+				display:block;
+				@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
+				position:absolute;
+				top:6px;
+				left: 8px;
+			}
+
+		}
+
+		.poser-question{
+			width: 160px;
+			height: 30px;
+			position: absolute;
+			top: 10px;
+			left: 313px;
+			background: $vj_03;
+			text-decoration: none;
+
+			@extend .do-sm;
+			font-size: 12px;
+			color:#FFF;
+			text-transform: uppercase;
+			line-height: 30px;
+			padding-left: 40px;
+
+			&:before{
+				display:block;
+				@include svgicon('icon-consulter', 20px, 20px, #FFFFFF);					
+				position:absolute;
+				top:6px;
+				left: 8px;
+			}
+
+			
+		}
+
+		.acceder-compte{
+			width: 175px;
+			height: 30px;
+			position: absolute;
+			top: 10px;
+			left: 485px;
+			background: #FFF;
+			text-decoration: none;
+
+			@extend .do-sm;
+			font-size: 12px;
+			color:$vert;
+			text-transform: uppercase;
+			line-height: 30px;
+			padding-left: 40px;
+
+			&:before{
+				display:block;
+				@include svgicon('icon-compte', 20px, 20px, '');	 				
+				position:absolute;
+				top:6px;
+				left: 8px;
+			}
+
+		}
+	}
+
+	.header-bottom{
+
+		height: 80px;
+
+		#inner-header{
+			position: relative;
+
+			h1 {	
+		
+				width: 100%;
+				height: 80px;
+				background-size: 240px 50px;				
+			}
+
+			#bt-nav-mobile{
+				position: absolute;
+			    top: 25px;
+			    left: 10px;
+			   
+
+			}
+
+			#bt-account{
+				display: none;
+			}
+
+
+		}
+	}
+	
+}
+
+
+
+
+
+
+
+/*
+
+  ____                       _                       _ _ 
+ |  _ \ __ _  __ _  ___     / \   ___ ___ _   _  ___(_) |
+ | |_) / _` |/ _` |/ _ \   / _ \ / __/ __| | | |/ _ \ | |
+ |  __/ (_| | (_| |  __/  / ___ \ (_| (__| |_| |  __/ | |
+ |_|   \__,_|\__, |\___| /_/   \_\___\___|\__,_|\___|_|_|
+             |___/                                       
+
+
+*/
+
+
+
+body.page-template-front-page{
+
+	#content {
+		//margin-top: 1.5em;
+		padding:130px 0 0 0; /* Hauteur du footer */
+
+
+		.row_01{
+			.falsh-info{		
+
+				.titre{
+					
+					font-size: 20px; 
+					margin-bottom: 0;
+
+				}
+
+				.content{ 
+
+					.texte{
+						width: 520px;						
+					}
+
+					a{
+						margin-left: calc(100% - 100px);
+						margin-top: -17px;
+
+					}
+				}
+
+				&.closed{
+					.content,.close{visibility: hidden;}
+
+					.content{height: 0;}
+
+					.open{visibility: visible;}
+
+					.titre{margin-bottom: 0;}
+				}
+
+			}
+
+			.block_03{
+
+				margin-top: 20px;
+				float: left;
+				height: 210px;
+				margin-bottom: 40px;
+
+				.block {
+
+					width: 210px;
+					height: 210px;
+					float: left;
+					margin-right: 15px;
+
+					&:nth-child(3){ margin-right: 0;}
+					
+
+					.content{
+						height: 105px;
+						
+
+						&:before, &:after{
+							
+							height: 105px;
+
+						}
+
+						&:before{
+							
+							@include border-radius(0 15px 0 0);
+							left: 0;
+						}
+
+						&:after{
+ 
+							@include border-radius(15px 0 0 0);
+							right: 0;
+
+
+						}
+						
+						h2{ 
+							font-size: 27px; 
+							line-height: 28px;
+							margin: 35px 0 0 0;
+
+							span{
+								font-size: 16px;
+							}
+						}
+
+						> a{
+							font-size: 30px;
+							line-height: 10px;							
+						}
+					}
+				}
+
+				.consulter{
+					
+
+					h2:before{
+						display:block;
+						@include svgicon('icon-consulter', 20px, 20px, #FFFFFF);					
+						position:absolute;
+						top:-20px;
+						left:calc( 50% - 10px ); 
+					}
+					
+				}
+
+				.rechercher{
+
+					h2:before{
+						display:block;
+						@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
+						position:absolute;
+						top:-20px;
+						left:calc( 50% - 10px ); 
+					}
+					
+
+				}
+
+				.acceder{				
+
+					h2:before{
+						display:block;
+						@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
+						position:absolute;
+						top:-20px;
+						left:calc( 50% - 10px ); 
+					}
+					
+				}
+			}
+
+		}
+
+		.row_02{
+			padding-top: 44px;
+			position: relative;
+
+			&:before{
+
+				@include sprite ($before-bg-bandeau);
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 50%;
+				margin-left: -43px;
+
+			}
+
+			#onglets{
+
+				/*width: 100%;
+				float: left;
+				//padding-bottom: 20px;
+				border-bottom:solid 4px $vert;
+				margin-bottom: 10px;
+
+				h3{
+					@extend .do-sm;
+					text-transform: uppercase;
+					color:$bleu;
+					font-size: 20px;
+					line-height: 60px;
+					vertical-align: middle;
+					text-decoration: underline;
+
+					border-bottom:solid 16px #FFF;
+
+					width: 50%;
+					float: left;
+					text-align: center;
+
+					margin: 0;
+					padding: 0;
+
+
+				}
+
+				h3.open{
+					color:$vert;
+					text-decoration: none;
+					border-bottom:solid 16px $vert;
+				}*/
+			}
+
+			.details{
+				width: 100%;
+				clear: both;
+				float: none;
+
+				.accordion{
+
+					.panel{
+
+						//height: 60px;
+						//overflow: hidden;
+
+						.date{
+							height: 225px;
+							width: 100px;
+							float: left;
+							padding: 55px 0;
+							/*
+							font-size: 25px;
+							@extend .do-re;
+							text-transform: uppercase;
+							text-align: center;
+							//background: $vert;
+							line-height: 60px;
+							color:#FFF;
+							position: relative;
+							display: block;*/
+
+							&:before{
+								/*content:'';
+								@include sprite($angle-before-date-accordion-mobile);
+								position: absolute;
+								top: 0px; 
+								left: 50%;
+								margin-left: -23px;*/
+
+
+							}
+
+							&:after{
+									
+								content:'';
+								position: absolute;
+								top: 50%; 
+								right: 0px;
+								margin-top: -7px;
+								z-index: 2000;
+							}
+
+							span{
+								display: block;
+
+							}
+
+							.jour{
+								font-size: 72px;
+								line-height: 60px;
+							}
+							.mois{
+								font-size: 30px;
+								line-height: 40px;
+
+							}
+							.annee{
+								font-size: 18px;
+								line-height: 15px;
+							}
+
+
+
+						}
+
+
+						&:nth-child(1){							
+							.date{
+								background: $vj_01;
+								&:before{content:none;}
+								&:after{
+									@include sprite($angle-after-date-accordion-mobile_01);									
+								}
+							}
+						}
+
+						&:nth-child(2){
+							.date{
+							background: $vj_02; 
+								&:after{
+									@include sprite($angle-after-date-accordion-mobile_02);									
+								}
+							}
+						}
+
+						&:nth-child(3){
+							.date{
+								background: $vj_03; 
+								&:after{
+									@include sprite($angle-after-date-accordion-mobile_03);									
+								}
+							}
+						}
+						.content{
+							height: auto;
+							padding-top: 40px;
+
+							> ul{
+								margin: 0;
+								padding: 0;
+
+								> li{
+
+									margin: 0;
+									padding: 0;
+									list-style-type: none;
+
+									>img{
+										height: 30px;
+										width: 30px;
+										margin:0 auto;
+										display: block;
+									}
+
+									h4{
+										font-size: 20px;
+										color:$bleu;
+										text-transform: uppercase;
+										text-align: center;
+										@extend .do-re;
+										margin: 0;
+										padding: 0;
+									}
+
+									.chapeau-categorie{
+										font-size: 13px;
+										font-family: $helvetica;
+										display: block;
+										text-align: center;
+										line-height: 18px;
+
+									}
+
+									>a {
+										@include bt-crayon($vert, #FFFFFF);
+										margin:10px auto 30px auto;
+
+									}
+								}
+							}
+						}
+
+					}
+
+					.blockEnd{
+						height: 20px;
+						width: 100%;
+						background: $vj_04;
+					}
+					
+					> a{/*Lien toutes la veille juridique*/
+						font-family: $garamond;
+						color:$rouge;
+						text-decoration: underline;
+						width: 100%;
+						display: inline-block;
+						text-align: center;
+						font-size: 16px;
+						margin: 30px 0 50px 0;
+						position: relative;
+
+
+						&:after{
+							content:'+';
+							@extend .do-el;
+							font-size: 40px;
+							display: block;
+							position: absolute;
+							top: 0;
+							left: 50%;
+							margin-left: -9px;
+
+						}
+					}
+
+				}
+
+				div.closed{
+
+					
+					height: 60px;
+
+					.content{display: none;}
+
+				}
+
+
+				
+			}
+
+		}
+
+
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*********************
 NAVIGATION STYLES
