@@ -90,7 +90,7 @@
 									<?php 
 
 										// $_matiere = $veille->getMatiere() != null ? $veille->getMatiere() : 'Expertise générale';
-										$_matiere = false != false ? false : 'Expertise générale';
+										$_matiere = false != false ? false : __('Expertise générale');
 										$_chapo = $veille->excerpt;
 										$_link = $veille->link;
 
@@ -98,9 +98,9 @@
 									 ?>
 								<li >
 									<img src="" alt="" />
-									<h4><?php _e($_matiere); ?></h4>
-									<div class="chapeau-categorie"><?php _e($_chapo) ?></div>
-									<a href="<?php _e($_link) ?>"><?php _e('Lire'); ?></a>
+									<h4><?php echo $_matiere; ?></h4>
+									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
+									<a href="<?php echo $_link; ?>"><?php _e('Lire'); ?></a>
 								</li>
 								<?php endforeach; ?>
 

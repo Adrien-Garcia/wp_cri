@@ -166,6 +166,7 @@ body.page-template-front-page{
 					text-transform: uppercase;
 					margin-bottom: 12px;
 					position: relative;
+					transition: margin $duration ease;
 
 					.close, .open{
 						
@@ -188,7 +189,7 @@ body.page-template-front-page{
 
 					.open{
 						transform: rotate(90deg);
-						top: -11px;
+						top: -15px;
 						visibility: hidden;
 						font-size: 40px;
 					}
@@ -196,7 +197,9 @@ body.page-template-front-page{
 				}
 
 				.content{ 
-
+					max-height: 100px;
+					opacity: 1;
+					transition: max-height $duration ease 0s, opacity $duration ease 0s;
 					.texte{
 						color:$bleu;
 						font-family: $helvetica;
@@ -214,9 +217,9 @@ body.page-template-front-page{
 				}
 
 				&.closed{
-					.content,.close{visibility: hidden;}
+					.close{visibility: hidden;}
 
-					.content{height: 0;}
+					.content{ max-height: 0; opacity: 0;}
 
 					.open{visibility: visible;}
 
