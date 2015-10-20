@@ -5,15 +5,15 @@
 					<div class="block-links">
 						<div id="inner-top-footer" class="wrap cf">
 							<ul id="">
-								<li class="formations">
+								<li class="formations js-home-block-link">
 									<?php _e('Le catalogue formations'); ?>
 									<a href="#" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
-								<li class="cahier">
+								<li class="cahier js-home-block-link">
 									<?php _e('Les cahiers du cridon'); ?>
 									<a href="#" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
-								<li class="services"> 
+								<li class="services js-home-block-link"> 
 									<?php _e('Les services plus'); ?>
 									<a href="#" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
