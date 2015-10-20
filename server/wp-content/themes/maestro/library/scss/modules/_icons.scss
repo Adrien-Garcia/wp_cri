@@ -36,8 +36,9 @@ $icons: (
     icon-nl: '\EA09',
     icon-rechercher: '\EA0A',
     icon-servicesplus: '\EA0B',
-    icon-veille: '\EA0C',
-    icon-vieducridon: '\EA0D'
+    icon-veille-juridique: '\EA0C',
+    icon-veille: '\EA0D',
+    icon-vieducridon: '\EA0E'
 );
 
 @each $name, $icon in $icons {

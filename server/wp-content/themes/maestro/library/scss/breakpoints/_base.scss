@@ -387,10 +387,10 @@ body.page-template-front-page{
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-rechercher', 28px, 28px, #FFFFFF);					
+						@include svgicon('iicon-veille-juridique', 28px, 28px, #FFFFFF);					
 						position:absolute;
 						top:-32px;
-						left:calc( 50% - 15px ); 
+						left:calc( 50% - 25px ); 
 					}
 
 					.content{
@@ -677,6 +677,8 @@ body.page-template-front-page{
 					}
 				}
 
+				&:before{display: none;}
+
 				.content{
 
 					.img-main{
@@ -722,6 +724,8 @@ body.page-template-front-page{
 				text-align: center;
 				height: 176px;
 				padding: 25px 10px 25px 10px;
+
+				&:before{display: none;}
 
 				h2{
 					

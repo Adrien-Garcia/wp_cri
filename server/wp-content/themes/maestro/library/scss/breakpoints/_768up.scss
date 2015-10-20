@@ -86,6 +86,7 @@ HEADER STYLES
 
 			&:before{
 				display:block;
+				font-weight: normal;
 				@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
 				position:absolute;
 				top:6px;
@@ -112,6 +113,7 @@ HEADER STYLES
 
 			&:before{
 				display:block;
+				font-weight: normal;
 				@include svgicon('icon-consulter', 20px, 20px, #FFFFFF);					
 				position:absolute;
 				top:6px;
@@ -139,6 +141,7 @@ HEADER STYLES
 
 			&:before{
 				display:block;
+				font-weight: normal;
 				@include svgicon('icon-compte', 20px, 20px, '');	 				
 				position:absolute;
 				top:6px;
@@ -215,11 +218,17 @@ body.page-template-front-page{
 					font-size: 20px; 
 					margin-bottom: 0;
 
-					.open {
-						top: -11px;
+					.close, .open{ cursor: pointer;}
+
+					.close{
+						top: -17px;
+						right: -7px;
 					}
-					.close {
-						top: -15px;
+
+					.open{
+						top: -11px;
+						right: -7px;
+
 					}
 
 				}
@@ -342,10 +351,10 @@ body.page-template-front-page{
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
+						@include svgicon('icon-veille-juridique', 18px, 18px, #FFFFFF);					
 						position:absolute;
 						top:-20px;
-						left:calc( 50% - 10px ); 
+						left:calc( 50% - 16px ); 
 					}
 					
 				}
@@ -384,6 +393,8 @@ body.page-template-front-page{
 							width: 100px;
 							float: left;
 							padding: 55px 0;
+							cursor: pointer; 
+							font-weight: normal;
 							
 
 							&:before{
@@ -392,10 +403,6 @@ body.page-template-front-page{
 								top: 50%;
 								margin-top: -7px; 
 								left:8px; 
-								
-								
-
-
 							}
 
 							&:after{
@@ -415,6 +422,7 @@ body.page-template-front-page{
 							.jour{
 								font-size: 72px;
 								line-height: 60px;
+								@extend .do-el;
 							}
 							.mois{
 								font-size: 30px;
@@ -446,12 +454,9 @@ body.page-template-front-page{
 							> ul{
 								
 
-								> li{
-
-									
+								> li{									
 									float: none;
-									clear: both;
-									
+									clear: both;									
 
 									&:first-child{padding-bottom: 4px};
 									&:nth-child(2){padding:2px 0};
@@ -487,6 +492,15 @@ body.page-template-front-page{
 										
 										float: right;
 										margin: 0;
+
+										font-size: 10px;
+										width: 37px;
+										height: 14px;
+
+										&:after{
+											border-width: 7px 0 7px 9px; 
+
+										}
 
 									}
 								}
@@ -1060,12 +1074,10 @@ FOOTER STYLES
 				border-bottom: solid 1px rgba(255, 255, 255, 0.2);
 				
 				&:before{
-					display:block;
-					@include svgicon('icon-rechercher', 40px, 40px, #FFFFFF);					
+					display:block;										
 					position:absolute;
 					top:10px;
 					left: 0px;
-					z-index: 9999;
 				}
 
 				h4{
@@ -1090,12 +1102,30 @@ FOOTER STYLES
 
 				}
 
+				&.application{
+					&:before{
+						@include svgicon('icon-appli', 40px, 40px, #FFFFFF);
+					}
+				}
+
+				&.veille{
+					&:before{
+						@include svgicon('icon-veille', 40px, 40px, #FFFFFF);
+					}
+				}
+
+				&.flash{
+					&:before{
+						@include svgicon('icon-nl', 40px, 40px, #FFFFFF);
+					}
+				}
+
 				&:last-child{ margin-bottom: 0;} 
 			}
-		}
+		} 
 	}
 	.footer-bottom {
-		
+		 
 		padding: 35px 0;
 
 		nav {
