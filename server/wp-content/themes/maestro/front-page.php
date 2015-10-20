@@ -66,7 +66,7 @@
    					<h3 class="formations js-tab-formation-open"><?php _e('Formations'); ?></h3>
    				</div>
    				<div class="details">
-   					<div id="accordion-juridique" class="accordion js-tab-veille">
+   					<div id="accordion-juridique" class="accordion js-tab-veille open">
 						<?php 
 							setlocale(LC_ALL, 'fr_FR');
 							$veilles = criFilterByDate('veille',3,3,'veille', 'd/m/Y');

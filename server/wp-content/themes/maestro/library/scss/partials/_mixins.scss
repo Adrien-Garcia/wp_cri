@@ -185,6 +185,7 @@ BT style crayon
     display: block;
     text-align: center;
     text-transform: uppercase;
+      transition: background $duration*1.5 ease, color $duration*1.5 ease;
 
 
     &:after{
@@ -198,6 +199,7 @@ BT style crayon
       position: absolute;
       top: 0;
       right: -9px;
+      transition: border-color $duration*1.5 ease;
     }
 
     @media only screen and (min-width: 760px) {
@@ -213,10 +215,18 @@ BT style crayon
         border-style: dotted none dotted solid;
         position: absolute;
         top: 0;
-        right: -9px;
+        right: -10px;
       }
     
 
+    }
+    &:hover {
+      background: transparent;
+      color:$fond;
+      &:after{
+      border-color: transparent transparent transparent transparent;
+        
+      }
     }
 
  }
