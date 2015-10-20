@@ -272,7 +272,6 @@ body.page-template-front-page{
 						
 
 						&:before, &:after{
-							
 							height: 190px; 
 
 						}
@@ -299,6 +298,11 @@ body.page-template-front-page{
 						> a{
 							font-size: 30px;
 							line-height: 10px;							
+						}
+						&:hover {
+							&, &:before, &:after {
+								height: 270px;
+							}
 						}
 					}
 				}
@@ -438,7 +442,7 @@ body.page-template-front-page{
 						
 					}
 				}
-				
+
 			}
 		}
 
