@@ -6,6 +6,7 @@ App.Home = {
     tabVeilleSelector               : '.js-tab-veille',
     tabFormationSelector            : '.js-tab-formation',
     accordionContentSelector        : '.js-accordion-content',
+    linkBlockSelector               : '.js-home-block-link',
 
     eventFlashOpenSelector          : '.js-flash-open',
     eventFlashCloseSelector         : '.js-flash-close',
@@ -20,6 +21,7 @@ App.Home = {
     $tabFormation                   : null,
     $tabFormationButton             : null,
     $accordionContent               : null,
+    $linkBlock                      : null,
 
     init: function() {
 
@@ -35,6 +37,8 @@ App.Home = {
 
         this.$accordionButton       = $(this.eventAccordionOpenSelector);
         this.$accordionContent      = $(this.accordionContentSelector);
+
+        this.$linkBlock             = $(this.linkBlockSelector);
 
         this.addListeners();
 
@@ -67,6 +71,10 @@ App.Home = {
             self.eventAccordionOpen($(this));
         });
 
+        this.$linkBlock.on("click", function(e) {
+            self.eventLinkBlockClick($(this));
+        });
+
         this.debug("Home : addListeners end");
     },
 
@@ -84,7 +92,9 @@ App.Home = {
 
     eventTabVeilleOpen: function() {
         this.$tabVeille.addClass('open');
+        this.$tabVeilleButton.addClass('open');
         this.$tabFormation.removeClass('open');
+        this.$tabFormationButton.removeClass('open');
         this.accordionOpenFirst(this.$tabVeille);
     },
 
@@ -94,7 +104,9 @@ App.Home = {
 
     eventTabFormationOpen: function() {
         this.$tabFormation.addClass('open');
+        this.$tabFormationButton.addClass('open');
         this.$tabVeille.removeClass('open');
+        this.$tabVeilleButton.removeClass('open');
         this.accordionOpenFirst(this.$tabFormation);
     },
 
@@ -105,6 +117,15 @@ App.Home = {
     eventAccordionOpen: function(src) {
         this.$accordionContent.addClass('closed');
         src.parent(this.accordionContentSelector).removeClass('closed');
+    },
+
+    /*
+     * Event for opening the correct link on click on one of the blocks
+     */
+
+    eventLinkBlockClick: function() {
+        var href = this.$linkBlock.find('a').attr('href') != undefined ? this.$linkBlock.find('a').attr('href') : '#';
+        document.location.href = href;
     },
 
     accordionOpenFirst: function(parent) {

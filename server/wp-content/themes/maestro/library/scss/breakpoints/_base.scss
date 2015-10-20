@@ -239,6 +239,7 @@ body.page-template-front-page{
 					margin-bottom: 10px;
 					background-color: #FFF;
 					position: relative;
+					cursor: pointer;
 
 					.content{
 						height: 146px;
@@ -248,6 +249,7 @@ body.page-template-front-page{
 						left: 0;
 						overflow: hidden;
 						width: 100%;
+						transition: height $duration ease;
 
 						&:before, &:after{
 							content: '';
@@ -255,8 +257,8 @@ body.page-template-front-page{
 							position: absolute;
 							top: 0;
 							display: block;
-							height: 146px;							
-							
+							height: 146px;
+							transition: height $duration ease, background $duration ease;
 
 						}
 
@@ -286,6 +288,7 @@ body.page-template-front-page{
 							margin: 60px 0 0 0;
 							padding: 0;
 							font-weight: normal;
+							transition: margin $duration ease;
 
 							span{
 								display: block;
@@ -312,9 +315,27 @@ body.page-template-front-page{
 							text-align: center;
 							@extend .do-el;
 							font-size: 40px;
+							font-weight: normal;
 							line-height: 27px;
 							padding: 0;
 							margin: 0;
+							transition: font $duration ease;
+						}
+					}
+
+					&:hover {
+						.content{
+							h2 {
+								margin: 80px 0 0 0;
+							}
+							&>a {
+								font-weight: bold;
+								font-size: 50px;
+							}
+							&, &:before, &:after {
+								height: 200px;
+								background-position: 0 100%;
+							}
 						}
 					}
 				}
@@ -335,9 +356,11 @@ body.page-template-front-page{
 					.content{
 						&:before, &:after{
 							background: $vert;
-							@include gradient-opacity(rgba(0,153,153,0.6),rgba(0,153,153,1));
+							@include gradient-opacity(transparentize($vert, 0.4),opacify($vert, 1));
+
 						}
 					}
+
 				}
 
 				.rechercher{
@@ -357,7 +380,9 @@ body.page-template-front-page{
 
 						&:before, &:after{
 							background: $bleu;
-							@include gradient-opacity(rgba(46,72,103,0.6),rgba(46,72,103,1));
+							@include gradient-opacity(transparentize($bleu, 0.4),opacify($bleu, 1));
+							background-size: 100% 200%;
+
 						}
 						
 					}
@@ -381,7 +406,9 @@ body.page-template-front-page{
 						&:before, &:after{
 							
 							background: $jaune;
-							@include gradient-opacity(rgba(255,213,0,0.6),rgba(255,213,0,1));
+							@include gradient-opacity(transparentize($jaune, 0.4), opacify($jaune, 1));
+							background-size: 100% 200%;
+
 							
 						}
 					}

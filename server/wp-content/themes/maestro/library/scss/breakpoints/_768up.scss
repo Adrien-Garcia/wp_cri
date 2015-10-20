@@ -215,6 +215,13 @@ body.page-template-front-page{
 					font-size: 20px; 
 					margin-bottom: 0;
 
+					.open {
+						top: -11px;
+					}
+					.close {
+						top: -15px;
+					}
+
 				}
 
 				.content{ 
@@ -231,9 +238,7 @@ body.page-template-front-page{
 				}
 
 				&.closed{
-					.content,.close{visibility: hidden;}
-
-					.content{height: 0;}
+					.close{visibility: hidden;}
 
 					.open{visibility: visible;}
 
@@ -295,7 +300,20 @@ body.page-template-front-page{
 
 						> a{
 							font-size: 30px;
-							line-height: 10px;							
+							line-height: 10px;						
+						}
+					}
+					&:hover {
+						.content {
+							&, &:before, &:after {
+								height: 150px;
+							}
+							h2 {
+								margin: 50px 0 0 0;
+							}
+							&>a {
+								font-size: 40px;
+							}
 						}
 					}
 				}
