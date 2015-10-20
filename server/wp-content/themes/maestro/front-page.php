@@ -25,7 +25,7 @@
 				</div>
 
 				<div class="block_03">
-					<div class="block consulter">
+					<div class="block consulter js-home-block-link">
 						<div class="content">
 							<h2>
 								<?php _e('Consulter'); ?>
@@ -35,7 +35,7 @@
 						</div>						
 					</div>
 
-					<div class="block rechercher">
+					<div class="block rechercher js-home-block-link">
 						<div class="content">
 							<h2>
 								<?php _e('Rechercher'); ?>
@@ -45,7 +45,7 @@
 						</div>						
 					</div>
 
-					<div class="block acceder">
+					<div class="block acceder js-home-block-link">
 						<div class="content">
 							<h2>
 								<?php _e('Accéder'); ?>
@@ -66,8 +66,9 @@
    					<h3 class="formations js-tab-formation-open"><?php _e('Formations'); ?></h3>
    				</div>
    				<div class="details">
-   					<div id="accordion-juridique" class="accordion js-tab-veille">
+   					<div id="accordion-juridique" class="accordion js-tab-veille open">
 						<?php 
+							setlocale(LC_ALL, 'fr_FR');
 							$veilles = criFilterByDate('veille',3,3,'veille', 'd/m/Y');
 							// var_dump($veilles);
 						 ?>
@@ -82,7 +83,7 @@
 					      <div class="date js-accordion-button ">
 					      	<span class="jour"><?php echo date_format($_date, 'd') ?></span>
 					      	<span class="mois"><?php echo date_format($_date, 'M') ?></span>
-					      	<span class="annee"><?php echo date_format($_date, 'YY') ?></span> 
+					      	<span class="annee"><?php echo date_format($_date, 'Y') ?></span> 
 					      </div>
 					      <div class="content">
 							<ul>
@@ -90,7 +91,7 @@
 									<?php 
 
 										// $_matiere = $veille->getMatiere() != null ? $veille->getMatiere() : 'Expertise générale';
-										$_matiere = false != false ? false : 'Expertise générale';
+										$_matiere = false != false ? false : __('Expertise générale');
 										$_chapo = $veille->excerpt;
 										$_link = $veille->link;
 
@@ -98,9 +99,9 @@
 									 ?>
 								<li >
 									<img src="" alt="" />
-									<h4><?php _e($_matiere); ?></h4>
-									<div class="chapeau-categorie"><?php _e($_chapo) ?></div>
-									<a href="<?php _e($_link) ?>"><?php _e('Lire'); ?></a>
+									<h4><?php echo $_matiere; ?></h4>
+									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
+									<a href="<?php echo $_link; ?>"><?php _e('Lire'); ?></a>
 								</li>
 								<?php endforeach; ?>
 

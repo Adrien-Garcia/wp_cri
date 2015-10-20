@@ -166,6 +166,7 @@ body.page-template-front-page{
 					text-transform: uppercase;
 					margin-bottom: 12px;
 					position: relative;
+					transition: margin $duration ease;
 
 					.close, .open{
 						
@@ -188,7 +189,7 @@ body.page-template-front-page{
 
 					.open{
 						transform: rotate(90deg);
-						top: -11px;
+						top: -15px;
 						visibility: hidden;
 						font-size: 40px;
 					}
@@ -196,7 +197,9 @@ body.page-template-front-page{
 				}
 
 				.content{ 
-
+					max-height: 100px;
+					opacity: 1;
+					transition: max-height $duration ease 0s, opacity $duration ease 0s;
 					.texte{
 						color:$bleu;
 						font-family: $helvetica;
@@ -214,9 +217,9 @@ body.page-template-front-page{
 				}
 
 				&.closed{
-					.content,.close{visibility: hidden;}
+					.close{visibility: hidden;}
 
-					.content{height: 0;}
+					.content{ max-height: 0; opacity: 0;}
 
 					.open{visibility: visible;}
 
@@ -236,6 +239,7 @@ body.page-template-front-page{
 					margin-bottom: 10px;
 					background-color: #FFF;
 					position: relative;
+					cursor: pointer;
 
 					.content{
 						height: 146px;
@@ -245,6 +249,7 @@ body.page-template-front-page{
 						left: 0;
 						overflow: hidden;
 						width: 100%;
+						transition: height $duration ease;
 
 						&:before, &:after{
 							content: '';
@@ -252,8 +257,8 @@ body.page-template-front-page{
 							position: absolute;
 							top: 0;
 							display: block;
-							height: 146px;							
-							
+							height: 146px;
+							transition: height $duration ease, background $duration ease;
 
 						}
 
@@ -309,9 +314,19 @@ body.page-template-front-page{
 							text-align: center;
 							@extend .do-el;
 							font-size: 40px;
+							font-weight: normal;
 							line-height: 27px;
 							padding: 0;
 							margin: 0;
+						}
+					}
+
+					&:hover {
+						.content{
+							&, &:before, &:after {
+								height: 200px;
+								background-position: 0 100%;
+							}
 						}
 					}
 				}
@@ -332,9 +347,11 @@ body.page-template-front-page{
 					.content{
 						&:before, &:after{
 							background: $vert;
-							@include gradient-opacity(rgba(0,153,153,0.6),rgba(0,153,153,1));
+							@include gradient-opacity(transparentize($vert, 0.4),opacify($vert, 1));
+
 						}
 					}
+
 				}
 
 				.rechercher{
@@ -354,7 +371,9 @@ body.page-template-front-page{
 
 						&:before, &:after{
 							background: $bleu;
-							@include gradient-opacity(rgba(46,72,103,0.6),rgba(46,72,103,1));
+							@include gradient-opacity(transparentize($bleu, 0.4),opacify($bleu, 1));
+							background-size: 100% 200%;
+
 						}
 						
 					}
@@ -378,7 +397,9 @@ body.page-template-front-page{
 						&:before, &:after{
 							
 							background: $jaune;
-							@include gradient-opacity(rgba(255,213,0,0.6),rgba(255,213,0,1));
+							@include gradient-opacity(transparentize($jaune, 0.4), opacify($jaune, 1));
+							background-size: 100% 200%;
+
 							
 						}
 					}
@@ -429,7 +450,7 @@ body.page-template-front-page{
 
 					margin: 0;
 					padding: 0;
-
+					transition: border $duration ease, color $duration ease;
 
 				}
 
@@ -447,7 +468,8 @@ body.page-template-front-page{
 
 				.accordion{
 					text-align: center;
-
+					opacity: 0;
+					z-index: 0;
 					.panel{
 
 						//height: 60px;
@@ -477,7 +499,6 @@ body.page-template-front-page{
 							}
 
 							&:after{
-									
 								content:'';
 								position: absolute;
 								bottom: -15px; 
@@ -518,9 +539,13 @@ body.page-template-front-page{
 								}
 							}
 						}
+						max-height: 500px;
+						transition: max-height $duration ease 0.3s;
 						.content{
+							opacity: 1;
 							height: auto;
 							padding-top: 40px;
+							transition: opacity $duration ease 0.3s;
 
 							> ul{
 								margin: 0;
@@ -584,14 +609,22 @@ body.page-template-front-page{
 							margin-left: -9px;
 						}
 					}
+					&.open {
+						opacity: 1;
+						z-index: 1;
+					}
 				}
 
-				div.closed{
-
+				div.closed {
 					
-					height: 60px;
+					
 
-					.content{display: none;}
+					&.panel {
+						max-height: 60px; 
+						.content {
+							opacity: 0;
+						}
+					}
 
 				}
 
@@ -634,6 +667,15 @@ body.page-template-front-page{
 				padding: 20px 0 0 50%;
 				position: relative;
 				margin-bottom: 10px;
+				transition: background $duration ease;
+
+				&:hover {
+					background: $gris-appli - #1D1D1D;
+
+					.content>a:after{
+						font-weight: bold;
+					}
+				}
 
 				.content{
 
@@ -644,7 +686,7 @@ body.page-template-front-page{
 						width: 150px;
 						height: 178px;
 						background: url(../images/origin/img-main-appli-mobile.png);
-						    background-position: top right;
+					    background-position: top right;
 						border:0px;
 						text-decoration: none;
 
@@ -690,8 +732,17 @@ body.page-template-front-page{
 						top: 40px;
 						left: 50%;
 						margin-left: -9px;
+						transition: font-weight $duration/2 ease $duration/4;
+
 					}
 				} 
+
+				&:hover {
+					.content>a:after{
+						font-weight: bold;
+
+					}
+				}
 			}
 
 			.veille-juridique{
@@ -703,6 +754,9 @@ body.page-template-front-page{
 				a{
 					width: 105px;
 					margin: 0 auto;
+				}
+				&:hover {
+					background: $jaune-accueil + #1b1b1b;
 				}
 				
 			}
@@ -717,6 +771,9 @@ body.page-template-front-page{
 				a{
 					width: 98px;
 					margin: 0 auto;
+				}
+				&:hover {
+					background: #26548c;
 				}
 			}
 
@@ -1170,6 +1227,7 @@ a.logoJP:hover{opacity: 1;
 				font-size: 18px;
 				text-transform: uppercase;
 				position: relative;
+				transition: background $duration ease;
 
 				a {
 					@include lien-souligne(#FFF);
@@ -1186,6 +1244,12 @@ a.logoJP:hover{opacity: 1;
 						line-height: 10px;
 						right: 0;
 						top: 0;
+					}
+				}
+
+				&:hover {
+					a:after {
+						font-weight: bold;
 					}
 				}
 
@@ -1213,6 +1277,10 @@ a.logoJP:hover{opacity: 1;
 						@include svgicon('icon-catalogue', 60px, 60px,$white);					
 
 					}
+					&:hover {
+						background: #26548c;
+					}
+
 				}
 
 				&.cahier {
@@ -1222,6 +1290,9 @@ a.logoJP:hover{opacity: 1;
 						@include svgicon('icon-cahier', 60px, 60px,$white);					
 
 					}
+					&:hover {
+						background: $vert + #011919;
+					}
 				}
 
 				&.services {
@@ -1230,6 +1301,9 @@ a.logoJP:hover{opacity: 1;
 					&:before {
 						@include svgicon('icon-servicesplus', 60px, 60px,$white);					
 
+					}
+					&:hover {
+						background: $jaune-accueil + #1b1b1b;
 					}
 				}
 			}

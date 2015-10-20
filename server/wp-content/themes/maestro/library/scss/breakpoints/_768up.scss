@@ -215,6 +215,13 @@ body.page-template-front-page{
 					font-size: 20px; 
 					margin-bottom: 0;
 
+					.open {
+						top: -11px;
+					}
+					.close {
+						top: -15px;
+					}
+
 				}
 
 				.content{ 
@@ -231,9 +238,7 @@ body.page-template-front-page{
 				}
 
 				&.closed{
-					.content,.close{visibility: hidden;}
-
-					.content{height: 0;}
+					.close{visibility: hidden;}
 
 					.open{visibility: visible;}
 
@@ -295,7 +300,14 @@ body.page-template-front-page{
 
 						> a{
 							font-size: 30px;
-							line-height: 10px;							
+							line-height: 10px;						
+						}
+					}
+					&:hover {
+						.content {
+							&, &:before, &:after {
+								height: 150px;
+							}
 						}
 					}
 				}
@@ -363,7 +375,7 @@ body.page-template-front-page{
 					.panel{
 
 						height: 225px;
-						width: 440px;
+						// width: 440px;
 						float: left;
 
 
@@ -422,11 +434,14 @@ body.page-template-front-page{
 						
 						.content{
 							
-
 							width: 340px;
+							max-width: 340px;
 							height: 225px;
+							max-height: 225px;
 							float: left;
 							padding: 0 20px 0 20px;
+							overflow: hidden;
+							transition: max-width $duration ease, opacity $duration/2 ease, padding $duration ease;
 
 							> ul{
 								
@@ -497,21 +512,24 @@ body.page-template-front-page{
 
 				}
 
-				div.closed{
+				div.panel.closed{
 
 					
 					/*height: 60px;*/
-
-					width: 100px !important;
+					max-height: 225px;
+					// max-width: 100px;
 
 					.content{
-						width: 0px !important;
+						max-width: 0px;
+						padding: 0;
+						transition: max-width $duration ease, opacity $duration/2 ease $duration/2, padding $duration ease;
 
-						ul{ opacity: 0;}
 					}
 
 				}
+				&.closed {
 
+				}
 
 				
 			}

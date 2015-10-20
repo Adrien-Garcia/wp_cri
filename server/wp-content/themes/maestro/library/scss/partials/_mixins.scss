@@ -185,6 +185,7 @@ BT style crayon
     display: block;
     text-align: center;
     text-transform: uppercase;
+      transition: background $duration*1.5 ease, color $duration*1.5 ease;
 
 
     &:after{
@@ -198,6 +199,7 @@ BT style crayon
       position: absolute;
       top: 0;
       right: -9px;
+      transition: border-color $duration*1.5 ease;
     }
 
     @media only screen and (min-width: 760px) {
@@ -213,10 +215,18 @@ BT style crayon
         border-style: dotted none dotted solid;
         position: absolute;
         top: 0;
-        right: -9px;
+        right: -10px;
       }
     
 
+    }
+    &:hover {
+      background: transparent;
+      color:$fond;
+      &:after{
+      border-color: transparent transparent transparent transparent;
+        
+      }
     }
 
  }
@@ -258,7 +268,8 @@ Lien souligné avec "+"
       display: block;
       position: absolute;   
       line-height: 20px;  
-
+      transition: font-weight $duration/2 ease $duration/4;
+      
     }
 
     @media only screen and (min-width: 760px) {
@@ -272,6 +283,11 @@ Lien souligné avec "+"
 
       }    
 
+    }
+    &:hover {
+        &:after {
+          font-weight: bold;
+        }
     }
 
 
@@ -288,12 +304,12 @@ Css gradient opacity
 
 
   @mixin gradient-opacity($rgba1, $rgba2) {  
-    background: -moz-linear-gradient(top, $rgba1 0%, $rgba2 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$rgba1), color-stop(100%,$rgba2));
-    background: -webkit-linear-gradient(top, $rgba1 0%,$rgba2 100%);
-    background: -o-linear-gradient(top, $rgba1 0%,$rgba2 100%);
-    background: -ms-linear-gradient(top, $rgba1 0%,$rgba2 100%);
-    background: linear-gradient(to bottom, $rgba1 0%,$rgba2 100%);
+    background: -moz-linear-gradient(top, $rgba1 0%, $rgba2 50%) 0 0 / 100% 200%;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$rgba1), color-stop(50%,$rgba2)) 0 0 / 100% 200%;
+    background: -webkit-linear-gradient(top, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
+    background: -o-linear-gradient(top, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
+    background: -ms-linear-gradient(top, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
+    background: linear-gradient(to bottom, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
  }
 
 
