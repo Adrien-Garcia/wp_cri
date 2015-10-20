@@ -67,90 +67,48 @@
    				</div>
    				<div class="details">
    					<div id="accordion-juridique" class="accordion js-tab-veille">
+						<?php 
+							$veilles = criFilterByDate('veille',3,3,'veille', 'd/m/Y');
+							// var_dump($veilles);
+						 ?>
+						<?php foreach ($veilles as $keyd => $date): ?>
+						<?php 
+							if( preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date['date'], $matches) ){
+								$_date = date_create_from_format('d/m/Y', $date['date']);
+							}
+						?>
+						<?php // var_dump($_date) ?>
+   						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?>">
+					      <div class="date js-accordion-button ">
+					      	<span class="jour"><?php echo date_format($_date, 'd') ?></span>
+					      	<span class="mois"><?php echo date_format($_date, 'M') ?></span>
+					      	<span class="annee"><?php echo date_format($_date, 'YY') ?></span> 
+					      </div>
+					      <div class="content">
+							<ul>
+								<?php foreach ($date['veille'] as $keyv => $veille) : ?>
+									<?php 
 
-   						<div class="panel js-accordion-content">
-					      <div class="date js-accordion-button">
-					      	<span class="jour">10</span>
-					      	<span class="mois">sept</span>
-					      	<span class="annee">2015</span> 
-					      </div>
-					      <div class="content">
-							<ul>
-								<li>
+										// $_matiere = $veille->getMatiere() != null ? $veille->getMatiere() : 'Expertise générale';
+										$_matiere = false != false ? false : 'Expertise générale';
+										$_chapo = $veille->excerpt;
+										$_link = $veille->link;
+
+										// var_dump($keyd)
+									 ?>
+								<li >
 									<img src="" alt="" />
-									<h4>Droit Social</h4>
-									<div class="chapeau-categorie">Surendettement des particuliers – Protection des consommateurs – Effacement de la  créance...</div>
-									<a href=""><?php _e('Lire'); ?></a>
+									<h4><?php _e($_matiere); ?></h4>
+									<div class="chapeau-categorie"><?php _e($_chapo) ?></div>
+									<a href="<?php _e($_link) ?>"><?php _e('Lire'); ?></a>
 								</li>
-								<li>
-									<img src="" alt="" />
-									<h4>Droit Social</h4>
-									<div class="chapeau-categorie">Surendettement des particuliers – Protection des consommateurs – Effacement de la  créance...</div>
-									<a href=""><?php _e('Lire'); ?></a>
-								</li>
-								<li>
-									<img src="" alt="" />
-									<h4>Droit Social</h4>
-									<div class="chapeau-categorie">Surendettement des particuliers – Protection des consommateurs – Effacement de la  créance...</div>
-									<a href=""><?php _e('Lire'); ?></a>
-								</li>
+								<?php endforeach; ?>
+
 							</ul>
 					       
 					      </div>
 					    </div>
-					    <div class="panel closed js-accordion-content">
-					      <div class="date js-accordion-button">
-					      	<span class="jour">4</span>
-					      	<span class="mois">sept</span>
-					      	<span class="annee">2015</span> 
-					      </div>
-					      <div class="content">
-							<ul>
-								<li>
-									<h4>Droit Social 2</h4>
-									<div class="chapeau-categorie"></div>
-									<a href=""><?php _e('Lire'); ?></a>
-								</li>
-								<li>
-									<h4>Droit Social 2</h4>
-									<div class="chapeau-categorie"></div>
-									<a href=""><?php _e('Lire'); ?></a>
-								</li>
-								<li>
-									<h4>Droit Social 2</h4>
-									<div class="chapeau-categorie"></div>
-									<a href=""><?php _e('Lire'); ?></a>
-								</li>
-							</ul>
-					       
-					      </div>
-					    </div>
-					    <div class="panel closed js-accordion-content">
-					      <div class="date js-accordion-button">
-					      	<span class="jour">31</span>
-					      	<span class="mois">sept</span>
-					      	<span class="annee">2015</span> 
-					      </div>
-					      <div class="content">
-							<ul>
-								<li>
-									<h4>Droit Social 3</h4>
-									<div class="chapeau-categorie"></div>
-									<a href=""><?php _e('Lire'); ?></a>
-								</li>
-								<li>
-									<h4>Droit Social 3</h4>
-									<div class="chapeau-categorie"></div>
-									<a href=""><?php _e('Lire'); ?></a>
-								</li>
-								<li>
-									<h4>Droit Social 3</h4>
-									<div class="chapeau-categorie"></div>
-									<a href=""><?php _e('Lire'); ?></a>
-								</li>
-							</ul>					       
-					      </div>
-					    </div>
+					    <?php endforeach ?>
 					    <div class="blockEnd"></div>
 
 					    <a href="#" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
@@ -160,7 +118,50 @@
 
    					<div id="accordion-formations" class="js-tab-formation">
 
-   						
+   						<?php 
+							$formations = criFilterByDate('formation',3,3,'formation', 'd/m/Y');
+							// var_dump($formations);
+						 ?>
+						<?php foreach ($formations as $keyd => $date): ?>
+						<?php 
+							if( preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date['date'], $matches) ){
+								$_date = date_create_from_format('d/m/Y', $date['date']);
+							}
+						?>
+						<?php // var_dump($_date) ?>
+   						<div class="panel js-accordion-content">
+					      <div class="date js-accordion-button">
+					      	<span class="jour"><?php echo date_format($_date, 'd') ?></span>
+					      	<span class="mois"><?php echo date_format($_date, 'M') ?></span>
+					      	<span class="annee"><?php echo date_format($_date, 'YY') ?></span> 
+					      </div>
+					      <div class="content">
+							<ul>
+								<?php foreach ($date['formation'] as $keyv => $formation) : ?>
+									<?php 
+										// $_matiere = $formation->getMatiere() != null ? $formation->getMatiere() : 'Expertise générale';
+										$_matiere = false != false ? false : 'Expertise générale';
+										$_chapo = $formation->excerpt;
+										$_link = $formation->link;
+
+										// var_dump($formation)
+									 ?>
+								<li>
+									<img src="" alt="" />
+									<h4><?php _e($_matiere); ?></h4>
+									<div class="chapeau-categorie"><?php _e($_chapo) ?></div>
+									<a href="<?php _e($_link) ?>"><?php _e('Lire'); ?></a>
+								</li>
+								<?php endforeach; ?>
+
+							</ul>
+					       
+					      </div>
+					    </div>
+					    <?php endforeach ?>
+					    <div class="blockEnd"></div>
+
+					    <a href="#" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
    						
    					</div>
    				</div>
