@@ -117,7 +117,7 @@
    					</div>
 
 
-   					<div id="accordion-formations" class="js-tab-formation">
+   					<div id="accordion-formations" class="accordion js-tab-formation">
 
    						<?php 
 							$formations = criFilterByDate('formation',3,3,'formation', 'd/m/Y');
@@ -149,9 +149,9 @@
 									 ?>
 								<li>
 									<img src="" alt="" />
-									<h4><?php _e($_matiere); ?></h4>
-									<div class="chapeau-categorie"><?php _e($_chapo) ?></div>
-									<a href="<?php _e($_link) ?>"><?php _e('Lire'); ?></a>
+									<h4><?php echo $_matiere; ?></h4>
+									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
+									<a href="<?php echo $_link ?>"><?php _e('Lire'); ?></a>
 								</li>
 								<?php endforeach; ?>
 

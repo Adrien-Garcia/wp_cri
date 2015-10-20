@@ -470,6 +470,7 @@ body.page-template-front-page{
 					text-align: center;
 					opacity: 0;
 					z-index: 0;
+					display: none;
 					.panel{
 
 						//height: 60px;
@@ -610,6 +611,7 @@ body.page-template-front-page{
 						}
 					}
 					&.open {
+						display: block;
 						opacity: 1;
 						z-index: 1;
 					}
