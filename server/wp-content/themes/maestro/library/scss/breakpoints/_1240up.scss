@@ -189,7 +189,8 @@ body.page-template-front-page{
 
 			.falsh-info{
 			height: 70px; 
-			padding-top: 25px;		
+			padding-top: 25px;
+			transition: height $duration ease, padding $duration ease;	
 
 				.titre{
 					
@@ -238,9 +239,7 @@ body.page-template-front-page{
 				&.closed{
 					padding-top: 5px;
 					height: 40px; 
-					.content,.close{visibility: hidden;}
-
-					.content{height: 0; }
+					.close{visibility: hidden;}
 
 					.open{visibility: visible;}
 
@@ -273,7 +272,6 @@ body.page-template-front-page{
 						
 
 						&:before, &:after{
-							
 							height: 190px; 
 
 						}
@@ -300,6 +298,11 @@ body.page-template-front-page{
 						> a{
 							font-size: 30px;
 							line-height: 10px;							
+						}
+						&:hover {
+							&, &:before, &:after {
+								height: 270px;
+							}
 						}
 					}
 				}
@@ -369,8 +372,7 @@ body.page-template-front-page{
 					
 
 					.panel{
-						width: 820px;
-						
+
 						.date{
 							
 							width: 180px;							
@@ -381,6 +383,7 @@ body.page-template-front-page{
 						.content{							
 
 							width: 640px; 	
+							max-width: 640px; 	
 							padding: 0 30px 0 30px;						
 
 							> ul{
@@ -440,10 +443,6 @@ body.page-template-front-page{
 					}
 				}
 
-				div.closed{	
-					width: 180px !important;				
-
-				}				
 			}
 		}
 
