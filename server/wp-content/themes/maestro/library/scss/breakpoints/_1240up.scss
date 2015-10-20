@@ -368,8 +368,7 @@ body.page-template-front-page{
 					
 
 					.panel{
-						width: 820px;
-						
+
 						.date{
 							
 							width: 180px;							
@@ -380,6 +379,7 @@ body.page-template-front-page{
 						.content{							
 
 							width: 640px; 	
+							max-width: 640px; 	
 							padding: 0 30px 0 30px;						
 
 							> ul{
@@ -438,11 +438,7 @@ body.page-template-front-page{
 						
 					}
 				}
-
-				div.closed{	
-					width: 180px !important;				
-
-				}				
+				
 			}
 		}
 

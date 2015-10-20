@@ -66,6 +66,11 @@ HEADER STYLES
 			display: none;
 
 		}
+		.rechercher, .poser-question, .acceder-compte {
+			&, &:before {
+				transition: background $duration ease, color $duration ease;
+			}
+		}
 
 		.rechercher{
 			width: 300px;
@@ -91,6 +96,12 @@ HEADER STYLES
 				position:absolute;
 				top:6px;
 				left: 8px;
+			}
+			&:hover {
+				background: #fff;
+				&, &:before {
+					color: $vert;
+				}
 			}
 
 		}
@@ -119,7 +130,12 @@ HEADER STYLES
 				top:6px;
 				left: 8px;
 			}
-
+			&:hover {
+				background: #fff;
+				&, &:before {
+					color: $vert;
+				}
+			}
 			
 		}
 
@@ -147,7 +163,12 @@ HEADER STYLES
 				top:6px;
 				left: 8px;
 			}
-
+			&:hover {
+				background: $vert;
+				&, &:before {
+					color: #fff;
+				}
+			}
 		}
 	}
 
