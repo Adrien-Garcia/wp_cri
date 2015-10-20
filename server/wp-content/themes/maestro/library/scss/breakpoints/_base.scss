@@ -545,7 +545,7 @@ body.page-template-front-page{
 						.content{
 							opacity: 1;
 							height: auto;
-							padding-top: 40px;
+							overflow: hidden;
 							transition: opacity $duration ease 0.3s;
 
 							> ul{
@@ -622,8 +622,9 @@ body.page-template-front-page{
 					
 
 					&.panel {
-						max-height: 60px; 
+						max-height: 60px;
 						.content {
+							overflow: hidden;
 							opacity: 0;
 						}
 					}
