@@ -113,7 +113,7 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
         'order' => 'DESC'
     );
     $query_builder = $cri_container->get( 'query_builder' );
-    $nested = $query_builder->buildQuery( 'posts',$nestedOptions,'p.ID' );
+    $nested = $query_builder->buildQuery( 'posts',$nestedOptions,'p.ID' );// Nested query ( simple string )
     $tools = $cri_container->get( 'tools' );
     $options = array(
         'fields' => $tools->getFieldPost().'CAST(p.post_date AS DATE) AS date,p.post_title,'.$model[0].'.id as join_id',
@@ -149,4 +149,16 @@ function criWpPost( $data ){
     global $cri_container;
     $oPostQuery = $cri_container->get( 'post_query' );
     $oPostQuery->init( $data );
+}
+
+/**
+ * Get the link of the current post ( link of model in WP_MVC ).
+ * It's equivalent of the_permalink in WP
+ * 
+ * @global object $post WP_Post
+ * @return string|null
+ */
+function criGetPostLink(){
+    global $post;
+    return ( ( $post ) && ( $post instanceof WP_Post ) && CridonPostStorage::get( $post->ID ) ) ? CridonPostStorage::get( $post->ID ) : null;
 }
