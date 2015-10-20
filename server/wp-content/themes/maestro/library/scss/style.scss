@@ -124,10 +124,10 @@ This is the average viewing window. So Desktops, Laptops, and
 in general anyone not viewing on a mobile device. Here's where
 you can add resource intensive styles.
 *********************/
-@media only screen and (min-width: 1280px) {
+@media only screen and (min-width: 1240px) {
 
 	// styles in 1024up.scss
-	@import "breakpoints/1280up";
+	@import "breakpoints/1240up";
 
 } // end of media query
 
