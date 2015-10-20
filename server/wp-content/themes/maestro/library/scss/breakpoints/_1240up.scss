@@ -189,7 +189,8 @@ body.page-template-front-page{
 
 			.falsh-info{
 			height: 70px; 
-			padding-top: 25px;		
+			padding-top: 25px;
+			transition: height $duration ease, padding $duration ease;	
 
 				.titre{
 					
@@ -238,9 +239,7 @@ body.page-template-front-page{
 				&.closed{
 					padding-top: 5px;
 					height: 40px; 
-					.content,.close{visibility: hidden;}
-
-					.content{height: 0; }
+					.close{visibility: hidden;}
 
 					.open{visibility: visible;}
 
