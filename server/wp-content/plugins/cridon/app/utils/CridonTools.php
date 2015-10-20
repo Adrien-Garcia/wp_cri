@@ -12,17 +12,13 @@
  *
  */
 
-class CridonTools {
-    private $wp_posts_column;//Contains Post table column
-    private $fieldPost; //used in query
+class CridonTools {    
     private $postFactory; // Create clean object WP_Post 
+    private $postStructure; // Create clean object WP_Post 
     
-    public function __construct( $postFactory ) {
-        $this->wp_posts_column = array();
-        $this->fieldPost = null;
+    public function __construct( $postFactory,$postStructure ) {        
         $this->postFactory = $postFactory;
-        $this->postFactory->setTools( $this );
-        $this->getColumnNameOfPost();
+        $this->postStructure = $postStructure;
     }
     /**
      * Return field of post on query
@@ -30,10 +26,7 @@ class CridonTools {
      * @return string 
      */
     public function getFieldPost(){
-        if( !$this->fieldPost ){
-            $this->getColumnNameOfPost();
-        }
-        return $this->fieldPost;
+        return $this->postStructure->getFieldPost();
     }
     /**
      * Get post column name
@@ -41,23 +34,7 @@ class CridonTools {
      * @return array
      */
     public function getPostColumn(){
-        if( !$this->wp_posts_column ){
-            $this->getColumnNameOfPost();
-        }
-        return $this->wp_posts_column;
-    }
-    /**
-     * Get all column name of table cri_posts
-     * @global type $wpdb
-     */
-    private function getColumnNameOfPost(){
-        global $wpdb;       
-        $this->fieldPost = '';
-        $table_name = $wpdb->prefix . 'posts';
-        foreach ( $wpdb->get_col( "DESC " . $table_name, 0 ) as $column_name ) {
-            $this->wp_posts_column[] = $column_name;
-            $this->fieldPost .= 'p.'.$column_name.','; 
-        }        
+        return $this->postStructure->getPostColumn();
     }
     /**
      * Split array
@@ -146,7 +123,6 @@ class CridonTools {
      * @return \WP_Post
      */
     public function createPost( $object ){
-        $this->postFactory->setTools( $this );
         return $this->postFactory->create( $object );
     }
 }

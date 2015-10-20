@@ -11,25 +11,17 @@
  * @contributor Fabrice MILA
  *
  */
-
+/**
+ * Simple class used to create a instance of WP_Post
+ */
 class CridonPostFactory {
-    private $oTools; // Object CridonTools
-    private $postColumn; // Represent all column name of wp_posts table (array)
+    
+    private $postStructure; // Create clean object WP_Post 
      
-    public function __construct(){              
+    public function __construct( $postStructure ){    
+        $this->postStructure = $postStructure;// Instance of CridonPostStructure
     }
     
-    /**
-     * Set object CridonTools and use his function to get all column of wp_posts table
-     * 
-     * @param objet $tools
-     */
-    public function setTools( $tools ){
-        if( !$this->oTools ){
-            $this->oTools = $tools; // Initialize object tools
-            $this->postColumn = $tools->getPostColumn(); // Get column name of WP_Posts table from CridonTools            
-        }
-    }
     /**
      * Create clean object WP_Post with same attributes as in wp_posts table
      * 
@@ -49,7 +41,7 @@ class CridonPostFactory {
      */
     private function cleanObject( $object ){
         foreach ( get_object_vars( $object ) as $key => $value ){
-            if( !in_array( $key,$this->postColumn ) ){
+            if( !in_array( $key,$this->postStructure->getPostColumn() ) ){//If attribute isn't in post column name ( table wp_posts )
                 unset( $object->$key );
             }
         }

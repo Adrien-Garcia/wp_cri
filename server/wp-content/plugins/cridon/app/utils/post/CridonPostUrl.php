@@ -11,11 +11,13 @@
  * @contributor Fabrice MILA
  *
  */
-
+/**
+ * This class is used to generate URL of model
+ */
 class CridonPostUrl {
     
     /**
-     * Model Flash is an example of exception because the suffix is not an sample 's', it's 'es'.
+     * Model Flash is an example of exception because the suffix is not a simple 's', it's 'es'.
      * 
      * @var array 
      */

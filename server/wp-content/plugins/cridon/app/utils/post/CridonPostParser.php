@@ -13,7 +13,7 @@
  */
 
 /**
- * Sample class which is generate an array contains object WP_Post
+ * Simple class which is generate an array contains object WP_Post
  */
 class CridonPostParser {
     
