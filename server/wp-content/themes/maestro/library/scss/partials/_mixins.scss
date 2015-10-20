@@ -268,7 +268,8 @@ Lien souligné avec "+"
       display: block;
       position: absolute;   
       line-height: 20px;  
-
+      transition: font-weight $duration/2 ease $duration/4;
+      
     }
 
     @media only screen and (min-width: 760px) {
@@ -282,6 +283,11 @@ Lien souligné avec "+"
 
       }    
 
+    }
+    &:hover {
+        &:after {
+          font-weight: bold;
+        }
     }
 
 
