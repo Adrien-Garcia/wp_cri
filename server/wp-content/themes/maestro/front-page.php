@@ -172,7 +172,7 @@
 
 		<div class="row_03">
 			<div id="inner-content" class="wrap cf">
-				<div class="cridon-app">
+				<div class="cridon-app js-home-block-link">
 					<div class="content">
 						<div src="" alt="" class="img-main"></div>
 						<h2><?php _e('Le cridon dans ma poche'); ?> </h2>
@@ -180,14 +180,14 @@
 						<div src="" alt="" class="img-appli" ></div>
 					</div>
 				</div>
-				<div class="veille-juridique">
+				<div class="veille-juridique js-home-block-link">
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
 						<a href="" title=""><span><?php _e('S\'abonner à votre veille !'); ?></span></a>
 						<img src="" alt="" class="appli" />
 					</div>
 				</div>
-				<div class="info-flash-exclu">
+				<div class="info-flash-exclu js-home-block-link">
 					<div class="content">
 						<h2><?php _e('Info flash en exclusivité'); ?> </h2>
 						<a href="#" title=""><span><?php _e('S\'inscrire à votre newsletter'); ?></span> </a>						
