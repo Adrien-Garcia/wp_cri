@@ -20,17 +20,19 @@
 					</div>
 					<?php 
 						$flash = criGetLastestPost('flash');
+						criWpPost($flash);
 					 ?>
 					<?php if ($flash != null): ?>
 						<?php 
 							$_flash_excerpt = get_the_excerpt();
-
+							$_flash_url = get_permalink();
 						 ?>
 					<div class="content" id="sel-flash-present">
-						<div class="texte"></div>
-						<a href="#"><?php _e('Lire'); ?></a>
+						<div class="texte"><?php echo $_flash_excerpt; ?></div>
+						<a href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
 					</div>
-					<?php endif ?>
+					<?php endif; ?>
+					<?php wp_reset_query(); ?>
 				</div>
 
 				<div class="block_03">
