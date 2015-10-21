@@ -69,12 +69,13 @@ HEADER STYLES
 			height: 40px;
 			position: absolute;
 			left: 0;
-			top: 10px;
-			border:solid 1px yellow;
+			top: 15px;
 
 			@include sprite($partenaire-header);
 
 		}
+
+		a.contacter{display: none;}
 
 		.rechercher{
 			width: 393px;
@@ -373,7 +374,14 @@ body.page-template-front-page{
 						
 						.date{
 							
-							width: 180px;							
+							width: 180px;		
+
+							span.jour{
+
+								&:before{
+									left: 170px;
+								}
+							}					
 						}
 
 
@@ -468,6 +476,8 @@ body.page-template-front-page{
 				}
 			}
 
+			> div{ cursor: pointer;}
+
 			.cridon-app{
 				width: 580px;
 				height: 175px;
@@ -491,12 +501,15 @@ body.page-template-front-page{
 				}
 
 				&:after{
-					content:'';
-					@include sprite ($angle-before-cridon-poche);
+					//content:'';
+					//@include sprite ($angle-before-cridon-poche);
+					display:block;
+					@include svgiconafter('icon-angle-top', 20px, 20px, $gris-appli);
 					position: absolute;
 					top: -20px;
 					left: 50%;
-					margin-left: -23px; 
+					margin-left: -32px; 
+					transition: color $duration ease;
 				}
 
 				.content{
@@ -541,14 +554,14 @@ body.page-template-front-page{
 				}
 
 				&:after{
-					content:'';
-					
+					//content:'';
+					display:block;
 					position: absolute;
 					top: -20px;
 					left: 50%;
-					margin-left: -23px; 
+					margin-left: -32px; 
 				}
-
+ 
 
 			}
 
@@ -556,11 +569,12 @@ body.page-template-front-page{
 				margin-right: 30px;
 
 				&:before{					
-					@include svgicon('icon-veille', 40px, 40px, $jaune);
+					@include svgicon('icon-veille', 40px, 40px, $jaune-accueil);
 				}
 
 				&:after{					
-					@include sprite ($angle-before-veille-juri);					
+					//@include sprite ($angle-before-veille-juri);					
+					@include svgiconafter('icon-angle-top', 20px, 20px, $jaune-accueil);
 				}
 
 			}
@@ -571,7 +585,8 @@ body.page-template-front-page{
 				}
 
 				&:after{					
-					@include sprite ($angle-before-info-flash);					
+					//@include sprite ($angle-before-info-flash);					
+					@include svgiconafter('icon-angle-top', 20px, 20px, $bleu);
 				}
 
 			}
@@ -869,11 +884,11 @@ FOOTER STYLES
 		
 	}
 	.footer-bottom {
-		height: 50px;
+		height: inherit;
 		padding: 0;
 		margin: 0;
 
-		line-height: 50px;
+		//line-height: 50px;
 
 		#inner-footer{
 			padding: 0;
@@ -908,6 +923,9 @@ FOOTER STYLES
 				float: right;
 				
 				margin-top: 0px;
+
+				height: 50px;
+    			line-height: 50px;
 				&:before{top:13px;}
 
 			}

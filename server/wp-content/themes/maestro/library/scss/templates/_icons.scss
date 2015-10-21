@@ -35,4 +35,8 @@ $icons: (
         font-family: '<%= fontName %>';
         content: $icon;
     }
+    .<%= className %>-#{$name}-after:after {
+        font-family: '<%= fontName %>';
+        content: $icon;
+    }
 }
