@@ -70,3 +70,254 @@ probably best not to use it. I mean, were you going to anyway? */
 }
 
 
+/*******************************************************************
+ BORDER RADIUS
+*/
+
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+
+/*****************
+ICONES SVG
+*/
+
+@mixin svgicon($name, $fontsize, $lineheight, $color){
+    @extend .icon;
+    @extend .icon-#{$name};
+    font-size:$fontsize;
+    line-height:$lineheight;
+    color:$color;
+}
+
+@mixin svgiconafter($name, $fontsize, $lineheight, $color){
+    @extend .icon;
+    @extend .icon-#{$name}-after;
+    font-size:$fontsize;
+    line-height:$lineheight;
+    color:$color;
+}
+
+
+
+/*******************************************************************
+@_06 OPACITY
+*/
+
+
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+
+/**********************************************
+
+*/
+
+// generic transform
+@mixin transform($transforms) {
+	-moz-transform: $transforms;
+	  -o-transform: $transforms;
+	 -ms-transform: $transforms;
+ -webkit-transform: $transforms;
+         transform: $transforms;
+}
+
+
+// rotate
+@mixin rotate ($deg) {
+  @include transform(rotate(#{$deg}deg));
+}
+ 
+// scale
+@mixin scale($scale) {
+	 @include transform(scale($scale));
+} 
+// translate
+@mixin translate ($x, $y) {
+   @include transform(translate($x, $y));
+}
+
+// skew
+@mixin skew ($x, $y) {
+   @include transform(skew(#{$x}deg, #{$y}deg));
+}
+
+//transform origin
+@mixin transform-origin ($origin) {
+    moz-transform-origin: $origin;
+	 -o-transform-origin: $origin;
+	-ms-transform-origin: $origin;
+-webkit-transform-origin: $origin;
+        transform-origin: $origin;
+}
+
+
+/*******************************************************************
+
+@_08 BOX SHADOWS
+
+*******************************************************************/
+/* exemple d'utilisation
+@include box-shadow(0px 0px 5px #666);
+*/
+ @mixin box-shadow($params) {
+   -webkit-box-shadow: $params;
+      -moz-box-shadow: $params;
+           box-shadow: $params;
+ }
+
+ /************
+
+BT style crayon
+
+ */
+
+
+ @mixin bt-crayon($fond, $color) {
+    height: 14px;
+    width: 37px;
+    position: relative;
+    background: $fond;
+    color:$color;
+    font-size: 10px;
+    text-decoration: none;
+    @extend .do-sm;
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+      transition: background $duration*1.5 ease, color $duration*1.5 ease;
+
+
+    &:after{
+      content:'';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 7px 0 7px 9px;
+      border-color: transparent transparent transparent $fond;
+      border-style: dotted none dotted solid;
+      position: absolute;
+      top: 0;
+      right: -9px;
+      transition: border-color $duration*1.5 ease;
+    }
+
+    @media only screen and (min-width: 760px) {
+
+      height: 18px;
+      width: 47px; 
+      font-size: 13px;
+
+      &:after{
+       
+        border-width: 8px 0 10px 10px;
+        border-color: transparent transparent transparent $fond;
+        border-style: dotted none dotted solid;
+        position: absolute;
+        top: 0;
+        right: -9px;
+      }
+    
+
+    }
+    &:hover {
+      background: transparent;
+      color:$fond;
+      &:after{
+      border-color: transparent transparent transparent transparent;
+        
+      }
+    }
+
+ }
+
+ 
+
+
+
+
+
+
+ /***************************
+
+Lien souligné avec "+"
+
+ */ 
+
+ @mixin lien-souligne($color) {
+    font-family: $garamond;
+    color:$color;
+    text-decoration: none;
+    //width: 150px;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    position: relative;
+    line-height: 20px;
+
+    span{
+
+    border-bottom: solid 1px $color; 
+    }
+
+
+    &:after{
+      content:'+';
+      @extend .do-el;
+      font-size: 40px;
+      display: block;
+      position: absolute;   
+      line-height: 20px;  
+      transition: font-weight $duration/2 ease $duration/4;
+      
+    }
+
+    @media only screen and (min-width: 760px) {
+      
+      font-size: 20px;
+      span{}
+
+
+      &:after{
+        font-size: 48px;      
+
+      }    
+
+    }
+    &:hover {
+        &:after {
+          font-weight: bold;
+        }
+    }
+
+
+ }
+
+
+
+
+
+ /*******
+Css gradient opacity
+
+ */
+
+
+  @mixin gradient-opacity($rgba1, $rgba2) {  
+    background: -moz-linear-gradient(top, $rgba1 0%, $rgba2 50%) 0 0 / 100% 200%;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$rgba1), color-stop(50%,$rgba2)) 0 0 / 100% 200%;
+    background: -webkit-linear-gradient(top, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
+    background: -o-linear-gradient(top, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
+    background: -ms-linear-gradient(top, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
+    background: linear-gradient(to bottom, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
+ }
+
+
