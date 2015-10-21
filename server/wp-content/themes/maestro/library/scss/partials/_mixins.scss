@@ -321,3 +321,18 @@ Css gradient opacity
  }
 
 
+ /**********************
+
+ Lighten - Darken function
+
+ **/
+
+@mixin lighten($color, $prcent) {
+ background-color: lighten($color, $prcent);
+}
+
+@mixin darken($color, $prcent) {
+ background-color: darken($color, $prcent);
+}
+
+

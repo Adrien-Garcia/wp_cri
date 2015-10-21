@@ -523,10 +523,30 @@ body.page-template-front-page{
 									left: 50%;
 									margin-left: -8px;
 									z-index: 2200;
+									transition: font-weight $duration/2 ease $duration/4;
+
+									
 								}
+
+								
 							}
 
 
+
+						}
+
+						&:hover{
+
+							.date{
+
+							span.jour{
+
+								&:before{
+										font-weight: 600;
+									}
+
+							}
+							}
 
 						}
 
@@ -650,6 +670,8 @@ body.page-template-front-page{
 									content:'+';
 								}
 							}
+
+
 						}
 
 						.content {
@@ -699,6 +721,7 @@ body.page-template-front-page{
 				position: relative;
 				margin-bottom: 10px;
 				transition: background $duration ease;
+				cursor: pointer;
 
 				&:hover {
 					background: $gris-appli - #1D1D1D;
@@ -718,11 +741,11 @@ body.page-template-front-page{
 
 					.img-main{
 						position: absolute;
-						left: -10px;
+						left: -60px;
 						bottom: 0;
-						width: 150px;
-						height: 178px;
-						background: url(../images/origin/img-main-appli-mobile.png);
+						width: 200px;
+						height: 175px;
+						background: url(../images/origin/img-main-appli-mobile-2.png);
 					    background-position: top right;
 						border:0px;
 						text-decoration: none;
@@ -759,6 +782,7 @@ body.page-template-front-page{
 				text-align: center;
 				height: 176px;
 				padding: 25px 10px 25px 10px;
+				cursor: pointer;
 
 				&:before, &:after{display: none;}
 
@@ -889,6 +913,9 @@ body.page-template-front-page{
 					margin: 0;
 					padding: 0;
 					display: block;
+
+					background: url(../images/img-actu.jpg) no-repeat center center;
+					background-size: cover;
 				}
 
 				.date{
@@ -906,7 +933,7 @@ body.page-template-front-page{
 						//@include sprite($after-titre-actu-hp-mobile);
 						@include svgiconafter('icon-angle-bottom', 15px, 15px, $bleu);
 						position: absolute;
-					    bottom: -15px;
+					    bottom: -14px;
 					    left: 50%;
 					    margin-left: -23px;
 					}
@@ -1277,6 +1304,7 @@ a.logoJP:hover{opacity: 1;
 				text-transform: uppercase;
 				position: relative;
 				transition: background $duration ease;
+				cursor: pointer;
 
 				a {
 					@include lien-souligne(#FFF);
@@ -1413,6 +1441,8 @@ a.logoJP:hover{opacity: 1;
 		text-align: center;
 		position: relative;
 
+		overflow: hidden;
+
 		&:before{
 			@include svgicon('icon-angle-top', 26px, 26px, $bg-bottom-footer);					
 			position:absolute;
@@ -1422,6 +1452,10 @@ a.logoJP:hover{opacity: 1;
 		  top: -26px;
 		    left: 50%;
 		    margin-left: -42px;
+		}
+
+		#inner-footer{
+			overflow: hidden;
 		}
 
 		nav {
