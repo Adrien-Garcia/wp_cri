@@ -264,6 +264,8 @@ body.page-template-front-page{
 						margin-left: calc(100% - 100px);
 						margin-top: -17px;
 
+						&:after{ right:-9px;}
+
 					}
 				}
 
@@ -440,10 +442,19 @@ body.page-template-front-page{
 
 							}
 
-							.jour{
+							span.jour{
 								font-size: 72px;
 								line-height: 60px;
 								@extend .do-el;
+
+								&:before{
+									bottom: 50%;
+									margin-bottom: -8px;
+								    left: 80px;
+								    margin-left: 0px;
+
+								}
+
 							}
 							.mois{
 								font-size: 30px;
@@ -520,6 +531,8 @@ body.page-template-front-page{
 
 										&:after{
 											border-width: 7px 0 7px 9px; 
+
+											right:-9px;
 
 										}
 
@@ -988,8 +1001,10 @@ FOOTER STYLES
 
 				&:after {
 					
-					@include sprite($angle-before-links-footer-tablette);
+					//@include sprite($angle-before-links-footer-tablette);
 					left: 40px;
+					font-size: 10px;
+					line-height: 10px;
 				}
 
 				&:before {

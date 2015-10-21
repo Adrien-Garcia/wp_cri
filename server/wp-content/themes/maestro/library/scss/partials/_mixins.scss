@@ -95,6 +95,14 @@ ICONES SVG
     color:$color;
 }
 
+@mixin svgiconafter($name, $fontsize, $lineheight, $color){
+    @extend .icon;
+    @extend .icon-#{$name}-after;
+    font-size:$fontsize;
+    line-height:$lineheight;
+    color:$color;
+}
+
 
 
 /*******************************************************************
@@ -205,7 +213,7 @@ BT style crayon
     @media only screen and (min-width: 760px) {
 
       height: 18px;
-      width: 47px;
+      width: 47px; 
       font-size: 13px;
 
       &:after{
