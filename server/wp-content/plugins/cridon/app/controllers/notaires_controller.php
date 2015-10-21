@@ -14,7 +14,7 @@ class NotairesController extends BasePublicController
 	public $current_user;
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public function __construct()
 	{
@@ -24,4 +24,14 @@ class NotairesController extends BasePublicController
 
 		parent::__construct();
 	}
+
+    /**
+     * Import Notaire From ERP to SITE
+     */
+    public function import()
+    {
+        $rets = $this->model->importIntoWpUsers();
+
+        $this->set('rets', $rets);
+    }
 }

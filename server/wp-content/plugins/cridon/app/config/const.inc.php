@@ -38,3 +38,8 @@ if ( !defined( 'CONST_ODBC_DATABASE' ) ) {
 if ( !defined( 'CONST_ODBC_TABLE_NOTAIRE' ) ) {
 	define( 'CONST_ODBC_TABLE_NOTAIRE', 'notaire' );
 }
+
+// import CSV notaire file path
+if ( !defined( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH' ) ) {
+    define( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH', 'PATH_TO_CSV_FILE' );
+}
