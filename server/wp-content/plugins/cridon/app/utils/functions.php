@@ -55,8 +55,10 @@ function criGetLastestPost( $model ){
     if( !is_string( $model ) || empty( $model ) ){
         return null;
     }
+    global $cri_container;
+    $tools = $cri_container->get( 'tools' );
     $options = array(
-        'fields' => 'p.post_title,p.post_date,p.post_content,'.$model[0].'.id as join_id',
+        'fields' => $tools->getFieldPost().$model[0].'.id as join_id',
         'limit' => 1,
         'join'  => array(
             $model => array(
@@ -72,12 +74,8 @@ function criGetLastestPost( $model ){
         $latest = new stdClass();
         $latest->title   = $result->post_title;
         $latest->content = $result->post_content;
-        $option = array(
-            'controller' => $model.'s',
-            'action'     => 'show',
-            'id'         => $result->join_id
-        );
-        $latest->link = MvcRouter::public_url($option);
+        $latest->link = CridonPostUrl::generatePostUrl( $model, $result->join_id );
+        $latest->post = $tools->createPost( $result ); // Create Object WP_Post
         return $latest;
     }
     return null;
@@ -115,9 +113,10 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
         'order' => 'DESC'
     );
     $query_builder = $cri_container->get( 'query_builder' );
-    $nested = $query_builder->buildQuery( 'posts',$nestedOptions,'p.ID' );
+    $nested = $query_builder->buildQuery( 'posts',$nestedOptions,'p.ID' );// Nested query ( simple string )
+    $tools = $cri_container->get( 'tools' );
     $options = array(
-        'fields' => 'CAST(p.post_date AS DATE) AS date,p.post_title,p.post_date,p.post_excerpt,p.post_content,'.$model[0].'.id as join_id',
+        'fields' => $tools->getFieldPost().'CAST(p.post_date AS DATE) AS date,p.post_title,'.$model[0].'.id as join_id',
         'join'  => array(
             $model => array(
                 'table' => $model.' '.$model[0],
@@ -133,7 +132,33 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
         'order' => 'DESC'
     );
     $results = criQueryPosts( $options,'CAST(p.post_date AS DATE)' );
-    $tools = $cri_container->get( 'tools' );
-    $res = $tools->buildSubArray( $model,$results, 'date', array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id'),$nb_per_date,$index,$format_date );
+    //To have others attributes in array result. Default is object WP_Post
+    //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
+    $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date );
     return $res;
+}
+
+/**
+ * If you want use all functions in WP for Post.
+ * Init this function whith post data contain an instance of WP_Post
+ * 
+ * @global object $cri_container
+ * @param array|object $data It's an object WP_Post or array of WP_Post
+ */
+function criWpPost( $data ){
+    global $cri_container;
+    $oPostQuery = $cri_container->get( 'post_query' );
+    $oPostQuery->init( $data );
+}
+
+/**
+ * Get the link of the current post ( link of model in WP_MVC ).
+ * It's equivalent of the_permalink in WP
+ * 
+ * @global object $post WP_Post
+ * @return string|null
+ */
+function criGetPostLink(){
+    global $post;
+    return ( ( $post ) && ( $post instanceof WP_Post ) && CridonPostStorage::get( $post->ID ) ) ? CridonPostStorage::get( $post->ID ) : null;
 }

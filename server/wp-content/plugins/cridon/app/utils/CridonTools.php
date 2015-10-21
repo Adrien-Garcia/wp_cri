@@ -12,8 +12,30 @@
  *
  */
 
-class CridonTools {
+class CridonTools {    
+    private $postFactory; // Create clean object WP_Post 
+    private $postStructure; // Create clean object WP_Post 
     
+    public function __construct( $postFactory,$postStructure ) {        
+        $this->postFactory = $postFactory;
+        $this->postStructure = $postStructure;
+    }
+    /**
+     * Return field of post on query
+     * 
+     * @return string 
+     */
+    public function getFieldPost(){
+        return $this->postStructure->getFieldPost();
+    }
+    /**
+     * Get post column name
+     * 
+     * @return array
+     */
+    public function getPostColumn(){
+        return $this->postStructure->getPostColumn();
+    }
     /**
      * Split array
      * 
@@ -45,17 +67,17 @@ class CridonTools {
     /**
      * Build new data with under array
      * 
-     * @param type $model Model name
-     * @param type $data Results of query
-     * @param type $attr correspond in date in this context
-     * @param type $attributes Old attributes in the result
-     * @param type $newAttributes New attributes to return
-     * @param type $nb_per_date Number of objects in date
-     * @param type $index Index of array who contain objects
-     * @param type $format_date Date format of date
+     * @param string $model Model name
+     * @param array $data Results of query
+     * @param string $attr correspond in date in this context
+     * @param integer $nb_per_date Number of objects in date
+     * @param string $index Index of array who contain objects
+     * @param string $format_date Date format of date
+     * @param array $attributes Old attributes in the result
+     * @param array $newAttributes New attributes to return
      * @return array
      */
-    public function buildSubArray( $model,$data,$attr,$attributes,$newAttributes,$nb_per_date,$index,$format_date ){
+    public function buildSubArray( $model,$data,$attr,$nb_per_date,$index,$format_date,$attributes = null,$newAttributes = null ){
         $newData = array();     
         $aSplit = $this->splitArray( $data,$attr );//Reconstruit le tableau en ayant plusieurs petits tableaux contenant les mêmes dates
         $option = array(
@@ -67,13 +89,19 @@ class CridonTools {
             $tmpRes = array();
             $tmpNews = array();
             foreach( $val as $k1=>$v1){
-                if( $count_per_date <= $nb_per_date ){ //Si le nombre d'éléments n'atteint pas encore les limites autorisés
+                if( $count_per_date <= $nb_per_date ){//Si le nombre d'éléments n'atteint pas encore les limites autorisés
                     $date = new DateTime( $v1->$attr );
                     $tmpRes['date'] = $date->format( $format_date );//Formater la date au format voulu
                     $cls = new stdClass();
-                    foreach ( $attributes as $k2=>$v2 ){ //Recréer les attributs avec celui les nouveaux customisés
-                        $cls->$newAttributes[$k2] = $v1->$v2;
+                    if( $attributes ){
+                        foreach ( $attributes as $k2=>$v2 ){//Recréer les attributs avec celui les nouveaux customisés
+                            $cls->$newAttributes[$k2] = $v1->$v2;
+                        }                        
                     }
+                    $cls->link = CridonPostUrl::generatePostUrl( $model, $v1->join_id );//Obtenir le lien de l'article
+                    /* object WP_Post*/
+                    $cls->post = $this->postFactory->create( $v1 );
+                    /**/
                     $option['id'] = $v1->join_id;
                     $cls->link = MvcRouter::public_url($option);
                     $tmpNews[] = $cls;
@@ -90,6 +118,16 @@ class CridonTools {
             }
         }
         return $newData;
+    }
+    
+    /**
+     * Create clean object WP_Post
+     * 
+     * @param object $object Represent stdClass
+     * @return \WP_Post
+     */
+    public function createPost( $object ){
+        return $this->postFactory->create( $object );
     }
 }
 
