@@ -1,0 +1,3 @@
+[submodule "tests"]
+	path = tests
+	url = git@git.jetpulp.hosting:test/test_cridon.git
