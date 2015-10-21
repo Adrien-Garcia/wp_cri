@@ -299,7 +299,9 @@ body.page-template-front-page{
 							font-size: 30px;
 							line-height: 10px;							
 						}
-						&:hover {
+					}
+					&:hover {
+						.content {
 							&, &:before, &:after {
 								height: 270px;
 							}
