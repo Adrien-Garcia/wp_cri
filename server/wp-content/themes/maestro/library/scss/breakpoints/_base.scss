@@ -678,6 +678,10 @@ body.page-template-front-page{
 					.content>a:after{
 						font-weight: bold;
 					}
+					.content .img-main {
+						// filter: drop-shadow(-30px -5px 5px transparentize(#000, 0.95));
+						// -webkit-filter: drop-shadow(-30px -5px 5px transparentize(#000, 0.95));
+					}
 				}
 
 				&:before{display: none;}
