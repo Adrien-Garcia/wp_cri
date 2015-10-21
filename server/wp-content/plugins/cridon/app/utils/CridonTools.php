@@ -57,7 +57,7 @@ class CridonTools {
                 $tmp[] = $value;
                 $tmpDate = $value->$attr;// l'itération courante
             }
-            if( count( $data ) - 1 === $key ){//Si nous arrivons déjà à la fin
+            if( count( $data ) - 1 === $key ){ // Si nous arrivons déjà à la fin
                 $aSplit[] = $tmp;
             }
         }
@@ -80,7 +80,10 @@ class CridonTools {
     public function buildSubArray( $model,$data,$attr,$nb_per_date,$index,$format_date,$attributes = null,$newAttributes = null ){
         $newData = array();     
         $aSplit = $this->splitArray( $data,$attr );//Reconstruit le tableau en ayant plusieurs petits tableaux contenant les mêmes dates
- 
+        $option = array(
+            'controller' => $model.'s',
+            'action'     => 'show'
+        );
         foreach( $aSplit as $val ){
             $count_per_date = 1;
             $tmpRes = array();
@@ -100,12 +103,13 @@ class CridonTools {
                     $cls->post = $this->postFactory->create( $v1 );
                     /**/
                     $option['id'] = $v1->join_id;
+                    $cls->link = MvcRouter::public_url($option);
                     $tmpNews[] = $cls;
                     if( count( $val ) - 1 === $k1 ){// Si nous sommes déjà à la fin faire un push dans le tableau final
                         $tmpRes[$index] = $tmpNews;
                         $newData[] = $tmpRes;
                     }
-                }else{//Si le nombre d'objet est atteint alors mettre dans le tableau final
+                }else{ //Si le nombre d'objet est atteint alors mettre dans le tableau final
                     $tmpRes[$index] = $tmpNews;
                     $newData[] = $tmpRes;
                     break;
