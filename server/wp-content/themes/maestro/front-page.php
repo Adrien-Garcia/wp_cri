@@ -18,10 +18,19 @@
 						<span class="close js-flash-close">+</span>
 						<span class="open js-flash-open">></span>
 					</div>
-					<div class="content">
-						<div class="texte">Surendettement des particuliers – Protection des consommateurs – Effacement de la créance...</div>
-						<a href="#"><?php _e('Lire'); ?></a>						
+					<?php 
+						$flash = criGetLastestPost('flash');
+					 ?>
+					<?php if ($flash != null): ?>
+						<?php 
+							$_flash_excerpt = get_the_excerpt();
+
+						 ?>
+					<div class="content" id="sel-flash-present">
+						<div class="texte"></div>
+						<a href="#"><?php _e('Lire'); ?></a>
 					</div>
+					<?php endif ?>
 				</div>
 
 				<div class="block_03">
