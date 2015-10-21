@@ -559,13 +559,13 @@ body.page-template-front-page{
 							}
 						}
 						max-height: 500px;
-						transition: max-height $duration ease 0.3s;
+						transition: max-height $duration ease 0s;
 
 						.content{
 							opacity: 1;
 							height: auto;
 							padding-top: 40px;
-							transition: opacity $duration ease 0.3s;
+							transition: opacity $duration ease 0s, height $duration ease 0.1s, padding $duration ease 0.1s;
 
 							> ul{
 								margin: 0;
@@ -654,6 +654,8 @@ body.page-template-front-page{
 
 						.content {
 							opacity: 0;
+							height: 0;
+							padding: 0
 						}
 					}
 
