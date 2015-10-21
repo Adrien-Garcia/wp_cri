@@ -26,23 +26,31 @@
 
 $icons: (
     ico-consulter: '\EA01',
-    icon-appli: '\EA02',
-    icon-cahier: '\EA03',
-    icon-catalogue: '\EA04',
-    icon-compte: '\EA05',
-    icon-consulter: '\EA06',
-    icon-menu-compte: '\EA07',
-    icon-menu-mobile: '\EA08',
-    icon-nl: '\EA09',
-    icon-rechercher: '\EA0A',
-    icon-servicesplus: '\EA0B',
-    icon-veille-juridique: '\EA0C',
-    icon-veille: '\EA0D',
-    icon-vieducridon: '\EA0E'
+    icon-angle-bottom: '\EA02',
+    icon-angle-left: '\EA03',
+    icon-angle-right: '\EA04',
+    icon-angle-top: '\EA05',
+    icon-appli: '\EA06',
+    icon-cahier: '\EA07',
+    icon-catalogue: '\EA08',
+    icon-compte: '\EA09',
+    icon-consulter: '\EA0A',
+    icon-menu-compte: '\EA0B',
+    icon-menu-mobile: '\EA0C',
+    icon-nl: '\EA0D',
+    icon-rechercher: '\EA0E',
+    icon-servicesplus: '\EA0F',
+    icon-veille-juridique: '\EA10',
+    icon-veille: '\EA11',
+    icon-vieducridon: '\EA12'
 );
 
 @each $name, $icon in $icons {
     .icon-#{$name}:before {
+        font-family: 'aux-font';
+        content: $icon;
+    }
+    .icon-#{$name}-after:after {
         font-family: 'aux-font';
         content: $icon;
     }
