@@ -507,7 +507,7 @@ body.page-template-front-page{
 					display:block;
 					@include svgiconafter('icon-angle-top', 20px, 20px, $gris-appli);
 					position: absolute;
-					top: -20px;
+					top: -19px;
 					left: 50%;
 					margin-left: -32px; 
 					transition: color $duration ease;
@@ -558,7 +558,7 @@ body.page-template-front-page{
 					//content:'';
 					display:block;
 					position: absolute;
-					top: -20px;
+					top: -19px;
 					left: 50%;
 					margin-left: -32px; 
 				}

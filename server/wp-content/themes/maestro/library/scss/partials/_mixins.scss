@@ -237,6 +237,16 @@ BT style crayon
       }
     }
 
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      
+      &:after{
+       
+        border-style: solid none solid solid;
+      }
+
+    }
+
  }
 
  
@@ -319,5 +329,20 @@ Css gradient opacity
     background: -ms-linear-gradient(top, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
     background: linear-gradient(to bottom, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
  }
+
+
+ /**********************
+
+ Lighten - Darken function
+
+ **/
+
+@mixin lighten($color, $prcent) {
+ background-color: lighten($color, $prcent);
+}
+
+@mixin darken($color, $prcent) {
+ background-color: darken($color, $prcent);
+}
 
 
