@@ -253,12 +253,14 @@ body.page-template-front-page{
 
 						&:before, &:after{
 							content: '';
-							width: 50%;
+							width: calc(100% / 2);
 							position: absolute;
 							top: 0;
 							display: block;
 							height: 146px;
 							transition: height $duration ease, background $duration ease;
+							border:none;
+							box-sizing: border-box;
 
 						}
 
@@ -1568,3 +1570,25 @@ style a page via class
 .logged-in {}                     /* if user is logged in */
 .paged {}                         /* paged items like search results or archives */
 	.paged-1 {}                     /* individual paged (i.e. body.paged-3) */
+
+
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+
+
+body.page-template-front-page #content .row_01 .block_03 .block .content::before {
+	border-radius: 0 !important;
+	-ms-border-radius: 0 !important;
+	-webkit-border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+}
+body.page-template-front-page #content .row_01 .block_03 .block .content::after {
+	border-radius: 0 !important;
+	-ms-border-radius: 0 !important;
+	-webkit-border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+}
+
+}
+
+

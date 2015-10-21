@@ -237,6 +237,16 @@ BT style crayon
       }
     }
 
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      
+      &:after{
+       
+        border-style: solid none solid solid;
+      }
+
+    }
+
  }
 
  
