@@ -454,6 +454,13 @@ body.page-template-front-page{
 					padding: 0;
 					transition: border $duration ease, color $duration ease;
 
+					cursor: pointer;
+
+					&:hover{
+						text-decoration: none;
+						border-bottom:solid 16px $vert;
+					}
+
 				}
 
 				h3.open{
