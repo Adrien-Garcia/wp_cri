@@ -56,4 +56,16 @@ class Config {
 
     // list of cridon_type using default post form
     public static $mvcWithPostForm = array('actu_cridons','cahier_cridons','flashes','formations','veilles');
+    
+    public static $titleMetabox = 'Catégorie veille';// Titre du metabox de catégorie veille en admin
+    
+    // Supported file in model Matiere ( picto )
+    public static $supported_types = array('image/jpeg','image/bmp','image/x-windows-bmp','image/x-icon','image/jpeg','image/pjpeg','image/png');
+    
+    // Maximum width and height of image in model Matiere ( picto )
+    // witdh x height
+    public static $maxWidthHeight  = array(
+        'width'  => 1400,
+        'height' => 2000 
+    );
 }
