@@ -75,9 +75,10 @@ class CridonTools {
      * @param string $format_date Date format of date
      * @param array $attributes Old attributes in the result
      * @param array $newAttributes New attributes to return
+     * @param array $fieldsMat Field name in table cri_matière
      * @return array
      */
-    public function buildSubArray( $model,$data,$attr,$nb_per_date,$index,$format_date,$attributes = null,$newAttributes = null ){
+    public function buildSubArray( $model,$data,$attr,$nb_per_date,$index,$format_date,$attributes = null,$newAttributes = null,$fieldsMat = null ){
         $newData = array();     
         $aSplit = $this->splitArray( $data,$attr );//Reconstruit le tableau en ayant plusieurs petits tableaux contenant les mêmes dates
  
@@ -95,6 +96,12 @@ class CridonTools {
                             $cls->$newAttributes[$k2] = $v1->$v2;
                         }                        
                     }
+                    // Veille Exception
+                    //Si c'est un modèle veille, alors associer au résultat la matière correspondante
+                    if( $model === 'veille' ){
+                        $cls->matiere = CridonObjectFactory::create( $v1, 'matiere', $fieldsMat );
+                    }
+                    // End Veille Exception
                     $cls->link = CridonPostUrl::generatePostUrl( $model, $v1->join_id );//Obtenir le lien de l'article
                     /* object WP_Post*/
                     $cls->post = $this->postFactory->create( $v1 );
