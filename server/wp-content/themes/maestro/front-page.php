@@ -146,7 +146,7 @@
 					      <div class="date js-accordion-button">
 					      	<span class="jour"><?php echo date_format($_date, 'd') ?></span>
 					      	<span class="mois"><?php echo date_format($_date, 'M') ?></span>
-					      	<span class="annee"><?php echo date_format($_date, 'YY') ?></span> 
+					      	<span class="annee"><?php echo date_format($_date, 'Y') ?></span> 
 					      </div>
 					      <div class="content">
 							<ul>
@@ -174,6 +174,8 @@
 					      </div>
 					    </div>
 					    <?php endforeach ?>
+					    <?php wp_reset_query(); ?>
+
 					    <div class="blockEnd"></div>
 
 					    <a href="#" title=""><span><?php _e('Toutes les formations'); ?></span></a>
