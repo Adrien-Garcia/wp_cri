@@ -51,7 +51,7 @@ function criQueryPosts( $options = array(),$primaryKey = 'p.ID' ){
  * @param string $model Model name <b>without prefix, e.g: cri_veille</b>
  * @return null or object
  */
-function criGetLastestPost( $model ){
+function criGetLatestPost( $model ){
     if( !is_string( $model ) || empty( $model ) ){
         return null;
     }
@@ -162,3 +162,65 @@ function criGetPostLink(){
     global $post;
     return ( ( $post ) && ( $post instanceof WP_Post ) && CridonPostStorage::get( $post->ID ) ) ? CridonPostStorage::get( $post->ID ) : null;
 }
+
+/**
+ * Function to fetch data in table cri_veille with Matiere
+ * 
+ * @global object $cri_container
+ * @param integer $limit Limit result
+ * @param string $order Order result ( ASC or DESC ) 
+ * @return array
+ */
+function criQueryPostVeille( $limit = false,$order = 'ASC' ){
+    $model = 'veille';
+    global $cri_container;
+    $tools = $cri_container->get( 'tools' );
+    $fields = array('id','code','label','short_label','displayed','picto');
+    $mFields = '';// fields of model Matiere
+    foreach ( $fields as $v ){
+        $mFields .= ',m.'.$v;
+    }
+    $options = array(
+        'fields' => $tools->getFieldPost().$model[0].'.id as join_id'.$mFields,
+        'join'  => array(
+            $model => array(
+                'table' => $model.' '.$model[0],
+                'column' => $model[0].'.post_id = p.ID'
+            ),
+            'matiere' => array(
+                'table' => 'matiere m',
+                'column' => 'm.id = '.$model[0].'.id_matiere'
+            )
+        ),
+        'conditions' => 'p.post_status = "publish"',
+        'order' => $order
+    );
+    if( $limit ){
+        $options['limit'] = $limit;
+    }
+    $results = criQueryPosts( $options ); 
+    $aFinal = array();
+    foreach( $results as $value ){
+        $std = new stdClass();
+        $std->matiere = CridonObjectFactory::create( $value, 'matiere', $fields);
+        $std->link = CridonPostUrl::generatePostUrl( $model, $value->join_id );
+        $std->post = $tools->createPost( $value ); // Create Object WP_Post
+        $aFinal[] = $std;
+    }
+    return $aFinal;
+}
+
+// Hook of the_permalink() and get_permalink()
+function append_custom_link( $url, $post ) {
+	if ( $post->post_type === 'post' ) {
+		$newUrl = criGetPostLink();
+                if( $newUrl ){
+                    $url = $newUrl;
+                }
+	}
+	return $url;
+}
+add_filter( 'post_link', 'append_custom_link', 10, 2 );
+
+//End hook
+

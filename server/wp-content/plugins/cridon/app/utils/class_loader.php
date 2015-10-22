@@ -23,6 +23,7 @@ require_once 'post/CridonPostParser.php';
 require_once 'post/CridonPostQuery.php';
 require_once 'post/CridonPostFactory.php';
 //
+require_once 'CridonObjectFactory.php';
 require_once 'CridonTools.php';
 // Custom function used in template
 require_once 'functions.php';
