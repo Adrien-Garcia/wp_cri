@@ -94,7 +94,7 @@ class CridonPostQuery {
         $this->wp_query->posts = array_map( 'get_post', $data );
         //Return the first element in array
         $this->wp_query->post = reset( $this->wp_query->posts );
-        $this->wp_query->current_post = -2;//It's use in WP increment loop
+        $this->wp_query->current_post = -1;//It's use in WP increment loop
     }
     /**
      * Set global variable wp_query with current object WP_Query which is is necessary in loop
