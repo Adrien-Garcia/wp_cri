@@ -100,11 +100,11 @@
 							<ul>
 								<?php foreach ($date['veille'] as $keyv => $veille) : ?>
 									<?php 
-
+										criWpPost($veille);
 										// $_matiere = $veille->getMatiere() != null ? $veille->getMatiere() : 'Expertise générale';
 										$_matiere = false != false ? false : __('Expertise générale');
-										$_chapo = $veille->excerpt;
-										$_link = $veille->link;
+										$_chapo = get_the_excerpt();//$veille->excerpt;
+										$_link = get_permalink(); //$veille->link;
 
 										// var_dump($keyd)
 									 ?>
@@ -120,7 +120,8 @@
 					       
 					      </div>
 					    </div>
-					    <?php endforeach ?>
+					    <?php endforeach; ?>
+					    <?php wp_reset_query(); ?>
 					    <div class="blockEnd"></div>
 
 					    <a href="#" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
