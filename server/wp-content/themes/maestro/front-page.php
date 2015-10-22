@@ -29,7 +29,7 @@
 						 ?>
 					<div class="content" id="sel-flash-present">
 						<div class="texte"><?php echo $_flash_excerpt; ?></div>
-						<a href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
+						<a id="sel-flash-link-present" href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
 					</div>
 					<?php endif; ?>
 					<?php wp_reset_query(); ?>
