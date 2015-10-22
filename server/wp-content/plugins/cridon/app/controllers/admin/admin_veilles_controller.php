@@ -14,7 +14,11 @@
 
 class AdminVeillesController extends MvcAdminController {
     
-    var $default_columns = array('id', 'post' => array('label'=> 'Titre' ,'value_method' => 'post_edit_link'));
+    var $default_columns = array(
+        'id', 
+        'post' => array('label'=> 'Titre' ,'value_method' => 'post_edit_link'),
+        'matiere' => array( 'label'=>'Matière','value_method' => 'matiere_edit_link')
+    );
     public function index() {
         if( isset( $this->params['flash'] ) ){
             if( $this->params['flash'] == 'success' ){
@@ -71,6 +75,14 @@ class AdminVeillesController extends MvcAdminController {
                 $aData->$sKey = $aData->$sVal;
             }
         }
+    }
+    public function matiere_edit_link($object)
+    {
+        $aOptionList = array(
+            '__name'    => 'label'
+        );
+        $this->prepareData($aOptionList, $object->matiere);
+        return empty($object->matiere) ? 'Expertise générale' : HtmlHelper::admin_object_link($object->matiere, array('action' => 'edit'));
     }
 }
 
