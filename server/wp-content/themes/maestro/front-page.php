@@ -132,7 +132,7 @@
    					<div id="accordion-formations" class="accordion js-tab-formation">
 
    						<?php 
-							$formations = criFilterByDate('formation',3,3,'formation', 'd/m/Y');
+							$formations = criFilterByDate('formation',3,1,'formation', 'd/m/Y');
 							// var_dump($formations);
 						 ?>
 						<?php foreach ($formations as $keyd => $date): ?>
@@ -152,16 +152,18 @@
 							<ul>
 								<?php foreach ($date['formation'] as $keyv => $formation) : ?>
 									<?php 
+										criWpPost($formation);
+
 										// $_matiere = $formation->getMatiere() != null ? $formation->getMatiere() : 'Expertise générale';
 										$_matiere = false != false ? false : 'Expertise générale';
-										$_chapo = $formation->excerpt;
-										$_link = $formation->link;
-
+										$_title = get_the_title();
+										$_chapo = get_the_excerpt();//$veille->excerpt;
+										$_link = get_permalink(); //$veille->link;
 										// var_dump($formation)
 									 ?>
 								<li>
 									<img src="" alt="" />
-									<h4><?php echo $_matiere; ?></h4>
+									<h4><?php echo $_title; ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
 									<a href="<?php echo $_link ?>"><?php _e('Lire'); ?></a>
 								</li>
@@ -174,7 +176,7 @@
 					    <?php endforeach ?>
 					    <div class="blockEnd"></div>
 
-					    <a href="#" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
+					    <a href="#" title=""><span><?php _e('Toutes les formations'); ?></span></a>
    						
    					</div>
    				</div>
