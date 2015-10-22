@@ -19,6 +19,20 @@ function hook_admin_menu($parent_file)
     if (isset( $_GET['cridon_type'] ) && $_GET['cridon_type'] ) {
         $submenu_file = 'post-new.php?cridon_type=' . $_GET['cridon_type'];
         $parent_file  = CONST_WPMVC_PREFIX . $_GET['cridon_type'];
+    }else{
+        //Correction bug WP_MVC
+        //Au niveau du menu de l'admin, lors de l'edition d'un modèle il ne s'ouvre pas.
+        if( isset( $_GET['page'] ) ){
+            //Seulement pour le menu lié à WP_MVC
+            if ( preg_match( '/' . CONST_WPMVC_PREFIX . '(.*)/', $_GET['page'], $match ) ) {
+                  if( isset( $match[0] ) ){
+                      $tab = explode( '-',$match[0] );
+                      if( ( count( $tab ) > 1 ) && ( $tab[1] === 'edit' ) ){//Seulement pour l'édition
+                          $parent_file = $tab[0];                          
+                      }
+                  }
+            }            
+        }
     }
     return $parent_file;
 }
