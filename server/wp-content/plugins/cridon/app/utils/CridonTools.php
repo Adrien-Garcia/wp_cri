@@ -91,5 +91,21 @@ class CridonTools {
         }
         return $newData;
     }
+
+    /**
+     * Check if user exist
+     *
+     * @param string $userLogin
+     * @return array|null|object|void
+     */
+    public function isUserExist($userLogin)
+    {
+        global $wpdb;
+
+        $sql = "SELECT `cri_users`.ID FROM `{$wpdb->users}`
+                WHERE `user_login` = %s";
+
+        return $wpdb->get_row($wpdb->prepare($sql, $userLogin));
+    }
 }
 

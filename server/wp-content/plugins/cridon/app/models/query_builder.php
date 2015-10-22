@@ -23,6 +23,8 @@ class QueryBuilder{
      * @param array $options Contains table name and clause where 
      */
     public function delete( $options ){
+//        die('DELETE FROM '.$this->wpdb->prefix.$options['table'].' WHERE '.$options['conditions']);
+
         $this->wpdb->query( 'DELETE FROM '.$this->wpdb->prefix.$options['table'].' WHERE '.$options['conditions'] );
     }    
     
@@ -470,6 +472,29 @@ class QueryBuilder{
     /*
      * End retrive data
      */
+
+    /**
+     * Insert multi rows
+     * using syntax
+     * INSERT INTO table
+     * (prenom, nom, ville, age)
+     *   VALUES
+     * ('Rébecca', 'Armand', 'Saint-Didier-des-Bois', 24),
+     * ('Aimée', 'Hebert', 'Marigny-le-Châtel', 36),
+     * ('Marielle', 'Ribeiro', 'Maillères', 27),
+     * ('Hilaire', 'Savary', 'Conie-Molitard', 58)
+     *
+     * @param array $options
+     */
+    public function insertMultiRows($options = array())
+    {
+        $query = 'INSERT INTO ' . $this->wpdb->prefix . $options['table']
+                 . '(' . $options['attributes'] . ')
+            VALUES
+            ' . $options['values'];
+
+        $this->wpdb->query($query);
+    }
 }
 
 ?>

@@ -10,6 +10,13 @@
 if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
 	define( 'CONST_NOTAIRE_ROLE', 'notaire' );
 }
+// administrator role
+if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
+    define( 'CONST_ADMIN_ROLE', 'administrator' );
+}
+if ( !defined( 'CONST_LOGIN_SEPARATOR' ) ) {
+    define( 'CONST_LOGIN_SEPARATOR', '~' );
+}
 
 // wpmvc prefix
 if ( !defined( 'CONST_WPMVC_PREFIX' ) ) {
@@ -41,5 +48,6 @@ if ( !defined( 'CONST_ODBC_TABLE_NOTAIRE' ) ) {
 
 // import CSV notaire file path
 if ( !defined( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH' ) ) {
-    define( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH', 'PATH_TO_CSV_FILE' );
+//    define( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH', 'G:/MyProjects/JetPulp/Docs/CSVs/EXPNOTAIRES_20150814.csv' );
+    define( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH', 'G:/MyProjects/JetPulp/Docs/CSVs/' );
 }
