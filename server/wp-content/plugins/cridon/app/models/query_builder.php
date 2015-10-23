@@ -479,9 +479,9 @@ class QueryBuilder{
      * INSERT INTO table
      * (prenom, nom, ville, age)
      *   VALUES
-     * ('Rébecca', 'Armand', 'Saint-Didier-des-Bois', 24),
-     * ('Aimée', 'Hebert', 'Marigny-le-Châtel', 36),
-     * ('Marielle', 'Ribeiro', 'Maillères', 27),
+     * ('Robecca', 'Armand', 'Saint-Didier-des-Bois', 24),
+     * ('Aimee', 'Hebert', 'Marigny-le-Chatel', 36),
+     * ('Marielle', 'Ribeiro', 'Mailleres', 27),
      * ('Hilaire', 'Savary', 'Conie-Molitard', 58)
      *
      * @param array $options

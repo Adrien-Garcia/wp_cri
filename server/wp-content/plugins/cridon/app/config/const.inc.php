@@ -51,3 +51,11 @@ if ( !defined( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH' ) ) {
 //    define( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH', 'G:/MyProjects/JetPulp/Docs/CSVs/EXPNOTAIRES_20150814.csv' );
     define( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH', 'G:/MyProjects/JetPulp/Docs/CSVs/' );
 }
+
+// status
+if ( !defined( 'CONST_STATUS_ENABLED' ) ) {
+    define( 'CONST_STATUS_ENABLED', 1 );
+}
+if ( !defined( 'CONST_STATUS_DESABLED' ) ) {
+    define( 'CONST_STATUS_DESABLED', 0 );
+}
