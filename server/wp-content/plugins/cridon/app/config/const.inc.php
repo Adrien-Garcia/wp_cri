@@ -48,14 +48,14 @@ if ( !defined( 'CONST_ODBC_TABLE_NOTAIRE' ) ) {
 
 // import CSV notaire file path
 if ( !defined( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH' ) ) {
-//    define( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH', 'G:/MyProjects/JetPulp/Docs/CSVs/EXPNOTAIRES_20150814.csv' );
-    define( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH', 'G:/MyProjects/JetPulp/Docs/CSVs/' );
+//    define( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH', 'G:/MyProjects/JetPulp/Docs/CSV/' );
+    define( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH', 'PATH_TO_CSVFILE' );
 }
 
 // status
 if ( !defined( 'CONST_STATUS_ENABLED' ) ) {
     define( 'CONST_STATUS_ENABLED', 1 );
 }
-if ( !defined( 'CONST_STATUS_DESABLED' ) ) {
-    define( 'CONST_STATUS_DESABLED', 0 );
+if ( !defined( 'CONST_STATUS_DISABLED' ) ) {
+    define( 'CONST_STATUS_DISABLED', 0 );
 }

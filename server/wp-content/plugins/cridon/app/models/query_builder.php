@@ -23,8 +23,6 @@ class QueryBuilder{
      * @param array $options Contains table name and clause where 
      */
     public function delete( $options ){
-//        die('DELETE FROM '.$this->wpdb->prefix.$options['table'].' WHERE '.$options['conditions']);
-
         $this->wpdb->query( 'DELETE FROM '.$this->wpdb->prefix.$options['table'].' WHERE '.$options['conditions'] );
     }    
     

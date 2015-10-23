@@ -207,6 +207,20 @@ class Notaire extends MvcModel
     }
 
     /**
+     * List of notaire to be updated from Site (intersect of Site and ERP)
+     *
+     * @return array
+     */
+    private function getNotaireToBeUpdated()
+    {
+        // common values between Site and ERP
+        $items = array_intersect($this->siteNotaireList, $this->erpNotaireList);
+
+        // return filtered items with associated data from ERP
+        return array_intersect_key($this->erpNotaireData, array_flip($items));
+    }
+
+    /**
      * List of notaire to be deleted from Site (notaire not found in ERP)
      *
      * @return array
@@ -226,14 +240,151 @@ class Notaire extends MvcModel
             // deleted : call removeUsersNotInList
             // disabled : call disableUserNotInList
 
-            // list of values to be inserted
+            // instance of CridonCsvParser
+            $csvParser = $this->csvParser;
+
+            // init list of values to be inserted
             $insertValues = array();
+
+            // init list of values to be updated
+            $updateCategValues = $updateNumclientValues = $updateFirstnameValues = $updatePwdtelValues = $updateInterCodeValues = array();
+            $updateCivlitValues = $updateLastnameValues = $updateEmailValues = $updateFoncValues = $updateDateModified = array();
 
             // list of new data
             $newNotaires = $this->getNewNotaireList();
 
-            // instance of CridonCsvParser
-            $csvParser = $this->csvParser;
+            // list of updated data
+            $updateNotaireList = $this->getNotaireToBeUpdated();
+
+            // update
+            if (count($updateNotaireList) > 0) {
+                // start/end query block
+                $queryStart = " UPDATE `{$this->table}` ";
+                $queryEnd   = ' END ';
+
+                // only update if erpData.date_modified > cri_notaire.date_modified
+                foreach($this->find() as $currentData) {
+                    // unique key
+                    $key = $currentData->crpcen . $currentData->web_password;
+
+                    // start optimisation
+                    if (array_key_exists($key, $updateNotaireList)) {
+                        $newData = $updateNotaireList[$key];
+                        // change date format (original "d/m/Y" with double quote)
+                        $dateModified = date("Y-m-d",
+                                             strtotime(
+                                                 str_replace(
+                                                     array('/', '"'),
+                                                     array('-', ''),
+                                                     $newData[$csvParser::NOTAIRE_DATEMODIF_OFFSET]
+                                                 )
+                                             )
+                        );
+                        $newDate = new DateTime($dateModified);
+                        $newDate = $newDate->format('Ymd');
+                        $oldDate = new DateTime($currentData->date_modified);
+                        $oldDate = $oldDate->format('Ymd');
+                        if ($newDate > $oldDate) {
+                            // prepare all update   query
+                            $updateCategValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_CATEG_OFFSET]) . "' ";
+                            $updateNumclientValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_NUMCLIENT_OFFSET]) . "' ";
+                            $updateFirstnameValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_FNAME_OFFSET]) . "' ";
+                            $updateLastnameValues[]     = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_LNAME_OFFSET]) . "' ";
+                            $updatePwdtelValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_PWDTEL_OFFSET]) . "' ";
+                            $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string(intval($newData[$csvParser::NOTAIRE_INTERCODE_OFFSET])) . "' ";
+                            $updateCivlitValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_CIVILIT_OFFSET]) . "' ";
+                            $updateEmailValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_EMAIL_OFFSET]) . "' ";
+                            $updateFoncValues[]         = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_FONC_OFFSET]) . "' ";
+                            $updateDateModified[]       = " id = {$currentData->id} THEN '" . $dateModified . "' ";
+                        }
+                    }
+                    // end optimisation
+
+                    /*foreach($updateNotaireList as $k => $newData) {
+                        // change date format (original "d/m/Y" with double quote)
+                        $dateModified = date("Y-m-d",
+                                             strtotime(
+                                                 str_replace(
+                                                     array('/', '"'),
+                                                     array('-', ''),
+                                                     $newData[$csvParser::NOTAIRE_DATEMODIF_OFFSET]
+                                                 )
+                                             )
+                        );
+                        $newDate = new DateTime($dateModified);
+                        $newDate = $newDate->format('Ymd');
+                        $oldDate = new DateTime($currentData->date_modified);
+                        $oldDate = $oldDate->format('Ymd');
+                        if ($newDate > $oldDate && $key == $k) {
+                            // prepare all update   query
+                            $updateCategValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_CATEG_OFFSET]) . "' ";
+                            $updateNumclientValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_NUMCLIENT_OFFSET]) . "' ";
+                            $updateFirstnameValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_FNAME_OFFSET]) . "' ";
+                            $updateLastnameValues[]     = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_LNAME_OFFSET]) . "' ";
+                            $updatePwdtelValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_PWDTEL_OFFSET]) . "' ";
+                            $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string(intval($newData[$csvParser::NOTAIRE_INTERCODE_OFFSET])) . "' ";
+                            $updateCivlitValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_CIVILIT_OFFSET]) . "' ";
+                            $updateEmailValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_EMAIL_OFFSET]) . "' ";
+                            $updateFoncValues[]         = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_FONC_OFFSET]) . "' ";
+                            $updateDateModified[]       = " id = {$currentData->id} THEN '" . $dateModified . "' ";
+                        }
+                    }*/
+                }
+
+                // execute update query
+                if (count($updateCategValues) > 0) {
+                    // category
+                    $notaireQuery = ' SET `category` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateCategValues);
+                    $notaireQuery .= ' ELSE `category` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // client_number
+                    $notaireQuery = ' SET `client_number` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateNumclientValues);
+                    $notaireQuery .= ' ELSE `client_number` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // first_name
+                    $notaireQuery = ' SET `first_name` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFirstnameValues);
+                    $notaireQuery .= ' ELSE `first_name` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // last_name
+                    $notaireQuery = ' SET `last_name` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateLastnameValues);
+                    $notaireQuery .= ' ELSE `last_name` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // tel_password
+                    $notaireQuery = ' SET `tel_password` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updatePwdtelValues);
+                    $notaireQuery .= ' ELSE `tel_password` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // code_interlocuteur
+                    $notaireQuery = ' SET `code_interlocuteur` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateInterCodeValues);
+                    $notaireQuery .= ' ELSE `code_interlocuteur` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // id_civilite
+                    $notaireQuery = ' SET `id_civilite` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateCivlitValues);
+                    $notaireQuery .= ' ELSE `id_civilite` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // email_adress
+                    $notaireQuery = ' SET `email_adress` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateEmailValues);
+                    $notaireQuery .= ' ELSE `email_adress` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // id_fonction
+                    $notaireQuery = ' SET `id_fonction` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFoncValues);
+                    $notaireQuery .= ' ELSE `id_fonction` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // date_modified
+                    $notaireQuery = ' SET `date_modified` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateDateModified);
+                    $notaireQuery .= ' ELSE `date_modified` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                }
+            }
 
             // insert new data
             if (count($newNotaires) > 0) {
@@ -280,6 +431,7 @@ class Notaire extends MvcModel
                     $queryBulder->insertMultiRows($options);
                 }
             }
+
         } catch (Exception $e) {
             echo 'Exception reçue : ' .  $e->getMessage() . "\n";
         }
