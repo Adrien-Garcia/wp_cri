@@ -33,9 +33,11 @@ class CridonPostUrl {
      */
     public static function generatePostUrl( $model, $id ){
         $controller = $model.'s';
+        //If model is an exception
         if( isset( CridonPostUrl::$nameCtrlException[$model] ) ){
-            $controller = CridonPostUrl::$nameCtrlException[$model];
+            $controller = CridonPostUrl::$nameCtrlException[$model];//Set controller with the exception
         }
+        //All options for WP_MVC plugins to generate the URL of model
         $option = array(
             'controller' => $controller,
             'action'     => 'show',

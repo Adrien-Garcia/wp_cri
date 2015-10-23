@@ -57,7 +57,7 @@ class CridonPostStructure {
         $table_name = $wpdb->prefix . 'posts';
         foreach ( $wpdb->get_col( "DESC " . $table_name, 0 ) as $column_name ) {// Get column of table wp_posts
             $this->wp_posts_column[] = $column_name;
-            $this->fieldPost .= 'p.'.$column_name.','; 
+            $this->fieldPost .= 'p.'.$column_name.',';//It's used to construct query ( simple string ) 
         }        
     }
 }

@@ -18,7 +18,7 @@
  */
 class CridonPostQuery {
     
-    private $wp_query;
+    private $wp_query;//It's used to set global variable WP_Query for WP
     
     public function __construct(){
         $this->createObjectWpQuery();//Initialize object WP_Query

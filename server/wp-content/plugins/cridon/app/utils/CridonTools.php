@@ -14,7 +14,7 @@
 
 class CridonTools {    
     private $postFactory; // Create clean object WP_Post 
-    private $postStructure; // Create clean object WP_Post 
+    private $postStructure; // Retrieve structure of table wp_posts 
     
     public function __construct( $postFactory,$postStructure ) {        
         $this->postFactory = $postFactory;

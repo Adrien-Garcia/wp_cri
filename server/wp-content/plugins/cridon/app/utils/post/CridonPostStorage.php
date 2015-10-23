@@ -56,6 +56,7 @@ class CridonPostStorage {
      * @return string|null
      */
     public function get( $post_ID,$index = 'link' ){
+        //What data do you want? link or all?
         return isset( self::$aResults[$post_ID] ) ? self::$aResults[$post_ID][$index] : null;
     }
 }
