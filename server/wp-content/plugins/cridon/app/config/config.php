@@ -23,10 +23,10 @@ class Config {
             'controller'        => 'flashes', 
             'action'            => 'index' 
         ),
-        'actu_cridons' => array(
-            'value'             => 'actu_cridons',
-            'name'              => 'actu_cridon',
-            'controller'        => 'actu_cridons', 
+        'vie_cridons' => array(
+            'value'             => 'vie_cridons',
+            'name'              => 'vie_cridon',
+            'controller'        => 'vie_cridons', 
             'action'            => 'index' 
         ),
         'formations' => array(
@@ -55,5 +55,5 @@ class Config {
     );
 
     // list of cridon_type using default post form
-    public static $mvcWithPostForm = array('actu_cridons','cahier_cridons','flashes','formations','veilles');
+    public static $mvcWithPostForm = array('vie_cridons','cahier_cridons','flashes','formations','veilles');
 }
