@@ -194,6 +194,7 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
     $model = 'veille';
     global $cri_container;
     $tools = $cri_container->get( 'tools' );
+    //All fields of table cri_matiere
     $fields = array('id','code','label','short_label','displayed','picto');
     $mFields = '';// fields of model Matiere
     foreach ( $fields as $v ){
@@ -205,7 +206,7 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
             $model => array(
                 'table' => $model.' '.$model[0],
                 'column' => $model[0].'.post_id = p.ID'
-            ),
+            ),//use join clause with table cri_matiere
             'matiere' => array(
                 'table' => 'matiere m',
                 'column' => 'm.id = '.$model[0].'.id_matiere'
@@ -214,10 +215,11 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
         'conditions' => 'p.post_status = "publish"',
         'order' => $order
     );
-    if( $limit ){
+    if( $limit ){//It's limited?
         $options['limit'] = $limit;
     }
-    $results = criQueryPosts( $options ); 
+    $results = criQueryPosts( $options );//Get associated post 
+    //When it's limited ( get one result), we got one object not an array
     if( !is_array( $results ) ){
         $std = new stdClass();
         $std->matiere = CridonObjectFactory::create( $results, 'matiere', $fields);
@@ -225,11 +227,14 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
         $std->post = $tools->createPost( $results ); // Create Object WP_Post
         return $std;
     }
-    $aFinal = array();
+    // The result is an array of object ( stdClass )
+    $aFinal = array();// Final result
     foreach( $results as $value ){
         $std = new stdClass();
+        //Dissociate current objet to get an object Matiere ( only an object stdClass with all attributes as in table cri_matiere )
         $std->matiere = CridonObjectFactory::create( $value, 'matiere', $fields);
         $std->link = CridonPostUrl::generatePostUrl( $model, $value->join_id );
+        //Dissociate current object to get an object Post ( WP_Post )
         $std->post = $tools->createPost( $value ); // Create Object WP_Post
         $aFinal[] = $std;
     }
@@ -239,7 +244,7 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
 // Hook of the_permalink() and get_permalink()
 function append_custom_link( $url, $post ) {
     if ( $post->post_type === 'post' ) {
-        $newUrl = criGetPostLink();
+        $newUrl = criGetPostLink();//Get custom post link 
         if( $newUrl ){
             $url = $newUrl;
         }
