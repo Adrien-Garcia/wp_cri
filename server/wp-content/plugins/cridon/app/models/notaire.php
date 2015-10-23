@@ -83,6 +83,11 @@ class Notaire extends MvcModel
     private $erpNotaireData = array();
 
     /**
+     * @var bool : File import success flag
+     */
+    private $importSuccess = false;
+
+    /**
      * @var string
      */
     protected $logs;
@@ -149,19 +154,10 @@ class Notaire extends MvcModel
                 // insert or update data
                 $this->manageNotaireData();
 
-                /*foreach($csv->data as $items) {
-                    if (isset($items[$csv::NOTAIRE_CRPCEN_OFFSET]) && $items[$csv::NOTAIRE_CRPCEN_OFFSET]) { // valid login
-                        $notaires = $this->find_one_by_crpcen($items[$csv::NOTAIRE_CRPCEN_OFFSET]);
-                        if (!is_object($notaires)) { // user not already exist
-
-                        } else { // user already exist
-
-                        }
-
-                    }
-                    echo '<pre>';
-                    print_r($items);
-                }*/
+                // do archive
+                if ($this->importSuccess) {
+                    rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
+                }
             }
         }
     }
@@ -253,7 +249,7 @@ class Notaire extends MvcModel
             // list of new data
             $newNotaires = $this->getNewNotaireList();
 
-            // list of updated data
+            // list of data for update
             $updateNotaireList = $this->getNotaireToBeUpdated();
 
             // update
@@ -299,36 +295,6 @@ class Notaire extends MvcModel
                         }
                     }
                     // end optimisation
-
-                    /*foreach($updateNotaireList as $k => $newData) {
-                        // change date format (original "d/m/Y" with double quote)
-                        $dateModified = date("Y-m-d",
-                                             strtotime(
-                                                 str_replace(
-                                                     array('/', '"'),
-                                                     array('-', ''),
-                                                     $newData[$csvParser::NOTAIRE_DATEMODIF_OFFSET]
-                                                 )
-                                             )
-                        );
-                        $newDate = new DateTime($dateModified);
-                        $newDate = $newDate->format('Ymd');
-                        $oldDate = new DateTime($currentData->date_modified);
-                        $oldDate = $oldDate->format('Ymd');
-                        if ($newDate > $oldDate && $key == $k) {
-                            // prepare all update   query
-                            $updateCategValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_CATEG_OFFSET]) . "' ";
-                            $updateNumclientValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_NUMCLIENT_OFFSET]) . "' ";
-                            $updateFirstnameValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_FNAME_OFFSET]) . "' ";
-                            $updateLastnameValues[]     = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_LNAME_OFFSET]) . "' ";
-                            $updatePwdtelValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_PWDTEL_OFFSET]) . "' ";
-                            $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string(intval($newData[$csvParser::NOTAIRE_INTERCODE_OFFSET])) . "' ";
-                            $updateCivlitValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_CIVILIT_OFFSET]) . "' ";
-                            $updateEmailValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_EMAIL_OFFSET]) . "' ";
-                            $updateFoncValues[]         = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_FONC_OFFSET]) . "' ";
-                            $updateDateModified[]       = " id = {$currentData->id} THEN '" . $dateModified . "' ";
-                        }
-                    }*/
                 }
 
                 // execute update query
@@ -383,6 +349,8 @@ class Notaire extends MvcModel
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateDateModified);
                     $notaireQuery .= ' ELSE `date_modified` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
                 }
             }
 
@@ -429,6 +397,8 @@ class Notaire extends MvcModel
                     $options['values'] = implode(', ', $insertValues);
                     // bulk insert
                     $queryBulder->insertMultiRows($options);
+
+                    $this->importSuccess = true;
                 }
             }
 
@@ -551,6 +521,8 @@ class Notaire extends MvcModel
 
                     // update cri_notaire.id_wp_user
                     $this->updateCriNotaireWpUserId($notaires);
+
+                    $this->importSuccess = true;
                 }
 
                 // execute the bulk update query
@@ -582,6 +554,8 @@ class Notaire extends MvcModel
                     $queryDisplayName .= ' WHEN ' . implode(' WHEN ', $bulkDisplayNameUpdate);
                     $queryDisplayName .= ' ELSE `display_name` ';
                     $this->wpdb->query($queryStart . $queryDisplayName . $queryEnd);
+
+                    $this->importSuccess = true;
                 }
             }
         } catch(Exception $e) {
