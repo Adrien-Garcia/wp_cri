@@ -89,4 +89,14 @@ function on_post_import( $post_ID ) {
 }
 add_action( 'wp_insert_post', 'on_post_import' );
 // End After insert post
-?>
+
+//Remove on menu Notaire action add
+MvcConfiguration::append(array(
+    'AdminPages' => array(
+        'notaires' => array(
+            'delete',
+            'edit'
+        )
+    )
+));
+//End remove
