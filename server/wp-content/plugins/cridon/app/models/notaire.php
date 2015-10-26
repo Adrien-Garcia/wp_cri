@@ -411,6 +411,41 @@ class Notaire extends MvcModel
     }
 
     /**
+     * Set notaire role
+     *
+     * @param array $notaires
+     */
+    public function setNotaireRole($notaires)
+    {
+        $roleQuery = array();
+        $roleValue = serialize(
+            array(CONST_NOTAIRE_ROLE => true)
+        );
+        $options               = array();
+        $options['table']      = 'usermeta';
+        $options['attributes'] = 'user_id, meta_key, meta_value';
+        foreach($notaires as $notaire) {
+            // prepare query
+            if ($notaire->id_wp_user) {
+                $value = "(";
+                $value .= "'" . $notaire->id_wp_user . "', ";
+                $value .= "'" . $this->wpdb->prefix . "capabilities', ";
+                $value .= "'" . $roleValue . "'";
+                $value .= ")";
+
+                $roleQuery[] = $value;
+            }
+        }
+
+        if (count($roleQuery) > 0) {
+            $queryBulder       = mvc_model('QueryBuilder');
+            $options['values'] = implode(', ', $roleQuery);
+            // bulk insert
+            $queryBulder->insertMultiRows($options);
+        }
+    }
+
+    /**
      * Remove users not match on ERP data list
      */
     private function removeUsersNotInList()
@@ -576,7 +611,7 @@ class Notaire extends MvcModel
 
             // parse all notaire and prepare bulk query
             foreach ($notaires as $notaire) {
-                $update = "`{$this->table}`.`crpcen` = '" . $notaire->crpcen . "' AND `cri_notaire`.`id` = " . $notaire->id;
+                $update = "`{$this->table}`.`crpcen` = '" . $notaire->crpcen . "' AND `id` = " . $notaire->id;
                 $update .= " THEN (SELECT `{$this->wpdb->users}`.ID FROM `{$this->wpdb->users}` WHERE `user_login` = CONCAT('" . $notaire->crpcen . "', '~', '" . $notaire->id . "'))";
 
                 $updateValues[] = $update;
@@ -590,6 +625,10 @@ class Notaire extends MvcModel
                 $query .= ' ELSE `id_wp_user` ';
                 $query .= ' END ';
                 $this->wpdb->query($query);
+
+                // set notaire role
+                // should be execute after cri_notaire.id_wp_user was set
+                $this->setNotaireRole($notaires);
             }
         } catch (Exception $e) {
             echo 'Exception reçue : ' .  $e->getMessage() . "\n";
