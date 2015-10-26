@@ -40,3 +40,88 @@ function custom_admin_menu()
     }
 }
 add_action( 'admin_menu', 'custom_admin_menu', 100 );
+
+/**
+ * Redirect user after successful login.
+ *
+ * @param string $redirect_to URL to redirect to.
+ * @param string $request URL the user is coming from.
+ * @param object $user Logged user's data.
+ *
+ * @return string
+ */
+function custom_login_redirect( $redirect_to, $request, $user ) {
+    // is there a user to check?
+    global $user;
+    if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+        // check for admins
+        if ( in_array( CONST_ADMIN_ROLE, $user->roles ) ) {
+            // redirect them to the default place
+            return $redirect_to;
+        } elseif ( in_array( CONST_NOTAIRE_ROLE, $user->roles ) ) { // check for notaire
+            return mvc_public_url(array(
+                                      'controller'    => 'notaires',
+                                      'action'        => 'espace-notaire'
+                                  ));
+        } else { // check for others
+            return home_url();
+        }
+    } else {
+        return $redirect_to;
+    }
+}
+add_filter( 'login_redirect', 'custom_login_redirect', 10, 3 );
+
+/**
+ * Add custom js in template
+ */
+function append_js_files()
+{
+    require_once ABSPATH . WPINC . '/pluggable.php';
+
+    // only in front
+    if (!is_admin()) {
+
+        wp_enqueue_script('cridon', plugins_url('cridon/app/public/js/cridon_login.js'), array('jquery'));
+        wp_localize_script(
+            'cridon',
+            'jsvar',
+            array(
+                'ajaxurl'           => admin_url('admin-ajax.php'),
+                'login_nonce'       => wp_create_nonce("process_login_nonce"),
+                'error_msg'         => CONST_LOGIN_ERROR_MSG,
+                'empty_error_msg'   => CONST_LOGIN_EMPTY_ERROR_MSG,
+                'form_id'           => CONST_TPL_FORM_ID,
+                'login_field_id'    => CONST_TPL_LOGINFIELD_ID,
+                'password_field_id' => CONST_TPL_PASSWORDFIELD_ID,
+                'error_bloc_id'     => CONST_TPL_ERRORBLOCK_ID,
+            )
+        );
+    }
+}
+add_action('wp_enqueue_scripts', append_js_files(), 99);
+
+/**
+ * hook for connection
+ */
+function logins_connect()
+{
+    require_once WP_PLUGIN_DIR . '/cridon/app/controllers/logins_controller.php';
+    $controller = new LoginsController();
+    $controller->connect();
+}
+add_action( 'wp_ajax_logins_connect',   'logins_connect' );
+add_action( 'wp_ajax_nopriv_logins_connect',   'logins_connect' );
+
+/**
+ * Hook for logout
+ */
+function custom_logout_redirect() {
+    global $current_user;
+
+    if ($current_user->roles[0] !== CONST_ADMIN_ROLE) {
+        wp_redirect( home_url() );
+        exit();
+    }
+}
+add_action('wp_logout','custom_logout_redirect');
