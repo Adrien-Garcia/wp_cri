@@ -24,4 +24,32 @@ class NotairesController extends BasePublicController
 
 		parent::__construct();
 	}
+
+    /**
+     * Import Notaire into wp_users
+     */
+    public function import()
+    {
+        $rets = $this->model->importIntoWpUsers();
+
+        $this->set('rets', $rets);
+    }
+
+    /**
+     * Notaire dashbord
+     */
+    public function dashbord()
+    {
+        // check if user is not logged in
+        // or he's not a notaire
+        if ( !is_user_logged_in()
+             || ( !in_array( CONST_NOTAIRE_ROLE, $this->current_user->roles ) )
+        ) {
+            // redirect user to home page
+            $this->redirect( home_url() );
+        }
+
+        // set user data in template
+        $this->set('users', $this->current_user);
+    }
 }

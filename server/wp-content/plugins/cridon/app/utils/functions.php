@@ -82,6 +82,59 @@ function criGetLastestPost( $model ){
 }
 
 /**
+ * Form params setter (to be called on the login template)
+ *
+ * @param string $formAttributeId
+ * @param string $loginAttributeId
+ * @param string $passwdAttributeId
+ * @param string $errorBlocAttributeId
+ */
+if (!function_exists('criSetLoginFormOptions')) {
+    function criSetLoginFormOptions(
+        $formAttributeId
+        , $loginAttributeId
+        , $passwdAttributeId
+        , $errorBlocAttributeId
+    ) {
+        // all params are needed to be set
+        if ($formAttributeId
+            && $loginAttributeId
+            && $passwdAttributeId
+            && $errorBlocAttributeId
+        ) {
+            global $cri_container;
+
+            $cri_container->setLoginFormId($formAttributeId);
+            $cri_container->setLoginFieldId($loginAttributeId);
+            $cri_container->setPasswordFieldId($passwdAttributeId);
+            $cri_container->setErrorBlocId($errorBlocAttributeId);
+
+            add_action('wp_enqueue_scripts', append_js_var());
+        }
+    }
+
+    // hook for overridinf default login form  var
+    function append_js_var()
+    {
+        global $cri_container;
+
+        require_once ABSPATH . WPINC . '/pluggable.php';
+
+        // only in front
+        if (!is_admin()) {
+        ?>
+        <script type="text/javascript">
+            var loginFormIdOverride = '<?php echo $cri_container->getLoginFormId() ?>',
+                errorBlocIdOverride = '<?php echo $cri_container->getErrorBlocId() ?>',
+                loginFieldIdOverride = '<?php echo $cri_container->getLoginFieldId() ?>',
+                passwordFieldIdOverride = '<?php echo $cri_container->getPasswordFieldId() ?>';
+        </script>
+    <?php
+        }
+    }
+}
+
+/**
  * Filter post per date by model
  * 
  * 
