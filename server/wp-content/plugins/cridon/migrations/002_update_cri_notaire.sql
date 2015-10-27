@@ -1,0 +1,1 @@
+ALTER TABLE `cri_notaire` DROP INDEX `UX_CLISNT_NUMBER`, ADD INDEX `X_CLIENT_NUMBER` (`client_number`);

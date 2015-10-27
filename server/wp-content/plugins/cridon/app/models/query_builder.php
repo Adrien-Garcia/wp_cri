@@ -494,5 +494,3 @@ class QueryBuilder{
         $this->wpdb->query($query);
     }
 }
-
-?>

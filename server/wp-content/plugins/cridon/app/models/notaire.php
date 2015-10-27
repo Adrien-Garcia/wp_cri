@@ -412,19 +412,22 @@ class Notaire extends MvcModel
 
     /**
      * Set notaire role
-     *
-     * @param array $notaires
      */
-    public function setNotaireRole($notaires)
+    public function setNotaireRole()
     {
         $roleQuery = array();
-        $roleValue = serialize(
-            array(CONST_NOTAIRE_ROLE => true)
-        );
         $options               = array();
         $options['table']      = 'usermeta';
         $options['attributes'] = 'user_id, meta_key, meta_value';
-        foreach($notaires as $notaire) {
+        foreach($this->find() as $notaire) {
+            // role by group
+            // if not is set the category, use default role
+            $role = ($notaire->category)?strtolower($notaire->category):CONST_NOTAIRE_ROLE;
+
+            // recognized role format by WP
+            $roleValue = serialize(
+                array($role => true)
+            );
             // prepare query
             if ($notaire->id_wp_user) {
                 $value = "(";
@@ -628,7 +631,7 @@ class Notaire extends MvcModel
 
                 // set notaire role
                 // should be execute after cri_notaire.id_wp_user was set
-                $this->setNotaireRole($notaires);
+                $this->setNotaireRole();
             }
         } catch (Exception $e) {
             echo 'Exception reçue : ' .  $e->getMessage() . "\n";

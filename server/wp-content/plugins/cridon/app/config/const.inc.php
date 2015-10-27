@@ -59,3 +59,14 @@ if ( !defined( 'CONST_STATUS_ENABLED' ) ) {
 if ( !defined( 'CONST_STATUS_DISABLED' ) ) {
     define( 'CONST_STATUS_DISABLED', 0 );
 }
+
+// default role by notaire group
+if ( !defined( 'CONST_OFFICES_ROLE' ) ) {
+    define( 'CONST_OFFICES_ROLE', 'off' );
+}
+if ( !defined( 'CONST_ORGANISMES_ROLE' ) ) {
+    define( 'CONST_ORGANISMES_ROLE', 'org' );
+}
+if ( !defined( 'CONST_CLIENTDIVERS_ROLE' ) ) {
+    define( 'CONST_CLIENTDIVERS_ROLE', 'div' );
+}
