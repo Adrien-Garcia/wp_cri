@@ -50,14 +50,15 @@ class CridonPostStorage {
     }
     
     /**
-     * Output the current link
+     * Output the current link or current result
      * 
      * @param integer $post_ID Current post ID
-     * @return string|null
+     * @param string $index 'link' or 'all'
+     * @return string|array|null
      */
     public function get( $post_ID,$index = 'link' ){
         //What data do you want? link or all?
-        return isset( self::$aResults[$post_ID] ) ? self::$aResults[$post_ID][$index] : null;
+        return ( isset( self::$aResults[$post_ID] ) && isset( self::$aResults[$post_ID][$index] ) ) ? self::$aResults[$post_ID][$index] : null;
     }
 }
 
