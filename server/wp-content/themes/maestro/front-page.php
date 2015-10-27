@@ -100,11 +100,11 @@
 							<ul>
 								<?php foreach ($date['veille'] as $keyv => $veille) : ?>
 									<?php 
-
+										criWpPost($veille);
 										// $_matiere = $veille->getMatiere() != null ? $veille->getMatiere() : 'Expertise générale';
 										$_matiere = false != false ? false : __('Expertise générale');
-										$_chapo = $veille->excerpt;
-										$_link = $veille->link;
+										$_chapo = get_the_excerpt();//$veille->excerpt;
+										$_link = get_permalink(); //$veille->link;
 
 										// var_dump($keyd)
 									 ?>
@@ -120,7 +120,8 @@
 					       
 					      </div>
 					    </div>
-					    <?php endforeach ?>
+					    <?php endforeach; ?>
+					    <?php wp_reset_query(); ?>
 					    <div class="blockEnd"></div>
 
 					    <a href="#" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
@@ -131,7 +132,7 @@
    					<div id="accordion-formations" class="accordion js-tab-formation">
 
    						<?php 
-							$formations = criFilterByDate('formation',3,3,'formation', 'd/m/Y');
+							$formations = criFilterByDate('formation',3,1,'formation', 'd/m/Y');
 							// var_dump($formations);
 						 ?>
 						<?php foreach ($formations as $keyd => $date): ?>
@@ -145,22 +146,24 @@
 					      <div class="date js-accordion-button">
 					      	<span class="jour"><?php echo date_format($_date, 'd') ?></span>
 					      	<span class="mois"><?php echo date_format($_date, 'M') ?></span>
-					      	<span class="annee"><?php echo date_format($_date, 'YY') ?></span> 
+					      	<span class="annee"><?php echo date_format($_date, 'Y') ?></span> 
 					      </div>
 					      <div class="content">
 							<ul>
 								<?php foreach ($date['formation'] as $keyv => $formation) : ?>
 									<?php 
+										criWpPost($formation);
+
 										// $_matiere = $formation->getMatiere() != null ? $formation->getMatiere() : 'Expertise générale';
 										$_matiere = false != false ? false : 'Expertise générale';
-										$_chapo = $formation->excerpt;
-										$_link = $formation->link;
-
+										$_title = get_the_title();
+										$_chapo = get_the_excerpt();//$veille->excerpt;
+										$_link = get_permalink(); //$veille->link;
 										// var_dump($formation)
 									 ?>
 								<li>
 									<img src="" alt="" />
-									<h4><?php echo $_matiere; ?></h4>
+									<h4><?php echo $_title; ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
 									<a href="<?php echo $_link ?>"><?php _e('Lire'); ?></a>
 								</li>
@@ -171,9 +174,11 @@
 					      </div>
 					    </div>
 					    <?php endforeach ?>
+					    <?php wp_reset_query(); ?>
+
 					    <div class="blockEnd"></div>
 
-					    <a href="#" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
+					    <a href="#" title=""><span><?php _e('Toutes les formations'); ?></span></a>
    						
    					</div>
    				</div>
