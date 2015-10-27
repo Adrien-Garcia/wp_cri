@@ -150,7 +150,7 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
     //To have others attributes in array result. Default is object WP_Post
     //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
     if( $model === 'veille' ){// If model Veille, so associate model Matiere in result
-        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,null,null,$fields );        
+        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );        
     }else{
         $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date );        
     }
