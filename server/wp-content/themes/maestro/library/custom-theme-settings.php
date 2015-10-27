@@ -38,7 +38,25 @@ $_REQUEST['updated'] = false;
 	
 		<?php settings_fields( 'theme_settings' ); ?>
 		<?php $options = get_option( 'theme_settings' ); ?>
-		
+		<div>
+      <?php array("textarea_name" => "theme_settings[footer_block_content_top]");
+       ?>
+      <h3><?php echo __( 'Footer blocks content','bonestheme' )?></h3>
+      
+      <label for="theme_settings[footer_block_content_top]"><?php echo __( 'Top footer block (all screen size)',"bonestheme" ); ?></label>
+      <br/>
+      <?php wp_editor( $options['footer_block_content_top'] , "themesettingsfooterblockcontenttop",array("textarea_name" => "theme_settings[footer_block_content_top]")) ?>
+      <br/>
+      <br/>
+      <label for="theme_settings[footer_block_content_bottom]"><?php echo __( 'Bottom footer block (only on desktop)',"bonestheme" ); ?></label>
+      <br/>
+      <?php wp_editor( $options['footer_block_content_bottom'] , "themesettingsfooterblockcontentbottom",array("textarea_name" => "theme_settings[footer_block_content_bottom]")) ?>
+
+      <br/>
+    </div>
+
+    <hr>
+
 		<div>
 			
 			<h3><?php echo __( 'Google Tracking','bonestheme' )?></h3>

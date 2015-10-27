@@ -1,4 +1,8 @@
 			<footer class="footer" role="contentinfo">
+				<?php
+
+				//get theme options
+				$options = get_option( 'theme_settings' );?>
 
 				<div class="footer-top">
 					
@@ -25,13 +29,19 @@
 						<div id="inner-footer" class="wrap cf">
 							<div class="block-left">
 								<div class="chapeau">
-									<span>Une équipe de spécialistes au service des notaires.</span>
-									<p>Le CRIDON GRAND EST accompagne depuis un demi-siècle le notariat dans sa démarche de sécurité juridique dans l'intérêt des citoyens.
-									</p>
+								<?php if (isset($options['footer_block_content_top']) ) : ?>
+
+									<?php echo $options['footer_block_content_top']; ?>
+
+								<?php endif; ?>
+
 								</div>
 								<div class="descriptif">
-									Ut dolupta tincta solor mosapidi omnis quiatur ehendesti aboribu sandebis voloreh eniscidunt et et re etur, enihil illaudae adigent.
-									Ri ni is doluptatur? Faceatis sendictem volupit, im et poreris doles im quas eate eaquat qui ium qui delenectium invelis imeneceptas volenditis acescid modi santio totassi tiature pelendistior a derspidem sit autasi cor sum verum qui voluptaera vid quassunt estius, sapiciatem volut ut remodit ionsequis volentiande.
+								<?php if (isset($options['footer_block_content_bottom']) ) : ?>
+
+									<?php echo $options['footer_block_content_bottom']; ?>
+
+								<?php endif; ?>
 								</div>
 							</div>
 							<div class="block-right">
