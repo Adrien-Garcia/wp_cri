@@ -55,7 +55,7 @@ HEADER STYLES
 			position: relative;
 
 
-			h1 {	
+			h1, .h1 {	
 		
 				width: 100%;
 				height: 60px;
@@ -1159,6 +1159,267 @@ body.page-template-front-page{
 
 
 
+
+/*
+
+  ____                    _     _     _                   _ _ _           
+ |  _ \ __ _  __ _  ___  | |   (_)___| |_ ___  __   _____(_) | | ___  ___ 
+ | |_) / _` |/ _` |/ _ \ | |   | / __| __/ _ \ \ \ / / _ \ | | |/ _ \/ __|
+ |  __/ (_| | (_| |  __/ | |___| \__ \ ||  __/  \ V /  __/ | | |  __/\__ \
+ |_|   \__,_|\__, |\___| |_____|_|___/\__\___|   \_/ \___|_|_|_|\___||___/
+             |___/                                                        
+
+
+*/   
+
+#content.archive-veilles{
+	padding-top: 60px;
+
+	.breadcrumbs{
+		width: 100%;
+		background: $bg-top-footer;
+		height: 70px; 
+		padding-top: 10px;
+		color:#818181;
+
+		a{
+			@extend .do-re;
+			font-size: 15px;
+			color:#818181;
+			text-transform: uppercase;
+			text-decoration: none;
+			line-height: 24px;
+
+		}
+
+		span{
+			@extend .do-sm;
+			color:$bleu;
+			font-size: 15px;
+			line-height: 24px;
+		}
+
+	}
+
+	#main{
+		position: relative;
+		padding-top: 40px;
+
+		&:before{
+
+			@include sprite ($before-bg-bandeau);
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 50%;
+			margin-left: -43px;
+
+		}
+
+		#inner-content{
+
+
+			h1{
+				@extend .do-sm;
+				font-size: 30px;
+				line-height: 24px;
+				color:$bleu;
+				text-transform: uppercase;
+				width: 100%;
+				text-align: center;
+				position: relative;
+
+				&:before{
+					display:block;
+					@include svgicon('icon-vieducridon', 10px, 10px,$rouge);	 				
+					position: absolute;
+				    bottom: -19px;
+				    left: 50%;
+				    margin-left: -27px;				
+				}
+
+
+			}
+
+			#filtres_veilles{
+
+				width: 100%;
+				border-bottom:solid 5px $bg-top-footer;
+				height: 20px;
+				margin-bottom: 20px;
+
+			}
+
+			.listing{
+
+				article{
+
+					margin-bottom: 20px;
+					
+
+
+					.date-veille{
+						height: 60px;
+						font-size: 25px;
+						@extend .do-re;
+						text-transform: uppercase;
+						text-align: center;
+						background: $vert;
+						line-height: 60px;
+						color:#FFF;
+						position: relative;
+						display: block;
+						margin-bottom: 20px;
+
+						&:before{
+							@include svgicon('icon-angle-bottom', 15px, 15px, $vert);					
+							position:absolute;
+							bottom: -15px;
+							left: 50%;
+							margin-left: -24px;
+							display: block;
+
+						}
+
+						&:after{
+							display: none;
+						}
+
+						.sep{
+
+							display: none;
+						}
+						
+					}
+
+					
+
+					.details{
+
+						float: left;
+						
+
+						.block_left{
+							width: 30px;
+							height: 100px;
+							float: left;
+							
+							.img-cat{
+								width: 30px;
+								height: 30px;
+								margin-right: 20px;
+								border:solid 1px green;
+
+							}
+						}
+
+						
+						.block_right{
+							float: right;
+							width: calc(100% - 50px);
+
+							.matiere{
+								@extend .do-bo;
+								color:#FFF;
+								text-transform: uppercase;
+								font-size: 12px;
+								background: $vert;
+								display: inline-block;
+								padding: 0 2px;
+								//margin-bottom: 5px;
+							}
+
+							h2{
+								@extend .do-me;
+								font-size: 20px;
+								line-height: 20px;
+								text-transform: uppercase;
+								color:$vert;
+								display: block;
+								margin: 0;
+								padding: 0;
+
+							}
+
+							.chapeau{
+							    font-size: 15px;
+							    color: $rouge;
+							    font-family: $garamond;
+							    width: 100%;
+							    line-height: 18px;
+							    margin-bottom: 10px;
+							}
+
+							.extrait{
+								font-family: $helvetica;
+							    font-size: 13px;
+							    line-height: 18px;
+							}
+
+							.mots_cles{
+
+								margin:10px 0 0 0;
+								padding: 0;
+								height: 18px;
+
+								>li{
+									float: left;
+									padding: 0;
+									margin: 0 20px 0 0;
+									font-family: $helvetica-bold;
+									color:$bleu;
+									font-size: 10px;
+									position: relative;
+									height: 18px;
+									line-height: 18px;
+
+									&:before{
+										content:'';
+										position: absolute;
+										top: 0;
+										right: -10px;
+										width: 1px;
+										height: 18px;
+										background: $bleu;
+
+									}
+
+									&:last-child{
+										&:before{ display: none;}
+									}
+								}
+							}
+
+							>a{
+
+							@include bt-crayon($vert, #FFFFFF);
+							float: left;
+							margin:10px 0 0 0;
+
+						}
+
+						}
+						
+					}
+
+					
+				}
+
+			} 
+
+		}
+
+	}
+
+	
+}
+
+
+
+
+
+
+
 	
 
 
@@ -1168,7 +1429,7 @@ POSTS & CONTENT STYLES
 
 #content {
 	//margin-top: 1.5em;
-	padding:0 0 104px 0; /* Hauteur du footer */
+	//padding:0 0 104px 0; /* Hauteur du footer */
 }
 
 	.hentry {
