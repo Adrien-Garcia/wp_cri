@@ -4,7 +4,6 @@ CREATE TABLE cri_matiere (
     `label` VARCHAR(255) NOT NULL,
     `short_label` VARCHAR(20) NOT NULL,
     `displayed` TINYINT(1) NOT NULL DEFAULT 0,
-    `picto` VARCHAR(255) NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `UX_CODE` (`code`)
 );
@@ -141,10 +140,8 @@ CREATE TABLE cri_question (
 CREATE TABLE cri_veille (
   `id` INT NOT NULL AUTO_INCREMENT,
   `post_id` BIGINT(20) NULL,
-  `id_matiere` INT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_cri_veille_wp_posts1_idx` (`post_id` ASC),
-  INDEX `fk_cri_veille_cri_matiere1_idx` (`id_matiere` ASC)
+  INDEX `fk_cri_veille_wp_posts1_idx` (`post_id` ASC)
 );
 
 CREATE TABLE cri_flash (
