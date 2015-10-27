@@ -179,7 +179,7 @@ HEADER STYLES
 		#inner-header{
 			position: relative;
 
-			h1 {	
+			h1, .h1 {	
 		
 				width: 100%;
 				height: 80px;
@@ -882,6 +882,7 @@ body.page-template-front-page{
 		/*width: 100%;
 		background: $bg-top-footer;
 		height: 70px; */
+		display: block;
 		padding-top: 30px;
 
 		a{

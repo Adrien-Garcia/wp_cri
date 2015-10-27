@@ -78,6 +78,7 @@ HEADER STYLES
 					height: 41px;
 
 				} 
+				a{ width: 100%; height: 100%; display: block;}
 			}
 
 			#bt-nav-mobile{
@@ -127,21 +128,22 @@ HEADER STYLES
 	#panel_connexion{
 		position: fixed;
 		width: 0px;
-		height:0px;
+		height: 100%;
+
 		background: rgba($gris-appli, 0.95);
 		//background: #000;
 		z-index: 9999;
 		top: 0;
 		right: 0; 
-		@include transition(all 0.5s ease-out);
+		@include transition(width 0.5s ease-out);
 
 		
 		.fieldset{
 			width: 310px;
 			margin:80px auto 0 auto;
 			position: relative;
-			visibility: hidden;
-			//@include transition(all 0.5s);
+			opacity: 0;
+			@include transition(opacity 0.5s linear 0s);
 
 			#close{
 				@extend .do-el;
@@ -235,10 +237,9 @@ HEADER STYLES
 
 		&.open{
 			width: 100%;
-			height: 100%;
-
+			
 			.fieldset{
-				visibility: visible;
+				opacity: 1;
 			}
 		}
 	}
@@ -1182,6 +1183,8 @@ body.page-template-front-page{
 		padding-top: 10px;
 		color:#818181;
 
+		display: none;
+
 		a{
 			@extend .do-re;
 			font-size: 15px;
@@ -1734,7 +1737,7 @@ a.logoJP:hover{opacity: 1;
 					top: -1px;
 					left: 50px;
 					display: block;
-					z-index: 9999;					
+					z-index: 2000;					
 
 				}
 

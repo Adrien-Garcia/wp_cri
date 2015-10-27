@@ -77,11 +77,11 @@
 
 					<?php if( is_front_page() ) : ?>
 						<h1>
-							<a class="lienhome" rel="nofollow"></a> 
+							<a href="/" class="lienhome" rel="nofollow"></a> 
 						</h1>
 						<?php else :?>
 						<p id="logo" class="h1">
-							<a class="lienhome" rel="nofollow"></a>
+							<a href="/" class="lienhome" rel="nofollow"></a>
 						</p>
 					<?php endif; ?>
 
