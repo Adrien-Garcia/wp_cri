@@ -201,6 +201,18 @@ HEADER STYLES
 
 		}
 	}
+
+	#panel_connexion{
+
+		&.open{
+			width: 365px;
+			height: 100%;
+
+			.fieldset{ 
+				visibility: visible;
+			}
+		}
+	}
 	
 }
 

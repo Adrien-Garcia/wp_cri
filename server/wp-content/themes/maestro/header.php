@@ -66,7 +66,7 @@
 					<a class="poser-question" href="#">
 						<?php _e('Posez une question'); ?>
 					</a>
-					<a class="acceder-compte desktop" href="#">
+					<a class="acceder-compte desktop js-panel-connexion-open" href="#">
 						<?php _e('acceder à mon compte'); ?>
 					</a>
 				</div>
@@ -77,7 +77,7 @@
 
 					<?php if( is_front_page() ) : ?>
 						<h1>
-							<a class="lienhome" rel="nofollow"></a>
+							<a class="lienhome" rel="nofollow"></a> 
 						</h1>
 						<?php else :?>
 						<p id="logo" class="h1">
@@ -90,8 +90,27 @@
 					</nav>
 
 					<a id="bt-nav-mobile" href="#"></a>
-					<a id="bt-account" href="#"></a>
+					<div id="bt-account" class="js-panel-connexion-open"></div>
+					
 
 				</div>
 			</div>
+
+			<div id="panel_connexion" class="js-panel-connexion">
+				<div class="fieldset">
+					<div id="close" class="js-panel-connexion-close">+</div>
+					<div class="titre">connectez-vous</div>
+					<p>Accédez à vos informations
+	et bénéficiez d’un contenu personnalisé.</p>
+					<form action="header_submit" method="criSetLoginFormOptions('loginFormId', 'loginFieldId', 'passwordFieldId', 'errorMsgId')" accept-charset="utf-8" id="loginFormId">
+						<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre adresse mail">
+						<input type="password" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
+						<input type="submit" name="submit" value="Connectez-vous">
+					</form>
+					<a href="#">> Mot de passe oublié ? <</a>
+					<div id="errorMsgId">									
+					</div>
+				</div>
+			</div>
+
 		</header>

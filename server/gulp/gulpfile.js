@@ -45,7 +45,7 @@ gulp.task('sass-build', function() {
 	gulp.src(libPath+'/scss/*.scss')
 		 .pipe(plumber())
 			.pipe(sass({outputStyle: 'compressed'}))
-			// .pipe(autoprefixer('last 2 version'))
+			.pipe(autoprefixer('last 2 version'))
        		// .pipe(minifycss())
     	 .pipe(plumber.stop())
     .pipe(gulp.dest(libPath+'/css'));
