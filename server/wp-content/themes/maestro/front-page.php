@@ -29,7 +29,7 @@
 						 ?>
 					<div class="content" id="sel-flash-present">
 						<div class="texte"><?php echo $_flash_excerpt; ?></div>
-						<a href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
+						<a id="sel-flash-link-present" href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
 					</div>
 					<?php endif; ?>
 					<?php wp_reset_query(); ?>
@@ -90,7 +90,7 @@
 							}
 						?>
 						<?php // var_dump($_date) ?>
-   						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?>">
+   						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-juridique-panel">
 					      <div class="date js-accordion-button ">
 					      	<span class="jour"><?php echo date_format($_date, 'd') ?></span>
 					      	<span class="mois"><?php echo date_format($_date, 'M') ?></span>
@@ -142,7 +142,7 @@
 							}
 						?>
 						<?php // var_dump($_date) ?>
-   						<div class="panel js-accordion-content">
+   						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-formation-panel">
 					      <div class="date js-accordion-button">
 					      	<span class="jour"><?php echo date_format($_date, 'd') ?></span>
 					      	<span class="mois"><?php echo date_format($_date, 'M') ?></span>
@@ -221,7 +221,7 @@
 					<span><?php _e('du CRIDON'); ?> </span>
 				</h2>
 
-				<div class="actualite">
+				<div class="actualite" id="sel-actu-cridon-home">
 					<img src="" alt="" />
 					<div class="date">
 						<span class="jour">1</span>
