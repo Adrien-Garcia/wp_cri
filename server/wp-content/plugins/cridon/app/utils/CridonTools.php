@@ -102,10 +102,58 @@ class CridonTools {
     {
         global $wpdb;
 
-        $sql = "SELECT `cri_users`.ID FROM `{$wpdb->users}`
+        $sql = "SELECT `ID` FROM `{$wpdb->users}`
                 WHERE `user_login` = %s";
 
         return $wpdb->get_row($wpdb->prepare($sql, $userLogin));
+    }
+
+    /**
+     * Get list of existing users (optimized query)
+     *
+     * @return array
+     */
+    public function getWpUsers()
+    {
+        global $wpdb;
+
+        // init data
+        $users             = array();
+        $users['id']       = array();
+        $users['username'] = array();
+
+        // query
+        $sql = "SELECT `ID`, `user_login` FROM `{$wpdb->users}`";
+
+        foreach ($wpdb->get_results($sql) as $items) {
+            $users['id'][]       = $items->ID;
+            $users['username'][] = $items->user_login;
+        }
+
+        return $users;
+    }
+
+    /**
+     * Get list of existing roles (optimized query)
+     *
+     * @return array
+     */
+    public function getExistingUserRoles()
+    {
+        global $wpdb;
+
+        // init data
+        $users             = array();
+
+        // query
+        $sql = "SELECT DISTINCT `user_id` FROM `{$wpdb->usermeta}`
+                WHERE `meta_key` = '{$wpdb->prefix}capabilities'";
+
+        foreach ($wpdb->get_results($sql) as $items) {
+            $users[] = $items->user_id;
+        }
+
+        return $users;
     }
 }
 

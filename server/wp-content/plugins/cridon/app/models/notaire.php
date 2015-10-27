@@ -156,7 +156,7 @@ class Notaire extends MvcModel
 
                 // do archive
                 if ($this->importSuccess) {
-                    rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
+//                    rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
                 }
             }
         }
@@ -415,14 +415,22 @@ class Notaire extends MvcModel
      */
     public function setNotaireRole()
     {
-        $roleQuery = array();
+        // block query
+        $roleQuery             = $roleUpdateQuery = array();
         $options               = array();
         $options['table']      = 'usermeta';
         $options['attributes'] = 'user_id, meta_key, meta_value';
-        foreach($this->find() as $notaire) {
+
+        // instance of cridonTools
+        $cridonTools = new CridonTools();
+
+        // existing user roles
+        $users = $cridonTools->getExistingUserRoles();
+
+        foreach ($this->find() as $notaire) {
             // role by group
             // if not is set the category, use default role
-            $role = ($notaire->category)?strtolower($notaire->category):CONST_NOTAIRE_ROLE;
+            $role = ($notaire->category) ? strtolower($notaire->category) : CONST_NOTAIRE_ROLE;
 
             // recognized role format by WP
             $roleValue = serialize(
@@ -430,21 +438,41 @@ class Notaire extends MvcModel
             );
             // prepare query
             if ($notaire->id_wp_user) {
-                $value = "(";
-                $value .= "'" . $notaire->id_wp_user . "', ";
-                $value .= "'" . $this->wpdb->prefix . "capabilities', ";
-                $value .= "'" . $roleValue . "'";
-                $value .= ")";
+                if (!in_array($notaire->id_wp_user, $users)) { // insert query
+                    $value = "(";
+                    $value .= "'" . $notaire->id_wp_user . "', ";
+                    $value .= "'" . $this->wpdb->prefix . "capabilities', ";
+                    $value .= "'" . $roleValue . "'";
+                    $value .= ")";
 
-                $roleQuery[] = $value;
+                    $roleQuery[] = $value;
+                } else { // update query
+                    $roleUpdateQuery[] = " user_id = {$notaire->id_wp_user} AND meta_key = '{$this->wpdb->prefix}capabilities' THEN '{$roleValue}' ";
+                }
+
             }
         }
 
+        // execute prepared insert query
         if (count($roleQuery) > 0) {
             $queryBulder       = mvc_model('QueryBuilder');
             $options['values'] = implode(', ', $roleQuery);
             // bulk insert
             $queryBulder->insertMultiRows($options);
+        }
+
+        // execute prepared update query
+        if (count($roleUpdateQuery) > 0) {
+            // start/end query block
+            $queryStart = " UPDATE `{$this->wpdb->prefix}usermeta` ";
+            $queryEnd   = ' END ';
+
+            // query
+            $query = ' SET `meta_value` = CASE ';
+            $query .= ' WHEN ' . implode(' WHEN ', $roleUpdateQuery);
+            $query .= ' ELSE `meta_value` ';
+
+            $this->wpdb->query($queryStart . $query . $queryEnd);
         }
     }
 
@@ -513,15 +541,16 @@ class Notaire extends MvcModel
                 $options['table']      = 'users';
                 $options['attributes'] = 'user_login, user_pass, user_nicename, user_email, user_registered, user_status,  display_name';
 
+                // list of existing users
+                $users = $criTools->getWpUsers();
+
                 foreach ($notaires as $notaire) {
                     // check if user already exist
                     $userName = $notaire->crpcen . CONST_LOGIN_SEPARATOR . $notaire->id;
-                    // @TODO to be optimized
-                    $userId = $criTools->isUserExist($userName)->ID;
 
                     $displayName = $notaire->first_name . ' ' . $notaire->last_name;
 
-                    if (!$userId) { // prepare the bulk insert query
+                    if (!in_array($userName, $users['username'])) { // prepare the bulk insert query
                         $value = "(";
 
                         $value .= "'" . mysql_real_escape_string($userName) . "', ";
@@ -595,6 +624,10 @@ class Notaire extends MvcModel
 
                     $this->importSuccess = true;
                 }
+
+                // set notaire role
+                // should be execute after cri_notaire.id_wp_user was set
+                $this->setNotaireRole();
             }
         } catch(Exception $e) {
             echo 'Exception reçue : ' .  $e->getMessage() . "\n";
@@ -628,10 +661,6 @@ class Notaire extends MvcModel
                 $query .= ' ELSE `id_wp_user` ';
                 $query .= ' END ';
                 $this->wpdb->query($query);
-
-                // set notaire role
-                // should be execute after cri_notaire.id_wp_user was set
-                $this->setNotaireRole();
             }
         } catch (Exception $e) {
             echo 'Exception reçue : ' .  $e->getMessage() . "\n";
