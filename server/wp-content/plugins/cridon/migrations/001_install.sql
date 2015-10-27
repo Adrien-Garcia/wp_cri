@@ -152,11 +152,11 @@ CREATE TABLE cri_flash (
   INDEX `fk_cri_flash_wp_posts1_idx` (`post_id` ASC)
 );
 
-CREATE TABLE cri_vie_cridon (
+CREATE TABLE cri_actu_cridon (
   `id` INT NOT NULL AUTO_INCREMENT,
   `post_id` BIGINT(20) NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_cri_vie_cridon_wp_posts1_idx` (`post_id` ASC)
+  INDEX `fk_cri_actus_cridon_wp_posts1_idx` (`post_id` ASC)
 );
 
 CREATE TABLE cri_formation (
