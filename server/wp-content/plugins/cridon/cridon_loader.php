@@ -38,7 +38,7 @@ class CridonLoader extends MvcPluginLoader
             );
         ";
         // Use dbDelta() to create the tables for the app here
-        //dbDelta($sql);
+        dbDelta($sql);
 
         //Search for the latest version of the plugin (will be empty if the table has just been created)
         $max = (int) $wpdb->get_var( $wpdb->prepare(
