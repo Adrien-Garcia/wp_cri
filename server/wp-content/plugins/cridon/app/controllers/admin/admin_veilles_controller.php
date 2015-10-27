@@ -82,7 +82,7 @@ class AdminVeillesController extends MvcAdminController {
             '__name'    => 'label'
         );
         $this->prepareData($aOptionList, $object->matiere);
-        return empty($object->matiere) ? 'Expertise générale' : HtmlHelper::admin_object_link($object->matiere, array('action' => 'edit'));
+        return empty($object->matiere) ? Config::$defaultMatiere['name'] : HtmlHelper::admin_object_link($object->matiere, array('action' => 'edit'));
     }
 }
 

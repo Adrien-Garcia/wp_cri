@@ -137,6 +137,11 @@ function init_select_meta_boxes( $post ){
  * @return string|null
  */
 function check( $needle ,$haystack ){
+    if( !$needle ){
+        if( $haystack->id == Config::$defaultMatiere['id'] ){
+            return ' selected="selected" ';
+        }
+    }
     return ( ( $needle ) && ( $needle->id_matiere === $haystack->id ) ) ? ' selected="selected" ' : '';
 }
 
