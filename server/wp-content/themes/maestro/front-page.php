@@ -141,7 +141,7 @@
 							}
 						?>
 						<?php // var_dump($_date) ?>
-   						<div class="panel js-accordion-content">
+   						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-formation-panel">
 					      <div class="date js-accordion-button">
 					      	<span class="jour"><?php echo date_format($_date, 'd') ?></span>
 					      	<span class="mois"><?php echo date_format($_date, 'M') ?></span>
@@ -216,7 +216,7 @@
 					<span><?php _e('du CRIDON'); ?> </span>
 				</h2>
 
-				<div class="actualite">
+				<div class="actualite" id="sel-actu-cridon-home">
 					<img src="" alt="" />
 					<div class="date">
 						<span class="jour">1</span>
