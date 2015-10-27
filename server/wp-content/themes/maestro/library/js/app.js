@@ -14,5 +14,6 @@ App = {
 
 jQuery(document).ready(function($) {
     App.Home.init();
+    App.Login.init();
     
 });
