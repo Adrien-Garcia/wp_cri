@@ -100,9 +100,12 @@
 				<div class="fieldset">
 					<div id="close" class="js-panel-connexion-close">+</div>
 					<div class="titre">connectez-vous</div>
-					<p>Accédez à vos informations
-	et bénéficiez d’un contenu personnalisé.</p>
-					<form action="header_submit" method="criSetLoginFormOptions('loginFormId', 'loginFieldId', 'passwordFieldId', 'errorMsgId')" accept-charset="utf-8" id="loginFormId">
+					<p>Accédez à vos informations et bénéficiez d’un contenu personnalisé.</p>
+					<?php 
+						criSetLoginFormOptions('loginFormId', 'loginFieldId', 'passwordFieldId', 'errorMsgId');
+
+					 ?>
+					<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
 						<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre adresse mail">
 						<input type="password" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
 						<input type="submit" name="submit" value="Connectez-vous">
