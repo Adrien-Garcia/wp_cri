@@ -73,5 +73,5 @@ if ( !defined( 'CONST_CLIENTDIVERS_ROLE' ) ) {
 
 // import option to be used (csv, odbc)
 if ( !defined( 'CONST_IMPORT_OPTION' ) ) {
-    define( 'CONST_IMPORT_OPTION', 'odbc' );
+    define( 'CONST_IMPORT_OPTION', 'csv' );
 }
