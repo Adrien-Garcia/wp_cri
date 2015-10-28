@@ -26,16 +26,26 @@ function resetGlobalVars(){
 // After save into post table, save in others tables 
 function save_post_in_table( $post_ID ){ 
     if( $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ) {
+        $isInsert = false; //Control variable
         if( isset( $_POST[ '_wp_http_referer' ] ) ){
             $http = explode( 'cridon_type=', $_POST[ '_wp_http_referer' ] );
             if( count( $http ) == 2 ){
                 if( isset( Config::$data[ $http[ 1 ] ] ) ){
                     if( findBy( Config::$data[ $http[ 1 ] ][ 'name' ], $post_ID ) == null ){//no duplicate
-                        insertInTable( Config::$data[ $http[ 1 ] ][ 'name' ],$post_ID );                         
+                        insertInTable( Config::$data[ $http[ 1 ] ][ 'name' ],$post_ID );    
+                        $isInsert = true;
                     }
                 }
             }
         }
+        //Category managment
+        if( isset( $_POST['cri_category'] ) && !$isInsert ){
+            $oVeille  = findBy( 'veille' , $post_ID );
+            if( $oVeille ){//Update model Veille
+                updateVeille( $oVeille->id ,$_POST['cri_category'] );
+            }
+        }
+        //End category managment
     }
     return $post_ID;
 }
@@ -44,6 +54,11 @@ add_action('save_post','save_post_in_table');
 function insertInTable( $table,$post_ID ){
     global $wpdb;
     $wpdb->query( 'INSERT INTO '.$wpdb->prefix.$table.'(post_id) VALUE('.$post_ID.')' );
+    //Category managment
+    if( isset( $_POST['cri_category'] ) && !empty( $_POST['cri_category'] ) ){
+        updateVeille( $wpdb->insert_id, $_POST['cri_category'] );        
+    }
+    //End category managment
 }
 // end after save into post table, save in othres tables
 
@@ -89,4 +104,62 @@ function on_post_import( $post_ID ) {
 }
 add_action( 'wp_insert_post', 'on_post_import' );
 // End After insert post
+
+
+// Category managment
+add_action('add_meta_boxes','init_meta_boxes_category_post');
+
+function init_meta_boxes_category_post(){
+    if( isset( $_GET['cridon_type'] ) && ( $_GET['cridon_type'] === 'veilles' ) ){//Check if is a model Veille
+        add_meta_box('id_meta_boxes_link_post', Config::$titleMetabox , 'init_select_meta_boxes', 'post', 'side', 'high');        
+    }
+}
+/**
+ * Init metabox if it'a model Veille
+ * 
+ * @param \WP_Post $post
+ */
+function init_select_meta_boxes( $post ){ 
+    echo '<select name="cri_category">';
+    $oVeille  = findBy( 'veille' , $post->ID );//Find Veille
+    $oMatiere = mvc_model( 'matiere' );//load model Matiere to use functions
+    $aMatiere = $oMatiere->find( array( 'order' => 'label ASC' ) );
+    foreach( $aMatiere as $value ){
+        echo '<option'.check( $oVeille,$value ).' value="'.$value->id.'">'.$value->label.'</option>';  
+    }
+    echo '</select>';
+}
+/**
+ * Check if Veille has an associate model Matiere
+ * 
+ * @param object $needle Object Veille
+ * @param object $haystack Object Matiere
+ * @return string|null
+ */
+function check( $needle ,$haystack ){
+    if( !$needle ){
+        if( $haystack->id == Config::$defaultMatiere['id'] ){
+            return ' selected="selected" ';
+        }
+    }
+    return ( ( $needle ) && ( $needle->id_matiere === $haystack->id ) ) ? ' selected="selected" ' : '';
+}
+
+/**
+ * Update table Veille with Matiere Id
+ * 
+ * @param integer $id
+ * @param integer $category
+ */
+function updateVeille( $id,$category ){
+    $oVeille = mvc_model( 'veille' );
+    $data = array(
+        'Veille' => array(
+            'id' => $id,
+            'id_matiere' => $category
+        )
+    );
+    $oVeille->save( $data );//Using WP_MVC to update model
+}
+// End Category managment
 ?>

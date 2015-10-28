@@ -134,8 +134,7 @@ CREATE TABLE cri_question (
   INDEX `fk_cri_question_cri_support1_idx` (`id_support` ASC),
   INDEX `fk_cri_question_cri_competence1_idx` (`id_competence_1` ASC),
   UNIQUE INDEX `srenum_UNIQUE` (`srenum` ASC),
-  INDEX `fk_cri_question_cri_notaire1_idx` (`client_number` ASC),
-  PRIMARY KEY (`id`)
+  INDEX `fk_cri_question_cri_notaire1_idx` (`client_number` ASC)
 );
 
 CREATE TABLE cri_veille (

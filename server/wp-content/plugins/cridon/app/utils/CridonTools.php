@@ -14,7 +14,7 @@
 
 class CridonTools {    
     private $postFactory; // Create clean object WP_Post 
-    private $postStructure; // Create clean object WP_Post 
+    private $postStructure; // Retrieve structure of table wp_posts 
     
     public function __construct( $postFactory,$postStructure ) {        
         $this->postFactory = $postFactory;
@@ -95,7 +95,13 @@ class CridonTools {
                     $cls = new stdClass();
                     if( $attributes ){
                         foreach ( $attributes as $k2=>$v2 ){//Recréer les attributs avec celui les nouveaux customisés
-                            $cls->$newAttributes[$k2] = $v1->$v2;
+                            // Nous avons la correspondance anciens attributs=>array('matiere')
+                            // et nouveaux attributs => array('matiere'=>$fields)
+                            if( is_array( $newAttributes[$v2] ) ){
+                                $cls->$v2 = CridonObjectFactory::create( $v1, $v2, $newAttributes[$v2] );
+                            }else{
+                                $cls->$newAttributes[$k2] = $v1->$v2;                                
+                            }
                         }                        
                     }
                     $cls->link = CridonPostUrl::generatePostUrl( $model, $v1->join_id );//Obtenir le lien de l'article

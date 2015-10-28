@@ -51,9 +51,12 @@ function criQueryPosts( $options = array(),$primaryKey = 'p.ID' ){
  * @param string $model Model name <b>without prefix, e.g: cri_veille</b>
  * @return null or object
  */
-function criGetLastestPost( $model ){
+function criGetLatestPost( $model ){
     if( !is_string( $model ) || empty( $model ) ){
         return null;
+    }
+    if( $model === 'veille' ){
+        return criQueryPostVeille( 1,'DESC' );
     }
     global $cri_container;
     $tools = $cri_container->get( 'tools' );
@@ -184,10 +187,26 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
         'conditions' => 'p.post_status = "publish"',
         'order' => 'DESC'
     );
+    if( $model === 'veille' ){
+        $fields = array('id','code','label','short_label','displayed','picto');
+        $mFields = '';// fields of model Matiere
+        foreach ( $fields as $v ){
+            $mFields .= ',m.'.$v;
+        }
+        $options['fields'] = $options['fields'].$mFields;
+        $options['join']['matiere'] = array(
+                'table' => 'matiere m',
+                'column' => 'm.id = '.$model[0].'.id_matiere'
+            );
+    }
     $results = criQueryPosts( $options,'CAST(p.post_date AS DATE)' );
     //To have others attributes in array result. Default is object WP_Post
     //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
-    $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date );
+    if( $model === 'veille' ){// If model Veille, so associate model Matiere in result
+        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );        
+    }else{
+        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date );        
+    }
     return $res;
 }
 
@@ -213,5 +232,89 @@ function criWpPost( $data ){
  */
 function criGetPostLink(){
     global $post;
-    return ( ( $post ) && ( $post instanceof WP_Post ) && CridonPostStorage::get( $post->ID ) ) ? CridonPostStorage::get( $post->ID ) : null;
+    return ( ( $post ) && ( $post instanceof WP_Post ) ) ? CridonPostStorage::get( $post->ID ) : null;
+}
+
+/**
+ * Function to fetch data in table cri_veille with Matiere
+ * 
+ * @global object $cri_container
+ * @param integer $limit Limit result
+ * @param string $order Order result ( ASC or DESC ) 
+ * @return array
+ */
+function criQueryPostVeille( $limit = false,$order = 'ASC' ){
+    $model = 'veille';
+    global $cri_container;
+    $tools = $cri_container->get( 'tools' );
+    //All fields of table cri_matiere
+    $fields = array('id','code','label','short_label','displayed','picto');
+    $mFields = '';// fields of model Matiere
+    foreach ( $fields as $v ){
+        $mFields .= ',m.'.$v;
+    }
+    $options = array(
+        'fields' => $tools->getFieldPost().$model[0].'.id as join_id'.$mFields,
+        'join'  => array(
+            $model => array(
+                'table' => $model.' '.$model[0],
+                'column' => $model[0].'.post_id = p.ID'
+            ),//use join clause with table cri_matiere
+            'matiere' => array(
+                'table' => 'matiere m',
+                'column' => 'm.id = '.$model[0].'.id_matiere'
+            )
+        ),
+        'conditions' => 'p.post_status = "publish"',
+        'order' => $order
+    );
+    if( $limit ){//It's limited?
+        $options['limit'] = $limit;
+    }
+    $results = criQueryPosts( $options );//Get associated post 
+    //When it's limited ( get one result), we got one object not an array
+    if( !is_array( $results ) ){
+        $std = new stdClass();
+        $std->matiere = CridonObjectFactory::create( $results, 'matiere', $fields);
+        $std->link = CridonPostUrl::generatePostUrl( $model, $results->join_id );
+        $std->post = $tools->createPost( $results ); // Create Object WP_Post
+        return $std;
+    }
+    // The result is an array of object ( stdClass )
+    $aFinal = array();// Final result
+    foreach( $results as $value ){
+        $std = new stdClass();
+        //Dissociate current objet to get an object Matiere ( only an object stdClass with all attributes as in table cri_matiere )
+        $std->matiere = CridonObjectFactory::create( $value, 'matiere', $fields);
+        $std->link = CridonPostUrl::generatePostUrl( $model, $value->join_id );
+        //Dissociate current object to get an object Post ( WP_Post )
+        $std->post = $tools->createPost( $value ); // Create Object WP_Post
+        $aFinal[] = $std;
+    }
+    return $aFinal;
+}
+
+// Hook of the_permalink() and get_permalink()
+function append_custom_link( $url, $post ) {
+    if ( $post->post_type === 'post' ) {
+        $newUrl = criGetPostLink();//Get custom post link 
+        if( $newUrl ){
+            $url = $newUrl;
+        }
+    }
+    return $url;
+}
+add_filter( 'post_link', 'append_custom_link', 10, 2 );
+
+//End hook
+
+/**
+ * Restore current data in loop while of WP ( object with their all attributes ( post, link, ... )
+ * 
+ * @global WP_Post $post
+ * @return object
+ */
+function criRestoreData(){
+    global $post; 
+    return ( ( $post ) && ( $post instanceof WP_Post ) ) ? CridonPostStorage::get( $post->ID,'all' ) : null;
 }
