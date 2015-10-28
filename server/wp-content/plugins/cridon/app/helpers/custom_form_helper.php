@@ -23,6 +23,7 @@ class CustomFormHelper extends MvcFormHelper {
     //@override
     public function create($model_name, $options=array()) {
         $defaults = array(
+            'action' => !empty($this->controller) && !empty($this->controller->action) ? $this->controller->action : null,
             'controller' => MvcInflector::tableize($model_name),
             'public' => false
         );
