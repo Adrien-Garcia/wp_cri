@@ -19,7 +19,7 @@
 						<span class="open js-flash-open">></span>
 					</div>
 					<?php 
-						$flash = criGetLastestPost('flash');
+						$flash = criGetLatestPost('flash');
 						criWpPost($flash);
 					 ?>
 					<?php if ($flash != null): ?>
@@ -221,7 +221,7 @@
 					<span><?php _e('du CRIDON'); ?> </span>
 				</h2>
 				<?php 
-				$vie = criGetLastestPost('actu_cridon');
+				$vie = criGetLatestPost('actu_cridon');
 				// var_dump($formations);
 			 ?>
 			<?php if( $vie != null):?> 
