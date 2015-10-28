@@ -38,14 +38,8 @@ class LoginsController extends MvcPublicController
             $user = wp_signon($creds, false);
 
             // user data exist
-            if (isset($user->roles[0])) {
-                if ($user->roles[0] == CONST_ADMIN_ROLE) {
-                    // @TODO action specific for administrator user
-
-                } elseif($user->roles[0] == CONST_NOTAIRE_ROLE) {
-                    // redirection url for user logged in
-                    $ret = mvc_public_url(array('controller' => 'notaires', 'action' => 'espace-notaire'));
-                }
+            if ($user->data->ID) {
+                $ret = mvc_public_url(array('controller' => 'notaires', 'action' => 'show', 'id' => $notaires->id));
             }
         }
 
