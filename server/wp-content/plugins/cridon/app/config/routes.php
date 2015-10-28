@@ -18,9 +18,6 @@ MvcRouter::public_connect('download/reponse/{:id:[\d]+}',array('controller' => '
 // import (import notaire into wp_users)
 MvcRouter::public_connect('import/notaires', array('controller' => 'notaires', 'action' => 'import'));
 
-// espace notaire
-MvcRouter::public_connect('{:controller}/espace-notaire', array('controller' => 'notaires', 'action' => 'dashbord'));
-
 // default
 MvcRouter::public_connect('{:controller}', array('action' => 'index'));
 MvcRouter::public_connect('{:controller}/{:id:[\d]+}', array('action' => 'show'));

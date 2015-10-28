@@ -14,7 +14,7 @@ class NotairesController extends BasePublicController
 	public $current_user;
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public function __construct()
 	{
@@ -38,18 +38,25 @@ class NotairesController extends BasePublicController
     /**
      * Notaire dashbord
      */
-    public function dashbord()
+    public function show()
     {
         // check if user is not logged in
-        // or he's not a notaire
-        if ( !is_user_logged_in()
-             || ( !in_array( CONST_NOTAIRE_ROLE, $this->current_user->roles ) )
-        ) {
+        if ( !is_user_logged_in() ) {
             // redirect user to home page
             $this->redirect( home_url() );
+        } else {
+            // notaire data verification
+            $notaireId = $this->params['id'];
+
+            $notaireData = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+
+            // notaire id (url params) should be matched with WP user session data
+            if (!$notaireData->id || $notaireId != $notaireData->id) {
+                // redirect user to home page
+                $this->redirect( home_url() );
+            }
         }
 
-        // set user data in template
-        $this->set('users', $this->current_user);
+        parent::show();
     }
 }
