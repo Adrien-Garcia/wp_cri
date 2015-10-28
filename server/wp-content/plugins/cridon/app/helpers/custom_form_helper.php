@@ -22,7 +22,16 @@ class CustomFormHelper extends MvcFormHelper {
      */
     //@override
     public function create($model_name, $options=array()) {
-        $html = parent::create($model_name, $options);
+        $defaults = array(
+            'action' => $this->controller->action,
+            'controller' => MvcInflector::tableize($model_name),
+            'public' => false
+        );
+        $options = array_merge($defaults, $options);
+        $this->model_name = $model_name;
+        $this->object = MvcObjectRegistry::get_object($model_name);
+        $this->model = MvcModelRegistry::get_model($model_name);
+        $this->schema = $this->model->schema;
         //surcharge spécifique pour le cas d'un fichier
         if ($options['enctype']) {
             $object_id = !empty($this->object) && !empty($this->object->__id) ? $this->object->__id : null;
@@ -38,7 +47,7 @@ class CustomFormHelper extends MvcFormHelper {
             } else {
                 $html .= ' method="post">';
             }
-
+            
             if ($object_id) {
                 $html .= '<input type="hidden" id="'.$this->input_id('hidden_id').'" name="'.$this->input_name('id').'" value="'.$object_id.'" />';
             }
@@ -58,7 +67,7 @@ class CustomFormHelper extends MvcFormHelper {
         $html .= '<input'.$attributes_html.' />';
         $html .= $this->after_input($field_name, $options);
         return $html;
-    }
+    }    
     private function before_input($field_name, $options) {
         $defaults = array(
             'before' => '<div>'
