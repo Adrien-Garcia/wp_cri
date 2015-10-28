@@ -25,15 +25,16 @@ body{
 }
 
 h1, .h1 {
-  font-size: 2.5em;
-  line-height: 1.333em;
-  color:$h1-color;
+  font-size: 30px;
+  line-height: 24px;
+  color:$bleu;
+  text-transform: uppercase;
 }
 
 h2, .h2 {
   font-size: 1.75em;
   line-height: 1.4em;
-  margin-bottom: 0.375em;
+  //margin-bottom: 0.375em;
   color:$h2-color;
 }
 

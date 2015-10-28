@@ -179,7 +179,7 @@ HEADER STYLES
 		#inner-header{
 			position: relative;
 
-			h1 {	
+			h1, .h1 {	
 		
 				width: 100%;
 				height: 80px;
@@ -851,6 +851,288 @@ body.page-template-front-page{
 
 
 	}
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+  ____                    _     _     _                   _ _ _           
+ |  _ \ __ _  __ _  ___  | |   (_)___| |_ ___  __   _____(_) | | ___  ___ 
+ | |_) / _` |/ _` |/ _ \ | |   | / __| __/ _ \ \ \ / / _ \ | | |/ _ \/ __|
+ |  __/ (_| | (_| |  __/ | |___| \__ \ ||  __/  \ V /  __/ | | |  __/\__ \
+ |_|   \__,_|\__, |\___| |_____|_|___/\__\___|   \_/ \___|_|_|_|\___||___/
+             |___/                                                        
+
+
+*/   
+
+#content.archive-veilles{
+	padding-top: 130px;
+
+	.breadcrumbs{
+		/*width: 100%;
+		background: $bg-top-footer;
+		height: 70px; */
+		display: block;
+		padding-top: 30px;
+
+		a{
+			@extend .do-re;
+			font-size: 15px;
+			color:#818181;
+			text-transform: uppercase;
+			text-decoration: none;
+			line-height: 24px;
+
+		}
+
+		span{
+			@extend .do-sm;
+			color:$bleu;
+			font-size: 15px;
+			line-height: 24px;
+		}
+	
+
+	}
+
+	#main{
+		
+		padding-top: 60px;
+
+		&:before{
+
+			/*@include sprite ($before-bg-bandeau);
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 50%;
+			margin-left: -43px;*/
+
+		}
+
+		#inner-content{
+
+
+			h1{
+				
+				font-size: 50px;
+				line-height: 40px;
+
+				&:before{
+					/*display:block;
+					@include svgicon('icon-vieducridon', 10px, 10px,$rouge);	 				
+					position: absolute;
+				    bottom: -19px;
+				    left: 50%;
+				    margin-left: -27px;	*/			
+				}
+
+
+			}
+
+			#filtres_veilles{
+
+				/*width: 100%;
+				border-bottom:solid 5px $bg-top-footer;
+				height: 20px;
+				margin-bottom: 20px;*/
+				border-bottom: none;
+
+			}
+
+			.listing{
+
+				article{
+
+					margin-bottom: 60px;
+					
+
+
+					.date-veille{
+						height: 220px;
+						width: 180px;
+						float: left;
+						margin-right: 30px;
+						padding: 50px 0;
+						margin-bottom: 0;
+
+						/*height: 60px;
+						font-size: 25px;
+						@extend .do-re;
+						text-transform: uppercase;
+						text-align: center;
+						background: $vert;
+						line-height: 60px;
+						color:#FFF;
+						position: relative;
+						display: block;
+						margin-bottom: 20px;*/
+
+						&:before{
+							display: none;
+
+						}
+
+						&:after{
+							@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
+							position:absolute;
+							bottom: 50%;
+							margin-bottom: -23px;
+							left: inherit;
+							right: -13px;
+							margin-left: 0px;
+							display: block;
+
+						}
+
+						span{
+							display: block;
+
+						}
+
+						span.jour{
+							font-size: 72px;
+							line-height: 60px;
+							@extend .do-el;
+						}
+						.mois{
+							font-size: 30px;
+							line-height: 40px;
+
+						}
+						.annee{
+							font-size: 18px;
+							line-height: 15px;
+						}
+
+						.sep{
+							display: block;
+							position: absolute;
+							width: 660px;
+							top: -33px;
+							left: 0;
+							border-bottom:solid 5px $bg-top-footer;
+						}
+
+						
+					}
+
+					.block_left{
+
+						.img-cat{
+
+							height: 30px;				
+							margin-right: 10px;
+							/*width: 30px;
+							float: left;		
+							border:solid 1px red;*/
+						}
+
+					}
+
+					
+
+					.details{
+						float: right;
+						width: 450px; 
+
+						.block_right{
+							float: right;
+							width: 410px;
+
+							.matiere{
+								/*@extend .do-bo;
+								color:#FFF;
+								text-transform: uppercase;							
+								background: $vert;
+								display: inline-block; 
+								padding: 0 2px;*/
+							} 
+
+							h2{
+								
+
+								/*@extend .do-me;							
+								text-transform: uppercase;
+								color:$vert;
+								display: block;
+								margin: 0;
+								padding: 0;*/
+
+							}
+
+							.chapeau{
+								
+							   /* font-size: 15px;
+							    color: $rouge;
+							    font-family: $garamond;
+							    width: 100%;
+							    line-height: 18px;
+							    margin-bottom: 10px;*/
+							}
+
+							.extrait{
+								 
+								/*font-family: $helvetica;							   
+							    line-height: 18px;*/
+							}
+
+							.mots_cles{
+
+								margin:10px 0 0 0;
+								padding: 0;
+								height: 18px;
+
+								>li{								
+									
+
+									&:before{
+										
+
+									}
+
+									&:last-child{
+										&:before{ }
+									}
+								}
+							}
+
+							>a{
+								
+								margin:10px 0 0 0;
+								height: 14px;
+							    width: 37px;
+							    font-size: 10px;
+
+							    &:after{
+							    	border-width: 7px 0 7px 9px;
+							    }
+
+							}
+
+						}
+					}
+
+					
+				}
+
+			} 
+
+		}
+
+	}
+
+	
 }
 
 

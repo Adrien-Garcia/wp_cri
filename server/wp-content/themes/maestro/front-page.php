@@ -19,7 +19,7 @@
 						<span class="open js-flash-open">></span>
 					</div>
 					<?php 
-						$flash = criGetLastestPost('flash');
+						$flash = criGetLatestPost('flash');
 						criWpPost($flash);
 					 ?>
 					<?php if ($flash != null): ?>
@@ -220,24 +220,31 @@
 					<?php _e('La vie'); ?>
 					<span><?php _e('du CRIDON'); ?> </span>
 				</h2>
-
+				<?php 
+				$vie = criGetLatestPost('actu_cridon');
+				// var_dump($formations);
+			 ?>
+			<?php if( $vie != null):?> 
+				<?php criWpPost($vie); ?>
 				<div class="actualite" id="sel-actu-cridon-home">
-					<img src="" alt="" />
+					<?php the_post_thumbnail(array(480, 225)); ?>
 					<div class="date">
-						<span class="jour">1</span>
-						<span class="mois">sept</span>
-						<span class="annee">2015</span>
+						<span class="jour"><?php echo get_the_date( 'd') ?></span>
+						<span class="mois"><?php echo get_the_date( 'M') ?></span>
+						<span class="annee"><?php echo get_the_date( 'Y') ?></span> 
 					</div>
 
 					<div class="content">
-						<h3>LE CRIDON</h3>
-						<div class="chapeau">accueil la Chambre interdépartementale des Notaires de Savoie et de Haute-Savoie.</div>
+						<h3><?php the_title() ?></h3>
+						<div class="chapeau"><?php the_excerpt() ?></div>
 						<div class="description">
-							Untur am esto tem. Dolorit ipicien isitata in por aliquisqui sitatem porio. Os qui officitent vidit apiderrores venim sim quae <s>pa nus restrumenis</s> eataspe nihitati aceaquiatio eum eate dia secto exeriberit ut volora il idit alit, andae rat....
+							<?php echo wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 40, "..." ) ?>
 						</div>
-						<a href="#" title=""><?php _e('Lire'); ?></a>
+						<a href="<?php the_permalink() ?>" title="<?php the_title() ?>"><?php _e('Lire'); ?></a>
 					</div>
 				</div>
+		    	<?php wp_reset_query(); ?>
+		    <?php endif; ?>
 
 				<a href="#" title="Lorem" class="LienVieCridon" ><span> <?php _e('Toute la vie du CRIDON'); ?> </span></a>
 			</div>

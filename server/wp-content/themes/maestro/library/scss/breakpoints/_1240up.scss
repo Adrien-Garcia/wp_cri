@@ -137,7 +137,7 @@ HEADER STYLES
 		#inner-header{
 			position: relative;
 
-			h1 {	
+			h1, .h1 {	
 		
 				width: 400px;
 				float: left;
@@ -643,6 +643,191 @@ body.page-template-front-page{
 
 	}
 }
+
+
+
+
+/*
+
+  ____                    _     _     _                   _ _ _           
+ |  _ \ __ _  __ _  ___  | |   (_)___| |_ ___  __   _____(_) | | ___  ___ 
+ | |_) / _` |/ _` |/ _ \ | |   | / __| __/ _ \ \ \ / / _ \ | | |/ _ \/ __|
+ |  __/ (_| | (_| |  __/ | |___| \__ \ ||  __/  \ V /  __/ | | |  __/\__ \
+ |_|   \__,_|\__, |\___| |_____|_|___/\__\___|   \_/ \___|_|_|_|\___||___/
+             |___/                                                        
+
+
+*/   
+
+#content.archive-veilles{
+	padding-top: 180px;
+
+	.breadcrumbs{
+		
+
+	}
+
+	#main{
+		
+		padding-top: 50px;
+
+		&:before{
+
+			/*@include sprite ($before-bg-bandeau);
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 50%;
+			margin-left: -43px;*/ 
+
+		}
+
+		#inner-content{
+
+
+			h1{
+				
+				/*font-size: 50px;
+				line-height: 40px;*/ 
+				margin: 0 0 70px 0; 
+
+				&:before{
+					/*display:block;
+					@include svgicon('icon-vieducridon', 10px, 10px,$rouge);	 				
+					position: absolute;
+				    bottom: -19px;
+				    left: 50%;
+				    margin-left: -27px;	*/			
+				}
+
+
+			}
+
+			#filtres_veilles{
+
+				/*width: 100%;
+				border-bottom:solid 5px $bg-top-footer;
+				height: 20px;
+				margin-bottom: 20px;*/
+				border-bottom: none;
+
+			}
+
+			.listing{
+
+				article{
+
+					margin-bottom: 70px;
+
+					.date-veille{
+
+						&:before{
+							display: none;
+						}
+
+						&:after{
+						}
+
+						.sep{
+							top: -37px;
+							width: 1200px;
+						}
+						
+					}
+
+					.details{
+						float: right;
+						width: 770px; 
+						margin-right: 220px;
+
+						.block_left{
+							width: 100px;
+							min-height: 100px;
+							margin-right: 10px;	
+
+							.img-cat{
+
+								width: 100px;	
+								height: 100px;			
+								
+							}
+
+						}
+
+						.block_right{
+							float: left;
+							width: 610px;
+							position: relative;
+
+							.matiere{
+								font-size: 15px;
+								margin-bottom: 5px;
+								
+							} 
+
+							h2{
+								
+								font-size: 30px;
+								line-height: 30px;
+
+							}
+
+							.chapeau{
+								font-size: 20px;
+								line-height: 24px;
+
+							}
+
+							.extrait{
+								font-size: 15px;
+								 
+								
+							}
+
+							.mots_cles{
+
+								margin:10px 0 0 0; 
+								padding: 0;
+								height: 18px;
+
+								>li{		
+								font-size: 15px;						
+									
+
+									&:before{
+										
+
+									}
+
+									&:last-child{
+										&:before{ }
+									}
+								}
+							}
+
+							> a{
+								position: absolute;
+								right: -57px;
+								bottom: 0;
+								
+							}
+
+						}
+					}
+
+					
+				}
+
+			} 
+
+		}
+
+	}
+
+	
+}
+
+
 
 
 
