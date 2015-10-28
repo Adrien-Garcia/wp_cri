@@ -34,22 +34,33 @@ class AdminNotairesController extends MvcAdminController
         'office_name' => array( 'label' => 'Nom de l\'office','value_method' => 'displayOfficeName' ),
         'tel_portable' => array( 'label' => 'Téléphone' ),
     );
-    private function prepareData($aOptionList, $aData)
-    {
-        if (is_array($aData) && count($aData) > 0) {
-            foreach ($aData as $oData) {
-                foreach ($aOptionList as $sKey => $sVal) {
-                    $oData->$sKey = $oData->$sVal;
-                }
-            }
-        } elseif(is_object($aData)) {
-            foreach ($aOptionList as $sKey => $sVal) {
-                $aData->$sKey = $aData->$sVal;
-            }
-        }
-    }
+    
+    /**
+     * 
+     * @param object $object Current object
+     * @return string|null
+     */
     public function displayOfficeName($object)
     {    
         return empty( $object->etude ) ? null : $object->etude->__name;
+    }
+    
+    public function index() {
+        $this->init_default_columns();
+        $this->process_params_for_search();
+        $collection = $this->model->paginate($this->params);
+        $this->set('objects', $collection['objects']);
+        $this->set_pagination($collection);
+        //Load custom helper
+        $this->load_helper('AdminNotaire');
+    }
+    
+    public function edit() {
+        $this->verify_id_param();
+        $this->create_or_save();
+        $this->set_object();
+        $this->load_model('Etude');
+        $etudes = $this->Etude->find();
+        $this->set('etudes', $etudes );
     }
 }
