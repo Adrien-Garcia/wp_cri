@@ -17,111 +17,55 @@
 				<div id="filtres_veilles">					
 				</div>
 
-				<?php // if (have_posts()) : while (have_posts()) : the_post(); ?>
-
 				<div class="listing veille">						
-
+				<?php $current_date = null; ?>
+				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
-						<div class="date-veille">
-							<div class="sep"></div>
-							<span class="jour">10</span>
-					      	<span class="mois">sept</span>
-					      	<span class="annee">2015</span> 				
-						</div>
-						
+						<?php 
+							if( $current_date != get_the_date('d-M-Y')) :
+								$current_date = get_the_date('d-M-Y');
+						 ?>
+							<div class="date-veille">
+								<div class="sep"></div>
+								<span class="jour"><?php echo get_the_date( 'd') ?></span>
+						      	<span class="mois"><?php echo get_the_date( 'M') ?></span>
+						      	<span class="annee"><?php echo get_the_date( 'Y') ?></span> 				
+							</div>
+						<?php endif; ?>
 						<div class="details">
 							<div class="block_left">
 								<div class="img-cat">
-									<img src="" al="" />
+								<?php // @TODO Matiere picto ?>
+									<img src="" alt="" />
 								</div>
 							</div>
 							<div class="block_right">
+							<?php //var_dump($this) ?>
 								<div class="matiere">Droit social</div>
-								<h2>Surendettement des particuliers 1</h2>
+								<h2><?php the_title() ?></h2>
 								<div class="chapeau">
-									Epersped ulla con num quasint essimos dolut reium a ium aliquodis prestrum facepe pror modio.
+									<?php echo get_the_excerpt() ?>
 								</div>
 								<div class="extrait">
-									Lenditaque rere dolupti orendi comniti niendunt quatem idernam conse nim ni coneste nes ellest aut inulpa dem. Minisciundae et, sunt pa nis sant ulluptius ditatendam eiusam quaeceatus.
+									<?php echo wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 35, "..." ) ?>
 								</div>
 								<ul class="mots_cles">
-									<li>droit</li>
-									<li>social</li>
-									<li>loi</li>
+								<?php 
+									$tags = get_the_tags();
+									if( $tags ) : foreach ($tags as $tag) :
+								 ?>
+									<li><?php echo $tag->name; ?></li>
+								<?php endforeach; endif; ?>
 								</ul>
-								<a href="#" title="">Lire</a>
+								<a href="<?php the_permalink(); ?>" title="<?php the_title() ?>">Lire</a>
 							</div>
 						</div>
 						
 					</article>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
-						<div class="date-veille">
-							<div class="sep"></div>
-							<span class="jour">10</span>
-					      	<span class="mois">sept</span>
-					      	<span class="annee">2015</span> 				
-						</div>
-						
-						<div class="details">
-							<div class="block_left">
-								<div class="img-cat">
-									<img src="" al="" />
-								</div>
-							</div>
-							<div class="block_right">
-								<div class="matiere">Droit social</div>
-								<h2>Surendettement des particuliers 2</h2>
-								<div class="chapeau">
-									Epersped ulla con num quasint essimos dolut reium a ium aliquodis prestrum facepe pror modio.
-								</div>
-								<div class="extrait">
-									Lenditaque rere dolupti orendi comniti niendunt quatem idernam conse nim ni coneste nes ellest aut inulpa dem. Minisciundae et, sunt pa nis sant ulluptius ditatendam eiusam quaeceatus.
-								</div>
-								<ul class="mots_cles">
-									<li>droit</li>
-									<li>social</li>
-									<li>loi</li>
-								</ul>
-								<a href="#" title="">Lire</a>
-							</div>
-						</div>
-						
-					</article>
+				<?php endwhile; ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
-						<div class="date-veille">
-							<div class="sep"></div>
-							<span class="jour">10</span>
-					      	<span class="mois">sept</span>
-					      	<span class="annee">2015</span> 				
-						</div>
-						
-						<div class="details">
-							<div class="block_left">
-								<div class="img-cat">
-									<img src="" al="" />
-								</div>
-							</div>
-							<div class="block_right">
-								<div class="matiere">Droit social</div>
-								<h2>Surendettement des particuliers 3</h2>
-								<div class="chapeau">
-									Epersped ulla con num quasint essimos dolut reium a ium aliquodis prestrum facepe pror modio.
-								</div>
-								<div class="extrait">
-									Lenditaque rere dolupti orendi comniti niendunt quatem idernam conse nim ni coneste nes ellest aut inulpa dem. Minisciundae et, sunt pa nis sant ulluptius ditatendam eiusam quaeceatus.
-								</div>
-								<ul class="mots_cles">
-									<li>droit</li>
-									<li>social</li>
-									<li>loi</li>
-								</ul>
-								<a href="#" title="">Lire</a>
-							</div>
-						</div>
-						
-					</article>
+				<?php endif; ?>
 
 				</div>
 
