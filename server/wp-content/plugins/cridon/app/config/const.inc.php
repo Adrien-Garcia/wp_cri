@@ -70,3 +70,8 @@ if ( !defined( 'CONST_ORGANISMES_ROLE' ) ) {
 if ( !defined( 'CONST_CLIENTDIVERS_ROLE' ) ) {
     define( 'CONST_CLIENTDIVERS_ROLE', 'div' );
 }
+
+// import option to be used (csv, odbc)
+if ( !defined( 'CONST_IMPORT_OPTION' ) ) {
+    define( 'CONST_IMPORT_OPTION', 'odbc' );
+}

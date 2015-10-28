@@ -107,20 +107,20 @@ class Notaire extends MvcModel
     /**
      * Action for importing notaire data into wp_users
      *
-     * @param string $option
      * @return mixed
      */
-    public function importIntoWpUsers($option = '')
+    public function importIntoWpUsers()
     {
         // init logs
         $this->logs = array();
 
-        switch (strtolower($option)) {
-            case self::IMPORT_ODBC_OPTION:
-                // @TODO action for ODBC option
-                break;
-            default : // csv option by default
+        switch (strtolower(CONST_IMPORT_OPTION)) {
+            case self::IMPORT_CSV_OPTION:
                 $this->importFromCsvFile();
+                break;
+            default : // odbc option by default
+                // @TODO action for ODBC option
+                $this->importDataUsingODBC();
                 break;
         }
 
@@ -159,6 +159,61 @@ class Notaire extends MvcModel
 //                    rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
                 }
             }
+        }
+    }
+
+    /**
+     * Import data with ODBC Link
+     *
+     * @throws Exception
+     */
+    private function importDataUsingODBC()
+    {
+        try {
+            // ODBC LINK
+            $conn = odbc_connect(
+                "Driver=" . CONST_ODBC_DRIVER . ";
+				Server=" . CONST_ODBC_HOST . ";
+				Database=" . CONST_ODBC_DATABASE,
+                CONST_ODBC_USER,
+                CONST_ODBC_PASSWORD
+            );
+            if ($conn !== false) { // connection successful
+                // init logs
+                $this->logs = array();
+
+                // init list of crpcen
+                $crpcenList = array();
+
+                // query
+                $sql = 'SELECT * FROM ' . CONST_ODBC_TABLE_NOTAIRE;
+
+                // exec query
+                $result = odbc_exec($conn, $sql);
+
+                // Get Data From Result
+                while ($data = odbc_fetch_array($result)) {
+                    // import action
+                    if (isset( $data['YCRPCEN'] ) && $data['YCRPCEN']) { // valid login
+                        // @TODO waiting info
+                    }
+                }
+
+                // data filter by new list
+                if (count($crpcenList) > 0) {
+                    $this->removeUsersNotInList($crpcenList);
+                }
+
+                // Free Result
+                odbc_free_result($result);
+
+                // Close Connection
+                odbc_close($conn);
+            } else { // connection failed
+                // @TODO log the error
+            }
+        } catch (\Exception $e) {
+            throw new \Exception ($e->getMessage());
         }
     }
 
@@ -532,7 +587,7 @@ class Notaire extends MvcModel
                 $criTools = new CridonTools();
 
                 // bulk update separate
-                // @TODO to be completed with other field needed for update
+                // @TODO to be completed with other field to be updated
                 // it's concerned only a specific data in wp_users
                 $bulkPwdUpdate = $bulkNiceNameUpdate = $bulkEmailUpdate = $bulkDisplayNameUpdate = array();
 
