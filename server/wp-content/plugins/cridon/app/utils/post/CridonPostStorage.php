@@ -31,24 +31,34 @@ class CridonPostStorage {
             foreach ( $results as $value ){
                 // check if object contain an instance of WP_Post and has a link
                 if( is_object( $value ) && isset( $value->link ) && isset( $value->post ) && ( $value->post instanceof WP_Post ) ){
-                    self::$aResults[$value->post->ID] = $value->link;
+                    $tmp = array(
+                        'link' => $value->link,// current link of object
+                        'all'  => $value // all data of object
+                    );
+                    self::$aResults[$value->post->ID] = $tmp;
                 }
             }
         }else{// It's an object
             if( is_object( $results ) && isset( $results->link ) && isset( $results->post ) && ( $results->post instanceof WP_Post ) ){
-                self::$aResults[$results->post->ID] = $results->link;
+                $tmp = array(
+                    'link' => $results->link,
+                    'all'  => $results
+                );
+                self::$aResults[$results->post->ID] = $tmp;
             }
         }
     }
     
     /**
-     * Output the current link
+     * Output the current link or current result
      * 
      * @param integer $post_ID Current post ID
-     * @return string|null
+     * @param string $index 'link' or 'all'
+     * @return string|array|null
      */
-    public function get( $post_ID ){
-        return isset( self::$aResults[$post_ID] ) ? self::$aResults[$post_ID] : null;
+    public function get( $post_ID,$index = 'link' ){
+        //What data do you want? link or all?
+        return ( isset( self::$aResults[$post_ID] ) && isset( self::$aResults[$post_ID][$index] ) ) ? self::$aResults[$post_ID][$index] : null;
     }
 }
 

@@ -28,6 +28,7 @@ class CridonPostParser {
     }
     
     /**
+     * Build array with object WP_Post
      * 
      * @param array $data
      * @return array

@@ -30,7 +30,7 @@ class CridonPostFactory {
      */
     public function create( $object ){
         $obj = $this->cleanObject( $object );
-        return new WP_Post( $obj );
+        return new WP_Post( $obj );//return an object WP_Post with his attributes initialized
     }
     
     /**
@@ -42,7 +42,7 @@ class CridonPostFactory {
     private function cleanObject( $object ){
         foreach ( get_object_vars( $object ) as $key => $value ){
             if( !in_array( $key,$this->postStructure->getPostColumn() ) ){//If attribute isn't in post column name ( table wp_posts )
-                unset( $object->$key );
+                unset( $object->$key );//delete
             }
         }
         return $object;

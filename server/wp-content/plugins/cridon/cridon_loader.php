@@ -60,9 +60,19 @@ class CridonLoader extends MvcPluginLoader
                 }
                 ksort($updates);
                 foreach ($updates as $v => $sql) {
-                    //TODO surround with try/catch
-                    // Use dbDelta() to create the tables for the app here
-                    dbDelta($sql);
+                    //If ALTER QUERY
+                    if ( preg_match_all( "|ALTER TABLE ([a-zA-Z0-9`_\s()]*)|", $sql, $matches ) ) {
+                        if( !empty( $matches[0] ) ){
+                            foreach( $matches[0] as $alter ){
+                                $wpdb->query( $alter );
+                            }
+                        }
+                    }else{
+                        //TODO surround with try/catch
+                        // Use dbDelta() to create the tables for the app here
+                        dbDelta($sql);                        
+                    }
+
                     // Update last known version
                     $wpdb->insert($this->tables['plugin_migrations'], array(
                         "plugin" => $pluginName,
