@@ -20,7 +20,7 @@ class AdminNotairesController extends MvcAdminController
         'crpcen',
         'email_adress',
         'Etude.office_name',
-        'tel_portable'
+        'tel'
     );
     /**
      * @var array
@@ -32,7 +32,7 @@ class AdminNotairesController extends MvcAdminController
         'crpcen' => array( 'label' => 'CRPCEN' ),
         'email_adress' => array( 'label' => 'Email' ),
         'office_name' => array( 'label' => 'Nom de l\'office','value_method' => 'displayOfficeName' ),
-        'tel_portable' => array( 'label' => 'Téléphone' ),
+        'tel' => array( 'label' => 'Téléphone' ),
     );
     
     /**
