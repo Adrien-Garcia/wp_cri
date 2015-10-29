@@ -43,15 +43,16 @@ class Matiere extends MvcModel
                 $upload_dir = wp_upload_dir();// the current upload directory
                 $root = $upload_dir['basedir'];
                 $path = $root . '/matieres/picto/';//Upload directory of image
+                $isDirectoryExist = true;// Directory is already exist.
                 if( !file_exists( $path )){//not yet directory
-                    mkdir( $path, 775 ,true);
+                    $isDirectoryExist = wp_mkdir_p($path);
                 }
                 $file = $_FILES['data']['name']['Matiere']['picto'];
-                if( file_exists( $path.$file ) ){//if file is already exist
+                if( $isDirectoryExist && file_exists( $path.$file ) ){//if file is already exist
                     $file = mt_rand(1, 10).'_'.$_FILES['data']['name']['Matiere']['picto'];
                 }
                 //moving file
-                if( move_uploaded_file( $_FILES['data']['tmp_name']['Matiere']['picto'], $path.$file ) ){
+                if( $isDirectoryExist && move_uploaded_file( $_FILES['data']['tmp_name']['Matiere']['picto'], $path.$file ) ){
                     if( !empty( $data ) ){
                         $obj = $this->find_by_id( $data['Matiere']['id'] );
                         $picto = $obj->picto;
