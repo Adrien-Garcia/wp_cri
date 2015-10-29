@@ -15,112 +15,112 @@ class CridonCsvParser extends parseCSV
     /**
      * @var int : offset of category in Output data
      */
-    const NOTAIRE_CATEG_OFFSET      = 0;
+    const NOTAIRE_CATEG      = 0;
 
     /**
      * @var int : offset of client_number in Output data
      */
-    const NOTAIRE_NUMCLIENT_OFFSET  = 1;
+    const NOTAIRE_NUMCLIENT  = 1;
 
     /**
      * @var int : offset of crpcen in Output data
      */
-    const NOTAIRE_CRPCEN_OFFSET     = 2;
+    const NOTAIRE_CRPCEN     = 2;
 
     /**
      * @var int : offset of Web Code in Output data
      */
-    const NOTAIRE_CODEWEB_OFFSET    = 3;
+    const NOTAIRE_CODEWEB    = 3;
 
     /**
      * @var int : offset of web_password in Output data
      */
-    const NOTAIRE_PWDWEB_OFFSET     = 4;
+    const NOTAIRE_PWDWEB     = 4;
 
     /**
      * @var int : offset of tel_password in Output data
      */
-    const NOTAIRE_PWDTEL_OFFSET     = 5;
+    const NOTAIRE_PWDTEL     = 5;
 
     /**
      * @var int : offset of id_sigle in Output data
      */
-    const NOTAIRE_SIGLE_OFFSET      = 6;
+    const NOTAIRE_SIGLE      = 6;
 
     /**
      * @var int : offset of office_name in Output data
      */
-    const NOTAIRE_OFFICENAME_OFFSET = 7;
+    const NOTAIRE_OFFICENAME = 7;
 
     /**
      * @var int : offset of code_interlocuteur in Output data
      */
-    const NOTAIRE_INTERCODE_OFFSET  = 8;
+    const NOTAIRE_INTERCODE  = 8;
 
     /**
      * @var int : offset of id_civilite in Output data
      */
-    const NOTAIRE_CIVILIT_OFFSET    = 9;
+    const NOTAIRE_CIVILIT    = 9;
 
     /**
      * @var int : offset of first_name in Output data
      */
-    const NOTAIRE_FNAME_OFFSET      = 10;
+    const NOTAIRE_FNAME      = 10;
 
     /**
      * @var int : offset of last_name in Output data
      */
-    const NOTAIRE_LNAME_OFFSET      = 11;
+    const NOTAIRE_LNAME      = 11;
 
     /**
      * @var int : offset of email_adress in Output data
      */
-    const NOTAIRE_EMAIL_OFFSET      = 12;
+    const NOTAIRE_EMAIL      = 12;
 
     /**
      * @var int : offset of id_fonction in Output data
      */
-    const NOTAIRE_FONC_OFFSET       = 13;
+    const NOTAIRE_FONC       = 13;
 
     /**
      * @var int : offset of adress_1 in Output data
      */
-    const NOTAIRE_ADRESS1_OFFSET    = 14;
+    const NOTAIRE_ADRESS1    = 14;
 
     /**
      * @var int : offset of adress_2 in Output data
      */
-    const NOTAIRE_ADRESS2_OFFSET    = 15;
+    const NOTAIRE_ADRESS2    = 15;
 
     /**
      * @var int : offset of adress_3 in Output data
      */
-    const NOTAIRE_ADRESS3_OFFSET    = 16;
+    const NOTAIRE_ADRESS3    = 16;
 
     /**
      * @var int : offset of cp in Output data
      */
-    const NOTAIRE_CP_OFFSET         = 17;
+    const NOTAIRE_CP         = 17;
 
     /**
      * @var int : offset of city in Output data
      */
-    const NOTAIRE_CITY_OFFSET       = 18;
+    const NOTAIRE_CITY       = 18;
 
     /**
      * @var int : offset of office_email_adress_1 in Output data
      */
-    const NOTAIRE_MAIL1_OFFSET      = 19;
+    const NOTAIRE_MAIL1      = 19;
 
     /**
      * @var int : offset of office_email_adress_2 in Output data
      */
-    const NOTAIRE_MAIL12_OFFSET     = 20;
+    const NOTAIRE_MAIL12     = 20;
 
     /**
      * @var int : offset of office_email_adress_3 in Output data
      */
-    const NOTAIRE_MAIL3_OFFSET      = 21;
+    const NOTAIRE_MAIL3      = 21;
 
     /**
      * @var int : offset of date_modified in Output data

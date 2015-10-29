@@ -88,6 +88,11 @@ class Notaire extends MvcModel
     private $importSuccess = false;
 
     /**
+     * @var mixed
+     */
+    private $adapter;
+
+    /**
      * @var string
      */
     protected $logs;
@@ -116,10 +121,11 @@ class Notaire extends MvcModel
 
         switch (strtolower(CONST_IMPORT_OPTION)) {
             case self::IMPORT_CSV_OPTION:
+                $this->adapter = new CridonCsvParser();
                 $this->importFromCsvFile();
                 break;
             default : // odbc option by default
-                // @TODO action for ODBC option
+                $this->adapter = CridonODBCAdapter::getInstance();
                 $this->importDataUsingODBC();
                 break;
         }
@@ -170,48 +176,29 @@ class Notaire extends MvcModel
     private function importDataUsingODBC()
     {
         try {
-            // ODBC LINK
-            $conn = odbc_connect(
-                "Driver=" . CONST_ODBC_DRIVER . ";
-				Server=" . CONST_ODBC_HOST . ";
-				Database=" . CONST_ODBC_DATABASE,
-                CONST_ODBC_USER,
-                CONST_ODBC_PASSWORD
-            );
-            if ($conn !== false) { // connection successful
-                // init logs
-                $this->logs = array();
+            // query
+            $sql = 'SELECT * FROM ' . CONST_ODBC_TABLE_NOTAIRE;
 
-                // init list of crpcen
-                $crpcenList = array();
+            // exec query
+            CridonODBCAdapter::getInstance()->getResults($sql);
 
-                // query
-                $sql = 'SELECT * FROM ' . CONST_ODBC_TABLE_NOTAIRE;
+            // prepare data
+            CridonODBCAdapter::getInstance()->prepareODBCData();
 
-                // exec query
-                $result = odbc_exec($conn, $sql);
+            $this->erpNotaireList = CridonODBCAdapter::getInstance()->erpNotaireList;
+            $this->erpNotaireData = CridonODBCAdapter::getInstance()->erpNotaireData;
 
-                // Get Data From Result
-                while ($data = odbc_fetch_array($result)) {
-                    // import action
-                    if (isset( $data['YCRPCEN'] ) && $data['YCRPCEN']) { // valid login
-                        // @TODO waiting info
-                    }
-                }
+            // set list of existing notaire
+            $this->setSiteNotaireList();
 
-                // data filter by new list
-                if (count($crpcenList) > 0) {
-                    $this->removeUsersNotInList($crpcenList);
-                }
+            // insert or update data
+            $this->manageNotaireData();
 
-                // Free Result
-                odbc_free_result($result);
+            // Close Connection
+            CridonODBCAdapter::getInstance()->closeConnection();
 
-                // Close Connection
-                odbc_close($conn);
-            } else { // connection failed
-                // @TODO log the error
-            }
+//            echo '<pre>'; die(print_r($this->erpNotaireData));
+
         } catch (\Exception $e) {
             throw new \Exception ($e->getMessage());
         }
@@ -222,28 +209,38 @@ class Notaire extends MvcModel
      */
     private function prepareNotairedata()
     {
-        // get list of existing notaire
-        $notaires = $this->find();
+        // set list of existing notaire
+        $this->setSiteNotaireList();
 
         // instance of CridonCsvParser
         $csv = $this->csvParser;
 
-        // fill list of existing notaire on site with unique key (crpcen + passwd)
-        foreach ($notaires as $notaire) {
-            array_push($this->siteNotaireList, $notaire->crpcen . $notaire->web_password);
-        }
-
         // fill list of notaire from ERP (crpcen + passwd)
         foreach ($this->getCsvData() as $items) {
             // only notaire having CRPCEN
-            if (isset($items[$csv::NOTAIRE_CRPCEN_OFFSET]) && $items[$csv::NOTAIRE_CRPCEN_OFFSET]) {
+            if (isset($items[$csv::NOTAIRE_CRPCEN]) && $items[$csv::NOTAIRE_CRPCEN]) {
                 // the only unique key available is the "crpcen + web_password"
-                $uniqueKey = intval($items[$csv::NOTAIRE_CRPCEN_OFFSET]) . $items[$csv::NOTAIRE_PWDWEB_OFFSET];
+                $uniqueKey = intval($items[$csv::NOTAIRE_CRPCEN]) . $items[$csv::NOTAIRE_PWDWEB];
                 array_push($this->erpNotaireList, $uniqueKey);
 
                 // notaire data filter
                 $this->erpNotaireData[$uniqueKey] = $items;
             }
+        }
+    }
+
+    /**
+     * List of existing notaire on Site
+     */
+    private function setSiteNotaireList()
+    {
+        // get list of existing notaire
+        $notaires = $this->find();
+
+
+        // fill list of existing notaire on site with unique key (crpcen + passwd)
+        foreach ($notaires as $notaire) {
+            array_push($this->siteNotaireList, $notaire->crpcen . $notaire->web_password);
         }
     }
 
@@ -292,7 +289,7 @@ class Notaire extends MvcModel
             // disabled : call disableUserNotInList
 
             // instance of CridonCsvParser
-            $csvParser = $this->csvParser;
+            $adapter = $this->adapter;
 
             // init list of values to be inserted
             $insertValues = array();
@@ -300,6 +297,7 @@ class Notaire extends MvcModel
             // init list of values to be updated
             $updateCategValues = $updateNumclientValues = $updateFirstnameValues = $updatePwdtelValues = $updateInterCodeValues = array();
             $updateCivlitValues = $updateLastnameValues = $updateEmailValues = $updateFoncValues = $updateDateModified = array();
+            $updateTelValues = $updateFaxValues = $updateMobileValues = array();
 
             // list of new data
             $newNotaires = $this->getNewNotaireList();
@@ -322,31 +320,61 @@ class Notaire extends MvcModel
                     if (array_key_exists($key, $updateNotaireList)) {
                         $newData = $updateNotaireList[$key];
                         // change date format (original "d/m/Y" with double quote)
-                        $dateModified = date("Y-m-d",
-                                             strtotime(
-                                                 str_replace(
-                                                     array('/', '"'),
-                                                     array('-', ''),
-                                                     $newData[$csvParser::NOTAIRE_DATEMODIF_OFFSET]
+                        $dateModified = '0000-00-00';
+                        if (isset($newData[$adapter::NOTAIRE_DATEMODIF])) {
+                            $dateModified = date("Y-m-d",
+                                                 strtotime(
+                                                     str_replace(
+                                                         array('/', '"'),
+                                                         array('-', ''),
+                                                         $newData[$adapter::NOTAIRE_DATEMODIF]
+                                                     )
                                                  )
-                                             )
-                        );
+                            );
+                        }
                         $newDate = new DateTime($dateModified);
                         $newDate = $newDate->format('Ymd');
                         $oldDate = new DateTime($currentData->date_modified);
                         $oldDate = $oldDate->format('Ymd');
                         if ($newDate > $oldDate) {
                             // prepare all update   query
-                            $updateCategValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_CATEG_OFFSET]) . "' ";
-                            $updateNumclientValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_NUMCLIENT_OFFSET]) . "' ";
-                            $updateFirstnameValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_FNAME_OFFSET]) . "' ";
-                            $updateLastnameValues[]     = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_LNAME_OFFSET]) . "' ";
-                            $updatePwdtelValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_PWDTEL_OFFSET]) . "' ";
-                            $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string(intval($newData[$csvParser::NOTAIRE_INTERCODE_OFFSET])) . "' ";
-                            $updateCivlitValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_CIVILIT_OFFSET]) . "' ";
-                            $updateEmailValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_EMAIL_OFFSET]) . "' ";
-                            $updateFoncValues[]         = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$csvParser::NOTAIRE_FONC_OFFSET]) . "' ";
-                            $updateDateModified[]       = " id = {$currentData->id} THEN '" . $dateModified . "' ";
+                            if (isset($newData[$adapter::NOTAIRE_CATEG]))
+                                $updateCategValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_CATEG]) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_NUMCLIENT]))
+                                $updateNumclientValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_NUMCLIENT]) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_FNAME]))
+                                $updateFirstnameValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_FNAME]) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_LNAME]))
+                                $updateLastnameValues[]     = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_LNAME]) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_PWDTEL]))
+                                $updatePwdtelValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_INTERCODE]))
+                                $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string(intval($newData[$adapter::NOTAIRE_INTERCODE])) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_CIVILIT]))
+                                $updateCivlitValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_CIVILIT]) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_EMAIL]))
+                                $updateEmailValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_EMAIL]) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_FONC]))
+                                $updateFoncValues[]         = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_FONC]) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_TEL]))
+                                $updateTelValues[]         = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_TEL]) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_FAX]))
+                                $updateFaxValues[]         = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_FAX]) . "' ";
+
+                            if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
+                                $updateMobileValues[]      = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
+
+                            $updateDateModified[]          = " id = {$currentData->id} THEN '" . $dateModified . "' ";
                         }
                     }
                     // end optimisation
@@ -399,6 +427,21 @@ class Notaire extends MvcModel
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFoncValues);
                     $notaireQuery .= ' ELSE `id_fonction` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // tel
+                    $notaireQuery = ' SET `tel` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateTelValues);
+                    $notaireQuery .= ' ELSE `tel` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // fax
+                    $notaireQuery = ' SET `fax` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFaxValues);
+                    $notaireQuery .= ' ELSE `fax` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    // tel_portable
+                    $notaireQuery = ' SET `tel_portable` = CASE ';
+                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateMobileValues);
+                    $notaireQuery .= ' ELSE `tel_portable` ';
+                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
                     // date_modified
                     $notaireQuery = ' SET `date_modified` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateDateModified);
@@ -414,34 +457,42 @@ class Notaire extends MvcModel
                 $options               = array();
                 $options['table']      = 'notaire';
                 $options['attributes'] = 'category, client_number, first_name, last_name, crpcen, web_password, tel_password, code_interlocuteur, ';
-                $options['attributes'] .= 'id_civilite, email_adress, id_fonction, date_modified';
+                $options['attributes'] .= 'id_civilite, email_adress, id_fonction, tel, fax, tel_portable, date_modified';
 
                 // prepare multi rows data values
                 foreach ($newNotaires as $notaire) {
                     // format date
-                    $dateModified = date("Y-m-d",
-                                         strtotime(
-                                             str_replace(
-                                                 array('/', '"'),
-                                                 array('-', ''),
-                                                 $this->erpNotaireData[$notaire][$csvParser::NOTAIRE_DATEMODIF_OFFSET]
+                    $dateModified = '0000-00-00';
+                    if (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_DATEMODIF])) {
+                        $dateModified = date("Y-m-d",
+                                             strtotime(
+                                                 str_replace(
+                                                     array('/', '"'),
+                                                     array('-', ''),
+                                                     $this->erpNotaireData[$notaire][$adapter::NOTAIRE_DATEMODIF]
+                                                 )
                                              )
-                                         )
-                    );
+                        );
+                    }
 
                     $value = "(";
-                    $value .= "'" . mysql_real_escape_string($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_CATEG_OFFSET]) . "', ";
-                    $value .= "'" . mysql_real_escape_string($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_NUMCLIENT_OFFSET]) . "', ";
-                    $value .= "'" . mysql_real_escape_string($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_FNAME_OFFSET]) . "', ";
-                    $value .= "'" . mysql_real_escape_string($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_LNAME_OFFSET]) . "', ";
-                    $value .= "'" . mysql_real_escape_string(intval($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_CRPCEN_OFFSET])) . "', ";
-                    $value .= "'" . mysql_real_escape_string($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_PWDWEB_OFFSET]) . "', ";
-                    $value .= "'" . mysql_real_escape_string($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_PWDTEL_OFFSET]) . "', ";
-                    $value .= "'" . mysql_real_escape_string(intval($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_INTERCODE_OFFSET])) . "', ";
-                    $value .= mysql_real_escape_string($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_CIVILIT_OFFSET]) . ", ";
-                    $value .= "'" . mysql_real_escape_string($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_EMAIL_OFFSET]) . "', ";
-                    $value .= mysql_real_escape_string($this->erpNotaireData[$notaire][$csvParser::NOTAIRE_FONC_OFFSET]) . ", ";
+
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN]) ? mysql_real_escape_string(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN])) : '') . "', ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE]) ? mysql_real_escape_string(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE])) : '') . "', ";
+                    $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) : '') . ", ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) : '') . "', ";
+                    $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) : '') . ", ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_TEL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_TEL]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FAX]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FAX]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PORTABLE]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PORTABLE]) : '') . "', ";
                     $value .= "'" . $dateModified . "'";
+
                     $value .= ")";
 
                     $insertValues[] = $value;
