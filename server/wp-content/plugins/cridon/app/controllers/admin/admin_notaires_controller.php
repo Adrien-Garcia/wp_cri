@@ -59,8 +59,5 @@ class AdminNotairesController extends MvcAdminController
         $this->verify_id_param();
         $this->create_or_save();
         $this->set_object();
-        $this->load_model('Etude');
-        $etudes = $this->Etude->find();
-        $this->set('etudes', $etudes );
     }
 }
