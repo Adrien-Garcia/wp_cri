@@ -54,10 +54,10 @@ if ( !defined( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH' ) ) {
 
 // status
 if ( !defined( 'CONST_STATUS_ENABLED' ) ) {
-    define( 'CONST_STATUS_ENABLED', 1 );
+    define( 'CONST_STATUS_ENABLED', 2 );
 }
 if ( !defined( 'CONST_STATUS_DISABLED' ) ) {
-    define( 'CONST_STATUS_DISABLED', 0 );
+    define( 'CONST_STATUS_DISABLED', 1 );
 }
 
 // default role by notaire group

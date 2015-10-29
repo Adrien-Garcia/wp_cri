@@ -197,8 +197,6 @@ class Notaire extends MvcModel
             // Close Connection
             CridonODBCAdapter::getInstance()->closeConnection();
 
-//            echo '<pre>'; die(print_r($this->erpNotaireData));
-
         } catch (\Exception $e) {
             throw new \Exception ($e->getMessage());
         }
@@ -284,11 +282,7 @@ class Notaire extends MvcModel
     private function manageNotaireData()
     {
         try {
-            // @TODO need confirmation if all users not listed in ERP data should be deleted or disabled
-            // deleted : call removeUsersNotInList
-            // disabled : call disableUserNotInList
-
-            // instance of CridonCsvParser
+            // instance of adapter
             $adapter = $this->adapter;
 
             // init list of values to be inserted
@@ -313,7 +307,7 @@ class Notaire extends MvcModel
 
                 // only update if erpData.date_modified > cri_notaire.date_modified
                 foreach($this->find() as $currentData) {
-                    // unique key
+                    // the only unique key available is the "crpcen + web_password"
                     $key = $currentData->crpcen . $currentData->web_password;
 
                     // start optimisation
@@ -461,41 +455,47 @@ class Notaire extends MvcModel
 
                 // prepare multi rows data values
                 foreach ($newNotaires as $notaire) {
-                    // format date
-                    $dateModified = '0000-00-00';
-                    if (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_DATEMODIF])) {
-                        $dateModified = date("Y-m-d",
-                                             strtotime(
-                                                 str_replace(
-                                                     array('/', '"'),
-                                                     array('-', ''),
-                                                     $this->erpNotaireData[$notaire][$adapter::NOTAIRE_DATEMODIF]
+                    // do not import DIV category
+                    // @see https://trello.com/c/P81yRyRM/21-s-43-import-des-notaires-et-creation-des-etudes-il-y-a-deux-notaires-avec-le-meme-crpcen-qui-n-ont-pas-les-memes-infos-pour-l-et
+                    if (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG])
+                        && strtolower($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) != CONST_CLIENTDIVERS_ROLE) {
+
+                        // format date
+                        $dateModified = '0000-00-00';
+                        if (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_DATEMODIF])) {
+                            $dateModified = date("Y-m-d",
+                                                 strtotime(
+                                                     str_replace(
+                                                         array('/', '"'),
+                                                         array('-', ''),
+                                                         $this->erpNotaireData[$notaire][$adapter::NOTAIRE_DATEMODIF]
+                                                     )
                                                  )
-                                             )
-                        );
+                            );
+                        }
+
+                        $value = "(";
+
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN]) ? mysql_real_escape_string(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN])) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE]) ? mysql_real_escape_string(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE])) : '') . "', ";
+                        $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) : '') . ", ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) : '') . "', ";
+                        $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) : '') . ", ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_TEL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_TEL]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FAX]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FAX]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PORTABLE]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PORTABLE]) : '') . "', ";
+                        $value .= "'" . $dateModified . "'";
+
+                        $value .= ")";
+
+                        $insertValues[] = $value;
                     }
-
-                    $value = "(";
-
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) : '') . "', ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) : '') . "', ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) : '') . "', ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) : '') . "', ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN]) ? mysql_real_escape_string(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN])) : '') . "', ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) : '') . "', ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) : '') . "', ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE]) ? mysql_real_escape_string(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE])) : '') . "', ";
-                    $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) : '') . ", ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) : '') . "', ";
-                    $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) : '') . ", ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_TEL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_TEL]) : '') . "', ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FAX]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FAX]) : '') . "', ";
-                    $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PORTABLE]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PORTABLE]) : '') . "', ";
-                    $value .= "'" . $dateModified . "'";
-
-                    $value .= ")";
-
-                    $insertValues[] = $value;
                 }
 
                 if (count($insertValues) > 0) {
@@ -583,45 +583,6 @@ class Notaire extends MvcModel
     }
 
     /**
-     * Remove users not match on ERP data list
-     */
-    private function removeUsersNotInList()
-    {
-        try {
-            // list of users
-            $users = $this->getNotaireToBeDeleted();
-            if (count($users) > 0) {
-                $queryBulder = mvc_model('QueryBuilder');
-                $elements    = "'" . implode("', '", $users) . "'";
-
-                // delete data from cri_notaire
-                $options['table']      = 'notaire';
-                $options['conditions'] = "CONCAT(`crpcen`, `web_password`) IN ($elements)";
-                $queryBulder->delete($options);
-
-                // delete from wp_users
-                $options               = array();
-                $options['table']      = 'users';
-                $options['conditions'] = "`{$this->wpdb->users}`.`ID` IN (
-                                    SELECT `id_wp_user` FROM `{$this->table}`
-                                    WHERE CONCAT(`crpcen`, `web_password`) IN ($elements)
-                                    )";
-                $queryBulder->delete($options);
-            }
-        } catch (Exception $e) {
-            echo 'Exception reçue : ' .  $e->getMessage() . "\n";
-        }
-    }
-
-    /**
-     * Action for disable users in wp_users not match on the ERP data list
-     */
-    private function disableUserNotInList()
-    {
-
-    }
-
-    /**
      * Action for importing data from cri_notaire into wp_users
      */
     private function insertOrUpdateWpUsers()
@@ -631,6 +592,9 @@ class Notaire extends MvcModel
             $notaires   = $this->find();
 
             if (count($notaires) > 0) {
+                // adapter
+                $adapter = $this->adapter;
+
                 // list of values to be inserted
                 $insertValues = array();
 
@@ -640,7 +604,7 @@ class Notaire extends MvcModel
                 // bulk update separate
                 // @TODO to be completed with other field to be updated
                 // it's concerned only a specific data in wp_users
-                $bulkPwdUpdate = $bulkNiceNameUpdate = $bulkEmailUpdate = $bulkDisplayNameUpdate = array();
+                $bulkPwdUpdate = $bulkNiceNameUpdate = $bulkStatusUpdate = $bulkEmailUpdate = $bulkDisplayNameUpdate = array();
 
                 // query builder options
                 $options               = array();
@@ -651,10 +615,17 @@ class Notaire extends MvcModel
                 $users = $criTools->getWpUsers();
 
                 foreach ($notaires as $notaire) {
+                    // unique key
+                    $uniqueKey = $notaire->crpcen . $notaire->web_password;
+
                     // check if user already exist
                     $userName = $notaire->crpcen . CONST_LOGIN_SEPARATOR . $notaire->id;
 
                     $displayName = $notaire->first_name . ' ' . $notaire->last_name;
+
+                    // set user status
+                    $userStatus = (isset($this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_STATUS])) ?
+                        $this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_STATUS] : CONST_STATUS_DISABLED;
 
                     if (!in_array($userName, $users['username'])) { // prepare the bulk insert query
                         $value = "(";
@@ -664,7 +635,7 @@ class Notaire extends MvcModel
                         $value .= "'" . sanitize_title($displayName) . "', ";
                         $value .= "'" . $notaire->email_adress . "', ";
                         $value .= "'" . date('Y-m-d H:i:s') . "', ";
-                        $value .= CONST_STATUS_ENABLED . ", ";
+                        $value .= $userStatus . ", ";
                         $value .= "'" . mysql_real_escape_string($displayName) . "'";
 
                         $value .= ")";
@@ -677,6 +648,8 @@ class Notaire extends MvcModel
                             $bulkPwdUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . wp_hash_password($notaire->web_password) . "' ";
                             // nicename
                             $bulkNiceNameUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . sanitize_title($displayName) . "' ";
+                            // status
+                            $bulkStatusUpdate[] = " ID = {$notaire->id_wp_user} THEN " . $userStatus . " ";
                             // email
                             $bulkEmailUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . $notaire->email_adress . "' ";
                             // display name
@@ -715,6 +688,12 @@ class Notaire extends MvcModel
                     $queryNicename .= ' WHEN ' . implode(' WHEN ', $bulkNiceNameUpdate);
                     $queryNicename .= ' ELSE `user_nicename` ';
                     $this->wpdb->query($queryStart . $queryNicename . $queryEnd);
+
+                    // status
+                    $queryStatus = ' SET `user_status` = CASE ';
+                    $queryStatus .= ' WHEN ' . implode(' WHEN ', $bulkStatusUpdate);
+                    $queryStatus .= ' ELSE `user_status` ';
+                    $this->wpdb->query($queryStart . $queryStatus . $queryEnd);
 
                     // email
                     $queryEmail = ' SET `user_email` = CASE ';

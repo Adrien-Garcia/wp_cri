@@ -225,8 +225,6 @@ class CridonODBCAdapter
     {
         while ($data = odbc_fetch_array($this->results)) {
             if (isset( $data[self::NOTAIRE_CRPCEN] ) && intval($data[self::NOTAIRE_CRPCEN]) > 0) { // valid login
-//                echo '<pre>'; die(print_r($data));
-                
                 // the only unique key available is the "crpcen + web_password"
                 $uniqueKey = intval($data[self::NOTAIRE_CRPCEN]) . $data[self::NOTAIRE_PWDWEB];
                 array_push($this->erpNotaireList, $uniqueKey);
