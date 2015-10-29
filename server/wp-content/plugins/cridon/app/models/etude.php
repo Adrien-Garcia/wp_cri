@@ -9,6 +9,10 @@ class Etude extends MvcModel {
             'foreign_key' => 'crpcen'
         )
     );
+    var $includes       = array('Sigle');
+    var $belongs_to     = array(
+        'Sigle' => array('foreign_key' => 'id_sigle')
+    );
 }
 
 ?>

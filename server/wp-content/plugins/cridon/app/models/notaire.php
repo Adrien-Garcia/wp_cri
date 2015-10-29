@@ -35,7 +35,7 @@ class Notaire extends MvcModel
      *
      * @var array 
      */
-    var $includes   = array('Etude');
+    var $includes   = array('Etude','Civilite','Fonction');
     /**
      * @var array
      */
@@ -46,6 +46,12 @@ class Notaire extends MvcModel
         ),
         'Etude' => array(
             'foreign_key' => 'crpcen'
+        ),
+        'Civilite' => array(
+            'foreign_key' => 'id_civilite'
+        ),
+        'Fonction' => array(
+            'foreign_key' => 'id_fonction'
         )
     );
 
