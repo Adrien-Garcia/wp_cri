@@ -1,7 +1,7 @@
 <?php
 
-class ActuCridon extends MvcModel {
-    var $table          = "{prefix}actu_cridon";
+class VieCridon extends MvcModel {
+    var $table          = "{prefix}vie_cridon";
     var $includes       = array('Post');
     var $belongs_to     = array(
         'Post' => array('foreign_key' => 'post_id')

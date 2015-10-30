@@ -4,7 +4,7 @@
  *
  * This file is part of project 
  *
- * File name : actu_cridons_controller.php
+ * File name : vie_cridons_controller.php
  * Project   : wp_cridon
  *
  * @author Etech
@@ -12,7 +12,7 @@
  *
  */
 
-class ActuCridonsController extends MvcPublicController {
+class VieCridonsController extends MvcPublicController {
     /*
      * We use the standard function for wordpress for queries ( query_posts() ) in views
      */
