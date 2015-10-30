@@ -243,6 +243,8 @@ HEADER STYLES
 					font-size: 12px;
 					@extend .do-re;
 					text-align: center;
+
+					opacity: 0;
 				}
 
 				&.active{
@@ -253,7 +255,7 @@ HEADER STYLES
 						opacity: 1;
 					}
 
-					> a#mdp_oublie, a#mdp_retour{ 
+					> a#mdp_oublie, a#mdp_retour, #errorMsgId{ 
 						opacity: 1;
 					}
 				}
