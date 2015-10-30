@@ -177,62 +177,109 @@ HEADER STYLES
 				margin-bottom: 30px;
 			}
 
-			form{
+			.pannel_01, .pannel_02{
 
-				input[type="text"], input[type="password"]{
-					width: 240px;
-					height: 30px;
-					background: #FFF;
-					border:none;
-					line-height: 30px;
-					color:$vert;
-					text-transform: uppercase;
-					padding-left: 10px;
-					margin: 0 auto 10px auto;
-					font-size: 12px;
-					display: block;
-					@extend .do-re;
-					border-radius: 0;
+				width: 1px;
+				transition: width 0.6s;
+
+				form{
+
+					opacity:0;
+					transition: opacity $duration/2; 
+
+					input[type="text"], input[type="password"]{
+						width: 240px;
+						height: 30px;
+						background: #FFF;
+						border:none;
+						line-height: 30px;
+						color:$vert;
+						text-transform: uppercase;
+						padding-left: 10px;
+						margin: 0 auto 10px auto;
+						font-size: 12px;
+						display: block;
+						@extend .do-re;
+						border-radius: 0;
 
 
+					}
+
+					input[type="submit"]{
+
+						width: 240px;
+						height: 30px;
+						background: $vert;
+						color:#FFF;
+						border:none;
+						line-height: 30px;
+						text-align: center;
+						margin:0 auto 10px auto; 
+						font-size: 14px;
+						@extend .do-bo;
+						display: block;
+						text-transform: uppercase;
+						border-radius: 0;
+
+					}
 				}
 
-				input[type="submit"]{
-
-					width: 240px;
-					height: 30px;
-					background: $vert;
-					color:#FFF;
-					border:none;
-					line-height: 30px;
-					text-align: center;
-					margin:0 auto 10px auto; 
+				> a#mdp_oublie, a#mdp_retour{
 					font-size: 14px;
-					@extend .do-bo;
+					color:#FFF;
+					@extend .do-re;
 					display: block;
-					text-transform: uppercase;
-					border-radius: 0;
+					text-align: center;
+					text-decoration: none;
+					margin-bottom: 10px; 
 
+					opacity:0;
+					transition: opacity $duration/2; 
 				}
+
+				#errorMsgId{
+					color:$rouge;
+					line-height: 18px;
+					font-size: 12px;
+					@extend .do-re;
+					text-align: center;
+				}
+
+				&.active{
+
+					width: 100% !important;
+
+					> form{
+						opacity: 1;
+					}
+
+					> a#mdp_oublie, a#mdp_retour{ 
+						opacity: 1;
+					}
+				}
+
 			}
 
-			>a{
-				font-size: 14px;
-				color:#FFF;
-				@extend .do-re;
-				display: block;
-				text-align: center;
-				text-decoration: none;
-				margin-bottom: 10px; 
+			.pannel_01{
+				position: absolute;
+				top: 170px;
+				right:0
 			}
 
-			#errorMsgId{
-				color:$rouge;
-				line-height: 18px;
-				font-size: 12px;
-				@extend .do-re;
-				text-align: center;
+			.pannel_02{
+				position: absolute;
+				top: 170px;
+				right: 0;
+
+				> form{
+					opacity: 0;
+				}
+
+
+				
 			}
+
+			
 		}
 
 		&.open{

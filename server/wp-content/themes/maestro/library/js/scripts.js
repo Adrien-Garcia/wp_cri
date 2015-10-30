@@ -144,7 +144,7 @@ jQuery(document).ready(function($) {
 
 
 
-  /*- FILTRES CAT PAGES PROFESSIONNELS-*/
+  /*- checkbox mon compte-*/
 	$('#content.page-mon-compte #mon-profil .mes-centres-dinterets ul li label').addClass("unselect");
 	
 	$('#mon-profil .mes-centres-dinterets ul li label').click(function(e){
@@ -164,6 +164,26 @@ jQuery(document).ready(function($) {
 		}
 
 	});
+
+
+/*- Pannel connexion-*/
+
+$('#mdp_oublie').click(function(e){
+	$('#panel_connexion .pannel_01').toggleClass('active');
+	$('#panel_connexion .pannel_02').toggleClass('active');
+	
+});
+$('#mdp_retour').click(function(e){
+	$('#panel_connexion .pannel_01').toggleClass('active');
+	$('#panel_connexion .pannel_02').toggleClass('active');
+	
+});
+
+
+
+
+
+
 
 
 

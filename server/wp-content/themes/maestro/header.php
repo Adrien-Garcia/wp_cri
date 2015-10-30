@@ -105,14 +105,26 @@
 						criSetLoginFormOptions('loginFormId', 'loginFieldId', 'passwordFieldId', 'errorMsgId');
 
 					 ?>
-					<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
-						<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre adresse mail">
-						<input type="password" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
-						<input type="submit" name="submit" value="Connectez-vous">
-					</form>
-					<a href="#">> Mot de passe oublié ? <</a>
-					<div id="errorMsgId">									
+					 <div class="pannel_01 active">
+						<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
+							<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre adresse mail">
+							<input type="password" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
+							<input type="submit" name="submit" value="Connectez-vous">
+						</form>
+						<a href="#" id="mdp_oublie">> Mot de passe oublié ? <</a>
+						<div id="errorMsgId">									
+						</div>
 					</div>
+					
+					<div class="pannel_02">
+						<form action="" method="" accept-charset="utf-8" id="">
+							<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre adresse mail">
+							<input type="submit" name="submit" value="Mot de passe oublié">						
+						</form>
+						<a href="#" id="mdp_retour">< Retour </a>
+					</div>
+
+					
 				</div>
 			</div>
 
