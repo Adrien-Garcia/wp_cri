@@ -162,4 +162,14 @@ function updateVeille( $id,$category ){
     $oVeille->save( $data );//Using WP_MVC to update model
 }
 // End Category managment
-?>
+
+//Remove on menu Notaire action add
+MvcConfiguration::append(array(
+    'AdminPages' => array(
+        'notaires' => array(
+            'delete',
+            'edit'
+        )
+    )
+));
+//End remove
