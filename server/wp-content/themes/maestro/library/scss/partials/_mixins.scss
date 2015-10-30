@@ -346,3 +346,59 @@ Css gradient opacity
 }
 
 
+/************************************************
+
+Lien bouton Mon compte rectangle
+
+**/
+
+@mixin bt-rectangle($fond, $color) {
+
+  display: inline-block;
+  padding: 3px 5px; 
+  background: $fond;
+  color:#FFF;
+  text-transform: uppercase;
+  font-size: 11px;
+  @extend .do-sm;
+  position: relative;
+  text-decoration: none; 
+  transition: all $duration;
+
+  &:before{
+    @include svgicon('icon-angle-right', 15px, 15px, $fond); 
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    right: -4px;  
+  }
+
+  &:hover{
+
+    background: $vj_03;
+
+    &:before{
+      @include svgicon('icon-angle-right', 15px, 15px, $vj_03);
+    }
+  }
+
+
+  @media only screen and (min-width: 760px) {
+      
+    
+    font-size: 12px;    
+
+  }
+
+  @media only screen and (min-width: 1240px) {
+      
+    
+    font-size: 14px;    
+
+  }
+
+
+
+}
+
+

@@ -142,4 +142,35 @@ jQuery(document).ready(function($) {
   loadGravatars();
 
 
+
+
+  /*- FILTRES CAT PAGES PROFESSIONNELS-*/
+	$('#content.page-mon-compte #mon-profil .mes-centres-dinterets ul li label').addClass("unselect");
+	
+	$('#mon-profil .mes-centres-dinterets ul li label').click(function(e){
+
+		if( $(e.target).is("label") ) {
+
+			if( $(this).hasClass("select") ) {
+				
+				$(this).removeClass("select");
+				$(this).addClass("unselect");
+				
+			} else {
+				$(this).removeClass("unselect");
+				$(this).addClass("select");
+			}
+
+		}
+
+	});
+
+
+
+
+
+
+
+
+
 }); /* end of as page load scripts */
