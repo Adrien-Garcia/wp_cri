@@ -150,4 +150,26 @@ class Notaire extends MvcModel
         return $objects;
     }
 
+    /**
+     * Get by crpcen and email
+     *
+     * @param string $login
+     * @param string $email
+     *
+     * @return array|null
+     */
+    public function findByLoginAndEmail($login, $email)
+    {
+        $items = $this->find(array(
+                                       'selects'    => array('id', 'web_password', 'email_adress'),
+                                       'conditions' => array(
+                                           'crpcen'       => $login,
+                                           'email_adress' => $email
+                                       )
+                                   )
+        );
+
+        return $items;
+    }
+
 }

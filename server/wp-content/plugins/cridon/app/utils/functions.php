@@ -116,7 +116,7 @@ if (!function_exists('criSetLoginFormOptions')) {
         }
     }
 
-    // hook for overridinf default login form  var
+    // hook for overriding default login form  var
     function append_js_var()
     {
         global $cri_container;
@@ -131,6 +131,59 @@ if (!function_exists('criSetLoginFormOptions')) {
                 errorBlocIdOverride = '<?php echo $cri_container->getErrorBlocId() ?>',
                 loginFieldIdOverride = '<?php echo $cri_container->getLoginFieldId() ?>',
                 passwordFieldIdOverride = '<?php echo $cri_container->getPasswordFieldId() ?>';
+        </script>
+    <?php
+        }
+    }
+}
+
+/**
+ * Form params setter (to be called on the lost password template)
+ *
+ * @param string $formAttributeId
+ * @param string $emailAttributeId
+ * @param string $crpcenAttributeId
+ * @param string $msgBlocAttributeId
+ */
+if (!function_exists('criSetLostPwdOptions')) {
+    function criSetLostPwdOptions(
+        $formAttributeId
+        , $emailAttributeId
+        , $crpcenAttributeId
+        , $msgBlocAttributeId
+    ) {
+        // all params are needed to be set
+        if ($formAttributeId
+            && $emailAttributeId
+            && $crpcenAttributeId
+            && $msgBlocAttributeId
+        ) {
+            global $cri_container;
+
+            $cri_container->setLostPwdFormId($formAttributeId);
+            $cri_container->setEmailFieldId($emailAttributeId);
+            $cri_container->setCrpcenFieldId($crpcenAttributeId);
+            $cri_container->setMsgBlocId($msgBlocAttributeId);
+
+            add_action('wp_enqueue_scripts', append_js_lostpwd_var());
+        }
+    }
+
+    // hook for overriding default form  var
+    function append_js_lostpwd_var()
+    {
+        global $cri_container;
+
+        require_once ABSPATH . WPINC . '/pluggable.php';
+
+        // only in front
+        if (!is_admin()) {
+        ?>
+        <script type="text/javascript">
+            var lostPwdFormIdOverride = '<?php echo $cri_container->getLostPwdFormId() ?>',
+                msgBlocIdOverride = '<?php echo $cri_container->getMsgBlocId() ?>',
+                emailFieldIdOverride = '<?php echo $cri_container->getEmailFieldId() ?>',
+                crpcenFieldIdOverride = '<?php echo $cri_container->getCrpcenFieldId() ?>';
         </script>
     <?php
         }
