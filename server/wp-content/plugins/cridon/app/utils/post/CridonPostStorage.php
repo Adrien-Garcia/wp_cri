@@ -25,7 +25,7 @@ class CridonPostStorage {
      * 
      * @param array $results
      */
-    public function set( $results ){
+    public static function set( $results ){
         self::$aResults = array();
         if( is_array( $results ) && !empty( $results ) ){//Is array?
             foreach ( $results as $value ){
@@ -56,7 +56,7 @@ class CridonPostStorage {
      * @param string $index 'link' or 'all'
      * @return string|array|null
      */
-    public function get( $post_ID,$index = 'link' ){
+    public static function get( $post_ID,$index = 'link' ){
         //What data do you want? link or all?
         return ( isset( self::$aResults[$post_ID] ) && isset( self::$aResults[$post_ID][$index] ) ) ? self::$aResults[$post_ID][$index] : null;
     }
