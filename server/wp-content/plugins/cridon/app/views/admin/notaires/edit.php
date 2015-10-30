@@ -9,7 +9,6 @@
 <?php echo $this->form->input('category',array( 'type'=>'text','label' => 'Catégorie','disabled' => true )); ?>
 <?php echo $this->form->input('client_number',array( 'type'=>'text','label' => 'Numéro client','disabled' => true )); ?>
 <?php echo $this->form->input('crpcen',array( 'type'=>'text','label' => 'Numéro CRPCEN','disabled' => true )); ?>
-<?php echo $this->form->input('last_name',array( 'type'=>'text','label' => 'Identifiant','value' => $object->crpcen.'~'.$object->id,'disabled' => true )); ?>
 <?php echo $this->form->input('web_password',array( 'type'=>'text','label' => 'Mot de passe Web','disabled' => true )); ?>
 <?php echo $this->form->input('tel_password',array( 'type'=>'text','label' => 'Mot de passe Tel','disabled' => true )); ?>
 <?php
