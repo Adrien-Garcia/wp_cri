@@ -194,13 +194,13 @@ class Notaire extends MvcModel
             $sql = 'SELECT * FROM ' . CONST_ODBC_TABLE_NOTAIRE;
 
             // exec query
-            CridonODBCAdapter::getInstance()->getResults($sql);
+            $this->adapter->getResults($sql);
 
             // prepare data
-            CridonODBCAdapter::getInstance()->prepareODBCData();
+            $this->adapter->prepareODBCData();
 
-            $this->erpNotaireList = CridonODBCAdapter::getInstance()->erpNotaireList;
-            $this->erpNotaireData = CridonODBCAdapter::getInstance()->erpNotaireData;
+            $this->erpNotaireList = $this->adapter->erpNotaireList;
+            $this->erpNotaireData = $this->adapter->erpNotaireData;
 
             // set list of existing notaire
             $this->setSiteNotaireList();
@@ -209,7 +209,7 @@ class Notaire extends MvcModel
             $this->manageNotaireData();
 
             // Close Connection
-            CridonODBCAdapter::getInstance()->closeConnection();
+            $this->adapter->closeConnection();
 
         } catch (\Exception $e) {
             throw new \Exception ($e->getMessage());
@@ -282,16 +282,6 @@ class Notaire extends MvcModel
 
         // return filtered items with associated data from ERP
         return array_intersect_key($this->erpNotaireData, array_flip($items));
-    }
-
-    /**
-     * List of notaire to be deleted from Site (notaire not found in ERP)
-     *
-     * @return array
-     */
-    protected function getNotaireToBeDeleted()
-    {
-        return array_diff($this->siteNotaireList, $this->erpNotaireList);
     }
 
     /**

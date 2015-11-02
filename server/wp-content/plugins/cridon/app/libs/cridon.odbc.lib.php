@@ -1,7 +1,5 @@
 <?php
 
-require_once 'parsecsv.lib.php';
-
 /**
  * Description of cridon.odbc.lib.php
  *
@@ -221,6 +219,11 @@ class CridonODBCAdapter
         return $this;
     }
 
+    /**
+     * Prepare ODBC Data
+     *
+     * @return $this
+     */
     public function prepareODBCData()
     {
         while ($data = odbc_fetch_array($this->results)) {
