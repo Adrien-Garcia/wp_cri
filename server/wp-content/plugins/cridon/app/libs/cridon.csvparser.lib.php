@@ -132,7 +132,7 @@ class CridonCsvParser extends parseCSV
      *
      * @return array
      */
-    public function parse_string()
+    public function parse_string($data = null)
     {
         if (empty($data)) {
             if ($this->_check_data()) {
