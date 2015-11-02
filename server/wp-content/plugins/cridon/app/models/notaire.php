@@ -343,40 +343,40 @@ class Notaire extends MvcModel
                         if ($newDate > $oldDate) {
                             // prepare all update   query
                             if (isset($newData[$adapter::NOTAIRE_CATEG]))
-                                $updateCategValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_CATEG]) . "' ";
+                                $updateCategValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CATEG]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_NUMCLIENT]))
-                                $updateNumclientValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_NUMCLIENT]) . "' ";
+                                $updateNumclientValues[]    = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_NUMCLIENT]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FNAME]))
-                                $updateFirstnameValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_FNAME]) . "' ";
+                                $updateFirstnameValues[]    = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FNAME]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_LNAME]))
-                                $updateLastnameValues[]     = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_LNAME]) . "' ";
+                                $updateLastnameValues[]     = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_LNAME]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_PWDTEL]))
-                                $updatePwdtelValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
+                                $updatePwdtelValues[]       = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_INTERCODE]))
-                                $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . mysql_real_escape_string(intval($newData[$adapter::NOTAIRE_INTERCODE])) . "' ";
+                                $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . esc_sql(intval($newData[$adapter::NOTAIRE_INTERCODE])) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_CIVILIT]))
-                                $updateCivlitValues[]       = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_CIVILIT]) . "' ";
+                                $updateCivlitValues[]       = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CIVILIT]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_EMAIL]))
-                                $updateEmailValues[]        = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_EMAIL]) . "' ";
+                                $updateEmailValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_EMAIL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FONC]))
-                                $updateFoncValues[]         = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_FONC]) . "' ";
+                                $updateFoncValues[]         = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FONC]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_TEL]))
-                                $updateTelValues[]         = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_TEL]) . "' ";
+                                $updateTelValues[]         = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_TEL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FAX]))
-                                $updateFaxValues[]         = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_FAX]) . "' ";
+                                $updateFaxValues[]         = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
-                                $updateMobileValues[]      = " id = {$currentData->id} THEN '" . mysql_real_escape_string($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
+                                $updateMobileValues[]      = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
 
                             $updateDateModified[]          = " id = {$currentData->id} THEN '" . $dateModified . "' ";
                         }
@@ -486,20 +486,20 @@ class Notaire extends MvcModel
 
                         $value = "(";
 
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN]) ? mysql_real_escape_string(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN])) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE]) ? mysql_real_escape_string(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE])) : '') . "', ";
-                        $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) : '') . ", ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) : '') . "', ";
-                        $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) : '') . ", ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_TEL]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_TEL]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FAX]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FAX]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PORTABLE]) ? mysql_real_escape_string($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PORTABLE]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN]) ? esc_sql(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN])) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE]) ? esc_sql(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE])) : '') . "', ";
+                        $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) : '') . ", ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) : '') . "', ";
+                        $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) : '') . ", ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_TEL]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_TEL]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FAX]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FAX]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PORTABLE]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PORTABLE]) : '') . "', ";
                         $value .= "'" . $dateModified . "'";
 
                         $value .= ")";
@@ -644,13 +644,13 @@ class Notaire extends MvcModel
                     if (!in_array($userName, $users['username'])) { // prepare the bulk insert query
                         $value = "(";
 
-                        $value .= "'" . mysql_real_escape_string($userName) . "', ";
+                        $value .= "'" . esc_sql($userName) . "', ";
                         $value .= "'" . wp_hash_password($notaire->web_password) . "', ";
                         $value .= "'" . sanitize_title($displayName) . "', ";
                         $value .= "'" . $notaire->email_adress . "', ";
                         $value .= "'" . date('Y-m-d H:i:s') . "', ";
                         $value .= $userStatus . ", ";
-                        $value .= "'" . mysql_real_escape_string($displayName) . "'";
+                        $value .= "'" . esc_sql($displayName) . "'";
 
                         $value .= ")";
 
@@ -667,7 +667,7 @@ class Notaire extends MvcModel
                             // email
                             $bulkEmailUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . $notaire->email_adress . "' ";
                             // display name
-                            $bulkDisplayNameUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . mysql_real_escape_string($displayName) . "' ";
+                            $bulkDisplayNameUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . esc_sql($displayName) . "' ";
                         }
                     }
                 }
