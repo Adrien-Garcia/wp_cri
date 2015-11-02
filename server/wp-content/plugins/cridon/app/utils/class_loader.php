@@ -57,9 +57,9 @@ $cri_container->set('tools', function() use( $cri_container ){
     }
 );
 
-$cri_container->set('post_query', function(){
+$cri_container->set('post_query', function() use( $cri_container ){
         //To use all functions in WP
-        return new CridonPostQuery();
+        return new CridonPostQuery( $cri_container->get( 'post_factory' ) );
     }
 );
 

@@ -19,9 +19,11 @@
 class CridonPostQuery {
     
     private $wp_query;//It's used to set global variable WP_Query for WP
+    private $postFactory;
     
-    public function __construct(){
+    public function __construct( $postFactory ){
         $this->createObjectWpQuery();//Initialize object WP_Query
+        $this->postFactory = $postFactory;
     }
     /**
      * Create sample object WP_Query with no parameter
@@ -42,6 +44,11 @@ class CridonPostQuery {
                 return 'array';                
             }
         }else{//It's an object
+	    //MvcModelObject
+	    if( ( $data instanceof MvcModelObject ) && isset( $data->post ) && !empty( $data->post ) ){
+		return 'mvcModelObj';
+	    }
+	    //stdClass
             if( isset( $data->post ) && ( $data->post instanceof WP_Post ) ){
                 return 'object';
             }
@@ -59,12 +66,21 @@ class CridonPostQuery {
     public function init( $data ){
         $type = $this->isPostData( $data );//Check type of data
         if( $type ){
+            if ( ( $type === 'mvcModelObj' ) && !isset( $data->link ) ){
+	        //Generate URL ( used in hook WP )
+                $data->{link} = CridonPostUrl::generatePostUrl( strtolower( $data->__model_name ),$data->__id );
+            }
             CridonPostStorage::set( $data );//Store result. It's used to get link of model in Frontend ( same as the_permalink in WP )
-            if( $type === 'object' ){ //If is it an object so set global variable $post which is necessary for more function in WP
+            if( ( $type === 'object' )  || ( $type === 'mvcModelObj' ) ){ //If is it an object so set global variable $post which is necessary for more function in WP
                 global $post,$pages,$page;
                 $page = 1;// Current content to display
                 $pages = array( $data->post->post_content ); // Initialize with post_content, the_content() require this to display content.
-                $post = $data->post;
+		if ( $type === 'object' ){
+		    $post = $data->post;
+		}else{
+		    $wp_post = $this->postFactory->create( $data->post );//convert MvcModelObject of Post to WP_post
+		    $post = $wp_post;
+		}                
                 return true;
             }
             //If the instance is not already create
