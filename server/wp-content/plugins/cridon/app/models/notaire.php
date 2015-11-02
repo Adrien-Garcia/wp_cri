@@ -152,7 +152,6 @@ class Notaire extends MvcModel
     public function findByLoginAndPassword($login, $pwd)
     {
         $objects = $this->find_one(array(
-                                       'selects'    => array('id'),
                                        'conditions' => array(
                                            'crpcen'       => $login,
                                            'web_password' => $pwd

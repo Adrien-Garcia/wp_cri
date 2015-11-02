@@ -18,6 +18,13 @@ MvcRouter::public_connect('download/reponse/{:id:[\d]+}',array('controller' => '
 // import (import notaire into wp_users)
 MvcRouter::public_connect('import/notaires', array('controller' => 'notaires', 'action' => 'import'));
 
+// mes questions
+MvcRouter::public_connect('notaires/{:id:[\d]+}/questions', array('controller' => 'notaires', 'action' => 'questions'));
+// mon profil
+MvcRouter::public_connect('notaires/{:id:[\d]+}/profil', array('controller' => 'notaires', 'action' => 'profil'));
+// regles de facturation
+MvcRouter::public_connect('notaires/{:id:[\d]+}/facturation', array('controller' => 'notaires', 'action' => 'facturation'));
+
 // default
 MvcRouter::public_connect('{:controller}', array('action' => 'index'));
 MvcRouter::public_connect('{:controller}/{:id:[\d]+}', array('action' => 'show'));
