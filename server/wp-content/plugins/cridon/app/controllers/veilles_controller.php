@@ -14,68 +14,32 @@
 
 class VeillesController extends MvcPublicController {
     
-    public function show() {
-        if( !intval($this->params['id']) ){
-            $this->generateError();
-        }
-        global $cri_container;
-        $tools = $cri_container->get( 'tools' );
-        //All fields of table cri_matiere
-        $fields = array('id','code','label','short_label','displayed','picto');
-        $mFields = '';// fields of model Matiere
-        foreach ( $fields as $v ){
-            $mFields .= ',m.'.$v;
-        }
-        $options = array(
-            'fields' => $tools->getFieldPost().'v.id as join_id'.$mFields,
-            'join'  => array(
-                'veille' => array(
-                    'table' => 'veille v',
-                    'column' => 'v.post_id = p.ID'
-                ),//use join clause with table cri_matiere
-                'matiere' => array(
-                    'table' => 'matiere m',
-                    'column' => 'm.id = '.'v.id_matiere'
-                )
-            ),
-            'conditions' =>  'p.post_status = "publish" AND v.id = '.$this->params['id'],
-            'order' => 'ASC'
-        );
-        $result = criQueryPosts( $options );//Get associated post
-        if( empty( $result ) ){//If no result
-            $this->generateError();
-        }
-        // The result is an array of object ( stdClass )
-        $aFinal = array();// Final result
-        foreach( $result as $value ){
-            $std = new stdClass();
-            //Dissociate current objet to get an object Matiere ( only an object stdClass with all attributes as in table cri_matiere )
-            $std->matiere = CridonObjectFactory::create( $value, 'matiere', $fields);
-            $std->link = CridonPostUrl::generatePostUrl( 'veille', $value->join_id );
-            //Dissociate current object to get an object Post ( WP_Post )
-            $std->post = $tools->createPost( $value ); // Create Object WP_Post
-            $aFinal[] = $std;
-        }
-        $this->set( 'object',$aFinal );
-    }
     public function index() {
-        //do nothing
-        //display view
+        $this->params['per_page'] = DEFAULT_POST_PER_PAGE;
+        //Set explicit join
+        $this->params['joins'] = array(
+            'Post','Matiere'
+        );
+        //Set conditions
+        $this->params['conditions'] = array(
+            'Post.post_status'=>'publish'            
+        );
+        $collection = $this->model->paginate($this->params);
+        
+        $this->set('objects', $collection['objects']);
+        $this->set_pagination($collection);
     }
     /**
-     * Generate Error 404
-     * 
-     * @global WP_query $wp_query
+     * @override
      */
-    private function generateError(){
-        global $wp_query;
-        header("HTTP/1.0 404 Not Found - Archive Empty");
-        $wp_query->set_404();
-        if( file_exists( TEMPLATEPATH.'/404.php' ) ){
-            require TEMPLATEPATH.'/404.php';            
+    public function set_pagination($collection) {
+        parent::set_pagination($collection);
+        //cute url in pagination
+        if( isset( $this->pagination['add_args'] ) ){
+            unset( $this->pagination['add_args'] );
         }
-        exit;
     }
+    
 }
 
 ?>
