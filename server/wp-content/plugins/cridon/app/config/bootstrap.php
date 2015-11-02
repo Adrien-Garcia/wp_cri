@@ -204,7 +204,7 @@ function checkUserAuthorization(){
             continue;
         }
         $tmp = explode( '-cridon',$key );//get custom capability
-        if( !empty( $tmp ) ){
+        if( !empty( $tmp ) && isset( $tmp[1] ) ){
             //Listing
             if( preg_match('|liste-([a-zA-Z_-]+)|', $tmp[0], $matches ) ){
                 $aIndex[] = $matches[1];
