@@ -173,3 +173,59 @@ MvcConfiguration::append(array(
     )
 ));
 //End remove
+        
+// Workflow
+
+add_action( 'admin_init', 'init_custom_capabilities');
+function init_custom_capabilities(){
+    global $wp_roles;    
+    foreach ( $wp_roles->role_objects as $role ){
+        foreach( Config::$capabitilies as $capability ){
+            if ( !$role->has_cap( $capability ) ) {//check capability is already true
+                $role->add_cap( $capability,false );
+            }
+        }
+    }    
+}
+if ( is_admin() ) {//only in admin
+    checkUserAuthorization();
+}
+function checkUserAuthorization(){
+    $user = wp_get_current_user();
+    $capabilities = $user->get_role_caps();//Get user capability
+    $aIndex = $aEdit = $aAdd = $aDelete = array();
+    $roles = $user->roles;//get roles
+    global $menuException,$adminPagesRules,$adminEditPagesRules,$adminDeletePagesRules;
+    //If user is an administrator, he has full control
+    if( empty( $roles ) || $roles[0] == 'administrator' ){        
+        return;
+    }
+    foreach( $capabilities as $key => $value ){ 
+        if( !$value ){//unchecked
+            continue;
+        }
+        $tmp = explode( '-cridon',$key );//get custom capability
+        if( !empty( $tmp ) ){
+            //Listing
+            if( preg_match('|liste-([a-zA-Z_-]+)|', $tmp[0], $matches ) ){
+                $aIndex[] = $matches[1];
+            } 
+        }
+    }
+    $listRolesByCtrl = array();
+    $adminPagesRules = array();
+    foreach( $aIndex as $index ){
+        $controller = $index.'s';
+        if( $index == 'flash' ){//Name controller exception
+            $controller = 'flashes';
+        }
+        //Set role of controller        
+        $listRolesByCtrl[$controller] = $roles[0];
+    }
+    //Admin menu page generate with WP_MVC
+    MvcConfiguration::append(array(
+        'admin_controller_capabilities'=>$listRolesByCtrl
+    ));
+}
+
+// End workflow
