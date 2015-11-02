@@ -195,7 +195,6 @@ function checkUserAuthorization(){
     $capabilities = $user->get_role_caps();//Get user capability
     $aIndex = $aEdit = $aAdd = $aDelete = array();
     $roles = $user->roles;//get roles
-    global $menuException,$adminPagesRules,$adminEditPagesRules,$adminDeletePagesRules;
     //If user is an administrator, he has full control
     if( empty( $roles ) || $roles[0] == 'administrator' ){        
         return;
@@ -213,7 +212,9 @@ function checkUserAuthorization(){
         }
     }
     $listRolesByCtrl = array();
-    $adminPagesRules = array();
+    if( empty( $aIndex ) ){
+        return;
+    }
     foreach( $aIndex as $index ){
         $controller = $index.'s';
         if( $index == 'flash' ){//Name controller exception
