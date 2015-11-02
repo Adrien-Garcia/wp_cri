@@ -60,37 +60,37 @@ class Notaire extends MvcModel
     /**
      * @var array
      */
-    private $csvData = array();
+    protected $csvData = array();
 
     /**
      * @var CridonCsvParser
      */
-    private $csvParser;
+    protected $csvParser;
 
     /**
      * @var array : list of existing notaire on Site
      */
-    private $siteNotaireList = array();
+    protected $siteNotaireList = array();
 
     /**
      * @var array : list of notaire in ERP
      */
-    private $erpNotaireList = array();
+    protected $erpNotaireList = array();
 
     /**
      * @var array : list of notaire data from ERP
      */
-    private $erpNotaireData = array();
+    protected $erpNotaireData = array();
 
     /**
      * @var bool : File import success flag
      */
-    private $importSuccess = false;
+    protected $importSuccess = false;
 
     /**
      * @var mixed
      */
-    private $adapter;
+    protected $adapter;
 
     /**
      * @var string
@@ -135,36 +135,48 @@ class Notaire extends MvcModel
 
     /**
      * Action for importing data using CSV file
+     *
+     * @return void
      */
     public function importFromCsvFile()
     {
         // get csv file
         $files = glob(CONST_IMPORT_CSV_NOTAIRE_FILE_PATH . '/*.csv');
 
-        // check if file exist
-        if (isset($files[0]) && is_file($files[0])) {
+        try {
 
-            $this->csvParser->enclosure = '';
-            $this->csvParser->encoding(null, 'UTF-8');
-            $this->csvParser->auto($files[0]);
+            // check if file exist
+            if (isset($files[0]) && is_file($files[0])) {
 
-            // no error was found
-            if (property_exists($this->csvParser, 'data') && intval($this->csvParser->error) <= 0) {
+                $this->csvParser->enclosure = '';
+                $this->csvParser->encoding(null, 'UTF-8');
+                $this->csvParser->auto($files[0]);
 
-                // Csv data setter
-                $this->setCsvData($this->csvParser->data);
+                // no error was found
+                if (property_exists($this->csvParser, 'data') && intval($this->csvParser->error) <= 0) {
 
-                // prepare data
-                $this->prepareNotairedata();
+                    // Csv data setter
+                    $this->setCsvData($this->csvParser->data);
 
-                // insert or update data
-                $this->manageNotaireData();
+                    // prepare data
+                    $this->prepareNotairedata();
 
-                // do archive
-                if ($this->importSuccess) {
-//                    rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
+                    // insert or update data
+                    $this->manageNotaireData();
+
+                    // do archive
+                    if ($this->importSuccess) {
+                        rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
+                    }
                 }
             }
+        } catch (Exception $e) {
+            // archive file
+            if (isset($files[0]) && is_file($files[0])) {
+                rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
+            }
+
+            echo 'Exception reçue : ' .  $e->getMessage() . "\n";
         }
     }
 
@@ -172,8 +184,10 @@ class Notaire extends MvcModel
      * Import data with ODBC Link
      *
      * @throws Exception
+     *
+     * @return void
      */
-    private function importDataUsingODBC()
+    protected function importDataUsingODBC()
     {
         try {
             // query
@@ -204,8 +218,10 @@ class Notaire extends MvcModel
 
     /**
      * Prepare data for listing existing notaire on Site and new from ERP
+     *
+     * @return void
      */
-    private function prepareNotairedata()
+    protected function prepareNotairedata()
     {
         // set list of existing notaire
         $this->setSiteNotaireList();
@@ -229,8 +245,10 @@ class Notaire extends MvcModel
 
     /**
      * List of existing notaire on Site
+     *
+     * @return void
      */
-    private function setSiteNotaireList()
+    protected function setSiteNotaireList()
     {
         // get list of existing notaire
         $notaires = $this->find();
@@ -247,7 +265,7 @@ class Notaire extends MvcModel
      *
      * @return array
      */
-    private function getNewNotaireList()
+    protected function getNewNotaireList()
     {
         return array_diff($this->erpNotaireList, $this->siteNotaireList);
     }
@@ -257,7 +275,7 @@ class Notaire extends MvcModel
      *
      * @return array
      */
-    private function getNotaireToBeUpdated()
+    protected function getNotaireToBeUpdated()
     {
         // common values between Site and ERP
         $items = array_intersect($this->siteNotaireList, $this->erpNotaireList);
@@ -271,15 +289,17 @@ class Notaire extends MvcModel
      *
      * @return array
      */
-    private function getNotaireToBeDeleted()
+    protected function getNotaireToBeDeleted()
     {
         return array_diff($this->siteNotaireList, $this->erpNotaireList);
     }
 
     /**
      * Manage Notaire data (insert, update)
+     *
+     * @return void
      */
-    private function manageNotaireData()
+    protected function manageNotaireData()
     {
         try {
             // instance of adapter
@@ -518,6 +538,8 @@ class Notaire extends MvcModel
 
     /**
      * Set notaire role
+     *
+     * @return void
      */
     public function setNotaireRole()
     {
@@ -584,8 +606,10 @@ class Notaire extends MvcModel
 
     /**
      * Action for importing data from cri_notaire into wp_users
+     *
+     * @return void
      */
-    private function insertOrUpdateWpUsers()
+    protected function insertOrUpdateWpUsers()
     {
         try {
             $this->logs = array();
@@ -724,7 +748,7 @@ class Notaire extends MvcModel
      *
      * @param array $notaires
      */
-    private function updateCriNotaireWpUserId($notaires)
+    protected function updateCriNotaireWpUserId($notaires)
     {
         try {
             // update
