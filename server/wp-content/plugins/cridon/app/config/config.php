@@ -56,4 +56,7 @@ class Config {
 
     // list of cridon_type using default post form
     public static $mvcWithPostForm = array('actu_cridons','cahier_cridons','flashes','formations','veilles');
+
+    // list of category not to be imported
+    public static $notImportedList = array(CONST_CLIENTDIVERS_ROLE);
 }

@@ -465,10 +465,10 @@ class Notaire extends MvcModel
 
                 // prepare multi rows data values
                 foreach ($newNotaires as $notaire) {
-                    // do not import DIV category
+                    // import only authorized category
                     // @see https://trello.com/c/P81yRyRM/21-s-43-import-des-notaires-et-creation-des-etudes-il-y-a-deux-notaires-avec-le-meme-crpcen-qui-n-ont-pas-les-memes-infos-pour-l-et
                     if (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG])
-                        && strtolower($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]) != CONST_CLIENTDIVERS_ROLE) {
+                        && !in_array(strtolower($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]), Config::$notImportedList)) {
 
                         // format date
                         $dateModified = '0000-00-00';
