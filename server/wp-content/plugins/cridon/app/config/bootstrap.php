@@ -176,16 +176,19 @@ MvcConfiguration::append(array(
         
 // Workflow
 
-add_action( 'admin_init', 'init_custom_capabilities');
+add_action( 'admin_init', 'init_custom_capabilities',99);
 function init_custom_capabilities(){
-    global $wp_roles;    
-    foreach ( $wp_roles->role_objects as $role ){
-        foreach( Config::$capabitilies as $capability ){
-            if ( !$role->has_cap( $capability ) ) {//check capability is already true
-                $role->add_cap( $capability,false );
+    $roles = get_option('cri_user_roles');
+    if( !empty( $roles ) ){
+        foreach ( $roles as $k=>$v ){
+            $role = get_role($k);
+            foreach( Config::$capabitilies as $capability ){
+                if ( !$role->has_cap( $capability ) ) {//check capability is already true
+                    $role->add_cap( $capability,false );
+                }
             }
-        }
-    }    
+        }        
+    }
 }
 if ( is_admin() ) {//only in admin
     checkUserAuthorization();
