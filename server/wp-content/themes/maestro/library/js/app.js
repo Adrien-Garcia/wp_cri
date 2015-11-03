@@ -15,6 +15,8 @@ App = {
 jQuery(document).ready(function($) {
     App.Home.init();
     App.Login.init();
-    App.Account.init();
+    if($(".page-mon-compte").length > 0) {
+    	App.Account.init();
+    }
     
 });

@@ -19,7 +19,13 @@
 
 				<div class="listing veille">						
 				<?php $current_date = null; ?>
-				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+
+				<?php 
+					foreach ($objects as $key => $veille) :
+				 ?>
+
+				<?php criWpPost($veille) ?>
+
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
 						<?php 
 							if( $current_date != get_the_date('d-M-Y')) :
@@ -35,13 +41,15 @@
 						<div class="details">
 							<div class="block_left">
 								<div class="img-cat">
-								<?php // @TODO Matiere picto ?>
-									<img src="" alt="" />
+								<?php 
+									$matiere = get_the_matiere();
+								 ?>
+									<img src="<?php echo $veille->matiere->picto ?>" alt="<?php echo $veille->matiere->label ?>" />
 								</div>
 							</div>
 							<div class="block_right">
 							<?php //var_dump($this) ?>
-								<div class="matiere">Droit social</div>
+								<div class="matiere"><?php echo $veille->matiere->label ?></div>
 								<h2><?php the_title() ?></h2>
 								<div class="chapeau">
 									<?php echo get_the_excerpt() ?>
@@ -63,9 +71,7 @@
 						
 					</article>
 
-				<?php endwhile; ?>
-
-				<?php endif; ?>
+				<?php endforeach; ?>
 
 				</div>
 

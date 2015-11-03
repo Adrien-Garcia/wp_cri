@@ -238,7 +238,7 @@ HEADER STYLES
 					transition: opacity $duration/2; 
 				}
 
-				#errorMsgId{
+				#errorMsgId, #errorMsgForgotId{
 					color:$rouge;
 					line-height: 18px;
 					font-size: 12px;
@@ -256,7 +256,7 @@ HEADER STYLES
 						opacity: 1;
 					}
 
-					> a#mdp_oublie, a#mdp_retour, #errorMsgId{ 
+					> a#mdp_oublie, a#mdp_retour, #errorMsgId, #errorMsgForgotId{ 
 						opacity: 1;
 					}
 				}
@@ -1362,6 +1362,11 @@ body.page-template-front-page{
 								height: 30px;
 								margin-right: 20px;
 								border:solid 1px green;
+
+								img{
+									width: 30px;
+									height: 30px;
+								}
 
 							}
 						}
