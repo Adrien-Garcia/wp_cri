@@ -91,7 +91,7 @@ CREATE TABLE `cri_notaire` (
   INDEX `X_CRI_NOTAIRE_CRI_FONCTION_ID` (`id_fonction` ASC),
   INDEX `X_FK_CRI_NOTAIRE_CRI_ETUDE_ID` (`crpcen` ASC),
   INDEX `X_FK_CRI_NOTAIRE_WP_USERS_ID` (`id_wp_user` ASC),
-  UNIQUE KEY `UX_CLISNT_NUMBER` (`client_number`)
+  INDEX `X_CLISNT_NUMBER` (`client_number`)
 );
 
 CREATE TABLE cri_document (

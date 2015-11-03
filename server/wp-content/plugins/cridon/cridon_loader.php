@@ -87,6 +87,10 @@ class CridonLoader extends MvcPluginLoader
 	    // add  notaire role
 	    add_role( 'notaire', 'Notaire', array( 'read' => true, 'level_0' => true ) );
 
+        // init specific role by group (label can be managed in admin area)
+	    add_role( CONST_OFFICES_ROLE, 'Offices', array( 'read' => true, 'level_0' => true ) );
+	    add_role( CONST_ORGANISMES_ROLE, 'Organismes', array( 'read' => true, 'level_0' => true ) );
+	    add_role( CONST_CLIENTDIVERS_ROLE, 'Clients divers', array( 'read' => true, 'level_0' => true ) );
     }
 
     public function deactivate()

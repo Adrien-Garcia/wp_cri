@@ -26,7 +26,7 @@ class Config {
         'vie_cridons' => array(
             'value'             => 'vie_cridons',
             'name'              => 'vie_cridon',
-            'controller'        => 'vie_cridons', 
+            'controller'        => 'vie_cridons',
             'action'            => 'index' 
         ),
         'formations' => array(
@@ -56,22 +56,25 @@ class Config {
 
     // list of cridon_type using default post form
     public static $mvcWithPostForm = array('vie_cridons','cahier_cridons','flashes','formations','veilles');
-    
+
     public static $titleMetabox = 'Matière';// Titre du metabox de catégorie veille en admin
-    
+
     // Supported file in model Matiere ( picto )
     public static $supported_types = array('image/jpeg','image/bmp','image/x-windows-bmp','image/x-icon','image/jpeg','image/pjpeg','image/png');
-    
+
     // Maximum width and height of image in model Matiere ( picto )
     // width x height
     public static $maxWidthHeight  = array(
         'width'  => 1400,
-        'height' => 2000 
+        'height' => 2000
     );
-    
+
     //Default Matiere of model Veille
     public static $defaultMatiere = array(
         'id'     => 12,
-        'name'   => 'Expertise transversale' 
-    ); 
+        'name'   => 'Expertise transversale'
+    );
+
+    // list of category not to be imported
+    public static $notImportedList = array(CONST_CLIENTDIVERS_ROLE);
 }

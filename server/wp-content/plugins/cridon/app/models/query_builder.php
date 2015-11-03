@@ -470,6 +470,27 @@ class QueryBuilder{
     /*
      * End retrive data
      */
-}
 
-?>
+    /**
+     * Insert multi rows
+     * using syntax
+     * INSERT INTO table
+     * (prenom, nom, ville, age)
+     *   VALUES
+     * ('Robecca', 'Armand', 'Saint-Didier-des-Bois', 24),
+     * ('Aimee', 'Hebert', 'Marigny-le-Chatel', 36),
+     * ('Marielle', 'Ribeiro', 'Mailleres', 27),
+     * ('Hilaire', 'Savary', 'Conie-Molitard', 58)
+     *
+     * @param array $options
+     */
+    public function insertMultiRows($options = array())
+    {
+        $query = 'INSERT INTO ' . $this->wpdb->prefix . $options['table']
+                 . '(' . $options['attributes'] . ')
+            VALUES
+            ' . $options['values'];
+
+        $this->wpdb->query($query);
+    }
+}
