@@ -23,7 +23,7 @@ function hook_admin_menu($parent_file)
         //Correction bug WP_MVC
         //Au niveau du menu de l'admin, lors de l'edition d'un modèle il ne s'ouvre pas.
         if( isset( $_GET['page'] ) ){
-            //Seulement pour le menu lié à WP_MVC
+            //Seulement pour le menu lié à  WP_MVC
             if ( preg_match( '/' . CONST_WPMVC_PREFIX . '(.*)/', $_GET['page'], $match ) ) {
                   if( isset( $match[0] ) ){
                       $tab = explode( '-',$match[0] );
@@ -56,37 +56,6 @@ function custom_admin_menu()
 add_action( 'admin_menu', 'custom_admin_menu', 100 );
 
 /**
- * Redirect user after successful login.
- *
- * @param string $redirect_to URL to redirect to.
- * @param string $request URL the user is coming from.
- * @param object $user Logged user's data.
- *
- * @return string
- */
-function custom_login_redirect( $redirect_to, $request, $user ) {
-    // is there a user to check?
-    global $user;
-    if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-        // check for admins
-        if ( in_array( CONST_ADMIN_ROLE, $user->roles ) ) {
-            // redirect them to the default place
-            return $redirect_to;
-        } elseif ( in_array( CONST_NOTAIRE_ROLE, $user->roles ) ) { // check for notaire
-            return mvc_public_url(array(
-                                      'controller'    => 'notaires',
-                                      'action'        => 'espace-notaire'
-                                  ));
-        } else { // check for others
-            return home_url();
-        }
-    } else {
-        return $redirect_to;
-    }
-}
-add_filter( 'login_redirect', 'custom_login_redirect', 10, 3 );
-
-/**
  * Add custom js in template
  */
 function append_js_files()
@@ -109,6 +78,14 @@ function append_js_files()
                 'login_field_id'    => CONST_TPL_LOGINFIELD_ID,
                 'password_field_id' => CONST_TPL_PASSWORDFIELD_ID,
                 'error_bloc_id'     => CONST_TPL_ERRORBLOCK_ID,
+                'lostpwd_nonce'     => wp_create_nonce("process_lostpwd_nonce"),
+                'pwdform_id'        => CONST_TPL_PWDFORM_ID,
+                'pwdmsg_block'      => CONST_TPL_PWDMSGBLOCK_ID,
+                'email_field_id'    => CONST_TPL_PWDEMAILFIELD_ID,
+                'crpcen_field_id'   => CONST_TPL_CRPCENFIELD_ID,
+                'crpcen_error_msg'  => CONST_INVALIDEMAIL_ERROR_MSG,
+                'crpcen_success_msg'=> CONST_RECOVPASS_SUCCESS_MSG,
+                'empty_crpcen_msg'  => CONST_CRPCEN_EMPTY_ERROR_MSG,
             )
         );
     }
@@ -128,9 +105,22 @@ add_action( 'wp_ajax_logins_connect',   'logins_connect' );
 add_action( 'wp_ajax_nopriv_logins_connect',   'logins_connect' );
 
 /**
+ * hook for lost password
+ */
+function lost_password()
+{
+    require_once WP_PLUGIN_DIR . '/cridon/app/controllers/logins_controller.php';
+    $controller = new LoginsController();
+    $controller->lostPassword();
+}
+add_action( 'wp_ajax_lost_password',   'lost_password' );
+add_action( 'wp_ajax_nopriv_lost_password',   'lost_password' );
+
+/**
  * Hook for logout
  */
-function custom_logout_redirect() {
+function custom_logout_redirect()
+{
     global $current_user;
 
     if ($current_user->roles[0] !== CONST_ADMIN_ROLE) {
@@ -139,3 +129,29 @@ function custom_logout_redirect() {
     }
 }
 add_action('wp_logout','custom_logout_redirect');
+
+/**
+ * Hook for wp_mail_from plugged to wordpress@sitename by default
+ *
+ * @param $email
+ * @return string
+ */
+function cridon_mail_from( $email )
+{
+    return CONST_EMAIL_SENDER_CONTACT;
+}
+add_filter( 'wp_mail_from', 'cridon_mail_from' );
+
+/**
+ * Hook for cridon_mail_from_name plugged to Wordpress by default
+ *
+ * @param $name
+ * @return string
+ */
+function cridon_mail_from_name( $name )
+{
+    return CONST_EMAIL_SENDER_NAME;
+}
+add_filter( 'wp_mail_from_name', 'cridon_mail_from_name' );
+
+

@@ -39,6 +39,26 @@ class Container {
     private $errorBlocId;
 
     /**
+     * @var string : lost password form attribute id
+     */
+    private $lostPwdFormId;
+
+    /**
+     * @var string : email field attribute id
+     */
+    private $emailFieldId;
+
+    /**
+     * @var string : crpcen field attribute id
+     */
+    private $crpcenFieldId;
+
+    /**
+     * @var string : message bloc attribute id
+     */
+    private $msgBlocId;
+
+    /**
      * Save immediately a instance of object in array of instances <br/><br/>
      * 
      * e.g: $dic->setInstance(new DataBase());
@@ -186,5 +206,69 @@ class Container {
     public function setErrorBlocId($errorBlocId)
     {
         $this->errorBlocId = $errorBlocId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLostPwdFormId()
+    {
+        return $this->lostPwdFormId;
+    }
+
+    /**
+     * @param string $lostPwdFormId
+     */
+    public function setLostPwdFormId($lostPwdFormId)
+    {
+        $this->lostPwdFormId = $lostPwdFormId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmailFieldId()
+    {
+        return $this->emailFieldId;
+    }
+
+    /**
+     * @param string $emailFieldId
+     */
+    public function setEmailFieldId($emailFieldId)
+    {
+        $this->emailFieldId = $emailFieldId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCrpcenFieldId()
+    {
+        return $this->crpcenFieldId;
+    }
+
+    /**
+     * @param string $crpcenFieldId
+     */
+    public function setCrpcenFieldId($crpcenFieldId)
+    {
+        $this->crpcenFieldId = $crpcenFieldId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMsgBlocId()
+    {
+        return $this->msgBlocId;
+    }
+
+    /**
+     * @param string $msgBlocId
+     */
+    public function setMsgBlocId($msgBlocId)
+    {
+        $this->msgBlocId = $msgBlocId;
     }
 }

@@ -100,3 +100,43 @@ if ( !defined( 'DEFAULT_POST_PER_PAGE' ) ) {
     define( 'DEFAULT_POST_PER_PAGE', 4 );
 }
 
+// lost password
+if ( !defined( 'CONST_INVALIDEMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_INVALIDEMAIL_ERROR_MSG', 'Vous ne pouvez pas récupérer votre mot de passe. Merci de contacter CRIDON' );
+}
+if ( !defined( 'CONST_RECOVPASS_SUCCESS_MSG' ) ) {
+    define( 'CONST_RECOVPASS_SUCCESS_MSG', 'Votre mot de passe veint d\'être envoyé sur votre adresse email.' );
+}
+if ( !defined( 'CONST_TPL_PWDFORM_ID' ) ) {
+    define( 'CONST_TPL_PWDFORM_ID', 'lostPwdFormId' );
+}
+if ( !defined( 'CONST_TPL_PWDMSGBLOCK_ID' ) ) {
+    define( 'CONST_TPL_PWDMSGBLOCK_ID', 'msgBlockId' );
+}
+if ( !defined( 'CONST_CRPCEN_EMPTY_ERROR_MSG' ) ) {
+    define( 'CONST_CRPCEN_EMPTY_ERROR_MSG', 'Merci de bien remplir vos adresse email et CRPCEN !' );
+}
+if ( !defined( 'CONST_TPL_PWDEMAILFIELD_ID' ) ) {
+    define( 'CONST_TPL_PWDEMAILFIELD_ID', 'emailFieldId' );
+}
+if ( !defined( 'CONST_TPL_CRPCENFIELD_ID' ) ) {
+    define( 'CONST_TPL_CRPCENFIELD_ID', 'crpcenFieldId' );
+}
+if ( !defined( 'CONST_EMAIL_SUBJECT' ) ) {
+    define( 'CONST_EMAIL_SUBJECT', 'Cridon - Mot de passe oublié' );
+}
+// do not remove "%s" : it uses to inject password value into the mail content
+if ( !defined( 'CONST_EMAIL_CONTENT' ) ) {
+    define( 'CONST_EMAIL_CONTENT', 'Votre mot de passe pour accèder à l\'espace privé du site de Cridon est : %s' );
+}
+
+// email sender adress and name
+// Hook wp_mail for not using sitename and "Wordpress" by default
+if ( !defined( 'CONST_EMAIL_SENDER_NAME' ) ) {
+    define( 'CONST_EMAIL_SENDER_NAME', 'Cridon' );
+}
+if ( !defined( 'CONST_EMAIL_SENDER_CONTACT' ) ) {
+    define( 'CONST_EMAIL_SENDER_CONTACT', 'cridon@jetpulp.dev' );
+}
+
+

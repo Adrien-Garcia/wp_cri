@@ -814,25 +814,28 @@ class Notaire extends MvcModel
         $this->csvData = $csvData;
     }
 
+    
+
     /**
-     * Get by login and password
+     * Get by crpcen and email
      *
      * @param string $login
-     * @param string $pwd
+     * @param string $email
      *
      * @return array|null
      */
-    public function findByLoginAndPassword($login, $pwd)
+    public function findByLoginAndEmail($login, $email)
     {
-        $objects = $this->find_one(array(
-                'selects'    => array('id'),
-                'conditions' => array(
-                    'crpcen'       => $login,
-                    'web_password' => $pwd
-                )
-            )
+        $items = $this->find(array(
+                                       'selects'    => array('id', 'web_password', 'email_adress'),
+                                       'conditions' => array(
+                                           'crpcen'       => $login,
+                                           'email_adress' => $email
+                                       )
+                                   )
         );
 
-        return $objects;
+        return $items;
     }
+
 }
