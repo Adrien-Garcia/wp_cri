@@ -17,10 +17,9 @@
 				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
 				
 				<h1>Mon compte</h1>
-
 				<ul>
-					<li>
-						<div class="bt">Tableaux de bord</div>
+					<li class="js-account-dashboard js-account-blocs active">
+						<div class="bt js-account-dashboard-button">Tableaux de bord</div>
 
 						<div id="tableau-de-bord" class="pannel">
 
@@ -28,18 +27,22 @@
 								<h2>Mon solde</h2>
 
 								<div class="solde-pts">
-									<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="300px" height="300px" viewBox="0 0 300 300" enable-background="new 0 0 300 300" xml:space="preserve">
-									<g id="XMLID_28_">
-
-										<circle id="XMLID_33_" fill="#FFFFFF" cx="150" cy="150" r="150"/>
-										<path id="XMLID_27_" d="M150,20c34.7,0,67.4,13.5,91.9,38.1C266.5,82.6,280,115.3,280,150s-13.5,67.4-38.1,91.9
-											C217.4,266.5,184.7,280,150,280s-67.4-13.5-91.9-38.1C33.5,217.4,20,184.7,20,150s13.5-67.4,38.1-91.9C82.6,33.5,115.3,20,150,20
-											 M150,0C67.2,0,0,67.2,0,150s67.2,150,150,150s150-67.2,150-150S232.8,0,150,0L150,0z"/>
-									</g>
+									<svg version="1.1" id="solde-circle" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="300px" height="300px" viewBox="0 0 300 300" enable-background="new 0 0 300 300" xml:space="preserve">
+										<defs id="defs3337">
+										<linearGradient y2="1" x2="0.5" y1="0" x1="0.5" id="gradient">
+											<stop id="stop-gradient1" offset="0%" />
+											<stop id="stop-gradient2" offset="100%" />
+										</linearGradient>
+										</defs>
+										<g id="layer1" >
+										    <path style="stroke:url(#gradient);"
+										       	d="M 150,0 a150, 150,0,1,1,-1,0 l 1,0"
+										       	id="solde-circle-path" />	
+										</g>
 									</svg>
 
-									<div class="point">
-										<div class="pts">
+									<div class="point" id="js-solde-data" data-solde="134" data-solde-max="150">
+										<div class="pts" >
 											134 <span>pts</span>
 										</div>
 										<span>quota 150</span>
@@ -73,13 +76,13 @@
 
 
 					</li>
-					<li>
-						<div class="bt">Mes Questions</div>
+					<li class="js-account-questions js-account-blocs">
+						<div class="bt js-account-questions-button">Mes Questions</div>
 						<div id="mes-questions" class="pannel">					
 						</div>
 					</li>
-					<li class="active">
-						<div class="bt">Mon profil</div>
+					<li class="js-account-profil js-account-blocs">
+						<div class="bt js-account-profil-button">Mon profil</div>
 
 						<div id="mon-profil" class="pannel">					
 							<div class="mes-informations">
@@ -169,8 +172,8 @@
 
 						</div>
 					</li>
-					<li>
-						<div class="bt">Règles de facturation</div>
+					<li class="js-account-facturation js-account-blocs">
+						<div class="bt js-account-facturation-button">Règles de facturation</div>
 						<div id="regles-facturation" class="pannel">					
 						</div>
 					</li>

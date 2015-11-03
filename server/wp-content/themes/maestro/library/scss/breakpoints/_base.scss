@@ -1638,7 +1638,34 @@ body.page-template-front-page{
 							position: relative;
 
 							svg{
-								
+								overflow: visible;
+								width: 300px - 13px;
+								height: 300px - 13px;
+								#solde-circle-path {
+									fill:transparent;
+									stroke-width:26px;
+									stroke-linecap:butt;
+									stroke-linejoin:miter;
+									stroke-opacity:1;
+									stroke-dasharray: 1000;
+									stroke-dashoffset: 1000;
+									//stroke-dashoffset: 300;
+									transition: stroke-dashoffset 0.5s ease-out 0.5s; 
+								}
+								#stop-gradient1 {
+									stop-color: $vj_03;
+									stop-opacity:1;
+									transition: stop-color 0.5s ease ;
+								}
+								#stop-gradient2 {
+									stop-color: $vj_01;
+									stop-opacity:1;
+									transition: stop-color 0.5s ease ;
+
+								}
+								&:hover #solde-circle-path {
+									//stroke-dashoffset: 0 !important;
+								}
 							}
 
 							.point{
