@@ -138,11 +138,12 @@ HEADER STYLES
 			position: relative;
 
 			h1, .h1 {	
+				margin-left: 10px;
 		
 				width: 400px;
 				float: left;
 				height: 120px;
-				background-size: 395px 74px;	
+				background-size: 310px 85px;	
 				background-position: left center;			
 			}
 
@@ -826,6 +827,339 @@ body.page-template-front-page{
 
 	
 }
+
+
+
+
+#content.page, #content.archive{
+	padding-top: 180px;
+
+	.breadcrumbs{
+
+	}
+
+	#main{		
+
+		#inner-content{
+
+
+			h1{
+				
+				margin: 0 0 70px 0; 
+			}
+		}
+	}
+
+}
+
+
+
+
+
+
+/*
+
+  ____                                                                      _       
+ |  _ \ __ _  __ _  ___   _ __ ___   ___  _ __     ___ ___  _ __ ___  _ __ | |_ ___ 
+ | |_) / _` |/ _` |/ _ \ | '_ ` _ \ / _ \| '_ \   / __/ _ \| '_ ` _ \| '_ \| __/ _ \
+ |  __/ (_| | (_| |  __/ | | | | | | (_) | | | | | (_| (_) | | | | | | |_) | ||  __/
+ |_|   \__,_|\__, |\___| |_| |_| |_|\___/|_| |_|  \___\___/|_| |_| |_| .__/ \__\___|
+             |___/                                                   |_|            
+
+*/
+
+
+
+#content.page-mon-compte{
+
+	#main{
+
+		#inner-content{
+
+			h1{}
+
+
+
+			> ul{
+				
+
+				>li{
+					
+					width: 25%;
+					float: left;
+					margin-right: 0px;
+
+					padding-right: 30px;
+
+					&:last-child{
+						margin-right: 0;
+						padding-right: 0;
+					}
+
+					.bt{
+
+						height: 50px;
+						line-height: 50px;
+						font-size: 24px;
+						padding: 0;  
+						line-height: 20px; 
+						width: 300px;
+
+
+						
+
+						&:before{}
+
+					}
+
+					div.pannel{
+						display: none;
+						padding: 90px 0 30px 0;
+
+						h2{
+							font-size: 30px;
+							line-height: 20px;	
+							margin-bottom: 30px;
+							
+						}
+					}					
+
+					div#tableau-de-bord{
+
+
+						.mon-solde{
+
+							width: 330px;
+							margin-right: 80px;
+							/*float: left;*/
+
+							.solde-pts{
+
+								svg{
+									width: 330px;
+								}
+								
+
+								.point{
+									width: 130px;
+									height: 130px;
+									margin-left: -65px;
+									margin-top: -65px;
+
+									.pts{
+										font-size: 95px;
+										
+
+										> span{
+											font-size: 30px;
+											right: -45px
+
+										}
+									}
+
+									> span{
+										
+									}
+								}
+							}
+
+						}
+
+						.mes-questions{
+							width: 360px;
+							float: left;
+						}
+
+						
+
+					}
+
+					div#mon-profil{
+
+						position: relative;
+					
+						.mes-informations{
+							
+
+							h2{}
+
+							.img-profil{
+								
+
+							}
+
+							.coordonnees{
+								padding-left: 30px;
+								width: 790px;
+								font-size: 18px;
+								
+
+								.nom{
+									width: 100%;
+    								margin-bottom: 23px;
+									line-height: 20px; 
+
+									span{}
+								}
+
+								.adresse, .contact{
+									width: 260px;
+    								float: left;
+    								margin-bottom: 0;
+									line-height: 20px;  
+								}
+
+								> a{
+									    float: right;
+    									margin-top: 7px;
+    									font-weight: normal;
+    									width: 180px;
+    									text-align: center;
+
+
+								}
+
+							}
+						}
+
+						
+
+						.mes-centres-dinterets, .newsletter{
+
+
+
+							h2{ }
+
+							.description{
+								width: 100%;
+								font-size: 20px;
+								line-height: 24px;
+
+							}
+
+							form{
+								width: 630px;	 							
+								margin-right: 30px;
+
+								> ul{
+									clear: both;
+
+									li{
+										width: 50%;
+										float: left;
+										;
+
+										&:nth-child(even){
+											padding-right: 10px;
+										}
+
+										&:nth-child(even){
+											padding-left: 10px;
+										}
+
+										&:before{ content:none;}
+
+										label{
+											font-size: 20px;
+											line-height: 20px;
+
+											&:before{
+												
+												top:5px; 
+
+											}
+											
+											input{
+
+
+
+											}
+
+										}
+									}
+								}
+
+								input[type="submit"]{ 
+
+									margin-left: 0px;
+									margin-top: 40px;
+									width: 110px;
+									font-weight: normal;
+
+								}
+							}
+
+							
+						}
+
+						.mes-centres-dinterets{
+							width: 630px;
+
+							.description{
+								margin-bottom: 60px;
+
+							}
+						}
+
+						.newsletter{
+							width: 490px;
+							position: absolute;
+							right: 0;
+							top: 308px;
+
+							.description{
+								margin-bottom: 20px;
+
+							}
+
+							> a{
+								margin-left: 0px;
+								margin-top: 0;
+								width: 110px;
+								text-align: center;
+								font-weight: normal;
+							}
+						}
+					
+					}
+
+
+					&.active{
+
+						
+						div.pannel{
+								width: 1200px !important;
+								
+							}
+
+						div#mon-profil.pannel{							
+							left: -600px; 
+							
+						}
+
+						div#tableau-de-bord.pannel{							
+							left:0px;
+							
+						}
+
+					}
+
+				}
+
+			}
+
+		}	
+	}
+	
+
+
+}
+
+
+
+
+
+
 
 
 

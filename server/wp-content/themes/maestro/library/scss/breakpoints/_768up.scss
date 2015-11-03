@@ -183,7 +183,7 @@ HEADER STYLES
 		
 				width: 100%;
 				height: 80px;
-				background-size: 240px 50px;				
+				background-size: 225px 60px;				
 			}
 
 			#bt-nav-mobile{
@@ -1136,9 +1136,339 @@ body.page-template-front-page{
 }
 
 
+#content.page, #content.archive{
+	padding-top: 130px;
+
+	.breadcrumbs{		
+		display: block;
+		padding-top: 30px;
+
+		a{
+			@extend .do-re;
+			font-size: 15px;
+			color:#818181;
+			text-transform: uppercase;
+			text-decoration: none;
+			line-height: 24px;
+
+		}
+
+		span{
+			@extend .do-sm;
+			color:$bleu;
+			font-size: 15px;
+			line-height: 24px;
+		}
+	
+
+	}
+
+	#main{
+		
+		padding-top: 60px;
+
+		
+
+		#inner-content{
+
+
+			h1{
+				
+				font-size: 50px;
+				line-height: 40px;
+			}
+		}
+	}
+
+}
 
 
 
+
+
+/*
+
+  ____                                                                      _       
+ |  _ \ __ _  __ _  ___   _ __ ___   ___  _ __     ___ ___  _ __ ___  _ __ | |_ ___ 
+ | |_) / _` |/ _` |/ _ \ | '_ ` _ \ / _ \| '_ \   / __/ _ \| '_ ` _ \| '_ \| __/ _ \
+ |  __/ (_| | (_| |  __/ | | | | | | (_) | | | | | (_| (_) | | | | | | |_) | ||  __/
+ |_|   \__,_|\__, |\___| |_| |_| |_|\___/|_| |_|  \___\___/|_| |_| |_| .__/ \__\___|
+             |___/                                                   |_|            
+
+*/
+
+
+
+#content.page-mon-compte{
+
+	#main{
+
+		#inner-content{
+
+			h1{}
+
+
+
+			> ul{
+				
+
+				>li{
+					
+					width: 157px;
+					float: left;
+					margin-right: 10px;
+
+					&:last-child{
+						margin-right: 0;
+					}
+
+					.bt{
+
+						height: 40px;
+						line-height: 40px;
+						font-size: 14px;
+						display: table-cell;
+						vertical-align: middle;
+						line-height: 16px; 
+						width: 157px;
+
+						
+
+						&:before{}
+
+					}
+
+					div.pannel{
+						display: none;
+						padding: 30px 0;
+
+						h2{
+							
+						}
+					}
+
+					
+
+					div#tableau-de-bord{
+
+						width: 100%;
+						float: left;
+
+						.mon-solde{
+
+							width: 300px;
+							float: left;
+
+							.solde-pts{
+								
+
+								.point{
+									
+
+									.pts{
+										
+
+										> span{
+											
+
+										}
+									}
+
+									> span{
+										
+									}
+								}
+							}
+
+							.consomation{
+								
+								.pts{
+
+									> .pts{
+										
+									}
+
+									>.texte{
+										
+
+									}
+
+									>.date{
+										
+									}
+								}
+
+							}
+
+							.appel-courrier{
+								
+
+								.appel, .courrier{
+									
+									&:before{
+										
+										
+									}
+
+									span{
+										
+									}
+								}
+
+								.appel{
+
+									&:before{}
+								}
+
+								.courrier{
+									&:before{}
+								}
+							}
+
+						}
+
+						.mes-questions{
+							width: 360px;
+							float: left;
+						}
+
+						
+
+					}
+
+					div#mon-profil{
+					
+						.mes-informations{
+							
+
+							h2{}
+
+							.img-profil{
+								
+
+							}
+
+							.coordonnees{
+								padding-left: 30px;
+								width: 560px;
+								
+
+								.nom{
+									width: 100%;
+    								margin-bottom: 30px;
+
+									span{}
+								}
+
+								.adresse, .contact{
+									width: 160px;
+    								float: left;
+    								margin-bottom: 0;
+								}
+
+								> a{
+									    float: right;
+    									margin-top: 7px;
+
+
+								}
+
+							}
+						}
+
+						.mes-centres-dinterets, .newsletter{
+
+							h2{ }
+
+							.description{
+
+							}
+
+							form{
+
+								> ul{
+									clear: both;
+
+									li{
+										width: 50%;
+										float: left;
+
+										&:nth-child(even){
+											padding-right: 10px;
+										}
+
+										&:nth-child(even){
+											padding-left: 10px;
+										}
+
+										&:before{ content:none;}
+
+										label{
+
+											&:before{
+
+
+											}
+											
+											input{
+
+											}
+
+										}
+									}
+								}
+
+								input[type="submit"]{ 
+
+									margin-left: 608px;
+
+								}
+							}
+
+							
+						}
+
+						.newsletter{
+
+							> a{
+								margin-left: 574px;
+							}
+						}
+					
+					}
+
+					&.active{
+
+						
+						div.pannel{
+								display: block;
+								width: 660px !important;
+								top: 0;
+								position: relative; 
+							}
+
+						div#mon-profil.pannel{							
+							left: -334px;
+							
+						}
+
+						div#tableau-de-bord.pannel{							
+							left:0px;
+							
+						}
+
+					}
+
+				}
+
+			}
+
+		}	
+	}
+	
+
+
+}
 
  
 

@@ -89,7 +89,7 @@ gulp.task('uglify', function() {
 	gulp.src([libPath+'/js/app.js', libPath+'/js/application/*.js'])
         .pipe(plumber())
         .pipe(concat('app.concat.js'))
-    	.pipe(uglify())
+    	//.pipe(uglify())
     	.pipe(rename("app.min.js"))
         .pipe(plumber.stop())
     	.pipe(gulp.dest(libPath+'/js/min/'));

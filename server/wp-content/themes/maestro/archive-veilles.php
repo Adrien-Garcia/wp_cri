@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-	<div id="content" class="archive-veilles">
+	<div id="content" class="archive archive-veilles">
 				
 		<div class="breadcrumbs">
 			<div id="inner-content" class="wrap cf">

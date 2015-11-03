@@ -142,4 +142,55 @@ jQuery(document).ready(function($) {
   loadGravatars();
 
 
+
+
+  /*- checkbox mon compte-*/
+	$('#content.page-mon-compte #mon-profil .mes-centres-dinterets ul li label').addClass("unselect");
+	
+	$('#mon-profil .mes-centres-dinterets ul li label').click(function(e){
+
+		if( $(e.target).is("label") ) {
+
+			if( $(this).hasClass("select") ) {
+				
+				$(this).removeClass("select");
+				$(this).addClass("unselect");
+				
+			} else {
+				$(this).removeClass("unselect");
+				$(this).addClass("select");
+			}
+
+		}
+
+	});
+
+
+/*- Pannel connexion-*/
+
+$('#mdp_oublie').click(function(e){
+	$('#panel_connexion .pannel_01').toggleClass('active');
+	$('#panel_connexion .pannel_02').toggleClass('active');
+	
+});
+$('#mdp_retour').click(function(e){
+	$('#panel_connexion .pannel_01').toggleClass('active');
+	$('#panel_connexion .pannel_02').toggleClass('active');
+	
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }); /* end of as page load scripts */
