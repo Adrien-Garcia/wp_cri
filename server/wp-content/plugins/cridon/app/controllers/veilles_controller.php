@@ -34,9 +34,13 @@ class VeillesController extends MvcPublicController {
      */
     public function set_pagination($collection) {
         parent::set_pagination($collection);
-        //cute url in pagination
         if( isset( $this->pagination['add_args'] ) ){
-            unset( $this->pagination['add_args'] );
+            if( isset( $this->pagination['add_args']['controller'] ) ){
+                unset( $this->pagination['add_args']['controller'] );
+            }
+            if( isset( $this->pagination['add_args']['action'] ) ){
+                unset( $this->pagination['add_args']['action'] );
+            }
         }
     }
     
