@@ -318,3 +318,21 @@ function criRestoreData(){
     global $post; 
     return ( ( $post ) && ( $post instanceof WP_Post ) ) ? CridonPostStorage::get( $post->ID,'all' ) : null;
 }
+
+/**
+ * Return current Matiere 
+ * 
+ * @return array|null
+ */
+function get_the_matiere() {
+    $data = criRestoreData();//Get current result from query
+    if( !empty( $data ) && !empty( $data->matiere ) ){
+        //Construct result
+        $mat = array(
+            'name' => $data->matiere->label,
+            'picto_url' => $data->matiere->picto
+        );
+        return $mat;
+    }
+    return null;
+}

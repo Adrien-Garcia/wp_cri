@@ -95,4 +95,8 @@ if ( !defined( 'CONST_TPL_LOGINFIELD_ID' ) ) {
 if ( !defined( 'CONST_TPL_PASSWORDFIELD_ID' ) ) {
     define( 'CONST_TPL_PASSWORDFIELD_ID', 'passwordFieldId' );
 }
+//Default Post per page
+if ( !defined( 'DEFAULT_POST_PER_PAGE' ) ) {
+    define( 'DEFAULT_POST_PER_PAGE', 4 );
+}
 

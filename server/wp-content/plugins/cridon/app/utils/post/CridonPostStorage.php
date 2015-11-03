@@ -39,7 +39,7 @@ class CridonPostStorage {
                 }
             }
         }else{// It's an object
-            if( is_object( $results ) && isset( $results->link ) && isset( $results->post ) && ( $results->post instanceof WP_Post ) ){
+            if( is_object( $results ) && isset( $results->link ) && isset( $results->post ) && ( $results->post instanceof WP_Post || $results->post instanceof MvcModelObject ) ){
                 $tmp = array(
                     'link' => $results->link,
                     'all'  => $results
