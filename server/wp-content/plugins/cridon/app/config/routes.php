@@ -18,8 +18,12 @@ MvcRouter::public_connect('download/reponse/{:id:[\d]+}',array('controller' => '
 // import (import notaire action)
 MvcRouter::public_connect('import/notaires', array('controller' => 'notaires', 'action' => 'import'));
 
-// espace notaire
-MvcRouter::public_connect('{:controller}/espace-notaire', array('controller' => 'notaires', 'action' => 'dashbord'));
+// mes questions
+MvcRouter::public_connect('notaires/{:id:[\d]+}/questions', array('controller' => 'notaires', 'action' => 'questions'));
+// mon profil
+MvcRouter::public_connect('notaires/{:id:[\d]+}/profil', array('controller' => 'notaires', 'action' => 'profil'));
+// regles de facturation
+MvcRouter::public_connect('notaires/{:id:[\d]+}/facturation', array('controller' => 'notaires', 'action' => 'facturation'));
 
 // default
 MvcRouter::public_connect('{:controller}', array('action' => 'index'));

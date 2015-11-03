@@ -1,3 +1,13 @@
+<?php
+/**
+ * Description of show.php
+ *
+ * @package wp_cridon
+ * @author Etech
+ * @contributor Joelio
+ */
+
+?>
 <h2><?php echo $object->__name; ?></h2>
 
 <p>

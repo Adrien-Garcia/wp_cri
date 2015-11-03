@@ -814,7 +814,7 @@ class Notaire extends MvcModel
         $this->csvData = $csvData;
     }
 
-    
+
 
     /**
      * Get by crpcen and email
@@ -838,4 +838,25 @@ class Notaire extends MvcModel
         return $items;
     }
 
+    /**
+     * Get by login and password
+     *
+     * @param string $login
+     * @param string $pwd
+     *
+     * @return array|null
+     */
+    public function findByLoginAndPassword($login, $pwd)
+    {
+        $objects = $this->find_one(array(
+                'selects' => array('Notaire.id, Notaire.crpcen, Notaire.id_civilite, Notaire.id_fonction'),
+                'conditions' => array(
+                    'crpcen'       => $login,
+                    'web_password' => $pwd
+                )
+            )
+        );
+
+        return $objects;
+    }
 }
