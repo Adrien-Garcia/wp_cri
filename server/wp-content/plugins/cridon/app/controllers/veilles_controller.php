@@ -15,7 +15,7 @@
 class VeillesController extends MvcPublicController {
     
     public function index() {
-        $this->params['per_page'] = DEFAULT_POST_PER_PAGE;
+        $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
         //Set explicit join
         $this->params['joins'] = array(
             'Post','Matiere'
