@@ -423,3 +423,36 @@ function CriNotaireData() {
 
     return null;
 }
+
+
+function getMatieresByNotaire(){
+    $aResults = array();
+    // check if user connected is notaire
+    if ( CriIsNotaire() ) {
+        $notaire = CriNotaireData();
+        $options = array(
+            'conditions' => array(
+                'Matiere.displayed' => 1
+            )
+        );
+        $aSubscribed = array();
+        $matieres = mvc_model('matiere')->find( $options );
+        if( isset( $notaire->matieres ) && !empty( $notaire->matieres ) ){
+            foreach( $notaire->matieres as $mat ){
+                $aSubscribed[] = $mat->id;
+            }
+        }
+        foreach( $matieres as $mat ){
+            $isSubscribed = false;
+            if( in_array( $mat->id,$aSubscribed ) ){
+                $isSubscribed = true;
+            }
+            $aResults[] = array(
+                'name' => $mat->label,
+                'subscribed' => $isSubscribed
+            );
+        }
+        return $aResults;
+    }
+    return null;
+}
