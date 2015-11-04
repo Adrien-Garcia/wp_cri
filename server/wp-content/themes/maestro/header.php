@@ -90,43 +90,52 @@
 					</nav>
 
 					<a id="bt-nav-mobile" href="#"></a>
-					<div id="bt-account" class="js-panel-connexion-open"></div>
-					
+					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
+						<div id="bt-account" class="js-panel-connexion-open"></div>
+					<?php else: ?>
+						<a id="bt-account" href="/notaires/<?php echo CriNotaireData()->id ?>/" ></a>
+					<?php endif; ?>
 
 				</div>
 			</div>
+			<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
+				
+				
+				<div id="panel_connexion" class="js-panel-connexion">
+					<div class="fieldset">
+						<div id="close" class="js-panel-connexion-close">+</div>
+						<div class="titre">connectez-vous</div>
+						<p>Accédez à vos informations et bénéficiez d’un contenu personnalisé.</p>
+						 <div class="pannel_01 active">
+							<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
+								<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre adresse mail">
+								<input type="password" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
+								<input type="submit" name="submit" value="Connectez-vous">
+							</form>
+							<a href="#" id="mdp_oublie">> Mot de passe oublié ? <</a>
+							<div id="errorMsgId">									
+							</div>
+						<?php 
+							criSetLoginFormOptions('loginFormId', 'loginFieldId', 'passwordFieldId', 'errorMsgId');
 
-			<div id="panel_connexion" class="js-panel-connexion">
-				<div class="fieldset">
-					<div id="close" class="js-panel-connexion-close">+</div>
-					<div class="titre">connectez-vous</div>
-					<p>Accédez à vos informations et bénéficiez d’un contenu personnalisé.</p>
-					<?php 
-						criSetLoginFormOptions('loginFormId', 'loginFieldId', 'passwordFieldId', 'errorMsgId');
-
-					 ?>
-					 <div class="pannel_01 active">
-						<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
-							<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre adresse mail">
-							<input type="password" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
-							<input type="submit" name="submit" value="Connectez-vous">
-						</form>
-						<a href="#" id="mdp_oublie">> Mot de passe oublié ? <</a>
-						<div id="errorMsgId">									
+						 ?>
 						</div>
-					</div>
-					
-					<div class="pannel_02">
-						<form action="" method="" accept-charset="utf-8" id="">
-							<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre adresse mail">
-							<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
-							<input type="submit" name="submit" value="Mot de passe oublié">						
-						</form>
-						<a href="#" id="mdp_retour">< Retour </a>
-					</div>
+						
+						<div class="pannel_02">
+							<form action="" method="" accept-charset="utf-8" id="lostPwdFormId">
+								<input type="text" name="emailFieldId" value="" id="emailFieldId" placeholder="Votre adresse mail">
+								<input type="text" name="crpcenFieldId" value="" id="crpcenFieldId" placeholder="Votre CRPCEN">
+								<input type="submit" name="submit" value="Mot de passe oublié">						
+							</form>
+							<a href="#" id="mdp_retour">< Retour </a>
+							<div id="errorMsgForgotId">									
+							</div>
+							<?php criSetLostPwdOptions('lostPwdFormId', 'emailFieldId', 'crpcenFieldId', 'errorMsgForgotId'); ?>
+						</div>
 
-					
+						
+					</div>
 				</div>
-			</div>
+			<?php endif ?>
 
 		</header>
