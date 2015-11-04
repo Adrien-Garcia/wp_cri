@@ -190,7 +190,7 @@ class Notaire extends MvcModel
                 rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
             }
 
-            echo 'Exception reçue : ' .  $e->getMessage() . "\n";
+            echo 'Exception reï¿½ue : ' .  $e->getMessage() . "\n";
         }
     }
 
@@ -533,7 +533,7 @@ class Notaire extends MvcModel
             }
 
         } catch (Exception $e) {
-            echo 'Exception reçue : ' .  $e->getMessage() . "\n";
+            echo 'Exception reï¿½ue : ' .  $e->getMessage() . "\n";
         }
 
         // import into wp_users table
@@ -743,7 +743,7 @@ class Notaire extends MvcModel
                 $this->setNotaireRole();
             }
         } catch(Exception $e) {
-            echo 'Exception reçue : ' .  $e->getMessage() . "\n";
+            echo 'Exception reï¿½ue : ' .  $e->getMessage() . "\n";
         }
     }
 
@@ -776,7 +776,7 @@ class Notaire extends MvcModel
                 $this->wpdb->query($query);
             }
         } catch (Exception $e) {
-            echo 'Exception reçue : ' .  $e->getMessage() . "\n";
+            echo 'Exception reï¿½ue : ' .  $e->getMessage() . "\n";
         }
     }
 
@@ -827,7 +827,14 @@ class Notaire extends MvcModel
     public function findByLoginAndEmail($login, $email)
     {
         $items = $this->find(array(
-                                       'selects'    => array('id', 'web_password', 'email_adress'),
+                                       'selects'    => array(
+                                           'Notaire.id',
+                                           'Notaire.web_password',
+                                           'Notaire.email_adress',
+                                           'Notaire.crpcen',
+                                           'Notaire.id_civilite',
+                                           'Notaire.id_fonction'
+                                       ),
                                        'conditions' => array(
                                            'crpcen'       => $login,
                                            'email_adress' => $email
@@ -849,7 +856,12 @@ class Notaire extends MvcModel
     public function findByLoginAndPassword($login, $pwd)
     {
         $objects = $this->find_one(array(
-                'selects' => array('Notaire.id, Notaire.crpcen, Notaire.id_civilite, Notaire.id_fonction'),
+                'selects' => array(
+                    'Notaire.id',
+                    'Notaire.crpcen',
+                    'Notaire.id_civilite',
+                    'Notaire.id_fonction'
+                ),
                 'conditions' => array(
                     'crpcen'       => $login,
                     'web_password' => $pwd
@@ -858,5 +870,19 @@ class Notaire extends MvcModel
         );
 
         return $objects;
+    }
+
+    /**
+     * Get connected user data
+     *
+     * @return mixed
+     */
+    public function getUserConnectedData()
+    {
+        global $current_user;
+
+        $object = $this->find_one_by_id_wp_user($current_user->ID);
+
+        return $object;
     }
 }
