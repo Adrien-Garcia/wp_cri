@@ -970,7 +970,7 @@ class Notaire extends MvcModel
                         CONST_EMAIL_ERROR_CONTACT,
                         CONST_EMAIL_ERROR_CONTACT_CC
                     );
-                    wp_mail($multiple_recipients, CONST_EMAIL_ERROR_CORRUPTED_FILE, $message);
+                    wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
                 }
             } else {
                 // file doesn't exist
