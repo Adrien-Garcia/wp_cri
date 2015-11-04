@@ -121,7 +121,7 @@
 					    <?php wp_reset_query(); ?>
 					    <div class="blockEnd"></div>
 
-					    <a href="#" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
+					    <a href="<?php /* @TODO */ echo "/veilles/"; ?>" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
    						
    					</div>
 
