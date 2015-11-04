@@ -871,4 +871,18 @@ class Notaire extends MvcModel
 
         return $objects;
     }
+
+    /**
+     * Get connected user data
+     *
+     * @return mixed
+     */
+    public function getUserConnectedData()
+    {
+        global $current_user;
+
+        $object = $this->find_one_by_id_wp_user($current_user->ID);
+
+        return $object;
+    }
 }
