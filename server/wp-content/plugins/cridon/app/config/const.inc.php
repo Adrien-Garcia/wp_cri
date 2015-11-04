@@ -159,4 +159,7 @@ if ( !defined( 'CONST_EMAIL_ERROR_SUBJECT' ) ) {
 if ( !defined( 'CONST_EMAIL_ERROR_CONTENT' ) ) {
     define( 'CONST_EMAIL_ERROR_CONTENT', 'Fichier d\'import absent pour : %s' );
 }
+if ( !defined( 'CONST_EMAIL_ERROR_CORRUPTED_FILE' ) ) {
+    define( 'CONST_EMAIL_ERROR_CORRUPTED_FILE', 'Fichier d\'import mal formaté pour : %s' );
+}
 

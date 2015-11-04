@@ -961,6 +961,16 @@ class Notaire extends MvcModel
                     if ($this->importSuccess) {
                         rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
                     }
+                } else { // file content error
+                    // message content
+                    $message =  sprintf(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
+
+                    // send email
+                    $multiple_recipients = array(
+                        CONST_EMAIL_ERROR_CONTACT,
+                        CONST_EMAIL_ERROR_CONTACT_CC
+                    );
+                    wp_mail($multiple_recipients, CONST_EMAIL_ERROR_CORRUPTED_FILE, $message);
                 }
             } else {
                 // file doesn't exist
@@ -968,7 +978,11 @@ class Notaire extends MvcModel
                 $message =  sprintf(CONST_EMAIL_ERROR_CONTENT, 'Solde');
 
                 // send email
-                wp_mail(CONST_EMAIL_ERROR_CONTACT, CONST_EMAIL_ERROR_SUBJECT, $message);
+                $multiple_recipients = array(
+                    CONST_EMAIL_ERROR_CONTACT,
+                    CONST_EMAIL_ERROR_CONTACT_CC
+                );
+                wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
             }
         } catch (Exception $e) {
             // archive file
