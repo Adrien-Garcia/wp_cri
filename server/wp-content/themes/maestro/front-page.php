@@ -8,7 +8,7 @@
 
    	<div id="content">
 
-   		<div class="row_01">
+   		<div class="row_01" id="sel-front-page">
    			<div id="inner-content" class="wrap cf">
 				
 				<div class="falsh-info js-flash-info">
@@ -121,7 +121,7 @@
 					    <?php wp_reset_query(); ?>
 					    <div class="blockEnd"></div>
 
-					    <a href="<?php /* @TODO */ echo "/veilles/"; ?>" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
+					    <a href="<?php /* @TODO */ echo "/veilles/"; ?>" id="sel-hp-veilles-link" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
    						
    					</div>
 

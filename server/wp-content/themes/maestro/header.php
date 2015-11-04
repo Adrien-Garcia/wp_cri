@@ -50,7 +50,7 @@
 
 	<div id="container">
 
-		<header class="header" role="banner">
+		<header class="header" role="banner" id="sel-header">
 			<div class="header-sup">
 				<div id="inner-header" class="wrap cf">
 					<div class="logo-partenaires">

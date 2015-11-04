@@ -17,7 +17,7 @@
 				<div id="filtres_veilles">					
 				</div>
 
-				<div class="listing veille">						
+				<div class="listing veille" id="sel-veilles">						
 				<?php $current_date = null; ?>
 
 				<?php
@@ -31,7 +31,7 @@
 							if( $current_date != get_the_date('d-M-Y')) :
 								$current_date = get_the_date('d-M-Y');
 						 ?>
-							<div class="date-veille">
+							<div class="date-veille sel-veilles-date">
 								<div class="sep"></div>
 								<span class="jour"><?php echo get_the_date( 'd') ?></span>
 						      	<span class="mois"><?php echo get_the_date( 'M') ?></span>
@@ -44,10 +44,10 @@
 								<?php 
 									$matiere = get_the_matiere();
 								 ?>
-									<img src="<?php echo $veille->matiere->picto ?>" alt="<?php echo $veille->matiere->label ?>" />
+									<img class="sel-veilles-picto" src="<?php echo $veille->matiere->picto ?>" alt="<?php echo $veille->matiere->label ?>" />
 								</div>
 							</div>
-							<div class="block_right">
+							<div class="block_right sel-veilles-content">
 							<?php //var_dump($this) ?>
 								<div class="matiere"><?php echo $veille->matiere->label ?></div>
 								<h2><?php the_title() ?></h2>

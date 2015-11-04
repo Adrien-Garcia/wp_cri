@@ -1,4 +1,4 @@
-			<footer class="footer" role="contentinfo">
+			<footer class="footer" role="contentinfo" id="sel-footer">
 				<?php
 
 				//get theme options
