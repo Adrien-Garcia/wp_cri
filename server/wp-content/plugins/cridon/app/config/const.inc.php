@@ -139,4 +139,10 @@ if ( !defined( 'CONST_EMAIL_SENDER_CONTACT' ) ) {
     define( 'CONST_EMAIL_SENDER_CONTACT', 'cridon@jetpulp.dev' );
 }
 
+// import CSV solde file path
+if ( !defined( 'CONST_IMPORT_CSV_SOLDE_FILE_PATH' ) ) {
+    define( 'CONST_IMPORT_CSV_SOLDE_FILE_PATH', 'G:/MyProjects/JetPulp/Docs/CSV/Soldes/' );
+//    define( 'CONST_IMPORT_CSV_SOLDE_FILE_PATH', 'PATH_TO_CSVFILE' );
+}
+
 
