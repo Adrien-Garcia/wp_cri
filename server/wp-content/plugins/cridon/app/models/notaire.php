@@ -48,10 +48,21 @@ class Notaire extends MvcModel
     );
 
     /**
+     * @var array
+     */
+    public $has_and_belongs_to_many = array(
+        'Matiere' => array(
+            'foreign_key' => 'id_notaire',
+            'association_foreign_key' => 'id_matiere',
+            'join_table' => '{prefix}matiere_notaire',
+            'fields' => array('id','label','code','short_label','displayed','picto')
+        )
+    );
+    /**
      *
      * @var array 
      */
-    var $includes   = array('Etude','Civilite','Fonction');
+    var $includes   = array('Etude','Civilite','Fonction','Matiere');
     /**
      * @var array
      */
