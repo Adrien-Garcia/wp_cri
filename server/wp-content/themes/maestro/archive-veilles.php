@@ -72,7 +72,10 @@
 					</article>
 
                     <?php endforeach; ?>
-                    <?php echo $this->pagination(); ?>
+                    <div class="pagination">
+                    	<?php echo $this->pagination(); ?>
+                    </div>
+                    
                 </div>
 
 			</div>					

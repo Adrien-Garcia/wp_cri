@@ -1361,7 +1361,6 @@ body.page-template-front-page{
 								width: 30px;
 								height: 30px;
 								margin-right: 20px;
-								border:solid 1px green;
 
 								img{
 									width: 30px;
@@ -1463,6 +1462,7 @@ body.page-template-front-page{
 					
 				}
 
+
 			} 
 
 		}
@@ -1470,6 +1470,64 @@ body.page-template-front-page{
 	}
 
 	
+}
+
+.pagination{
+					
+	border-top:solid 4px #e6e6e6;
+	padding: 40px 0;
+	margin: 0;
+
+	a, span{
+		height: 30px;
+		width: 30px;
+		line-height: 30px;
+		padding: 0;
+		margin: 0 10px 0 0;
+
+		@extend .do-me;
+		font-size: 14px;
+		color:$bleu;
+
+		display: inline-block;
+
+		&:hover{
+			background: #e6e6e6;
+			color:$bleu;
+		}
+	}
+
+	a.page-numbers{
+	}
+
+	a.next, a.prev{
+		width: auto;
+		display: none;
+	}
+
+	span.current{
+
+		background: $vert;
+		color:#FFF;
+		position: relative;
+
+		&:before{
+			@include svgicon('icon-angle-right', 15px, 15px, $vert);
+			position: absolute;
+			right: -4px;
+			top: 50%;
+			margin-top: -7px;
+		}
+
+		&:hover{
+			background: $vert;
+			color:#FFF;
+		}
+		
+
+	}
+
+
 }
 
 
@@ -1644,8 +1702,11 @@ body.page-template-front-page{
 
 							svg{
 								overflow: visible;
-								width: 300px - 13px;
+								//width: 300px - 13px;
+								width: 275px;
 								height: 300px - 13px;
+								position: relative;
+								left: 13px;
 								#solde-circle-path {
 									fill:transparent;
 									stroke-width:26px;
