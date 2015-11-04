@@ -199,7 +199,7 @@ function checkUserAuthorization(){
     $aIndex = $aEdit = $aAdd = $aDelete = array();
     $roles = $user->roles;//get roles
     //If user is an administrator, he has full control
-    if( empty( $roles ) || $roles[0] == 'administrator' ){        
+    if( empty( $roles ) || in_array( CONST_ADMIN_ROLE, $roles ) ){
         return;
     }
     foreach( $capabilities as $key => $value ){ 
