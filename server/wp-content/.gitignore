@@ -1,4 +1,7 @@
-/uploads
+./uploads/*
+#allow git to create an empty repo
+!./uploads/.gitignore
+!./uploads/import/.gitignore
 /cache/
 /ewww/
 /w3tc-config/
