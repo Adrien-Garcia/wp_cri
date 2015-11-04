@@ -66,9 +66,15 @@
 					<a class="poser-question" href="#">
 						<?php _e('Posez une question'); ?>
 					</a>
-					<a class="acceder-compte desktop js-panel-connexion-open" href="#">
-						<?php _e('acceder à mon compte'); ?>
-					</a>
+					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
+						<<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="#">
+							<?php _e('acceder à mon compte'); ?>
+						</a>
+					<?php else: ?>
+						<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="/notaires/<?php echo CriNotaireData()->id ?>/">
+							<?php _e('acceder à mon compte'); ?>
+						</a>
+					<?php endif; ?>
 				</div>
 			</div>
 
@@ -91,9 +97,9 @@
 
 					<a id="bt-nav-mobile" href="#"></a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
-						<div id="bt-account" class="js-panel-connexion-open"></div>
+						<div id="bt-account" class="js-panel-connexion-open sel-open-onglet-connexion"></div>
 					<?php else: ?>
-						<a id="bt-account" href="/notaires/<?php echo CriNotaireData()->id ?>/" ></a>
+						<a id="bt-account" class="sel-open-onglet-connexion" href="/notaires/<?php echo CriNotaireData()->id ?>/" ></a>
 					<?php endif; ?>
 
 				</div>

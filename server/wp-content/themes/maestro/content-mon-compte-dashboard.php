@@ -16,7 +16,7 @@
 			</g>
 		</svg>
 
-		<div class="point" id="js-solde-data" data-solde="134" data-solde-max="150">
+		<div class="point sel-solde-data" id="js-solde-data" data-solde="134" data-solde-max="150">
 			<div class="pts" >
 				134 <span>pts</span>
 			</div>

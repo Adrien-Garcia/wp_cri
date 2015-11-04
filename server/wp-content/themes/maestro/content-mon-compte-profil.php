@@ -1,6 +1,6 @@
 <?php $notaire = CriNotaireData() ?>
 
-<div class="mes-informations">
+<div class="mes-informations" id="sel-compte-profil">
 
 	<h2>Mes informations</h2>
 
@@ -17,7 +17,7 @@
 			<span>69000 leau</span>
 		</div>
 		<div class="contact">
-			<?php echo $notaire->email_adress ?>
+			<span id="sel-compte-mail"><?php echo $notaire->email_adress ?></span>
 			<span><?php echo $notaire->tel ?></span>
 		</div>
 		<a href="#" title="">Modifier mes informations</a>

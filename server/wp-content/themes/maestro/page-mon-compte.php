@@ -17,7 +17,7 @@
 				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
 				
 				<h1>Mon compte</h1>
-				<ul>
+				<ul id="sel-compte">
 					<li class="js-account-dashboard js-account-blocs active">
 						<div class="bt js-account-dashboard-button">Tableaux de bord</div>
 						<div id="tableau-de-bord" class="pannel">
@@ -32,7 +32,7 @@
 						</div>
 					</li>
 					<li class="js-account-profil js-account-blocs">
-						<div class="bt js-account-profil-button">Mon profil</div>
+						<div class="bt js-account-profil-button" id="sel-compte-profil-button">Mon profil</div>
 						<div id="mon-profil" class="pannel">
 							<?php echo get_template_part("content","mon-compte-profil"); ?>
 						</div>
