@@ -155,3 +155,10 @@ function cridon_mail_from_name( $name )
 add_filter( 'wp_mail_from_name', 'cridon_mail_from_name' );
 
 
+add_action('after_setup_theme', 'custom_remove_admin_bar');
+function custom_remove_admin_bar() {
+    //Remove admin bar in front
+    if ( !is_admin() ) {
+        show_admin_bar(false);
+    }      
+}
