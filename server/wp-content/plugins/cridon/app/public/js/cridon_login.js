@@ -92,6 +92,7 @@
         nonce.type  = 'hidden';
         nonce.name  = 'tokenpwd';
         nonce.id    = 'tokenpwd';
+        nonce.value = jsvar.lostpwd_nonce;
 
         // get default var of login form parameters
         // @see hook.inc.php
