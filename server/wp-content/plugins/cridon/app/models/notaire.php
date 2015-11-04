@@ -962,6 +962,13 @@ class Notaire extends MvcModel
                         rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
                     }
                 }
+            } else {
+                // file doesn't exist
+                // message content
+                $message =  sprintf(CONST_EMAIL_ERROR_CONTENT, 'Solde');
+
+                // send email
+                wp_mail(CONST_EMAIL_ERROR_CONTACT, CONST_EMAIL_ERROR_SUBJECT, $message);
             }
         } catch (Exception $e) {
             // archive file
