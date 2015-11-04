@@ -28,7 +28,7 @@
 		<div class="pts">
 			<span class="pts">16</span>
 			<span class="texte">points consommés</span>
-			<span class="date">au 12.09.2015</span>
+			<span class="date">au <?php echo date("j.m.Y") ?></span>
 		</div>							
 	</div>
 

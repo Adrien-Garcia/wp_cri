@@ -16,11 +16,6 @@
 			
 				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
 				
-				<?php 
-					$notaire = $object;
-					//var_dump($notaire);
-				 ?>
-
 				<h1>Mon compte</h1>
 				<ul>
 					<li class="js-account-dashboard js-account-blocs active">

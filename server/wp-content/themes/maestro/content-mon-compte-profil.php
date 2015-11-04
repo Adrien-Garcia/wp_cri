@@ -1,3 +1,5 @@
+<?php $notaire = CriNotaireData() ?>
+
 <div class="mes-informations">
 
 	<h2>Mes informations</h2>
@@ -8,15 +10,15 @@
 	<div class="coordonnees">
 		<div class="nom">
 			<span>Nom de l'étude</span>
-			Nom Prénom
+			<?php echo $notaire->last_name ?> <?php echo $notaire->first_name ?>
 		</div>
 		<div class="adresse">
 			25 rue du Moulin
 			<span>69000 leau</span>
 		</div>
 		<div class="contact">
-			adresse@mail.fr
-			<span>00 00 00 00 00</span>
+			<?php echo $notaire->email_adress ?>
+			<span><?php echo $notaire->tel ?></span>
 		</div>
 		<a href="#" title="">Modifier mes informations</a>
 	</div>
