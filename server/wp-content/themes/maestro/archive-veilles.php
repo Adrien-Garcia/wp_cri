@@ -4,7 +4,7 @@
 				
 		<div class="breadcrumbs">
 			<div id="inner-content" class="wrap cf">
-				<?php if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
+				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
 				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux connaissances juridiques </a>  +  <span>Veille juridique</span>
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 				<div class="listing veille">						
 				<?php $current_date = null; ?>
 
-				<?php 
+				<?php
 					foreach ($objects as $key => $veille) :
 				 ?>
 
@@ -71,9 +71,9 @@
 						
 					</article>
 
-				<?php endforeach; ?>
-
-				</div>
+                    <?php endforeach; ?>
+                    <?php echo $this->pagination(); ?>
+                </div>
 
 			</div>					
 
