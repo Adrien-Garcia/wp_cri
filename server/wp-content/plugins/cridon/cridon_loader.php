@@ -83,14 +83,23 @@ class CridonLoader extends MvcPluginLoader
             }
         }
 
-	    // @TODO to be removed if we use specific plugin like "user-role-editor"
-	    // add  notaire role
-	    add_role( 'notaire', 'Notaire', array( 'read' => true, 'level_0' => true ) );
+        $roles = get_option('cri_user_roles');
+        foreach ( $roles as $k=>$v ){
+            $exceptions = array( 'notaire',CONST_OFFICES_ROLE,CONST_ORGANISMES_ROLE,CONST_CLIENTDIVERS_ROLE );
+            if( in_array($k, $exceptions) ) {
+                $role = get_role($k);
+                $role->remove_cap( 'read' ); 
+                $role->remove_cap( 'level_0' );
+            }
+        }    
+        // @TODO to be removed if we use specific plugin like "user-role-editor"
+        // add  notaire role
+        add_role( 'notaire', 'Notaire' );
 
         // init specific role by group (label can be managed in admin area)
-	    add_role( CONST_OFFICES_ROLE, 'Offices', array( 'read' => true, 'level_0' => true ) );
-	    add_role( CONST_ORGANISMES_ROLE, 'Organismes', array( 'read' => true, 'level_0' => true ) );
-	    add_role( CONST_CLIENTDIVERS_ROLE, 'Clients divers', array( 'read' => true, 'level_0' => true ) );
+        add_role( CONST_OFFICES_ROLE, 'Offices' );
+        add_role( CONST_ORGANISMES_ROLE, 'Organismes' );
+        add_role( CONST_CLIENTDIVERS_ROLE, 'Clients divers' );
     }
 
     public function deactivate()
