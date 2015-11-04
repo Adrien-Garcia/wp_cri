@@ -767,6 +767,7 @@ body.page-template-front-page{
 							.matiere{
 								font-size: 15px;
 								margin-bottom: 5px;
+								top: -2px;
 								
 							} 
 
@@ -1144,6 +1145,14 @@ body.page-template-front-page{
 						div#tableau-de-bord.pannel{							
 							left:0px;
 							
+						}
+
+						div#mes-questions.pannel{
+							left:-300px;
+						}
+
+						div#regles-facturation.pannel{
+							left: -900px;
 						}
 
 					}
