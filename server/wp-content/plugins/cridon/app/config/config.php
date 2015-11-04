@@ -74,4 +74,7 @@ class Config {
         'id'     => 12,
         'name'   => 'Expertise transversale' 
     ); 
+    
+    // list of cridon_user_type using default user form
+    public static $mvcWithUserForm = array('user_cridons');
 }

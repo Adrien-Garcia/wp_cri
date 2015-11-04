@@ -50,6 +50,9 @@ function custom_admin_menu()
             if (in_array($match[1], Config::$mvcWithPostForm)) {
                 $submenu[$k][1][2] = 'post-new.php?cridon_type=' . $match[1];
             }
+            if (in_array($match[1], Config::$mvcWithUserForm)) {
+                $submenu[$k][1][2] = 'user-new.php?cridon_user_type=' . $match[1];
+            }
         }
     }
 }

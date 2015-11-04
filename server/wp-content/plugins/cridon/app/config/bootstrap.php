@@ -173,3 +173,201 @@ MvcConfiguration::append(array(
     )
 ));
 //End remove
+
+//Admin User Cridon
+add_action( "user_new_form_tag", "add_new_field_to_useradd" );
+function add_new_field_to_useradd()
+{
+    $id_erp = '';
+    $last_connection = '';
+    if( isset( $_GET['user_id'] ) && !empty( $_GET['user_id'] ) ){
+        $model = mvc_model( 'UserCridon' );
+        $userCridon = $model->find_by_id_wp_user($_GET['user_id']);
+        if( !empty( $userCridon ) ){
+            $id_erp = $userCridon[0]->id_erp;
+            if( $userCridon[0]->last_connection !== '0000-00-00 00:00:00' ){
+                $dt = new DateTime( $userCridon[0]->last_connection );
+                $last_connection = $dt->format('d-m-Y H:i');                
+            }
+        }        
+    }
+    echo "><div>"; // Note the first '>' here. We wrap our own output to a 'div' element.
+    //Extra fields = disabled
+    $html = '<table class="form-table">';
+    $html .= '<tbody>';
+    $html .= '<tr class="form-field">';
+    $html .= '<th scope="row">
+                <label for="id_erp">
+                Id ERP
+                </label>
+              </th>';
+    $html .= '<td><input id="id_erp" type="text" autocorrect="off" autocapitalize="none"';
+    $html .= 'value="'.$id_erp.'" name="id_erp" disabled="disabled"></td>';
+    $html .= '<tr class="form-field">';
+    $html .= '<th scope="row">
+                <label for="last_connection">
+                Dernière connexion
+                </label>
+              </th>';
+    $html .= '<td><input id="last_connection" type="text" autocorrect="off" autocapitalize="none" ';
+    $html .= 'value="'.$last_connection.'" name="last_connection" disabled="disabled"></td>';
+    $html .= '</tbody></table>';
+    echo $html;
+
+    echo "</div"; // Note the missing '>' here.
+}
+
+
+add_action('user_register', 'register_extra_fields');
+function register_extra_fields ($user_id)
+{
+    global $wp_roles;
+    if ( !isset( $wp_roles ) ) {
+        $wp_roles = new WP_Roles();
+    }
+    $user_info = get_userdata($user_id);
+    $roles = $user_info->roles;
+    if( !empty( $roles ) ){
+        $model = mvc_model( 'UserCridon' );
+        $data = array(
+            'UserCridon' => array(
+                'id_erp' => $_POST['id_erp'],
+                'profil' => empty( $roles )? '' : translate_user_role( $wp_roles->roles[$roles[0]]['name'] ),
+                'id_wp_user' => $user_id
+            )
+        );
+        //Insert into DB
+        $model->create( $data );
+        $options = array(
+            'controller' => 'user_cridons',
+            'action'     => 'index'
+        );
+        $adminUrl  = MvcRouter::admin_url($options);
+        $adminUrl .= '&flash=success';
+        //Redirect to UserCridon list
+        wp_redirect( $adminUrl, 301 );
+        exit;        
+    }
+}
+
+add_action ( 'edit_user_profile', 'custom_extra_profile_fields' );
+function custom_extra_profile_fields( $user )
+{
+    $id_erp = '';
+    $last_connection = '00-00-0000 00:00';
+    if( !empty( $user ) ){
+        $model = mvc_model( 'UserCridon' );
+        //Check if UserCridon exist
+        $userCridon = $model->find_one_by_id_wp_user($user->ID);
+        if( !empty( $userCridon ) ){
+            $id_erp = $userCridon->id_erp;
+            if( $userCridon->last_connection !== '0000-00-00 00:00:00' ){
+                $dt = new DateTime( $userCridon->last_connection );
+                $last_connection = $dt->format('d-m-Y H:i');                
+            }
+        }        
+    }
+    echo "<div>"; 
+    //Extra fields = disabled
+    $html = '<table class="form-table">';
+    $html .= '<tbody>';
+    $html .= '<tr class="form-field">';
+    $html .= '<th scope="row">
+                <label for="id_erp">
+                Id ERP
+                </label>
+              </th>';
+    $html .= '<td><input id="id_erp" type="text" autocorrect="off" autocapitalize="none" ';
+    $html .= 'value="'.$id_erp.'" name="id_erp" disabled="disabled"></td>';
+    $html .= '<tr class="form-field">';
+    $html .= '<th scope="row">
+                <label for="last_connection">
+                Dernière connexion
+                </label>
+              </th>';
+    $html .= '<td><input id="last_connection" type="text" autocorrect="off" autocapitalize="none" ';
+    $html .= 'value="'.$last_connection.'" name="last_connection" disabled="disabled"></td>';
+    $html .= '</tbody></table>';
+    echo $html;
+
+    echo "</div>"; 
+}
+
+add_action( 'profile_update', 'custom_save_extra_profile_fields', 10, 2 );
+
+function custom_save_extra_profile_fields( $user_id, $old_user_data ) {
+    global $wp_roles;
+    if ( !isset( $wp_roles ) ) {
+        $wp_roles = new WP_Roles();
+    }
+    if ( !current_user_can( 'edit_user', $user_id ) ){
+        return false;
+    }
+    $model = mvc_model( 'UserCridon' );
+    $userCridon = $model->find_one_by_id_wp_user( $user_id );
+    $user_info = get_userdata($user_id);
+    $roles = $user_info->roles;
+    if( !empty( $userCridon ) && !empty( $roles ) ){
+        $data = array(
+            'UserCridon' => array(
+                'id' => $userCridon->id,
+                'profil' => translate_user_role( $wp_roles->roles[ $roles[0] ]['name'] )
+            )
+        );
+        $model->save( $data );
+        $options = array(
+            'controller' => 'user_cridons',
+            'action'     => 'index'
+        );
+        $adminUrl  = MvcRouter::admin_url($options);
+        $adminUrl .= '&flash=success&action_referer=edit';
+        //Redirect to UserCridon list
+        wp_redirect( $adminUrl, 301 );
+        exit;
+    } 
+}
+function custom_after_login( $user_login, $user ) {
+    if ( ( $user instanceof WP_User ) && isset( $user->roles ) && is_array( $user->roles ) ) {
+        // check not notaire
+        if ( !in_array( CONST_NOTAIRE_ROLE, $user->roles ) ) {
+            $model = mvc_model( 'UserCridon' );
+            //Check if UserCridon exist
+            $userCridon = $model->find_one_by_id_wp_user($user->ID);
+            //Update last_connection
+            if( !empty( $userCridon ) ){
+                $dt = new DateTime('now');
+                $data = array(
+                    'UserCridon' => array(
+                        'id' => $userCridon->id,
+                        'last_connection' => $dt->format('Y-m-d H:i:s'),
+                    )
+                );
+                //Update DB
+                $model->save( $data );
+            }    
+        } 
+    }
+}
+add_filter( 'wp_login', 'custom_after_login', 10, 2 );	 
+
+function custom_delete_user( $user_id ) {
+    $model = mvc_model( 'UserCridon' );
+    //Check if UserCridon exist
+    $userCridon = $model->find_one_by_id_wp_user( $user_id );
+    if( !empty( $userCridon ) ){
+        $qb = new QueryBuilder();
+        //Delete user cridon
+        $qb->delete( array( 'table' => 'user_cridon', 'conditions' => 'id='.$userCridon->id ) );
+        $options = array(
+            'controller' => 'user_cridons',
+            'action'     => 'index'
+        );
+        $adminUrl  = MvcRouter::admin_url($options);
+        $adminUrl .= '&flash=success&action_referer=delete';
+        //Redirect to UserCridon list
+        wp_redirect( $adminUrl, 301 );
+        exit;
+    }
+}
+add_action( 'deleted_user', 'custom_delete_user' );
+//End Admin User Cridon
