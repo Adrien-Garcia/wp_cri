@@ -8,23 +8,22 @@
 
     // document ready
     $(function() {
-        var nonce   = document.createElement('input');
-        nonce.type  = 'hidden';
-        nonce.name  = 'token';
-        nonce.id    = 'token';
 
-        criLoginAction(nonce);
+        criLoginAction();
 
-        criLostPwd(nonce);
+        criLostPwd();
     });
 
     /**
      * @name criLoginAction
      * @description Action for user authentication
-     * @param nonce
      * @author Etech - Joelio
      */
-    function criLoginAction(nonce) {
+    function criLoginAction() {
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'token';
+        nonce.id    = 'token';
         nonce.value = jsvar.login_nonce;
 
         // get default var of login form parameters
@@ -83,8 +82,16 @@
         });
     }
 
-    function criLostPwd(nonce) {
-        nonce.value = jsvar.lostpwd_nonce;
+    /**
+     * @name criLostPwd
+     * @description Action for user lost password
+     * @author Etech - Joelio
+     */
+    function criLostPwd() {
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'tokenpwd';
+        nonce.id    = 'tokenpwd';
 
         // get default var of login form parameters
         // @see hook.inc.php
