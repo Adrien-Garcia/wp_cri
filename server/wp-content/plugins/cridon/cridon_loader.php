@@ -53,7 +53,7 @@ class CridonLoader extends MvcPluginLoader
             $pluginName
         ));
         foreach($versions as $version) {
-            array_push($listVersions, $version->version);
+            array_push($listVersions, (int) $version->version);
         }
 
         //Search for migration files
