@@ -125,7 +125,7 @@
                     data: {
                         action: 'lost_password',
                         email: $('#' + emailFieldId).val(),
-                        token: $('#token').val(),
+                        token: $('#tokenpwd').val(),
                         crpcen: $('#' + crpcenFieldId).val()
                     },
                     success: function (data) {
