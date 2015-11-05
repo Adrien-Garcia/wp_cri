@@ -447,7 +447,7 @@ function getMatieresByNotaire(){
             if( in_array( $mat->id,$aSubscribed ) ){
                 $isSubscribed = true;
             }
-            $aResults[] = array(
+            $aResults[$mat->id] = array(
                 'name' => $mat->label,
                 'subscribed' => $isSubscribed
             );
