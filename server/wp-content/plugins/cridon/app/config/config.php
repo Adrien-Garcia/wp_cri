@@ -80,4 +80,21 @@ class Config {
     
     //List of role Notaire
     public static $rolesNotaire = array( 'notaire',CONST_OFFICES_ROLE,CONST_ORGANISMES_ROLE,CONST_CLIENTDIVERS_ROLE );
+
+    // All model construct with WP_MVC with capabilities
+    public static $capabitilies = array(
+        //list
+        'liste-vie_cridon-cridon',
+        'liste-affectation-cridon',
+        'liste-cahier_cridon-cridon',
+        'liste-competence-cridon',
+        'liste-document-cridon',
+        'liste-flash-cridon',
+        'liste-formation-cridon',
+        'liste-matiere-cridon',
+        'liste-notaire-cridon',
+        'liste-question-cridon',
+        'liste-support-cridon',
+        'liste-veille-cridon'
+    );
 }

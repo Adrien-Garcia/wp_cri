@@ -68,9 +68,19 @@ class CridonLoader extends MvcPluginLoader
                             }
                         }
                     }else{
-                        //TODO surround with try/catch
-                        // Use dbDelta() to create the tables for the app here
-                        dbDelta($sql);                        
+                        //If UPDATE
+                        //Separate queries with a '#'
+                        if ( preg_match_all( "|(UPDATE ([a-zA-Z0-9`_\s()={}':\";\-éèà@ùê&]*);)|", $sql, $matches ) ) {
+                            if( !empty( $matches[0] ) ){
+                                foreach( $matches[0] as $update ){
+                                    $wpdb->query( $update );
+                                }
+                            }
+                        }else{
+                            //TODO surround with try/catch
+                            // Use dbDelta() to create the tables for the app here
+                            dbDelta($sql);                                                  
+                        }
                     }
 
                     // Update last known version
