@@ -175,47 +175,6 @@ MvcConfiguration::append(array(
 //End remove
 
 //Admin User Cridon
-add_action( "user_new_form_tag", "add_new_field_to_useradd" );
-function add_new_field_to_useradd()
-{
-    $id_erp = '';
-    $last_connection = '';
-    if( isset( $_GET['user_id'] ) && !empty( $_GET['user_id'] ) ){
-        $model = mvc_model( 'UserCridon' );
-        $userCridon = $model->find_by_id_wp_user($_GET['user_id']);
-        if( !empty( $userCridon ) ){
-            $id_erp = $userCridon[0]->id_erp;
-            if( $userCridon[0]->last_connection !== '0000-00-00 00:00:00' ){
-                $dt = new DateTime( $userCridon[0]->last_connection );
-                $last_connection = $dt->format('d-m-Y H:i');                
-            }
-        }        
-    }
-    echo "><div>"; // Note the first '>' here. We wrap our own output to a 'div' element.
-    //Extra fields = disabled
-    $html = '<table class="form-table">';
-    $html .= '<tbody>';
-    $html .= '<tr class="form-field">';
-    $html .= '<th scope="row">
-                <label for="id_erp">
-                Id ERP
-                </label>
-              </th>';
-    $html .= '<td><input id="id_erp" type="text" autocorrect="off" autocapitalize="none"';
-    $html .= 'value="'.$id_erp.'" name="id_erp" disabled="disabled"></td>';
-    $html .= '<tr class="form-field">';
-    $html .= '<th scope="row">
-                <label for="last_connection">
-                Dernière connexion
-                </label>
-              </th>';
-    $html .= '<td><input id="last_connection" type="text" autocorrect="off" autocapitalize="none" ';
-    $html .= 'value="'.$last_connection.'" name="last_connection" disabled="disabled"></td>';
-    $html .= '</tbody></table>';
-    echo $html;
-
-    echo "</div"; // Note the missing '>' here.
-}
 
 
 add_action('user_register', 'register_extra_fields');
@@ -245,17 +204,15 @@ function register_extra_fields ($user_id)
         $adminUrl  = MvcRouter::admin_url($options);
         $adminUrl .= '&flash=success';
         //Redirect to UserCridon list
-        wp_redirect( $adminUrl, 301 );
+        wp_redirect( $adminUrl, 302 );
         exit;        
     }
 }
 
-add_action ( 'edit_user_profile', 'custom_extra_profile_fields' );
-function custom_extra_profile_fields( $user )
-{
+function generateHtmlForUserForm( $user ){
     $id_erp = '';
     $last_connection = '00-00-0000 00:00';
-    if( !empty( $user ) ){
+    if( !empty( $user ) && ( $user instanceof WP_User ) ){
         $model = mvc_model( 'UserCridon' );
         //Check if UserCridon exist
         $userCridon = $model->find_one_by_id_wp_user($user->ID);
@@ -265,9 +222,22 @@ function custom_extra_profile_fields( $user )
                 $dt = new DateTime( $userCridon->last_connection );
                 $last_connection = $dt->format('d-m-Y H:i');                
             }
-        }        
+        }   
+        echo "<div>"; 
+    }else{
+        if( !empty( $user ) ){
+            $model = mvc_model( 'UserCridon' );
+            $userCridon = $model->find_by_id_wp_user($user);
+            if( !empty( $userCridon ) ){
+                $id_erp = $userCridon[0]->id_erp;
+                if( $userCridon[0]->last_connection !== '0000-00-00 00:00:00' ){
+                    $dt = new DateTime( $userCridon[0]->last_connection );
+                    $last_connection = $dt->format('d-m-Y H:i');                
+                }
+            }               
+        }
+        echo "><div>"; // Note the first '>' here. We wrap our own output to a 'div' element.
     }
-    echo "<div>"; 
     //Extra fields = disabled
     $html = '<table class="form-table">';
     $html .= '<tbody>';
@@ -289,8 +259,26 @@ function custom_extra_profile_fields( $user )
     $html .= 'value="'.$last_connection.'" name="last_connection" disabled="disabled"></td>';
     $html .= '</tbody></table>';
     echo $html;
-
-    echo "</div>"; 
+    if( !empty( $user ) && ( $user instanceof WP_User ) ){
+        echo "</div>"; 
+    }else{
+        echo "</div"; // Note the missing '>' here.
+    }
+   
+}
+add_action( "user_new_form_tag", "add_new_field_to_useradd" );
+function add_new_field_to_useradd()
+{
+    $user = null;
+    if( isset( $_GET['user_id'] ) && !empty( $_GET['user_id'] ) ){
+          $user = $_GET['user_id'];
+    }    
+    generateHtmlForUserForm( $user );
+}
+add_action ( 'edit_user_profile', 'custom_extra_profile_fields' );
+function custom_extra_profile_fields( $user )
+{
+    generateHtmlForUserForm( $user );
 }
 
 add_action( 'profile_update', 'custom_save_extra_profile_fields', 10, 2 );
@@ -322,7 +310,7 @@ function custom_save_extra_profile_fields( $user_id, $old_user_data ) {
         $adminUrl  = MvcRouter::admin_url($options);
         $adminUrl .= '&flash=success&action_referer=edit';
         //Redirect to UserCridon list
-        wp_redirect( $adminUrl, 301 );
+        wp_redirect( $adminUrl, 302 );
         exit;
     } 
 }
@@ -365,7 +353,7 @@ function custom_delete_user( $user_id ) {
         $adminUrl  = MvcRouter::admin_url($options);
         $adminUrl .= '&flash=success&action_referer=delete';
         //Redirect to UserCridon list
-        wp_redirect( $adminUrl, 301 );
+        wp_redirect( $adminUrl, 302 );
         exit;
     }
 }
