@@ -1704,10 +1704,11 @@ body.page-template-front-page{
 								overflow: visible;
 								//width: 300px - 13px;
 								width: 275px;
-								height: 300px - 13px;
+								height: 275px;
 								position: relative;
 								left: 13px;
 								#solde-circle-path {
+									@include scale(0.9);
 									fill:transparent;
 									stroke-width:26px;
 									stroke-linecap:butt;
@@ -1717,6 +1718,7 @@ body.page-template-front-page{
 									stroke-dashoffset: 1000;
 									//stroke-dashoffset: 300;
 									transition: stroke-dashoffset 0.5s ease-out 0.5s; 
+
 								}
 								#stop-gradient1 {
 									stop-color: $vj_03;
