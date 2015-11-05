@@ -97,4 +97,7 @@ class Config {
         'liste-support-cridon',
         'liste-veille-cridon'
     );
+
+    // list of cridon_user_type using default user form
+    public static $mvcWithUserForm = array('user_cridons');
 }
