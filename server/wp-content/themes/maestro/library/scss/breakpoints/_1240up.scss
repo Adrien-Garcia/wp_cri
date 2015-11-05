@@ -939,9 +939,11 @@ body.page-template-front-page{
 							/*float: left;*/
 
 							.solde-pts{
-
+								height: 330px;
 								svg{
+									@include scale(1);
 									width: 330px;
+									height: 330px;
 								}
 								
 
