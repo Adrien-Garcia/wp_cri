@@ -197,13 +197,25 @@ class CridonODBCAdapter
      */
     protected function connection()
     {
-        return odbc_connect(
+        $conn = odbc_connect(
             "Driver=" . CONST_ODBC_DRIVER . ";
 				Server=" . CONST_ODBC_HOST . ";
 				Database=" . CONST_ODBC_DATABASE,
             CONST_ODBC_USER,
             CONST_ODBC_PASSWORD
         );
+
+        if (!$conn) {
+            // message content
+            $message =  sprintf(CONST_EMAIL_ERROR_CATCH_EXCEPTION, odbc_errormsg());
+
+            // send email
+            $multiple_recipients = array(
+                CONST_EMAIL_ERROR_CONTACT,
+                CONST_EMAIL_ERROR_CONTACT_CC
+            );
+            wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
+        }
     }
 
     /**

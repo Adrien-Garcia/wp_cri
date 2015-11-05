@@ -182,7 +182,14 @@ class Notaire extends MvcModel
                     if ($this->importSuccess) {
                         rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
                     }
+                } else { // file content error
+                    // send email
+                    $this->reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Notaire');
                 }
+            } else {
+                // file doesn't exist
+                // send email
+                $this->reportError(CONST_EMAIL_ERROR_CONTENT, 'Notaire');
             }
         } catch (Exception $e) {
             // archive file
@@ -190,7 +197,8 @@ class Notaire extends MvcModel
                 rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
             }
 
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -226,7 +234,8 @@ class Notaire extends MvcModel
             $this->adapter->closeConnection();
 
         } catch (\Exception $e) {
-            throw new \Exception ($e->getMessage());
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -533,7 +542,8 @@ class Notaire extends MvcModel
             }
 
         } catch (Exception $e) {
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
 
         // import into wp_users table
@@ -547,6 +557,8 @@ class Notaire extends MvcModel
      */
     public function setNotaireRole()
     {
+        global $cri_container;
+
         // block query
         $roleQuery             = $roleUpdateQuery = array();
         $options               = array();
@@ -554,7 +566,7 @@ class Notaire extends MvcModel
         $options['attributes'] = 'user_id, meta_key, meta_value';
 
         // instance of cridonTools
-        $cridonTools = new CridonTools();
+        $cridonTools = $cri_container->get('tools');
 
         // existing user roles
         $users = $cridonTools->getExistingUserRoles();
@@ -615,6 +627,8 @@ class Notaire extends MvcModel
      */
     protected function insertOrUpdateWpUsers()
     {
+        global $cri_container;
+
         try {
             $this->logs = array();
             $notaires   = $this->find();
@@ -627,7 +641,7 @@ class Notaire extends MvcModel
                 $insertValues = array();
 
                 // instance of cridon tools
-                $criTools = new CridonTools();
+                $criTools = $cri_container->get('tools');
 
                 // bulk update separate
                 // @TODO to be completed with other field to be updated
@@ -743,7 +757,8 @@ class Notaire extends MvcModel
                 $this->setNotaireRole();
             }
         } catch(Exception $e) {
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -776,7 +791,8 @@ class Notaire extends MvcModel
                 $this->wpdb->query($query);
             }
         } catch (Exception $e) {
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -884,5 +900,24 @@ class Notaire extends MvcModel
         $object = $this->find_one_by_id_wp_user($current_user->ID);
 
         return $object;
+    }
+
+    /**
+     * Send eail for error reporting
+     *
+     * @param string $message
+     * @param string $object
+     */
+    protected function reportError($message, $object)
+    {
+        // message content
+        $message =  sprintf($message, $object);
+
+        // send email
+        $multiple_recipients = array(
+            CONST_EMAIL_ERROR_CONTACT,
+            CONST_EMAIL_ERROR_CONTACT_CC
+        );
+        wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
     }
 }
