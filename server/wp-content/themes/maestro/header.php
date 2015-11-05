@@ -114,7 +114,7 @@
 						<p>Accédez à vos informations et bénéficiez d’un contenu personnalisé.</p>
 						 <div class="pannel_01 active">
 							<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
-								<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre adresse mail">
+								<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
 								<input type="password" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
 								<input type="submit" name="submit" value="Connectez-vous">
 							</form>

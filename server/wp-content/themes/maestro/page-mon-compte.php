@@ -16,6 +16,10 @@
 			
 				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
 				
+				<?php 
+					$notaire = CriNotaireData();
+				 ?>
+ 
 				<h1>Mon compte</h1>
 				<ul id="sel-compte">
 					<li class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : ""?>">

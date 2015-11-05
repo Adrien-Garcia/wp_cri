@@ -26,7 +26,6 @@
 			<span id="sel-compte-mail"><?php echo $notaire->email_adress ?></span>
 			<span><?php echo $notaire->tel ?></span>
 		</div>
-		<a href="#" title="" disabled>Modifier mes informations</a>
 	</div>
 </div>
 
