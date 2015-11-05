@@ -139,4 +139,12 @@ if ( !defined( 'CONST_EMAIL_SENDER_CONTACT' ) ) {
     define( 'CONST_EMAIL_SENDER_CONTACT', 'cridon@jetpulp.dev' );
 }
 
+// Appel && Courrier support id
+if ( !defined( 'CONST_SUPPORT_APPEL_ID' ) ) {
+    define( 'CONST_SUPPORT_APPEL_ID',  2);
+}
+if ( !defined( 'CONST_SUPPORT_COURRIER_ID' ) ) {
+    define( 'CONST_SUPPORT_COURRIER_ID',  1);
+}
+
 
