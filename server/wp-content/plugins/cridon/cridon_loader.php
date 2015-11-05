@@ -46,6 +46,16 @@ class CridonLoader extends MvcPluginLoader
             $pluginName
         ) );
 
+        // list of all versions
+        $listVersions = array();
+        $versions = $wpdb->get_results($wpdb->prepare(
+            "SELECT `version` FROM " . $this->tables['plugin_migrations'] . " WHERE plugin = %s",
+            $pluginName
+        ));
+        foreach($versions as $version) {
+            array_push($listVersions, $version->version);
+        }
+
         //Search for migration files
         if (is_dir($pluginPath)) {
             if ($handle = opendir($pluginPath)) {
@@ -53,7 +63,8 @@ class CridonLoader extends MvcPluginLoader
                 while (false !== ($migration = readdir($handle))) {
                     if ($migration != "." && $migration != ".." ) {
                         $current = substr($migration, 0, 3);
-                        if (((int) $current) > $max) {
+                        // only check if the version is not exist
+                        if (!in_array((int) $current, $listVersions)) {
                             $updates[$current] = file_get_contents($pluginPath.DIRECTORY_SEPARATOR.$migration);
                         }
                     }
