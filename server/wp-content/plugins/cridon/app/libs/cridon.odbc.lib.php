@@ -216,6 +216,8 @@ class CridonODBCAdapter
             );
             wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
         }
+
+        return $conn;
     }
 
     /**
