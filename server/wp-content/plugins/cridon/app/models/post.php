@@ -17,7 +17,7 @@ class Post extends MvcModel {
         'CahierCridon' => array(
             'foreign_key' => 'post_id'
         ),
-        'ActuCridon' => array(
+        'VieCridon' => array(
             'foreign_key' => 'post_id'
         )
     );
