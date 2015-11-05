@@ -424,8 +424,13 @@ function CriNotaireData() {
     return null;
 }
 
-
+/**
+ * Get all Matieres of current Notaire
+ * 
+ * @return array|null
+ */
 function getMatieresByNotaire(){
+    //output
     $aResults = array();
     // check if user connected is notaire
     if ( CriIsNotaire() ) {
@@ -438,12 +443,14 @@ function getMatieresByNotaire(){
         $aSubscribed = array();
         $matieres = mvc_model('matiere')->find( $options );
         if( isset( $notaire->matieres ) && !empty( $notaire->matieres ) ){
+            //Matiere subscribed by Notaire
             foreach( $notaire->matieres as $mat ){
                 $aSubscribed[] = $mat->id;
             }
         }
         foreach( $matieres as $mat ){
             $isSubscribed = false;
+            //Check if it is subscribed by Notaire
             if( in_array( $mat->id,$aSubscribed ) ){
                 $isSubscribed = true;
             }
