@@ -77,4 +77,7 @@ class Config {
 
     // list of category not to be imported
     public static $notImportedList = array(CONST_CLIENTDIVERS_ROLE);
+    
+    //List of role Notaire
+    public static $rolesNotaire = array( 'notaire',CONST_OFFICES_ROLE,CONST_ORGANISMES_ROLE,CONST_CLIENTDIVERS_ROLE );
 }

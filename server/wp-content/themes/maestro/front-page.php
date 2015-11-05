@@ -8,7 +8,7 @@
 
    	<div id="content">
 
-   		<div class="row_01">
+   		<div class="row_01" id="sel-front-page">
    			<div id="inner-content" class="wrap cf">
 				
 				<div class="falsh-info js-flash-info">
@@ -101,16 +101,13 @@
 								<?php foreach ($date['veille'] as $keyv => $veille) : ?>
 									<?php 
 										criWpPost($veille);
-										// $_matiere = $veille->getMatiere() != null ? $veille->getMatiere() : 'Expertise générale';
-										$_matiere = false != false ? false : __('Expertise générale');
 										$_chapo = get_the_excerpt();//$veille->excerpt;
 										$_link = get_permalink(); //$veille->link;
 
-										// var_dump($keyd)
 									 ?>
 								<li >
-									<img src="" alt="" />
-									<h4><?php echo $_matiere; ?></h4>
+									<img src="<?php echo $veille->matiere->picto ?>" alt="<?php echo $veille->matiere->label ?>" />
+									<h4><?php echo $veille->matiere->label ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
 									<a href="<?php echo $_link; ?>"><?php _e('Lire'); ?></a>
 								</li>
@@ -124,7 +121,7 @@
 					    <?php wp_reset_query(); ?>
 					    <div class="blockEnd"></div>
 
-					    <a href="#" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
+					    <a href="<?php /* @TODO */ echo "/veilles/"; ?>" id="sel-hp-veilles-link" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
    						
    					</div>
 

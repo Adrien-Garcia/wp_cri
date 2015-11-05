@@ -4,7 +4,7 @@
 				
 		<div class="breadcrumbs">
 			<div id="inner-content" class="wrap cf">
-				<?php if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
+				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
 				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux connaissances juridiques </a>  +  <span>Veille juridique</span>
 			</div>
 		</div>
@@ -17,15 +17,21 @@
 				<div id="filtres_veilles">					
 				</div>
 
-				<div class="listing veille">						
+				<div class="listing veille" id="sel-veilles">						
 				<?php $current_date = null; ?>
-				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+
+				<?php
+					foreach ($objects as $key => $veille) :
+				 ?>
+
+				<?php criWpPost($veille) ?>
+
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
 						<?php 
 							if( $current_date != get_the_date('d-M-Y')) :
 								$current_date = get_the_date('d-M-Y');
 						 ?>
-							<div class="date-veille">
+							<div class="date-veille sel-veilles-date">
 								<div class="sep"></div>
 								<span class="jour"><?php echo get_the_date( 'd') ?></span>
 						      	<span class="mois"><?php echo get_the_date( 'M') ?></span>
@@ -35,13 +41,15 @@
 						<div class="details">
 							<div class="block_left">
 								<div class="img-cat">
-								<?php // @TODO Matiere picto ?>
-									<img src="" alt="" />
+								<?php 
+									$matiere = get_the_matiere();
+								 ?>
+									<img class="sel-veilles-picto" src="<?php echo $veille->matiere->picto ?>" alt="<?php echo $veille->matiere->label ?>" />
 								</div>
 							</div>
-							<div class="block_right">
+							<div class="block_right sel-veilles-content">
 							<?php //var_dump($this) ?>
-								<div class="matiere">Droit social</div>
+								<div class="matiere"><?php echo $veille->matiere->label ?></div>
 								<h2><?php the_title() ?></h2>
 								<div class="chapeau">
 									<?php echo get_the_excerpt() ?>
@@ -63,11 +71,12 @@
 						
 					</article>
 
-				<?php endwhile; ?>
-
-				<?php endif; ?>
-
-				</div>
+                    <?php endforeach; ?>
+                    <div class="pagination">
+                    	<?php echo $this->pagination(); ?>
+                    </div>
+                    
+                </div>
 
 			</div>					
 

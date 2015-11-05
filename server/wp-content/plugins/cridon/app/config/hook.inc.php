@@ -155,3 +155,23 @@ function cridon_mail_from_name( $name )
 add_filter( 'wp_mail_from_name', 'cridon_mail_from_name' );
 
 
+add_action('after_setup_theme', 'custom_remove_admin_bar');
+function custom_remove_admin_bar() {
+    //Remove admin bar in front for notaire
+    if ( is_user_logged_in() ) {
+        $user = wp_get_current_user();
+        $roles = $user->roles;
+        if( !empty( $roles ) ){
+            //Administrator
+            if( empty( $roles ) || in_array( CONST_ADMIN_ROLE, $roles ) ){
+                return;
+            }
+            foreach( Config::$rolesNotaire as $v ){
+                if( in_array( $v, $roles ) ){
+                    show_admin_bar(false);
+                    break;
+                }
+            }
+        }
+    }      
+}
