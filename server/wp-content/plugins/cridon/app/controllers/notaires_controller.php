@@ -126,7 +126,35 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->secureAccess();
-
+        if( isset( $_POST ) && !empty( $_POST ) && isset( $_POST['matieres'] ) ){
+            $notaire = $this->model->getUserConnectedData();
+            if( !empty( $notaire ) ){
+                $options = array(
+                    'conditions' => array(
+                        'Matiere.displayed' => 1
+                    )
+                );
+                $matieres = mvc_model('matiere')->find( $options );
+                //Clean $_POST before
+                $data = $this->clean( $_POST ); 
+                $toCompare = array();
+                //Create array to compare Matiere in $_POST
+                foreach ( $matieres as $mat ){
+                    $toCompare[] = $mat->id;
+                }
+                $insert = array();
+                $insert['Notaire']['id'] = $notaire->id;
+                foreach( $data['matieres'] as $v ){
+                    //Check if current Matiere is valid
+                    if( in_array( $v, $toCompare ) ){
+                        $insert['Notaire']['Matiere']['ids'][] = $v;                        
+                    }
+                }
+                //Put in DB
+                $this->model->save( $insert );               
+            }
+           
+        }
         // set template vars
         // @TODO to be completed with others notaire dynamic data
         $vars = $this->get_object();
@@ -143,5 +171,23 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->secureAccess();
+    }
+    
+    /**
+     * Cleaning data
+     * 
+     * @param mixed $data
+     * @return mixed
+     */
+    private function clean( $data ){
+        $clean_input = Array();
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $clean_input[$k] = $this->clean( $v );
+            }
+        } else {
+            $clean_input = trim( strip_tags( $data ) );
+        }
+        return $clean_input;
     }
 }

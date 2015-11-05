@@ -1983,20 +1983,26 @@ body.page-template-front-page{
 											font-size: 15px;
 											line-height: 16px;
 											display: block;
+											cursor: pointer;
 
 											&:before{
 												content:'';
 												width: 8px;
 												height: 10px;
 												border:solid 1px $rouge;
-												position: absolute;
+												position: relative;
+												display: inline-block;
 												top:0;
+												cursor: pointer;
+												z-index: 2;
+												margin-right: 3px;
 
 											}
 											
 											input{
 												opacity: 0;
-
+												position: absolute;
+												z-index: -1;
 											}
 
 										}
