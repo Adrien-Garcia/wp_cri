@@ -145,7 +145,6 @@ jQuery(document).ready(function($) {
 
 
   /*- checkbox mon compte-*/
-	$('#content.page-mon-compte #mon-profil .mes-centres-dinterets ul li label').addClass("unselect");
 	
 	$('#mon-profil .mes-centres-dinterets ul li label').click(function(e){
 

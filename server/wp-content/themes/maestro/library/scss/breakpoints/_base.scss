@@ -1704,10 +1704,11 @@ body.page-template-front-page{
 								overflow: visible;
 								//width: 300px - 13px;
 								width: 275px;
-								height: 300px - 13px;
+								height: 275px;
 								position: relative;
 								left: 13px;
 								#solde-circle-path {
+									@include scale(0.9);
 									fill:transparent;
 									stroke-width:26px;
 									stroke-linecap:butt;
@@ -1717,6 +1718,7 @@ body.page-template-front-page{
 									stroke-dashoffset: 1000;
 									//stroke-dashoffset: 300;
 									transition: stroke-dashoffset 0.5s ease-out 0.5s; 
+
 								}
 								#stop-gradient1 {
 									stop-color: $vj_03;
@@ -1981,20 +1983,26 @@ body.page-template-front-page{
 											font-size: 15px;
 											line-height: 16px;
 											display: block;
+											cursor: pointer;
 
 											&:before{
 												content:'';
 												width: 8px;
 												height: 10px;
 												border:solid 1px $rouge;
-												position: absolute;
+												position: relative;
+												display: inline-block;
 												top:0;
+												cursor: pointer;
+												z-index: 2;
+												margin-right: 3px;
 
 											}
 											
 											input{
 												opacity: 0;
-
+												position: absolute;
+												z-index: -1;
 											}
 
 										}
