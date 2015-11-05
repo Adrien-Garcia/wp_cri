@@ -48,6 +48,7 @@ class NotairesController extends BasePublicController
         // check if user is not logged in
         // or notaire id (url params) not equal to WP user session data
         if (!is_user_logged_in() || !$notaireData->id || $this->params['id'] !== $notaireData->id) {
+            wp_logout();//logout current user
             // redirect user to home page
             $this->redirect(home_url());
         }
