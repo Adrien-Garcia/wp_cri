@@ -63,9 +63,8 @@ class NotairesController extends BasePublicController
         if (is_object($vars) && property_exists($vars, 'client_number')) {
             $datas = mvc_model('solde')->getSoldeByClientNumber($vars->client_number);
 
-            // init nbAppel && nbCourrier
-            $vars->nbAppel = 0;
-            $vars->nbCourrier = 0;
+            // init data
+            $vars->nbAppel = $vars->nbCourrier = $vars->quota = $vars->pointConsomme = $vars->solde = 0;
 
             // quota, pointCosomme, solde
             if (isset($datas[0])) {
