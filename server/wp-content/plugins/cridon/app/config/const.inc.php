@@ -141,8 +141,8 @@ if ( !defined( 'CONST_EMAIL_SENDER_CONTACT' ) ) {
 
 // import CSV solde file path
 if ( !defined( 'CONST_IMPORT_CSV_SOLDE_FILE_PATH' ) ) {
-    define( 'CONST_IMPORT_CSV_SOLDE_FILE_PATH', 'G:/MyProjects/JetPulp/Docs/CSV/Soldes/' );
-//    define( 'CONST_IMPORT_CSV_SOLDE_FILE_PATH', 'PATH_TO_CSVFILE' );
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_CSV_SOLDE_FILE_PATH', $uploadDir['basedir'] . '/import/importConso/' );
 }
 
 // Contact email for import error reporting
