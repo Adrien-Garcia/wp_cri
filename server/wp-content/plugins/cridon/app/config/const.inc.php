@@ -163,3 +163,8 @@ if ( !defined( 'CONST_EMAIL_ERROR_CORRUPTED_FILE' ) ) {
     define( 'CONST_EMAIL_ERROR_CORRUPTED_FILE', 'Fichier d\'import mal formaté pour : %s' );
 }
 
+// Error reporting for Exception
+if ( !defined( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION' ) ) {
+    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exeption a été levée avec le message d\'erreur suivante : "%s"' );
+}
+
