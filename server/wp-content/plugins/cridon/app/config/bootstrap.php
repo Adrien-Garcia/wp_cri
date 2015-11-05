@@ -225,17 +225,6 @@ function generateHtmlForUserForm( $user ){
         }   
         echo "<div>"; 
     }else{
-        if( !empty( $user ) ){
-            $model = mvc_model( 'UserCridon' );
-            $userCridon = $model->find_by_id_wp_user($user);
-            if( !empty( $userCridon ) ){
-                $id_erp = $userCridon[0]->id_erp;
-                if( $userCridon[0]->last_connection !== '0000-00-00 00:00:00' ){
-                    $dt = new DateTime( $userCridon[0]->last_connection );
-                    $last_connection = $dt->format('d-m-Y H:i');                
-                }
-            }               
-        }
         echo "><div>"; // Note the first '>' here. We wrap our own output to a 'div' element.
     }
     //Extra fields = disabled
@@ -268,12 +257,8 @@ function generateHtmlForUserForm( $user ){
 }
 add_action( "user_new_form_tag", "add_new_field_to_useradd" );
 function add_new_field_to_useradd()
-{
-    $user = null;
-    if( isset( $_GET['user_id'] ) && !empty( $_GET['user_id'] ) ){
-          $user = $_GET['user_id'];
-    }    
-    generateHtmlForUserForm( $user );
+{ 
+    generateHtmlForUserForm( null );
 }
 add_action ( 'edit_user_profile', 'custom_extra_profile_fields' );
 function custom_extra_profile_fields( $user )
