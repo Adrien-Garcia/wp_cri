@@ -8,5 +8,8 @@
  */
 
 ?>
-
-<p>NOTAIRE QUESTIONS</p>
+<?php 
+	$onglet = 2;
+    resetGlobalVars();
+    include TEMPLATEPATH.'/page-mon-compte.php';
+?>

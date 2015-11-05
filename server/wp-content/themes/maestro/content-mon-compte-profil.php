@@ -1,5 +1,5 @@
 <?php $notaire = CriNotaireData() ?>
-
+<?php // var_dump($notaire) ?>
 <div class="mes-informations" id="sel-compte-profil">
 
 	<h2>Mes informations</h2>
@@ -9,18 +9,24 @@
 	</div>
 	<div class="coordonnees">
 		<div class="nom">
-			<span>Nom de l'étude</span>
+			<span><?php echo $notaire->etude->office_name ?></span>
 			<?php echo $notaire->last_name ?> <?php echo $notaire->first_name ?>
 		</div>
 		<div class="adresse">
-			25 rue du Moulin
-			<span>69000 leau</span>
+			<span><?php echo $notaire->etude->adress_1 ?></span>
+			<?php if (!empty($notaire->etude->adress_2)): ?>
+				<span><?php echo $notaire->etude->adress_2 ?></span>
+			<?php endif ?>
+			<?php if (!empty($notaire->etude->adress_3)): ?>
+				<span><?php echo $notaire->etude->adress_3 ?></span>
+			<?php endif ?>
+			<span><?php echo $notaire->etude->cp.' '.$notaire->etude->city ?></span>
 		</div>
 		<div class="contact">
 			<span id="sel-compte-mail"><?php echo $notaire->email_adress ?></span>
 			<span><?php echo $notaire->tel ?></span>
 		</div>
-		<a href="#" title="">Modifier mes informations</a>
+		<a href="#" title="" disabled>Modifier mes informations</a>
 	</div>
 </div>
 
@@ -31,47 +37,21 @@
 	<div class="description">
 		Epersped ulla con num quasint essimos dolut reium a ium aliquodis prestrum facepe pror modio.Nem se net faccum fugiant, tem estrum saniam nobissit, officia volut etum aut il mil et officid ut faccus seni aligent aut eosam ratquam nis.
 	</div>
-	
-	<form>
+	<?php 
+		$matieres = getMatieresByNotaire();
+	 ?>
+	<form method="post" action="/notaires/<?php echo $notaire->id ?>/profil">
 		<ul>
+			<?php foreach($matieres as $key => $matiere): ?>
 			<li>
-				<label>
-					<input type="checkbox" id="" class="" name="" value="Droit des obligations, contrats et biens">
-					Droit des obligations, contrats et biens
+				<label class="<?php echo ($matiere['subscribed']) ? ' select ' : ' unselect ' ?>">
+					<input type="checkbox" id="" class="" name="matieres[]" value="<?php echo $key ?>" <?php echo ($matiere['subscribed']) ? 'checked="checked"' : '' ?>>
+					<?php echo $matiere['name'] ?>
 				</label>
 			</li>
-			<li>
-				<label class="select">
-					<input type="checkbox" id="" class="" name="" value="Droit de la construction et de l’urbanisme">
-					Droit de la construction et de l’urbanisme
-				</label>
-			</li>
-			<li>
-				<label>
-					<input type="checkbox" id="" class="" name="" value="Droit fiscal et international">
-					Droit fiscal et international
-				</label>
-			</li>
-			<li>
-				<label>
-					<input type="checkbox" id="" class="" name="" value="Droit civil  de la famille">
-					Droit civil  de la famille
-				</label>
-			</li>
-			<li>
-				<label>
-					<input type="checkbox" id="" class="" name="" value="Droit rural">
-					Droit rural
-				</label>
-			</li>
-			<li>
-				<label>
-					<input type="checkbox" id="" class="" name="" value="Management et productivité">
-					Management et productivité
-				</label>
-			</li>
+			<?php endforeach; ?>
 		</ul>
-		<input type="submit" name="Valider" value="Valider">
+		<input type="submit" name="Valider" value="Valider" />
 	</form>
 </div>
 

@@ -8,5 +8,8 @@
  */
 
 ?>
-
-<p>NOTAIRE FACTURATION</p>
+<?php 
+	$onglet = 4;
+    resetGlobalVars();
+    include TEMPLATEPATH.'/page-mon-compte.php';
+?>

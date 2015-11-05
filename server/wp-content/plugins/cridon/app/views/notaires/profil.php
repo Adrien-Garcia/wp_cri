@@ -8,5 +8,8 @@
  */
 
 ?>
-
-<p>NOTAIRE PROFIL</p>
+<?php 
+	$onglet = 3;
+    resetGlobalVars();
+    include TEMPLATEPATH.'/page-mon-compte.php';
+?>
