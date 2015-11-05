@@ -9,6 +9,7 @@
 
 ?>
 <?php 
+	$onglet = 1;
     resetGlobalVars();
     include TEMPLATEPATH.'/page-mon-compte.php';
 ?>
