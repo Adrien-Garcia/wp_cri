@@ -897,9 +897,8 @@ class Notaire extends MvcModel
         if (is_object($object) && property_exists($object, 'client_number')) {
             $datas = mvc_model('solde')->getSoldeByClientNumber($object->client_number);
 
-            // init nbAppel && nbCourrier
-            $object->nbAppel = 0;
-            $object->nbCourrier = 0;
+            // init data
+            $object->nbAppel = $object->nbCourrier = $object->quota = $object->pointConsomme = $object->solde = 0;
 
             // quota, pointCosomme, solde
             if (isset($datas[0])) {
