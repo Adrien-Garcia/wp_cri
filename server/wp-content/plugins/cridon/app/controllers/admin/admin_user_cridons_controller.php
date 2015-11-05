@@ -22,12 +22,12 @@ class AdminUserCridonsController extends MvcAdminController {
         if( isset( $this->params['flash'] ) ){
             if( ( $this->params['flash'] == 'success' ) && isset( $this->params['action_referer'] ) ){
                 if ($this->params['action_referer'] === 'edit') {
-                    $this->flash('notice', 'L\'utilisateur a été mise à jour!');
+                    $this->flash('notice', 'L\'utilisateur a été mise à jour !');
                 }else{
-                    $this->flash('notice', 'L\'utilisateur a été supprimé!');
+                    $this->flash('notice', 'L\'utilisateur a été supprimé !');
                 }
             }else{
-                $this->flash('notice', 'L\'utilisateur a été bien ajouté!'); 
+                $this->flash('notice', 'L\'utilisateur a été bien ajouté !'); 
             }
         }
         //Load custom helper
