@@ -65,12 +65,14 @@ class NotairesController extends BasePublicController
 
             // init data
             $vars->nbAppel = $vars->nbCourrier = $vars->quota = $vars->pointConsomme = $vars->solde = 0;
+            $vars->date = '';
 
             // quota, pointCosomme, solde
             if (isset($datas[0])) {
                 $vars->quota = $datas[0]->quota;
                 $vars->pointConsomme = $datas[0]->totalPoint;
                 $vars->solde = intval($datas[0]->quota) - intval($datas[0]->totalPoint);
+                $vars->date = date('d/m/Y', strtotime($datas[0]->date_arret));
             }
 
             // fill nbAppel && nbCourrier
