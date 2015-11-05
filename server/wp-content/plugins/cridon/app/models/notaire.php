@@ -222,7 +222,8 @@ class Notaire extends MvcModel
                 rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
             }
 
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -258,7 +259,8 @@ class Notaire extends MvcModel
             $this->adapter->closeConnection();
 
         } catch (\Exception $e) {
-            throw new \Exception ($e->getMessage());
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -564,8 +566,9 @@ class Notaire extends MvcModel
                 }
             }
 
-        } catch (Exception $e) {
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+        } catch (\Exception $e) {
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
 
         // import into wp_users table
@@ -774,8 +777,9 @@ class Notaire extends MvcModel
                 // should be execute after cri_notaire.id_wp_user was set
                 $this->setNotaireRole();
             }
-        } catch(Exception $e) {
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+        } catch(\Exception $e) {
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -808,7 +812,8 @@ class Notaire extends MvcModel
                 $this->wpdb->query($query);
             }
         } catch (Exception $e) {
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -919,6 +924,25 @@ class Notaire extends MvcModel
     }
 
     /**
+     * Send eail for error reporting
+     *
+     * @param string $message
+     * @param string $object
+     */
+    protected function reportError($message, $object)
+    {
+        // message content
+        $message =  sprintf($message, $object);
+
+        // send email
+        $multiple_recipients = array(
+            CONST_EMAIL_ERROR_CONTACT,
+            CONST_EMAIL_ERROR_CONTACT_CC
+        );
+        wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
+    }
+
+    /**
      * Action for importing notaire data into wp_users
      */
     public function importSolde()
@@ -962,27 +986,13 @@ class Notaire extends MvcModel
                         rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
                     }
                 } else { // file content error
-                    // message content
-                    $message =  sprintf(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
-
                     // send email
-                    $multiple_recipients = array(
-                        CONST_EMAIL_ERROR_CONTACT,
-                        CONST_EMAIL_ERROR_CONTACT_CC
-                    );
-                    wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
+                    $this->reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
                 }
             } else {
                 // file doesn't exist
-                // message content
-                $message =  sprintf(CONST_EMAIL_ERROR_CONTENT, 'Solde');
-
                 // send email
-                $multiple_recipients = array(
-                    CONST_EMAIL_ERROR_CONTACT,
-                    CONST_EMAIL_ERROR_CONTACT_CC
-                );
-                wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
+                $this->reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde');
             }
         } catch (Exception $e) {
             // archive file
@@ -990,7 +1000,8 @@ class Notaire extends MvcModel
                 rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
             }
 
-            echo 'Exception reçue : ' .  $e->getMessage() . "\n";
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
