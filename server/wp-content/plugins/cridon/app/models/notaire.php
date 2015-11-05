@@ -1026,7 +1026,7 @@ class Notaire extends MvcModel
                 $uniqueKey = intval($items[$csv::SOLDE_NUMCLIENT]) . $items[$csv::SOLDE_SUPPORT];
                 array_push($this->erpSoldeList, $uniqueKey);
 
-                // notaire data filter
+                // solde data filter
                 $this->erpSoldeData[$uniqueKey] = $items;
             }
         }
@@ -1101,7 +1101,7 @@ class Notaire extends MvcModel
             $queryStart = " UPDATE `{$this->wpdb->prefix}solde` ";
             $queryEnd   = ' END ';
 
-            // only update if erpData.date_modified > cri_notaire.date_modified
+            // only update if erpData.date_arret > cri_solde.date_arret
             foreach($this->soldeModel->find() as $currentData) {
                 // the only unique key available is the "crpcen + web_password"
                 $key = $currentData->client_number . $currentData->type_support;
