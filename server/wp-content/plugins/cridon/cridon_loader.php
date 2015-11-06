@@ -87,6 +87,22 @@ class CridonLoader extends MvcPluginLoader
                                     $wpdb->query( $update );
                                 }
                             }
+                        } elseif( preg_match_all( "|TRUNCATE ([a-zA-Z0-9`_\s()]*)|", $sql, $matches ) ) { // truncate
+                            if( !empty( $matches[0] ) ){
+                                foreach( $matches[0] as $query ){
+                                    if ($query)  {
+                                        $wpdb->query( $query );
+                                    }
+                                }
+                            }
+                        } elseif( preg_match_all( "|INSERT ([a-zA-Z0-9`_\s(),':\";\-éèà@ùê&]*)|", $sql, $matches ) ) { // insert
+                            if( !empty( $matches[0] ) ){
+                                foreach( $matches[0] as $query ){
+                                    if ($query)  {
+                                        $wpdb->query( $query );
+                                    }
+                                }
+                            }
                         }else{
                             //TODO surround with try/catch
                             // Use dbDelta() to create the tables for the app here
