@@ -297,15 +297,15 @@ function generateHtmlForUserForm( $user ){
                 </label>
               </th>';
     $html .= '<td><input id="id_erp" type="text" autocorrect="off" autocapitalize="none" ';
-    $html .= 'value="'.$id_erp.'" name="id_erp" disabled="disabled"></td>';
+    $html .= 'value="'.$id_erp.'" name="id_erp"></td></tr>';
     $html .= '<tr class="form-field">';
     $html .= '<th scope="row">
                 <label for="last_connection">
-                Dernière connexion
+                DerniÃ¨re connexion
                 </label>
               </th>';
     $html .= '<td><input id="last_connection" type="text" autocorrect="off" autocapitalize="none" ';
-    $html .= 'value="'.$last_connection.'" name="last_connection" disabled="disabled"></td>';
+    $html .= 'value="'.$last_connection.'" name="last_connection" disabled="disabled"></td></tr>';
     $html .= '</tbody></table>';
     echo $html;
     if( !empty( $user ) && ( $user instanceof WP_User ) ){
@@ -344,6 +344,7 @@ function custom_save_extra_profile_fields( $user_id, $old_user_data ) {
         $data = array(
             'UserCridon' => array(
                 'id' => $userCridon->id,
+                'id_erp' => ( isset( $_POST['id_erp'] ) ) ? $_POST['id_erp'] : '',
                 'profil' => translate_user_role( $wp_roles->roles[ $roles[0] ]['name'] )
             )
         );
