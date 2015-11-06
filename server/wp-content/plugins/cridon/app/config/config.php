@@ -100,4 +100,12 @@ class Config {
 
     // list of cridon_user_type using default user form
     public static $mvcWithUserForm = array('user_cridons');
+
+    // list of notaire functions cannot access finances
+    public static $cannotAccessFinance = array(
+        CONST_NOTAIRE_ASSOCIE,
+        CONST_NOTAIRE_ASSOCIEE,
+        CONST_NOTAIRE_SALARIE,
+        CONST_NOTAIRE_SALARIEE
+    );
 }

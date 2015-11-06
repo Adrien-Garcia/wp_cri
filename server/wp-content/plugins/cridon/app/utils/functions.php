@@ -463,3 +463,12 @@ function getMatieresByNotaire(){
     }
     return null;
 }
+
+function CriCanAccessFinance() {
+    // check if user connected is notaire
+    if (CriIsNotaire()) {
+        // user data
+        return mvc_model('notaire')->userCanAccessFinance();
+    }
+    return false;
+}

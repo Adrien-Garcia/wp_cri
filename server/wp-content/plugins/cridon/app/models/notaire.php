@@ -129,7 +129,9 @@ class Notaire extends MvcModel
     {
         global $wpdb;
         $this->wpdb = $wpdb;
-        $this->csvParser = new CridonCsvParser();
+        if (class_exists('CridonCsvParser')) {
+            $this->csvParser = new CridonCsvParser();
+        }
 
         parent::__construct();
     }
@@ -895,5 +897,22 @@ class Notaire extends MvcModel
         $object = $this->find_one_by_id_wp_user($current_user->ID);
 
         return $object;
+    }
+
+    /**
+     * Check if users can access finances
+     *
+     * @return bool
+     */
+    public function userCanAccessFinance()
+    {
+        $object = $this->getUserConnectedData();
+
+        //
+        return (isset($object->category)
+            && strtolower($object->category) === CONST_OFFICES_ROLE
+            && isset($object->fonction->id)
+            && !in_array($object->fonction->id, Config::$cannotAccessFinance)
+        ) ? true : false;
     }
 }
