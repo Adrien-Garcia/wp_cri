@@ -225,7 +225,14 @@ class Notaire extends MvcModel
                     if ($this->importSuccess) {
                         rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
                     }
+                } else { // file content error
+                    // send email
+                    $this->reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Notaire');
                 }
+            } else {
+                // file doesn't exist
+                // send email
+                $this->reportError(CONST_EMAIL_ERROR_CONTENT, 'Notaire');
             }
         } catch (Exception $e) {
             // archive file
@@ -593,6 +600,8 @@ class Notaire extends MvcModel
      */
     public function setNotaireRole()
     {
+        global $cri_container;
+
         // block query
         $roleQuery             = $roleUpdateQuery = array();
         $options               = array();
@@ -600,7 +609,7 @@ class Notaire extends MvcModel
         $options['attributes'] = 'user_id, meta_key, meta_value';
 
         // instance of cridonTools
-        $cridonTools = new CridonTools();
+        $cridonTools = $cri_container->get('tools');
 
         // existing user roles
         $users = $cridonTools->getExistingUserRoles();
@@ -661,6 +670,8 @@ class Notaire extends MvcModel
      */
     protected function insertOrUpdateWpUsers()
     {
+        global $cri_container;
+
         try {
             $this->logs = array();
             $notaires   = $this->find();
@@ -673,7 +684,7 @@ class Notaire extends MvcModel
                 $insertValues = array();
 
                 // instance of cridon tools
-                $criTools = new CridonTools();
+                $criTools = $cri_container->get('tools');
 
                 // bulk update separate
                 // @TODO to be completed with other field to be updated
@@ -788,7 +799,7 @@ class Notaire extends MvcModel
                 // should be execute after cri_notaire.id_wp_user was set
                 $this->setNotaireRole();
             }
-        } catch(\Exception $e) {
+        } catch(Exception $e) {
             // send email
             $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
