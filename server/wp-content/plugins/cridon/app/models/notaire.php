@@ -934,12 +934,23 @@ class Notaire extends MvcModel
         // message content
         $message =  sprintf($message, $object);
 
+        //define receivers
+        if ((empty(ENV) || (ENV !== 'PROD')) && !empty(Config::$emailNotificationError['cc'])) {
+            // just send to client in production mode
+            $ccs = (array) Config::$emailNotificationError['cc']; //cast to guarantee array
+            $to = array_pop($ccs);
+        } else {
+            $to = arrayGet(Config::$emailNotificationError, 'to', CONST_EMAIL_ERROR_CONTACT);
+        }
+        $headers = array();
+        if (!empty(Config::$emailNotificationError['cc'])) {
+            foreach ((array) Config::$emailNotificationError['cc'] as $cc) {
+                $headers[] = 'Cc: '.$cc;
+            }
+        }
+
         // send email
-        $multiple_recipients = array(
-            CONST_EMAIL_ERROR_CONTACT,
-            CONST_EMAIL_ERROR_CONTACT_CC
-        );
-        wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
+        wp_mail($to, CONST_EMAIL_ERROR_SUBJECT, $message, $headers);
     }
 
     /**

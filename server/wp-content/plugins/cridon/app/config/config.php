@@ -77,4 +77,14 @@ class Config {
 
     // list of category not to be imported
     public static $notImportedList = array(CONST_CLIENTDIVERS_ROLE);
+
+    // list of persons who will receive e-mail error notification
+    public static $emailNotificationError = array(
+        'to' => array(
+            'info@cridon-lyon.fr', //Client e-mail, only use it in production mode
+        ),
+        'cc' => array(
+            'victor.albert@jetpulp.fr',
+        ),
+    );
 }

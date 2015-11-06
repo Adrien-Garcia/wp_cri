@@ -149,9 +149,7 @@ if ( !defined( 'CONST_IMPORT_CSV_SOLDE_FILE_PATH' ) ) {
 if ( !defined( 'CONST_EMAIL_ERROR_CONTACT' ) ) {
     define( 'CONST_EMAIL_ERROR_CONTACT', 'victor.albert@jetpulp.fr' );
 }
-if ( !defined( 'CONST_EMAIL_ERROR_CONTACT_CC' ) ) {
-    define( 'CONST_EMAIL_ERROR_CONTACT_CC', 'contactcc@mail.dev' );
-}
+
 // do not remove "%s" : it uses to inject import type (notaire|solde) into the mail content
 if ( !defined( 'CONST_EMAIL_ERROR_SUBJECT' ) ) {
     define( 'CONST_EMAIL_ERROR_SUBJECT', 'Cridon - Import de fichier' );

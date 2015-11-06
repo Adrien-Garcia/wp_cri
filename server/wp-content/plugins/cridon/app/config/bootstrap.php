@@ -173,3 +173,17 @@ MvcConfiguration::append(array(
     )
 ));
 //End remove
+
+// Custom usefull functions
+/**
+ * Get a value associated with a key in array if exists, default value otherwise
+ * Avoid warning and easily allow fallback
+ * @param mixed $key searched key
+ * @param array $array in which the key should be
+ * @param mixed $default value to retrieve if key is not in array
+ * @return mixed $value corresponding to $key if exists, $defaults otherwise
+ */
+function arrayGet($array = array(), $key = 0, $default = null) {
+    return isset($array[$key]) ? $array[$key] : $default;
+}
+//End custom functions
