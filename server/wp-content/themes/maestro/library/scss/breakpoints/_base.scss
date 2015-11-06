@@ -195,7 +195,7 @@ HEADER STYLES
 						border:none;
 						line-height: 30px;
 						color:$vert;
-						text-transform: uppercase;
+						text-transform: none;
 						padding-left: 10px;
 						margin: 0 auto 10px auto;
 						font-size: 12px;
@@ -223,6 +223,23 @@ HEADER STYLES
 						border-radius: 0;
 
 					}
+
+					input{
+						&::-webkit-input-placeholder {
+							text-transform: uppercase;
+						 }
+						&::-moz-placeholder {
+							text-transform: uppercase;
+						  } /* firefox 19+ */
+						&:-ms-input-placeholder {
+							text-transform: uppercase;
+						  } /* ie */
+						&input:-moz-placeholder {
+							text-transform: uppercase;
+						  }
+					}
+
+					
 				}
 
 				> a#mdp_oublie, a#mdp_retour{
@@ -494,19 +511,12 @@ body.page-template-front-page{
 						}
 					}
 
-					&:hover {
-						.content{
-							&, &:before, &:after {
-								height: 200px;
-								background-position: 0 100%;
-							}
-						}
-					}
+					
 				}
 
 				.consulter{
 
-					background: url(../images/origin/bg-consulter-mobile.png);
+					background: url(../images/origin/bg-consulter-mobile_02.png);
 					background-size: cover;
 
 					h2:before{
@@ -529,7 +539,7 @@ body.page-template-front-page{
 
 				.rechercher{
 
-					background: url(../images/origin/bg-rechercher-mobile.png);
+					background: url(../images/origin/bg-rechercher-mobile_02.png);
 					background-size: cover;
 
 					h2:before{
@@ -555,7 +565,7 @@ body.page-template-front-page{
 
 				.acceder{
 
-					background: url(../images/origin/bg-acceder-mobile.png);
+					background: url(../images/origin/bg-acceder-mobile_02.png);
 					background-size: cover;
 
 					h2:before{
@@ -1491,9 +1501,10 @@ body.page-template-front-page{
 
 		display: inline-block;
 
-		&:hover{
+		&:hover, &:focus{
 			background: #e6e6e6;
 			color:$bleu;
+			border: none;
 		}
 	}
 
@@ -1678,7 +1689,7 @@ body.page-template-front-page{
 					}
 
 					div.pannel{
-						display: block;
+						display: none;
 						padding: 25px 0;
 
 						h2{
@@ -1691,6 +1702,8 @@ body.page-template-front-page{
 							line-height: 20px;
 							margin-bottom: 20px;
 						}
+
+
 					}
 
 					div#tableau-de-bord{
@@ -1897,6 +1910,18 @@ body.page-template-front-page{
 								height: 100px;
 								background: $vj_03;
 								float: left;
+								position: relative;
+
+								&:before{
+									display:block;
+									font-weight: normal;
+									@include svgicon('icon-compte', 72px, 72px, #FFF);	 				
+									position:absolute;
+									top:50%;
+									margin-top: -36px;
+									left: 50%;
+									margin-left: -40px;
+								}
 
 								img{ 
 									width: 100%;
@@ -1914,6 +1939,8 @@ body.page-template-front-page{
 								color:$bleu;
 								font-size: 15px;
 
+								.notaire{margin-top: 20px;}
+
 								.nom{
 																	
 									line-height: 18px;
@@ -1927,10 +1954,15 @@ body.page-template-front-page{
 									}
 								}
 
-								.adresse, .contact{
+								.adresse, .contact, .mail{
 									line-height: 18px;	
 									margin-bottom: 5px;
+
 									span{display: block;}
+
+									a{ text-decoration: none;
+										color:$bleu;
+										font-weight: bold;}
 								}
 
 								> a{
@@ -1987,7 +2019,7 @@ body.page-template-front-page{
 
 											&:before{
 												content:'';
-												width: 8px;
+												width: 10px;
 												height: 10px;
 												border:solid 1px $rouge;
 												position: relative;
@@ -2060,6 +2092,10 @@ body.page-template-front-page{
 							&:before{
 								@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
 							}
+						}
+
+						.pannel{
+							display: block;
 						}
 
 					}
@@ -2495,7 +2531,7 @@ a.logoJP:hover{opacity: 1;
 		text-align: center;
 		position: relative;
 
-		overflow: hidden;
+		//overflow: hidden;
 
 		&:before{
 			@include svgicon('icon-angle-top', 26px, 26px, $bg-bottom-footer);					

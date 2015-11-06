@@ -159,6 +159,94 @@ function add_menu_icons_styles(){
 #adminmenu .toplevel_page_settings div.wp-menu-image:before {
 	content: "\f108";
 }
+
+/***VIE CRIDON*/
+#adminmenu .toplevel_page_mvc_vie_cridons div.wp-menu-image:before {
+	content: "\f491";
+}
+/***FLASHES*/
+#adminmenu .toplevel_page_mvc_flashes div.wp-menu-image:before {
+	content: "\f491";
+}
+
+/***USER CRIDON*/
+#adminmenu .toplevel_page_mvc_user_cridons div.wp-menu-image:before {
+	content: "\f110";
+}
+/***VEILLES CRIDON*/
+#adminmenu .toplevel_page_mvc_veilles div.wp-menu-image:before {
+	content: "\f105";
+}
+
+/***QUESTIONS CRIDON*/
+#adminmenu .toplevel_page_mvc_questions div.wp-menu-image:before {
+	content: "\f105";
+}
+
+/***NOTAIRES CRIDON*/
+#adminmenu .toplevel_page_mvc_notaires div.wp-menu-image:before {
+	content: "\f338";
+}
+
+/***MATIERES CRIDON*/
+#adminmenu .toplevel_page_mvc_matieres div.wp-menu-image:before {
+	content: "\f318";
+}
+
+/***FORMATIONS CRIDON*/
+#adminmenu .toplevel_page_mvc_formations div.wp-menu-image:before {
+	content: "\f105";
+}
+
+/***DOCUMENTS CRIDON*/
+#adminmenu .toplevel_page_mvc_documents div.wp-menu-image:before {
+	content: "\f103";
+}
+
+/***COMPETENCES CRIDON*/
+#adminmenu .toplevel_page_mvc_competences div.wp-menu-image:before {
+	content: "\f118";
+}
+
+/***CAHIER CRIDON*/
+#adminmenu .toplevel_page_mvc_cahier_cridons div.wp-menu-image:before {
+	content: "\f331";
+}
+
+/***AFFECTATION*/
+#adminmenu .toplevel_page_mvc_affectations div.wp-menu-image:before {
+	content: "\f237";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>
  
 <?php

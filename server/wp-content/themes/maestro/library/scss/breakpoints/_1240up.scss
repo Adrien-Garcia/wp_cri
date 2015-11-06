@@ -64,7 +64,7 @@ HEADER STYLES
 		
 
 		.logo-partenaires{
-			display: block;
+			display: none; // Masquer les logos des éditeurs pour le lot 1
 			width: 366px;
 			height: 40px;
 			position: absolute;
@@ -306,6 +306,7 @@ body.page-template-front-page{
 						.content {
 							&, &:before, &:after {
 								height: 270px;
+								background-position: 0 100%;
 							}
 						}
 					}
@@ -924,7 +925,7 @@ body.page-template-front-page{
 						h2{
 							font-size: 30px;
 							line-height: 20px;	
-							margin-bottom: 30px;
+							margin-bottom: 35px;
 							
 						}
 					}					
@@ -987,23 +988,27 @@ body.page-template-front-page{
 					
 						.mes-informations{
 							
+							height: 320px;
 
 							h2{}
+							
 
-							.img-profil{
-								
-
-							}
 
 							.coordonnees{
 								padding-left: 30px;
 								width: 790px;
 								font-size: 18px;
+
+								
+
+								.notaire, .etude{
+									width: 260px;
+								}
 								
 
 								.nom{
 									width: 100%;
-    								margin-bottom: 23px;
+    								margin-bottom: 25px;
 									line-height: 20px; 
 
 									span{}
@@ -1012,7 +1017,6 @@ body.page-template-front-page{
 								.adresse, .contact{
 									width: 260px;
     								float: left;
-    								margin-bottom: 0;
 									line-height: 20px;  
 								}
 
@@ -1112,7 +1116,7 @@ body.page-template-front-page{
 							width: 490px;
 							position: absolute;
 							right: 0;
-							top: 308px;
+							top: 440px;
 
 							.description{
 								margin-bottom: 20px;

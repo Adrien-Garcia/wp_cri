@@ -123,8 +123,8 @@ App.Home = {
      * Event for opening the correct link on click on one of the blocks
      */
 
-    eventLinkBlockClick: function() {
-        var href = this.$linkBlock.find('a').attr('href') != undefined ? this.$linkBlock.find('a').attr('href') : '#';
+    eventLinkBlockClick: function(element) {
+        var href = element.find('a').attr('href') != undefined ? element.find('a').attr('href') : '#';
         document.location.href = href;
     },
 

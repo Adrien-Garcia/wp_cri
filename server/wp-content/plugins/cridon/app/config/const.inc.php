@@ -97,7 +97,7 @@ if ( !defined( 'CONST_TPL_PASSWORDFIELD_ID' ) ) {
 }
 //Default Post per page
 if ( !defined( 'DEFAULT_POST_PER_PAGE' ) ) {
-    define( 'DEFAULT_POST_PER_PAGE', 4 );
+    define( 'DEFAULT_POST_PER_PAGE', 10 );
 }
 
 // lost password
