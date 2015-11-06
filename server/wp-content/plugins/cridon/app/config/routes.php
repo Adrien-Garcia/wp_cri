@@ -18,6 +18,9 @@ MvcRouter::public_connect('download/reponse/{:id:[\d]+}',array('controller' => '
 // import (import notaire action)
 MvcRouter::public_connect('import/notaires', array('controller' => 'notaires', 'action' => 'import'));
 
+// import solde
+MvcRouter::public_connect('import/soldes', array('controller' => 'notaires', 'action' => 'importsolde'));
+
 // mes questions
 MvcRouter::public_connect('notaires/{:id:[\d]+}/questions', array('controller' => 'notaires', 'action' => 'questions'));
 // mon profil

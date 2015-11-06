@@ -36,6 +36,16 @@ class NotairesController extends BasePublicController
     }
 
     /**
+     * Import Solde
+     */
+    public function importsolde()
+    {
+        $rets = $this->model->importSolde();
+
+        $this->set('rets', $rets);
+    }
+
+    /**
      * Secure Access Page
      *
      * @return void

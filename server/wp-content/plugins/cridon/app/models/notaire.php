@@ -60,7 +60,7 @@ class Notaire extends MvcModel
     );
     /**
      *
-     * @var array 
+     * @var array
      */
     var $includes   = array('Etude','Civilite','Fonction','Matiere');
     /**
@@ -113,6 +113,36 @@ class Notaire extends MvcModel
     protected $erpNotaireData = array();
 
     /**
+     * @var CridonSoldeParser
+     */
+    protected $soldeParser;
+
+    /**
+     * @var array : list of existing solde on Site
+     */
+    protected $siteSoldeList = array();
+
+    /**
+     * @var array : list of solde in ERP
+     */
+    protected $erpSoldeList = array();
+
+    /**
+     * @var array : list of solde data from ERP
+     */
+    protected $erpSoldeData = array();
+
+    /**
+     * @var array
+     */
+    protected $soldeData = array();
+
+    /**
+     * @var mixed : solde wpmvc model
+     */
+    protected $soldeModel;
+
+    /**
      * @var bool : File import success flag
      */
     protected $importSuccess = false;
@@ -130,6 +160,8 @@ class Notaire extends MvcModel
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->csvParser = new CridonCsvParser();
+        $this->soldeParser = new CridonSoldeParser();
+        $this->soldeModel  = mvc_model('solde');
 
         parent::__construct();
     }
@@ -201,7 +233,8 @@ class Notaire extends MvcModel
                 rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
             }
 
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -237,7 +270,8 @@ class Notaire extends MvcModel
             $this->adapter->closeConnection();
 
         } catch (\Exception $e) {
-            throw new \Exception ($e->getMessage());
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -543,8 +577,9 @@ class Notaire extends MvcModel
                 }
             }
 
-        } catch (Exception $e) {
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+        } catch (\Exception $e) {
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
 
         // import into wp_users table
@@ -753,8 +788,9 @@ class Notaire extends MvcModel
                 // should be execute after cri_notaire.id_wp_user was set
                 $this->setNotaireRole();
             }
-        } catch(Exception $e) {
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+        } catch(\Exception $e) {
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -787,7 +823,8 @@ class Notaire extends MvcModel
                 $this->wpdb->query($query);
             }
         } catch (Exception $e) {
-            echo 'Exception re�ue : ' .  $e->getMessage() . "\n";
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -895,5 +932,327 @@ class Notaire extends MvcModel
         $object = $this->find_one_by_id_wp_user($current_user->ID);
 
         return $object;
+    }
+
+    /**
+     * Send eail for error reporting
+     *
+     * @param string $message
+     * @param string $object
+     */
+    protected function reportError($message, $object)
+    {
+        // message content
+        $message =  sprintf($message, $object);
+
+        //define receivers
+        if ((empty(ENV) || (ENV !== 'PROD')) && !empty(Config::$emailNotificationError['cc'])) {
+            // just send to client in production mode
+            $ccs = (array) Config::$emailNotificationError['cc']; //cast to guarantee array
+            $to = array_pop($ccs);
+        } else {
+            $to = arrayGet(Config::$emailNotificationError, 'to', CONST_EMAIL_ERROR_CONTACT);
+        }
+        $headers = array();
+        if (!empty(Config::$emailNotificationError['cc'])) {
+            foreach ((array) Config::$emailNotificationError['cc'] as $cc) {
+                $headers[] = 'Cc: '.$cc;
+            }
+        }
+
+        // send email
+        wp_mail($to, CONST_EMAIL_ERROR_SUBJECT, $message, $headers);
+    }
+
+    /**
+     * Action for importing notaire data into wp_users
+     */
+    public function importSolde()
+    {
+        $this->importSoldeFromCsvFile();
+        return $this->logs;
+    }
+
+    /**
+     * Action for importing data using CSV file
+     *
+     * @return void
+     */
+    public function importSoldeFromCsvFile()
+    {
+        // get csv file
+        $files = glob(CONST_IMPORT_CSV_SOLDE_FILE_PATH . '/*.csv');
+
+        try {
+
+            // check if file exist
+            if (isset($files[0]) && is_file($files[0])) {
+
+                $this->soldeParser->enclosure = '';
+                $this->soldeParser->encoding(null, 'UTF-8');
+                $this->soldeParser->auto($files[0]);
+
+                // no error was found
+                if (property_exists($this->soldeParser, 'data') && intval($this->soldeParser->error) <= 0) {
+                    // Csv data setter
+                    $this->setSoldeData($this->soldeParser->data);
+
+                    // prepare data
+                    $this->prepareSoldedata();
+
+                    // insert or update data
+                    $this->manageSoldeData();
+
+                    // do archive
+                    if ($this->importSuccess) {
+                        rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
+                    }
+                } else { // file content error
+                    // send email
+                    $this->reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
+                }
+            } else {
+                // file doesn't exist
+                // send email
+                $this->reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde');
+            }
+        } catch (Exception $e) {
+            // archive file
+            if (isset($files[0]) && is_file($files[0])) {
+                rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
+            }
+
+            // send email
+            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+        }
+    }
+
+    /**
+     * Prepare data for listing existing notaire on Site and new from ERP
+     *
+     * @return void
+     */
+    protected function prepareSoldedata()
+    {
+        // set list of existing solde
+        $this->setSiteSoldeList();
+
+        // instance of CridonCsvParser
+        $csv = $this->soldeParser;
+
+        // fill list of solde from ERP (client_number + support)
+        foreach ($this->getSoldeData() as $items) {
+            // only item having NUMCLIENT
+            if (isset($items[$csv::SOLDE_NUMCLIENT]) && $items[$csv::SOLDE_NUMCLIENT]) {
+                // the only unique key available is the "client_number + support"
+                $uniqueKey = intval($items[$csv::SOLDE_NUMCLIENT]) . $items[$csv::SOLDE_SUPPORT];
+                array_push($this->erpSoldeList, $uniqueKey);
+
+                // solde data filter
+                $this->erpSoldeData[$uniqueKey] = $items;
+            }
+        }
+    }
+
+    /**
+     * List of existing solde on Site
+     *
+     * @return void
+     */
+    protected function setSiteSoldeList()
+    {
+        // get list of existing notaire
+        $soldes = $this->soldeModel->find();
+
+
+        // fill list of existing solde on site with unique key (client_number + support)
+        foreach ($soldes as $solde) {
+            array_push($this->siteSoldeList, $solde->client_number . $solde->type_support);
+        }
+    }
+
+    /**
+     * Get list of new solde list
+     *
+     * @return array
+     */
+    protected function getNewSoldeList()
+    {
+        return array_diff($this->erpSoldeList, $this->siteSoldeList);
+    }
+
+    /**
+     * List of solde to be updated from Site (intersect of Site and ERP)
+     *
+     * @return array
+     */
+    protected function getSoldeToBeUpdated()
+    {
+        // common values between Site and ERP
+        $items = array_intersect($this->siteSoldeList, $this->erpSoldeList);
+
+        // return filtered items with associated data from ERP
+        return array_intersect_key($this->erpSoldeData, array_flip($items));
+    }
+
+    /**
+     * Manage Solde data (insert, update)
+     *
+     * @return void
+     */
+    protected function manageSoldeData()
+    {
+        // instance of adapter
+        $parser = $this->soldeParser;
+
+        // init list of values to be inserted
+        $insertValues = array();
+
+        // init list of values to be updated
+        $updateQuotaValues = $updateNombreValues = $updatePointsValues = $updateDateArret = array();
+
+        // list of new data
+        $newSoldes = $this->getNewSoldeList();
+
+        // list of data for update
+        $updateSoldeList = $this->getSoldeToBeUpdated();
+
+        // update
+        if (count($updateSoldeList) > 0) {
+            // start/end query block
+            $queryStart = " UPDATE `{$this->wpdb->prefix}solde` ";
+            $queryEnd   = ' END ';
+
+            // only update if erpData.date_arret > cri_solde.date_arret
+            foreach($this->soldeModel->find() as $currentData) {
+                // the only unique key available is the "crpcen + web_password"
+                $key = $currentData->client_number . $currentData->type_support;
+
+                if (array_key_exists($key, $updateSoldeList)) {
+                    $newData = $updateSoldeList[$key];
+
+                    // format date
+                    $dateArret = '';
+                    if (isset($newData[$parser::SOLDE_DATEARRET])) {
+                        $dateArret = $newData[$parser::SOLDE_DATEARRET];
+
+                        // convert date to mysql format
+                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $dateArret)) {
+                            $dateTime = date_create_from_format('d/m/Y', $dateArret);
+                            $dateArret = $dateTime->format('Y-m-d');
+                        }
+                    }
+                    $newDate = new DateTime($dateArret);
+                    $newDate = $newDate->format('Ymd');
+                    $oldDate = new DateTime($currentData->date_arret);
+                    $oldDate = $oldDate->format('Ymd');
+                    if ($newDate > $oldDate) {
+                        // prepare all update   query
+                        if (isset($newData[$parser::SOLDE_QUOTA]))
+                            $updateQuotaValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_QUOTA]) . "' ";
+
+                        if (isset($newData[$parser::SOLDE_NOMBRE]))
+                            $updateNombreValues[]   = " id = {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_NOMBRE]) . "' ";
+
+                        if (isset($newData[$parser::SOLDE_POINTS]))
+                            $updatePointsValues[]   = " id = {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_POINTS]) . "' ";
+
+                        $updateDateArret[]          = " id = {$currentData->id} THEN '" . $dateArret . "' ";
+                    }
+                }
+
+                $this->importSuccess = true;
+            }
+
+            // execute update query
+            if (count($updateQuotaValues) > 0) {
+                // quota
+                $soldeQuery = ' SET `quota` = CASE ';
+                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updateQuotaValues);
+                $soldeQuery .= ' ELSE `quota` ';
+                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                // nombre
+                $soldeQuery = ' SET `nombre` = CASE ';
+                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updateNombreValues);
+                $soldeQuery .= ' ELSE `nombre` ';
+                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                // points
+                $soldeQuery = ' SET `points` = CASE ';
+                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updatePointsValues);
+                $soldeQuery .= ' ELSE `points` ';
+                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                // date_arret
+                $soldeQuery = ' SET `date_arret` = CASE ';
+                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updateDateArret);
+                $soldeQuery .= ' ELSE `date_arret` ';
+                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+
+                $this->importSuccess = true;
+            }
+        }
+
+        // insert new data
+        if (count($newSoldes) > 0) {
+            $options               = array();
+            $options['table']      = 'solde';
+            $options['attributes'] = 'client_number, quota, type_support, nombre, points, date_arret';
+
+            // prepare multi rows data values
+            foreach ($newSoldes as $solde) {
+                if (isset($this->erpSoldeData[$solde][$parser::SOLDE_NUMCLIENT])
+                    && intval($this->erpSoldeData[$solde][$parser::SOLDE_NUMCLIENT]) > 0) {
+
+                    // format date
+                    $dateArret = '';
+                    if (isset($this->erpSoldeData[$solde][$parser::SOLDE_DATEARRET])) {
+                        $dateArret = $this->erpSoldeData[$solde][$parser::SOLDE_DATEARRET];
+
+                        // convert date to mysql format
+                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $dateArret)) {
+                            $dateTime = date_create_from_format('d/m/Y', $dateArret);
+                            $dateArret = $dateTime->format('Y-m-d');
+                        }
+                    }
+
+                    $value = "(";
+
+                    $value .= "'" . (isset($this->erpSoldeData[$solde][$parser::SOLDE_NUMCLIENT]) ? esc_sql($this->erpSoldeData[$solde][$parser::SOLDE_NUMCLIENT]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpSoldeData[$solde][$parser::SOLDE_QUOTA]) ? esc_sql($this->erpSoldeData[$solde][$parser::SOLDE_QUOTA]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpSoldeData[$solde][$parser::SOLDE_SUPPORT]) ? esc_sql($this->erpSoldeData[$solde][$parser::SOLDE_SUPPORT]) : '') . "', ";
+                    $value .= (isset($this->erpSoldeData[$solde][$parser::SOLDE_NOMBRE]) ? esc_sql($this->erpSoldeData[$solde][$parser::SOLDE_NOMBRE]) : '') . ", ";
+                    $value .= "'" . (isset($this->erpSoldeData[$solde][$parser::SOLDE_POINTS]) ? esc_sql($this->erpSoldeData[$solde][$parser::SOLDE_POINTS]) : '') . "', ";
+                    $value .= "'" . $dateArret . "'";
+
+                    $value .= ")";
+
+                    $insertValues[] = $value;
+                }
+            }
+
+            if (count($insertValues) > 0) {
+                $queryBulder       = mvc_model('QueryBuilder');
+                $options['values'] = implode(', ', $insertValues);
+                // bulk insert
+                $queryBulder->insertMultiRows($options);
+
+                $this->importSuccess = true;
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getSoldeData()
+    {
+        return $this->soldeData;
+    }
+
+    /**
+     * @param array $soldeData
+     */
+    public function setSoldeData($soldeData)
+    {
+        $this->soldeData = $soldeData;
     }
 }

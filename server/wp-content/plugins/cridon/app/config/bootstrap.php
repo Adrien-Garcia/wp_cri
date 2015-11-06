@@ -265,7 +265,7 @@ function register_extra_fields ($user_id)
         $adminUrl .= '&flash=success';
         //Redirect to UserCridon list
         wp_redirect( $adminUrl, 302 );
-        exit;        
+        exit;
     }
 }
 
@@ -280,10 +280,10 @@ function generateHtmlForUserForm( $user ){
             $id_erp = $userCridon->id_erp;
             if( $userCridon->last_connection !== '0000-00-00 00:00:00' ){
                 $dt = new DateTime( $userCridon->last_connection );
-                $last_connection = $dt->format('d-m-Y H:i');                
+                $last_connection = $dt->format('d-m-Y H:i');
             }
-        }   
-        echo "<div>"; 
+        }
+        echo "<div>";
     }else{
         echo "><div>"; // Note the first '>' here. We wrap our own output to a 'div' element.
     }
@@ -309,15 +309,15 @@ function generateHtmlForUserForm( $user ){
     $html .= '</tbody></table>';
     echo $html;
     if( !empty( $user ) && ( $user instanceof WP_User ) ){
-        echo "</div>"; 
+        echo "</div>";
     }else{
         echo "</div"; // Note the missing '>' here.
     }
-   
+
 }
 add_action( "user_new_form_tag", "add_new_field_to_useradd" );
 function add_new_field_to_useradd()
-{ 
+{
     generateHtmlForUserForm( null );
 }
 add_action ( 'edit_user_profile', 'custom_extra_profile_fields' );
@@ -357,7 +357,7 @@ function custom_save_extra_profile_fields( $user_id, $old_user_data ) {
         //Redirect to UserCridon list
         wp_redirect( $adminUrl, 302 );
         exit;
-    } 
+    }
 }
 function custom_after_login( $user_login, $user ) {
     if ( ( $user instanceof WP_User ) && isset( $user->roles ) && is_array( $user->roles ) ) {
@@ -377,11 +377,11 @@ function custom_after_login( $user_login, $user ) {
                 );
                 //Update DB
                 $model->save( $data );
-            }    
-        } 
+            }
+        }
     }
 }
-add_filter( 'wp_login', 'custom_after_login', 10, 2 );	 
+add_filter( 'wp_login', 'custom_after_login', 10, 2 );
 
 function custom_delete_user( $user_id ) {
     $model = mvc_model( 'UserCridon' );
@@ -404,3 +404,17 @@ function custom_delete_user( $user_id ) {
 }
 add_action( 'deleted_user', 'custom_delete_user' );
 //End Admin User Cridon
+
+// Custom usefull functions
+/**
+ * Get a value associated with a key in array if exists, default value otherwise
+ * Avoid warning and easily allow fallback
+ * @param mixed $key searched key
+ * @param array $array in which the key should be
+ * @param mixed $default value to retrieve if key is not in array
+ * @return mixed $value corresponding to $key if exists, $defaults otherwise
+ */
+function arrayGet($array = array(), $key = 0, $default = null) {
+    return isset($array[$key]) ? $array[$key] : $default;
+}
+//End custom functions

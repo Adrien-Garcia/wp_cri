@@ -77,7 +77,7 @@ class Config {
 
     // list of category not to be imported
     public static $notImportedList = array(CONST_CLIENTDIVERS_ROLE);
-    
+
     //List of role Notaire
     public static $rolesNotaire = array( 'notaire',CONST_OFFICES_ROLE,CONST_ORGANISMES_ROLE,CONST_CLIENTDIVERS_ROLE );
 
@@ -100,4 +100,14 @@ class Config {
 
     // list of cridon_user_type using default user form
     public static $mvcWithUserForm = array('user_cridons');
+
+    // list of persons who will receive e-mail error notification
+    public static $emailNotificationError = array(
+        'to' => array(
+            'info@cridon-lyon.fr', //Client e-mail, only use it in production mode
+        ),
+        'cc' => array(
+            'victor.albert@jetpulp.fr',
+        ),
+    );
 }

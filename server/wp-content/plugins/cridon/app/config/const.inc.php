@@ -139,4 +139,30 @@ if ( !defined( 'CONST_EMAIL_SENDER_CONTACT' ) ) {
     define( 'CONST_EMAIL_SENDER_CONTACT', 'cridon@jetpulp.dev' );
 }
 
+// import CSV solde file path
+if ( !defined( 'CONST_IMPORT_CSV_SOLDE_FILE_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_CSV_SOLDE_FILE_PATH', $uploadDir['basedir'] . '/import/importConso/' );
+}
+
+// Contact email for import error reporting
+if ( !defined( 'CONST_EMAIL_ERROR_CONTACT' ) ) {
+    define( 'CONST_EMAIL_ERROR_CONTACT', 'victor.albert@jetpulp.fr' );
+}
+
+// do not remove "%s" : it uses to inject import type (notaire|solde) into the mail content
+if ( !defined( 'CONST_EMAIL_ERROR_SUBJECT' ) ) {
+    define( 'CONST_EMAIL_ERROR_SUBJECT', 'Cridon - Import de fichier' );
+}
+if ( !defined( 'CONST_EMAIL_ERROR_CONTENT' ) ) {
+    define( 'CONST_EMAIL_ERROR_CONTENT', 'Fichier d\'import absent pour : %s' );
+}
+if ( !defined( 'CONST_EMAIL_ERROR_CORRUPTED_FILE' ) ) {
+    define( 'CONST_EMAIL_ERROR_CORRUPTED_FILE', 'Fichier d\'import mal formaté pour : %s' );
+}
+
+// Error reporting for Exception
+if ( !defined( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION' ) ) {
+    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exeption a été levée avec le message d\'erreur suivante : "%s"' );
+}
 
