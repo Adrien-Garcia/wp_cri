@@ -981,9 +981,9 @@ class Notaire extends MvcModel
     {
         // message content
         $message =  sprintf($message, $object);
-
+        $env = getenv('ENV');
         //define receivers
-        if ((empty(ENV) || (ENV !== 'PROD')) && !empty(Config::$emailNotificationError['cc'])) {
+        if ((empty($env) || ($env !== 'PROD')) && !empty(Config::$emailNotificationError['cc'])) {
             // just send to client in production mode
             $ccs = (array) Config::$emailNotificationError['cc']; //cast to guarantee array
             $to = array_pop($ccs);
