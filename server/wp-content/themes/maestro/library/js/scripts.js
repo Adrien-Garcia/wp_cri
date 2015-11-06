@@ -178,6 +178,9 @@ $('#mdp_retour').click(function(e){
 	
 });
 
+/* Zone cliquable */
+
+
 
 
 

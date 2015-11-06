@@ -347,13 +347,8 @@ body.page-template-front-page{
 							line-height: 10px;						
 						}
 					}
-					&:hover {
-						.content {
-							&, &:before, &:after {
-								height: 150px;
-							}
-						}
-					}
+					
+					
 				}
 
 				.consulter{
@@ -1353,23 +1348,28 @@ body.page-template-front-page{
 							.coordonnees{
 								padding-left: 30px;
 								width: 560px;
+
+								.notaire, .etude{
+									width: 50%;
+									float: left;
+									margin-top: 0;
+								}
 								
 
 								.nom{
 									width: 100%;
-    								margin-bottom: 30px;
+    								margin-bottom: 25px;
 
 									span{}
 								}
 
-								.adresse, .contact{
-									width: 160px;
-    								float: left;
-    								margin-bottom: 0;
+								.adresse, .contact, .mail{
+									
+    								margin-bottom: 25px;
 								}
 
 								> a{
-									    float: right;
+									    
     									margin-top: 7px;
 
 
@@ -1698,8 +1698,8 @@ FOOTER STYLES
 
 			&:before {
 				
-				@include sprite($logo-cridon-footer-tablette);
-				margin: 0 0 0 -54px;
+				@include sprite($logo-cridon-footer-tablette2);
+				margin: 0 0 0 -54px; 
 
 			}
 
@@ -1719,7 +1719,7 @@ FOOTER STYLES
 					
 					font-size: 20px;
 					line-height: 20px;
-				}
+				} 
 				p {
 					
 					font-size: 15px; 

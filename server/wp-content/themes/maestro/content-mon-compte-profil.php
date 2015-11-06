@@ -5,27 +5,77 @@
 	<h2>Mes informations</h2>
 
 	<div class="img-profil">
-		<img src="" alt="" />
 	</div>
 	<div class="coordonnees">
-		<div class="nom">
-			<span><?php echo $notaire->etude->office_name ?></span>
-			<?php echo $notaire->last_name ?> <?php echo $notaire->first_name ?>
+		<div class="etude">
+			<div class="nom">
+				<span><?php echo $notaire->etude->office_name ?></span>
+			</div>
+			<div class="adresse">
+				<span><?php echo $notaire->etude->adress_1 ?></span>
+				<?php if (!empty($notaire->etude->adress_2)): ?>
+					<span><?php echo $notaire->etude->adress_2 ?></span>
+				<?php endif ?>
+				<?php if (!empty($notaire->etude->adress_3)): ?>
+					<span><?php echo $notaire->etude->adress_3 ?></span>
+				<?php endif ?>				
+				<span><?php echo $notaire->etude->cp.' '.$notaire->etude->city ?></span>
+			</div>
+			<div class="mail">
+				<span id="sel-compte-mail"><?php echo $notaire->etude->office_email_adress_1 ?></span>
+			</div>
+			<div class="contact">
+				<span>Tel ?? <?php // echo $notaire->tel ?></span>
+				<span>Fax ?? <?php //echo $notaire->tel ?></span>
+			</div>			
+		</div>
+		<div class="notaire">
+			<div class="nom">
+				<span><?php echo $notaire->last_name ?> <?php echo $notaire->first_name ?></span>
+			</div>
+			<div class="adresse">
+				<span>??</span>
+				
+				<span>CP - Ville ??</span>
+			</div>
+			<div class="mail">
+				<span id="sel-compte-mail"><?php echo $notaire->email_adress ?></span>
+			</div>
+			<div class="contact">
+				<?php if (!empty($notaire->tel_portable)): ?>
+					<span>Mob  <a href="tel:<?php echo $notaire->tel_portable ?>"><?php echo $notaire->tel_portable ?></a></span>
+				<?php endif ?>
+				<?php if (!empty($notaire->tel)): ?>
+				<span>Tel <a href="tel:<?php echo $notaire->tel ?>"><?php echo $notaire->tel ?></a></span>
+				<?php endif ?>
+				<?php if (!empty($notaire->fax)): ?>
+					<span>Fax <?php echo $notaire->fax ?></span>
+				<?php endif ?>
+			</div>			
+		</div>
+
+		<?php // var_dump($notaire); ?>
+
+
+
+		<!--div class="nom">
+			<span><?php // echo $notaire->etude->office_name ?></span>
+			<?php // echo $notaire->last_name ?> <?php // echo $notaire->first_name ?>
 		</div>
 		<div class="adresse">
-			<span><?php echo $notaire->etude->adress_1 ?></span>
-			<?php if (!empty($notaire->etude->adress_2)): ?>
-				<span><?php echo $notaire->etude->adress_2 ?></span>
-			<?php endif ?>
-			<?php if (!empty($notaire->etude->adress_3)): ?>
-				<span><?php echo $notaire->etude->adress_3 ?></span>
-			<?php endif ?>
-			<span><?php echo $notaire->etude->cp.' '.$notaire->etude->city ?></span>
+			<span><?php // echo $notaire->etude->adress_1 ?></span>
+			<?php // if (!empty($notaire->etude->adress_2)): ?>
+				<span><?php // echo $notaire->etude->adress_2 ?></span>
+			<?php // endif ?>
+			<?php // if (!empty($notaire->etude->adress_3)): ?>
+				<span><?php // echo $notaire->etude->adress_3 ?></span>
+			<?php // endif ?>
+			<span><?php // echo $notaire->etude->cp.' '.$notaire->etude->city ?></span>
 		</div>
 		<div class="contact">
-			<span id="sel-compte-mail"><?php echo $notaire->email_adress ?></span>
-			<span><?php echo $notaire->tel ?></span>
-		</div>
+			<span id="sel-compte-mail"><?php // echo $notaire->email_adress ?></span>
+			<span><?php // echo $notaire->tel ?></span>
+		</div!-->
 	</div>
 </div>
 

@@ -67,7 +67,7 @@
 						<?php _e('Posez une question'); ?>
 					</a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
-						<<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="#">
+						<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="#">
 							<?php _e('acceder à mon compte'); ?>
 						</a>
 					<?php else: ?>
@@ -131,7 +131,7 @@
 							<form action="" method="" accept-charset="utf-8" id="lostPwdFormId">
 								<input type="text" name="emailFieldId" value="" id="emailFieldId" placeholder="Votre adresse mail">
 								<input type="text" name="crpcenFieldId" value="" id="crpcenFieldId" placeholder="Votre CRPCEN">
-								<input type="submit" name="submit" value="Mot de passe oublié">						
+								<input type="submit" name="submit" value="Récupérer mon mot de passe">						
 							</form>
 							<a href="#" id="mdp_retour">< Retour </a>
 							<div id="errorMsgForgotId">									

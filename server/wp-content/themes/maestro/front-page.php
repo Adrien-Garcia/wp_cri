@@ -105,7 +105,7 @@
 										$_link = get_permalink(); //$veille->link;
 
 									 ?>
-								<li >
+								<li class="js-home-block-link">
 									<img src="<?php echo $veille->matiere->picto ?>" alt="<?php echo $veille->matiere->label ?>" />
 									<h4><?php echo $veille->matiere->label ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
