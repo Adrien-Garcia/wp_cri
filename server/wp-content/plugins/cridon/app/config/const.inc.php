@@ -165,4 +165,12 @@ if ( !defined( 'CONST_EMAIL_ERROR_CORRUPTED_FILE' ) ) {
 if ( !defined( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION' ) ) {
     define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exeption a été levée avec le message d\'erreur suivante : "%s"' );
 }
+// Appel && Courrier support id
+if ( !defined( 'CONST_SUPPORT_APPEL_ID' ) ) {
+    define( 'CONST_SUPPORT_APPEL_ID',  2);
+}
+if ( !defined( 'CONST_SUPPORT_COURRIER_ID' ) ) {
+    define( 'CONST_SUPPORT_COURRIER_ID',  1);
+}
+
 

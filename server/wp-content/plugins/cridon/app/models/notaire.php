@@ -942,6 +942,32 @@ class Notaire extends MvcModel
 
         $object = $this->find_one_by_id_wp_user($current_user->ID);
 
+        if (is_object($object) && property_exists($object, 'client_number')) {
+            $datas = mvc_model('solde')->getSoldeByClientNumber($object->client_number);
+
+            // init data
+            $object->nbAppel = $object->nbCourrier = $object->quota = $object->pointConsomme = $object->solde = 0;
+            $object->date = '';
+
+            // quota, pointCosomme, solde
+            if (isset($datas[0])) {
+                $object->quota = $datas[0]->quota;
+                $object->pointConsomme = $datas[0]->totalPoint;
+                $object->solde = intval($datas[0]->quota) - intval($datas[0]->totalPoint);
+                $object->date = date('d/m/Y', strtotime($datas[0]->date_arret));
+            }
+
+            // fill nbAppel && nbCourrier
+            foreach($datas as $data) {
+                if ($data->type_support == CONST_SUPPORT_APPEL_ID) {
+                    $object->nbAppel += $data->nombre;
+                } elseif ($data->type_support == CONST_SUPPORT_COURRIER_ID) {
+                    $object->nbCourrier += $data->nombre;
+                }
+            }
+
+        }
+
         return $object;
     }
 
