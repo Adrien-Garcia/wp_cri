@@ -908,7 +908,6 @@ class Notaire extends MvcModel
     {
         $object = $this->getUserConnectedData();
 
-        //
         return (isset($object->category)
             && strtolower($object->category) === CONST_OFFICES_ROLE
             && isset($object->fonction->id)

@@ -464,6 +464,11 @@ function getMatieresByNotaire(){
     return null;
 }
 
+/**
+ * Check if notaire can access finances
+ *
+ * @return bool
+ */
 function CriCanAccessFinance() {
     // check if user connected is notaire
     if (CriIsNotaire()) {
