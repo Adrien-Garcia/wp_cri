@@ -250,7 +250,7 @@ function register_extra_fields ($user_id)
         $model = mvc_model( 'UserCridon' );
         $data = array(
             'UserCridon' => array(
-                'id_erp' => $_POST['id_erp'],
+                'id_erp' => ( isset( $_POST['id_erp'] ) ) ? $_POST['id_erp'] : '',
                 'profil' => empty( $roles )? '' : translate_user_role( $wp_roles->roles[$roles[0]]['name'] ),
                 'id_wp_user' => $user_id
             )
