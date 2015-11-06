@@ -114,13 +114,13 @@ class CridonLoader extends MvcPluginLoader
             }
         }    
         // @TODO to be removed if we use specific plugin like "user-role-editor"
-        // add  notaire role
-        add_role( 'notaire', 'Notaire' );
+        // remove  notaire role
+        remove_role( CONST_NOTAIRE_ROLE );
 
-        // init specific role by group (label can be managed in admin area)
-        add_role( CONST_OFFICES_ROLE, 'Offices' );
-        add_role( CONST_ORGANISMES_ROLE, 'Organismes' );
-        add_role( CONST_CLIENTDIVERS_ROLE, 'Clients divers' );
+        // remove specific role
+        remove_role( CONST_OFFICES_ROLE );
+        remove_role( CONST_ORGANISMES_ROLE );
+        remove_role( CONST_CLIENTDIVERS_ROLE );
     }
 
     public function deactivate()

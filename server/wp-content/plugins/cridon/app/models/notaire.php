@@ -1292,4 +1292,20 @@ class Notaire extends MvcModel
     {
         $this->soldeData = $soldeData;
     }
+
+    /**
+     * Check if users can access finances
+     *
+     * @return bool
+     */
+    public function userCanAccessFinance()
+    {
+        $object = $this->getUserConnectedData();
+
+        return (isset($object->category)
+            && strtolower($object->category) === CONST_OFFICES_ROLE
+            && isset($object->fonction->id)
+            && !in_array($object->fonction->id, Config::$cannotAccessFinance)
+        ) ? true : false;
+    }
 }

@@ -173,4 +173,30 @@ if ( !defined( 'CONST_SUPPORT_COURRIER_ID' ) ) {
     define( 'CONST_SUPPORT_COURRIER_ID',  1);
 }
 
+// Notaire fonctions id (used for filtering capability)
+if ( !defined( 'CONST_NOTAIRE_ASSOCIE' ) ) {
+    define( 'CONST_NOTAIRE_ASSOCIE', 2 );
+}
+if ( !defined( 'CONST_NOTAIRE_ASSOCIEE' ) ) {
+    define( 'CONST_NOTAIRE_ASSOCIEE', 3 );
+}
+if ( !defined( 'CONST_NOTAIRE_SALARIE' ) ) {
+    define( 'CONST_NOTAIRE_SALARIE', 4 );
+}
+if ( !defined( 'CONST_NOTAIRE_SALARIEE' ) ) {
+    define( 'CONST_NOTAIRE_SALARIEE', 5 );
+}
+if ( !defined( 'CONST_NOTAIRE_GERANT' ) ) {
+    define( 'CONST_NOTAIRE_GERANT', 6 );
+}
+if ( !defined( 'CONST_NOTAIRE_GERANTE' ) ) {
+    define( 'CONST_NOTAIRE_GERANTE', 7 );
+}
+if ( !defined( 'CONST_NOTAIRE_SUPLEANT' ) ) {
+    define( 'CONST_NOTAIRE_SUPLEANT', 8 );
+}
+if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
+    define( 'CONST_NOTAIRE_SUPLEANTE', 9 );
+}
+
 

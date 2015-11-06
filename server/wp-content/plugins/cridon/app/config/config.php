@@ -110,4 +110,12 @@ class Config {
             'victor.albert@jetpulp.fr',
         ),
     );
+
+    // list of notaire functions cannot access finances
+    public static $cannotAccessFinance = array(
+        CONST_NOTAIRE_ASSOCIE,
+        CONST_NOTAIRE_ASSOCIEE,
+        CONST_NOTAIRE_SALARIE,
+        CONST_NOTAIRE_SALARIEE
+    );
 }
