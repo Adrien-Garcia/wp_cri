@@ -97,7 +97,7 @@ function on_post_import( $post_ID ) {
             );
             $adminUrl  = MvcRouter::admin_url($options);
             $adminUrl .= '&flash=success';
-            wp_redirect( $adminUrl, 301 );
+            wp_redirect( $adminUrl, 302 );
             exit; 
         }
     }
@@ -119,16 +119,21 @@ function init_meta_boxes_category_post(){
  * 
  * @param \WP_Post $post
  */
-function init_select_meta_boxes( $post ){ 
-    echo '<select name="cri_category">';
+function init_select_meta_boxes( $post ){
     $oVeille  = findBy( 'veille' , $post->ID );//Find Veille
     $oMatiere = mvc_model( 'matiere' );//load model Matiere to use functions
     $aMatiere = $oMatiere->find( array( 'order' => 'label ASC' ) );
-    foreach( $aMatiere as $value ){
-        echo '<option'.check( $oVeille,$value ).' value="'.$value->id.'">'.$value->label.'</option>';  
-    }
-    echo '</select>';
+
+    // prepare vars
+    $vars = array(
+        'aMatiere' => $aMatiere,
+        'oVeille' => $oVeille
+    );
+
+    // render view
+    CriRenderView('veille_meta_box', $vars);
 }
+
 /**
  * Check if Veille has an associate model Matiere
  * 
@@ -283,36 +288,16 @@ function generateHtmlForUserForm( $user ){
                 $last_connection = $dt->format('d-m-Y H:i');
             }
         }
-        echo "<div>";
-    }else{
-        echo "><div>"; // Note the first '>' here. We wrap our own output to a 'div' element.
     }
-    //Extra fields = disabled
-    $html = '<table class="form-table">';
-    $html .= '<tbody>';
-    $html .= '<tr class="form-field">';
-    $html .= '<th scope="row">
-                <label for="id_erp">
-                Id ERP
-                </label>
-              </th>';
-    $html .= '<td><input id="id_erp" type="text" autocorrect="off" autocapitalize="none" ';
-    $html .= 'value="'.$id_erp.'" name="id_erp"></td></tr>';
-    $html .= '<tr class="form-field">';
-    $html .= '<th scope="row">
-                <label for="last_connection">
-                Dernière connexion
-                </label>
-              </th>';
-    $html .= '<td><input id="last_connection" type="text" autocorrect="off" autocapitalize="none" ';
-    $html .= 'value="'.$last_connection.'" name="last_connection" disabled="disabled"></td></tr>';
-    $html .= '</tbody></table>';
-    echo $html;
-    if( !empty( $user ) && ( $user instanceof WP_User ) ){
-        echo "</div>";
-    }else{
-        echo "</div"; // Note the missing '>' here.
-    }
+
+    // prepare vars
+    $vars = array(
+        'id_erp'            => $id_erp,
+        'last_connection'   => $last_connection,
+        'user'              => $user
+    );
+    // render view
+    CriRenderView('user_form', $vars);
 
 }
 add_action( "user_new_form_tag", "add_new_field_to_useradd" );
@@ -418,4 +403,16 @@ add_action( 'deleted_user', 'custom_delete_user' );
 function arrayGet($array = array(), $key = 0, $default = null) {
     return isset($array[$key]) ? $array[$key] : $default;
 }
+
+/**
+ * Render custom view  
+ *
+ * @param string $path
+ * @param array $view_vars
+ */
+function CriRenderView($path, $view_vars) {
+    extract($view_vars);
+    require_once WP_PLUGIN_DIR . '/cridon/app/views/custom/' . $path . '.php';
+}
+
 //End custom functions
