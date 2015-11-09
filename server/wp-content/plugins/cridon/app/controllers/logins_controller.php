@@ -98,10 +98,7 @@ class LoginsController extends MvcPublicController
     //Webservice
     
     public function login(){
-        $dispatcher = new CridonDispatcher();
-        if( !empty( $_POST ) ){ 
-            $dispatcher->checkLogin();
-        }
-//        $dispatcher->run();
+        $rest = new RestServer();
+        $rest->checkLogin();
     }
 }
