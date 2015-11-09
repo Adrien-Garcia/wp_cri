@@ -80,4 +80,7 @@ class Config {
     
     //List of role Notaire
     public static $rolesNotaire = array( 'notaire',CONST_OFFICES_ROLE,CONST_ORGANISMES_ROLE,CONST_CLIENTDIVERS_ROLE );
+    
+    //Duration of token for webservice ( day unit )
+    public static $tokenDuration = 1;
 }
