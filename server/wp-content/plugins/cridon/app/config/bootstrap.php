@@ -110,8 +110,9 @@ add_action( 'wp_insert_post', 'on_post_import' );
 add_action('add_meta_boxes','init_meta_boxes_category_post');
 
 function init_meta_boxes_category_post(){
-    if( isset( $_GET['cridon_type'] ) && ( $_GET['cridon_type'] === 'veilles' ) ){//Check if is a model Veille
-        add_meta_box('id_meta_boxes_link_post', Config::$titleMetabox , 'init_select_meta_boxes', 'post', 'side', 'high');        
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithMatiere)) {//Check if is a model Veille
+        // init meta box depends on the current type of content
+        add_meta_box('id_meta_boxes_link_post', Config::$titleMetabox , 'init_select_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
     }
 }
 /**
@@ -119,25 +120,28 @@ function init_meta_boxes_category_post(){
  * 
  * @param \WP_Post $post
  */
-function init_select_meta_boxes( $post ){
-    $oVeille  = findBy( 'veille' , $post->ID );//Find Veille
+function init_select_meta_boxes( $post, $args ){
+    //args contains only one param : key to model name using config
+    $models = $args['args'];
+    $config = arrayGet(Config::$data, $models, reset(Config::$data));
+    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
     $oMatiere = mvc_model( 'matiere' );//load model Matiere to use functions
     $aMatiere = $oMatiere->find( array( 'order' => 'label ASC' ) );
 
     // prepare vars
     $vars = array(
         'aMatiere' => $aMatiere,
-        'oVeille' => $oVeille
+        'oModel' => $oModel
     );
 
     // render view
-    CriRenderView('veille_meta_box', $vars);
+    CriRenderView('matiere_meta_box', $vars);
 }
 
 /**
- * Check if Veille has an associate model Matiere
+ * Check if current Model has an associate model Matiere
  * 
- * @param object $needle Object Veille
+ * @param object $needle Object MvcModel
  * @param object $haystack Object Matiere
  * @return string|null
  */

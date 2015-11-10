@@ -75,6 +75,12 @@ class Config {
         'name'   => 'Expertise transversale'
     );
 
+    //Content qualified by a "Matière"
+    public static $contentWithMatiere = array(
+        'veilles',
+        'flashes',
+    );
+
     // list of category not to be imported
     public static $notImportedList = array(CONST_CLIENTDIVERS_ROLE);
 
