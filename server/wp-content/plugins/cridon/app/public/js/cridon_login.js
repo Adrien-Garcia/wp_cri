@@ -8,10 +8,14 @@
 
     // document ready
     $(function() {
-
+        // login
         criLoginAction();
 
+        // lost pwd
         criLostPwd();
+
+        // post question
+        criQuestion();
     });
 
     /**
@@ -145,6 +149,74 @@
                 //alert(jsvar.empty_error_msg);
                 $('#' + msgBlocId).html(jsvar.empty_crpcen_msg);
             }
+
+            return false;
+        });
+    }
+
+    /**
+     * @name criQuestion
+     * @description Action for post question
+     * @author Etech - Joelio
+     */
+    function criQuestion() {
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'tokenquestion';
+        nonce.id    = 'tokenquestion';
+        nonce.value = jsvar.question_nonce;
+
+        // get default var of login form parameters
+        // @see hook.inc.php
+        var questionFormId = jsvar.question_form_id,
+            msgBlocId = jsvar.question_msgblock,
+            supportFieldId = jsvar.question_support,
+            matiereFieldId = jsvar.question_matiere,
+            competenceFieldId = jsvar.question_competence,
+            objectFieldId = jsvar.question_objet,
+            messageFieldId = jsvar.question_message;
+
+        // form data
+        var formdata = new FormData(),
+            inputFile = document.getElementById(jsvar.question_fichier);
+
+        $('#' + questionFormId).append(nonce);
+        $('#' + questionFormId).submit(function () {
+            if (inputFile) {
+                var i = 0, len = inputFile.files.length, file;
+                for (; i < len; i++) {
+                    file = inputFile.files[i];
+                    if (formdata) {
+                        formdata.append(jsvar.question_fichier + '[]', file);
+                    }
+                }
+            }
+            formdata.append("action", 'add_question');
+            formdata.append(supportFieldId, $('#' + supportFieldId).val());
+            formdata.append(matiereFieldId, $('#' + matiereFieldId).val());
+            formdata.append(competenceFieldId, $('#' + competenceFieldId).val());
+            formdata.append(objectFieldId, $('#' + objectFieldId).val());
+            formdata.append(messageFieldId, $('#' + messageFieldId).val());
+
+            $('#' + msgBlocId).html('');
+
+            jQuery.ajax({
+                type: 'POST',
+                url: jsvar.ajaxurl,
+                data: formdata,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    // init formdata
+                    formdata = new FormData();
+
+                    data = JSON.parse(data);
+                    // show message response
+                    $('#' + msgBlocId).html(data);
+
+                    return false;
+                }
+            });
 
             return false;
         });

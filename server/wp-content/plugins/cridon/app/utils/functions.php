@@ -399,7 +399,7 @@ function CriIsNotaire() {
     global $current_user;
 
     // get notaire by id_wp_user
-    $notaireData = mvc_model('notaire')->find_one_by_id_wp_user($current_user->ID);
+    $notaireData = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
 
     // user logged in is notaire
     if (is_user_logged_in() && $notaireData->id) {
@@ -418,7 +418,7 @@ function CriNotaireData() {
     // check if user connected is notaire
     if (CriIsNotaire()) {
         // user data
-        return mvc_model('notaire')->getUserConnectedData();
+        return mvc_model('Notaire')->getUserConnectedData();
     }
 
     return null;
@@ -476,4 +476,202 @@ function CriCanAccessFinance() {
         return mvc_model('notaire')->userCanAccessFinance();
     }
     return false;
+}
+
+/**
+ * List displayed matieres
+ *
+ * output format array_key = Matiere.id && array_value = Matiere.label
+ *
+ * ordered by label
+ *
+ * @return array
+ */
+function CriListMatieres()
+{
+    // init
+    $matieres = array();
+
+    // query optoins
+    $options = array(
+        'selects' => array('Matiere.id', 'Matiere.label'),
+        'conditions' => array(
+            'Matiere.displayed' => 1
+        ),
+        'order' => 'Matiere.label ASC'
+    );
+    $items = mvc_model('Matiere')->find( $options );
+
+    // format output
+    if (is_array($items) && count($items) > 0) {
+        foreach ($items as $item) {
+            $matieres[$item->id] = $item->label;
+        }
+    }
+
+    return $matieres;
+}
+
+/**
+ * List of competences by id matiere
+ *
+ * output format array_key = Competence.id && array_value = Competence.label
+ *
+ * @param int $matiereId
+ * @return array
+ */
+function CriCompetenceByMatiere($matiereId)
+{
+    $comptetences = array();
+
+    // get code_matiere by matiere.id
+    $matiere = mvc_model('Matiere')->find_by_id($matiereId);
+
+    if ($matiere->code) {
+        // query optoins
+        $options = array(
+            'selects'    => array('Competence.id', 'Competence.label', 'Competence.code_matiere'),
+            'conditions' => array(
+                'Competence.code_matiere' => $matiere->code,
+                'Competence.displayed'    => 1,
+            ),
+            'order'      => 'Competence.label ASC'
+        );
+        $items   = mvc_model('Competence')->find($options);
+
+        // format output
+        if (is_array($items) && count($items) > 0) {
+            foreach ($items as $item) {
+                $comptetences[$item->id] = $item->label;
+            }
+        }
+    }
+
+    return $comptetences;
+}
+
+/**
+ * List displayed competences
+ *
+ * output format array_key = Competence.id && array_value = Competence.label
+ *
+ * ordered by label
+ *
+ * @return array
+ */
+function CriListCompetences()
+{
+    // init
+    $competences = array();
+
+    // query optoins
+    $options = array(
+        'selects'    => array('Competence.id', 'Competence.label', 'Competence.code_matiere'),
+        'conditions' => array(
+            'Competence.displayed' => 1
+        ),
+        'order'      => 'Competence.label ASC'
+    );
+    $items   = mvc_model('Competence')->find($options);
+
+    // format output
+    if (is_array($items) && count($items) > 0) {
+        foreach ($items as $item) {
+            $competences[$item->id] = $item->label;
+        }
+    }
+
+    return $competences;
+}
+
+/**
+ * Action for post question
+ *
+ * @return boolean
+ */
+function CriPostQuestion() {
+    try {
+        // notaire data
+        $notaire = CriNotaireData();
+
+        // notaire exist
+        if ($notaire->client_number && isset($_POST[CONST_QUESTION_OBJECT_FIELD])) {
+            // prepare data
+            $question = array(
+                'Question' => array(
+                    'client_number' => $notaire->client_number,
+                    'sreccn' => $notaire->code_interlocuteur,
+                    'resume' => $_POST[CONST_QUESTION_OBJECT_FIELD],
+                    'creation_date' => date('Y-m-d H:i:s'),
+                )
+            );
+
+            // Support
+            if (isset($_POST[CONST_QUESTION_SUPPORT_FIELD])) {
+                $question['Question']['id_support'] = $_POST[CONST_QUESTION_SUPPORT_FIELD];
+            }
+            // Competence
+            if (isset($_POST[CONST_QUESTION_COMPETENCE_FIELD])) {
+                $question['Question']['id_competence_1'] = $_POST[CONST_QUESTION_COMPETENCE_FIELD];
+            }
+            // Message
+            if (isset($_POST[CONST_QUESTION_MESSAGE_FIELD])) {
+                $question['Question']['content'] = $_POST[CONST_QUESTION_MESSAGE_FIELD];
+            }
+
+            // insert question
+            $questionId = mvc_model('Question')->create($question);
+
+            // Attached files
+            if ($questionId && isset($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD])) {
+                // instance of CriFileUploader
+                $criFileUploader = new CriFileUploader();
+                // set files list
+                $criFileUploader->setFiles($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]);
+                // set upload dir
+                $uploadDir = wp_upload_dir();
+                $path = $uploadDir['basedir'] . '/questions/' . $questionId . '/';
+                if( !file_exists( $path )) { // not yet directory
+                    wp_mkdir_p($path);
+                }
+                $criFileUploader->setUploaddir($path);
+
+                // validate file size, max uploade authorized,...
+                if ($criFileUploader->validate()) {
+                    $listDocuments = $criFileUploader->execute();
+
+                    if (is_array($listDocuments) && count($listDocuments) > 0) {
+                        foreach ($listDocuments as $document) {
+                            // prepare data
+                            $documents = array(
+                                'Document' => array(
+                                    'file_path'     => '/uploads/questions/' . $questionId . '/' . $document,
+                                    'download_url'  => '/documents/download/' . $questionId,
+                                    'date_modified' => date('Y-m-d H:i:s'),
+                                    'type'          => 'question',
+                                    'id_externe'    => $questionId,
+                                )
+                            );
+
+                            // insert
+                            $documentId = mvc_model('Document')->create($documents);
+
+                            // update download_url
+                            $documents = array(
+                                'Document' => array(
+                                    'id'            => $documentId,
+                                    'download_url'  => '/documents/download/' . $documentId
+                                )
+                            );
+                            mvc_model('Document')->save($documents);
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    } catch(\Exception $e) {
+        return false;
+    }
 }

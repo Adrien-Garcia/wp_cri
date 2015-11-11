@@ -199,4 +199,37 @@ if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
     define( 'CONST_NOTAIRE_SUPLEANTE', 9 );
 }
 
+// Add Question Form
+if ( !defined( 'CONST_QUESTION_SUPPORT_FIELD' ) ) {
+    define( 'CONST_QUESTION_SUPPORT_FIELD', 'question_support' );
+}
+if ( !defined( 'CONST_QUESTION_FORM_ID' ) ) {
+    define( 'CONST_QUESTION_FORM_ID', 'questionFormId' );
+}
+if ( !defined( 'CONST_QUESTION_MATIERE_FIELD' ) ) {
+    define( 'CONST_QUESTION_MATIERE_FIELD', 'question_matiere' );
+}
+if ( !defined( 'CONST_QUESTION_COMPETENCE_FIELD' ) ) {
+    define( 'CONST_QUESTION_COMPETENCE_FIELD', 'question_competence' );
+}
+if ( !defined( 'CONST_QUESTION_OBJECT_FIELD' ) ) {
+    define( 'CONST_QUESTION_OBJECT_FIELD', 'question_objet' );
+}
+if ( !defined( 'CONST_QUESTION_MESSAGE_FIELD' ) ) {
+    define( 'CONST_QUESTION_MESSAGE_FIELD', 'question_message' );
+}
+if ( !defined( 'CONST_QUESTION_ATTACHEMENT_FIELD' ) ) {
+    define( 'CONST_QUESTION_ATTACHEMENT_FIELD', 'question_fichier' );
+}
+// Success Message
+if ( !defined( 'CONST_QUESTION_SUCCESS_MSG_FIELD' ) ) {
+    define( 'CONST_QUESTION_SUCCESS_MSG_FIELD', 'msgBlockId' );
+}
+if ( !defined( 'CONST_QUESTION_ACTION_SUCCESSFUL' ) ) {
+    define( 'CONST_QUESTION_ACTION_SUCCESSFUL', 'Question envoyée avec succès' );
+}
+if ( !defined( 'CONST_QUESTION_ACTION_ERROR' ) ) {
+    define( 'CONST_QUESTION_ACTION_ERROR', 'Une erreur s\'est produite lors de l\'envoie de votre question. Merci de contacter le responsable.' );
+}
+
 

@@ -73,22 +73,35 @@ function append_js_files()
             'cridon',
             'jsvar',
             array(
-                'ajaxurl'           => admin_url('admin-ajax.php'),
-                'login_nonce'       => wp_create_nonce("process_login_nonce"),
-                'error_msg'         => CONST_LOGIN_ERROR_MSG,
-                'empty_error_msg'   => CONST_LOGIN_EMPTY_ERROR_MSG,
-                'form_id'           => CONST_TPL_FORM_ID,
-                'login_field_id'    => CONST_TPL_LOGINFIELD_ID,
-                'password_field_id' => CONST_TPL_PASSWORDFIELD_ID,
-                'error_bloc_id'     => CONST_TPL_ERRORBLOCK_ID,
-                'lostpwd_nonce'     => wp_create_nonce("process_lostpwd_nonce"),
-                'pwdform_id'        => CONST_TPL_PWDFORM_ID,
-                'pwdmsg_block'      => CONST_TPL_PWDMSGBLOCK_ID,
-                'email_field_id'    => CONST_TPL_PWDEMAILFIELD_ID,
-                'crpcen_field_id'   => CONST_TPL_CRPCENFIELD_ID,
-                'crpcen_error_msg'  => CONST_INVALIDEMAIL_ERROR_MSG,
-                'crpcen_success_msg'=> CONST_RECOVPASS_SUCCESS_MSG,
-                'empty_crpcen_msg'  => CONST_CRPCEN_EMPTY_ERROR_MSG,
+                'ajaxurl'             => admin_url('admin-ajax.php'),
+                // connection
+                'login_nonce'         => wp_create_nonce("process_login_nonce"),
+                'error_msg'           => CONST_LOGIN_ERROR_MSG,
+                'empty_error_msg'     => CONST_LOGIN_EMPTY_ERROR_MSG,
+                'form_id'             => CONST_TPL_FORM_ID,
+                'login_field_id'      => CONST_TPL_LOGINFIELD_ID,
+                'password_field_id'   => CONST_TPL_PASSWORDFIELD_ID,
+                'error_bloc_id'       => CONST_TPL_ERRORBLOCK_ID,
+                // lost password
+                'lostpwd_nonce'       => wp_create_nonce("process_lostpwd_nonce"),
+                'pwdform_id'          => CONST_TPL_PWDFORM_ID,
+                'pwdmsg_block'        => CONST_TPL_PWDMSGBLOCK_ID,
+                'email_field_id'      => CONST_TPL_PWDEMAILFIELD_ID,
+                'crpcen_field_id'     => CONST_TPL_CRPCENFIELD_ID,
+                'crpcen_error_msg'    => CONST_INVALIDEMAIL_ERROR_MSG,
+                'crpcen_success_msg'  => CONST_RECOVPASS_SUCCESS_MSG,
+                'empty_crpcen_msg'    => CONST_CRPCEN_EMPTY_ERROR_MSG,
+                // post question
+                'question_form_id'    => CONST_QUESTION_FORM_ID,
+                'question_nonce'      => wp_create_nonce("process_question_nonce"),
+                'question_support'    => CONST_QUESTION_SUPPORT_FIELD,
+                'question_matiere'    => CONST_QUESTION_MATIERE_FIELD,
+                'question_competence' => CONST_QUESTION_COMPETENCE_FIELD,
+                'question_objet'      => CONST_QUESTION_OBJECT_FIELD,
+                'question_message'    => CONST_QUESTION_MESSAGE_FIELD,
+                'question_fichier'    => CONST_QUESTION_ATTACHEMENT_FIELD,
+                'question_msgblock'   => CONST_QUESTION_SUCCESS_MSG_FIELD,
+                'question_content'    => CONST_QUESTION_ACTION_SUCCESSFUL,
             )
         );
     }
@@ -118,6 +131,19 @@ function lost_password()
 }
 add_action( 'wp_ajax_lost_password',   'lost_password' );
 add_action( 'wp_ajax_nopriv_lost_password',   'lost_password' );
+
+/**
+ * hook for add question
+ *
+ * Only for connected user
+ */
+function add_question()
+{
+    require_once WP_PLUGIN_DIR . '/cridon/app/controllers/questions_controller.php';
+    $controller = new QuestionsController();
+    $controller->add();
+}
+add_action( 'wp_ajax_add_question',   'add_question' );
 
 /**
  * Hook for logout
