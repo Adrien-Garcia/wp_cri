@@ -11,6 +11,27 @@ class CriFileUploader
 {
 
     /**
+     * @var int
+     */
+    const CONST_MAX_FILES = 5;
+
+    /**
+     * @var int
+     */
+    const CONST_MAX_FILE_SIZE = 8000000;
+
+    /**
+     * @var string
+     */
+    const CONST_UPLOAD_DIR = 'uploads';
+
+    /**
+     * @var int
+     */
+    const CONST_FILE_PERMISSION = 0777;
+
+
+    /**
      * Upload path
      *
      * @var string
@@ -72,10 +93,10 @@ class CriFileUploader
     public function __construct()
     {
         // preset some values
-        $this->uploaddir  = "uploads";
-        $this->max_files  = 5;
-        $this->max_size   = 8000000;
-        $this->permission = 0777;
+        $this->uploaddir  = self::CONST_UPLOAD_DIR;
+        $this->max_files  = self::CONST_MAX_FILES;
+        $this->max_size   = self::CONST_MAX_FILE_SIZE;
+        $this->permission = self::CONST_FILE_PERMISSION;
         $this->notallowed = array();
     }
 
@@ -132,6 +153,11 @@ class CriFileUploader
         return TRUE;
     }
 
+    /**
+     * Upload file action
+     *
+     * @return array|bool
+     */
     public function execute()
     {
         // Get directory
@@ -141,7 +167,6 @@ class CriFileUploader
         $remdir = $this->hasLastSlash($remdir);
 
         // Is dir writeable
-
         if (!is_writable($remdir)) {
             $this->errors[0][] = "Not allowed to write to dir:" . $remdir;
             return false;

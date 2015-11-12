@@ -221,6 +221,13 @@ if ( !defined( 'CONST_QUESTION_MESSAGE_FIELD' ) ) {
 if ( !defined( 'CONST_QUESTION_ATTACHEMENT_FIELD' ) ) {
     define( 'CONST_QUESTION_ATTACHEMENT_FIELD', 'question_fichier' );
 }
+// Files options
+if ( !defined( 'CONST_QUESTION_MAX_FILES' ) ) {
+    define( 'CONST_QUESTION_MAX_FILES', 5 );
+}
+if ( !defined( 'CONST_QUESTION_MAX_FILE_SIZE' ) ) {
+    define( 'CONST_QUESTION_MAX_FILE_SIZE', 8000000 ); // bytes
+}
 // Success Message
 if ( !defined( 'CONST_QUESTION_SUCCESS_MSG_FIELD' ) ) {
     define( 'CONST_QUESTION_SUCCESS_MSG_FIELD', 'msgBlockId' );
@@ -228,8 +235,13 @@ if ( !defined( 'CONST_QUESTION_SUCCESS_MSG_FIELD' ) ) {
 if ( !defined( 'CONST_QUESTION_ACTION_SUCCESSFUL' ) ) {
     define( 'CONST_QUESTION_ACTION_SUCCESSFUL', 'Question envoyée avec succès' );
 }
+// Error message
 if ( !defined( 'CONST_QUESTION_ACTION_ERROR' ) ) {
     define( 'CONST_QUESTION_ACTION_ERROR', 'Une erreur s\'est produite lors de l\'envoie de votre question. Merci de contacter le responsable.' );
 }
-
-
+if ( !defined( 'CONST_QUESTION_MAX_FILES_ERROR' ) ) {
+    define( 'CONST_QUESTION_MAX_FILES_ERROR', 'Le nombre maximal de fichiers autorisés est de %s' );
+}
+if ( !defined( 'CONST_QUESTION_FILE_SIZE_ERROR' ) ) {
+    define( 'CONST_QUESTION_FILE_SIZE_ERROR', 'La taille maximale de chaque fichier ne doit pas depasser de %s' );
+}

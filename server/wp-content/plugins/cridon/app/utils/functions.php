@@ -628,10 +628,15 @@ function CriPostQuestion() {
                 $criFileUploader = new CriFileUploader();
                 // set files list
                 $criFileUploader->setFiles($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]);
+                // set max file from config (@see : const.inc.php)
+                $criFileUploader->setMaxFiles(CONST_QUESTION_MAX_FILES);
+                // set max size from config (@see : const.inc.php)
+                $criFileUploader->setMaxSize(CONST_QUESTION_MAX_FILE_SIZE);
                 // set upload dir
                 $uploadDir = wp_upload_dir();
                 $path = $uploadDir['basedir'] . '/questions/' . $questionId . '/';
                 if( !file_exists( $path )) { // not yet directory
+                    // crete the directory
                     wp_mkdir_p($path);
                 }
                 $criFileUploader->setUploaddir($path);
@@ -674,4 +679,40 @@ function CriPostQuestion() {
     } catch(\Exception $e) {
         return false;
     }
+}
+
+/**
+ * List of displayed Support order by priority (order field)
+ *
+ * @return array
+ */
+function CriListSupport()
+{
+    // init
+    $supports = array();
+
+    // query optoins
+    $options = array(
+        'selects'    => array('Support.id', 'Support.label_front', 'Support.description'),
+        'conditions' => array(
+            'Support.displayed' => 1
+        ),
+        'order'      => 'Support.order ASC'
+    );
+    $items   = mvc_model('Support')->find($options);
+
+    // format output
+    if (is_array($items) && count($items) > 0) {
+        foreach ($items as $item) {
+            $object = new \stdClass();
+            $object->id = $item->id;
+            $object->label_front = $item->label_front;
+            $object->description = $item->description;
+
+            $supports[] = clone $object;
+        }
+    }
+
+    return $supports;
+
 }

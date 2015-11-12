@@ -72,7 +72,7 @@ class CridonLoader extends MvcPluginLoader
                 ksort($updates);
                 foreach ($updates as $v => $sql) {
                     //If ALTER QUERY
-                    if ( preg_match_all( "|ALTER TABLE ([a-zA-Z0-9`_\s()]*)|", $sql, $matches ) ) {
+                    if ( preg_match_all( "|ALTER TABLE ([a-zA-Z0-9`_\s(),]*)|", $sql, $matches ) ) {
                         if( !empty( $matches[0] ) ){
                             foreach( $matches[0] as $alter ){
                                 $wpdb->query( $alter );

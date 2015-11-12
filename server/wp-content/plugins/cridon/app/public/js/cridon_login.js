@@ -52,7 +52,7 @@
         }
 
         $('#' + loginFormId).append(nonce);
-        $('#' + loginFormId).submit(function () {
+        $('#' + loginFormId).submit(function() {
             $('#' + errorBlocId).html('');
             if ($('#' + loginFieldId).val() != '' && $('#' + passwordFieldId).val() != '') {
                 jQuery.ajax({
@@ -120,7 +120,7 @@
         }
 
         $('#' + lostPwdFormId).append(nonce);
-        $('#' + lostPwdFormId).submit(function () {
+        $('#' + lostPwdFormId).submit(function() {
             $('#' + msgBlocId).html('');
             if ($('#' + emailFieldId).val() != '' && $('#' + crpcenFieldId).val() != '') {
                 jQuery.ajax({
@@ -166,7 +166,7 @@
         nonce.id    = 'tokenquestion';
         nonce.value = jsvar.question_nonce;
 
-        // get default var of login form parameters
+        // get default var of question form parameters
         // @see hook.inc.php
         var questionFormId = jsvar.question_form_id,
             msgBlocId = jsvar.question_msgblock,
@@ -177,20 +177,22 @@
             messageFieldId = jsvar.question_message;
 
         // form data
-        var formdata = new FormData(),
+        var formdata = new FormData(), len = 0,
             inputFile = document.getElementById(jsvar.question_fichier);
 
         $('#' + questionFormId).append(nonce);
-        $('#' + questionFormId).submit(function () {
+        $('#' + questionFormId).submit(function() {
             if (inputFile) {
-                var i = 0, len = inputFile.files.length, file;
+                var i = 0, file;
+                len = inputFile.files.length;
                 for (; i < len; i++) {
                     file = inputFile.files[i];
-                    if (formdata) {
+                    if (formdata && (parseInt(inputFile.files[i].size) <= parseInt(jsvar.question_max_file_size))) {
                         formdata.append(jsvar.question_fichier + '[]', file);
                     }
                 }
             }
+
             formdata.append("action", 'add_question');
             formdata.append(supportFieldId, $('#' + supportFieldId).val());
             formdata.append(matiereFieldId, $('#' + matiereFieldId).val());
@@ -199,6 +201,14 @@
             formdata.append(messageFieldId, $('#' + messageFieldId).val());
 
             $('#' + msgBlocId).html('');
+
+            // max nb file
+            if (parseInt(len) > parseInt(jsvar.question_nb_file)) {
+                $('#' + msgBlocId).html(jsvar.question_nb_file_error);
+
+                // stop action
+                return false;
+            }
 
             jQuery.ajax({
                 type: 'POST',

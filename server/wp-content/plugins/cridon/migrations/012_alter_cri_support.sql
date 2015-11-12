@@ -1,0 +1,1 @@
+ALTER TABLE `cri_support` ADD COLUMN `label_front` VARCHAR(100) NULL AFTER `displayed`, ADD COLUMN `description` TEXT NULL AFTER `label_front`, ADD COLUMN `order` INT UNSIGNED NULL AFTER `description`;   
