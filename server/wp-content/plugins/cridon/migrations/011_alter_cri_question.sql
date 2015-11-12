@@ -1,0 +1,2 @@
+ALTER TABLE `cri_question` CHANGE `error` `error` TINYINT(1) DEFAULT 0 NOT NULL;
+ALTER TABLE `cri_question` CHANGE `id` `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT;
