@@ -199,4 +199,7 @@ if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
     define( 'CONST_NOTAIRE_SUPLEANTE', 9 );
 }
 
-
+//Default question answered per page
+if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
+    define( 'DEFAULT_QUESTION_PER_PAGE', 1 );
+}
