@@ -201,5 +201,5 @@ if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
 
 //Default question answered per page
 if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
-    define( 'DEFAULT_QUESTION_PER_PAGE', 1 );
+    define( 'DEFAULT_QUESTION_PER_PAGE', 10 );
 }
