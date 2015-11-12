@@ -178,7 +178,39 @@ $('#mdp_retour').click(function(e){
 	
 });
 
-/* Zone cliquable */
+/* POSEZ UNE QUESTION OWL CAROUSEL */
+
+$("#owl-support").owlCarousel({
+      
+      pagination: false,
+      dots: false,
+      navText: false,
+
+      responsive:{
+        0 : {
+	         items:1,
+	         dots:true,
+
+	    },
+	    // breakpoint from 480 up
+	    768 : {
+	         items:3,
+	         dots:false,
+	    },
+	    // breakpoint from 768 up
+	    1200 : {
+	        items:3,
+	        dots:false,
+	    }
+      } 
+ 
+  });
+
+/* INPUT FILE */
+document.getElementById("uploadBtn").onchange = function () {
+    document.getElementById("uploadFile").value = this.value;
+};
+
 
 
 

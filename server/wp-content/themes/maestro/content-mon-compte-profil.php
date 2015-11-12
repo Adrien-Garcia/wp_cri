@@ -81,7 +81,7 @@
 
 <div class="mes-centres-dinterets">
 
-	<h2>Mes centres d'intérêts</h2>
+	<h2><?php _e('Mes centres d\'intérêts'); ?></h2>
 
 	<div class="description">
 		Epersped ulla con num quasint essimos dolut reium a ium aliquodis prestrum facepe pror modio.Nem se net faccum fugiant, tem estrum saniam nobissit, officia volut etum aut il mil et officid ut faccus seni aligent aut eosam ratquam nis.
@@ -106,10 +106,10 @@
 
 <div class="newsletter">
 
-	<h2>Ma newsletter</h2>
+	<h2><?php _e('Ma newsletter'); ?></h2>
 	<div class="description">
-		Vous êtes inscrit à notre newsletter selon vos centres d'interets.
+		<?php _e('Vous êtes inscrit à notre newsletter selon vos centres d\'interets.'); ?>
 	</div>
-	<a href="#" title="">Me désinscrire</a>
+	<a href="#" title=""><?php _e('Me désinscrire'); ?></a>
 
 </div>
