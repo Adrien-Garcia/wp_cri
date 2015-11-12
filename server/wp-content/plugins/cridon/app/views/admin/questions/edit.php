@@ -2,7 +2,6 @@
 
 <?php echo $this->form->create($model->name); ?>
 <?php echo $this->form->input('srenum',array('label' => 'N° question')); ?>
-<?php echo $this->form->input('id',array('label' => 'Identifiant interaction')); ?>
 <?php echo $this->form->input('client_number',array('label' => 'Numéro de client')); ?>
 <?php echo $this->form->input('sreccn',array('label' => 'Interlocuteur (Notaire)')); ?>
 <?php echo $this->form->belongs_to_dropdown('Support', $aSupport, array('style' => 'width: 200px;', 'empty' => false)); ?>
