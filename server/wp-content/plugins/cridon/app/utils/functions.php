@@ -648,7 +648,7 @@ function CriPostQuestion() {
                             // prepare data
                             $documents = array(
                                 'Document' => array(
-                                    'file_path'     => '/uploads/questions/' . $questionId . '/' . $document,
+                                    'file_path'     => '/questions/' . $questionId . '/' . $document,
                                     'download_url'  => '/documents/download/' . $questionId,
                                     'date_modified' => date('Y-m-d H:i:s'),
                                     'type'          => 'question',
