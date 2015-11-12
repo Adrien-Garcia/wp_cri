@@ -477,3 +477,17 @@ function CriCanAccessFinance() {
     }
     return false;
 }
+
+/**
+ * Restore the questions asked by the notary
+ * 
+ * @return array
+ */
+function criRestoreQuestions(){
+    $question = new QuestionNotaire();
+    return $question;
+}
+
+/*
+ * End restore
+ */
