@@ -37,19 +37,20 @@ $icons: (
     icon-cahier: '\EA0A',
     icon-catalogue: '\EA0B',
     icon-clock: '\EA0C',
-    icon-compte: '\EA0D',
-    icon-consulter: '\EA0E',
-    icon-mail: '\EA0F',
-    icon-menu-compte: '\EA10',
-    icon-menu-mobile: '\EA11',
-    icon-nl: '\EA12',
-    icon-rechercher: '\EA13',
-    icon-servicesplus: '\EA14',
-    icon-status-repondu: '\EA15',
-    icon-tel: '\EA16',
-    icon-veille-juridique: '\EA17',
-    icon-veille: '\EA18',
-    icon-vieducridon: '\EA19'
+    icon-close-layer-question: '\EA0D',
+    icon-compte: '\EA0E',
+    icon-consulter: '\EA0F',
+    icon-mail: '\EA10',
+    icon-menu-compte: '\EA11',
+    icon-menu-mobile: '\EA12',
+    icon-nl: '\EA13',
+    icon-rechercher: '\EA14',
+    icon-servicesplus: '\EA15',
+    icon-status-repondu: '\EA16',
+    icon-tel: '\EA17',
+    icon-veille-juridique: '\EA18',
+    icon-veille: '\EA19',
+    icon-vieducridon: '\EA1A'
 );
 
 @each $name, $icon in $icons {
