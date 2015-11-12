@@ -222,9 +222,6 @@ if ( !defined( 'CONST_QUESTION_ATTACHEMENT_FIELD' ) ) {
     define( 'CONST_QUESTION_ATTACHEMENT_FIELD', 'question_fichier' );
 }
 // Files options
-if ( !defined( 'CONST_QUESTION_MAX_FILES' ) ) {
-    define( 'CONST_QUESTION_MAX_FILES', 5 );
-}
 if ( !defined( 'CONST_QUESTION_MAX_FILE_SIZE' ) ) {
     define( 'CONST_QUESTION_MAX_FILE_SIZE', 8000000 ); // bytes
 }
