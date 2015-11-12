@@ -48,7 +48,7 @@
 							$matieres = CriListMatieres();
 							$imatieres = 0;
 						 ?>
-						<select name="question_matiere" id="question_matiere" placeholder="Domaine d'activité principal">
+						<select name="question_matiere" id="question_matiere" class="js-question-select-matiere" placeholder="Domaine d'activité principal">
 						<?php foreach($matieres as $id => $label): ?>
 							<option <?php echo ($imatieres == 0) ? "selected" : "" ?> value="<?php echo $id ?>"><?php echo $label ?></option>
 							<?php $imatieres++; ?>
@@ -59,7 +59,7 @@
 							<?php 
 								$competences = CriCompetenceByMatiere($id);
 							 ?>
-							<select style="<?php echo ($imatieres == 0) ? "" : "display:none" ?>"  name="question_competence" id="question_competence_<?php echo $id ?>" placeholder="Sous domaine d'activité">
+							<select class="js-question-select-competence <?php echo ($imatieres == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>"  name="question_competence" id="question_competence_<?php echo $id ?>" placeholder="Sous domaine d'activité">
 								<?php foreach ($competences as $cid => $clabel): ?>
 									<option value="<?php echo $cid ?>"><?php echo $clabel ?></option>							
 								<?php endforeach ?>

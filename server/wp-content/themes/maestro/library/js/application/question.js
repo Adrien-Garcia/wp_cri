@@ -1,90 +1,60 @@
 'use strict';
 
-App.Login = {
+App.Question = {
 
-    panelConnexionSelector              : '.js-panel-connexion',
+    selectQuestionMatiereSelector       : '.js-question-select-matiere',
+    selectQuestionCompetenceSelector    : '.js-question-select-competence',
 
-    formConnexionSelector               : '.js-panel-connexion-connexion-form',
-    formMdpSelector                     : '.js-panel-connexion-mdp-form',
+    selectQuestionCompetenceName        : 'question_competence',
 
-    eventToConnexionSelector            : '.js-panel-connexion-to-connexion',
-    eventToMdpSelector                  : '.js-panel-connexion-to-mdp',
-    
-    eventConnexionOpenSelector          : '.js-panel-connexion-open',
-    eventConnexionCloseSelector         : '.js-panel-connexion-close',
-    
-    $panelConnexion                     : null,
-    $panelConnexionOpen                 : null,
-    $panelConnexionClose                : null,
-
-    $formConnexion                      : null,
-
-    $buttonToConnexion                  : null,
-    $buttonToMdp                        : null,
+    $selectQuestionMatiere              : null,
+    $selectQuestionCompetence           : null,
+    $selectQuestionCompetenceArray      : [],
 
 
     init: function() {
-        this.debug("Login : init start");
+        this.debug("Question : init start");
 
-        this.$panelConnexion            = $(this.panelConnexionSelector);
-        this.$panelConnexionClose       = $(this.eventConnexionCloseSelector);
-        this.$panelConnexionOpen        = $(this.eventConnexionOpenSelector);
-        
-        this.$formConnexion             = $(this.formConnexionSelector);
-        this.$formMdp                   = $(this.formMdpSelector);
+        var self = this;
 
-        this.$buttonToConnexion         = $(this.eventToConnexionSelector);
-        this.$buttonToMdp               = $(this.eventToMdpSelector);
+        this.$selectQuestionMatiere               = $(this.selectQuestionMatiereSelector);
+        this.$selectQuestionCompetence            = $(this.selectQuestionCompetenceSelector);
+
+        this.$selectQuestionCompetence.each(function(i) {
+            self.$selectQuestionCompetenceArray[$(this).data('matiere-id')] = $(this);
+        }); 
 
         this.addListeners();
-        this.debug("Login : init end");
+        this.debug("Question : init end");
 
     },
 
     /*
-     * Listeners for the Login page events
+     * Listeners for the Question page events
      */
 
     addListeners: function() {
         var self = this;
 
-        this.debug("Login : addListeners start");
+        this.debug("Question : addListeners start");
 
-        this.$panelConnexionOpen.on("click", function(e) {
-           self.eventPanelConnexionToggle($(this));
-        });
-
-        this.$panelConnexionClose.on("click", function(e) {
-           self.eventPanelConnexionToggle($(this));
-        });
-
-        this.$buttonToConnexion.on("click", function(e) {
-            self.eventToConnexion($(this));
-        });
-
-        this.$buttonToMdp.on("click", function(e) {
-            self.eventToMdp($(this));
+        this.$selectQuestionMatiere.on("change", function(e) {
+           self.eventSelectQuestionMatiereChange($(this));
         });
         
-        this.debug("Login : addListeners end");
+        this.debug("Question : addListeners end");
     },
 
     /*
-     * Event for toggling on and off the flash 
+     * Event 
      */
 
-    eventPanelConnexionToggle: function() {
-        this.$panelConnexion.toggleClass("open");
-    },
-
-    eventToConnexion : function() {
-        this.$formConnexion.addClass("active");
-        this.$formMdp.removeClass("active");
-    },
-
-   eventToMdp : function() {
-        this.$formConnexion.removeClass("active");
-        this.$formMdp.addClass("active");
+    eventSelectQuestionMatiereChange: function(select) {
+        var matiere = this.$selectQuestionMatiere.val();
+        this.$selectQuestionCompetenceArray.forEach(function(c, i, a) {
+            c.addClass('hidden');
+        });
+        this.$selectQuestionCompetenceArray[matiere].removeClass('hidden');
     },
 
     debug: function(t) {

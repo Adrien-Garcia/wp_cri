@@ -18,5 +18,5 @@ jQuery(document).ready(function($) {
     if($(".page-mon-compte").length > 0) {
     	App.Account.init();
     }
-    
+    App.Question.init();
 });
