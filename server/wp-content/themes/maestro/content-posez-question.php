@@ -12,11 +12,7 @@
 			<h2 class="question js-tab-question-open"><?php _e('2. Ma question'); ?></h2>
 		</div>
 		<div class="details">
-<<<<<<< HEAD
 			<div class="consultation">
-=======
-			<div class="consultation ">
->>>>>>> origin/integration/mon_compte_question
 
 				<div id="owl-support" class="owl-carousel">
 		            <div class="item">
