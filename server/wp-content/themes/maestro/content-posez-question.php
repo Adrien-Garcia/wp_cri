@@ -3,7 +3,8 @@
 	<div class="block_top">
 
 		<div class="titre">
-			<span><?php _e('Posez une question'); ?></span>
+			<span class="close_layer"></span>
+			<span class="texte"><?php _e('Posez une question'); ?></span>
 		</div>
 		
 		<div class="onglets">
@@ -11,7 +12,7 @@
 			<h2 class="question js-tab-question-open"><?php _e('2. Ma question'); ?></h2>
 		</div>
 		<div class="details">
-			<div class="consultation open">
+			<div class="consultation ">
 
 				<div id="owl-support" class="owl-carousel">
 		            <div class="item">
@@ -35,7 +36,7 @@
 		        </div>
 				
 			</div>
-			<div class="question">
+			<div class="question open">
 
 				<div class="block_gauche">
 					<div class="img"></div>
@@ -44,14 +45,14 @@
 				</div>
 				<div class="block_droit">
 					<form action="" method="get" accept-charset="utf-8">
-						<select name="" placeholder="Domaine d'activité principal">
-							<option value="">1</option>							
+						<select name="" placeholder="">
+							<option value="">Domaine d'activité principal</option>							
 							<option value="">1</option>							
 							<option value="">1</option>							
 							<option value="">1</option>							
 						</select>
-						<select name="" placeholder="Sous domaine d'activité">
-							<option value=""></option>							
+						<select name="" placeholder="">
+							<option value="">Sous domaine d'activité</option>							
 						</select>
 						<input type="text" name="" value="" placeholder="Référence dossier dans mon étude">
 						<textarea name="" placeholder="Votre question"></textarea>
@@ -100,7 +101,7 @@
 		</ul>
 
 		<div class="block_03">
-			<div class="block consulter js-home-block-link">
+			<div class="block poser js-home-block-link">
 				<div class="content">
 					<h2>
 						<?php _e('Poser'); ?>
@@ -110,7 +111,7 @@
 				</div>						
 			</div>
 
-			<div class="block rechercher js-home-block-link">
+			<div class="block demander js-home-block-link">
 				<div class="content">
 					<h2>
 						<?php _e('Demander'); ?>
@@ -120,7 +121,7 @@
 				</div>						
 			</div>
 
-			<div class="block acceder js-home-block-link">
+			<div class="block prendre js-home-block-link">
 				<div class="content">
 					<h2>
 						<?php _e('Prendre'); ?>
