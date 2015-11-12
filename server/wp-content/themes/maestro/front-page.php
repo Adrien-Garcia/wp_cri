@@ -224,9 +224,7 @@
 		</div>	
 
 
-		<div id="posez-questions">
-			<?php echo get_template_part("content","posez-question"); ?>
-		</div>
+		
 
 		
 

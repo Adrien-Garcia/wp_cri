@@ -228,12 +228,13 @@ HEADER STYLES
 
 */
 
-#posez-questions{
+#layer-posez-question{
 	
 	width: 660px;
 	max-width: 660px;
 	margin:0 auto;
 	padding: 0;
+	background: transparent;
 
 	.block_top{
 		padding: 10px 10px 0 10px;
@@ -411,7 +412,7 @@ HEADER STYLES
 		clear: both;
 		float: none;
 		height: 260px;
-		background: $gris;
+		background: transparent;
 		width: 100%;
 
 

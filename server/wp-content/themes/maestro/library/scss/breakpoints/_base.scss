@@ -330,12 +330,19 @@ HEADER STYLES
 
 
 
-#posez-questions{
+
+
+
+#layer-posez-question{
 	width: 100%;
 	height: auto;
-	background-color: #FFFFFF;
+	background-color: transparent;
 	width: 100%;
-	padding: 10px;
+	padding: 10px 10px 0 10px;
+	background: #FFF;
+	transform: scale(0.8);
+
+	// display: none;
 
 	.block_top{
 
@@ -482,7 +489,7 @@ HEADER STYLES
 								position: absolute;
 								left: 50%;
 								margin-left: -24px;
-								bottom:-15px;
+								bottom:-14px;
 							}
 
 						}
@@ -540,6 +547,41 @@ HEADER STYLES
 
 							}
 						}
+					}
+
+					.owl-nav{
+						position: absolute;
+						top: 80px;
+						text-align:left;
+
+						> div{
+							background: transparent;
+							height: 30px;
+							width: 17px;
+							border-radius: 0;
+							padding: 0;
+							margin: 0;
+							position: relative;
+
+							&:before{
+								@include svgicon('icon-flech-arrow', 30px, 30px, #b7b8b8);	
+								position: absolute;
+								left: 0;
+								top: 0;
+							}
+						}
+
+						.owl-prev{
+							left: 20px;
+							@include rotate(-180);
+
+						}
+
+						.owl-next{
+							left: 250px;
+
+						}
+
 					}
 
 				}				
@@ -791,6 +833,9 @@ HEADER STYLES
 	}
 
 	
+}
+.popup_visible #posez-questions {
+  transform: scale(1);
 }
 
 

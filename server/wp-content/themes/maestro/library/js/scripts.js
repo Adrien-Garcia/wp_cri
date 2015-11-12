@@ -190,6 +190,7 @@ $("#owl-support").owlCarousel({
         0 : {
 	         items:1,
 	         dots:true,
+	         nav:true,
 
 	    },
 	    // breakpoint from 480 up
@@ -206,10 +207,20 @@ $("#owl-support").owlCarousel({
  
   });
 
-/* INPUT FILE */
-document.getElementById("uploadBtn").onchange = function () {
-    document.getElementById("uploadFile").value = this.value;
-};
+
+
+
+
+/* POPUP OVERLAY*/
+
+$('#layer-posez-question').popup({
+	transition: 'all 0.3s',
+	scrolllock: true,
+	opacity: 0.99,
+	color: '#324968',
+	offsettop: 10,
+	vertical: top,
+});
 
 
 

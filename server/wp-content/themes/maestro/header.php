@@ -49,6 +49,9 @@
 	?>
 
 	<div id="container">
+		<div id="posez-questions">
+			<?php echo get_template_part("content","posez-question"); ?>
+		</div>
 
 		<header class="header" role="banner" id="sel-header">
 			<div class="header-sup">
@@ -63,7 +66,7 @@
 					<a class="contacter" href="#">
 						<?php _e('Contacter'); ?>
 					</a>
-					<a class="poser-question" href="#">
+					<a class="poser-question layer-posez-question_open" href="#">
 						<?php _e('Posez une question'); ?>
 					</a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
