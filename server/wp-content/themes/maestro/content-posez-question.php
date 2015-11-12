@@ -3,7 +3,7 @@
 	<div class="block_top">
 
 		<div class="titre">
-			<span class="close_layer"></span>
+			<span class="close_layer layer-posez-question_close"></span>
 			<span class="texte"><?php _e('Posez une question'); ?></span>
 		</div>
 		
@@ -12,7 +12,7 @@
 			<h2 class="question js-tab-question-open"><?php _e('2. Ma question'); ?></h2>
 		</div>
 		<div class="details">
-			<div class="consultation ">
+			<div class="consultation open ">
 
 				<div id="owl-support" class="owl-carousel">
 		            <div class="item">
@@ -36,7 +36,7 @@
 		        </div>
 				
 			</div>
-			<div class="question open">
+			<div class="question ">
 
 				<div class="block_gauche">
 					<div class="img"></div>
