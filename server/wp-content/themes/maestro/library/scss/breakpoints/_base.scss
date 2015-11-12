@@ -315,12 +315,24 @@ HEADER STYLES
 			}
 		}
 	}
-
-
-
 	
 	
 }
+
+
+
+/****
+
+  _        _ __   _______ ____    ____   ___  ____  _____ _____  _   _ _   _ _____    ___  _   _ _____ ____ _____ ___ ___  _   _ 
+ | |      / \\ \ / / ____|  _ \  |  _ \ / _ \/ ___|| ____|__  / | | | | \ | | ____|  / _ \| | | | ____/ ___|_   _|_ _/ _ \| \ | |
+ | |     / _ \\ V /|  _| | |_) | | |_) | | | \___ \|  _|   / /  | | | |  \| |  _|   | | | | | | |  _| \___ \ | |  | | | | |  \| |
+ | |___ / ___ \| | | |___|  _ <  |  __/| |_| |___) | |___ / /_  | |_| | |\  | |___  | |_| | |_| | |___ ___) || |  | | |_| | |\  |
+ |_____/_/   \_\_| |_____|_| \_\ |_|    \___/|____/|_____/____|  \___/|_| \_|_____|  \__\_\\___/|_____|____/ |_| |___\___/|_| \_|
+                                                                                                                                 
+
+*/
+
+
 
 #posez-questions{
 	width: 100%;
@@ -336,6 +348,7 @@ HEADER STYLES
 			height: 50px;
 			background: $vert;
 			position: relative;
+			font-weight: normal;
 
 			&:before{
 				@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
@@ -345,7 +358,28 @@ HEADER STYLES
 				bottom:-15px;
 			}
 
-			span{
+			.close_layer{
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				margin-top: -20px;
+				display: block;
+				width: 40px;
+				height: 40px;
+				
+				&:before{
+					@include svgicon('icon-close-layer-question', 20px, 20px, #FFF);
+					@include rotate(-45);
+					position: absolute;
+					top: 11px;
+					left: 11px;
+				}
+
+				
+
+			}
+
+			.texte{
 				@extend .do-sm;
 				font-size: 20px;
 				color:#FFF;
@@ -542,6 +576,8 @@ HEADER STYLES
 							@extend .do-sm;
 							border-radius: 0;
 
+							max-width: 100%;
+
 
 						}
 
@@ -549,6 +585,7 @@ HEADER STYLES
 							background-color: #FFF;
 							border:solid 3px #e6e6e6;
 							line-height: 35px;
+							padding-left: 8px;
 							
 							text-transform: none;
 							width: 100%;
@@ -557,6 +594,8 @@ HEADER STYLES
 							@extend .do-sm;
 							color:$bleu;
 							font-size: 15px;
+
+							max-width: 100%;
 
 						}
 

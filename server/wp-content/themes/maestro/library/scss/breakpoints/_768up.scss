@@ -217,54 +217,55 @@ HEADER STYLES
 }
 
 
+/****
+
+  _        _ __   _______ ____    ____   ___  ____  _____ _____  _   _ _   _ _____    ___  _   _ _____ ____ _____ ___ ___  _   _ 
+ | |      / \\ \ / / ____|  _ \  |  _ \ / _ \/ ___|| ____|__  / | | | | \ | | ____|  / _ \| | | | ____/ ___|_   _|_ _/ _ \| \ | |
+ | |     / _ \\ V /|  _| | |_) | | |_) | | | \___ \|  _|   / /  | | | |  \| |  _|   | | | | | | |  _| \___ \ | |  | | | | |  \| |
+ | |___ / ___ \| | | |___|  _ <  |  __/| |_| |___) | |___ / /_  | |_| | |\  | |___  | |_| | |_| | |___ ___) || |  | | |_| | |\  |
+ |_____/_/   \_\_| |_____|_| \_\ |_|    \___/|____/|_____/____|  \___/|_| \_|_____|  \__\_\\___/|_____|____/ |_| |___\___/|_| \_|
+                                                                                                                                 
+
+*/
+
 #posez-questions{
-	/*width: 100%;
-	height: auto;
-	background-color: #FFFFFF;
-	width: 100%;
-	padding: 10px;*/
-	border:solid 1px red; 
+	
 	width: 660px;
 	max-width: 660px;
 	margin:0 auto;
+	padding: 0;
 
 	.block_top{
+		padding: 10px 10px 0 10px;
 
 		background: #FFF;
 
 		> .titre{
-			/*width: 100%;
-			height: 50px;
-			background: $vert;
-			position: relative;*/
 
-			&:before{
-				/*@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
+			.close_layer{
 				position: absolute;
-				left: 50%;
-				margin-left: -24px;
-				bottom:-15px;*/
+				right: 10px;
+				top: 50%;
+				margin-top: -20px;
+				display: block;
+				width: 40px;
+				height: 40px;
+				
+				&:before{
+					@include svgicon('icon-close-layer-question', 20px, 20px, #FFF);
+					@include rotate(-45);
+					position: absolute;
+					top: 11px;
+					left: 11px;
+				}
+
+				
+
 			}
 
-			span{
-				/*@extend .do-sm;
-				font-size: 20px;
-				color:#FFF;
-				text-transform: uppercase;
-				display: inline-block;
-				height: 50px;
-				line-height: 50px;
-				margin-left: 10px;
-				padding-left: 30px;
-				position: absolute;*/
+			.texte{				
 
-				&:before{
-					/*@include svgicon('icon-consulter', 20px, 20px, #FFFFFF);
-					font-weight: normal;
-					top: 50%;
-					margin-top: -10px;
-					position: absolute;
-					left: 0;*/
+				&:before{					
 				}
 
 			}
@@ -273,82 +274,47 @@ HEADER STYLES
 
 		.onglets{
 
-			/*width: 100%;
-			float: left;
-			//padding-bottom: 20px;
-			border-bottom:solid 4px $vert;
-			margin-bottom: 10px;*/
+			
 			width: 620px;
 			margin-left:10px;
 
 
 			h2{
-				width: 50%;
-				/*@extend .do-sm;
-				text-transform: uppercase;
-				color:$bleu;
-				font-size: 20px;
-				line-height: 80px;
-				vertical-align: middle;
-				text-decoration: underline;
-
-				border-bottom:solid 16px #FFF;
-
-				width: 30%;
-				height: 96px;
-				overflow: hidden;
-				float: left;
-				text-align: center;
-
-				margin: 0;
-				padding: 0;
-				transition: border $duration ease, color $duration ease;
-
-				cursor: pointer;*/
+				width: 50%;				
 
 				&:hover{
-					/*text-decoration: none;
-					border-bottom:solid 16px $vert;*/
+					
 				}
 
 			}
 
-			h2.open{
-				/*color:$vert;
-				text-decoration: none;
-				border-bottom:solid 16px $vert;*/
+			h2.open{				
 				width: 50%;
 			}
 		}
 
 		.details{
-			/*clear: both;*/
+			
 			width: 620px;
 			margin:0 auto; 
 			
 
 			.consultation{
-				/*display: none;*/
+				
 
 				#owl-support{
-					/*width: 100%;
-					overflow: hidden;*/
+					
 
 					.owl-item{
-						/*height: 330px;
-						padding-top: 190px;*/
+						
 
 						.item{
-							/*position: relative;*/
+							
 							width: 200px;
 							margin-right: 10px;
 
-							&:before{
+							&:before{								
 								
-								/*position: absolute;
-								top: -150px;
-								left: 50%;
-								margin-left: -66px;*/
 							}
 
 							&:last-child{
@@ -358,19 +324,7 @@ HEADER STYLES
 						}
 
 						a{
-							/*@extend .do-sm;
-							font-size: 30px;
-							text-transform: uppercase;
-							text-align: center;
-							display: block;
-							width: 100%;
-							height: 50px;
-							line-height: 50px;
-							background: $vj_03;
-							color:#FFF;
-							position: relative;
-							margin-bottom: 30px;
-							text-decoration: none;*/
+							
 							font-size: 20px;
 
 							&:before{
@@ -383,49 +337,10 @@ HEADER STYLES
 
 						}
 
-						.description{
-							/*margin: 0;
-							padding: 0;
-							font-size: 15px;
-							line-height: 18px;
-							font-size: $helvetica;
-							text-align: justify;
-							height: 54px;
-							overflow: hidden;*/
+						.description{							
 							text-align: center;
 						}
 
-						
-
-						
-						
-
-						&:first-child{
-							.item{
-								&:before{
-									//@include svgicon('ico-support-fusee', 118px, 118px, $vj_03);								
-								}
-
-							}
-						}
-						&:nth-child(2){
-							.item{
-								&:before{
-									//@include svgicon('ico-support-avion', 118px, 118px, $vj_03);								
-								}
-
-							}
-						}
-						&:last-child{
-							.item{
-								&:before{
-									/*@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);	
-									margin-left: -53px;	
-									top: -130px;	*/					
-								}
-
-							}
-						}
 					}
 
 				}				
@@ -435,146 +350,54 @@ HEADER STYLES
 			.question{
 
 				.block_gauche{
-					display: none;
+					
 				}
 
 				.block_droit{
+					width: 100%;
+					clear: both;
+					border:solid 1px transparent;
 
 					form{
 						width: 100%;
-						padding-bottom: 40px;
+						padding-bottom: 20px;
+						margin-top: 15px;
 
-						input[type="text"], textarea{
-							height: 35px;
-							background: #FFF;
-							border:solid 3px #e6e6e6;
-							line-height: 35px;
-							color:$bleu;
-							text-transform: none;
-							padding-left: 10px;
-							margin: 0 auto 10px auto;
-							font-size: 15px;
-							display: block;
-							@extend .do-sm;
-							border-radius: 0;
+						input[type="text"], textarea{							
+							margin-bottom: 15px;
 
 
 						}
 
-						select{
-							background-color: #FFF;
-							border:solid 3px #e6e6e6;
-							line-height: 35px;
-							
-							text-transform: none;
-							width: 100%;
-							border-radius: 0;
-
-							@extend .do-sm;
-							color:$bleu;
-							font-size: 15px;
-
+						select{							
+							margin-bottom: 15px;
 						}
 
 						input[type="submit"]{
-
-							width: 157px;
-							height: 30px;
-							background: $vert;
-							color:#FFF;
-							border:none;
-							line-height: 30px;
-							text-align: center;
-							margin:0 auto 10px auto; 
-							font-size: 14px;
-							@extend .do-me;
-							display: block;
-							text-transform: uppercase;
-							border-radius: 0;
-
-						    margin-left: calc(100% - 157px);
-
-
-
 						}
 
 						input[type="file"]{
-							border:none;
-							margin-bottom: 20px;
-							//display: none;
-
-
+							
 						}
 
 						.fileUpload {
-						    position: relative;
-						    overflow: hidden;
-						    float: right;
-						    width: 85px;
-						    height: 30px;
-						    background: $bleu;
-						    color:#FFF;
-						    @extend .do-me;
-						    font-size: 14px;
-						    text-transform: uppercase;
-						    line-height: 30px;
-						    text-align: center;
-						    margin-left: calc(100% - 85px);
-						    margin-bottom: 20px;
+						 
 
 						}
-						.fileUpload input.upload {
-						    position: absolute;
-						    top: 0;
-						    right: 0;
-						    margin: 0;
-						    padding: 0;
-						    font-size: 20px;
-						    cursor: pointer;
-						    opacity: 0;
-						    filter: alpha(opacity=0);
+						.fileUpload input.upload {						  
 						}
 
-						.sep{
-							height: 4px;
-							background: #e6e6e6;
-
-							margin: 20px 0;
-							width: 100%;
-							clear: both;
+						.sep{							
 
 						}
 
-						input, textarea{
-
-							&::-webkit-input-placeholder {
-								color:$bleu;
-							 }
-
-							&::-moz-placeholder {
-								color:$bleu;
-							  } /* firefox 19+ */
-
-							&:-ms-input-placeholder {
-								color:$bleu;
-							  } /* ie */
-
-							&input:-moz-placeholder {
-								color:$bleu;
-							  }
-						}
+						
 					}
 				}
 
 			}
 
-			>div{
-				display: none;
-
-				&.open{
-					display: block;
-				}
-			}
+			
 			
 
 			
@@ -587,16 +410,19 @@ HEADER STYLES
 	.block_bottom{
 		clear: both;
 		float: none;
-		height: 240px;
+		height: 260px;
 		background: $gris;
+		width: 100%;
 
 
 		.block_03{
 			display: block;
 			padding: 10px 0 40px 0;
 			float: left;
-			width: 620px;
+			width: 640px;
 			margin-top: 20px;
+
+			margin-left: 10px;
 
 			.block {
 				
@@ -605,12 +431,12 @@ HEADER STYLES
 				position: relative;
 				cursor: pointer;
 
-				width: 205px;
+				width: 206px;
 				height: 210px;
 				float: left;
-				margin-right: 10px;
+				margin-right: 10px; 
 
-				&:nth-child(3){ margin-right: 0;}
+				&:nth-child(3){ margin-right: 0;} 
 
 
 				.content{
@@ -634,6 +460,10 @@ HEADER STYLES
 						border:none;
 						box-sizing: border-box;
 
+						background: $vert;
+						@include gradient-opacity(transparentize($vert, 0.4),opacify($vert, 1));
+						background-size: 100% 200%;
+
 					}
 
 					&:before{
@@ -649,7 +479,8 @@ HEADER STYLES
 
 
 					}
-					
+
+										
 					h2{ 
 						position: relative;
 						z-index: 2000;
@@ -697,79 +528,20 @@ HEADER STYLES
 				
 			}
 
-			.consulter{
-
-				background: url(../images/origin/bg-consulter-mobile_02.png);
+			.poser{
+				background: url(../images/origin/bg-poser-une-question-tel.png);
 				background-size: cover;
+			}
 
-				h2:before{
-					/*display:block;
-					@include svgicon('icon-consulter', 28px, 28px, #FFFFFF);					
-					position:absolute;
-					top:-32px;
-					left:calc( 50% - 15px ); */
-				}
-
-				.content{
-					&:before, &:after{
-						background: $vert;
-						@include gradient-opacity(transparentize($vert, 0.4),opacify($vert, 1));
-
-					}
-				}
+			.demander{
+				background: url(../images/origin/bg-consulter-mobile.png);
+				background-size: cover;
 
 			}
 
-			.rechercher{
-
-				background: url(../images/origin/bg-rechercher-mobile_02.png);
+			.prendre{
+				background: url(../images/origin/bg-prendre-rdv.png);
 				background-size: cover;
-
-				h2:before{
-					/*display:block;
-					@include svgicon('icon-rechercher', 28px, 28px, #FFFFFF);					
-					position:absolute;
-					top:-32px;
-					left:calc( 50% - 15px ); */
-				}
-
-				.content{
-
-					&:before, &:after{
-						background: $bleu;
-						@include gradient-opacity(transparentize($bleu, 0.4),opacify($bleu, 1));
-						background-size: 100% 200%;
-
-					}
-					
-				}
-
-			}
-
-			.acceder{
-
-				background: url(../images/origin/bg-acceder-mobile_02.png);
-				background-size: cover;
-
-				h2:before{
-					/*display:block;
-					@include svgicon('iicon-veille-juridique', 28px, 28px, #FFFFFF);					
-					position:absolute;
-					top:-32px;
-					left:calc( 50% - 25px ); */
-				}
-
-				.content{
-					&:before, &:after{
-						
-						background: $jaune;
-						@include gradient-opacity(transparentize($jaune, 0.4), opacify($jaune, 1));
-						background-size: 100% 200%;
-
-						
-					}
-				}
-
 			}
 			
 		}

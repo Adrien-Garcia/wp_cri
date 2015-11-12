@@ -3,7 +3,8 @@
 	<div class="block_top">
 
 		<div class="titre">
-			<span><?php _e('Posez une question'); ?></span>
+			<span class="close_layer"></span>
+			<span class="texte"><?php _e('Posez une question'); ?></span>
 		</div>
 		
 		<div class="onglets">
@@ -11,7 +12,11 @@
 			<h2 class="question js-tab-question-open"><?php _e('2. Ma question'); ?></h2>
 		</div>
 		<div class="details">
+<<<<<<< HEAD
 			<div class="consultation">
+=======
+			<div class="consultation ">
+>>>>>>> origin/integration/mon_compte_question
 
 				<div id="owl-support" class="owl-carousel">
 		            <div class="item">
@@ -113,7 +118,7 @@
 		</ul>
 
 		<div class="block_03">
-			<div class="block consulter js-home-block-link">
+			<div class="block poser js-home-block-link">
 				<div class="content">
 					<h2>
 						<?php _e('Poser'); ?>
@@ -123,7 +128,7 @@
 				</div>						
 			</div>
 
-			<div class="block rechercher js-home-block-link">
+			<div class="block demander js-home-block-link">
 				<div class="content">
 					<h2>
 						<?php _e('Demander'); ?>
@@ -133,7 +138,7 @@
 				</div>						
 			</div>
 
-			<div class="block acceder js-home-block-link">
+			<div class="block prendre js-home-block-link">
 				<div class="content">
 					<h2>
 						<?php _e('Prendre'); ?>
