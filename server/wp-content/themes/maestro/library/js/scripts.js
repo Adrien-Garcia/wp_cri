@@ -165,19 +165,6 @@ jQuery(document).ready(function($) {
 	});
 
 
-/*- Pannel connexion-*/
-
-$('#mdp_oublie').click(function(e){
-	$('#panel_connexion .pannel_01').toggleClass('active');
-	$('#panel_connexion .pannel_02').toggleClass('active');
-	
-});
-$('#mdp_retour').click(function(e){
-	$('#panel_connexion .pannel_01').toggleClass('active');
-	$('#panel_connexion .pannel_02').toggleClass('active');
-	
-});
-
 /* POSEZ UNE QUESTION OWL CAROUSEL */
 
 $("#owl-support").owlCarousel({
@@ -207,9 +194,9 @@ $("#owl-support").owlCarousel({
   });
 
 /* INPUT FILE */
-document.getElementById("uploadBtn").onchange = function () {
-    document.getElementById("uploadFile").value = this.value;
-};
+// document.getElementById("uploadBtn").onchange = function () {
+//     document.getElementById("uploadFile").value = this.value;
+// };
 
 
 

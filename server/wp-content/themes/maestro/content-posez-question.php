@@ -11,7 +11,7 @@
 			<h2 class="question js-tab-question-open"><?php _e('2. Ma question'); ?></h2>
 		</div>
 		<div class="details">
-			<div class="consultation open">
+			<div class="consultation">
 
 				<div id="owl-support" class="owl-carousel">
 		            <div class="item">
@@ -35,7 +35,7 @@
 		        </div>
 				
 			</div>
-			<div class="question">
+			<div class="question open">
 
 				<div class="block_gauche">
 					<div class="img"></div>
@@ -44,15 +44,28 @@
 				</div>
 				<div class="block_droit">
 					<form action="" method="get" accept-charset="utf-8">
-						<select name="" placeholder="Domaine d'activité principal">
-							<option value="">1</option>							
-							<option value="">1</option>							
-							<option value="">1</option>							
-							<option value="">1</option>							
+						<?php 
+							$matieres = CriListMatieres();
+							$imatieres = 0;
+						 ?>
+						<select name="question_matiere" id="question_matiere" placeholder="Domaine d'activité principal">
+						<?php foreach($matieres as $id => $label): ?>
+							<option <?php echo ($imatieres == 0) ? "selected" : "" ?> value="<?php echo $id ?>"><?php echo $label ?></option>
+							<?php $imatieres++; ?>
+						<?php endforeach; ?>
 						</select>
-						<select name="" placeholder="Sous domaine d'activité">
-							<option value=""></option>							
-						</select>
+						<?php $imatieres = 0; ?>
+						<?php foreach($matieres as $id => $label): ?>
+							<?php 
+								$competences = CriCompetenceByMatiere($id);
+							 ?>
+							<select style="<?php echo ($imatieres == 0) ? "" : "display:none" ?>"  name="question_competence" id="question_competence_<?php echo $id ?>" placeholder="Sous domaine d'activité">
+								<?php foreach ($competences as $cid => $clabel): ?>
+									<option value="<?php echo $cid ?>"><?php echo $clabel ?></option>							
+								<?php endforeach ?>
+							</select>
+							<?php $imatieres++; ?>
+						<?php endforeach; ?>
 						<input type="text" name="" value="" placeholder="Référence dossier dans mon étude">
 						<textarea name="" placeholder="Votre question"></textarea>
 
