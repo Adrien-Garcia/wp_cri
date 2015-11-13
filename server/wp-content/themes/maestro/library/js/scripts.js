@@ -165,52 +165,6 @@ jQuery(document).ready(function($) {
 	});
 
 
-/*- Pannel connexion-*/
-
-$('#mdp_oublie').click(function(e){
-	$('#panel_connexion .pannel_01').toggleClass('active');
-	$('#panel_connexion .pannel_02').toggleClass('active');
-	
-});
-$('#mdp_retour').click(function(e){
-	$('#panel_connexion .pannel_01').toggleClass('active');
-	$('#panel_connexion .pannel_02').toggleClass('active');
-	
-});
-
-/* POSEZ UNE QUESTION OWL CAROUSEL */
-
-$("#owl-support").owlCarousel({
-      
-      pagination: false,
-      dots: false,
-      navText: false,
-
-      responsive:{
-        0 : {
-	         items:1,
-	         dots:true,
-	         nav:true,
-
-	    },
-	    // breakpoint from 480 up
-	    768 : {
-	         items:3,
-	         dots:false,
-	    },
-	    // breakpoint from 768 up
-	    1200 : {
-	        items:3,
-	        dots:false,
-	    }
-      } 
- 
-  });
-
-
-
-
-
 /* POPUP OVERLAY*/
 
 $('#layer-posez-question').popup({
@@ -220,21 +174,9 @@ $('#layer-posez-question').popup({
 	color: '#324968',
 	offsettop: 10,
 	vertical: top,
+	opentransitionend: function(){$().trigger('refresh.owl.carousel')}
+
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

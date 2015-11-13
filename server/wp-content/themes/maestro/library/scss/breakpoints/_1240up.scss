@@ -257,7 +257,7 @@ HEADER STYLES
 
 						&:hover{
 
-							a{
+							.label{
 								background: $vert;
 
 								&:before{
@@ -387,7 +387,7 @@ HEADER STYLES
 					/*clear: both;
 					border:solid 1px transparent;*/
 
-					form{
+					.form{
 						/*width: 100%;
 						padding-bottom: 20px;*/
 						margin-top: 0px;

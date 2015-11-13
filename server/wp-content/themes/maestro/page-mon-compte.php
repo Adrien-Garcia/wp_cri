@@ -41,12 +41,14 @@
 							<?php echo get_template_part("content","mon-compte-profil"); ?>
 						</div>
 					</li>
+					<?php if (CriCanAccessFinance()): ?>
 					<li class="js-account-facturation js-account-blocs <?php echo ($onglet == 4) ? " active " : ""?>">
 						<div class="bt js-account-facturation-button">Règles de facturation</div>
 						<div id="regles-facturation" class="pannel">
 							<h2> PROCHAINEMENT </h2>			
 						</div>
-					</li>
+					</li>				
+					<?php endif ?>
 				</ul>
 
 			</div>

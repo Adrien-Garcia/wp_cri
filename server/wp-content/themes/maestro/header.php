@@ -115,13 +115,13 @@
 						<div id="close" class="js-panel-connexion-close">+</div>
 						<div class="titre">connectez-vous</div>
 						<p>Accédez à vos informations et bénéficiez d’un contenu personnalisé.</p>
-						 <div class="pannel_01 active">
+						 <div class="pannel_01 js-panel-connexion-connexion-form active">
 							<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
 								<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
 								<input type="password" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
 								<input type="submit" name="submit" value="Connectez-vous">
 							</form>
-							<a href="#" id="mdp_oublie">> Mot de passe oublié ? <</a>
+							<a href="#" id="mdp_oublie" class="js-panel-connexion-to-mdp">> Mot de passe oublié ? <</a>
 							<div id="errorMsgId">									
 							</div>
 						<?php 
@@ -130,13 +130,13 @@
 						 ?>
 						</div>
 						
-						<div class="pannel_02">
+						<div class="pannel_02 js-panel-connexion-mdp-form">
 							<form action="" method="" accept-charset="utf-8" id="lostPwdFormId">
 								<input type="text" name="emailFieldId" value="" id="emailFieldId" placeholder="Votre adresse mail">
 								<input type="text" name="crpcenFieldId" value="" id="crpcenFieldId" placeholder="Votre CRPCEN">
 								<input type="submit" name="submit" value="Récupérer mon mot de passe">						
 							</form>
-							<a href="#" id="mdp_retour">< Retour </a>
+							<a href="#" id="mdp_retour" class="js-panel-connexion-to-connexion">< Retour </a>
 							<div id="errorMsgForgotId">									
 							</div>
 							<?php criSetLostPwdOptions('lostPwdFormId', 'emailFieldId', 'crpcenFieldId', 'errorMsgForgotId'); ?>
