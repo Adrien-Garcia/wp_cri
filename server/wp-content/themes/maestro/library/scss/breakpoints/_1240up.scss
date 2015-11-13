@@ -684,13 +684,18 @@ body.page-template-front-page{
 							line-height: 10px;							
 						}
 					}
+
 					&:hover {
 						.content {
 							&, &:before, &:after {
 								height: 270px;
 								background-position: 0 100%;
 							}
+
+							> a{ font-weight: 700;} 
 						}
+
+						
 					}
 				}
 
@@ -699,7 +704,7 @@ body.page-template-front-page{
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-consulter', 40px, 40px, #FFFFFF);					
+						@include svgicon('icon-consulter', 40px, 40px, #FFFFFF);		 			
 						position:absolute;
 						top:-55px;
 						left:calc( 50% - 22px ); 
@@ -724,10 +729,10 @@ body.page-template-front-page{
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-veille-juridique', 40px, 40px, #FFFFFF);					
+						@include svgicon('icon-veille-juridique', 30px, 30px, #FFFFFF);					
 						position:absolute;
-						top:-55px;
-						left:calc( 50% - 35px ); 
+						top:-50px;
+						left:calc( 50% - 26px ); 
 					}
 					
 				}
@@ -1164,6 +1169,7 @@ body.page-template-front-page{
 							.chapeau{
 								font-size: 20px;
 								line-height: 24px;
+								margin-bottom: 20px;
 
 							}
 

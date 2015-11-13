@@ -183,6 +183,7 @@ BT style crayon
 
  @mixin bt-crayon($fond, $color) {
     height: 14px;
+    line-height: 14px;
     width: 37px;
     position: relative;
     background: $fond;
