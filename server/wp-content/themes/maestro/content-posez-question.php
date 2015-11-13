@@ -1,42 +1,38 @@
 <div id="layer-posez-question">
 
+	<form action="">
 	<div class="block_top">
-
-		<div class="titre">
+		<div class="titre" method="post">
 			<span class="close_layer"></span>
 			<span class="texte"><?php _e('Posez une question'); ?></span>
 		</div>
 		
 		<div class="onglets">
-			<h2 class="consultation open js-tab-consultation-open"><?php _e('1. Type de consultation'); ?></h2>   				
-			<h2 class="question js-tab-question-open"><?php _e('2. Ma question'); ?></h2>
+			<h2 class="consultation open js-question-button-consultation"><?php _e('1. Type de consultation'); ?></h2>   				
+			<h2 class="question js-question-button-ma-question"><?php _e('2. Ma question'); ?></h2>
 		</div>
 		<div class="details">
-			<div class="consultation">
-
+			<div class="consultation js-question-tab-consultation open">
+				<div class="">
+					<?php 
+						$supports = CriListSupport();
+						// var_dump($supports)
+					 ?>
+				</div>
 				<div id="owl-support" class="owl-carousel">
+				<?php foreach ($supports as $key => $support): ?>
 		            <div class="item">
-		              <a href="">urgente</a>
-		              <p class="description">
-		              	Gia is est ent aut quatur sequam, volore simolest il inus, omnis ea quiaes etur, quae solenisquid magnis sitaeriberae pos dollorit velitas.
-		              </p>
+		            	<input id="support_<?php echo $support->id ?>" type="radio" name="support" value="<?php echo $support->id ?>" class="hidden js-question-support-radio" onchange="alert(this.id);">
+		              	<span class="label"><?php echo $support->label_front; ?></span>
+		              	<p class="description">
+		              		<?php echo $support->description; ?>
+		              	</p>
 		            </div>
-		            <div class="item">
-		              <a href="">semaine</a>
-		              <p class="description">
-		              	Gia is est ent aut quatur sequam, volore simolest il inus, omnis ea quiaes etur, quae solenisquid magnis sitaeriberae pos dollorit velitas.
-		              </p>
-		            </div>
-		             <div class="item">
-		              <a href="">normal</a>
-		              <p class="description">
-		              	Gia is est ent aut quatur sequam, volore simolest il inus, omnis ea quiaes etur, quae solenisquid magnis sitaeriberae pos dollorit velitas.
-		              </p>
-		            </div>
+		        <?php endforeach; ?>
 		        </div>
 				
 			</div>
-			<div class="question open">
+			<div class="question js-question-tab-ma-question">
 
 				<div class="block_gauche">
 					<div class="img"></div>
@@ -44,7 +40,7 @@
 					<p>Epersped ulla con num quasint essimos dolut reium a ium aliquodis prestrum facepe pror modio.Nem se net faccum fugiant, tem estrum saniam nobissit, officia volut etum aut il mil et officid ut faccus seni aligent aut eosam ratquam nis</p>
 				</div>
 				<div class="block_droit">
-					<form action="" method="get" accept-charset="utf-8">
+					<div class="form">
 						<?php 
 							$matieres = CriListMatieres();
 							$imatieres = 0;
@@ -79,13 +75,14 @@
 						<div class="sep"></div>
 
 						<input type="submit" name="Envoyer ma question" value="Envoyer ma question">
-					</form>
+					</div>
 				</div>
 						
 			</div>
 		</div>
 		
 	</div>
+	</form>
 
 	<div class="block_bottom">
 

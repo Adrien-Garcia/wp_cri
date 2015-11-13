@@ -464,8 +464,13 @@ HEADER STYLES
 					.owl-item{
 						height: 330px;
 						padding-top: 190px;
+						
+						label {
+							width: 100%;
+							height: 100%;
+						}
 
-						a{
+						.label{
 
 							@extend .do-sm;
 							font-size: 30px;
@@ -558,7 +563,7 @@ HEADER STYLES
 
 				.block_droit{
 
-					form{
+					.form{
 						width: 100%;
 						padding-bottom: 40px;
 
