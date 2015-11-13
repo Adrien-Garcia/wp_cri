@@ -3,7 +3,7 @@
 Plugin Name: Cridon
 Plugin URI: 
 Description: Extension permettant de gerer les API du Site
-Author: Etech - Joelio
+Author: JETPULP
 Version: 1.0
 Author URI: 
 */
