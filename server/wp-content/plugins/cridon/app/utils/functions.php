@@ -693,7 +693,7 @@ function CriListSupport()
 
     // query optoins
     $options = array(
-        'selects'    => array('Support.id', 'Support.label_front', 'Support.description'),
+        'selects'    => array('Support.id', 'Support.label_front', 'Support.value', 'Support.description'),
         'conditions' => array(
             'Support.displayed' => 1
         ),
@@ -706,6 +706,7 @@ function CriListSupport()
         foreach ($items as $item) {
             $object = new \stdClass();
             $object->id = $item->id;
+            $object->value = $item->value;
             $object->label_front = $item->label_front;
             $object->description = $item->description;
 
