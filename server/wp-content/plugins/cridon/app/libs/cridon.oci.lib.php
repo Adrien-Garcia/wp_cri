@@ -7,8 +7,9 @@
  * @author eTech
  * @contributor Joelio
  */
-class CridonODBCAdapter implements DBConnect
+class CridonOCIAdapter implements DBConnect
 {
+
     /**
      * @var array
      */
@@ -59,19 +60,28 @@ class CridonODBCAdapter implements DBConnect
      *
      * @return resource
      */
-    function connection()
+    public function connection()
     {
-        $conn = odbc_connect(
-            "Driver=" . CONST_ODBC_DRIVER . ";
-				Server=" . CONST_DB_HOST . ";
-				Database=" . CONST_DB_DATABASE,
-            CONST_DB_USER,
-            CONST_DB_PASSWORD
-        );
+        $conf = "
+(
+  DESCRIPTION = (
+    ADDRESS = (
+      PROTOCOL = TCP
+    )
+    (HOST =".CONST_DB_HOST.")
+    (PORT = ".CONST_DB_PORT.")
+  )
+  (CONNECT_DATA =
+    (SERVER = DEDICATED)
+    (SERVICE_NAME = ".CONST_DB_DATABASE.")
+    (INSTANCE_NAME = ".CONST_DB_DATABASE.")
+  )
+)";
+        $conn = oci_connect(CONST_DB_USER, CONST_DB_PASSWORD, $conf);
 
         if (!$conn) {
             // message content
-            $message =  sprintf(CONST_EMAIL_ERROR_CATCH_EXCEPTION, odbc_errormsg());
+            $message =  sprintf(CONST_EMAIL_ERROR_CATCH_EXCEPTION, oci_error());
 
             // send email
             $multiple_recipients = array(
@@ -92,7 +102,9 @@ class CridonODBCAdapter implements DBConnect
      */
     public function getResults($sql)
     {
-        $this->results = odbc_exec($this->conn, $sql);
+        //parse and prepare query
+        $query = oci_parse($this->conn, $sql);
+        oci_execute($query);
 
         return $this;
     }
@@ -104,7 +116,7 @@ class CridonODBCAdapter implements DBConnect
      */
     public function prepareData()
     {
-        while ($data = odbc_fetch_array($this->results)) {
+        while ($data = oci_fetch_array($this->conn)) {
             if (isset( $data[self::NOTAIRE_CRPCEN] ) && intval($data[self::NOTAIRE_CRPCEN]) > 0) { // valid login
                 // the only unique key available is the "crpcen + web_password"
                 $uniqueKey = intval($data[self::NOTAIRE_CRPCEN]) . $data[self::NOTAIRE_PWDWEB];
@@ -124,10 +136,10 @@ class CridonODBCAdapter implements DBConnect
     public function closeConnection()
     {
         // Free Result
-        odbc_free_result($this->results);
+        oci_free_statement($this->conn);
 
         // Close Connection
-        odbc_close($this->conn);
+        oci_close($this->conn);
     }
 
 }
