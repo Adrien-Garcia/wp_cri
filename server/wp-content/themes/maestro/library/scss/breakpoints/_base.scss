@@ -67,7 +67,7 @@ HEADER STYLES
 				padding: 0;
 				
 				background: url(../images/logo-cridon-new.svg);
-				background-size: 214px 41px;
+				background-size: 170px 43px;
 				background-repeat: no-repeat;
 				background-position: center center;
 
@@ -231,15 +231,19 @@ HEADER STYLES
 					input{
 						&::-webkit-input-placeholder {
 							text-transform: uppercase;
+							color:$vert;
 						 }
 						&::-moz-placeholder {
 							text-transform: uppercase;
+							color:$vert;
 						  } /* firefox 19+ */
 						&:-ms-input-placeholder {
 							text-transform: uppercase;
+							color:$vert;
 						  } /* ie */
 						&input:-moz-placeholder {
 							text-transform: uppercase;
+							color:$vert;
 						  }
 					}
 
@@ -708,10 +712,10 @@ HEADER STYLES
 						.sep{
 							height: 4px;
 							background: #e6e6e6;
-
 							margin: 20px 0;
 							width: 100%;
 							clear: both;
+
 
 						}
 
@@ -1038,7 +1042,6 @@ body.page-template-front-page{
 							text-align: center;
 							@extend .do-el;
 							font-size: 40px;
-							font-weight: normal;
 							line-height: 27px;
 							padding: 0;
 							margin: 0;
@@ -3092,6 +3095,8 @@ a.logoJP:hover{opacity: 1;
 
 	&:before{opacity: 1;}
 }
+
+
 
 .footer {
 	clear: both;

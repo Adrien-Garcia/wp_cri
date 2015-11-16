@@ -1352,6 +1352,21 @@ body.page-template-front-page{
 							top: -33px;
 							left: 0;
 							border-bottom:solid 5px $bg-top-footer;
+
+
+
+							&:before{
+
+								@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
+								position: absolute;
+								left: 0;
+								top: 0;
+								background: #FFF;
+								left: 50%;
+								margin-left: -30px;
+
+								
+							}
 						}
 
 						
