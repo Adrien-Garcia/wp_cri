@@ -97,7 +97,7 @@
 					    <?php wp_reset_query(); ?>
 					    <div class="blockEnd"></div>
 
-					    <a href="<?php /* @TODO */ echo "/veilles/"; ?>" id="sel-hp-veilles-link" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
+					    <a href="<?php echo MvcRouter::public_url(array('controller' => 'veilles', 'action'     => 'index')) ?>" id="sel-hp-veilles-link" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
    						
    					</div>
 

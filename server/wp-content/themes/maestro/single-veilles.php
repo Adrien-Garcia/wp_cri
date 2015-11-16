@@ -8,7 +8,8 @@
 			</div>
 		</div>
 
-		
+		<?php // $vars = get_defined_vars(); var_dump($object); ?>
+		<?php criWpPost($object); ?>
 
 			<div id="main" class="cf" role="main">
 				<div id="inner-content" class="wrap cf">
@@ -34,14 +35,14 @@
 						<div class="details">
 							<div class="block_left">
 								<div class="img-cat">
-									<img class="sel-veilles-picto" src="<?php echo $veille->matiere->picto ?>" alt="<?php echo $veille->matiere->label ?>" />
+									<img class="sel-veilles-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
 								</div>
 							</div>
 
 							
 
 							<div class="block_right sel-veilles-content">							
-								<div class="matiere">Droit social<?php echo $veille->matiere->label ?></div>
+								<div class="matiere"><?php echo $object->matiere->label ?></div>
 								<h1 class="entry-title single-title"><?php the_title() ?></h1>
 								<div class="chapeau">
 									<?php echo get_the_excerpt() ?>
@@ -50,9 +51,11 @@
 							</div>
 							<div class="block_full">
 								
-								<div class="content">
-									<?php // echo get_the_content() ?>
-									<h2>sous titre 2</h2>
+								<div class="content">									
+
+									<?php the_content(); ?>
+
+									<!--h2>sous titre 2</h2>
 
 									<p>Lenditaque rere dolupti orendi comniti niendunt quatem idernam conse nim ni coneste nes ellest aut inulpa dem. Minisciundae et, sunt pa nis sant ulluptius ditatendam eiusam quaeceatus.</p>
 									
@@ -79,11 +82,9 @@
 										<h3>Sous titre 3</h3>
 										<p>Texte couleur 2 Lenditaque rere dolupti orendi comniti niendunt quatem idernam conse 
 										nim ni coneste nes ellest aut inulpa dem. Minisciundae et, sunt pa nis sant ulluptius 
-										ditatendam eiusam quaeceatus.</p>
+										ditatendam eiusam quaeceatus.</p!-->
 								</div>
 								<ul class="mots_cles">
-									<li>loi</li>
-									<li>social</li>
 								<?php 
 									$tags = get_the_tags();
 									if( $tags ) : foreach ($tags as $tag) :
@@ -107,7 +108,7 @@
 
 
 
-					<a class="" href=""><?php _e('Retour'); ?></a>
+					<a href="<?php echo MvcRouter::public_url(array('controller' => 'veilles', 'action'     => 'index')) ?>"><?php _e('Retour'); ?></a>
 
 				<?php // endwhile; ?>
 
