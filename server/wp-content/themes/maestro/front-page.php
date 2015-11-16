@@ -97,7 +97,7 @@
 					    <?php wp_reset_query(); ?>
 					    <div class="blockEnd"></div>
 
-					    <a href="<?php /* @TODO */ echo "/veilles/"; ?>" id="sel-hp-veilles-link" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
+					    <a href="<?php echo MvcRouter::public_url(array('controller' => 'veilles', 'action'     => 'index')) ?>" id="sel-hp-veilles-link" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
    						
    					</div>
 
@@ -184,6 +184,26 @@
 				</div>
 			
 			</div>
+
+			
+			<div id="owl-support" class="owl-carousel">
+			
+	            <div class="item">
+	            	<input id="support_<?php echo $support->id ?>" type="radio" name="support" value="<?php echo $support->id ?>" class="hidden js-question-support-radio" onchange="alert(this.id);">
+	              	<span class="label"><?php echo $support->label_front; ?></span>
+	              	<p class="description">
+	              		<?php echo $support->description; ?>
+	              	</p>
+	            </div>
+
+	            <div class="item">
+	            	22222222222222222222222222222
+	            </div>
+	        	
+	        	<div class="item">
+	            	3333333333333333333333333333
+	            </div>
+	        </div>
 		</div>
 
 		<div class="row_04">
@@ -195,7 +215,7 @@
 				</h2>
 				<?php 
 				$vie = criGetLatestPost('actu_cridon');
-				// var_dump($formations);
+				var_dump($vie);
 			 ?>
 			<?php if( $vie != null):?> 
 				<?php criWpPost($vie); ?>

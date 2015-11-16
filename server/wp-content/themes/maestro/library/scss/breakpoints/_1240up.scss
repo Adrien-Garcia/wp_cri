@@ -1224,8 +1224,198 @@ body.page-template-front-page{
 
 
 
+/***
 
-#content.page, #content.archive{
+  ____ ___ _   _  ____ _     _____  __     _______ ___ _     _     _____ ____  
+ / ___|_ _| \ | |/ ___| |   | ____| \ \   / / ____|_ _| |   | |   | ____/ ___| 
+ \___ \| ||  \| | |  _| |   |  _|    \ \ / /|  _|  | || |   | |   |  _| \___ \ 
+  ___) | || |\  | |_| | |___| |___    \ V / | |___ | || |___| |___| |___ ___) |
+ |____/___|_| \_|\____|_____|_____|    \_/  |_____|___|_____|_____|_____|____/ 
+                                                                               
+
+
+***/
+
+
+#content.single-veilles{
+
+
+	#inner-content{
+		.titre {
+			height: auto;
+			
+			span{
+				margin-top: 34px;
+			}
+		}
+
+		.sep{
+			margin-top: 38px;
+		}
+
+
+		article{
+
+			padding-top: 20px;
+			
+
+			.date-veille{	
+
+				height: 220px;
+				width: 180px;
+				float: left;
+				margin-right: 60px;
+				padding: 50px 0;
+				margin-bottom: 0;
+
+				
+
+				&:before{
+					display: none;
+
+				}
+
+				&:after{
+					@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
+					position:absolute;
+					bottom: 50%;
+					margin-bottom: -23px;
+					left: inherit;
+					right: -13px;
+					margin-left: 0px;
+					display: block;
+
+				}
+
+				span{
+					display: block;
+
+				}
+
+				span.jour{
+					font-size: 72px;
+					line-height: 60px;
+					@extend .do-el;
+				}
+				.mois{
+					font-size: 30px;
+					line-height: 40px;
+
+				}
+				.annee{
+					font-size: 18px;
+					line-height: 15px;
+				}
+			}
+
+
+			.details{
+
+
+				float: right;
+				width: 730px; 
+				margin-right: 220px;
+
+				.block_left{
+					width: 90px;
+					min-height: 90px;
+					margin-right: 10px;	
+
+					.img-cat{
+
+						width: 90px;	
+						height: 90px;
+								
+						img{
+							width: 90px;
+							height: 90px;
+						}
+					}
+
+				}
+
+
+				.block_right{
+					float: left;
+					width: 610px;
+					position: relative;
+
+					.matiere{
+						font-size: 15px;
+						margin-bottom: 5px;
+						top: -2px;
+						
+					} 
+
+					h1{ 
+						
+						font-size: 30px;
+						line-height: 30px;
+
+					}
+
+					.chapeau{
+						font-size: 20px;
+						line-height: 24px;
+						margin-bottom: 20px;
+
+					}
+
+					.extrait{
+						font-size: 15px;
+						
+					}	
+					
+
+				}
+
+				.block_full{
+					clear: none;
+					float: right;
+					width: 630px;
+					
+
+					.content{
+						font-size: 15px;
+						line-height: 18px;
+
+					    h2, h3{
+					    	font-size: 20px;
+					    	line-height: 20px;	}
+					    
+				    	h3{margin-left: 40px;}					    
+
+					    h3 + p { margin-left: 40px;}
+
+					    
+					}
+					
+					.mots_cles{
+
+						margin:40px 0 0 0; 
+						padding: 0;
+						height: 18px;
+
+						>li{		
+						font-size: 12px;
+							
+						}
+					}
+				}
+			}
+
+		}
+		
+	}
+
+}
+
+
+
+
+
+
+#content.page, #content.archive, #content.single{
 	padding-top: 180px;
 
 	.breadcrumbs{
@@ -1237,7 +1427,7 @@ body.page-template-front-page{
 		#inner-content{
 
 
-			h1{
+			.h1{
 				
 				margin: 0 0 70px 0; 
 			}
