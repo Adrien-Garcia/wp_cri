@@ -118,4 +118,9 @@ class Config {
         CONST_NOTAIRE_SALARIE,
         CONST_NOTAIRE_SALARIEE
     );
+
+    // list of accepted question supports
+    public static $acceptedSupports = array(
+        CONST_SUPPORT_COURRIER_ID
+    );
 }

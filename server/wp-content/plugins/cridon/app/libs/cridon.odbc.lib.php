@@ -210,11 +210,7 @@ class CridonODBCAdapter
             $message =  sprintf(CONST_EMAIL_ERROR_CATCH_EXCEPTION, odbc_errormsg());
 
             // send email
-            $multiple_recipients = array(
-                CONST_EMAIL_ERROR_CONTACT,
-                CONST_EMAIL_ERROR_CONTACT_CC
-            );
-            wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
+            reportError($message, CONST_EMAIL_ERROR_SUBJECT);
         }
 
         return $conn;

@@ -12,4 +12,9 @@ class QuestionsController extends MvcPublicController
 
         die;
     }
+
+    public function importinitial()
+    {
+        $this->model->importIntoCriQuestion();
+    }
 }

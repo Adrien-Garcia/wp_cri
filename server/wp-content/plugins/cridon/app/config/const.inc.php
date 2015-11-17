@@ -152,7 +152,7 @@ if ( !defined( 'CONST_EMAIL_ERROR_CONTACT' ) ) {
 
 // do not remove "%s" : it uses to inject import type (notaire|solde) into the mail content
 if ( !defined( 'CONST_EMAIL_ERROR_SUBJECT' ) ) {
-    define( 'CONST_EMAIL_ERROR_SUBJECT', 'Cridon - Import de fichier' );
+    define( 'CONST_EMAIL_ERROR_SUBJECT', 'Cridon - Import' );
 }
 if ( !defined( 'CONST_EMAIL_ERROR_CONTENT' ) ) {
     define( 'CONST_EMAIL_ERROR_CONTENT', 'Fichier d\'import absent pour : %s' );
@@ -244,4 +244,21 @@ if ( !defined( 'CONST_QUESTION_MAX_FILES_ERROR' ) ) {
 }
 if ( !defined( 'CONST_QUESTION_FILE_SIZE_ERROR' ) ) {
     define( 'CONST_QUESTION_FILE_SIZE_ERROR', 'La taille maximale de chaque fichier ne doit pas depasser de %s' );
+}
+
+// import Question
+if ( !defined( 'CONST_ODBC_TABLE_QUEST' ) ) {
+    define( 'CONST_ODBC_TABLE_QUEST', 'ZQUESTV' );
+}
+if ( !defined( 'CONST_QUEST_CREATED_BY_SITE' ) ) {
+    define( 'CONST_QUEST_CREATED_BY_SITE', 0 );
+}
+if ( !defined( 'CONST_QUEST_CREATED_IN_X3' ) ) {
+    define( 'CONST_QUEST_CREATED_IN_X3', 1 );
+}
+if ( !defined( 'CONST_QUEST_UPDATED_IN_X3' ) ) {
+    define( 'CONST_QUEST_UPDATED_IN_X3', 2 );
+}
+if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
+    define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
 }
