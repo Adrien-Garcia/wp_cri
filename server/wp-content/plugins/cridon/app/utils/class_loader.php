@@ -68,3 +68,8 @@ $cri_container->set('post_parser', function(){
         return new CridonPostParser();
     }
 );
+
+
+//UI Component
+
+include_once 'ui-component/class_loader.php';
