@@ -47,7 +47,7 @@ class QuestionNotaire extends SimpleController{
         if( empty( $this->user ) ){
             return null;
         }
-        $options = $this->generateOptionsQueries(1);
+        $options = $this->generateOptionsQueries(2);
         $options['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
         $options = array_merge($options, $this->params );
         $collection = $this->entityManager->paginate($options);
