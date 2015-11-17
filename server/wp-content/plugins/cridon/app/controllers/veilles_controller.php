@@ -24,6 +24,8 @@ class VeillesController extends MvcPublicController {
         $this->params['conditions'] = array(
             'Post.post_status'=>'publish'            
         );
+        //Order by date publish
+        $this->params['order'] = 'Post.post_date ASC' ;
         $collection = $this->model->paginate($this->params);
         
         $this->set('objects', $collection['objects']);
