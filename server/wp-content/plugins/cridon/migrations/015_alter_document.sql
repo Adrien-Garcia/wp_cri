@@ -1,0 +1,1 @@
+ALTER TABLE `cri_document` ADD `name` VARCHAR(255) NULL , ADD INDEX (`name`) ;
