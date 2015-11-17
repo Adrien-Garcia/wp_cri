@@ -14,31 +14,36 @@ class Config {
         'veilles' => array(                    // Indice correspondant aux noms de fichier de controlleur 
             'value'             => 'veilles',  // Nécessaire à la correspondance
             'name'              => 'veille',   // Nom de la table
+            'model'             => 'Veille',   // Nom du MvcModel
             'controller'        => 'veilles',  // Contrôleur pour la redirection après ajout de post
             'action'            => 'index'     // Action associée au contrôleur
         ),
         'flashes' => array(
             'value'             => 'flashes',
             'name'              => 'flash',
-            'controller'        => 'flashes', 
+            'model'             => 'Flash',
+            'controller'        => 'flashes',
             'action'            => 'index' 
         ),
         'vie_cridons' => array(
             'value'             => 'vie_cridons',
             'name'              => 'vie_cridon',
+            'model'             => 'VieCridon',
             'controller'        => 'vie_cridons',
             'action'            => 'index' 
         ),
         'formations' => array(
             'value'             => 'formations',
             'name'              => 'formation',
-            'controller'        => 'formations', 
+            'model'             => 'Formation',
+            'controller'        => 'formations',
             'action'            => 'index' 
         ),
         'cahier_cridons' => array(
             'value'             => 'cahier_cridons',
             'name'              => 'cahier_cridon',
-            'controller'        => 'cahier_cridons', 
+            'model'             => 'CahierCridon',
+            'controller'        => 'cahier_cridons',
             'action'            => 'index' 
         )
     );
@@ -118,4 +123,6 @@ class Config {
         CONST_NOTAIRE_SALARIE,
         CONST_NOTAIRE_SALARIEE
     );
+    
+    public static $titleMetaboxDocument = 'Associer des documents';// Titre du metabox pour l'ajout de document
 }
