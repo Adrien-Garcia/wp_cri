@@ -32,3 +32,7 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/facturation', array('controller'
 MvcRouter::public_connect('{:controller}', array('action' => 'index'));
 MvcRouter::public_connect('{:controller}/{:id:[\d]+}', array('action' => 'show'));
 MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
+
+
+//Ajax admin
+MvcRouter::admin_ajax_connect(array('controller' => 'admin_documents', 'action' => 'search'));
