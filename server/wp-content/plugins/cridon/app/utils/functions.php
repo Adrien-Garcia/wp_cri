@@ -628,8 +628,6 @@ function CriPostQuestion() {
                 $criFileUploader = new CriFileUploader();
                 // set files list
                 $criFileUploader->setFiles($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]);
-                // set max file from config (@see : const.inc.php)
-                $criFileUploader->setMaxFiles(CONST_QUESTION_MAX_FILES);
                 // set max size from config (@see : const.inc.php)
                 $criFileUploader->setMaxSize(CONST_QUESTION_MAX_FILE_SIZE);
                 // set upload dir
@@ -650,7 +648,7 @@ function CriPostQuestion() {
                             // prepare data
                             $documents = array(
                                 'Document' => array(
-                                    'file_path'     => '/uploads/questions/' . $questionId . '/' . $document,
+                                    'file_path'     => '/questions/' . $questionId . '/' . $document,
                                     'download_url'  => '/documents/download/' . $questionId,
                                     'date_modified' => date('Y-m-d H:i:s'),
                                     'type'          => 'question',
