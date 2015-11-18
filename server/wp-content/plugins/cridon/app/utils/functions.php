@@ -399,7 +399,7 @@ function CriIsNotaire() {
     global $current_user;
 
     // get notaire by id_wp_user
-    $notaireData = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
+    $notaireData = mvc_model('notaire')->find_one_by_id_wp_user($current_user->ID);
 
     // user logged in is notaire
     if (is_user_logged_in() && $notaireData->id) {
@@ -418,7 +418,7 @@ function CriNotaireData() {
     // check if user connected is notaire
     if (CriIsNotaire()) {
         // user data
-        return mvc_model('Notaire')->getUserConnectedData();
+        return mvc_model('notaire')->getUserConnectedData();
     }
 
     return null;
@@ -716,3 +716,17 @@ function CriListSupport()
     return $supports;
 
 }
+
+/**
+ * Restore the questions asked by the notary
+ * 
+ * @return array
+ */
+function criRestoreQuestions(){
+    $question = new QuestionNotaire();
+    return $question;
+}
+
+/*
+ * End restore
+ */
