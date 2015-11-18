@@ -22,6 +22,7 @@ class EntityFactory {
      */
     public static function get( $entity ){
         if( class_exists( $entity ) ){
+            //Recréer l'objet
             return new $entity();
         }
         return null;
