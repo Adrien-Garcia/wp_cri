@@ -11,7 +11,9 @@
  * @contributor Fabrice MILA
  *
  */
-
+/**
+ * Cette classe sera hérité par tous les entités.
+ */
 class Entity implements EntityInterface {
     public $mvc_model = null;
     /**
@@ -21,6 +23,7 @@ class Entity implements EntityInterface {
      */
     public function setMvcModel( $model ){
         //get model from MvcModel
+        //Associé l'entité au modèle WP_MVC pour avoir dynamiquement la table associèe
         $this->mvc_model = mvc_model( $model );
     }
     
