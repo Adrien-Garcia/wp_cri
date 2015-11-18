@@ -42,6 +42,17 @@ class AdminDocumentsController extends MvcAdminController {
         
         $this->set( 'options' , Config::$optionDocumentType );
     }
+    
+    //Ajax search
+    public function search(){
+        $search = $this->params['search'];
+        $options = array(
+            'conditions' => ' Document.name LIKE "%'.$search.'%"'
+        );
+        $data = $this->model->find( $options );
+        $this->set('data', $data);
+        $this->render_view('search', array('layout' => 'json'));
+    }
 }
 
 ?>

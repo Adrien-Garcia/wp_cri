@@ -132,4 +132,6 @@ class Config {
         CONST_NOTAIRE_SALARIE,
         CONST_NOTAIRE_SALARIEE
     );
+    
+    public static $titleMetaboxDocument = 'Associer des documents';// Titre du metabox pour l'ajout de document
 }
