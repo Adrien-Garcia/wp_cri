@@ -49,7 +49,7 @@ App.Question = {
 
         this.$owlCarousel                           = $(this.owlCarouselSelector);
 
-        this.owlCarouselInit(this.initAfterOwl.bind(this));
+        //this.owlCarouselInit(this.initAfterOwl.bind(this));
 
         this.addListeners();
         this.debug("Question : init end");

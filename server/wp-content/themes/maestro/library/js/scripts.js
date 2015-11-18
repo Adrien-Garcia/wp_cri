@@ -174,7 +174,9 @@ $('#layer-posez-question').popup({
 	color: '#324968',
 	offsettop: 10,
 	vertical: top,
-	opentransitionend: function(){$().trigger('refresh.owl.carousel')}
+	onopen: function() {
+		App.Question.owlCarouselInit();
+	}
 
 });
 
