@@ -91,7 +91,7 @@ class Config {
 
     //List of role Notaire
     public static $rolesNotaire = array( 'notaire',CONST_OFFICES_ROLE,CONST_ORGANISMES_ROLE,CONST_CLIENTDIVERS_ROLE );
-    
+
     //Duration of token for webservice ( day unit )
     public static $tokenDuration = 1;
 
@@ -132,6 +132,13 @@ class Config {
         CONST_NOTAIRE_SALARIE,
         CONST_NOTAIRE_SALARIEE
     );
-    
+
     public static $titleMetaboxDocument = 'Associer des documents';// Titre du metabox pour l'ajout de document
+
+    // list of accepted question supports
+    public static $acceptedSupports = array(
+        CONST_SUPPORT_COURRIER_ID,
+        CONST_SUPPORT_URG48H_ID,
+        CONST_SUPPORT_URGWEEK_ID
+    );
 }

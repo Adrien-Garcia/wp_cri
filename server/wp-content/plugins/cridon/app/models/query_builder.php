@@ -2,17 +2,44 @@
 
 
 class QueryBuilder{
-    
-    public $lastInsertId;// last insert in table
-    protected $wpdb; // Manipulate database in wordpress
+
+    /**
+     * last insert in table
+     *
+     * @var bool
+     */
+    public $lastInsertId;
+
+    /**
+     * Manipulate database in wordpress
+     *
+     * @var mixed
+     */
+    protected $wpdb;
+
+    /**
+     * mysqli instance
+     *
+     * @var null|mixed
+     */
+    protected $mysqli = null;
     
     public function __construct()
     {
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->lastInsertId = false;
+        $this->dbConnect();
     }
-    
+
+    /**
+     * Connect to Database
+     */
+    protected function dbConnect()
+    {
+        $this->mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    }
+
     /*
      * Delete data
      */
@@ -491,6 +518,7 @@ class QueryBuilder{
             VALUES
             ' . $options['values'];
 
-        $this->wpdb->query($query);
+        $this->mysqli->query('SET @@global.max_allowed_packet = ' . 800 * 1024 * 1024);
+        $this->mysqli->query($query);
     }
 }
