@@ -1,23 +1,14 @@
 <?php
 
 /**
- * Description of cridon.odbc.lib.php
+ * Cridon ODBC Adapter
  *
  * @package wp_cridon
  * @author eTech
  * @contributor Joelio
  */
-class CridonODBCAdapter implements DBConnect
+class CridonODBC
 {
-    /**
-     * @var array
-     */
-    public $erpNotaireList = array();
-
-    /**
-     * @var array
-     */
-    public $erpNotaireData = array();
 
     /**
      * @var resource
@@ -34,7 +25,7 @@ class CridonODBCAdapter implements DBConnect
      */
     protected static $instance;
 
-    private function __construct()
+    protected function __construct()
     {
         $this->conn = $this->connection();
     }
@@ -59,14 +50,14 @@ class CridonODBCAdapter implements DBConnect
      *
      * @return resource
      */
-    function connection()
+    protected function connection()
     {
         $conn = odbc_connect(
             "Driver=" . CONST_ODBC_DRIVER . ";
-				Server=" . CONST_DB_HOST . ";
-				Database=" . CONST_DB_DATABASE,
-            CONST_DB_USER,
-            CONST_DB_PASSWORD
+				Server=" . CONST_ODBC_HOST . ";
+				Database=" . CONST_ODBC_DATABASE,
+            CONST_ODBC_USER,
+            CONST_ODBC_PASSWORD
         );
 
         if (!$conn) {
@@ -90,28 +81,11 @@ class CridonODBCAdapter implements DBConnect
     {
         $this->results = odbc_exec($this->conn, $sql);
 
-        return $this;
-    }
+//        echo '<pre>' . $sql . '</pre><br>';
+//
+//        echo '<pre>' . var_dump(odbc_num_rows($this->results)) . '</pre><br>';
 
-    /**
-     * Prepare ODBC Data
-     *
-     * @return $this
-     */
-    public function prepareData()
-    {
-        while ($data = odbc_fetch_array($this->results)) {
-            if (isset( $data[self::NOTAIRE_CRPCEN] ) && intval($data[self::NOTAIRE_CRPCEN]) > 0) { // valid login
-                // the only unique key available is the "crpcen + web_password"
-                $uniqueKey = intval($data[self::NOTAIRE_CRPCEN]) . $data[self::NOTAIRE_PWDWEB];
-                array_push($this->erpNotaireList, $uniqueKey);
-
-                // notaire data filter
-                $this->erpNotaireData[$uniqueKey] = $data;
-            }
-        }
-
-        return $this;
+        return $this->results;
     }
 
     /**

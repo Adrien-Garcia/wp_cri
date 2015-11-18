@@ -61,6 +61,14 @@ add_action('save_post','save_post_in_table');
 function insertInTable( $table,$post_ID ){
     global $wpdb;
     $wpdb->query( 'INSERT INTO '.$wpdb->prefix.$table.'(post_id) VALUE('.$post_ID.')' );
+    //UI Component
+    afterInsertModel( $table,$wpdb->insert_id );
+    //End UI
+    //Category managment
+    if( isset( $_POST['cri_category'] ) && !empty( $_POST['cri_category'] ) ){
+        updateVeille( $wpdb->insert_id, $_POST['cri_category'] );        
+    }
+    //End category managment
     return findBy( $table, $post_ID );
 }
 // end after save into post table, save in othres tables
@@ -460,3 +468,102 @@ function CriRenderView($path, $view_vars) {
 }
 
 //End custom functions
+
+/**
+ * Send email for error reporting
+ *
+ * @param string $message
+ * @param string $object
+ */
+function reportError($message, $object) {
+    // message content
+    $message =  sprintf($message, $object);
+    $env = getenv('ENV');
+    //define receivers
+    if ((empty($env) || ($env !== 'PROD')) && !empty(Config::$emailNotificationError['cc'])) {
+        // just send to client in production mode
+        $ccs = (array) Config::$emailNotificationError['cc']; //cast to guarantee array
+        $to = array_pop($ccs);
+    } else {
+        $to = arrayGet(Config::$emailNotificationError, 'to', CONST_EMAIL_ERROR_CONTACT);
+    }
+    $headers = array();
+    if (!empty(Config::$emailNotificationError['cc'])) {
+        foreach ((array) Config::$emailNotificationError['cc'] as $cc) {
+            $headers[] = 'Cc: '.$cc;
+        }
+    }
+
+    // send email
+    wp_mail($to, CONST_EMAIL_ERROR_SUBJECT, $message, $headers);
+}
+
+//UI component
+add_action('add_meta_boxes','init_meta_boxes_ui_component');
+
+function init_meta_boxes_ui_component(){
+    if( isset( $_GET['cridon_type'] ) ){
+        add_meta_box('id_ui_meta_boxes', Config::$titleMetaboxDocument , 'init_ui_meta_boxes', 'post', 'normal');       
+    }
+}
+
+function init_ui_meta_boxes( $post ){
+    global $cri_container;
+    $container = $cri_container->get('ui_container');
+    $container->setTitle('');
+    $current = null;
+    foreach ( Config::$data as $v ){
+        if( $v['value'] == $_GET['cridon_type'] ){
+            $current = $v;break;
+        }
+    }
+    if( !empty( $current ) && !empty( $post ) ){
+        $obj = findBy( $current[ 'name' ], $post->ID );
+        $container->setModel(mvc_model($current[ 'model' ]));
+        $cls = new stdClass();
+        $cls->id = $obj->id;
+        $container->setObject($cls);
+    }
+    $container->create();
+}
+
+function after_save_post_for_ui( $post_ID ){ 
+    if( $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ){
+        if( isset( $_POST[ '_wp_http_referer' ] ) ){
+            $http = explode( 'cridon_type=', $_POST[ '_wp_http_referer' ] );
+            if( count( $http ) == 2 ){
+                if( isset( Config::$data[ $http[ 1 ] ] ) ){
+                    $obj = findBy( Config::$data[ $http[ 1 ] ][ 'name' ], $post_ID );
+                    if( $obj == null ){//no duplicate
+                        
+                    }else{
+                        $cls = new stdClass();
+                        $cls->id = $obj->id;
+                        saveDocumentsFromUI(Config::$data[ $http[ 1 ] ][ 'model' ], $cls);
+                    }
+                }
+            }
+        }
+    }
+    return $post_ID;
+}
+add_action('save_post','after_save_post_for_ui');
+function saveDocumentsFromUI( $model,$obj ){
+    global $cri_container;
+    $ui_container = $cri_container->get('ui_container');
+    $ui_container->setModel(mvc_model( $model ) );
+    $ui_container->setObject($obj);
+    $ui_container->save();
+}
+
+function afterInsertModel( $table,$lastID ){
+    foreach( Config::$data as $v ){
+        if( $v['name'] == $table ){
+            $cls = new stdClass();
+            $cls->id = $lastID;
+            saveDocumentsFromUI($v['model'], $cls);
+            break;
+        }
+    }
+}
+//End UI Component

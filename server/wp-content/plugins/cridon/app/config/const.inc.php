@@ -11,6 +11,7 @@
  */
 $env = getenv('ENV');
 define('DEV', 'DEV');
+define('LOCAL', 'LOCAL');
 define('PROD', 'PROD');
 define('PREPROD', 'PREPROD');
 
@@ -46,6 +47,9 @@ if ( !defined( 'CONST_DB_HOST' ) ) {
         case DEV:
             $host = '10.115.100.192';
             break;
+        case LOCAL:
+            $host = '192.168.69.7';
+            break;
         default:
             $host = '192.168.1.9';
             break;
@@ -55,11 +59,8 @@ if ( !defined( 'CONST_DB_HOST' ) ) {
 if ( !defined( 'CONST_DB_PORT' ) ) {
     switch ($env) {
         case PROD:
-            $port = 1521;
-            break;
         case PREPROD:
-            $port = 1521;
-            break;
+        case LOCAL:
         case DEV:
             $port = 1521;
             break;
@@ -80,6 +81,9 @@ if ( !defined( 'CONST_DB_USER' ) ) {
         case DEV:
             $user = 'JETPULP';
             break;
+        case LOCAL:
+            $user = 'SYS';
+            break;
         default:
             $user = 'cridon';
             break;
@@ -97,11 +101,14 @@ if ( !defined( 'CONST_DB_PASSWORD' ) ) {
         case DEV:
             $pwd = 'JTPLPX3';
             break;
+        case LOCAL:
+            $pwd = 'oracle';
+            break;
         default:
             $pwd = '2d7nGNFc';
             break;
     }
-	define( 'CONST_DB_PASSWORD', 'JTPLPX3' );
+	define( 'CONST_DB_PASSWORD', $pwd );
 }
 if ( !defined( 'CONST_DB_DATABASE' ) ) {
     switch ($env) {
@@ -114,11 +121,14 @@ if ( !defined( 'CONST_DB_DATABASE' ) ) {
         case DEV:
             $dbn = 'X150';
             break;
+        case LOCAL:
+            $dbn = 'XE';
+            break;
         default:
             $dbn = 'cridon';
             break;
     }
-	define( 'CONST_DB_DATABASE', 'X150' );
+	define( 'CONST_DB_DATABASE', $dbn );
 }
 if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
 	define( 'CONST_DB_TABLE_NOTAIRE', 'ZEXPNOTV' );
@@ -155,6 +165,7 @@ if ( !defined( 'CONST_IMPORT_OPTION' ) ) {
         case PROD:
         case PREPROD:
         case DEV:
+        case LOCAL:
             $dbn = 'oci';
             break;
         default:
@@ -240,7 +251,7 @@ if ( !defined( 'CONST_EMAIL_ERROR_CONTACT' ) ) {
 
 // do not remove "%s" : it uses to inject import type (notaire|solde) into the mail content
 if ( !defined( 'CONST_EMAIL_ERROR_SUBJECT' ) ) {
-    define( 'CONST_EMAIL_ERROR_SUBJECT', 'Cridon - Import de fichier' );
+    define( 'CONST_EMAIL_ERROR_SUBJECT', 'Cridon - Import' );
 }
 if ( !defined( 'CONST_EMAIL_ERROR_CONTENT' ) ) {
     define( 'CONST_EMAIL_ERROR_CONTENT', 'Fichier d\'import absent pour : %s' );
@@ -259,6 +270,12 @@ if ( !defined( 'CONST_SUPPORT_APPEL_ID' ) ) {
 }
 if ( !defined( 'CONST_SUPPORT_COURRIER_ID' ) ) {
     define( 'CONST_SUPPORT_COURRIER_ID',  1);
+}
+if ( !defined( 'CONST_SUPPORT_URG48H_ID' ) ) {
+    define( 'CONST_SUPPORT_URG48H_ID',  6);
+}
+if ( !defined( 'CONST_SUPPORT_URGWEEK_ID' ) ) {
+    define( 'CONST_SUPPORT_URGWEEK_ID',  7);
 }
 
 // Notaire fonctions id (used for filtering capability)
@@ -332,4 +349,50 @@ if ( !defined( 'CONST_QUESTION_FILE_SIZE_ERROR' ) ) {
 }//Default question answered per page
 if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
     define( 'DEFAULT_QUESTION_PER_PAGE', 10 );
+}
+}
+
+// import Question
+if ( !defined( 'CONST_ODBC_TABLE_QUEST' ) ) {
+    define( 'CONST_ODBC_TABLE_QUEST', 'ZQUESTV' );
+}
+if ( !defined( 'CONST_QUEST_CREATED_BY_SITE' ) ) {
+    define( 'CONST_QUEST_CREATED_BY_SITE', 0 );
+}
+if ( !defined( 'CONST_QUEST_CREATED_IN_X3' ) ) {
+    define( 'CONST_QUEST_CREATED_IN_X3', 1 );
+}
+if ( !defined( 'CONST_QUEST_UPDATED_IN_X3' ) ) {
+    define( 'CONST_QUEST_UPDATED_IN_X3', 2 );
+}
+if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
+    define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
+}
+
+// import GED
+if ( !defined( 'CONST_IMPORT_DOCUMENT_ORIGINAL_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_DOCUMENT_ORIGINAL_PATH', $uploadDir['basedir'] . '/import/importsGED/' );
+}
+if ( !defined( 'CONST_IMPORT_DOCUMENT_TEMP_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_DOCUMENT_TEMP_PATH', $uploadDir['basedir'] . '/import/importsGEDTemp/' );
+}
+if ( !defined( 'CONST_IMPORT_FILE_TYPE' ) ) {
+    define( 'CONST_IMPORT_FILE_TYPE', 'txt' );
+}
+if ( !defined( 'CONST_IMPORT_GED_CONTENT_SEPARATOR' ) ) {
+    define( 'CONST_IMPORT_GED_CONTENT_SEPARATOR', ';' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_SUCCESS_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_SUCCESS_MSG', 'Import GED du %s : action terminée avec succès pour les documents suivants "%s"' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG', 'Import GED du %s : fichier d\'import mal formaté pour "%s"' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : repertoire d\'import vide' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG', 'Import GED du %s : aucune question n\'est associée au document suivant "%s"' );
 }

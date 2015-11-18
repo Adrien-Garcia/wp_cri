@@ -181,23 +181,30 @@ class Notaire extends MvcModel
         // init logs
         $this->logs = array();
         $this->adapter = null;
-        switch (strtolower(CONST_IMPORT_OPTION)) {
-            case self::IMPORT_CSV_OPTION:
-                $this->adapter = new CridonCsvParser();
-                $this->importFromCsvFile();
-                break;
-            case self::IMPORT_ODBC_OPTION:
-                $this->adapter = CridonODBCAdapter::getInstance();
-            case self::IMPORT_OCI_OPTION:
-                //if case above did not match, set OCI
-                $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
-            default :
-                //both OCI and ODBC will can this
-                $this->importDataUsingDBconnect();
-                break;
+
+        // try to import and prevent exception to announce a false positive result
+        try {
+            switch (strtolower(CONST_IMPORT_OPTION)) {
+                case self::IMPORT_CSV_OPTION:
+                    $this->adapter = new CridonCsvParser();
+                    $this->importFromCsvFile();
+                    break;
+                case self::IMPORT_ODBC_OPTION:
+                    $this->adapter = CridonODBCAdapter::getInstance();
+                case self::IMPORT_OCI_OPTION:
+                    //if case above did not match, set OCI
+                    $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
+                default :
+                    //both OCI and ODBC will can this
+                    $this->importDataUsingDBconnect();
+                    break;
+            }
+        } catch (Exception $e) {
+            array_push($this->logs['error'], $e->getMessage());
         }
 
-        return $this->logs;
+        echo json_encode($this->logs);
+        exit();
     }
 
     /**
@@ -237,12 +244,12 @@ class Notaire extends MvcModel
                     }
                 } else { // file content error
                     // send email
-                    $this->reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Notaire');
+                    CridonTools::reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Notaire');
                 }
             } else {
                 // file doesn't exist
                 // send email
-                $this->reportError(CONST_EMAIL_ERROR_CONTENT, 'Notaire');
+                CridonTools::reportError(CONST_EMAIL_ERROR_CONTENT, 'Notaire');
             }
         } catch (Exception $e) {
             // archive file
@@ -251,7 +258,7 @@ class Notaire extends MvcModel
             }
 
             // send email
-            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -288,7 +295,7 @@ class Notaire extends MvcModel
 
         } catch (\Exception $e) {
             // send email
-            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -596,7 +603,7 @@ class Notaire extends MvcModel
 
         } catch (\Exception $e) {
             // send email
-            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
 
         // import into wp_users table
@@ -811,7 +818,7 @@ class Notaire extends MvcModel
             }
         } catch(Exception $e) {
             // send email
-            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -845,7 +852,7 @@ class Notaire extends MvcModel
             }
         } catch (Exception $e) {
             // send email
-            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -982,36 +989,6 @@ class Notaire extends MvcModel
     }
 
     /**
-     * Send eail for error reporting
-     *
-     * @param string $message
-     * @param string $object
-     */
-    protected function reportError($message, $object)
-    {
-        // message content
-        $message =  sprintf($message, $object);
-        $env = getenv('ENV');
-        //define receivers
-        if ((empty($env) || ($env !== 'PROD')) && !empty(Config::$emailNotificationError['cc'])) {
-            // just send to client in production mode
-            $ccs = (array) Config::$emailNotificationError['cc']; //cast to guarantee array
-            $to = array_pop($ccs);
-        } else {
-            $to = arrayGet(Config::$emailNotificationError, 'to', CONST_EMAIL_ERROR_CONTACT);
-        }
-        $headers = array();
-        if (!empty(Config::$emailNotificationError['cc'])) {
-            foreach ((array) Config::$emailNotificationError['cc'] as $cc) {
-                $headers[] = 'Cc: '.$cc;
-            }
-        }
-
-        // send email
-        wp_mail($to, CONST_EMAIL_ERROR_SUBJECT, $message, $headers);
-    }
-
-    /**
      * Action for importing notaire data into wp_users
      */
     public function importSolde()
@@ -1056,12 +1033,12 @@ class Notaire extends MvcModel
                     }
                 } else { // file content error
                     // send email
-                    $this->reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
+                    CridonTools::reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
                 }
             } else {
                 // file doesn't exist
                 // send email
-                $this->reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde');
+                CridonTools::reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde');
             }
         } catch (Exception $e) {
             // archive file
@@ -1070,7 +1047,7 @@ class Notaire extends MvcModel
             }
 
             // send email
-            $this->reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 

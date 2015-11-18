@@ -199,5 +199,35 @@ class CridonTools {
 
         return $users;
     }
+
+    /**
+     * Send email for error reporting
+     *
+     * @param string $message
+     * @param string $object
+     */
+    public static function reportError($message, $object)
+    {
+        // message content
+        $message =  sprintf($message, $object);
+        $env = getenv('ENV');
+        //define receivers
+        if ((empty($env) || ($env !== 'PROD')) && !empty(Config::$emailNotificationError['cc'])) {
+            // just send to client in production mode
+            $ccs = (array) Config::$emailNotificationError['cc']; //cast to guarantee array
+            $to = array_pop($ccs);
+        } else {
+            $to = arrayGet(Config::$emailNotificationError, 'to', CONST_EMAIL_ERROR_CONTACT);
+        }
+        $headers = array();
+        if (!empty(Config::$emailNotificationError['cc'])) {
+            foreach ((array) Config::$emailNotificationError['cc'] as $cc) {
+                $headers[] = 'Cc: '.$cc;
+            }
+        }
+
+        // send email
+        wp_mail($to, CONST_EMAIL_ERROR_SUBJECT, $message, $headers);
+    }
 }
 

@@ -2,17 +2,44 @@
 
 
 class QueryBuilder{
-    
-    public $lastInsertId;// last insert in table
-    protected $wpdb; // Manipulate database in wordpress
+
+    /**
+     * last insert in table
+     *
+     * @var bool
+     */
+    public $lastInsertId;
+
+    /**
+     * Manipulate database in wordpress
+     *
+     * @var mixed
+     */
+    protected $wpdb;
+
+    /**
+     * mysqli instance
+     *
+     * @var null|mixed
+     */
+    protected $mysqli = null;
     
     public function __construct()
     {
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->lastInsertId = false;
+        $this->dbConnect();
     }
-    
+
+    /**
+     * Connect to Database
+     */
+    protected function dbConnect()
+    {
+        $this->mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    }
+
     /*
      * Delete data
      */
@@ -216,6 +243,32 @@ class QueryBuilder{
             $query .= ' WHERE ' . $options[ 'conditions' ];
         }
         return $this->wpdb->get_results( $query );
+    }
+
+    /**
+     * Find one element in table with an sample clause WHERE in condition of query
+     *
+     * @param array $options Specify a model or a table, and the conditions in the query
+     * @return array
+     */
+    public function findOneByOptions( $options ){
+        $query = 'SELECT ';
+        $fields = ' * ';
+        if( isset( $options['attributes'] ) ){
+            $fields = implode( ',',$options['attributes'] );
+        }
+        $query .= $fields. ' FROM ';
+        if( $options[ 'model' ] != null ){
+            $oModel = mvc_model( $options[ 'model' ] );
+            $query .= $oModel->table. ' ';
+        }else{
+            if( !isset($options[ 'table' ]) ) return null;
+            $query .= $options[ 'table' ].' ';
+        }
+        if( isset( $options['conditions'] ) ){
+            $query .= ' WHERE ' . $options[ 'conditions' ];
+        }
+        return $this->wpdb->get_row( $query );
     }
     
     //Sample function to construct join clause
@@ -491,6 +544,7 @@ class QueryBuilder{
             VALUES
             ' . $options['values'];
 
-        $this->wpdb->query($query);
+        $this->mysqli->query('SET @@global.max_allowed_packet = ' . 800 * 1024 * 1024);
+        $this->mysqli->query($query);
     }
 }
