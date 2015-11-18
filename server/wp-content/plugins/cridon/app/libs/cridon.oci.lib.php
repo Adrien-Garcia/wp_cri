@@ -80,15 +80,8 @@ class CridonOCIAdapter implements DBConnect
         $conn = oci_connect(CONST_DB_USER, CONST_DB_PASSWORD, $conf);
 
         if (!$conn) {
-            // message content
-            $message =  sprintf(CONST_EMAIL_ERROR_CATCH_EXCEPTION, oci_error());
-
-            // send email
-            $multiple_recipients = array(
-                CONST_EMAIL_ERROR_CONTACT,
-                CONST_EMAIL_ERROR_CONTACT_CC
-            );
-            wp_mail($multiple_recipients, CONST_EMAIL_ERROR_SUBJECT, $message);
+            $error = oci_error();
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $error['message']);
         }
 
         return $conn;
