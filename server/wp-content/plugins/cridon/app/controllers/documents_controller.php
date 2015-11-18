@@ -1,7 +1,12 @@
 <?php
 
-class DocumentsController extends MvcPublicController {
-    
+class DocumentsController extends MvcPublicController
+{
+
+    public function importinitial()
+    {
+
+    }
 }
 
 ?>
