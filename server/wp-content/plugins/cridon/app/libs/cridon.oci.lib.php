@@ -81,7 +81,7 @@ class CridonOCIAdapter implements DBConnect
 
         if (!$conn) {
             $error = oci_error();
-            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $error['message']);
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $error['message']);
             throw new Exception($error['message'], $error['code']);
         }
 

@@ -61,11 +61,8 @@ class CridonODBC
         );
 
         if (!$conn) {
-            // message content
-            $message =  sprintf(CONST_EMAIL_ERROR_CATCH_EXCEPTION, odbc_errormsg());
-
             // send email
-            reportError($message, CONST_EMAIL_ERROR_SUBJECT);
+            reportError(CONST_EMAIL_ERROR_SUBJECT, odbc_errormsg());
         }
 
         return $conn;

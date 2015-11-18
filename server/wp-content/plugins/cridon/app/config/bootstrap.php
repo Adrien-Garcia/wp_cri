@@ -472,8 +472,8 @@ function CriRenderView($path, $view_vars) {
 /**
  * Send email for error reporting
  *
- * @param string $message
- * @param string $object
+ * @param string $message the default message in which we want to add the error
+ * @param string $error the error to introduce in the message
  */
 function reportError($message, $object) {
     // message content

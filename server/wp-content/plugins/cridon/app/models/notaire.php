@@ -244,12 +244,12 @@ class Notaire extends MvcModel
                     }
                 } else { // file content error
                     // send email
-                    CridonTools::reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Notaire');
+                    reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Notaire');
                 }
             } else {
                 // file doesn't exist
                 // send email
-                CridonTools::reportError(CONST_EMAIL_ERROR_CONTENT, 'Notaire');
+                reportError(CONST_EMAIL_ERROR_CONTENT, 'Notaire');
             }
         } catch (Exception $e) {
             // archive file
@@ -258,7 +258,7 @@ class Notaire extends MvcModel
             }
 
             // send email
-            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -295,7 +295,7 @@ class Notaire extends MvcModel
 
         } catch (\Exception $e) {
             // send email
-            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -603,7 +603,7 @@ class Notaire extends MvcModel
 
         } catch (\Exception $e) {
             // send email
-            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
 
         // import into wp_users table
@@ -818,7 +818,7 @@ class Notaire extends MvcModel
             }
         } catch(Exception $e) {
             // send email
-            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -852,7 +852,7 @@ class Notaire extends MvcModel
             }
         } catch (Exception $e) {
             // send email
-            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 
@@ -1033,12 +1033,12 @@ class Notaire extends MvcModel
                     }
                 } else { // file content error
                     // send email
-                    CridonTools::reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
+                    reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
                 }
             } else {
                 // file doesn't exist
                 // send email
-                CridonTools::reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde');
+                reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde');
             }
         } catch (Exception $e) {
             // archive file
@@ -1047,7 +1047,7 @@ class Notaire extends MvcModel
             }
 
             // send email
-            CridonTools::reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 

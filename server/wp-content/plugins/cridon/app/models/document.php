@@ -121,7 +121,7 @@ class Document extends MvcModel {
 
                             // log : envoie mail
                             $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
-                            reportError($message, CONST_EMAIL_ERROR_SUBJECT);
+                            reportError($message, '');
                         }
                     } else { // doc sans question associee
                         // archivage source des metadonnees
@@ -129,7 +129,7 @@ class Document extends MvcModel {
 
                         // log : envoie mail
                         $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
-                        reportError($message, CONST_EMAIL_ERROR_SUBJECT);
+                        reportError($message, '');
                     }
                 }
             }
@@ -138,12 +138,12 @@ class Document extends MvcModel {
             if (count($logDocList) > 0) {
                 $listDoc = implode(', ', $logDocList);
                 $message = sprintf(CONST_IMPORT_GED_LOG_SUCCESS_MSG, date('d/m/Y à H:i'), $listDoc);
-                reportError($message, CONST_EMAIL_ERROR_SUBJECT);
+                reportError($message, '');
             }
         } else { // repertoire import vide
             // log : envoie mail
             $message = sprintf(CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG, date('d/m/Y à H:i'));
-            reportError($message, CONST_EMAIL_ERROR_SUBJECT);
+            reportError($message, '');
         }
     }
 }
