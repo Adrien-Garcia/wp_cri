@@ -71,6 +71,7 @@ class Question extends MvcModel
         $i = 1;
         // set adapter
         $this->adapter = CridonQuestionODBCAdapter::getInstance();
+        $this->setSiteQuestList();
         // nb items
         $this->getNbItems();
         // import action

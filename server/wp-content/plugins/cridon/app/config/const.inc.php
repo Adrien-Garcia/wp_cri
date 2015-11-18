@@ -172,6 +172,12 @@ if ( !defined( 'CONST_SUPPORT_APPEL_ID' ) ) {
 if ( !defined( 'CONST_SUPPORT_COURRIER_ID' ) ) {
     define( 'CONST_SUPPORT_COURRIER_ID',  1);
 }
+if ( !defined( 'CONST_SUPPORT_URG48H_ID' ) ) {
+    define( 'CONST_SUPPORT_URG48H_ID',  6);
+}
+if ( !defined( 'CONST_SUPPORT_URGWEEK_ID' ) ) {
+    define( 'CONST_SUPPORT_URGWEEK_ID',  7);
+}
 
 // Notaire fonctions id (used for filtering capability)
 if ( !defined( 'CONST_NOTAIRE_ASSOCIE' ) ) {

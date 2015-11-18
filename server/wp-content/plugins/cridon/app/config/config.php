@@ -121,6 +121,8 @@ class Config {
 
     // list of accepted question supports
     public static $acceptedSupports = array(
-        CONST_SUPPORT_COURRIER_ID
+        CONST_SUPPORT_COURRIER_ID,
+        CONST_SUPPORT_URG48H_ID,
+        CONST_SUPPORT_URGWEEK_ID
     );
 }
