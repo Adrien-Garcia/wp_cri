@@ -244,6 +244,32 @@ class QueryBuilder{
         }
         return $this->wpdb->get_results( $query );
     }
+
+    /**
+     * Find one element in table with an sample clause WHERE in condition of query
+     *
+     * @param array $options Specify a model or a table, and the conditions in the query
+     * @return array
+     */
+    public function findOneByOptions( $options ){
+        $query = 'SELECT ';
+        $fields = ' * ';
+        if( isset( $options['attributes'] ) ){
+            $fields = implode( ',',$options['attributes'] );
+        }
+        $query .= $fields. ' FROM ';
+        if( $options[ 'model' ] != null ){
+            $oModel = mvc_model( $options[ 'model' ] );
+            $query .= $oModel->table. ' ';
+        }else{
+            if( !isset($options[ 'table' ]) ) return null;
+            $query .= $options[ 'table' ].' ';
+        }
+        if( isset( $options['conditions'] ) ){
+            $query .= ' WHERE ' . $options[ 'conditions' ];
+        }
+        return $this->wpdb->get_row( $query );
+    }
     
     //Sample function to construct join clause
     private function constructJoin( $option ){

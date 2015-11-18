@@ -25,6 +25,9 @@ MvcRouter::public_connect('import/soldes', array('controller' => 'notaires', 'ac
 // import initial questions
 MvcRouter::public_connect('questions/importinitial', array('controller' => 'questions', 'action' => 'importinitial'));
 
+// import initial document
+MvcRouter::public_connect('documents/importinitial', array('controller' => 'documents', 'action' => 'importinitial'));
+
 // mes questions
 MvcRouter::public_connect('notaires/{:id:[\d]+}/questions', array('controller' => 'notaires', 'action' => 'questions'));
 // mon profil

@@ -357,3 +357,31 @@ if ( !defined( 'CONST_QUEST_UPDATED_IN_X3' ) ) {
 if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
     define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
 }
+
+// import GED
+if ( !defined( 'CONST_IMPORT_DOCUMENT_ORIGINAL_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_DOCUMENT_ORIGINAL_PATH', $uploadDir['basedir'] . '/import/importsGED/' );
+}
+if ( !defined( 'CONST_IMPORT_DOCUMENT_TEMP_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_DOCUMENT_TEMP_PATH', $uploadDir['basedir'] . '/import/importsGEDTemp/' );
+}
+if ( !defined( 'CONST_IMPORT_FILE_TYPE' ) ) {
+    define( 'CONST_IMPORT_FILE_TYPE', 'txt' );
+}
+if ( !defined( 'CONST_IMPORT_GED_CONTENT_SEPARATOR' ) ) {
+    define( 'CONST_IMPORT_GED_CONTENT_SEPARATOR', ';' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_SUCCESS_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_SUCCESS_MSG', 'Import GED du %s : action terminée avec succès pour les documents suivants "%s"' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG', 'Import GED du %s : fichier d\'import mal formaté pour "%s"' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : repertoire d\'import vide' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG', 'Import GED du %s : aucune question n\'est associée au document suivant "%s"' );
+}

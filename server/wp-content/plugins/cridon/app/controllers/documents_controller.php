@@ -143,6 +143,9 @@ class DocumentsController extends MvcPublicController {
             die('Error - can not open file.'); 			
         die();
     }
-}
 
-?>
+    public function importinitial()
+    {
+        $this->model->importInitial();
+    }
+}
