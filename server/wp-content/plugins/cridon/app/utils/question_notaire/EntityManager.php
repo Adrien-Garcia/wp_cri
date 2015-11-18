@@ -19,6 +19,7 @@ class EntityManager {
     public  $per_page = 10;
     
     public function __construct() {
+        //Interagir avec la base de données
         $this->dbAdapter = new EntityDatabaseAdapter();
     }
     /**
@@ -53,6 +54,7 @@ class EntityManager {
      * @return mixed
      */
     public function query( $sql ){
+        //Execution d'une requête SQL
         return $this->dbAdapter->query($sql);
     }
     
@@ -62,7 +64,9 @@ class EntityManager {
      * @return mixed
      */
     public function getResults($options) {
+        //Obtention des résultats d'une requête
         $objects = $this->dbAdapter->getResults($options);
+        //Associer les différents objets(modèles associés au requête) au résultat
         $objects = $this->processObjects($objects,$options);
         return $objects;
     }
@@ -80,6 +84,7 @@ class EntityManager {
         $objects = $this->dbAdapter->getResults($options);
         //Construct array of object
         $objects = $this->processObjects($objects,$options);
+        //Obtenir le nombre total d'élément pour la requête sans la contrainte du nombre d'élément par liste
         $total_count = $this->count($options);
         $response = array(
             'objects' => $objects,
@@ -115,12 +120,15 @@ class EntityManager {
      */
     protected function  processObjects( $objects,$options ){
         $results = array();
+        //Parcours du résultat de la requête
         foreach ($objects as $object ){
             //To store result
             $obj = new Entity();
             unset( $obj->mvc_model );
             //Fetch select object to construct array 
+            //Voir dans l'option de la requête les modèles séléctionnés
             foreach( $options['select'] as $select ){
+                //Attribut du résultat correspondant au nom du modèle associé au SELECT
                 $attr = strtolower($select);
                 //Create object for data in fields of result query
                 $obj->{$attr} = $this->newObject($object, $select);                
@@ -132,16 +140,24 @@ class EntityManager {
     /**
      * Create new object
      * 
-     * @param array $data Result of query
+     * @param object $data Result of query
      * @param string $entity Name of entity
      * @return object
      */
     protected function newObject($data,$entity) {
+        //$data est un objet stdClass
         //Construct object
         $instance = EntityFactory::get( $entity.'Entity' ); 
         $isNull = true;
         foreach( $instance->fields as $key => $field ){
             //setup attributes
+            /*
+             * Associer les données propres au modèle concerné
+             * Ex: nous avons $data->Matiere1 = 'A' et $data->Support1 = 'Urgent'
+             * alors pour la matière nous aurons $instance->code = 'A'
+             * et pour le support $instance->label = 'Urgent'
+             * $entity dépend du modèle courant dans le tableau $options['select']
+             */
             $instance->{$field} = $data->{$entity.$key};
             if( !empty( $data->{$entity.$key} ) ){
                 $isNull = false;
@@ -150,6 +166,7 @@ class EntityManager {
         if( isset( $instance->mvc_model ) ){
             unset( $instance->mvc_model );
         }
+        //Si aucun résultat n'est associé au model courant
         if( $isNull ){
             //we not have object in result
             return null;
