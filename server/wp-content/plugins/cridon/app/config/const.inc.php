@@ -11,6 +11,7 @@
  */
 $env = getenv('ENV');
 define('DEV', 'DEV');
+define('LOCAL', 'LOCAL');
 define('PROD', 'PROD');
 define('PREPROD', 'PREPROD');
 
@@ -46,6 +47,9 @@ if ( !defined( 'CONST_DB_HOST' ) ) {
         case DEV:
             $host = '10.115.100.192';
             break;
+        case LOCAL:
+            $host = '192.168.69.7';
+            break;
         default:
             $host = '192.168.1.9';
             break;
@@ -55,11 +59,8 @@ if ( !defined( 'CONST_DB_HOST' ) ) {
 if ( !defined( 'CONST_DB_PORT' ) ) {
     switch ($env) {
         case PROD:
-            $port = 1521;
-            break;
         case PREPROD:
-            $port = 1521;
-            break;
+        case LOCAL:
         case DEV:
             $port = 1521;
             break;
@@ -80,6 +81,9 @@ if ( !defined( 'CONST_DB_USER' ) ) {
         case DEV:
             $user = 'JETPULP';
             break;
+        case LOCAL:
+            $user = 'SYS';
+            break;
         default:
             $user = 'cridon';
             break;
@@ -97,11 +101,14 @@ if ( !defined( 'CONST_DB_PASSWORD' ) ) {
         case DEV:
             $pwd = 'JTPLPX3';
             break;
+        case LOCAL:
+            $pwd = 'oracle';
+            break;
         default:
             $pwd = '2d7nGNFc';
             break;
     }
-	define( 'CONST_DB_PASSWORD', 'JTPLPX3' );
+	define( 'CONST_DB_PASSWORD', $pwd );
 }
 if ( !defined( 'CONST_DB_DATABASE' ) ) {
     switch ($env) {
@@ -114,11 +121,14 @@ if ( !defined( 'CONST_DB_DATABASE' ) ) {
         case DEV:
             $dbn = 'X150';
             break;
+        case LOCAL:
+            $dbn = 'XE';
+            break;
         default:
             $dbn = 'cridon';
             break;
     }
-	define( 'CONST_DB_DATABASE', 'X150' );
+	define( 'CONST_DB_DATABASE', $dbn );
 }
 if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
 	define( 'CONST_DB_TABLE_NOTAIRE', 'ZEXPNOTV' );
@@ -155,6 +165,7 @@ if ( !defined( 'CONST_IMPORT_OPTION' ) ) {
         case PROD:
         case PREPROD:
         case DEV:
+        case LOCAL:
             $dbn = 'oci';
             break;
         default:
