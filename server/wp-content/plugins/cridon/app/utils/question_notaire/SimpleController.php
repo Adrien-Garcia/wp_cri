@@ -33,9 +33,11 @@ class SimpleController {
      */
     protected function setEntities(){
         foreach ( $this->entities as $entity ){
+            //Ajouter les modèles à utiliser dans le traitement
             $this->entityManager->addEntity( $entity );
         }
         //Add entities in registry
+        //créer ces modèles et les associès au registre pour pouvoir les associés après s'ils sont présents dans un requête SELECT
         $this->entityManager->create();
     }
     
