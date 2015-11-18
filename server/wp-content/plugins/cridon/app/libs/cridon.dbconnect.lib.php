@@ -1,0 +1,180 @@
+<?php
+/**
+ * Interface describing how to retrieve data from a DB Connection
+ * @package wp_cridon
+ * @author JETPULP
+ * @contributor Victor ALBERT
+ */
+
+interface DBConnect
+{
+
+    /**
+     * @var string : category field in Output data
+     */
+    const NOTAIRE_CATEG      = 'BCGCOD_0';
+
+    /**
+     * @var string : client_number field in Output data
+     */
+    const NOTAIRE_NUMCLIENT  = 'BPCNUM_0';
+
+    /**
+     * @var string : crpcen field in Output data
+     */
+    const NOTAIRE_CRPCEN     = 'YCRPCEN_0';
+
+    /**
+     * @var string : Web Code field in Output data
+     */
+    const NOTAIRE_CODEWEB    = 'YCODWEB_0';
+
+    /**
+     * @var string : web_password field in Output data
+     */
+    const NOTAIRE_PWDWEB     = 'YMDPWEB_0';
+
+    /**
+     * @var string : tel_password field in Output data
+     */
+    const NOTAIRE_PWDTEL     = 'ZMDPTEL_0';
+
+    /**
+     * @var string : id_sigle field in Output data
+     */
+    const NOTAIRE_SIGLE      = 'BPRLOG_0';
+
+    /**
+     * @var string : office_name field in Output data
+     */
+    const NOTAIRE_OFFICENAME = 'BPRNAM_0';
+
+    /**
+     * @var string : status field in Output data
+     */
+    const NOTAIRE_STATUS  = 'YACTIF_0';
+
+    /**
+     * @var string : code_interlocuteur field in Output data
+     */
+    const NOTAIRE_INTERCODE  = 'CCNCRM_0';
+
+    /**
+     * @var string : id_civilite field in Output data
+     */
+    const NOTAIRE_CIVILIT    = 'CNTTTL_0';
+
+    /**
+     * @var string : first_name field in Output data
+     */
+    const NOTAIRE_FNAME      = 'CNTFNA_0';
+
+    /**
+     * @var string : last_name field in Output data
+     */
+    const NOTAIRE_LNAME      = 'CNTLNA_0';
+
+    /**
+     * @var string : tel field in Output data
+     */
+    const NOTAIRE_TEL      = 'TELNOT_0';
+
+    /**
+     * @var string : last_name field in Output data
+     */
+    const NOTAIRE_FAX        = 'FAXNOT_0';
+
+    /**
+     * @var string : mobile field in Output data
+     */
+    const NOTAIRE_PORTABLE   = 'CNTMOB_0';
+
+    /**
+     * @var string : email_adress field in Output data
+     */
+    const NOTAIRE_EMAIL      = 'WEBNOT_0';
+
+    /**
+     * @var string : id_fonction field in Output data
+     */
+    const NOTAIRE_FONC       = 'CNTFNC_0';
+
+    /**
+     * @var string : adress_1 field in Output data
+     */
+    const NOTAIRE_ADRESS1    = 'BPAADDLIG1_0';
+
+    /**
+     * @var string : adress_2 field in Output data
+     */
+    const NOTAIRE_ADRESS2    = 'BPAADDLIG2_0';
+
+    /**
+     * @var string : adress_3 field in Output data
+     */
+    const NOTAIRE_ADRESS3    = 'BPAADDLIG3_0';
+
+    /**
+     * @var string : cp field in Output data
+     */
+    const NOTAIRE_CP         = 'POSCOD_0';
+
+    /**
+     * @var string : city field in Output data
+     */
+    const NOTAIRE_CITY       = 'CTY_0';
+
+    /**
+     * @var string : office_email_adress_1 field in Output data
+     */
+    const NOTAIRE_MAIL1      = 'WEB_0';
+
+    /**
+     * @var string : office_email_adress_2 field in Output data
+     */
+    const NOTAIRE_MAIL2      = 'ZMAIL2_0';
+
+    /**
+     * @var string : office_email_adress_3 field in Output data
+     */
+    const NOTAIRE_MAIL3      = 'ZMAIL3_0';
+
+    /**
+     * @var string : date_modified field in Output data
+     */
+    const NOTAIRE_DATEMODIF  = 'UPDDAT_0';
+
+
+    /**
+     * Get instance
+     *
+     * @return mixed Connector, such as CridonODBCAdapter
+     */
+    static function getInstance();
+
+    /**
+     * Connexion
+     *
+     * @return resource
+     */
+    function connection();
+
+    /**
+     * Get result
+     *
+     * @param string $sql query
+     * @return resource
+     */
+    function getResults($sql);
+
+    /**
+     * Prepare data for import
+     * @return $this
+     */
+    function prepareData();
+
+    /**
+     * Close the connection
+     */
+    public function closeConnection();
+}

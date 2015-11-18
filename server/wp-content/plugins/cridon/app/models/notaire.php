@@ -26,6 +26,11 @@ class Notaire extends MvcModel
     /**
      * @var string
      */
+    const IMPORT_OCI_OPTION = 'oci';
+
+    /**
+     * @var string
+     */
     public $display_field = 'first_name';
 
     /**
@@ -148,7 +153,7 @@ class Notaire extends MvcModel
     protected $importSuccess = false;
 
     /**
-     * @var mixed
+     * @var DBConnect
      */
     protected $adapter;
 
@@ -175,15 +180,20 @@ class Notaire extends MvcModel
     {
         // init logs
         $this->logs = array();
-
+        $this->adapter = null;
         switch (strtolower(CONST_IMPORT_OPTION)) {
             case self::IMPORT_CSV_OPTION:
                 $this->adapter = new CridonCsvParser();
                 $this->importFromCsvFile();
                 break;
-            default : // odbc option by default
+            case self::IMPORT_ODBC_OPTION:
                 $this->adapter = CridonODBCAdapter::getInstance();
-                $this->importDataUsingODBC();
+            case self::IMPORT_OCI_OPTION:
+                //if case above did not match, set OCI
+                $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
+            default :
+                //both OCI and ODBC will can this
+                $this->importDataUsingDBconnect();
                 break;
         }
 
@@ -252,17 +262,17 @@ class Notaire extends MvcModel
      *
      * @return void
      */
-    protected function importDataUsingODBC()
+    protected function importDataUsingDBconnect()
     {
         try {
             // query
-            $sql = 'SELECT * FROM ' . CONST_ODBC_TABLE_NOTAIRE;
+            $sql = 'SELECT * FROM ' . CONST_DB_TABLE_NOTAIRE;
 
             // exec query
             $this->adapter->getResults($sql);
 
             // prepare data
-            $this->adapter->prepareODBCData();
+            $this->adapter->prepareData();
 
             $this->erpNotaireList = $this->adapter->erpNotaireList;
             $this->erpNotaireData = $this->adapter->erpNotaireData;

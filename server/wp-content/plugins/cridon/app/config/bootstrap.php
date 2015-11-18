@@ -24,41 +24,44 @@ function resetGlobalVars(){
 // End retrieve post
 
 // After save into post table, save in others tables 
-function save_post_in_table( $post_ID ){ 
-    if( $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ) {
-        $isInsert = false; //Control variable
-        if( isset( $_POST[ '_wp_http_referer' ] ) ){
-            $http = explode( 'cridon_type=', $_POST[ '_wp_http_referer' ] );
-            if( count( $http ) == 2 ){
-                if( isset( Config::$data[ $http[ 1 ] ] ) ){
-                    if( findBy( Config::$data[ $http[ 1 ] ][ 'name' ], $post_ID ) == null ){//no duplicate
-                        insertInTable( Config::$data[ $http[ 1 ] ][ 'name' ],$post_ID );    
-                        $isInsert = true;
-                    }
-                }
-            }
+function save_post_in_table( $post_ID ){
+    $modelConf = getRelatedContentConfInReferer($post_ID);
+    if (!empty($modelConf)) {
+        if( ($model = findBy( $modelConf['name'], $post_ID )) == null ){//no duplicate
+            $model = insertInTable( $modelConf['name'], $post_ID );
         }
-        //Category managment
-        if( isset( $_POST['cri_category'] ) && !$isInsert ){
-            $oVeille  = findBy( 'veille' , $post_ID );
-            if( $oVeille ){//Update model Veille
-                updateVeille( $oVeille->id ,$_POST['cri_category'] );
-            }
-        }
-        //End category managment
+        updateRelatedContent( $model ,array(
+            'id_matiere' => $_POST['cri_category']
+        ));
     }
     return $post_ID;
 }
+
+/**
+ * For current request, check if it's a MVC kind of post
+ * @param $post_ID int ID used to know if the current content is an MVC one
+ * @return mixed conf array or false if not found
+ */
+function getRelatedContentConfInReferer($post_ID) {
+    if( $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ) {
+        if (isset($_POST['_wp_http_referer'])) {
+            $http = explode('cridon_type=', $_POST['_wp_http_referer']);
+            if (count($http) == 2) {
+                if (isset(Config::$data[$http[1]])) {
+                    return Config::$data[ $http[ 1 ] ];
+                }
+            }
+        }
+    }
+    return false;
+}
+
 add_action('save_post','save_post_in_table');
 
 function insertInTable( $table,$post_ID ){
     global $wpdb;
     $wpdb->query( 'INSERT INTO '.$wpdb->prefix.$table.'(post_id) VALUE('.$post_ID.')' );
-    //Category managment
-    if( isset( $_POST['cri_category'] ) && !empty( $_POST['cri_category'] ) ){
-        updateVeille( $wpdb->insert_id, $_POST['cri_category'] );        
-    }
-    //End category managment
+    return findBy( $table, $post_ID );
 }
 // end after save into post table, save in othres tables
 
@@ -79,21 +82,33 @@ function deleteAllById( $post_ID ){
         $wpdb->query( 'DELETE FROM '.$wpdb->prefix.$table.' WHERE post_id = '.$post_ID );
     }
 }
+//End deleting
+
+/**
+ * Return MvcModel corresponding to the specific kind of post
+ * @param $table
+ * @param $post_ID
+ * @return null
+ */
 function findBy( $table, $post_ID ){
-    global $wpdb;
-    $aObjects = $wpdb->get_results( 'SELECT * FROM '.$wpdb->prefix.$table.' WHERE post_id = '.$post_ID );
-    return ( empty( $aObjects ) ) ? null : $aObjects[0];
+    $config = assocToKeyVal(Config::$data, 'name', 'model');
+    /**
+     * @var $model MvcModel
+     */
+    $model = mvc_model($config[$table]);
+    $mvcObject = $model->find_one_by_post_id($post_ID);
+    return $mvcObject;
 }
-// End deleting
 
 // After insert post
 function on_post_import( $post_ID ) {
-    foreach( Config::$data as $v ){
-        $object = findBy( $v[ 'name' ], $post_ID );
+    $modelConf = getRelatedContentConfInReferer($post_ID);
+    if (!empty($modelConf)) {
+        $object = findBy( $modelConf['name'], $post_ID );
         if( $object ){
             $options = array(
-                'controller' => $v[ 'controller' ],
-                'action'     => $v[ 'action' ]
+                'controller' => $modelConf[ 'controller' ],
+                'action'     => $modelConf[ 'action' ]
             );
             $adminUrl  = MvcRouter::admin_url($options);
             $adminUrl .= '&flash=success';
@@ -110,8 +125,9 @@ add_action( 'wp_insert_post', 'on_post_import' );
 add_action('add_meta_boxes','init_meta_boxes_category_post');
 
 function init_meta_boxes_category_post(){
-    if( isset( $_GET['cridon_type'] ) && ( $_GET['cridon_type'] === 'veilles' ) ){//Check if is a model Veille
-        add_meta_box('id_meta_boxes_link_post', Config::$titleMetabox , 'init_select_meta_boxes', 'post', 'side', 'high');        
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithMatiere)) {//Check if is a model Veille
+        // init meta box depends on the current type of content
+        add_meta_box('id_meta_boxes_link_post', Config::$titleMetabox , 'init_select_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
     }
 }
 /**
@@ -119,25 +135,28 @@ function init_meta_boxes_category_post(){
  * 
  * @param \WP_Post $post
  */
-function init_select_meta_boxes( $post ){
-    $oVeille  = findBy( 'veille' , $post->ID );//Find Veille
+function init_select_meta_boxes( $post, $args ){
+    //args contains only one param : key to model name using config
+    $models = $args['args'];
+    $config = arrayGet(Config::$data, $models, reset(Config::$data));
+    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
     $oMatiere = mvc_model( 'matiere' );//load model Matiere to use functions
     $aMatiere = $oMatiere->find( array( 'order' => 'label ASC' ) );
 
     // prepare vars
     $vars = array(
         'aMatiere' => $aMatiere,
-        'oVeille' => $oVeille
+        'oModel' => $oModel
     );
 
     // render view
-    CriRenderView('veille_meta_box', $vars);
+    CriRenderView('matiere_meta_box', $vars);
 }
 
 /**
- * Check if Veille has an associate model Matiere
+ * Check if current Model has an associate model Matiere
  * 
- * @param object $needle Object Veille
+ * @param object $needle Object MvcModel
  * @param object $haystack Object Matiere
  * @return string|null
  */
@@ -151,20 +170,19 @@ function check( $needle ,$haystack ){
 }
 
 /**
- * Update table Veille with Matiere Id
+ * Update table content related with post
  * 
- * @param integer $id
- * @param integer $category
+ * @param MvcModelObject $object Related content
+ * @param array $postFields related fields
  */
-function updateVeille( $id,$category ){
-    $oVeille = mvc_model( 'veille' );
-    $data = array(
-        'Veille' => array(
-            'id' => $id,
-            'id_matiere' => $category
-        )
-    );
-    $oVeille->save( $data );//Using WP_MVC to update model
+function updateRelatedContent( $object, $postFields ){
+    $class = $object->__model_name;
+    /**
+     * @var MvcModel $class
+     */
+    $model = mvc_model($class);
+    //Assume pk will always be "id". There's no way to get it dynamically...
+    $model->update($object->id, $postFields );//Using WP_MVC to update model
 }
 // End Category managment
 
@@ -402,6 +420,32 @@ add_action( 'deleted_user', 'custom_delete_user' );
  */
 function arrayGet($array = array(), $key = 0, $default = null) {
     return isset($array[$key]) ? $array[$key] : $default;
+}
+
+/**
+ * Converts a multi-dimensional associative array into an array of key => values with the provided field names
+ * based on FuelPHP class Arr
+ * @param   array   $assoc      the array to convert
+ * @param   string  $key_field  the field name of the key field
+ * @param   string  $val_field  the field name of the value field
+ * @return  array
+ * @throws  \InvalidArgumentException
+ */
+function assocToKeyVal($assoc, $key_field, $val_field)
+{
+    if ( ! is_array($assoc))
+    {
+        throw new \InvalidArgumentException('The first parameter must be an array.');
+    }
+    $output = array();
+    foreach ($assoc as $row)
+    {
+        if (isset($row[$key_field]) and isset($row[$val_field]))
+        {
+            $output[$row[$key_field]] = $row[$val_field];
+        }
+    }
+    return $output;
 }
 
 /**

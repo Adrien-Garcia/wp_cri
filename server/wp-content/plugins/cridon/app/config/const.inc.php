@@ -6,6 +6,14 @@
  * @contributor Joelio
  */
 
+/**
+ * @var $env string will determine if dev, preprod or prod mode is active. Value must be set via SERVER or putenv in wp-config
+ */
+$env = getenv('ENV');
+define('DEV', 'DEV');
+define('PROD', 'PROD');
+define('PREPROD', 'PREPROD');
+
 // notaire role
 if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
 	define( 'CONST_NOTAIRE_ROLE', 'notaire' );
@@ -27,23 +35,93 @@ if ( !defined( 'CONST_WPMVC_PREFIX' ) ) {
 if ( !defined( 'CONST_ODBC_DRIVER' ) ) {
 	define( 'CONST_ODBC_DRIVER', '{MySQL ODBC 5.3 Ansi Driver}' );
 }
-if ( !defined( 'CONST_ODBC_HOST' ) ) {
-	define( 'CONST_ODBC_HOST', '192.168.1.9' );
+if ( !defined( 'CONST_DB_HOST' ) ) {
+    switch ($env) {
+        case PROD:
+            $host = '10.115.100.192';
+            break;
+        case PREPROD:
+            $host = '10.115.100.192';
+            break;
+        case DEV:
+            $host = '10.115.100.192';
+            break;
+        default:
+            $host = '192.168.1.9';
+            break;
+    }
+	define( 'CONST_DB_HOST', $host );
 }
-if ( !defined( 'CONST_ODBC_PORT' ) ) {
-	define( 'CONST_ODBC_PORT', 3306 );
+if ( !defined( 'CONST_DB_PORT' ) ) {
+    switch ($env) {
+        case PROD:
+            $port = 1521;
+            break;
+        case PREPROD:
+            $port = 1521;
+            break;
+        case DEV:
+            $port = 1521;
+            break;
+        default:
+            $port = 3306;
+            break;
+    }
+	define( 'CONST_DB_PORT', $port );
 }
-if ( !defined( 'CONST_ODBC_USER' ) ) {
-	define( 'CONST_ODBC_USER', 'cridon' );
+if ( !defined( 'CONST_DB_USER' ) ) {
+    switch ($env) {
+        case PROD:
+            $user = 'JETPULP';
+            break;
+        case PREPROD:
+            $user = 'JETPULP';
+            break;
+        case DEV:
+            $user = 'JETPULP';
+            break;
+        default:
+            $user = 'cridon';
+            break;
+    }
+	define( 'CONST_DB_USER', $user );
 }
-if ( !defined( 'CONST_ODBC_PASSWORD' ) ) {
-	define( 'CONST_ODBC_PASSWORD', '2d7nGNFc' );
+if ( !defined( 'CONST_DB_PASSWORD' ) ) {
+    switch ($env) {
+        case PROD:
+            $pwd = 'JTPLPX3';
+            break;
+        case PREPROD:
+            $pwd = 'JTPLPX3';
+            break;
+        case DEV:
+            $pwd = 'JTPLPX3';
+            break;
+        default:
+            $pwd = '2d7nGNFc';
+            break;
+    }
+	define( 'CONST_DB_PASSWORD', 'JTPLPX3' );
 }
-if ( !defined( 'CONST_ODBC_DATABASE' ) ) {
-	define( 'CONST_ODBC_DATABASE', 'cridon' );
+if ( !defined( 'CONST_DB_DATABASE' ) ) {
+    switch ($env) {
+        case PROD:
+            $dbn = 'X150';
+            break;
+        case PREPROD:
+            $dbn = 'X150';
+            break;
+        case DEV:
+            $dbn = 'X150';
+            break;
+        default:
+            $dbn = 'cridon';
+            break;
+    }
+	define( 'CONST_DB_DATABASE', 'X150' );
 }
-if ( !defined( 'CONST_ODBC_TABLE_NOTAIRE' ) ) {
-	define( 'CONST_ODBC_TABLE_NOTAIRE', 'ZEXPNOTV' );
+if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
+	define( 'CONST_DB_TABLE_NOTAIRE', 'ZEXPNOTV' );
 }
 
 // import CSV notaire file path
@@ -71,9 +149,19 @@ if ( !defined( 'CONST_CLIENTDIVERS_ROLE' ) ) {
     define( 'CONST_CLIENTDIVERS_ROLE', 'div' );
 }
 
-// import option to be used (csv, odbc)
+// import option to be used (csv, odbc, oci)
 if ( !defined( 'CONST_IMPORT_OPTION' ) ) {
-    define( 'CONST_IMPORT_OPTION', 'odbc' );
+    switch ($env) {
+        case PROD:
+        case PREPROD:
+        case DEV:
+            $dbn = 'oci';
+            break;
+        default:
+            $dbn = 'odbc';
+            break;
+    }
+    define( 'CONST_IMPORT_OPTION', $dbn );
 }
 
 // login
@@ -222,9 +310,6 @@ if ( !defined( 'CONST_QUESTION_ATTACHEMENT_FIELD' ) ) {
     define( 'CONST_QUESTION_ATTACHEMENT_FIELD', 'question_fichier' );
 }
 // Files options
-if ( !defined( 'CONST_QUESTION_MAX_FILES' ) ) {
-    define( 'CONST_QUESTION_MAX_FILES', 5 );
-}
 if ( !defined( 'CONST_QUESTION_MAX_FILE_SIZE' ) ) {
     define( 'CONST_QUESTION_MAX_FILE_SIZE', 8000000 ); // bytes
 }
