@@ -68,3 +68,12 @@ $cri_container->set('post_parser', function(){
         return new CridonPostParser();
     }
 );
+
+//Web service
+
+include_once 'web-service/class_loader.php';
+include_once 'question_notaire/class_loader.php';
+
+//UI Component
+
+include_once 'ui-component/class_loader.php';

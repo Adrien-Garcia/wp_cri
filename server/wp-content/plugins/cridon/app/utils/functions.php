@@ -399,7 +399,7 @@ function CriIsNotaire() {
     global $current_user;
 
     // get notaire by id_wp_user
-    $notaireData = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
+    $notaireData = mvc_model('notaire')->find_one_by_id_wp_user($current_user->ID);
 
     // user logged in is notaire
     if (is_user_logged_in() && $notaireData->id) {
@@ -418,7 +418,7 @@ function CriNotaireData() {
     // check if user connected is notaire
     if (CriIsNotaire()) {
         // user data
-        return mvc_model('Notaire')->getUserConnectedData();
+        return mvc_model('notaire')->getUserConnectedData();
     }
 
     return null;
@@ -628,8 +628,6 @@ function CriPostQuestion() {
                 $criFileUploader = new CriFileUploader();
                 // set files list
                 $criFileUploader->setFiles($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]);
-                // set max file from config (@see : const.inc.php)
-                $criFileUploader->setMaxFiles(CONST_QUESTION_MAX_FILES);
                 // set max size from config (@see : const.inc.php)
                 $criFileUploader->setMaxSize(CONST_QUESTION_MAX_FILE_SIZE);
                 // set upload dir
@@ -650,7 +648,7 @@ function CriPostQuestion() {
                             // prepare data
                             $documents = array(
                                 'Document' => array(
-                                    'file_path'     => '/uploads/questions/' . $questionId . '/' . $document,
+                                    'file_path'     => '/questions/' . $questionId . '/' . $document,
                                     'download_url'  => '/documents/download/' . $questionId,
                                     'date_modified' => date('Y-m-d H:i:s'),
                                     'type'          => 'question',
@@ -716,3 +714,17 @@ function CriListSupport()
     return $supports;
 
 }
+
+/**
+ * Restore the questions asked by the notary
+ * 
+ * @return array
+ */
+function criRestoreQuestions(){
+    $question = new QuestionNotaire();
+    return $question;
+}
+
+/*
+ * End restore
+ */

@@ -8,7 +8,10 @@ class Matiere extends MvcModel
         'Competence' => array(
             'foreign_key' => 'code_matiere'
         ),
-        'Matiere' => array(
+        'veilles' => array(
+            'foreign_key' => 'id_matiere'
+        ),
+        'flashes' => array(
             'foreign_key' => 'id_matiere'
         )
     );

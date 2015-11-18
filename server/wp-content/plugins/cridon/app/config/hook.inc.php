@@ -6,6 +6,8 @@
  * @contributor Joelio
  */
 
+require_once WP_PLUGIN_DIR . '/cridon/app/libs/cridon.fileuploader.lib.php';
+
 /**
  * Hook admin menu
  *
@@ -68,6 +70,8 @@ function append_js_files()
     // only in front
     if (!is_admin()) {
 
+        $criFileUploader = new CriFileUploader();
+
         wp_enqueue_script('cridon', plugins_url('cridon/app/public/js/cridon_login.js'), array('jquery'));
         wp_localize_script(
             'cridon',
@@ -102,8 +106,8 @@ function append_js_files()
                 'question_fichier'         => CONST_QUESTION_ATTACHEMENT_FIELD,
                 'question_msgblock'        => CONST_QUESTION_SUCCESS_MSG_FIELD,
                 'question_content'         => CONST_QUESTION_ACTION_SUCCESSFUL,
-                'question_nb_file'         => CONST_QUESTION_MAX_FILES,
-                'question_nb_file_error'   => sprintf(CONST_QUESTION_MAX_FILES_ERROR, CONST_QUESTION_MAX_FILES),
+                'question_nb_file'         => $criFileUploader::CONST_MAX_FILES,
+                'question_nb_file_error'   => sprintf(CONST_QUESTION_MAX_FILES_ERROR, $criFileUploader::CONST_MAX_FILES),
                 'question_max_file_size'   => CONST_QUESTION_MAX_FILE_SIZE,
                 'question_file_size_error' => sprintf(CONST_QUESTION_FILE_SIZE_ERROR,
                                                       (CONST_QUESTION_MAX_FILE_SIZE / 1000000) . 'M'),

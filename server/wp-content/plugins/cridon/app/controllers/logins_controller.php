@@ -94,4 +94,11 @@ class LoginsController extends MvcPublicController
 
         die;
     }
+    
+    //Webservice
+    
+    public function login(){
+        $rest = new RestServer();
+        $rest->checkLogin();
+    }
 }

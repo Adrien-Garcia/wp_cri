@@ -251,7 +251,7 @@ if ( !defined( 'CONST_EMAIL_ERROR_CONTACT' ) ) {
 
 // do not remove "%s" : it uses to inject import type (notaire|solde) into the mail content
 if ( !defined( 'CONST_EMAIL_ERROR_SUBJECT' ) ) {
-    define( 'CONST_EMAIL_ERROR_SUBJECT', 'Cridon - Import de fichier' );
+    define( 'CONST_EMAIL_ERROR_SUBJECT', 'Cridon - Import' );
 }
 if ( !defined( 'CONST_EMAIL_ERROR_CONTENT' ) ) {
     define( 'CONST_EMAIL_ERROR_CONTENT', 'Fichier d\'import absent pour : %s' );
@@ -270,6 +270,12 @@ if ( !defined( 'CONST_SUPPORT_APPEL_ID' ) ) {
 }
 if ( !defined( 'CONST_SUPPORT_COURRIER_ID' ) ) {
     define( 'CONST_SUPPORT_COURRIER_ID',  1);
+}
+if ( !defined( 'CONST_SUPPORT_URG48H_ID' ) ) {
+    define( 'CONST_SUPPORT_URG48H_ID',  6);
+}
+if ( !defined( 'CONST_SUPPORT_URGWEEK_ID' ) ) {
+    define( 'CONST_SUPPORT_URGWEEK_ID',  7);
 }
 
 // Notaire fonctions id (used for filtering capability)
@@ -321,9 +327,6 @@ if ( !defined( 'CONST_QUESTION_ATTACHEMENT_FIELD' ) ) {
     define( 'CONST_QUESTION_ATTACHEMENT_FIELD', 'question_fichier' );
 }
 // Files options
-if ( !defined( 'CONST_QUESTION_MAX_FILES' ) ) {
-    define( 'CONST_QUESTION_MAX_FILES', 5 );
-}
 if ( !defined( 'CONST_QUESTION_MAX_FILE_SIZE' ) ) {
     define( 'CONST_QUESTION_MAX_FILE_SIZE', 8000000 ); // bytes
 }
@@ -343,4 +346,53 @@ if ( !defined( 'CONST_QUESTION_MAX_FILES_ERROR' ) ) {
 }
 if ( !defined( 'CONST_QUESTION_FILE_SIZE_ERROR' ) ) {
     define( 'CONST_QUESTION_FILE_SIZE_ERROR', 'La taille maximale de chaque fichier ne doit pas depasser de %s' );
+}//Default question answered per page
+if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
+    define( 'DEFAULT_QUESTION_PER_PAGE', 10 );
+}
+}
+
+// import Question
+if ( !defined( 'CONST_ODBC_TABLE_QUEST' ) ) {
+    define( 'CONST_ODBC_TABLE_QUEST', 'ZQUESTV' );
+}
+if ( !defined( 'CONST_QUEST_CREATED_BY_SITE' ) ) {
+    define( 'CONST_QUEST_CREATED_BY_SITE', 0 );
+}
+if ( !defined( 'CONST_QUEST_CREATED_IN_X3' ) ) {
+    define( 'CONST_QUEST_CREATED_IN_X3', 1 );
+}
+if ( !defined( 'CONST_QUEST_UPDATED_IN_X3' ) ) {
+    define( 'CONST_QUEST_UPDATED_IN_X3', 2 );
+}
+if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
+    define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
+}
+
+// import GED
+if ( !defined( 'CONST_IMPORT_DOCUMENT_ORIGINAL_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_DOCUMENT_ORIGINAL_PATH', $uploadDir['basedir'] . '/import/importsGED/' );
+}
+if ( !defined( 'CONST_IMPORT_DOCUMENT_TEMP_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_DOCUMENT_TEMP_PATH', $uploadDir['basedir'] . '/import/importsGEDTemp/' );
+}
+if ( !defined( 'CONST_IMPORT_FILE_TYPE' ) ) {
+    define( 'CONST_IMPORT_FILE_TYPE', 'txt' );
+}
+if ( !defined( 'CONST_IMPORT_GED_CONTENT_SEPARATOR' ) ) {
+    define( 'CONST_IMPORT_GED_CONTENT_SEPARATOR', ';' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_SUCCESS_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_SUCCESS_MSG', 'Import GED du %s : action terminée avec succès pour les documents suivants "%s"' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG', 'Import GED du %s : fichier d\'import mal formaté pour "%s"' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : repertoire d\'import vide' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG', 'Import GED du %s : aucune question n\'est associée au document suivant "%s"' );
 }

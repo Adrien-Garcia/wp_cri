@@ -7,6 +7,7 @@
  */
 
 // rest
+MvcRouter::public_connect('rest/login', array( 'controller' =>'logins','action' => 'login'));
 MvcRouter::public_connect('rest/{:controller}', array('action' => 'index_json', 'layouts' => 'json'));
 MvcRouter::public_connect('rest/{:controller}/{:id:[\d]+}', array('action' => 'show_json', 'layout' => 'json'));
 MvcRouter::public_connect('rest/{:controller}/{:action:[^\d]+}', array('layout' => 'json'));
@@ -21,6 +22,12 @@ MvcRouter::public_connect('import/notaires', array('controller' => 'notaires', '
 // import solde
 MvcRouter::public_connect('import/soldes', array('controller' => 'notaires', 'action' => 'importsolde'));
 
+// import initial questions
+MvcRouter::public_connect('questions/importinitial', array('controller' => 'questions', 'action' => 'importinitial'));
+
+// import initial document
+MvcRouter::public_connect('documents/importinitial', array('controller' => 'documents', 'action' => 'importinitial'));
+
 // mes questions
 MvcRouter::public_connect('notaires/{:id:[\d]+}/questions', array('controller' => 'notaires', 'action' => 'questions'));
 // mon profil
@@ -32,3 +39,7 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/facturation', array('controller'
 MvcRouter::public_connect('{:controller}', array('action' => 'index'));
 MvcRouter::public_connect('{:controller}/{:id:[\d]+}', array('action' => 'show'));
 MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
+
+
+//Ajax admin
+MvcRouter::admin_ajax_connect(array('controller' => 'admin_documents', 'action' => 'search'));
