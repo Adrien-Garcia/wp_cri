@@ -333,3 +333,9 @@ if ( !defined( 'CONST_QUESTION_MAX_FILES_ERROR' ) ) {
 if ( !defined( 'CONST_QUESTION_FILE_SIZE_ERROR' ) ) {
     define( 'CONST_QUESTION_FILE_SIZE_ERROR', 'La taille maximale de chaque fichier ne doit pas depasser de %s' );
 }
+
+// import GED
+if ( !defined( 'CONST_IMPORT_DOCUMENT_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_DOCUMENT_PATH', $uploadDir['basedir'] . '/import/importsGED/' );
+}

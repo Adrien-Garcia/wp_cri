@@ -18,6 +18,15 @@ class Document extends MvcModel {
         return parent::save($data);
     }
 
+    /**
+     * Import initial
+     */
+    public function importInitial()
+    {
+        $documents = glob(CONST_IMPORT_DOCUMENT_PATH . '/*');
+//        echo '<pre>'; die(print_r($documents));
+    }
+
 }
 
 ?>
