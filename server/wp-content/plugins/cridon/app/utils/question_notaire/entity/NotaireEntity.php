@@ -19,6 +19,7 @@ class NotaireEntity extends Entity {
     );
     
     public function __construct() {
+        //Modèle lié au modèle Notaire de WP_MVC
         $this->setMvcModel('notaire');
     }
 }

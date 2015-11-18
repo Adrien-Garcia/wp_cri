@@ -19,6 +19,7 @@ class MatiereEntity extends Entity {
     );
     
     public function __construct() {
+        //Modèle lié au modèle Matiere de WP_MVC
         $this->setMvcModel('matiere');
     }
 }

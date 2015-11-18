@@ -19,6 +19,7 @@ class DocumentEntity extends Entity {
     );
     
     public function __construct() {
+        //Modèle lié au modèle Document de WP_MVC
         $this->setMvcModel('document');
     }
 }

@@ -20,6 +20,7 @@ class QuestionEntity extends Entity {
     );
     
     public function __construct() {
+        //Modèle lié au modèle Question de WP_MVC
         $this->setMvcModel('question');
     }
     

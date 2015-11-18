@@ -18,6 +18,7 @@ class AffectationEntity extends Entity {
         'id','label'
     );
     public function __construct() {
+        //Modèle lié au modèle Affectation de WP_MVC
         $this->setMvcModel('affectation');
     }
 }

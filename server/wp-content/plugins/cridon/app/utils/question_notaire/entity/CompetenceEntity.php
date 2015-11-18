@@ -19,6 +19,7 @@ class CompetenceEntity extends Entity{
     );
     
     public function __construct() {
+        //Modèle lié au modèle Competence de WP_MVC
         $this->setMvcModel('competence');
     }
 }

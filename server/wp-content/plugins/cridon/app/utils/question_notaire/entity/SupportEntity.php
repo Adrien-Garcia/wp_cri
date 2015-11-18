@@ -19,6 +19,7 @@ class SupportEntity extends Entity{
     );
     
     public function __construct() {
+        //Modèle lié au modèle Support de WP_MVC
         $this->setMvcModel('support');
     }
 }
