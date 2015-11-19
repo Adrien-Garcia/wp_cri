@@ -14,7 +14,8 @@
 
 class UIHidden extends UIFields{
     public function create(){
-        $id = ( empty( $this->getId() ) ) ? $this->getName() : $this->getId();
+        $parentId = $this->getId();
+        $id = ( empty( $parentId ) ) ? $this->getName() : $this->getId();
         $html = '<input type="hidden" ';
         $html .= ' value="'.$this->getValue().'"';
         $html .= ' id="'.$id.'"';
