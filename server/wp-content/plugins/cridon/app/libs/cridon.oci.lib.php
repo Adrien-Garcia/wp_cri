@@ -111,24 +111,23 @@ class CridonOCIAdapter implements DBConnect
     }
 
     /**
-     * Prepare ODBC Data
+     * Prepare OCI Data
      *
      * @return $this
      */
-    public function prepareData()
+    public function fetchData()
     {
-        while ($data = oci_fetch_array($this->statementId)) {
-            if (isset( $data[self::NOTAIRE_CRPCEN] ) && intval($data[self::NOTAIRE_CRPCEN]) > 0) { // valid login
-                // the only unique key available is the "crpcen + web_password"
-                $uniqueKey = intval($data[self::NOTAIRE_CRPCEN]) . $data[self::NOTAIRE_PWDWEB];
-                array_push($this->erpNotaireList, $uniqueKey);
+        return oci_fetch_array($this->statementId);
+    }
 
-                // notaire data filter
-                $this->erpNotaireData[$uniqueKey] = $data;
-            }
-        }
-
-        return $this;
+    /**
+     * Prepare count Data that can be retrieved
+     *
+     * @return $this
+     */
+    public function countData()
+    {
+        return oci_num_rows($this->statementId);
     }
 
     /**

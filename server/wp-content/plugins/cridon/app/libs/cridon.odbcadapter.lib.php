@@ -1,15 +1,14 @@
 <?php
 
 /**
- * Cridon ODBC Adapter
+ * Description of cridon.odbc.lib.php
  *
  * @package wp_cridon
  * @author eTech
  * @contributor Joelio
  */
-class CridonODBC
+class CridonODBCAdapter implements DBConnect
 {
-
     /**
      * @var resource
      */
@@ -19,6 +18,16 @@ class CridonODBC
      * @var resource
      */
     protected $results;
+
+    /**
+     * @var array
+     */
+    public $erpNotaireList = array();
+
+    /**
+     * @var array
+     */
+    public $erpNotaireData = array();
 
     /**
      * @var mixed
@@ -50,19 +59,19 @@ class CridonODBC
      *
      * @return resource
      */
-    protected function connection()
+    function connection()
     {
         $conn = odbc_connect(
             "Driver=" . CONST_ODBC_DRIVER . ";
-				Server=" . CONST_ODBC_HOST . ";
-				Database=" . CONST_ODBC_DATABASE,
-            CONST_ODBC_USER,
-            CONST_ODBC_PASSWORD
+				Server=" . CONST_DB_HOST . ";
+				Database=" . CONST_DB_DATABASE,
+            CONST_DB_USER,
+            CONST_DB_PASSWORD
         );
 
         if (!$conn) {
             // send email
-            reportError(CONST_EMAIL_ERROR_SUBJECT, odbc_errormsg());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, odbc_errormsg());
         }
 
         return $conn;
@@ -78,11 +87,28 @@ class CridonODBC
     {
         $this->results = odbc_exec($this->conn, $sql);
 
-//        echo '<pre>' . $sql . '</pre><br>';
-//
-//        echo '<pre>' . var_dump(odbc_num_rows($this->results)) . '</pre><br>';
+        return $this;
+    }
 
-        return $this->results;
+    /**
+     * fetch ODBC Data
+     *
+     * @return array|false
+     */
+    public function fetchData()
+    {
+        return odbc_fetch_array($this->results);
+    }
+
+
+    /**
+     * Prepare OCI Data
+     *
+     * @return $this
+     */
+    public function countData()
+    {
+        return odbc_num_rows($this->results);
     }
 
     /**
