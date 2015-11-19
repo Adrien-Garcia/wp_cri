@@ -214,13 +214,25 @@
 					<span><?php _e('du CRIDON'); ?> </span>
 				</h2>
 				<?php 
-				$vie = criGetLatestPost('actu_cridon');
-				var_dump($vie);
+				$vie = criGetLatestPost('vie_cridon');
+				//var_dump($vie);
 			 ?>
+
+			 <?php // $vars = get_defined_vars(); 
+//$nomvar = array_keys($vars);
+			 
+
+			 	
+			  ?>
+
 			<?php if( $vie != null):?> 
-				<?php criWpPost($vie); ?>
+				<?php criWpPost($vie); //var_dump($post); ?>
+				<?php $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+
+				//var_dump($thumbnail_src);  ?>
 				<div class="actualite" id="sel-actu-cridon-home">
-					<?php the_post_thumbnail(array(480, 225)); ?>
+					<?php // the_post_thumbnail(array(480, 225)); ?>
+					<div class="img" style="background-image: url(<?php echo  $thumbnail_src[0] ?>);"></div>
 					<div class="date">
 						<span class="jour"><?php echo get_the_date( 'd') ?></span>
 						<span class="mois"><?php echo get_the_date( 'M') ?></span>

@@ -969,7 +969,7 @@ body.page-template-front-page{
 			}
 
 			.veille-juridique{				
-				margin-right: 30px;
+				margin-right: 30px; 
 
 				&:before{					
 					@include svgicon('icon-veille', 40px, 40px, $jaune-accueil);
@@ -999,7 +999,7 @@ body.page-template-front-page{
 		.row_04{
 			.actualite{				
 
-				>img{
+				.img{
 					height: 225px;
 					width: 480px;
 					float: left;
