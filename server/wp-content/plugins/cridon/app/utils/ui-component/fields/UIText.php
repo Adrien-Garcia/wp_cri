@@ -24,7 +24,8 @@ class UIText extends UIFields{
     }
     
     public function create(){
-        $id = ( empty( $this->getId() ) ) ? $this->getName() : $this->getId();
+        $parentId = $this->getId();
+        $id = ( empty( $parentId ) ) ? $this->getName() : $this->getId();
         $html = '<input type="text"';
         if( !empty( $this->placeholder ) ){
             $html .= ' placeholder="'.$this->placeholder.'"';

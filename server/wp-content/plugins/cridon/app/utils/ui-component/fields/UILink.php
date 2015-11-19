@@ -29,7 +29,8 @@ class UILink extends UIFields{
     
     public function create(){
         $href = ( empty($this->href ) ) ? '#' : $this->href;
-        $id = ( empty( $this->getId() ) ) ? $this->getName() : $this->getId();
+        $parentId = $this->getId();
+        $id = ( empty( $parentId ) ) ? $this->getName() : $this->getId();
         $html = '<a href="'.$href.'"';
         $html .= ' class="'.$this->getClass().'"';
         $html .= ' id="'.$id.'">';

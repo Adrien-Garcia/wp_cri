@@ -31,7 +31,8 @@ class UIList extends UIFields{
     }
     
     public function create(){
-        $id = ( empty( $this->getId() ) ) ? $this->getName() : $this->getId();
+        $parentId = $this->getId();
+        $id = ( empty( $parentId ) ) ? $this->getName() : $this->getId();
         $html = $this->start;
         $html .= ' class="'.$this->getClass().'"';
         $html .= ' id="'. $id .'">';
