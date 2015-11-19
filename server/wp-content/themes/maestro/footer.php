@@ -87,6 +87,9 @@
 						<?php else : ?>
 							<span class="class2 logoJP" title="Jetpulp">Jetpulp</span>
 						<?php endif; ?>
+						<a class="poser-question layer-posez-question_open" href="#">
+						<?php _e('Posez une question'); ?>
+					</a>
 
 					</div>
 				</div>

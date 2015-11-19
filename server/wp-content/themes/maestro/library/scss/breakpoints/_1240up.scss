@@ -181,7 +181,7 @@ HEADER STYLES
 	.block_top{
 		padding: 20px 20px 0 20px;
 		background: #FFF;
-		height: 623px;
+		//height: 623px;
 
 		> .titre{
 
@@ -249,11 +249,23 @@ HEADER STYLES
 
 			.consultation{				
 
-				#owl-support{					
+				#owl-support{
 
+					-webkit-perspective: 1000;
+						-webkit-transform-style: preserve-3d;
+						-moz-transform-style: preserve-3d;
+						transform-style: preserve-3d;
+
+					
 					.owl-item{
 						cursor: pointer;
-						@include transition(all 0.3s);
+						@include transition(top 0.3s);
+						
+						-webkit-perspective: 1000;
+						-webkit-transform-style: preserve-3d;
+						-moz-transform-style: preserve-3d;
+						transform-style: preserve-3d;
+
 
 						&:hover{
 
@@ -340,7 +352,6 @@ HEADER STYLES
 
 			.question{
 				padding-top: 60px;
-				float: left;
 				width: 100%;
 
 				.block_gauche{
@@ -384,6 +395,8 @@ HEADER STYLES
 					clear: inherit;
 					float: left;
 
+
+
 					/*clear: both;
 					border:solid 1px transparent;*/
 
@@ -391,7 +404,7 @@ HEADER STYLES
 						/*width: 100%;
 						padding-bottom: 20px;*/
 						margin-top: 0px;
-						margin-bottom: 40px;
+						//margin-bottom: 40px;
 
 						input[type="text"], textarea{							
 							margin-bottom: 15px;

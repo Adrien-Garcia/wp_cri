@@ -76,8 +76,9 @@
 
 						<input type="submit" name="Envoyer ma question" value="Envoyer ma question">
 					</div>
+					
 				</div>
-						
+					<div style=" clear:both; overflow:hidden; visibility:hidden; height:1px; display:block; margin:0;">&nbsp;</div>	
 			</div>
 		</div>
 		
