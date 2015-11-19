@@ -165,33 +165,20 @@ jQuery(document).ready(function($) {
 	});
 
 
-/*- Pannel connexion-*/
+/* POPUP OVERLAY*/
 
-$('#mdp_oublie').click(function(e){
-	$('#panel_connexion .pannel_01').toggleClass('active');
-	$('#panel_connexion .pannel_02').toggleClass('active');
-	
+$('#layer-posez-question').popup({
+	transition: 'all 0.3s',
+	scrolllock: true,
+	opacity: 0.99,
+	color: '#324968',
+	offsettop: 10,
+	vertical: top,
+	onopen: function() {
+		App.Question.owlCarouselInit();
+	}
+
 });
-$('#mdp_retour').click(function(e){
-	$('#panel_connexion .pannel_01').toggleClass('active');
-	$('#panel_connexion .pannel_02').toggleClass('active');
-	
-});
-
-/* Zone cliquable */
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

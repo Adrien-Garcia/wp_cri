@@ -159,6 +159,401 @@ HEADER STYLES
 }
 
 
+/****
+
+  _        _ __   _______ ____    ____   ___  ____  _____ _____  _   _ _   _ _____    ___  _   _ _____ ____ _____ ___ ___  _   _ 
+ | |      / \\ \ / / ____|  _ \  |  _ \ / _ \/ ___|| ____|__  / | | | | \ | | ____|  / _ \| | | | ____/ ___|_   _|_ _/ _ \| \ | |
+ | |     / _ \\ V /|  _| | |_) | | |_) | | | \___ \|  _|   / /  | | | |  \| |  _|   | | | | | | |  _| \___ \ | |  | | | | |  \| |
+ | |___ / ___ \| | | |___|  _ <  |  __/| |_| |___) | |___ / /_  | |_| | |\  | |___  | |_| | |_| | |___ ___) || |  | | |_| | |\  |
+ |_____/_/   \_\_| |_____|_| \_\ |_|    \___/|____/|_____/____|  \___/|_| \_|_____|  \__\_\\___/|_____|____/ |_| |___\___/|_| \_|
+                                                                                                                                 
+
+*/
+
+
+#layer-posez-question{
+	
+	width: 1200px;
+	max-width: 1200px;
+	margin:0 auto;
+	padding: 0;
+
+	.block_top{
+		padding: 20px 20px 0 20px;
+		background: #FFF;
+		//height: 623px;
+
+		> .titre{
+
+			height: 80px;
+			line-height: 80px;
+
+
+			.close_layer{				
+				right: 30px;
+				cursor: pointer;
+				cursor: pointer;
+				
+				&:before{
+					@include svgicon('icon-close-layer-question', 36px, 36px, #FFF);					
+					top: 3px;
+					left: 3px;
+				}
+
+				&:hover{
+					&:before{
+						@include svgicon('icon-close-layer-question', 36px, 36px, $bleu);
+						font-weight: 700;
+					}
+				}
+
+				
+
+			}
+
+			.texte{	
+				height: 80px;
+				line-height: 80px;		
+				font-size: 50px;	
+				padding-left: 70px;
+    			margin-left: 30px;
+
+				&:before{
+					@include svgicon('icon-consulter', 45px, 45px, #FFFFFF); 
+					margin-top: -23px;
+				}
+
+			}
+			
+		}
+
+		.onglets{
+			
+			width: 1100px;
+			margin-left: 30px;
+
+			h2{
+				//width: 50%;				
+				font-size: 30px;
+				height: 120px; 
+				line-height: 120px;
+			}
+
+			
+		}
+
+		.details{
+			
+			width: 1100px;
+			padding-bottom: 50px;
+
+			.consultation{				
+
+				#owl-support{
+
+					-webkit-perspective: 1000;
+						-webkit-transform-style: preserve-3d;
+						-moz-transform-style: preserve-3d;
+						transform-style: preserve-3d;
+
+					
+					.owl-item{
+						cursor: pointer;
+						@include transition(top 0.3s);
+						
+						-webkit-perspective: 1000;
+						-webkit-transform-style: preserve-3d;
+						-moz-transform-style: preserve-3d;
+						transform-style: preserve-3d;
+
+
+						&:hover{
+
+							.label{
+								background: $vert;
+
+								&:before{
+									@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
+								}
+							}
+
+							.item{
+
+								&:before{
+									top: -170px;
+
+								}
+
+
+							}
+
+							&:last-child{
+								.item:before{
+									top: -140px;
+								}
+
+							}
+						}
+						
+
+						.item{
+							
+							width: 330px;
+
+							&:before{								
+								@include transition(all 0.5s);
+							}
+
+							&:last-child{
+								margin-right: 0; 
+							}
+
+						}
+
+						a{
+							
+							font-size: 20px;
+							@include transition(all 0.3s);
+
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
+								position: absolute;
+								left: 50%;
+								margin-left: -24px;
+								bottom:-15px;
+
+								@include transition(all 0.3s);
+							}
+
+						}
+
+						.description{							
+							text-align: justify;
+						}
+
+						&:nth-child(2){
+
+							.item{
+								margin:0 auto;
+							}
+						}
+
+						&:nth-child(3){
+							.item{
+								float: right;
+							}							
+						}
+
+					}
+
+				}				
+
+			}
+
+			.question{
+				padding-top: 60px;
+				width: 100%;
+
+				.block_gauche{
+					display: block;
+					width: 350px;
+					float: left;
+					margin-right: 40px;
+					padding-bottom: 20px;
+
+					.img{
+
+						background: url(../images/img-layer-posez-question.jpg) center center no-repeat;
+						background-size: cover;
+						width: 350px;
+						height: 204px; 
+					}
+
+					.titre{
+						font-size: 30px;
+						line-height: 30px;
+						color:$vj_02;
+						text-transform: uppercase;
+						@extend .do-me;
+						margin: 30px 0;
+						display: inline-block;
+
+					}
+
+					>p{
+						font-family: $garamond;
+						font-size: 20px; 
+						color:$rouge;
+						line-height: 24px;
+						margin: 0;
+					}
+					
+				}
+
+				.block_droit{
+					width: 710px;
+					clear: inherit;
+					float: left;
+
+
+
+					/*clear: both;
+					border:solid 1px transparent;*/
+
+					.form{
+						/*width: 100%;
+						padding-bottom: 20px;*/
+						margin-top: 0px;
+						//margin-bottom: 40px;
+
+						input[type="text"], textarea{							
+							margin-bottom: 15px;
+
+
+						}
+
+						select{							
+							margin-bottom: 15px;
+						}
+
+						input[type="submit"]{
+
+							margin-bottom: 0;
+							@include transition(all 0.3s);
+
+							&:hover{
+
+								color:$vert;
+								background: transparent;
+
+							}
+						}
+
+						input[type="file"]{
+							
+						}
+
+						.fileUpload {
+						 
+
+						}
+						.fileUpload input.upload {						  
+						}
+
+						.sep{							
+
+						}
+
+						
+					}
+				}
+
+			}		
+			
+			
+		}
+
+		
+
+	}
+
+	.block_bottom{
+		padding: 60px 50px 20px 50px;
+		height: 450px;	
+
+
+		.block_03{
+
+			width: 100%;
+
+
+			.block {
+				width: 330px;
+				height: 340px;
+				margin-right: 50px;
+
+				&:nth-child(3){ margin-right: 0;} 
+
+
+				&:hover {
+					.content {
+						&, &:before, &:after {
+							height: 270px;
+							background-position: 0 100%;
+						}
+					}
+				}
+
+
+				.content{
+					height: 150px;
+
+					&:before, &:after{
+						content: '';
+						width: calc(100% / 2);
+						position: absolute;
+						top: 0;
+						display: block;
+						height: 146px;
+						transition: height $duration ease, background $duration ease;
+						border:none;
+						box-sizing: border-box;
+
+						background: $vert;
+						@include gradient-opacity(transparentize($vert, 0.4),opacify($vert, 1));
+						background-size: 100% 200%;
+
+					}
+
+					&:before{
+						
+						@include border-radius(0 20px 0 0);
+						left: 0;
+					}
+
+					&:after{
+
+						@include border-radius(20px 0 0 0);
+						right: 0;
+
+
+					}
+
+										
+					h2{ 
+						font-size: 50px;
+						line-height: 45px;
+						margin-top: 30px;
+
+						span{
+							font-size: 28px;
+							line-height: 30px;
+
+						}
+
+						&:before{
+						}
+					}
+
+					> a{
+					}
+				}
+
+				
+			}
+
+			
+			
+		}
+
+		
+
+	}
+
+	
+}
+
+
 
 
 
@@ -302,13 +697,18 @@ body.page-template-front-page{
 							line-height: 10px;							
 						}
 					}
+
 					&:hover {
 						.content {
 							&, &:before, &:after {
 								height: 270px;
 								background-position: 0 100%;
 							}
+
+							> a{ font-weight: 700;} 
 						}
+
+						
 					}
 				}
 
@@ -317,7 +717,7 @@ body.page-template-front-page{
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-consulter', 40px, 40px, #FFFFFF);					
+						@include svgicon('icon-consulter', 40px, 40px, #FFFFFF);		 			
 						position:absolute;
 						top:-55px;
 						left:calc( 50% - 22px ); 
@@ -342,10 +742,10 @@ body.page-template-front-page{
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-veille-juridique', 40px, 40px, #FFFFFF);					
+						@include svgicon('icon-veille-juridique', 30px, 30px, #FFFFFF);					
 						position:absolute;
-						top:-55px;
-						left:calc( 50% - 35px ); 
+						top:-50px;
+						left:calc( 50% - 26px ); 
 					}
 					
 				}
@@ -782,6 +1182,7 @@ body.page-template-front-page{
 							.chapeau{
 								font-size: 20px;
 								line-height: 24px;
+								margin-bottom: 20px;
 
 							}
 
@@ -836,8 +1237,198 @@ body.page-template-front-page{
 
 
 
+/***
 
-#content.page, #content.archive{
+  ____ ___ _   _  ____ _     _____  __     _______ ___ _     _     _____ ____  
+ / ___|_ _| \ | |/ ___| |   | ____| \ \   / / ____|_ _| |   | |   | ____/ ___| 
+ \___ \| ||  \| | |  _| |   |  _|    \ \ / /|  _|  | || |   | |   |  _| \___ \ 
+  ___) | || |\  | |_| | |___| |___    \ V / | |___ | || |___| |___| |___ ___) |
+ |____/___|_| \_|\____|_____|_____|    \_/  |_____|___|_____|_____|_____|____/ 
+                                                                               
+
+
+***/
+
+
+#content.single-veilles{
+
+
+	#inner-content{
+		.titre {
+			height: auto;
+			
+			span{
+				margin-top: 34px;
+			}
+		}
+
+		.sep{
+			margin-top: 38px;
+		}
+
+
+		article{
+
+			padding-top: 20px;
+			
+
+			.date-veille{	
+
+				height: 220px;
+				width: 180px;
+				float: left;
+				margin-right: 60px;
+				padding: 50px 0;
+				margin-bottom: 0;
+
+				
+
+				&:before{
+					display: none;
+
+				}
+
+				&:after{
+					@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
+					position:absolute;
+					bottom: 50%;
+					margin-bottom: -23px;
+					left: inherit;
+					right: -13px;
+					margin-left: 0px;
+					display: block;
+
+				}
+
+				span{
+					display: block;
+
+				}
+
+				span.jour{
+					font-size: 72px;
+					line-height: 60px;
+					@extend .do-el;
+				}
+				.mois{
+					font-size: 30px;
+					line-height: 40px;
+
+				}
+				.annee{
+					font-size: 18px;
+					line-height: 15px;
+				}
+			}
+
+
+			.details{
+
+
+				float: right;
+				width: 730px; 
+				margin-right: 220px;
+
+				.block_left{
+					width: 90px;
+					min-height: 90px;
+					margin-right: 10px;	
+
+					.img-cat{
+
+						width: 90px;	
+						height: 90px;
+								
+						img{
+							width: 90px;
+							height: 90px;
+						}
+					}
+
+				}
+
+
+				.block_right{
+					float: left;
+					width: 610px;
+					position: relative;
+
+					.matiere{
+						font-size: 15px;
+						margin-bottom: 5px;
+						top: -2px;
+						
+					} 
+
+					h1{ 
+						
+						font-size: 30px;
+						line-height: 30px;
+
+					}
+
+					.chapeau{
+						font-size: 20px;
+						line-height: 24px;
+						margin-bottom: 20px;
+
+					}
+
+					.extrait{
+						font-size: 15px;
+						
+					}	
+					
+
+				}
+
+				.block_full{
+					clear: none;
+					float: right;
+					width: 630px;
+					
+
+					.content{
+						font-size: 15px;
+						line-height: 18px;
+
+					    h2, h3{
+					    	font-size: 20px;
+					    	line-height: 20px;	}
+					    
+				    	h3{margin-left: 40px;}					    
+
+					    h3 + p { margin-left: 40px;}
+
+					    
+					}
+					
+					.mots_cles{
+
+						margin:40px 0 0 0; 
+						padding: 0;
+						height: 18px;
+
+						>li{		
+						font-size: 12px;
+							
+						}
+					}
+				}
+			}
+
+		}
+		
+	}
+
+}
+
+
+
+
+
+
+#content.page, #content.archive, #content.single{
 	padding-top: 180px;
 
 	.breadcrumbs{
@@ -849,7 +1440,7 @@ body.page-template-front-page{
 		#inner-content{
 
 
-			h1{
+			.h1{
 				
 				margin: 0 0 70px 0; 
 			}
@@ -981,6 +1572,172 @@ body.page-template-front-page{
 						
 
 					}
+
+
+					/**********************
+					     QUESTIONS
+					*/
+					div#mes-questions{
+
+						ul{
+							
+
+							li{
+								
+
+								p{ 
+									font-size: 18px;
+									line-height: 20px;
+									height: 40px;
+								}
+
+								span{ font-size: 18px;}
+
+								.date{
+									position: relative;
+									left: 0;
+									font-size: 18px;
+									font-weight: 400;
+
+									font-family: helvetica !important;
+									margin-bottom: 10px; 
+									display: block;
+								}
+
+								.matiere{
+								 font-size: 15px;
+								 line-height: 17px;
+								 padding: 0 5px;
+								}
+
+								.id-question{
+
+									text-transform: uppercase;
+								}
+
+								.answer{
+									padding-left: 35px;	
+									margin-bottom: 20px;
+									
+									&:before{
+										@include svgicon('icon-status-repondu', 24px, 24px, $vert);
+										margin-top: -12px;
+									}
+								}
+
+								.status{	
+									
+									padding-left: 35px;			
+
+									&:before{
+										@include svgicon('icon-clock', 24px, 24px, $bleu);
+										margin-top: -12px;
+									}
+								}
+
+								.person{ font-size: 18px; padding-left: 35px;}
+
+								
+
+							}
+
+						}
+
+						#questions-attentes, #historique-questions{	
+
+							>ul{
+								
+
+								> li{
+
+									padding-bottom: 20px;
+									border-bottom:solid 4px #e6e6e6;
+									margin-bottom: 30px;
+
+									&:last-child{
+										margin-bottom: 30px;
+									}
+
+									>ul{										
+
+										> li{
+											
+											float: left;
+											display: table-cell;
+											padding-right: 20px;
+
+										}
+
+										>li:first-child{
+											width: 30px;
+											float: left;
+											margin-right: 10px;
+											padding-right: 0;
+
+											>img{ width: 30px; height: 30px;}
+										}
+
+										> li:nth-child(2), > li:nth-child(3), > li:nth-child(6){
+											float: left;
+											width:inherit;
+										}
+
+										
+
+										> li:nth-child(4), > li:nth-child(5){
+											float: left;
+											
+											margin-left: 0;
+											text-align: left; 
+
+											span{ display: inline-block; width: 100%;}
+										}
+
+										> li:nth-child(2){
+											padding-top: 0px;
+											width: 510px; 
+											margin-bottom: 0;
+										}
+
+										> li:nth-child(3){
+											width: 280px;
+
+											span{
+												display:block; 
+											}
+										}
+
+										> li:nth-child(4){
+											width: 130px; 
+										}
+
+										> li:nth-child(5){
+											width: 110px;
+										}
+
+										> li:nth-child(6){
+											width: 130px;
+											padding-right: 0;
+											
+										}
+									}
+
+								}
+							}
+						}
+
+						#questions-attentes{
+							margin-bottom: 40px; 
+							float: left;
+						}
+
+						
+					}
+					
+
+
+
+
 
 					div#mon-profil{
 

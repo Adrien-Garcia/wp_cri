@@ -12,7 +12,7 @@
 		<div id="main" class="cf" role="main">
 			<div id="inner-content" class="wrap cf">
 
-				<h1>Veille juridique</h1>
+				<h1 class="h1">Veille juridique</h1>
 
 				<div id="filtres_veilles">					
 				</div>
@@ -24,7 +24,7 @@
 					foreach ($objects as $key => $veille) :
 				 ?>
 
-				<?php criWpPost($veille) ?>
+				<?php criWpPost($veille); ?>
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
 						<?php 

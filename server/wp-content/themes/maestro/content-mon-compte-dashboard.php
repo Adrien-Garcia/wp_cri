@@ -1,5 +1,5 @@
 <div class="mon-solde">
-	<h2>Mon solde</h2>
+	<h2><?php _e('Mon solde'); ?></h2>
 
 	<div class="solde-pts">
 		<svg version="1.1" id="solde-circle" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="326px" height="326px" viewBox="0 0 326 326" enable-background="new 0 0 326 326" xml:space="preserve">
@@ -27,23 +27,23 @@
 	<div class="consomation">
 		<div class="pts">
 			<span class="pts">16</span>
-			<span class="texte">points consommés</span>
+			<span class="texte"><?php _e('points consommés'); ?></span>
 			<span class="date">au <?php echo date("j.m.Y") ?></span>
 		</div>							
 	</div>
 
 	<div class="appel-courrier">
 		<div class="appel">
-			<span>6</span> appels								
+			<span>6</span> <?php _e('appels'); ?>								
 		</div>
 		<div class="courrier">
-			<span>10</span> courriers								
+			<span>10</span> <?php _e('courriers'); ?>								
 		</div>
 	</div>
 
 	
 </div>
 <div class="mes-questions">
-	<h2>Mes dernières questions</h2>
+	<h2><?php _e('Mes dernières questions'); ?></h2>
 </div>
 

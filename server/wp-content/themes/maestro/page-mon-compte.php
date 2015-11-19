@@ -29,10 +29,10 @@
 						</div>
 
 					</li>
-					<li class="js-account-questions js-account-blocs <?php echo ($onglet == 2) ? " active " : ""?>">
+					<li class="js-account-questions js-account-blocs   <?php echo ($onglet == 2) ? " active " : ""?>" >
 						<div class="bt js-account-questions-button">Mes Questions</div>
 						<div id="mes-questions" class="pannel">	
-							<h2> PROCHAINEMENT </h2>
+							<?php echo get_template_part("content","mon-compte-questions"); ?>
 						</div>
 					</li>
 					<li class="js-account-profil js-account-blocs <?php echo ($onglet == 3) ? " active " : ""?>">
@@ -41,12 +41,14 @@
 							<?php echo get_template_part("content","mon-compte-profil"); ?>
 						</div>
 					</li>
+					<?php if (CriCanAccessFinance()): ?>
 					<li class="js-account-facturation js-account-blocs <?php echo ($onglet == 4) ? " active " : ""?>">
 						<div class="bt js-account-facturation-button">Règles de facturation</div>
 						<div id="regles-facturation" class="pannel">
 							<h2> PROCHAINEMENT </h2>			
 						</div>
-					</li>
+					</li>				
+					<?php endif ?>
 				</ul>
 
 			</div>

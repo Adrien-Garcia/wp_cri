@@ -67,7 +67,7 @@
 				<div class="footer-bottom">
 					<div id="inner-footer" class="wrap cf">
 
-						<p class="source-org copyright"> <b>Cridon</b> <span>Grand Est</span> copyright &copy; <?php echo date('Y'); ?></p>
+						<p class="source-org copyright"> <b>Cridon</b> <span>Lyon</span> copyright &copy; <?php echo date('Y'); ?></p>
 
 						<nav role="navigation">
 
@@ -85,8 +85,11 @@
 						<?php if( is_front_page() ) : ?> 
 							<a href="http://www.jetpulp.fr" class="class2 logoJP" title="Jetpulp" target="_blank">Jetpulp</a>
 						<?php else : ?>
-							<span class="class2 logoJP" title="Jetpulp"></span>
+							<span class="class2 logoJP" title="Jetpulp">Jetpulp</span>
 						<?php endif; ?>
+						<a class="poser-question layer-posez-question_open" href="#">
+						<?php _e('Posez une question'); ?>
+					</a>
 
 					</div>
 				</div>

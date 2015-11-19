@@ -177,7 +177,7 @@ if ( !defined( 'CONST_IMPORT_OPTION' ) ) {
 
 // login
 if ( !defined( 'CONST_LOGIN_ERROR_MSG' ) ) {
-    define( 'CONST_LOGIN_ERROR_MSG', 'Les informations de connexion sont incorrectes. En cas d\'erreurs répétées, nous vous invitons à contacter le Cridon de Lyon afin de recevoir vos identifiants' );
+    define( 'CONST_LOGIN_ERROR_MSG', 'Les informations de connexion sont incorrectes. En cas d\'erreurs répétées, nous vous invitons à contacter le CRIDON LYON afin de recevoir vos identifiants' );
 }
 if ( !defined( 'CONST_LOGIN_EMPTY_ERROR_MSG' ) ) {
     define( 'CONST_LOGIN_EMPTY_ERROR_MSG', 'Merci de bien remplir votre identifiant et mot de passe !' );
@@ -201,7 +201,7 @@ if ( !defined( 'DEFAULT_POST_PER_PAGE' ) ) {
 
 // lost password
 if ( !defined( 'CONST_INVALIDEMAIL_ERROR_MSG' ) ) {
-    define( 'CONST_INVALIDEMAIL_ERROR_MSG', 'Vous ne pouvez pas récupérer votre mot de passe. Merci de contacter CRIDON' );
+    define( 'CONST_INVALIDEMAIL_ERROR_MSG', 'Vous ne pouvez pas récupérer votre mot de passe. Merci de contacter CRIDON LYON' );
 }
 if ( !defined( 'CONST_RECOVPASS_SUCCESS_MSG' ) ) {
     define( 'CONST_RECOVPASS_SUCCESS_MSG', 'Votre mot de passe veint d\'être envoyé sur votre adresse email.' );
@@ -226,7 +226,7 @@ if ( !defined( 'CONST_EMAIL_SUBJECT' ) ) {
 }
 // do not remove "%s" : it uses to inject password value into the mail content
 if ( !defined( 'CONST_EMAIL_CONTENT' ) ) {
-    define( 'CONST_EMAIL_CONTENT', 'Votre mot de passe pour accèder à l\'espace privé du site de Cridon est : %s' );
+    define( 'CONST_EMAIL_CONTENT', 'Votre mot de passe pour accèder à l\'espace privé du site de CRIDON LYON est : %s' );
 }
 
 // email sender adress and name
