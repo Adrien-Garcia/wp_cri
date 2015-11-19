@@ -350,7 +350,7 @@ if ( !defined( 'CONST_QUESTION_FILE_SIZE_ERROR' ) ) {
 if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
     define( 'DEFAULT_QUESTION_PER_PAGE', 10 );
 }
-}
+
 
 // import Question
 if ( !defined( 'CONST_ODBC_TABLE_QUEST' ) ) {
