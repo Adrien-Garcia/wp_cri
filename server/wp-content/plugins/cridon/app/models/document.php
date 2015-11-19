@@ -76,6 +76,37 @@ class Document extends MvcModel {
 
                     // question exist
                     if ($question->id) {
+                        //Recherche de l'existance d'un document lié à la question
+                        // recuperation id question par numero
+                        $options               = array();
+                        $options['attributes'] = array('id,cab','file_path');
+                        $options['model']      = 'document';
+                        $options['conditions'] = ' id_externe = ' . $question->id . ' AND type="question"';
+
+                        // document associé
+                        $docs = $this->queryBuilder->find($options);
+                        /*
+                         * Type d'action à effectué
+                         * 1 : insertion de nouveau document
+                         * 2 : insertion de nouveau document suite/complément
+                         * 3 : mise à jour du document
+                         */
+                        $typeAction = 1;//ajout simple
+                        $cabs = array();//tableau contenant les CAB des docs en base
+                        $filepaths = array();//tableau contenant les chemins des docs en base
+                        foreach ( $docs as $doc ){
+                            $cabs[$doc->id] = $doc->cab;
+                            $filepaths[$doc->id] = $doc->file_path;
+                        }                        
+                        $cabs = array_unique($cabs);
+                        //Si le CAB existe dans csv
+                        if( !empty($contents[CridonGedParser::INDEX_VALCAB]) ){
+                            if( in_array( $contents[CridonGedParser::INDEX_VALCAB],$cabs ) ){
+                                $typeAction = 3;
+                            }else{
+                                $typeAction = 2;
+                            }
+                        }
                         // copy document dans Site
                         $uploadDir = wp_upload_dir();
                         $path      = $uploadDir['basedir'] . '/questions/' . $question->id . '/';
@@ -93,11 +124,27 @@ class Document extends MvcModel {
                                     'date_modified' => date('Y-m-d H:i:s'),
                                     'type'          => 'question',
                                     'id_externe'    => $question->id,
+                                    'name'          => $contents[CridonGedParser::INDEX_NOMFICHIER],
+                                    'cab'           => $contents[CridonGedParser::INDEX_VALCAB]
                                 )
                             );
-
-                            // insertion
-                            $documentId = mvc_model('Document')->create($docData);
+                            //Document suite/complément
+                            if( $typeAction == 2 ){
+                                $docData['Document']['label'] = 'suite/complément';
+                            }
+                            if( $typeAction != 3 ){
+                                // insertion
+                                $documentId = mvc_model('Document')->create($docData);                                
+                            }else{
+                                //mise à jour
+                                $documentId = array_search($contents[CridonGedParser::INDEX_VALCAB], $cabs);
+                                $docData['Document']['id'] = $documentId;
+                                if( mvc_model('Document')->save($docData) ){
+                                    if( isset($filepaths[$documentId]) && file_exists($uploadDir['basedir'].$filepaths[$documentId])){
+                                        unlink( $uploadDir['basedir'].$filepaths[$documentId] );
+                                    }
+                                }
+                            }
 
                             // maj download_url
                             $docData = array(
@@ -145,5 +192,5 @@ class Document extends MvcModel {
             $message = sprintf(CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG, date('d/m/Y à H:i'));
             reportError($message, '');
         }
-    }
+    }    
 }
