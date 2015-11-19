@@ -192,7 +192,7 @@ class Question extends MvcModel
         $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, treated, creation_date, date_modif, ';
         $options['attributes'] .= 'hour_modif, transmis_erp, confidential';
 
-        while ($data = odbc_fetch_array($this->results)) {
+        while ($data = $adapter->fetchData()) {
 
             if (isset( $data[$adapter::QUEST_SREBPC] ) && intval($data[$adapter::QUEST_SREBPC]) > 0) { // valid client_number
                 // unique key "client_number + num question"

@@ -1,27 +1,22 @@
 <?php
-
 /**
- * Description of cridon.question.odbcadapter.lib.php
- *
- * @package wp_cridon
- * @author eTech
- * @contributor Joelio
+ * Created by PhpStorm.
+ * User: valbert
+ * Date: 19/11/2015
+ * Time: 19:29
  */
 
-require_once 'cridon.odbcadapter.lib.php';
-
-class CridonQuestionODBCAdapter extends CridonODBCAdapter
+class CridonNotaireODBCAdapter extends CridonODBCAdapter
 {
-    
     /**
      * @var array
      */
-    public $erpQuestList = array();
+    public $erpNotaireList = array();
 
     /**
      * @var array
      */
-    public $erpQuestData = array();
+    public $erpNotaireData = array();
 
     /**
      * Get instance
@@ -39,13 +34,12 @@ class CridonQuestionODBCAdapter extends CridonODBCAdapter
     }
 
     /**
-     * fetch ODBC Data
+     * fetch Data
      *
-     * @return array|false
+     * @return $this
      */
     public function fetchData()
     {
         return odbc_fetch_array($this->results);
     }
-
 }

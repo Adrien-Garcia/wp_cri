@@ -190,7 +190,7 @@ class Notaire extends MvcModel
                     $this->importFromCsvFile();
                     break;
                 case self::IMPORT_ODBC_OPTION:
-                    $this->adapter = CridonODBCAdapter::getInstance();
+                    $this->adapter = CridonNotaireODBCAdapter::getInstance();
                 case self::IMPORT_OCI_OPTION:
                     //if case above did not match, set OCI
                     $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
@@ -286,15 +286,24 @@ class Notaire extends MvcModel
         try {
             // query
             $sql = 'SELECT * FROM ' . CONST_DB_TABLE_NOTAIRE;
-
+            $adapter = $this->adapter;
             // exec query
-            $this->adapter->getResults($sql);
+            $adapter->getResults($sql);
 
             // prepare data
-            $this->adapter->prepareData();
+            while ($data = $adapter->fetchData()) {
+                if (isset( $data[$adapter::NOTAIRE_CRPCEN] ) && intval($data[$adapter::NOTAIRE_CRPCEN]) > 0) { // valid login
+                    // the only unique key available is the "crpcen + web_password"
+                    $uniqueKey = intval($data[$adapter::NOTAIRE_CRPCEN]) . $data[$adapter::NOTAIRE_PWDWEB];
+                    array_push($this->erpNotaireList, $uniqueKey);
 
-            $this->erpNotaireList = $this->adapter->erpNotaireList;
-            $this->erpNotaireData = $this->adapter->erpNotaireData;
+                    // notaire data filter
+                    $this->erpNotaireData[$uniqueKey] = $data;
+                }
+            }
+
+            $this->erpNotaireList = $adapter->erpNotaireList;
+            $this->erpNotaireData = $adapter->erpNotaireData;
 
             // set list of existing notaire
             $this->setSiteNotaireList();
@@ -303,7 +312,7 @@ class Notaire extends MvcModel
             $this->manageNotaireData();
 
             // Close Connection
-            $this->adapter->closeConnection();
+            $adapter->closeConnection();
 
         } catch (\Exception $e) {
             // write into logfile
