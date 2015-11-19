@@ -344,6 +344,13 @@ interface DBConnect
     function fetchData();
 
     /**
+     * Prepare count Data that can be retrieved
+     *
+     * @return $this
+     */
+    function countData();
+
+    /**
      * Close the connection
      */
     public function closeConnection();

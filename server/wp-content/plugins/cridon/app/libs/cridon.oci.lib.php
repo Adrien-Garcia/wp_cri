@@ -111,13 +111,23 @@ class CridonOCIAdapter implements DBConnect
     }
 
     /**
-     * Prepare ODBC Data
+     * Prepare OCI Data
      *
      * @return $this
      */
     public function fetchData()
     {
         return oci_fetch_array($this->statementId);
+    }
+
+    /**
+     * Prepare count Data that can be retrieved
+     *
+     * @return $this
+     */
+    public function countData()
+    {
+        return oci_num_rows($this->statementId);
     }
 
     /**

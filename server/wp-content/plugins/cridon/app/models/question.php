@@ -5,6 +5,15 @@
  */
 class Question extends MvcModel
 {
+    /**
+     * @var string
+     */
+    const IMPORT_ODBC_OPTION = 'odbc';
+
+    /**
+     * @var string
+     */
+    const IMPORT_OCI_OPTION = 'oci';
 
     var $display_field = 'srenum';
     var $table         = '{prefix}question';
@@ -55,6 +64,11 @@ class Question extends MvcModel
     protected $results;
 
     /**
+     * @var bool
+     */
+    protected $end = false;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -70,12 +84,20 @@ class Question extends MvcModel
         // init flag
         $i = 1;
         // set adapter
-        $this->adapter = CridonQuestionODBCAdapter::getInstance();
+        switch (strtolower(CONST_IMPORT_OPTION)) {
+            case self::IMPORT_ODBC_OPTION:
+                $this->adapter = CridonODBCAdapter::getInstance();
+                break;
+            case self::IMPORT_OCI_OPTION:
+                //if case above did not match, set OCI
+                $this->adapter = CridonOCIAdapter::getInstance();
+                break;
+        }
         $this->setSiteQuestList();
         // nb items
         $this->getNbItems();
         // import action
-        $this->importIntialData($i);
+        $this->importInitialData($i);
     }
 
     /**
@@ -99,7 +121,7 @@ class Question extends MvcModel
                 // exec query
                 $this->results = $this->adapter->getResults($sql);
 
-                $this->nbItems = odbc_num_rows($this->results);
+                $this->nbItems = $this->adapter->countData();
             }
         } catch (\Exception $e) {
             // send email
@@ -112,7 +134,7 @@ class Question extends MvcModel
      *
      * @param int $i
      */
-    protected function importIntialData($i)
+    protected function importInitialData($i)
     {
         try {
             // increase memory limit
@@ -124,8 +146,8 @@ class Question extends MvcModel
             // set max limit
             $limitMax = intval($this->nbItems / self::CONST_LIMIT) + 1;
 
-            // repeat action until limit max
-            if ($i <= $limitMax) {
+            // repeat action until limit max OR the end is reached
+            if ($i <= $limitMax && !$this->end) {
                 // query
                 $sql = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST;
                 // filter by list of supports if necessary
@@ -143,7 +165,7 @@ class Question extends MvcModel
                 $i ++;
 
                 // call import action
-                $this->importIntialData($i);
+                $this->importInitialData($i);
 
             } else {
                 // Close Connection
@@ -272,6 +294,8 @@ class Question extends MvcModel
             $options['values'] = implode(', ', $insertValues);
             // bulk insert
             $queryBulder->insertMultiRows($options);
+        } else {
+            $this->end = true; // stop the import
         }
     }
 }

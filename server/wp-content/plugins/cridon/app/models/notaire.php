@@ -190,7 +190,7 @@ class Notaire extends MvcModel
                     $this->importFromCsvFile();
                     break;
                 case self::IMPORT_ODBC_OPTION:
-                    $this->adapter = CridonNotaireODBCAdapter::getInstance();
+                    $this->adapter = CridonODBCAdapter::getInstance();
                 case self::IMPORT_OCI_OPTION:
                     //if case above did not match, set OCI
                     $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;

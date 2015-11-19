@@ -7,7 +7,7 @@
  * @author eTech
  * @contributor Joelio
  */
-abstract class CridonODBCAdapter implements DBConnect
+class CridonODBCAdapter implements DBConnect
 {
     /**
      * @var resource
@@ -20,6 +20,16 @@ abstract class CridonODBCAdapter implements DBConnect
     protected $results;
 
     /**
+     * @var array
+     */
+    public $erpNotaireList = array();
+
+    /**
+     * @var array
+     */
+    public $erpNotaireData = array();
+
+    /**
      * @var mixed
      */
     protected static $instance;
@@ -29,7 +39,21 @@ abstract class CridonODBCAdapter implements DBConnect
         $this->conn = $this->connection();
     }
 
-    abstract public static function getInstance();
+    /**
+     * Get instance
+     *
+     * @return CridonODBCAdapter|mixed
+     */
+    public static function getInstance()
+    {
+        if (!isset(self::$instance))
+        {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
+    }
+
     /**
      * ODBC Connexion
      *
@@ -71,7 +95,21 @@ abstract class CridonODBCAdapter implements DBConnect
      *
      * @return array|false
      */
-    abstract public function fetchData();
+    public function fetchData()
+    {
+        return odbc_fetch_array($this->results);
+    }
+
+
+    /**
+     * Prepare OCI Data
+     *
+     * @return $this
+     */
+    public function countData()
+    {
+        return odbc_num_rows($this->results);
+    }
 
     /**
      * Close the connection
