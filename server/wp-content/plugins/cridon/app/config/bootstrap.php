@@ -594,9 +594,11 @@ function writeLog($variable, $log_file = 'log.txt', $backtrace = 0) {
 
     $sLogMsg = "------------[" . date("Y-m-d H:i:s") . "]-------------------\n{$message}\n";
 
-    $handle = @fopen($log_file, "a+");
+    $log_file = CONST_LOG_ERROR_DIR.DIRECTORY_SEPARATOR.$log_file;
+
+    $handle = fopen($log_file, "a+");
     if($handle) {
-        @fwrite($handle, $sLogMsg);
-        @fclose($handle);
+        fwrite($handle, $sLogMsg);
+        fclose($handle);
     }
 }

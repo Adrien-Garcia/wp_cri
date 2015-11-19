@@ -396,6 +396,11 @@ if ( !defined( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG' ) ) {
 if ( !defined( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG', 'Import GED du %s : aucune question n\'est associée au document suivant "%s"' );
 }
+
+if (!defined('CONST_CONNECTION_FAILED')) {
+    define('CONST_CONNECTION_FAILED', 'La connexion à la base Oracle a échoué');
+}
+
 // Log file
 if ( !defined( 'CONST_LOG_ERROR_DIR' ) ) {
     $logDir = WP_PLUGIN_DIR . '/cridon/logs';

@@ -84,8 +84,10 @@ class CridonOCIAdapter implements DBConnect
 )";
         $conn = oci_connect(CONST_DB_USER, CONST_DB_PASSWORD, $conf);
 
-        if (!$conn) {
+        if (!$conn || !is_resource($conn)) {
             $error = oci_error();
+            $error = empty($error) ? CONST_CONNECTION_FAILED : $error;
+            writeLog($error, 'connexion.log');
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $error['message']);
             throw new Exception($error['message'], $error['code']);
         }
