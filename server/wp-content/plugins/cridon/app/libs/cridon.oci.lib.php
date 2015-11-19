@@ -28,6 +28,11 @@ class CridonOCIAdapter implements DBConnect
     /**
      * @var resource
      */
+    protected $statementId;
+
+    /**
+     * @var resource
+     */
     protected $results;
 
     /**
@@ -97,8 +102,8 @@ class CridonOCIAdapter implements DBConnect
     public function getResults($sql)
     {
         //parse and prepare query
-        $query = oci_parse($this->conn, $sql);
-        oci_execute($query);
+        $this->statementId = oci_parse($this->conn, $sql);
+        oci_execute($this->statementId);
 
         return $this;
     }
@@ -110,7 +115,7 @@ class CridonOCIAdapter implements DBConnect
      */
     public function prepareData()
     {
-        while ($data = oci_fetch_array($this->conn)) {
+        while ($data = oci_fetch_array($this->statementId)) {
             if (isset( $data[self::NOTAIRE_CRPCEN] ) && intval($data[self::NOTAIRE_CRPCEN]) > 0) { // valid login
                 // the only unique key available is the "crpcen + web_password"
                 $uniqueKey = intval($data[self::NOTAIRE_CRPCEN]) . $data[self::NOTAIRE_PWDWEB];
@@ -130,7 +135,7 @@ class CridonOCIAdapter implements DBConnect
     public function closeConnection()
     {
         // Free Result
-        oci_free_statement($this->conn);
+        oci_free_statement($this->statementId);
 
         // Close Connection
         oci_close($this->conn);

@@ -82,7 +82,7 @@ if ( !defined( 'CONST_DB_USER' ) ) {
             $user = 'JETPULP';
             break;
         case LOCAL:
-            $user = 'SYS';
+            $user = 'cridon';
             break;
         default:
             $user = 'cridon';
@@ -102,7 +102,7 @@ if ( !defined( 'CONST_DB_PASSWORD' ) ) {
             $pwd = 'JTPLPX3';
             break;
         case LOCAL:
-            $pwd = 'oracle';
+            $pwd = 'cridon';
             break;
         default:
             $pwd = '2d7nGNFc';
