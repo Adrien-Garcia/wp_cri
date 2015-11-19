@@ -200,6 +200,8 @@ class Notaire extends MvcModel
                     break;
             }
         } catch (Exception $e) {
+            // write into logfile
+            errorLog('Import notaire', $e->getMessage());
             array_push($this->logs['error'], $e->getMessage());
         }
 
@@ -243,11 +245,18 @@ class Notaire extends MvcModel
                         rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
                     }
                 } else { // file content error
+                    // write into logfile
+                    $error = sprintf(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
+                    errorLog(CONST_EMAIL_ERROR_SUBJECT, $error);
+
                     // send email
                     reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Notaire');
                 }
-            } else {
-                // file doesn't exist
+            } else { // file doesn't exist
+                // write into logfile
+                $error = sprintf(CONST_EMAIL_ERROR_CONTENT, 'Solde');
+                errorLog(CONST_EMAIL_ERROR_SUBJECT, $error);
+
                 // send email
                 reportError(CONST_EMAIL_ERROR_CONTENT, 'Notaire');
             }
@@ -256,6 +265,9 @@ class Notaire extends MvcModel
             if (isset($files[0]) && is_file($files[0])) {
                 rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
             }
+
+            // write write into logfile
+            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
 
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
@@ -294,6 +306,8 @@ class Notaire extends MvcModel
             $this->adapter->closeConnection();
 
         } catch (\Exception $e) {
+            // write into logfile
+            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
@@ -602,6 +616,8 @@ class Notaire extends MvcModel
             }
 
         } catch (\Exception $e) {
+            // write into logfile
+            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
@@ -817,6 +833,8 @@ class Notaire extends MvcModel
                 $this->setNotaireRole();
             }
         } catch(Exception $e) {
+            // write into logfile
+            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
@@ -851,6 +869,8 @@ class Notaire extends MvcModel
                 $this->wpdb->query($query);
             }
         } catch (Exception $e) {
+            // write into logfile
+            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
@@ -1032,11 +1052,18 @@ class Notaire extends MvcModel
                         rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
                     }
                 } else { // file content error
+                    // write into logfile
+                    $error = sprintf(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
+                    errorLog(CONST_EMAIL_ERROR_SUBJECT, $error);
+
                     // send email
                     reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
                 }
-            } else {
-                // file doesn't exist
+            } else { // file doesn't exist
+                // write into logfile
+                $error = sprintf(CONST_EMAIL_ERROR_CONTENT, 'Solde');
+                errorLog(CONST_EMAIL_ERROR_SUBJECT, $error);
+
                 // send email
                 reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde');
             }
@@ -1045,6 +1072,9 @@ class Notaire extends MvcModel
             if (isset($files[0]) && is_file($files[0])) {
                 rename($files[0], str_replace(".csv", ".csv." . date('YmdHi'), $files[0]));
             }
+
+            // write write into logfile
+            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
 
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());

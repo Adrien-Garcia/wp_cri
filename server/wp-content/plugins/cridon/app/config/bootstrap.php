@@ -566,4 +566,18 @@ function afterInsertModel( $table,$lastID ){
         }
     }
 }
+
+/**
+ * Ecrire dans log error
+ *
+ * @param string $source : source de l'erreur (import...)
+ * @param string $error : message d'erreur
+ */
+function errorLog($source = '', $error = '') {
+    $handle = @fopen(CONST_LOG_ERROR_FILE, "a+");
+    if($handle) {
+        @fwrite($handle, "[" . date("Y-m-d H:i:s") . "] " . $source . " <" . $error . ">\n");
+        @fclose($handle);
+    }
+}
 //End UI Component
