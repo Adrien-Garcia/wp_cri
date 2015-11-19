@@ -201,7 +201,7 @@ class Notaire extends MvcModel
             }
         } catch (Exception $e) {
             // write into logfile
-            errorLog('Import notaire', $e->getMessage());
+            writeLog($e, 'notaire.log');
             array_push($this->logs['error'], $e->getMessage());
         }
 
@@ -246,16 +246,16 @@ class Notaire extends MvcModel
                     }
                 } else { // file content error
                     // write into logfile
-                    $error = sprintf(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
-                    errorLog(CONST_EMAIL_ERROR_SUBJECT, $error);
+                    $error = sprintf(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Notaire');
+                    writeLog($error, 'notaire.log');
 
                     // send email
                     reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Notaire');
                 }
             } else { // file doesn't exist
                 // write into logfile
-                $error = sprintf(CONST_EMAIL_ERROR_CONTENT, 'Solde');
-                errorLog(CONST_EMAIL_ERROR_SUBJECT, $error);
+                $error = sprintf(CONST_EMAIL_ERROR_CONTENT, 'Notaire');
+                writeLog($error, 'notaire.log');
 
                 // send email
                 reportError(CONST_EMAIL_ERROR_CONTENT, 'Notaire');
@@ -267,7 +267,7 @@ class Notaire extends MvcModel
             }
 
             // write write into logfile
-            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
+            writeLog($e, 'notaire.log');
 
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
@@ -307,7 +307,7 @@ class Notaire extends MvcModel
 
         } catch (\Exception $e) {
             // write into logfile
-            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
+            writeLog($e, 'notaire.log');
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
@@ -617,7 +617,7 @@ class Notaire extends MvcModel
 
         } catch (\Exception $e) {
             // write into logfile
-            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
+            writeLog($e, 'notaire.log');
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
@@ -834,7 +834,7 @@ class Notaire extends MvcModel
             }
         } catch(Exception $e) {
             // write into logfile
-            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
+            writeLog($e, 'notaire.log');
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
@@ -870,7 +870,7 @@ class Notaire extends MvcModel
             }
         } catch (Exception $e) {
             // write into logfile
-            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
+            writeLog($e, 'notaire.log');
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
@@ -1054,7 +1054,7 @@ class Notaire extends MvcModel
                 } else { // file content error
                     // write into logfile
                     $error = sprintf(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
-                    errorLog(CONST_EMAIL_ERROR_SUBJECT, $error);
+                    writeLog($error, 'solde.log');
 
                     // send email
                     reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
@@ -1062,7 +1062,7 @@ class Notaire extends MvcModel
             } else { // file doesn't exist
                 // write into logfile
                 $error = sprintf(CONST_EMAIL_ERROR_CONTENT, 'Solde');
-                errorLog(CONST_EMAIL_ERROR_SUBJECT, $error);
+                writeLog($error, 'solde.log');
 
                 // send email
                 reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde');
@@ -1074,7 +1074,7 @@ class Notaire extends MvcModel
             }
 
             // write write into logfile
-            errorLog(CONST_EMAIL_ERROR_SUBJECT, $e->getMessage());
+            writeLog($e, 'solde.log');
 
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());

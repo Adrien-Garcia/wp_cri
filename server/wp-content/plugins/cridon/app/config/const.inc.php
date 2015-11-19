@@ -397,11 +397,10 @@ if ( !defined( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG', 'Import GED du %s : aucune question n\'est associée au document suivant "%s"' );
 }
 // Log file
-if ( !defined( 'CONST_LOG_ERROR_FILE' ) ) {
-    $logFile = WP_PLUGIN_DIR . '/cridon/logs/error.log';
-    if (!file_exists($logFile)) {
-        wp_mkdir_p(dirname($logFile));
-        @fopen($logFile, "w");
+if ( !defined( 'CONST_LOG_ERROR_DIR' ) ) {
+    $logDir = WP_PLUGIN_DIR . '/cridon/logs';
+    if (!is_dir($logDir)) {
+        wp_mkdir_p($logDir);
     }
-    define( 'CONST_LOG_ERROR_FILE',  $logFile);
+    define( 'CONST_LOG_ERROR_DIR',  $logDir);
 }

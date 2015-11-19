@@ -566,18 +566,37 @@ function afterInsertModel( $table,$lastID ){
         }
     }
 }
+//End UI Component
 
 /**
- * Ecrire dans log error
- *
- * @param string $source : source de l'erreur (import...)
- * @param string $error : message d'erreur
+ * Permet d'écrire des logs complets avec backtrace si besoin.
+ * @param $variable mixed : variable à inscrire dans les logs
+ * @param $log_file string : Nom du fichier dans le dossier de log Oxid
+ * @param $backtrace mixed : nombre de lignes de backtrace à ajouter.
+ *      'true' correspond à 10 lignes + option provide object (full debug)
  */
-function errorLog($source = '', $error = '') {
-    $handle = @fopen(CONST_LOG_ERROR_FILE, "a+");
+function writeLog($variable, $log_file = 'log.txt', $backtrace = 0) {
+
+    if (is_a($variable, 'Exception')) {
+        /**
+         * @var $exception Exception
+         */
+        $message = $variable->getMessage();
+    } elseif ( gettype( $variable ) != 'string' ) {
+        $message = var_export( $variable, true);
+    } else {
+        $message = $variable;
+    }
+
+    if ($backtrace) {
+        $message .= "\n".print_r(debug_backtrace($backtrace === true ? DEBUG_BACKTRACE_PROVIDE_OBJECT : DEBUG_BACKTRACE_IGNORE_ARGS, $backtrace === true ? 10 : $backtrace), TRUE);
+    }
+
+    $sLogMsg = "------------[" . date("Y-m-d H:i:s") . "]-------------------\n{$message}\n";
+
+    $handle = @fopen($log_file, "a+");
     if($handle) {
-        @fwrite($handle, "[" . date("Y-m-d H:i:s") . "] " . $source . " <" . $error . ">\n");
+        @fwrite($handle, $sLogMsg);
         @fclose($handle);
     }
 }
-//End UI Component
