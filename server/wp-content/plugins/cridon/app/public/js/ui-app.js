@@ -12,6 +12,9 @@
             if (xhr) { xhr.abort(); } // If there is an existing XHR, abort it.
             clearTimeout(timer); // Clear the timer so we don't end up with dupes.
             timer = setTimeout(function() { // assign timer a new timeout 
+                if( $('#loader').length  ){//if loader is already exist
+                    $('#loader').remove();
+                }
                 $('.cri_relationship .relationship_left ul').append('<li id="loader"><div class="cri-loading"></div></li>');
                 search( val );
             }, 2000); // 2000ms delay, tweak for faster/slower
