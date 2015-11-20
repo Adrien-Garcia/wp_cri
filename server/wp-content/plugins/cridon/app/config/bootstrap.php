@@ -569,11 +569,11 @@ function afterInsertModel( $table,$lastID ){
 //End UI Component
 
 /**
- * Permet d'écrire des logs complets avec backtrace si besoin.
- * @param $variable mixed : variable à inscrire dans les logs
+ * Permet d'Ã©crire des logs complets avec backtrace si besoin.
+ * @param $variable mixed : variable Ã  inscrire dans les logs
  * @param $log_file string : Nom du fichier dans le dossier de log Oxid
- * @param $backtrace mixed : nombre de lignes de backtrace à ajouter.
- *      'true' correspond à 10 lignes + option provide object (full debug)
+ * @param $backtrace mixed : nombre de lignes de backtrace Ã  ajouter.
+ *      'true' correspond Ã  10 lignes + option provide object (full debug)
  */
 function writeLog($variable, $log_file = 'log.txt', $backtrace = 0) {
 
