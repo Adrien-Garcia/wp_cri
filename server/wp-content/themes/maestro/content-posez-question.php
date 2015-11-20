@@ -1,6 +1,6 @@
 <div id="layer-posez-question">
 
-	<form action="">
+	<form action="" id="questionFormId" method="post">
 	<div class="block_top">
 
 		<div class="titre">
@@ -23,7 +23,7 @@
 				<div id="owl-support" class="owl-carousel">
 				<?php foreach ($supports as $key => $support): ?>
 		            <div class="item">
-		            	<input id="support_<?php echo $support->id ?>" type="radio" name="support" value="<?php echo $support->id ?>" class="hidden js-question-support-radio" onchange="alert(this.id);">
+		            	<input id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" class="hidden js-question-support-radio">
 		              	<span class="label"><?php echo $support->label_front; ?></span>
 		              	<p class="description">
 		              		<?php echo $support->description; ?>
@@ -56,29 +56,31 @@
 							<?php 
 								$competences = CriCompetenceByMatiere($id);
 							 ?>
-							<select class="js-question-select-competence <?php echo ($imatieres == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>"  name="question_competence" id="question_competence_<?php echo $id ?>" placeholder="Sous domaine d'activité">
+							<select class="js-question-select-competence <?php echo ($imatieres == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>" data-name="question_competence"  name="<?php echo ($imatieres == 0) ? "question_competence" : "" ?>" id="question_competence_<?php echo $id ?>" placeholder="Sous domaine d'activité">
 								<?php foreach ($competences as $cid => $clabel): ?>
 									<option value="<?php echo $cid ?>"><?php echo $clabel ?></option>							
 								<?php endforeach ?>
 							</select>
 							<?php $imatieres++; ?>
 						<?php endforeach; ?>
-						<input type="text" name="" value="" placeholder="Référence dossier dans mon étude">
-						<textarea name="" placeholder="Votre question"></textarea>
+						<input type="text" name="question_objet" id="question_objet" value="" placeholder="Objet de la question">
+						<textarea name="question_message" id="question_message" placeholder="Votre question"></textarea>
 
-						<input type="file" id="uploadFile" name="" value="" placeholder="Télécharger vos ducuments">
-						<div class="fileUpload btn btn-primary">
+                        <?php for ($i = 0; $i < 5; $i++) : ?>
+						<div class="fileUpload btn btn-primary <?php echo ($i == 0) ? "" : "hidden"; ?>">
 						    <span>Parcourir</span>
-						    <input type="file" class="upload" />
+						    <input type="file" class="upload js-question-file"  id="question_fichier_<?php echo $i; ?>" name="question_fichier[]"  placeholder="Télécharger vos documents"/>
 						</div>
+                        <?php endfor; ?>
 
 						<div class="sep"></div>
 
 						<input type="submit" name="Envoyer ma question" value="Envoyer ma question">
-					</div>
+					    <div id="msgBlockQuestionId"></div>
+                    </div>
 					
 				</div>
-					<div style=" clear:both; overflow:hidden; visibility:hidden; height:1px; display:block; margin:0;">&nbsp;</div>	
+                <div style=" clear:both; overflow:hidden; visibility:hidden; height:1px; display:block; margin:0;">&nbsp;</div>
 			</div>
 		</div>
 		
