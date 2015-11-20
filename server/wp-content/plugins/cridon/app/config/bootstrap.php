@@ -64,11 +64,6 @@ function insertInTable( $table,$post_ID ){
     //UI Component
     afterInsertModel( $table,$wpdb->insert_id );
     //End UI
-    //Category managment
-    if( isset( $_POST['cri_category'] ) && !empty( $_POST['cri_category'] ) ){
-        updateVeille( $wpdb->insert_id, $_POST['cri_category'] );        
-    }
-    //End category managment
     return findBy( $table, $post_ID );
 }
 // end after save into post table, save in othres tables
