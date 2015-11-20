@@ -3,24 +3,21 @@
 class DocumentsController extends MvcPublicController {
     public function download(){
         $document = $this->model->find_one_by_id( $this->params['id'] );
-        if( empty( $document ) || !CriIsNotaire() ){
+        if( empty( $document ) ){
             $this->generateError();
         }
-        $notaire = CriNotaireData();
+        if( CriIsNotaire() ){
+            $notaire = CriNotaireData();            
+        }
         $model = mvc_model( $document->type );
         //No model check
         if( empty( $model ) ){
             $this->generateError();
         }
-        $question = $model->find_one_by_id( $document->id_externe );
-        //Check if question exist
-        if( empty( $question ) || empty( $document->file_path ) ){
-            $this->generateError();
-        }
-        
-        //Check if question is created by current user
-        if( $question->client_number != $notaire->client_number ){
-            $this->generateError();
+        if( $model->name == 'Question' ){
+            $question = $model->find_one_by_id( $document->id_externe );
+            //Check user access
+            $this->checkAccess($question,$notaire, $document);            
         }
         //Let's begin download
         $uploadDir = wp_upload_dir();
@@ -147,5 +144,21 @@ class DocumentsController extends MvcPublicController {
     public function importinitial()
     {
         $this->model->importInitial();
+    }
+    
+    private function checkAccess( $question,$notaire,$document ){
+        //If we are in BO, logged and not a Notaire
+        if ( is_user_logged_in() && empty( $notaire ) ) {
+            return true;
+        }
+        //Check if question exist, document file path is valid
+        if( empty( $notaire ) || empty( $question ) || empty( $document->file_path ) ){
+            $this->generateError();
+        }        
+        //Check if question is created by current user
+        if( $question->client_number != $notaire->client_number ){
+            $this->generateError();
+        }
+        return true;
     }
 }
