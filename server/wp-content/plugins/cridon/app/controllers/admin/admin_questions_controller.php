@@ -13,35 +13,73 @@
 
 class AdminQuestionsController extends MvcAdminController {
     
+    /**
+     *
+     * @var array
+     */
+    var $default_searchable_fields = array(
+        'srenum'
+    );
     var $default_columns = array(
         'id', 
-        'srenum', 
-        'document réponse' => array('value_method' => 'answer_download_link'),
-        'document question' => array('value_method' => 'question_download_link')
+        'srenum',
+        'notaire' => array( 'label' => 'Notaire','value_method' => 'notaire_link'),
+        'Documents' => array('value_method' => 'question_download_link'),
+        'Suite/complément' => array('value_method' => 'other_download_link')
     );
-    public function answer_download_link($object)
+    /**
+     * Get link of Notaire
+     * @param object $object
+     * @return string
+     */
+    public function notaire_link($object){
+        if (empty($object->notaire)) {
+            $this->load_model('Notaire');
+            $object->notaire = $this->Notaire->find_one_by_client_number($object->client_number);
+        }
+        $aOptionList = array(
+            '__name'    => array('last_name','first_name')
+        );
+        $this->prepareData($aOptionList, $object->notaire);
+        return empty($object->notaire) ? null : HtmlHelper::admin_object_link($object->notaire, array('action' => 'edit'));
+    }
+    /**
+     * Link of documents
+     * 
+     * @param object $object
+     * @return string
+     */
+    public function question_download_link($object)
     {   
         $this->load_model('Document');
         $options = array(
             'conditions' => array(
                 'id_externe' => $object->id,
-                'type' => 'reponse'
+                'type' => 'question',
+                'label IS NULL AND ' => '1=1'//see MvcDatabaseAdapter , line 123-124
             )
         );
-        $aObject = $this->Document->find( $options );
-        return ( empty( $aObject) ) ? null : '<a href="'.$aObject[0]->download_url.'" title="Télécharger" target="_blank"><span class="dashicons dashicons-download"></span></a>';
+        $documents = $this->Document->find( $options );
+        return $this->getDocumentsLink($documents);
     }
-    public function question_download_link($object)
+    /**
+     * Link of "suite/complément" documents
+     * @param object $object
+     * @return string
+     */
+    public function other_download_link($object)
     {      
         $this->load_model('Document');
         $options = array(
             'conditions' => array(
                 'id_externe' => $object->id,
-                'type' => 'question'
+                'type' => 'question',
+                'label IS NOT NULL AND ' => '1=1'//see MvcDatabaseAdapter , line 123-124
             )
         );
-        $aObject = $this->Document->find( $options );
-        return ( empty( $aObject) ) ? null : '<a href="'.$aObject[0]->download_url.'" title="Télécharger" target="_blank"><span class="dashicons dashicons-download"></span></a>';
+        //Find "suite/complément"
+        $documents = $this->Document->find( $options );
+        return $this->getDocumentsLink($documents);
     }
     public function add()
     {
@@ -94,6 +132,52 @@ class AdminQuestionsController extends MvcAdminController {
         $this->load_model('Affectation');
         $aAffectation = $this->Support->find(array('id','label'));
         $this->set('aAffectation', $aAffectation);
+    }
+    
+    /**
+     * Generate link of documents
+     * 
+     * @param mixed $documents
+     * @return string
+     */
+    private function getDocumentsLink( $documents ){
+        if( empty( $documents ) ){
+            return null;
+        }
+        $links = array();
+        foreach( $documents as $document ){
+            $links[] = '<a href="'.$document->download_url.'" title="Télécharger" target="_blank"><span class="dashicons dashicons-download"></span></a>';
+        }
+        return implode('|',$links);
+    }
+    
+    /**
+     * Get attributes from list
+     * 
+     * @param mixed $aOptionList
+     * @param object $aData
+     */
+    private function prepareData($aOptionList, $aData)
+    {
+        if (is_array($aData) && count($aData) > 0) {
+            foreach ($aData as $oData) {
+                foreach ($aOptionList as $sKey => $sVal) {
+                    $oData->$sKey = $oData->$sVal;
+                }
+            }
+        } elseif(is_object($aData)) {
+            foreach ($aOptionList as $sKey => $sVal) {
+                if( is_array( $sVal ) ){
+                    $val = '';
+                    foreach( $sVal as $v ){
+                        $val .= $aData->$v.' ';
+                    }
+                }else{
+                    $val = $aData->$sVal;
+                }
+                $aData->$sKey = $val;
+            }
+        }
     }
 }
 
