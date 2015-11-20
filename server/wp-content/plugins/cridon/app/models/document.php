@@ -100,11 +100,12 @@ class Document extends MvcModel {
                         }                        
                         $cabs = array_unique($cabs);
                         //Si le CAB existe dans csv
-                        if( !empty($contents[CridonGedParser::INDEX_VALCAB]) ){
+                        if( !empty( $docs ) && !empty($contents[CridonGedParser::INDEX_VALCAB]) ){
+                            //Si le CAB du csv existe parmi les CAB dans les docs du site
                             if( in_array( $contents[CridonGedParser::INDEX_VALCAB],$cabs ) ){
-                                $typeAction = 3;
+                                $typeAction = 3;//mise à jour
                             }else{
-                                $typeAction = 2;
+                                $typeAction = 2;//complément/suite
                             }
                         }
                         // copy document dans Site
@@ -134,12 +135,12 @@ class Document extends MvcModel {
                             }
                             if( $typeAction != 3 ){
                                 // insertion
-                                $documentId = mvc_model('Document')->create($docData);                                
+                                $documentId = $this->create($docData);                                
                             }else{
                                 //mise à jour
                                 $documentId = array_search($contents[CridonGedParser::INDEX_VALCAB], $cabs);
                                 $docData['Document']['id'] = $documentId;
-                                if( mvc_model('Document')->save($docData) ){
+                                if( $this->save($docData) ){
                                     if( isset($filepaths[$documentId]) && file_exists($uploadDir['basedir'].$filepaths[$documentId])){
                                         unlink( $uploadDir['basedir'].$filepaths[$documentId] );
                                     }
@@ -153,7 +154,7 @@ class Document extends MvcModel {
                                     'download_url' => '/documents/download/' . $documentId
                                 )
                             );
-                            mvc_model('Document')->save($docData);
+                            $this->save($docData);
 
                             // archivage PDF
                             rename(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
