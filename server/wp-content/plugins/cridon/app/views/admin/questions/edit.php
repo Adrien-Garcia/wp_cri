@@ -12,11 +12,3 @@
 <?php echo $this->form->textarea_input('content',array('label' => 'Texte de la question')); ?>
 <?php echo $this->form->input('juriste',array('label' => 'Juriste principal')); ?>
 <?php echo $this->form->end('Update'); ?>
-<?php
-    if( !empty( $aObjectQuestion) ){
-        echo '<label>Document question</label><a href="'.$aObjectQuestion[0]->download_url.'" title="Télécharger" target="_blank"><span class="dashicons dashicons-download"></span></a><br/>';
-    }
-    if( !empty( $aObjectAnswer) ){
-        echo '<label>Document réponse</label><a href="'.$aObjectAnswer[0]->download_url.'" title="Télécharger" target="_blank"><span class="dashicons dashicons-download"></span></a>';
-    }
-?>
