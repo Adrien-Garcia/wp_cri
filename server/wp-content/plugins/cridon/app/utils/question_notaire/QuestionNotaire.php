@@ -33,7 +33,7 @@ class QuestionNotaire extends SimpleController{
         if( empty( $this->user ) ){
             return null;
         }
-        $options = $this->generateOptionsQueries(0);
+        $options = $this->generateOptionsQueries(array(0,1));
         $results = $this->entityManager->getResults($options);
         return $results;
     }
@@ -117,10 +117,12 @@ class QuestionNotaire extends SimpleController{
                     'on'     => array( 'Support' => 'id' )
                 ),
                 array( 
+                    'type'   => 'LEFT JOIN',
                     'entity' => array( 'Question' => 'id_competence_1' ),
                     'on'     => array( 'Competence' => 'id' )
                 ),
                 array(
+                    'type'   => 'LEFT JOIN',
                     'entity' => array( 'Competence' => 'code_matiere' ),
                     'on'     => array( 'Matiere' => 'code' )
                 ),
@@ -130,7 +132,7 @@ class QuestionNotaire extends SimpleController{
                 )
             ),
             'conditions' => array(
-                'Question.treated = '.$treated,
+                (!is_array($treated)) ? 'Question.treated = '.$treated : 'Question.treated IN ('.implode(',',$treated).')',
                 'Question.client_number = "'.$this->user->client_number.'"'
             ),
             'order' => 'Question.date_modif ASC',
