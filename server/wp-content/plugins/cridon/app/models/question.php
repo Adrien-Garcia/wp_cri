@@ -212,7 +212,7 @@ class Question extends MvcModel
         $options['table']      = 'question';
         $options['attributes'] = 'srenum, client_number, sreccn, id_support, id_competence_1, `resume`, id_affectation, juriste, ';
         $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, treated, creation_date, date_modif, ';
-        $options['attributes'] .= 'hour_modif, transmis_erp, confidential';
+        $options['attributes'] .= 'hour_modif, transmis_erp, confidential, content';
 
         while ($data = $adapter->fetchData()) {
 
@@ -223,31 +223,31 @@ class Question extends MvcModel
                 if (!in_array($uniqueKey, $this->siteQuestList)) { // quest not found on site
 
                     // convert date to mysql format
-                    $affectationDate = '';
-                    if (isset($data[$adapter::QUEST_SREDATASS]) && $affectationDate = $data[$adapter::QUEST_SREDATASS]) {
-                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $affectationDate)) {
-                            $dateTime = date_create_from_format('d/m/Y', $affectationDate);
+                    $affectationDate = '0000-00-00'; // accepted date format if not set
+                    if (isset($data[$adapter::QUEST_SREDATASS])) {
+                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_SREDATASS])) {
+                            $dateTime        = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SREDATASS]);
                             $affectationDate = $dateTime->format('Y-m-d');
                         }
                     }
-                    $wishDate = '';
-                    if (isset($data[$adapter::QUEST_YRESSOUH]) && $wishDate = $data[$adapter::QUEST_YRESSOUH]) {
-                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $wishDate)) {
-                            $dateTime = date_create_from_format('d/m/Y', $wishDate);
+                    $wishDate = '0000-00-00'; // accepted date format if not set
+                    if (isset($data[$adapter::QUEST_YRESSOUH])) {
+                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_YRESSOUH])) {
+                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_YRESSOUH]);
                             $wishDate = $dateTime->format('Y-m-d');
                         }
                     }
-                    $realDate = '';
-                    if (isset($data[$adapter::QUEST_SRERESDAT]) && $realDate = $data[$adapter::QUEST_SRERESDAT]) {
-                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $realDate)) {
-                            $dateTime = date_create_from_format('d/m/Y', $realDate);
+                    $realDate = '0000-00-00'; // accepted date format if not set
+                    if (isset($data[$adapter::QUEST_SRERESDAT])) {
+                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_SRERESDAT])) {
+                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SRERESDAT]);
                             $realDate = $dateTime->format('Y-m-d');
                         }
                     }
-                    $updatedDate = '';
-                    if (isset($data[$adapter::QUEST_UPDDAT]) && $updatedDate = $data[$adapter::QUEST_UPDDAT]) {
-                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $updatedDate)) {
-                            $dateTime = date_create_from_format('d/m/Y', $updatedDate);
+                    $updatedDate = '0000-00-00'; // accepted date format if not set
+                    if (isset($data[$adapter::QUEST_UPDDAT])) {
+                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_UPDDAT])) {
+                            $dateTime    = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
                             $updatedDate = $dateTime->format('Y-m-d');
                         }
                     }
@@ -266,7 +266,7 @@ class Question extends MvcModel
                     $value .= "'" . (isset($data[$adapter::QUEST_YCODESUP]) ? esc_sql($data[$adapter::QUEST_YCODESUP]) : '') . "', "; // id_support
                     $value .= "'" . (isset($data[$adapter::QUEST_ZCOMPETENC]) ? esc_sql(intval($data[$adapter::QUEST_ZCOMPETENC])) : '') . "', "; // id_competence_1
                     $value .= "'" . (isset($data[$adapter::QUEST_YRESUME]) ? esc_sql($data[$adapter::QUEST_YRESUME]) : '') . "', "; // resume
-                    $value .= "'" . (isset($data[$adapter::QUEST_YSREASS]) ? esc_sql($data[$adapter::QUEST_YSREASS]) : '') . "', "; // id_affectation
+                    $value .= "'" . (isset($data[$adapter::QUEST_YSREASS]) ? intval($data[$adapter::QUEST_YSREASS]) : 0) . "', "; // id_affectation
                     $value .= "'" . (isset($data[$adapter::QUEST_SREDET]) ? esc_sql($data[$adapter::QUEST_SREDET]) : '') . "', "; // juriste
                     $value .= "'" . $affectationDate . "', "; // affectation_date
                     $value .= "'" . $wishDate . "', "; // wish_date
@@ -275,9 +275,10 @@ class Question extends MvcModel
                     $value .= "'" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
                     $value .= "'" . date('Y-m-d') . "', "; // creation_date
                     $value .= "'" . $updatedDate . "', "; // date_modif
-                    $value .= "'" . (isset($data[$adapter::QUEST_ZUPDHOU]) ? esc_sql($data[$adapter::QUEST_ZUPDHOU]) : '') . "', "; // hour_modif
+                    $value .= "'" . ((isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':', $data[$adapter::QUEST_ZUPDHOU])) > 1) ? esc_sql($data[$adapter::QUEST_ZUPDHOU]) : '00:00:00') . "', "; // hour_modif
                     $value .= "'" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
-                    $value .= "'" . $confidential . "'"; // confidential
+                    $value .= "'" . $confidential . "', "; // confidential
+                    $value .= "''"; // content
 
                     $value .= ")";
 
