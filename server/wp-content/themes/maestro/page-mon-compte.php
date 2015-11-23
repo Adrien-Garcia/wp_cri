@@ -21,20 +21,20 @@
 					<li class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : ""?>">
 						<div class="bt js-account-dashboard-button">Tableaux de bord</div>
 						<div id="tableau-de-bord" class="pannel">
-							<?php echo get_template_part("content","mon-compte-dashboard"); ?>
+							<?php get_template_part("content","mon-compte-dashboard"); ?>
 						</div>
 
 					</li>
 					<li class="js-account-questions js-account-blocs   <?php echo ($onglet == 2) ? " active " : ""?>" >
 						<div class="bt js-account-questions-button">Mes Questions</div>
 						<div id="mes-questions" class="pannel">	
-							<?php echo get_template_part("content","mon-compte-questions"); ?>
+							<?php get_template_part("content","mon-compte-questions"); ?>
 						</div>
 					</li>
 					<li class="js-account-profil js-account-blocs <?php echo ($onglet == 3) ? " active " : ""?>">
 						<div class="bt js-account-profil-button" id="sel-compte-profil-button">Mon profil</div>
 						<div id="mon-profil" class="pannel">
-							<?php echo get_template_part("content","mon-compte-profil"); ?>
+							<?php get_template_part("content","mon-compte-profil"); ?>
 						</div>
 					</li>
 					<?php if (CriCanAccessFinance()): ?>
