@@ -6,8 +6,11 @@ class DocumentsController extends MvcPublicController {
         if( empty( $document ) ){
             $this->generateError();
         }
-        if( CriIsNotaire() ){
+        //Check if it's a Notaire and connected
+        if( is_user_logged_in() && CriIsNotaire() ){
             $notaire = CriNotaireData();            
+        }else{
+            $notaire = null;//for User Cridon BO and a user not connected
         }
         $model = mvc_model( $document->type );
         //No model check
@@ -149,6 +152,7 @@ class DocumentsController extends MvcPublicController {
     private function checkAccess( $question,$notaire,$document ){
         //If we are in BO, logged and not a Notaire
         if ( is_user_logged_in() && empty( $notaire ) ) {
+            //If user cridon, they can download with no restriction
             return true;
         }
         //Check if question exist, document file path is valid
