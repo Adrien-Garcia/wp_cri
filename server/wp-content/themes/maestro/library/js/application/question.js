@@ -6,6 +6,8 @@ App.Question = {
     zoneQuestionSupportSelector         : '.js-question-support-zone',
     radioQuestionSupportSelector        : '.js-question-support-radio',
     fileQuestionSelector                : '.js-question-file',
+    fileQuestionResetSelector           : '.js-file-reset',
+    fileQuestionNameSelector            : '.js-file-name',
 
     selectQuestionCompetenceName        : 'question_competence',
 
@@ -25,6 +27,8 @@ App.Question = {
     $zoneQuestionSupport                : null,
     $radioQuestionSupport               : null,
     $fileQuestion                       : null,
+    $fileQuestionReset                  : null,
+    $fileQuestionName                   : null,
 
     $tabQuestionConsultation            : null,
     $tabQuestionMaQuestion              : null,
@@ -55,6 +59,8 @@ App.Question = {
         this.$zoneQuestionSupport                   = $(this.zoneQuestionSupportSelector);
         this.$radioQuestionSupport                  = $(this.radioQuestionSupportSelector);
         this.$fileQuestion                          = $(this.fileQuestionSelector);
+        this.$fileQuestionReset                     = $(this.fileQuestionResetSelector);
+        this.$fileQuestionName                      = $(this.fileQuestionNameSelector);
 
         this.$owlCarousel                           = $(this.owlCarouselSelector);
         this.$popupOverlay                          = $(this.popupOverlaySelector);
@@ -141,10 +147,12 @@ App.Question = {
             self.eventFileChange($(this));
         });
 
+        this.$fileQuestionReset.on('click', function(e) {
+            self.eventFileReset($(this),e);
+        });
 
         this.debug("Question : addListeners end");
     },
-
     addListenersAfterOwl: function() {
         var self = this;
         this.debug('Question : addListenersAfterOwl');
@@ -167,8 +175,17 @@ App.Question = {
      * Event
      */
 
+    eventFileReset: function (reset, e) {
+        var file = reset.siblings(this.fileQuestionSelector);
+        file.wrap('<form>').closest('form').get(0).reset();
+        file.unwrap();
+
+        this.eventFileChange(file);
+    },
+
     eventFileChange: function (fileInput) {
         if(fileInput.val() != "") {
+            fileInput.siblings(this.fileQuestionNameSelector).text(fileInput.val());
             var nextFileInput = false;
             this.$fileQuestion.each(function(i,c) {
                 var c = $(c);
@@ -177,6 +194,9 @@ App.Question = {
                     nextFileInput = true;
                 }
             });
+        } else {
+            fileInput.siblings(this.fileQuestionNameSelector).text("Vide");
+
         }
     },
 
