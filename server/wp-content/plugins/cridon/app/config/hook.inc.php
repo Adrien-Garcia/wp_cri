@@ -200,3 +200,11 @@ function custom_remove_admin_bar() {
         show_admin_bar(false);
     }
 }
+
+/* Cacher les elements de menu sidebar left */
+add_action( 'admin_menu', 'custom_remove_menu_pages' );
+function custom_remove_menu_pages() {
+    if( !is_super_admin() ){
+        remove_menu_page('users.php');	//Section Utilisateurs        
+    }
+}
