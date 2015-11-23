@@ -1,4 +1,4 @@
-<div id="layer-posez-question">
+<div id="layer-posez-question" style="display:none;">
 
 	<form action="">
 	<div class="block_top">

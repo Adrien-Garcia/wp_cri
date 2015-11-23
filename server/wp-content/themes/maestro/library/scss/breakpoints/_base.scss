@@ -566,6 +566,7 @@ HEADER STYLES
 						position: absolute;
 						top: 80px;
 						text-align:left;
+						width: 100%;
 
 						> div{
 							background: transparent;
@@ -591,7 +592,9 @@ HEADER STYLES
 						}
 
 						.owl-next{
-							left: 250px;
+							left: inherit;
+							float: right;
+							right: 20px;
 
 						}
 
@@ -948,6 +951,8 @@ body.page-template-front-page{
 						font-family: $helvetica;
 						font-size: 12px;
 						line-height: 18px;
+						//height: 36px;
+						//overflow: hidden;
 					}
 
 					a{
@@ -1322,7 +1327,7 @@ body.page-template-front-page{
 								}
 							}
 						}
-						max-height: 500px;
+						//max-height: 500px;
 						transition: max-height $duration ease 0s;
 
 						.content{
@@ -1365,6 +1370,7 @@ body.page-template-front-page{
 										display: block;
 										text-align: center;
 										line-height: 18px;
+										overflow: 	hidden;
 
 									}
 
@@ -1820,6 +1826,7 @@ body.page-template-front-page{
 				article{
 
 					margin-bottom: 20px;
+					overflow: hidden;
 					
 
 
@@ -2466,6 +2473,7 @@ body.page-template-front-page{
 #content.page-mon-compte{
 
 	#main{
+		padding-top: 0;
 
 		#inner-content{
 
