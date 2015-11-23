@@ -26,8 +26,8 @@ class AdminNotairesController extends MvcAdminController
      * @var array
      */
     public $default_columns = array(
-        'last_name'  => array( 'label' => 'Prénom' ),
-        'first_name' => array( 'label' => 'Nom' ),
+        'last_name'  => array( 'label' => 'Nom' ),
+        'first_name' => array( 'label' => 'Prénom' ),
         'client_number' => array( 'label' => 'Numéro client' ),
         'crpcen' => array( 'label' => 'CRPCEN' ),
         'email_adress' => array( 'label' => 'Email' ),

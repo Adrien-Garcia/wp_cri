@@ -145,6 +145,16 @@ interface DBConnect
     const NOTAIRE_DATEMODIF  = 'UPDDAT_0';
 
     /**
+     * @var string : office tel field in Output data
+     */
+    const NOTAIRE_OFFICETEL  = 'TEL_0';
+
+    /**
+     * @var string : office fax field in Output data
+     */
+    const NOTAIRE_OFFICEFAX  = 'FAX_0';
+
+    /**
      * @var string : num question
      */
     const QUEST_SRENUM      = 'SRENUM_0';
