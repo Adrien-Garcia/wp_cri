@@ -1,5 +1,4 @@
 <?php $notaire = CriNotaireData() ?>
-<?php // var_dump($notaire) ?>
 <div class="mes-informations" id="sel-compte-profil">
 
 	<h2>Mes informations</h2>
@@ -12,7 +11,9 @@
 				<span><?php echo $notaire->etude->office_name ?></span>
 			</div>
 			<div class="adresse">
+                <?php if (!empty($notaire->etude->adress_1)): ?>
 				<span><?php echo $notaire->etude->adress_1 ?></span>
+                <?php endif; ?>
 				<?php if (!empty($notaire->etude->adress_2)): ?>
 					<span><?php echo $notaire->etude->adress_2 ?></span>
 				<?php endif ?>
@@ -24,20 +25,43 @@
 			<div class="mail">
 				<span id="sel-compte-mail"><?php echo $notaire->etude->office_email_adress_1 ?></span>
 			</div>
-			<!--div class="contact">
-				<span>Tel ?? <?php // echo $notaire->tel ?></span>
-				<span>Fax ?? <?php //echo $notaire->tel ?></span>
-			</div!-->			
+            <?php if (!empty($notaire->etude->tel) || !empty($notaire->etude->fax)): ?>
+			<div class="contact">
+                <?php if (!empty($notaire->etude->tel)): ?>
+				<span>Tel <?php echo $notaire->etude->tel ?></span>
+                <?php endif; ?>
+                <?php if (!empty($notaire->etude->fax)): ?>
+				<span>Fax <?php echo $notaire->etude->fax ?></span>
+                <?php endif; ?>
+			</div>
+            <?php endif; ?>
 		</div>
 		<div class="notaire">
 			<div class="nom">
 				<span><?php echo $notaire->last_name ?> <?php echo $notaire->first_name ?></span>
 			</div>
-			<!--div class="adresse">
-				<span>??</span>
-				
-				<span>CP - Ville ??</span>
-			</div!-->
+            <?php if (
+                    !empty($notaire->adress_1) ||
+                    !empty($notaire->adress_2) ||
+                    !empty($notaire->adress_3) ||
+                    !empty($notaire->cp) ||
+                    !empty($notaire->city)): ?>
+			<div class="adresse">
+
+                <?php if (!empty($notaire->adress_1)): ?>
+                    <span><?php echo $notaire->adress_1 ?></span>
+                <?php endif; ?>
+                <?php if (!empty($notaire->adress_2)): ?>
+                    <span><?php echo $notaire->adress_2 ?></span>
+                <?php endif ?>
+                <?php if (!empty($notaire->adress_3)): ?>
+                    <span><?php echo $notaire->adress_3 ?></span>
+                <?php endif ?>
+                    <span>
+                        <?php echo (!empty($notaire->cp)) ? $notaire->cp : "" ; ?> - <?php echo (!empty($notaire->city)) ? $notaire->city : "" ; ?>
+                    </span>
+			</div>
+            <?php endif;  ?>
 			<div class="mail">
 				<span id="sel-compte-mail"><?php echo $notaire->email_adress ?></span>
 			</div>
@@ -54,28 +78,6 @@
 			</div>			
 		</div>
 
-		<?php // var_dump($notaire); ?>
-
-
-
-		<!--div class="nom">
-			<span><?php // echo $notaire->etude->office_name ?></span>
-			<?php // echo $notaire->last_name ?> <?php // echo $notaire->first_name ?>
-		</div>
-		<div class="adresse">
-			<span><?php // echo $notaire->etude->adress_1 ?></span>
-			<?php // if (!empty($notaire->etude->adress_2)): ?>
-				<span><?php // echo $notaire->etude->adress_2 ?></span>
-			<?php // endif ?>
-			<?php // if (!empty($notaire->etude->adress_3)): ?>
-				<span><?php // echo $notaire->etude->adress_3 ?></span>
-			<?php // endif ?>
-			<span><?php // echo $notaire->etude->cp.' '.$notaire->etude->city ?></span>
-		</div>
-		<div class="contact">
-			<span id="sel-compte-mail"><?php // echo $notaire->email_adress ?></span>
-			<span><?php // echo $notaire->tel ?></span>
-		</div!-->
 	</div>
 </div>
 
