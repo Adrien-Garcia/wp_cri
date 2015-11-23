@@ -24,11 +24,12 @@
 					 ?>
 					<?php if ($flash != null): ?>
 						<?php 
+							$_flash_title = get_the_title();
 							$_flash_excerpt = get_the_excerpt();
 							$_flash_url = get_permalink();
 						 ?>
 					<div class="content" id="sel-flash-present">
-						<div class="texte"><?php echo $_flash_excerpt; ?></div>
+						<div class="texte"><?php echo $_flash_title; ?></div>
 						<a id="sel-flash-link-present" href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
 					</div>
 					<?php endif; ?>
@@ -37,7 +38,7 @@
 
 				
 
-				<?php echo get_template_part("content","3-block-home"); ?>
+				<?php get_template_part("content","3-block-home"); ?>
 
 				
    			</div>
@@ -163,10 +164,10 @@
 			<div id="inner-content" class="wrap cf">
 				<div class="cridon-app js-home-block-link">
 					<div class="content">
-						<div src="" alt="" class="img-main"></div>
+						<div class="img-main"></div>
 						<h2><?php _e('Le cridon dans ma poche'); ?> </h2>
 						<a href="#" title=""><span><?php _e('Découvrir notre application !'); ?></span></a>
-						<div src="" alt="" class="img-appli" ></div>
+						<div class="img-appli" ></div>
 					</div>
 				</div>
 				<div class="veille-juridique js-home-block-link">
@@ -185,25 +186,6 @@
 			
 			</div>
 
-			
-			<div id="owl-support" class="owl-carousel">
-			
-	            <div class="item">
-	            	<input id="support_<?php echo $support->id ?>" type="radio" name="support" value="<?php echo $support->id ?>" class="hidden js-question-support-radio" onchange="alert(this.id);">
-	              	<span class="label"><?php echo $support->label_front; ?></span>
-	              	<p class="description">
-	              		<?php echo $support->description; ?>
-	              	</p>
-	            </div>
-
-	            <div class="item">
-	            	22222222222222222222222222222
-	            </div>
-	        	
-	        	<div class="item">
-	            	3333333333333333333333333333
-	            </div>
-	        </div>
 		</div>
 
 		<div class="row_04">
@@ -227,7 +209,8 @@
 
 			<?php if( $vie != null):?> 
 				<?php criWpPost($vie); //var_dump($post); ?>
-				<?php $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
+                <?php /** @var WP_Post $post */
+                $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
 
 				//var_dump($thumbnail_src);  ?>
 				<div class="actualite" id="sel-actu-cridon-home">
