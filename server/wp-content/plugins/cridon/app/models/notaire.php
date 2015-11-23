@@ -118,6 +118,21 @@ class Notaire extends MvcModel
     protected $erpNotaireData = array();
 
     /**
+     * @var array : list of existing etude on Site
+     */
+    protected $siteEtudeList = array();
+
+    /**
+     * @var array : list of etude in ERP
+     */
+    protected $erpEtudeList = array();
+
+    /**
+     * @var array : list of etude data from ERP
+     */
+    protected $erpEtudeData = array();
+
+    /**
      * @var CridonSoldeParser
      */
     protected $soldeParser;
@@ -299,6 +314,12 @@ class Notaire extends MvcModel
 
                     // notaire data filter
                     $this->erpNotaireData[$uniqueKey] = $data;
+
+                    // Fill list of ERP Etude
+                    array_push($this->erpEtudeList, intval($data[$adapter::NOTAIRE_CRPCEN]));
+
+                    // Etude data filter
+                    $this->erpEtudeData[intval($data[$adapter::NOTAIRE_CRPCEN])] = $data;
                 }
             }
 
@@ -307,6 +328,12 @@ class Notaire extends MvcModel
 
             // insert or update data
             $this->manageNotaireData();
+
+            // set list of existing notaire
+            $this->setSiteEtudeList();
+
+            // insert or update etude data
+            $this->manageEtudeData();
 
             // Close Connection
             $adapter->closeConnection();
@@ -385,6 +412,47 @@ class Notaire extends MvcModel
 
         // return filtered items with associated data from ERP
         return array_intersect_key($this->erpNotaireData, array_flip($items));
+    }
+
+    /**
+     * List of existing etude on Site
+     *
+     * @return void
+     */
+    protected function setSiteEtudeList()
+    {
+        // get list of existing etude
+        $etudes = mvc_model('etude')->find();
+
+
+        // fill list of existing etude on site with unique key (crpcen)
+        foreach ($etudes as $etude) {
+            array_push($this->siteEtudeList, $etude->crpcen);
+        }
+    }
+
+    /**
+     * Get list of new etude list
+     *
+     * @return array
+     */
+    protected function getNewEtudeList()
+    {
+        return array_diff($this->erpEtudeList, $this->siteEtudeList);
+    }
+
+    /**
+     * List of etude to be updated from Site (intersect of Site and ERP)
+     *
+     * @return array
+     */
+    protected function getEtudeToBeUpdated()
+    {
+        // common values between Site and ERP
+        $items = array_intersect($this->siteEtudeList, $this->erpEtudeList);
+
+        // return filtered items with associated data from ERP
+        return array_intersect_key($this->erpEtudeData, array_flip($items));
     }
 
     /**
@@ -630,6 +698,202 @@ class Notaire extends MvcModel
 
         // import into wp_users table
         $this->insertOrUpdateWpUsers();
+    }
+
+    /**
+     * Manage Etude data (insert, update)
+     *
+     * @return void
+     */
+    protected function manageEtudeData()
+    {
+        try {
+            // instance of adapter
+            $adapter = $this->adapter;
+
+            // init list of values to be inserted
+            $insertValues = array();
+
+            // init list of values to be updated
+            $updateSigleValues = $updateOfficenameValues = $updateAdress1Values = $updateAdress2Values = $updateAdress3Values = array();
+            $updateCpValues = $updateCityValues = $updateEmail1Values = $updateEmail2Values = $updateEmail3Values = array();
+            $updateTelValues = $updateFaxValues = array();
+
+            // list of new data
+            $newEtudes = $this->getNewEtudeList();
+
+            // list of data for update
+            $updateEtudeList = $this->getEtudeToBeUpdated();
+
+            // etude table
+            $etudeTable  = mvc_model('etude')->table;
+
+            // update
+            if (count($updateEtudeList) > 0) {
+                // start/end query block
+                $queryStart = " UPDATE `{$etudeTable}` ";
+                $queryEnd   = ' END ';
+
+                foreach(mvc_model('etude')->find() as $currentData) {
+                    $key = $currentData->crpcen;
+
+                    // start optimisation
+                    if (array_key_exists($key, $updateEtudeList)) {
+                        $newData = $updateEtudeList[$key];
+
+                        // prepare all update   query
+                        if (isset($newData[$adapter::NOTAIRE_SIGLE]))
+                            $updateSigleValues[]        = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_SIGLE]) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_OFFICENAME]))
+                            $updateOfficenameValues[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICENAME]) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_ADRESS1]))
+                            $updateAdress1Values[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS1]) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_ADRESS2]))
+                            $updateAdress2Values[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS2]) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_ADRESS3]))
+                            $updateAdress3Values[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS3]) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_CP]))
+                            $updateCpValues[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(intval($newData[$adapter::NOTAIRE_CP])) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_CITY]))
+                            $updateCityValues[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CITY]) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_MAIL1]))
+                            $updateEmail1Values[]        = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL1]) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_MAIL2]))
+                            $updateEmail2Values[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL2]) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_MAIL3]))
+                            $updateEmail3Values[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL3]) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_FAX]))
+                            $updateTelValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
+
+                        if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
+                            $updateFaxValues[]      = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
+                    }
+                    // end optimisation
+                }
+
+                // execute update query
+                if (count($updateSigleValues) > 0) {
+                    // id_sigle
+                    $etudeQuery = ' SET `id_sigle` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateSigleValues);
+                    $etudeQuery .= ' ELSE `id_sigle` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // office_name
+                    $etudeQuery = ' SET `office_name` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateOfficenameValues);
+                    $etudeQuery .= ' ELSE `office_name` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // adress_1
+                    $etudeQuery = ' SET `adress_1` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateAdress1Values);
+                    $etudeQuery .= ' ELSE `adress_1` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // adress_2
+                    $etudeQuery = ' SET `adress_2` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateAdress2Values);
+                    $etudeQuery .= ' ELSE `adress_2` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // adress_3
+                    $etudeQuery = ' SET `adress_3` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateAdress3Values);
+                    $etudeQuery .= ' ELSE `adress_3` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // cp
+                    $etudeQuery = ' SET `cp` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateCpValues);
+                    $etudeQuery .= ' ELSE `cp` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // city
+                    $etudeQuery = ' SET `city` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateCityValues);
+                    $etudeQuery .= ' ELSE `city` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // office_email_adress_1
+                    $etudeQuery = ' SET `office_email_adress_1` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEmail1Values);
+                    $etudeQuery .= ' ELSE `office_email_adress_1` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // office_email_adress_2
+                    $etudeQuery = ' SET `office_email_adress_2` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEmail2Values);
+                    $etudeQuery .= ' ELSE `office_email_adress_2` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // office_email_adress_3
+                    $etudeQuery = ' SET `office_email_adress_3` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEmail3Values);
+                    $etudeQuery .= ' ELSE `office_email_adress_3` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // tel
+                    $etudeQuery = ' SET `tel` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateTelValues);
+                    $etudeQuery .= ' ELSE `tel` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    // fax
+                    $etudeQuery = ' SET `fax` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateFaxValues);
+                    $etudeQuery .= ' ELSE `fax` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+            }
+
+            // insert new data
+            if (count($newEtudes) > 0) {
+                $options               = array();
+                $options['table']      = 'etude';
+                $options['attributes'] = 'crpcen, id_sigle, office_name, adress_1, adress_2, adress_3, cp, city, ';
+                $options['attributes'] .= 'office_email_adress_1, office_email_adress_2, office_email_adress_3, tel, fax';
+
+                // prepare multi rows data values
+                foreach ($newEtudes as $etude) {
+
+                    $value = "(";
+
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_CRPCEN]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_CRPCEN]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_SIGLE]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_SIGLE]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_OFFICENAME]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_OFFICENAME]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS1]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS1]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS2]) ? esc_sql(intval($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS2])) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS3]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS3]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_CP]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_CP]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_CITY]) ? esc_sql(intval($this->erpEtudeData[$etude][$adapter::NOTAIRE_CITY])) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL1]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL1]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL2]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL2]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL3]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL3]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_OFFICETEL]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_OFFICETEL]) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_OFFICEFAX]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_OFFICEFAX]) : '') . "'";
+
+                    $value .= ")";
+
+                    $insertValues[] = $value;
+                }
+
+                if (count($insertValues) > 0) {
+                    $queryBulder       = mvc_model('QueryBuilder');
+                    $options['values'] = implode(', ', $insertValues);
+                    // bulk insert
+                    $queryBulder->insertMultiRows($options);
+                }
+            }
+
+        } catch (\Exception $e) {
+            // write into logfile
+            writeLog($e, 'etude.log');
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+        }
+
     }
 
     /**

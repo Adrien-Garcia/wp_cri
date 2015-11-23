@@ -547,7 +547,7 @@ class QueryBuilder{
         $this->mysqli->query('SET @@global.max_allowed_packet = ' . 800 * 1024 * 1024);
         if (!$this->mysqli->query($query)) {
             // write into logfile
-            writeLog($this->mysqli->error, 'question.log');
+            writeLog($this->mysqli->error, 'query.log');
         }
     }
 }
