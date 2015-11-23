@@ -332,7 +332,7 @@ if ( !defined( 'CONST_QUESTION_MAX_FILE_SIZE' ) ) {
 }
 // Success Message
 if ( !defined( 'CONST_QUESTION_SUCCESS_MSG_FIELD' ) ) {
-    define( 'CONST_QUESTION_SUCCESS_MSG_FIELD', 'msgBlockId' );
+    define( 'CONST_QUESTION_SUCCESS_MSG_FIELD', 'msgBlockQuestionId' );
 }
 if ( !defined( 'CONST_QUESTION_ACTION_SUCCESSFUL' ) ) {
     define( 'CONST_QUESTION_ACTION_SUCCESSFUL', 'Question envoyée avec succès' );

@@ -165,21 +165,5 @@ jQuery(document).ready(function($) {
 	});
 
 
-/* POPUP OVERLAY*/
-
-$('#layer-posez-question').popup({
-	transition: 'all 0.3s',
-	scrolllock: true,
-	opacity: 0.99,
-	color: '#324968',
-	offsettop: 10,
-	vertical: top,
-	onopen: function() {
-		App.Question.owlCarouselInit();
-	}
-
-});
-
-
 
 }); /* end of as page load scripts */

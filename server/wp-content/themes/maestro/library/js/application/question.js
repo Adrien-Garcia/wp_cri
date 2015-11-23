@@ -1,5 +1,3 @@
-'use strict';
-
 App.Question = {
 
     selectQuestionMatiereSelector       : '.js-question-select-matiere',
@@ -7,6 +5,9 @@ App.Question = {
 
     zoneQuestionSupportSelector         : '.js-question-support-zone',
     radioQuestionSupportSelector        : '.js-question-support-radio',
+    fileQuestionSelector                : '.js-question-file',
+    fileQuestionResetSelector           : '.js-file-reset',
+    fileQuestionNameSelector            : '.js-file-name',
 
     selectQuestionCompetenceName        : 'question_competence',
 
@@ -16,11 +17,18 @@ App.Question = {
     buttonQuestionMaQuestionSelector    : '.js-question-button-ma-question',
 
     owlCarouselSelector                 : "#owl-support",
+    popupOverlaySelector                : "#layer-posez-question",
+
+    selectedClass                       : 'selected',
 
     $selectQuestionMatiere              : null,
     $selectQuestionCompetence           : null,
     $selectQuestionCompetenceArray      : [],
     $zoneQuestionSupport                : null,
+    $radioQuestionSupport               : null,
+    $fileQuestion                       : null,
+    $fileQuestionReset                  : null,
+    $fileQuestionName                   : null,
 
     $tabQuestionConsultation            : null,
     $tabQuestionMaQuestion              : null,
@@ -28,6 +36,7 @@ App.Question = {
     $buttonQuestionMaQuestion           : null,
 
     $owlCarousel                        : null,
+    $popupOverlay                       : null,
 
 
     init: function() {
@@ -47,31 +56,75 @@ App.Question = {
         this.$buttonQuestionConsultation            = $(this.buttonQuestionConsultationSelector);
         this.$buttonQuestionMaQuestion              = $(this.buttonQuestionMaQuestionSelector);
 
-        this.$owlCarousel                           = $(this.owlCarouselSelector);
+        this.$zoneQuestionSupport                   = $(this.zoneQuestionSupportSelector);
+        this.$radioQuestionSupport                  = $(this.radioQuestionSupportSelector);
+        this.$fileQuestion                          = $(this.fileQuestionSelector);
+        this.$fileQuestionReset                     = $(this.fileQuestionResetSelector);
+        this.$fileQuestionName                      = $(this.fileQuestionNameSelector);
 
-        //this.owlCarouselInit(this.initAfterOwl.bind(this));
+        this.$owlCarousel                           = $(this.owlCarouselSelector);
+        this.$popupOverlay                          = $(this.popupOverlaySelector);
 
         this.addListeners();
+
+        this.popupOverlayInit();
+
         this.debug("Question : init end");
 
     },
 
-    initAfterOwl: function() {
-        var self = this;
-        this.$zoneQuestionSupport                   = $(this.zoneQuestionSupportSelector);
+    popupOverlayInit: function() {
+        /* POPUP OVERLAY*/
 
-        this.$zoneQuestionSupport.on('click', function(e) {
-            self.eventZoneQuestionSupportClick($(this));
+        this.$popupOverlay.popup({
+            transition: 'all 0.3s',
+            scrolllock: true,
+            opacity: 0.99,
+            color: '#324968',
+            offsettop: 10,
+            vertical: top,
+            onopen: function() {
+                App.Question.owlCarouselInit();
+            }
+
         });
+    },
 
-        this.$owlCarousel.trigger('refresh.owl.carousel');
+    owlCarouselInit: function() {
+
+        this.$owlCarousel.owlCarousel({
+
+            pagination: false,
+            dots: false,
+            navText: false,
+            itemClass: 'owl-item ' + this.zoneQuestionSupportSelector.substr(1),
+            onInitialized: this.addListenersAfterOwl.bind(this),
+            responsive:{
+                0 : {
+                    items:1,
+                    dots:true,
+                    nav:true,
+
+                },
+                // breakpoint from 480 up
+                768 : {
+                    items:3,
+                    dots:false,
+                },
+                // breakpoint from 768 up
+                1200 : {
+                    items:3,
+                    dots:false,
+                }
+            }
+
+        });
     },
 
 
     /*
      * Listeners for the Question page events
      */
-
     addListeners: function() {
         var self = this;
 
@@ -89,26 +142,86 @@ App.Question = {
         this.$buttonQuestionMaQuestion.on('click', function(e) {
             self.openTabQuestionMaQuestion($(this));
         });
-        
+
+        this.$fileQuestion.on('change', function(e) {
+            self.eventFileChange($(this));
+        });
+
+        this.$fileQuestionReset.on('click', function(e) {
+            self.eventFileReset($(this),e);
+        });
+
         this.debug("Question : addListeners end");
+    },
+    addListenersAfterOwl: function() {
+        var self = this;
+        this.debug('Question : addListenersAfterOwl');
+
+        this.$zoneQuestionSupport                   = $(this.zoneQuestionSupportSelector);
+        this.$radioQuestionSupport                  = $(this.radioQuestionSupportSelector);
+
+
+        this.$zoneQuestionSupport.on('click', function(e) {
+            self.eventZoneQuestionSupportClick($(this));
+        });
+
+        this.$radioQuestionSupport.on('change', function (e) {
+            self.eventRadioQuestionChange($(this));
+        });
+
     },
 
     /*
-     * Event 
+     * Event
      */
+
+    eventFileReset: function (reset, e) {
+        var file = reset.siblings(this.fileQuestionSelector);
+        file.wrap('<form>').closest('form').get(0).reset();
+        file.unwrap();
+
+        this.eventFileChange(file);
+    },
+
+    eventFileChange: function (fileInput) {
+        if(fileInput.val() != "") {
+            fileInput.siblings(this.fileQuestionNameSelector).text(fileInput.val());
+            var nextFileInput = false;
+            this.$fileQuestion.each(function(i,c) {
+                var c = $(c);
+                if (c.val() == "" && c.parents('.fileUpload').first().hasClass('hidden') && !nextFileInput) {
+                    c.parents('.fileUpload').first().removeClass('hidden');
+                    nextFileInput = true;
+                }
+            });
+        } else {
+            fileInput.siblings(this.fileQuestionNameSelector).text("Vide");
+
+        }
+    },
 
     eventSelectQuestionMatiereChange: function(select) {
         var matiere = this.$selectQuestionMatiere.val();
         this.$selectQuestionCompetenceArray.forEach(function(c, i, a) {
             c.addClass('hidden');
+            c.attr('name', "");
         });
         this.$selectQuestionCompetenceArray[matiere].removeClass('hidden');
+        this.$selectQuestionCompetenceArray[matiere].attr('name', this.$selectQuestionCompetenceArray[matiere].data('name'));
+
     },
 
     eventZoneQuestionSupportClick: function(zone) {
+        this.$zoneQuestionSupport.removeClass(this.selectedClass);
+        zone.addClass(this.selectedClass);
         zone.find(this.radioQuestionSupportSelector).first().prop("checked", true).trigger('change');
         this.openTabQuestionConsultation(false);
     },
+
+    eventRadioQuestionChange: function (radio) {
+        this.openTabQuestionMaQuestion(false);
+    },
+
 
     openTabQuestionConsultation: function(button) {
         this.$buttonQuestionConsultation.addClass('open');
@@ -124,39 +237,9 @@ App.Question = {
         this.$tabQuestionMaQuestion.addClass('open');
     },
 
-
-    owlCarouselInit: function(cbInit) {
-
-    $("#owl-support").owlCarousel({
-          
-          pagination: false,
-          dots: false,
-          navText: false,
-          itemClass: 'owl-item js-question-support-zone',
-
-          responsive:{
-            0 : {
-                 items:1,
-                 dots:true,
-                 nav:true,
-
-            },
-            // breakpoint from 480 up
-            768 : {
-                 items:3,
-                 dots:false,
-            },
-            // breakpoint from 768 up
-            1200 : {
-                items:3,
-                dots:false,
-            }
-          } 
-     
-      });
-    },
-
     debug: function(t) {
         App.debug(t);
     }
 };
+
+'use strict';

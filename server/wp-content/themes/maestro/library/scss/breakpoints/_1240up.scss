@@ -265,35 +265,6 @@ HEADER STYLES
 						-webkit-transform-style: preserve-3d;
 						-moz-transform-style: preserve-3d;
 						transform-style: preserve-3d;
-
-
-						&:hover{
-
-							.label{
-								background: $vert;
-
-								&:before{
-									@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
-								}
-							}
-
-							.item{
-
-								&:before{
-									top: -170px;
-
-								}
-
-
-							}
-
-							&:last-child{
-								.item:before{
-									top: -140px;
-								}
-
-							}
-						}
 						
 
 						.item{
