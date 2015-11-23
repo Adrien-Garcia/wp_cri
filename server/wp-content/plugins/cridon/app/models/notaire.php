@@ -302,9 +302,6 @@ class Notaire extends MvcModel
                 }
             }
 
-            $this->erpNotaireList = $adapter->erpNotaireList;
-            $this->erpNotaireData = $adapter->erpNotaireData;
-
             // set list of existing notaire
             $this->setSiteNotaireList();
 
