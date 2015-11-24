@@ -639,7 +639,7 @@ function CriPostQuestion() {
                 }
                 $criFileUploader->setUploaddir($path);
 
-                // validate file size, max uploade authorized,...
+                // validate file size, max upload authorized,...
                 if ($criFileUploader->validate()) {
                     $listDocuments = $criFileUploader->execute();
 
