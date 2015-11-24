@@ -200,3 +200,25 @@ function custom_remove_admin_bar() {
         show_admin_bar(false);
     }
 }
+
+/**
+ * Suppression option "show admin bar" sur fiche notaire en admin
+ *
+ * @param $subject
+ * @return mixed
+ */
+function cri_remove_personal_options( $subject ) {
+    $subject = preg_replace( '#<tr class="show-admin-bar user-admin-bar-front-wrap">.+?/tr>#s', '', $subject, 1 );
+    return $subject;
+}
+
+function cri_profile_subject_start() {
+    ob_start( 'cri_remove_personal_options' );
+}
+
+function cri_profile_subject_end() {
+    ob_end_flush();
+}
+
+add_action( 'admin_head-user-edit.php', 'cri_profile_subject_start' );
+add_action( 'admin_footer-user-edit.php', 'cri_profile_subject_end' );
