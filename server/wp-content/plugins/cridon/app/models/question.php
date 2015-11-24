@@ -113,15 +113,14 @@ class Question extends MvcModel
                 $adapter = $this->adapter;
                 // query
                 // filter by list of supports if necessary
-                $sql = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST;
+                $sql = 'SELECT COUNT(*) as NB FROM ' . CONST_ODBC_TABLE_QUEST;
                 if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
                     $sql .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
                 }
 
                 // exec query
-                $this->results = $this->adapter->getResults($sql);
-
-                $this->nbItems = $this->adapter->countData();
+                $results = $this->adapter->execute($sql)->fetchData();
+                $this->nbItems = $results['NB'];
             }
         } catch (\Exception $e) {
             // send email
@@ -158,7 +157,7 @@ class Question extends MvcModel
                 $this->offset += self::CONST_LIMIT;
 
                 // exec query
-                $this->results = $this->adapter->getResults($sql);
+                $this->adapter->execute($sql);
                 $this->intitSiteQuestData();
 
                 // increments flag

@@ -339,12 +339,12 @@ interface DBConnect
     function connection();
 
     /**
-     * Get result
+     * execute $sql query
      *
      * @param string $sql query
      * @return resource
      */
-    function getResults($sql);
+    function execute($sql);
 
     /**
      * fetch Data
@@ -352,13 +352,6 @@ interface DBConnect
      * @return array|false
      */
     function fetchData();
-
-    /**
-     * Prepare count Data that can be retrieved
-     *
-     * @return $this
-     */
-    function countData();
 
     /**
      * Close the connection

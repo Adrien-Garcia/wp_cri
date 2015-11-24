@@ -303,7 +303,7 @@ class Notaire extends MvcModel
             $sql = 'SELECT * FROM ' . CONST_DB_TABLE_NOTAIRE;
             $adapter = $this->adapter;
             // exec query
-            $adapter->getResults($sql);
+            $adapter->execute($sql);
 
             // prepare data
             while ($data = $adapter->fetchData()) {

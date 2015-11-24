@@ -83,7 +83,7 @@ class CridonODBCAdapter implements DBConnect
      * @param string $sql
      * @return resource
      */
-    public function getResults($sql)
+    public function execute($sql)
     {
         $this->results = odbc_exec($this->conn, $sql);
 
@@ -98,17 +98,6 @@ class CridonODBCAdapter implements DBConnect
     public function fetchData()
     {
         return odbc_fetch_array($this->results);
-    }
-
-
-    /**
-     * Prepare OCI Data
-     *
-     * @return $this
-     */
-    public function countData()
-    {
-        return odbc_num_rows($this->results);
     }
 
     /**

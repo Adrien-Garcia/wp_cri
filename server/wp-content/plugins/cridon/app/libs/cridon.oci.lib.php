@@ -101,12 +101,26 @@ class CridonOCIAdapter implements DBConnect
      * @param string $sql
      * @return resource
      */
-    public function getResults($sql)
+    public function execute($sql)
     {
+        if (!empty($this->statementId)) {
+            oci_free_statement($this->statementId);
+        }
+
+        //remove potential ending semi-colon.
+        if (substr($sql, -1) == ';') {
+            $sql = substr($sql, -1);
+        }
         //parse and prepare query
         $this->statementId = oci_parse($this->conn, $sql);
-        oci_execute($this->statementId);
-
+        $isExec = oci_execute($this->statementId);
+        if (!$isExec) {
+            $error = oci_error();
+            $error = empty($error) ? CONST_CONNECTION_FAILED : $error;
+            writeLog($error, 'execute.log');
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $error['message']);
+            throw new Exception($error['message'], $error['code']);
+        }
         return $this;
     }
 
@@ -118,16 +132,6 @@ class CridonOCIAdapter implements DBConnect
     public function fetchData()
     {
         return oci_fetch_array($this->statementId);
-    }
-
-    /**
-     * Prepare count Data that can be retrieved
-     *
-     * @return $this
-     */
-    public function countData()
-    {
-        return oci_num_rows($this->statementId);
     }
 
     /**
