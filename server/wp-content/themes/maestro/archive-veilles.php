@@ -47,7 +47,7 @@
 									<img class="sel-veilles-picto" src="<?php echo $veille->matiere->picto ?>" alt="<?php echo $veille->matiere->label ?>" />
 								</div>
 							</div>
-							<div class="block_right sel-veilles-content">
+							<div class="block_right sel-veilles-content js-home-block-link" >
 							<?php //var_dump($this) ?>
 								<div class="matiere"><?php echo $veille->matiere->label ?></div>
 								<h2><?php the_title() ?></h2>

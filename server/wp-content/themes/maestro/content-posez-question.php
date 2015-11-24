@@ -104,14 +104,14 @@
 					<?php _e('Demander'); ?>
 					<span><?php _e('une documentation'); ?></span>
 				</h2>
-				<a href="#">+</a>
+				<a href="">+</a>
 			</li>
 			<li class="js-home-block-link">
 				<h2>
 					<?php _e('Prendre'); ?>
 					<span><?php _e('un rendez-vous'); ?></span>
 				</h2>
-				<a href="#">+</a>
+				<a href="mailto:visite@cridon-lyon.fr">+</a>
 			</li>
 		</ul>
 
@@ -142,7 +142,7 @@
 						<?php _e('Prendre'); ?>
 						<span><?php _e('un rendez-vous'); ?></span>
 					</h2>
-					<a href="#">+</a>
+					<a href="mailto:visite@cridon-lyon.fr">+</a>
 				</div>						
 			</div>
 		</div>

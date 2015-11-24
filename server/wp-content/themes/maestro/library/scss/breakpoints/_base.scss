@@ -37,6 +37,8 @@ LAYOUT & GRID STYLES
 	display:none;
 }
 
+a.excerpt-read-more{display: none;}
+
 /*********************
 HEADER STYLES
 *********************/
@@ -2527,7 +2529,7 @@ body.page-template-front-page{
 #content.page-mon-compte{
 
 	#main{
-		padding-top: 0;
+		//padding-top: 0;
 
 		#inner-content{
 
