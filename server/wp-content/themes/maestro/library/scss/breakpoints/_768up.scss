@@ -529,6 +529,13 @@ HEADER STYLES
 						padding: 0;
 						margin: 0;
 					}
+
+					&:hover{
+
+						> a{
+							@extend .do-bo;
+						}
+					}
 				}
 
 				
@@ -1405,6 +1412,7 @@ body.page-template-front-page{
 						.block_right{
 							float: right;
 							width: 400px;
+							cursor: pointer;
 
 							.matiere{
 								/*@extend .do-bo;
