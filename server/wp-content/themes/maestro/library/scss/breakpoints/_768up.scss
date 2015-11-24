@@ -1699,11 +1699,59 @@ body.page-template-front-page{
 							}
 
 							&:last-child{
-								&:before{ }
+								&:before{}
 							}
 						}
 					}
 
+					.documents-liees{						
+
+						float: left;
+
+						>ul{
+							width: 100%;
+							float: left;
+
+							>li{
+
+								float: left;
+								
+
+								> a{
+									
+									font-size: 16px;
+									padding-left: 10px;
+									position: relative;	
+									margin-right: 10px;								
+									
+
+									&:before{
+										content:'';
+										position: absolute;
+										left:0px;
+										//color:$vert;
+										width: 2px;
+										background: $vert;
+										height: 18px;
+										z-index: 9999;
+										top:2px;
+										@include transition(all 0.3s);
+										//margin-top: -9px;
+									}
+
+									&:hover{ 
+ 
+										&:before{
+											background: #e6e6e6;
+										} 
+									}
+
+								}
+							}
+						}
+
+					}
+ 
 
 				}
 			}

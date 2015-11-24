@@ -69,9 +69,10 @@
                         <?php for ($i = 0; $i < 5; $i++) : ?>
 						<div class="fileUpload btn btn-primary <?php echo ($i == 0) ? "" : "hidden"; ?>">
                             <span class="fileName js-file-name">Vide</span>
-						    <span class="fileButtonFront">Parcourir</span>
+						    <button class="btn btn-primary btn-reset js-file-reset">+</button>
 						    <input type="file" class="upload js-question-file"  id="question_fichier_<?php echo $i; ?>" name="question_fichier[]"  placeholder="Télécharger vos documents"/>
-						    <button class="btn btn-primary btn-reset js-file-reset">Delete</button>
+						    
+						    <span class="fileButtonFront">Parcourir</span>
                         </div>
                         <?php endfor; ?>
 

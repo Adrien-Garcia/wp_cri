@@ -189,10 +189,10 @@ HEADER STYLES
 				width: 1px;
 				transition: width 0.6s;
 
-				form{
+				>form{
 
-					opacity:0;
-					transition: opacity $duration/2; 
+					opacity:0;					
+					transition: opacity $duration/2;
 
 					input[type="text"], input[type="password"]{
 						width: 240px;
@@ -252,6 +252,10 @@ HEADER STYLES
 					
 				}
 
+				#loginFormId{display: none;}
+
+				
+
 				> a#mdp_oublie, a#mdp_retour{
 					font-size: 14px;
 					color:#FFF;
@@ -279,9 +283,11 @@ HEADER STYLES
 
 					width: 100% !important;
 
-					> form{
+					>form{
 						opacity: 1;
+						display: block;
 					}
+					#loginFormId{display: block;}
 
 					> a#mdp_oublie, a#mdp_retour, #errorMsgId, #errorMsgForgotId{ 
 						opacity: 1;
@@ -337,11 +343,6 @@ HEADER STYLES
                                                                                                                                  
 
 */
-
-
-
-
-
 
 #layer-posez-question{
 	width: 100%;
@@ -481,6 +482,8 @@ HEADER STYLES
 
                         &:hover, &.selected{
 
+
+
                             .label{
                                 background: $vert;
 
@@ -496,6 +499,8 @@ HEADER STYLES
                                     animation: bump 0.5s ease-in 0s infinite alternate;
                                 }
 
+                                //background: #e6e6e6;
+
 
                             }
 
@@ -506,6 +511,7 @@ HEADER STYLES
 
                             }
                         }
+
 						label {
 							width: 100%;
 							height: 100%;
@@ -709,6 +715,8 @@ HEADER STYLES
 						input[type="file"]{
 							border:none;
 							margin-bottom: 20px;
+							color:#FFF; 
+
 							//display: none;
 
 
@@ -717,8 +725,8 @@ HEADER STYLES
 						.fileUpload {
 						    position: relative;
 						    overflow: hidden;
-						    float: right;
-						    width: 200px;
+						    float: left;
+						    width: 100%;
 						    height: 30px;
 						    color:#FFF;
 						    @extend .do-me;
@@ -726,18 +734,25 @@ HEADER STYLES
 						    text-transform: uppercase;
 						    line-height: 30px;
 						    text-align: left;
-						    margin-left: calc(100% - 85px);
+						    //margin-left: calc(100% - 85px); 
 						    margin-bottom: 20px;
 
                             .btn-reset {
                                 float: right;
                                 position: relative;
                                 z-index:1;
-                                height: 100%;
-                                width: 65px;
+                                //height: 100%;
+                                width: 35px;
                                 border: 0 1px solid #000;
-                                background: #fff;
+                                background: transparent;
                                 color: #000;
+                                border:none;
+                                font-size: 50px;
+    							line-height: 0px;
+    							@include rotate(45);
+    							@extend .do-el;
+    							top: 8px;
+
                             }
                             span {
                                 display: inline-block;
@@ -748,11 +763,15 @@ HEADER STYLES
                                 color: #000000;
                             }
                             span.fileName {
-                                width: 50px;
+                                width: auto;
+                                max-width: 200px;
+                                overflow: hidden;
 
                             }
                             span.fileButtonFront {
                                 background: $bleu;
+                                float: right;
+                                color:#FFF;
 
                             }
 						}
@@ -2391,6 +2410,43 @@ body.page-template-front-page{
 								&:before{ display: none;}
 							}
 						}
+					}
+
+					.documents-liees{
+						width: 100%;
+						padding: 20px;
+						margin-top: 20px;
+						background: #e6e6e6;
+
+						>ul{
+							margin: 0;
+							padding: 0;
+
+							>li{
+								margin: 0;
+								padding: 3px 0;
+
+								>a{
+									@extend .do-me;
+									font-size: 14px;
+									color:$bleu;
+									text-decoration: none;
+									
+									&:hover{
+										//text-decoration: underline;
+										//@extend .do-me;
+									}
+
+									/* &:before{
+										content:'|';
+										position: relative;
+										left: -10px;
+									} */
+
+								}
+							}
+						}
+
 					}					
 
 				}
