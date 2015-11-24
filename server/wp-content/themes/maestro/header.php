@@ -115,7 +115,7 @@
 						<div id="close" class="js-panel-connexion-close">+</div>
 						<div class="titre">connectez-vous</div>
 						<p>Accédez à vos informations et bénéficiez d’un contenu personnalisé.</p>
-						 <div class="pannel_01 js-panel-connexion-connexion-form active">
+						 <div class="pannel_01 js-panel-connexion-connexion-form">
 							<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
 								<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
 								<input type="password" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">

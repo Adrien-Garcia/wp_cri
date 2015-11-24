@@ -92,6 +92,15 @@
 									<li><?php echo $tag->name; ?></li>
 								<?php endforeach; endif; ?>
 								</ul>
+
+								<div class="documents-liees">
+									<ul>
+										<li><a href="#" target="_blank">NomDuDocument.pdf</a></li>
+										<li><a href="#" target="_blank">NomDuDocument.pdf</a></li>
+										<li><a href="#" target="_blank">NomDuDocument.pdf</a></li>
+										<li><a href="#" target="_blank">NomDuDocument.pdf</a></li>
+									</ul>
+								</div>
 								
 								
 							</div>

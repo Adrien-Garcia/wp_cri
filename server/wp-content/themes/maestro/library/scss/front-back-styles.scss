@@ -61,7 +61,12 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4{
 
   /* removing text decoration from all headline links */
   a {
-    text-decoration: none;
+    text-decoration: underline;
+    color:$rouge; 
+
+    &:hover{
+      text-decoration: none;
+    }
   }
 
 }
