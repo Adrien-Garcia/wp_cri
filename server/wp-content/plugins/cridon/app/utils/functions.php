@@ -653,7 +653,8 @@ function CriPostQuestion() {
                                     'date_modified' => date('Y-m-d H:i:s'),
                                     'type'          => 'question',
                                     'id_externe'    => $questionId,
-                                    'name'          => $document
+                                    'name'          => $document,
+                                    'label'         => 'PJ'
                                 )
                             );
 
