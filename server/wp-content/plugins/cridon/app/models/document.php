@@ -126,7 +126,8 @@ class Document extends MvcModel {
                                     'type'          => 'question',
                                     'id_externe'    => $question->id,
                                     'name'          => $contents[CridonGedParser::INDEX_NOMFICHIER],
-                                    'cab'           => $contents[CridonGedParser::INDEX_VALCAB]
+                                    'cab'           => $contents[CridonGedParser::INDEX_VALCAB],
+                                    'label'         => 'question/reponse'
                                 )
                             );
                             //Document suite/complément
@@ -172,8 +173,6 @@ class Document extends MvcModel {
                             reportError($message, '');
                         }
                     } else { // doc sans question associee
-                        // archivage source des metadonnees
-                        rename($document, $archivePath . $fileInfo['basename']);
 
                         // log : envoie mail
                         $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
