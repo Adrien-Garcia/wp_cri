@@ -200,3 +200,17 @@ function custom_remove_admin_bar() {
         show_admin_bar(false);
     }
 }
+
+//Hook for Mvc_menu_position
+/**
+ * @see MvcAdminLoader Class at line 65 (wp-mvc\core\loaders\mvc_admin_loader.php)
+ */
+add_filter( 'mvc_menu_position', 'custom_mvc_menu_position', 10, 1 );
+function custom_mvc_menu_position( $menu_position ){
+    /**
+     * WP_MVC puts menu_position = $12; that overwrites the other menu items
+     */
+    $new_menu_position = 30;//Start mvc_menu_position at 30
+    return $new_menu_position ;
+}
+//End Hook for Mvc_menu_position
