@@ -64,11 +64,6 @@ class Question extends MvcModel
     protected $results;
 
     /**
-     * @var bool
-     */
-    protected $end = false;
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -146,14 +141,37 @@ class Question extends MvcModel
             $limitMax = intval($this->nbItems / self::CONST_LIMIT) + 1;
 
             // repeat action until limit max OR the end is reached
-            if ($i <= $limitMax && !$this->end) {
+            if ($i <= $limitMax) {
+
                 // query
-                $sql = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST;
+                $mainQuery = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST;
                 // filter by list of supports if necessary
                 if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
-                    $sql .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
+                    $mainQuery .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
                 }
-                $sql .= ' LIMIT ' . self::CONST_LIMIT . ' OFFSET ' . intval($this->offset);
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a LIMIT OFFSET in Oracle SQL
+                         SELECT * FROM (
+                            SELECT rownum rnum, a.*
+                            FROM(
+                                SELECT fieldA,fieldB
+                                FROM table
+                            ) a
+                            WHERE rownum <= offset + limit
+                        )
+                        WHERE rnum >= offset
+                         */
+                        $oracleLimit = self::CONST_LIMIT + intval($this->offset);
+                        $limitQuery = 'SELECT rownum rnum, subquery.* FROM ('.$mainQuery.') subquery WHERE rownum <= '.$oracleLimit;
+                        $sql = 'SELECT * FROM ('.$limitQuery.') WHERE rnum >= '.$this->offset;
+                        break;
+                    case CONST_DB_DEFAULT:
+                    default:
+                        $sql = $mainQuery.' LIMIT ' . self::CONST_LIMIT . ' OFFSET ' . intval($this->offset);
+                        break;
+                }
                 $this->offset += self::CONST_LIMIT;
 
                 // exec query
@@ -294,8 +312,6 @@ class Question extends MvcModel
             $options['values'] = implode(', ', $insertValues);
             // bulk insert
             $queryBulder->insertMultiRows($options);
-        } else {
-            $this->end = true; // stop the import
         }
     }
 }
