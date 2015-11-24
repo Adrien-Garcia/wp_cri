@@ -53,7 +53,7 @@ function custom_admin_menu()
                 $submenu[$k][1][2] = 'post-new.php?cridon_type=' . $match[1];
             }
             if (in_array($match[1], Config::$mvcWithUserForm)) {
-                $submenu[$k][1][2] = 'user-new.php?cridon_user_type=' . $match[1];
+                $submenu[$k][1][2] = 'user-new.php';
             }
         }
     }
@@ -198,5 +198,13 @@ function custom_remove_admin_bar() {
     //Remove admin bar in front for notaire
     if( CriIsNotaire() ){
         show_admin_bar(false);
+    }
+}
+
+/* Cacher les elements de menu sidebar left */
+add_action( 'admin_menu', 'custom_remove_menu_pages' );
+function custom_remove_menu_pages() {
+    if( !is_super_admin() ){
+        remove_menu_page('users.php');	//Section Utilisateurs        
     }
 }
