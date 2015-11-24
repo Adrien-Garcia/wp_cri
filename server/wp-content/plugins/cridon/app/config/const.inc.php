@@ -36,6 +36,29 @@ if ( !defined( 'CONST_WPMVC_PREFIX' ) ) {
 if ( !defined( 'CONST_ODBC_DRIVER' ) ) {
 	define( 'CONST_ODBC_DRIVER', '{MySQL ODBC 5.3 Ansi Driver}' );
 }
+
+if ( !defined( 'CONST_DB_DEFAULT' ) ) {
+    define('CONST_DB_DEFAULT', 'MySQL');
+}
+
+if ( !defined( 'CONST_DB_ORACLE' ) ) {
+    define('CONST_DB_ORACLE', 'oracle');
+}
+if ( !defined( 'CONST_DB_TYPE' ) ) {
+    switch ($env) {
+        case PROD:
+        case PREPROD:
+        case DEV:
+        case LOCAL:
+            $type = CONST_DB_ORACLE;
+            break;
+        default:
+            $type = CONST_DB_DEFAULT;
+            break;
+    }
+    define( 'CONST_DB_TYPE', $type );
+}
+
 if ( !defined( 'CONST_DB_HOST' ) ) {
     switch ($env) {
         case PROD:
