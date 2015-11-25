@@ -632,7 +632,7 @@ function CriPostQuestion() {
                 $criFileUploader->setMaxSize(CONST_QUESTION_MAX_FILE_SIZE);
                 // set upload dir
                 $uploadDir = wp_upload_dir();
-                $path = $uploadDir['basedir'] . '/questions/' . $questionId . '/';
+                $path = $uploadDir['basedir'] . '/questions/' . date('Ym') . '/';
                 if( !file_exists( $path )) { // not yet directory
                     // crete the directory
                     wp_mkdir_p($path);
@@ -648,7 +648,7 @@ function CriPostQuestion() {
                             // prepare data
                             $documents = array(
                                 'Document' => array(
-                                    'file_path'     => '/questions/' . $questionId . '/' . $document,
+                                    'file_path'     => '/questions/' . date('Ym') . '/' . $document,
                                     'download_url'  => '/documents/download/' . $questionId,
                                     'date_modified' => date('Y-m-d H:i:s'),
                                     'type'          => 'question',
