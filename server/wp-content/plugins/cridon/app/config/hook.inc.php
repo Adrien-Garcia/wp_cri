@@ -72,7 +72,7 @@ function append_js_files()
 
         $criFileUploader = new CriFileUploader();
 
-        wp_enqueue_script('cridon', plugins_url('cridon/app/public/js/cridon_login.js'), array('jquery'));
+        wp_enqueue_script('cridon', plugins_url('cridon/app/public/js/cridon.js'), array('jquery'));
         wp_localize_script(
             'cridon',
             'jsvar',
