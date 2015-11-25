@@ -1579,6 +1579,16 @@ body.page-template-front-page{
 									display: block;
 								}
 
+								.reponse{
+									font-size: 18px;
+									font-weight: 400;
+
+									font-family: helvetica !important;
+									margin-bottom: 10px; 
+
+									left: 585px;
+								}
+
 								.matiere{
 								 font-size: 15px;
 								 line-height: 17px;
@@ -1611,6 +1621,114 @@ body.page-template-front-page{
 								}
 
 								.person{ font-size: 18px; padding-left: 35px;}
+
+								li.pdf{
+								 
+									 height: 25px;
+									 float: left;
+
+									 > a{
+									 	
+									 	width: 24px;
+									 	height: 24px;
+									 	display: inline-block;
+									 	top:-4px;
+									 	
+
+									 	&:before{
+									 		@include svgicon('icon-pdf', 24px, 24px, $vert);
+									 		
+									 	}
+									 }
+								}
+
+								li.plusdedetails{
+									/*margin-bottom: 0;*/
+
+									width: 1200px;
+									padding-right: 0;
+									
+									> span{
+										
+										
+										padding-bottom: 24px;
+
+										font-size: 16px;
+										margin-top: 30px;
+										
+									}
+
+									.details{
+									
+										padding: 0 20px 0 40px;
+										float: left;
+
+										> ul{
+
+											
+											float: left;
+
+											>li{
+											
+												&:first-child{
+
+													width: 550px; 
+													float: left;
+
+													span{
+														font-size: 16px;
+
+											
+													}
+
+													> ul{
+
+											
+														> li {
+															float: left;
+															margin-right: 20px;
+															
+
+															a{font-size: 16px;
+																position: relative;
+
+																&:after{
+																	content:'';
+																	height: 18px;
+																	width: 1px;
+																	background: $bleu;
+																	position: absolute;
+																	right: -10px;
+																	top: 5px;
+																}
+
+																&:hover{
+																	text-decoration: underline;
+																}
+															}
+														}
+													}
+
+												}
+
+												&:last-child{
+													
+													width: 590px;
+													float: left;
+													font-size: 14px;
+
+													>span{
+
+													}
+												}
+											}
+
+
+											
+										}
+									}
+
+								}
 
 								
 
@@ -1675,7 +1793,7 @@ body.page-template-front-page{
 										}
 
 										> li:nth-child(3){
-											width: 280px;
+											width: 260px;
 
 											span{
 												display:block; 
@@ -1683,15 +1801,26 @@ body.page-template-front-page{
 										}
 
 										> li:nth-child(4){
-											width: 130px; 
+											width: 120px; 
 										}
 
 										> li:nth-child(5){
-											width: 110px;
+											width: 90px;
 										}
 
 										> li:nth-child(6){
 											width: 130px;
+											padding-right: 0;
+											
+										}
+
+										> li:nth-child(7){
+										width: 50px;
+										padding-right: 0;
+											
+										}
+
+										> li:nth-child(8){
 											padding-right: 0;
 											
 										}
@@ -1704,6 +1833,146 @@ body.page-template-front-page{
 						#questions-attentes{
 							margin-bottom: 40px; 
 							float: left;
+
+							>ul{
+								
+
+								> li{
+									padding-bottom: 0;
+								}
+							}
+						}
+
+
+						#historique-questions{
+
+							.filtres{
+
+								/*width: 100%;
+								float: left;*/
+
+								&:before{}
+
+								> ul{
+									/*float: left;
+									width: 100%;*/
+									
+
+									li{
+
+										//float: left;
+
+										font-size: 16px;
+
+										.titre{
+											//margin: 0;
+											font-size: 20px;
+											margin-right: 20px;
+
+										}
+
+										> a{
+											font-size: 20px;
+										}
+
+										input.datepicker{
+											/*margin-left: 10px;
+											margin-right: 10px;*/
+											margin: 0 10px 0 5px;
+											width: 80px;
+										}
+
+										select{
+											/*width: 200px; 
+											height: 35px;
+											padding-top: 0;
+											padding-bottom: 0;
+											line-height: 15px;*/
+											width: 390px;
+										}
+
+
+									}
+
+									> li:first-child{
+										/*float: left;*/
+										width: 225px;
+									}
+
+									>li:nth-child(2){
+										width: 360px;
+										
+										.titre{
+											margin-right: 20px;
+										}
+
+										#dateto{}
+									}
+									>li:last-child{
+										.titre{
+											//margin-right: 5px;
+											margin-right: 25px;
+										}
+									}
+								}
+							}
+
+							> ul{
+
+								> li{
+
+									
+
+									&.pdf{
+										width: 31px;
+									}
+
+									> ul{
+
+										li:nth-child(6){
+											width: 130px;
+											
+											margin-left: 0;
+										}
+
+										li.pdf{
+											
+										}
+
+									}
+
+									> ul.suite-complement{
+										
+										
+
+										> li{ 
+											/*width: 100%; 
+											text-align: right;
+											padding: 0;
+											margin-bottom: 10px;
+											padding-right: 30px; */
+
+											width: 100%;
+											padding-right: 60px;
+											margin-bottom: 20px;
+
+											>a{
+												font-size: 16px;
+
+												&:before{
+											 		@include svgicon('icon-pdf', 24px, 24px, $vert);
+											 		top:-4px;
+											 		right: -60px;
+											 		
+											 	}
+											}
+
+											
+										}
+
+									}
+								}
+							}
 						}
 
 						
