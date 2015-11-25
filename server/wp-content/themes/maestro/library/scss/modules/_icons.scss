@@ -46,13 +46,14 @@ $icons: (
     icon-menu-compte: '\EA13',
     icon-menu-mobile: '\EA14',
     icon-nl: '\EA15',
-    icon-rechercher: '\EA16',
-    icon-servicesplus: '\EA17',
-    icon-status-repondu: '\EA18',
-    icon-tel: '\EA19',
-    icon-veille-juridique: '\EA1A',
-    icon-veille: '\EA1B',
-    icon-vieducridon: '\EA1C'
+    icon-pdf: '\EA16',
+    icon-rechercher: '\EA17',
+    icon-servicesplus: '\EA18',
+    icon-status-repondu: '\EA19',
+    icon-tel: '\EA1A',
+    icon-veille-juridique: '\EA1B',
+    icon-veille: '\EA1C',
+    icon-vieducridon: '\EA1D'
 );
 
 @each $name, $icon in $icons {
