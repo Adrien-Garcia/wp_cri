@@ -13,6 +13,9 @@ class Matiere extends MvcModel
         ),
         'flashes' => array(
             'foreign_key' => 'id_matiere'
+        ),
+        'cahier_cridons' => array(
+            'foreign_key' => 'id_matiere'
         )
     );
     public function create($data) {

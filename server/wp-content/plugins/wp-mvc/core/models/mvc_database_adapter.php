@@ -111,7 +111,7 @@ class MvcDatabaseAdapter {
                     $values = implode(',', $values);
                     $sql_clauses[] = $this->escape($key).' IN ('.$values.')';
                 } else {
-                    $clauses = $this->get_where_sql_clauses($value);
+                    $clauses = $this->get_where_sql_clauses($value, $options);
                     $logical_operator = $key == 'OR' ? ' OR ' : ' AND ';
                     $sql_clauses[] = '('.implode($logical_operator, $clauses).')';
                 }
@@ -120,8 +120,12 @@ class MvcDatabaseAdapter {
             if (strpos($key, '.') === false && $use_table_alias) {
                 $key = $this->defaults['model_name'].'.'.$key;
             }
-            $operator = preg_match('/\s+(<|>|<=|>=|<>|\!=|[\w\s]+)/', $key) ? ' ' : ' = ';
-            $sql_clauses[] = $this->escape($key).$operator.'"'.$this->escape($value).'"';
+            if (!is_null($value)) {
+                $operator = preg_match('/\s+(<|>|<=|>=|<>|\!=|[\w\s]+)/', $key) ? ' ' : ' = ';
+                $sql_clauses[] = $this->escape($key).$operator.'"'.$this->escape($value).'"';
+            } else {
+                $sql_clauses[] = $this->escape($key).' IS NULL';
+            }
         }
         return $sql_clauses;
     }
