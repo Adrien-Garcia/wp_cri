@@ -87,6 +87,13 @@ class Config {
         'cahier_cridons',
     );
 
+    //Content qualified by a "Matière"
+    public static $contentWithParent = array(
+        'cahier_cridons',
+    );
+
+    public static $titleParentMetabox = 'Cahier principal';
+
     // list of category not to be imported
     public static $notImportedList = array(CONST_CLIENTDIVERS_ROLE);
 

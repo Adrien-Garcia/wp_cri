@@ -124,6 +124,48 @@ add_action( 'wp_insert_post', 'on_post_import' );
 // End After insert post
 
 
+// Parent management
+add_action('add_meta_boxes','init_meta_boxes_parent');
+
+function init_meta_boxes_parent(){
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithParent)) {
+        // init meta box depends on the current type of content
+        add_meta_box('id_meta_boxes_parent_select', Config::$titleParentMetabox , 'init_parent_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
+    }
+}
+/**
+ * Init metabox if it'a model Veille
+ *
+ * @param \WP_Post $post
+ */
+function init_parent_meta_boxes( $post, $args ){
+    //args contains only one param : key to model name using config
+    $models = $args['args'];
+    $config = arrayGet(Config::$data, $models, reset(Config::$data));
+    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
+    $oParent = mvc_model( $config['model'] );//load model Matiere to use functions
+    $aParent = $oParent->find( array(
+        'selects' => array('Post.post_title as label', $config['model'].'.id'),
+        'order' => 'Post.post_title ASC',
+        'conditions' => array(
+            $config['model'].'.id_parent' => null,
+            $config['model'].'.id != ' => $oModel->id,
+        ),
+        'joins' => array('Post')
+    ) );
+
+    // prepare vars
+    $vars = array(
+        'aParent' => $aParent,
+        'oModel' => $oModel
+    );
+
+    // render view
+    CriRenderView('parent_meta_box', $vars);
+}
+
+// End parent management
+
 // Category managment
 add_action('add_meta_boxes','init_meta_boxes_category_post');
 

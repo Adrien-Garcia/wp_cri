@@ -21,7 +21,7 @@ class AdminCahierCridonsController extends MvcAdminController {
             'value_method' => 'post_edit_link'
         ),
         'matiere' => array(
-            'label'=>'Matière',
+            'label'=>'MatiÃ¨re',
             'value_method' => 'matiere_edit_link'
         )
     );
@@ -77,6 +77,14 @@ class AdminCahierCridonsController extends MvcAdminController {
                 $aData->$sKey = $aData->$sVal;
             }
         }
+    }
+    public function matiere_edit_link($object)
+    {
+        $aOptionList = array(
+            '__name'    => 'label'
+        );
+        $this->prepareData($aOptionList, $object->matiere);
+        return empty($object->matiere) ? Config::$defaultMatiere['name'] : HtmlHelper::admin_object_link($object->matiere, array('action' => 'edit'));
     }
     
 }
