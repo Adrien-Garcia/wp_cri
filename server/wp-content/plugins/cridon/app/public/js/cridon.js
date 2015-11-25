@@ -81,7 +81,6 @@
                     }
                 });
             } else {
-                //alert(jsvar.empty_error_msg);
                 $('#' + errorBlocId).html(jsvar.empty_error_msg);
             }
 
@@ -149,7 +148,6 @@
                     }
                 });
             } else {
-                //alert(jsvar.empty_error_msg);
                 $('#' + msgBlocId).html(jsvar.empty_crpcen_msg);
             }
 
@@ -280,7 +278,6 @@
                     }
                 });
             } else {
-                //alert(jsvar.empty_error_msg);
                 $('#' + newsMsgBlocId).html(jsvar.newsletter_empty_error);
             }
 
