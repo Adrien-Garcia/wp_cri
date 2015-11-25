@@ -27,7 +27,7 @@ class MvcModel {
         
         $this->check_for_obsolete_functionality();
         
-        $table = empty($this->table) ? $wpdb->prefix.MvcInflector::tableize($this->name) : $this->process_table_name($this->table);
+        $table = empty($this->table) ? $wpdb->prefix.MvcInflector::tableize($this->name) : self::process_table_name($this->table);
         
         $defaults = array(
             'model_name' => $this->name,
@@ -261,6 +261,7 @@ class MvcModel {
         $total_count = $this->get_total_count($options);
         $response = array(
             'objects' => $objects,
+            'total_objects' => $total_count,
             'total_pages' => ceil($total_count/$options['per_page']),
             'page' => $options['page']
         );
@@ -332,13 +333,13 @@ class MvcModel {
     
     protected function get_total_count($options=array()) {
         $clauses = $this->db_adapter->get_sql_select_clauses($options);
-        $clauses['select'] = 'SELECT COUNT(*) AS count';
         unset($clauses['limit']);
         $sql = implode(' ', $clauses);
+        $sql = 'SELECT COUNT(*) FROM('.$sql.') AS count';
         $result = $this->db_adapter->get_var($sql);
         return $result;
     }
-    
+
     protected function process_find_options($options) {
         if (!empty($options['joins'])) {
             if (is_string($options['joins'])) {
@@ -346,48 +347,61 @@ class MvcModel {
             }
             foreach ($options['joins'] as $key => $join) {
                 if (is_string($join)) {
-                    $join_model_name = $join;
-                    if (!empty($this->associations[$join_model_name])) {
-                        $association = $this->associations[$join_model_name];
-                        
-                        $join_model = new $join_model_name();
-                        
-                        switch ($association['type']) {
-                            case 'belongs_to':
-                                $join = array(
-                                    'table' => $join_model->table,
-                                    'on' => $join_model_name.'.'.$join_model->primary_key.' = '.$this->name.'.'.$association['foreign_key'],
-                                    'alias' => $join_model_name
-                                );
-                                break;
-                                
-                            case 'has_many':
-                                // To do: test this
-                                $join = array(
-                                    'table' => $this->table,
-                                    'on' => $join_model_name.'.'.$association['foreign_key'].' = '.$this->name.'.'.$this->primary_key,
-                                    'alias' => $join_model_name
-                                );
-                                break;
-                            
-                            case 'has_and_belongs_to_many':
-                                $join_table_alias = $join_model_name.$this->name;
-                                // The join for the HABTM join table
-                                $join = array(
-                                    'table' => $this->process_table_name($association['join_table']),
-                                    'on' => $join_table_alias.'.'.$association['foreign_key'].' = '.$this->name.'.'.$this->primary_key,
-                                    'alias' => $join_table_alias
-                                );
-                                // The join for the association model's table
-                                $second_join = array(
-                                    'table' => $join_model->table,
-                                    'on' => $join_table_alias.'.'.$association['association_foreign_key'].' = '.$join_model_name.'.'.$join_model->primary_key,
-                                    'alias' => $join_model_name
-                                );
-                                $options['joins'][] = $second_join;
-                                break;
-                        }
-                    }
+					$join_name = $join;
+					$join_model_name = $join;
+					$join_type = 'JOIN';
+				} else {
+					$join_name = $key;
+					$join_model_name = isset($join['class']) ? $join['class'] : $key;
+					$join_type  = isset($join['type']) ? $join['type'] : 'JOIN';
+				}
+
+				if (!empty($this->associations[$join_name])) {
+					$association = $this->associations[$join_name];
+
+					$join_model = new $join_model_name();
+
+					switch ($association['type']) {
+						case 'belongs_to':
+							$join = array(
+								'table' => $join_model->table,
+								'on' => $join_name.'.'.$join_model->primary_key.' = '.$this->name.'.'.$association['foreign_key'],
+								'alias' => $join_name,
+								'type' => $join_type
+							);
+
+							break;
+
+						case 'has_many':
+							$join = array(
+								'table' => $join_model->table,
+								'on' => $join_name.'.'.$association['foreign_key'].' = '.$this->name.'.'.$this->primary_key,
+								'alias' => $join_name,
+								'type' => $join_type
+							);
+
+							break;
+
+						case 'has_and_belongs_to_many':
+							$join_table_alias = $join_model_name.$this->name;
+							// The join for the HABTM join table
+							$join = array(
+								'table' => self::process_table_name($association['join_table']),
+								'on' => $join_table_alias.'.'.$association['foreign_key'].' = '.$this->name.'.'.$this->primary_key,
+								'alias' => $join_table_alias,
+								'type' => $join_type
+							);
+							// The join for the association model's table
+							$second_join = array(
+								'table' => $join_model->table,
+								'on' => $join_table_alias.'.'.$association['association_foreign_key'].' = '.$join_model_name.'.'.$join_model->primary_key,
+								'alias' => $join_model_name,
+								'type' => $join_type
+							);
+							$options['joins'][] = $second_join;
+							break;
+					}
+
                     $options['joins'][$key] = $join;
                 }
             }
@@ -428,7 +442,7 @@ class MvcModel {
         if (!empty($model_data[$association_name])) {
             if (isset($model_data[$association_name]['ids'])) {
                 $this->db_adapter->delete_all(array(
-                    'table_reference' => $this->process_table_name($association['join_table']),
+                    'table_reference' => self::process_table_name($association['join_table']),
                     'conditions' => array($association['foreign_key'] => $object_id)
                 ));
                 if (!empty($model_data[$association_name]['ids'])) {
@@ -440,11 +454,38 @@ class MvcModel {
                                     $association['association_foreign_key'] => $association_id,
                                 ),
                                 array(
-                                    'table_reference' => $this->process_table_name($association['join_table'])
+                                    'table_reference' => self::process_table_name($association['join_table'])
                                 )
                             );
                         }
                     }
+                }
+            }
+            //AR: improvement to add fields to join table
+            else if(is_array ($model_data[$association_name])){
+                $this->db_adapter->delete_all(array(
+                    'table_reference' => self::process_table_name($association['join_table']),
+                    'conditions' => array($association['foreign_key'] => $object_id)
+                ));
+                foreach ($model_data[$association_name] as $obj) {
+                    if(empty($obj['id']))
+                        continue;
+                    
+                    $fields = array(
+                        $association['foreign_key'] => $object_id,
+                    );
+                    //insert fields
+                    foreach ($obj as $field => $value) {
+                        $field = $field == 'id' ? $association['association_foreign_key'] : $field;
+                        $fields[$field] = $value;
+                    }
+                    
+                    $this->db_adapter->insert(
+                        $fields,
+                        array(
+                            'table_reference' => self::process_table_name($association['join_table'])
+                        )
+                    );
                 }
             }
         }
@@ -515,7 +556,7 @@ class MvcModel {
                     if (empty($association['fields'])) {
                         $association['fields'] = array($association['name'].'.*');
                     }
-                    $model = MvcModelRegistry::get_model($model_name);
+                    $model = MvcModelRegistry::get_model($association['class']);
                     switch ($association['type']) {
                         case 'belongs_to':
                             $associated_object = $model->find_by_id($object->{$association['foreign_key']}, array(
@@ -534,11 +575,12 @@ class MvcModel {
                             break;
                         
                         case 'has_and_belongs_to_many':
+                            
                             $join_alias = 'JoinTable';
                             $associated_objects = $model->find(array(
                                 'selects' => $association['fields'],
                                 'joins' => array(
-                                    'table' => $this->process_table_name($association['join_table']),
+                                    'table' => self::process_table_name($association['join_table']),
                                     'on' => $join_alias.'.'.$association['association_foreign_key'].' = '.$model_name.'.'.$model->primary_key,
                                     'alias' => $join_alias
                                 ),
@@ -568,7 +610,7 @@ class MvcModel {
         return $objects;
     }
     
-    protected function process_table_name($table_name) {
+    public static function process_table_name($table_name) {
         global $wpdb;
         $table_name = str_replace('{prefix}', $wpdb->prefix, $table_name);
         return $table_name;
@@ -671,7 +713,14 @@ class MvcModel {
                     $association_name = $key;
                     if (isset($value['fields'])) {
                         foreach ($value['fields'] as $key => $field) {
-                            $value['fields'][$key] = $association_name.'.'.$field;
+                            if (strpos($field,'.') !== false) {
+                                //AR: contains '.', dont prepand a table
+                                $value['fields'][$key] = $field;
+                            }
+                            else{
+                                $value['fields'][$key] = $association_name.'.'.$field;
+                            }
+                            
                         }
                     }
                     $config = array(
@@ -680,7 +729,7 @@ class MvcModel {
                         'class' => $association_name,
                         'foreign_key' => isset($value['foreign_key']) ? $value['foreign_key'] : MvcInflector::underscore($this->name).'_id',
                         'association_foreign_key' => isset($value['association_foreign_key']) ? $value['association_foreign_key'] : MvcInflector::underscore($association_name).'_id',
-                        'join_table' => $this->process_table_name($value['join_table']),
+                        'join_table' => self::process_table_name($value['join_table']),
                         'fields' => isset($value['fields']) ? $value['fields'] : null,
                         'includes' => isset($value['includes']) ? $value['includes'] : null,
                         'dependent' => isset($value['dependent']) ? $value['dependent'] : false

@@ -1270,33 +1270,25 @@ body.page-template-front-page{
 				font-size: 50px;
 				line-height: 40px;
 
-				&:before{
-					/*display:block;
-					@include svgicon('icon-vieducridon', 10px, 10px,$rouge);	 				
-					position: absolute;
-				    bottom: -19px;
-				    left: 50%;
-				    margin-left: -27px;	*/			
-				}
+				&:before{	}
 
 
 			}
 
 			#filtres_veilles{
-
-				/*width: 100%;
-				border-bottom:solid 5px $bg-top-footer;
-				height: 20px;
-				margin-bottom: 20px;*/
 				border-bottom: none;
 
 			}
 
 			.listing{
 
+
+
 				article{
 
 					margin-bottom: 60px;
+
+
 					
 
 
@@ -1307,18 +1299,6 @@ body.page-template-front-page{
 						margin-right: 20px;
 						padding: 50px 0;
 						margin-bottom: 0;
-
-						/*height: 60px;
-						font-size: 25px;
-						@extend .do-re;
-						text-transform: uppercase;
-						text-align: center;
-						background: $vert;
-						line-height: 60px;
-						color:#FFF;
-						position: relative;
-						display: block;
-						margin-bottom: 20px;*/
 
 						&:before{
 							display: none;
@@ -1415,12 +1395,6 @@ body.page-template-front-page{
 							cursor: pointer;
 
 							.matiere{
-								/*@extend .do-bo;
-								color:#FFF;
-								text-transform: uppercase;							
-								background: $vert;
-								display: inline-block; 
-								padding: 0 2px;*/
 								line-height: 20px;
 								position: relative;
 								top: -3px; 
@@ -1428,31 +1402,13 @@ body.page-template-front-page{
 							} 
 
 							h2{
-								
-
-								/*@extend .do-me;							
-								text-transform: uppercase;
-								color:$vert;
-								display: block;
-								margin: 0;
-								padding: 0;*/
 
 							}
 
 							.chapeau{
-								
-							   /* font-size: 15px;
-							    color: $rouge;
-							    font-family: $garamond;
-							    width: 100%;
-							    line-height: 18px;
-							    margin-bottom: 10px;*/
 							}
 
 							.extrait{
-								 
-								/*font-family: $helvetica;							   
-							    line-height: 18px;*/
 							}
 
 							.mots_cles{
@@ -1728,10 +1684,10 @@ body.page-template-front-page{
 									&:before{
 										content:'';
 										position: absolute;
-										left:0px;
+										right:-10px;
 										//color:$vert;
-										width: 2px;
-										background: $vert;
+										width: 1px;
+										background: $bleu;
 										height: 18px;
 										z-index: 9999;
 										top:2px;
@@ -1740,10 +1696,10 @@ body.page-template-front-page{
 									}
 
 									&:hover{ 
+
+										text-decoration: underline;
  
-										&:before{
-											background: #e6e6e6;
-										} 
+										
 									}
 
 								}
@@ -1976,6 +1932,12 @@ body.page-template-front-page{
 
 								.date{}
 
+								.reponse{
+									left: 310px; 
+									top: 0; 
+
+								}
+
 								.matiere{}
 
 								.id-question{	text-transform: uppercase;
@@ -1998,6 +1960,86 @@ body.page-template-front-page{
 								
 
 							}
+							li.pdf{
+								 
+								 width: 31px; 
+								 float: left;
+
+								 a{
+								 	&:hover{
+										text-decoration: underline !important;
+
+										&:before{
+											opacity: 0.8 !important;
+										}
+									}
+								 }
+
+								 
+							}
+
+							li.plusdedetails{
+								/*margin-bottom: 0;*/
+								
+								> span{
+									
+									border-bottom:solid 16px #e6e6e6;
+									padding-bottom: 20px;
+
+									&:hover{
+										text-decoration: none;
+									}
+
+									
+								}
+
+								.details{
+								
+									padding: 0 20px 0 40px;
+									float: left;
+
+									> ul{
+
+										padding: 20px 0;
+										
+										float: left;
+
+										>li{
+										
+											&:first-child{
+
+												width: 270px;
+												float: left;
+
+												span{}
+
+												> ul{
+										
+													> li {													
+
+														a{}
+													}
+												}
+
+											}
+
+											&:last-child{
+												
+												width: 330px;
+												float: left;
+												margin-top: 0;
+
+												>span{
+												}
+											}
+										}
+
+
+										
+									}
+								}
+
+							}
 
 						}
 
@@ -2014,7 +2056,10 @@ body.page-template-front-page{
 											
 											float: left;
 											display: table-cell;
+
 										}
+
+										li{margin-bottom: 0;}
 
 										>li:first-child{
 											width: 30px;
@@ -2046,7 +2091,7 @@ body.page-template-front-page{
 										}
 
 										> li:nth-child(3){
-											width: 130px;
+											width: 105px;
 
 											span{
 												display:block; 
@@ -2065,8 +2110,156 @@ body.page-template-front-page{
 											width: 100px;
 											
 										}
+
+										> li:nth-child(7){
+										/*pdf*/
+											float: left;
+											width: 25px;
+											clear: none;										
+										}
+
+										> li:nth-child(8){											
+										}
 									}
 
+								}
+							}
+						}
+
+						#questions-attentes{
+							
+
+							
+
+							> ul{
+								> li{
+
+									> ul {
+										
+										> li:nth-child(2), > li:nth-child(3), > li:nth-child(4), > li:nth-child(5), > li:nth-child(6){
+											padding-top: 20px;
+										}
+
+									}
+								}
+							}
+						}
+
+						#historique-questions{
+
+							.filtres{
+
+								width: 100%;
+								float: left;
+
+								&:before{}
+
+								> ul{
+									float: left;
+									width: 100%;
+									
+
+									li{
+
+										float: left;
+
+										.titre{
+											margin: 0;
+
+										}
+
+										> a{
+
+											&:hover{
+												text-decoration: none;
+											}
+
+
+										}
+
+										input.datepicker{
+											margin-left: 10px;
+											margin-right: 10px;
+										}
+
+										select{
+											width: 200px; 
+											height: 35px;
+											padding-top: 0;
+											padding-bottom: 0;
+											line-height: 15px;
+										}
+
+
+									}
+
+									> li:first-child{
+										float: left;
+										width: 143px;
+									}
+
+									>li:nth-child(2){
+										width: 250px;
+										
+										.titre{
+											margin-right: 10px;
+										}
+
+										#dateto{}
+									}
+									>li:last-child{
+										.titre{
+											margin-right: 5px;
+										}
+									}
+								}
+							}
+
+
+							> ul{ 
+
+								> li{
+
+									&.pdf{
+										width: 31px;
+									}
+
+									> ul{
+
+										li:nth-child(6){
+											width: 100px;
+											/*float: left;*/
+											margin-left: 0;
+										}
+
+										li.pdf{
+										}
+
+									}
+
+									> ul.suite-complement{
+										
+
+										> li{
+											width: 100%; 
+											text-align: right;
+											padding: 0;
+											margin-bottom: 10px;
+											padding-right: 30px; 
+
+											>a{
+
+												&:before{
+													right: -30px;
+												}
+
+
+											}
+
+											
+										}
+
+									}
 								}
 							}
 						}

@@ -165,5 +165,22 @@ jQuery(document).ready(function($) {
 	});
 
 
+	/*--
+		PAGE MON COMPTE > LISTE QUESTIONS
+	*/
+
+	
+
+	$('.plusdedetails > span').click(function(){
+		  $(this).toggleClass('close');
+
+	      $(this).parent().find("div.details").toggleClass('open');
+	    });
+
+	/*datepicker*/
+
+	$( ".datepicker" ).datepicker();
+
+
 
 }); /* end of as page load scripts */

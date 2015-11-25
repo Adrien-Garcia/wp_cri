@@ -75,6 +75,13 @@ App.Login = {
 
     eventPanelConnexionToggle: function() {
         this.$panelConnexion.toggleClass("open");
+        if (this.$panelConnexion.hasClass("open")) {
+            this.$formConnexion.addClass('active');
+            this.$formMdp.removeClass('active');
+        } else {
+            this.$formConnexion.removeClass('active');
+            this.$formMdp.removeClass('active');
+        }
     },
 
     eventToConnexion : function() {

@@ -30,9 +30,14 @@ function save_post_in_table( $post_ID ){
         if( ($model = findBy( $modelConf['name'], $post_ID )) == null ){//no duplicate
             $model = insertInTable( $modelConf['name'], $post_ID );
         }
-        updateRelatedContent( $model ,array(
-            'id_matiere' => $_POST['cri_category']
-        ));
+        $aAdditionalFields = array();
+        if (!empty($_POST['cri_category'])) {
+            $aAdditionalFields['id_matiere'] = $_POST['cri_category'];
+        }
+        if (!empty($_POST['id_parent'])) {
+            $aAdditionalFields['id_parent'] = $_POST['id_parent'];
+        }
+        updateRelatedContent( $model , $aAdditionalFields);
     }
     return $post_ID;
 }
@@ -124,6 +129,51 @@ add_action( 'wp_insert_post', 'on_post_import' );
 // End After insert post
 
 
+// Parent management
+add_action('add_meta_boxes','init_meta_boxes_parent');
+
+function init_meta_boxes_parent(){
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithParent)) {
+        // init meta box depends on the current type of content
+        add_meta_box('id_meta_boxes_parent_select', Config::$titleParentMetabox , 'init_parent_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
+    }
+}
+/**
+ * Init metabox if it'a model Veille
+ *
+ * @param \WP_Post $post
+ */
+function init_parent_meta_boxes( $post, $args ){
+    //args contains only one param : key to model name using config
+    $models = $args['args'];
+    $config = arrayGet(Config::$data, $models, reset(Config::$data));
+    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
+    $oParent = mvc_model( $config['model'] );//load model Matiere to use functions
+    $aQueryOptions = array(
+        'selects' => array('Post.post_title as label', $config['model'].'.*'),
+        'order' => 'Post.post_title ASC',
+        'conditions' => array(
+            $config['model'].'.id_parent' => null,
+        ),
+        'joins' => array('Post')
+    );
+    if (!empty($oModel->id)) {
+        $aQueryOptions['conditions'][$config['model'].'.id != '] = $oModel->id;
+    }
+    $aParent = $oParent->find( $aQueryOptions );
+
+    // prepare vars
+    $vars = array(
+        'aParent' => $aParent,
+        'oModel' => $oModel
+    );
+
+    // render view
+    CriRenderView('parent_meta_box', $vars);
+}
+
+// End parent management
+
 // Category managment
 add_action('add_meta_boxes','init_meta_boxes_category_post');
 
@@ -157,19 +207,20 @@ function init_select_meta_boxes( $post, $args ){
 }
 
 /**
- * Check if current Model has an associate model Matiere
+ * Check if current Model must be checked in a select meta box
  * 
  * @param object $needle Object MvcModel
- * @param object $haystack Object Matiere
+ * @param object $haystack Object MvcModel
+ * @param string $property property to test on needle
  * @return string|null
  */
-function check( $needle ,$haystack ){
-    if( !$needle ){
+function check( $needle ,$haystack, $property = 'id_matiere' ){
+    if( !$needle && ($property == 'id_matiere')){
         if( $haystack->id == Config::$defaultMatiere['id'] ){
             return ' selected="selected" ';
         }
     }
-    return ( ( $needle ) && ( $needle->id_matiere === $haystack->id ) ) ? ' selected="selected" ' : '';
+    return ( ( $needle ) && ( $needle->{$property} === $haystack->id ) ) ? ' selected="selected" ' : '';
 }
 
 /**
