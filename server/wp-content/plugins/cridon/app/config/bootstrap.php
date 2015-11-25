@@ -207,19 +207,20 @@ function init_select_meta_boxes( $post, $args ){
 }
 
 /**
- * Check if current Model has an associate model Matiere
+ * Check if current Model must be checked in a select meta box
  * 
  * @param object $needle Object MvcModel
- * @param object $haystack Object Matiere
+ * @param object $haystack Object MvcModel
+ * @param string $property property to test on needle
  * @return string|null
  */
-function check( $needle ,$haystack ){
-    if( !$needle ){
+function check( $needle ,$haystack, $property = 'id_matiere' ){
+    if( !$needle && ($property == 'id_matiere')){
         if( $haystack->id == Config::$defaultMatiere['id'] ){
             return ' selected="selected" ';
         }
     }
-    return ( ( $needle ) && ( $needle->id_matiere === $haystack->id ) ) ? ' selected="selected" ' : '';
+    return ( ( $needle ) && ( $needle->{$property} === $haystack->id ) ) ? ' selected="selected" ' : '';
 }
 
 /**
