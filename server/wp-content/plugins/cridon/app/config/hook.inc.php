@@ -208,7 +208,13 @@ function custom_remove_admin_bar() {
  * @return mixed
  */
 function cri_remove_personal_options( $subject ) {
-    $subject = preg_replace( '#<tr class="show-admin-bar user-admin-bar-front-wrap">.+?/tr>#s', '', $subject, 1 );
+    if (isset($_GET['user_id']) && $_GET['user_id']) {
+        $notaire = mvc_model('notaire')->find_one_by_id_wp_user($_GET['user_id']);
+
+        if ($notaire->id) {
+            $subject = preg_replace('#<tr class="show-admin-bar user-admin-bar-front-wrap">.+?/tr>#s', '', $subject, 1);
+        }
+    }
     return $subject;
 }
 

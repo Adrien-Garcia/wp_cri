@@ -730,3 +730,9 @@ function criRestoreQuestions(){
 /*
  * End restore
  */
+
+function CriDisableAdminBarForExistingNotaire() {
+    foreach (mvc_model('notaire')->find() as $notaire) {
+        update_user_meta( $notaire->id_wp_user, 'show_admin_bar_front', 'false' );
+    }
+}
