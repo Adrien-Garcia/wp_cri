@@ -411,7 +411,13 @@ if ( !defined( 'CONST_IMPORT_GED_LOG_SUCCESS_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_SUCCESS_MSG', 'Import GED du %s : action terminée avec succès pour les documents suivants "%s"' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG' ) ) {
-    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG', 'Import GED du %s : fichier d\'import mal formaté pour "%s"' );
+    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG', 'Import GED du %s : le CSV associé au document "%s" ne contenait pas les informations attendues' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG', 'Import GED du %s : fichier d\'import mal formaté pour "%s"' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG', 'Import GED du %s : le fichier PDF associé au CSV de la question "%s" est illisible' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : repertoire d\'import vide' );
