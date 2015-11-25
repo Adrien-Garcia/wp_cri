@@ -14,7 +14,18 @@
 
 class AdminCahierCridonsController extends MvcAdminController {
     
-    var $default_columns = array('id', 'post' => array('label'=> 'Titre' ,'value_method' => 'post_edit_link'));
+    var $default_columns = array(
+        'id',
+        'post' => array(
+            'label'=> 'Titre' ,
+            'value_method' => 'post_edit_link'
+        ),
+        'matiere' => array(
+            'label'=>'Matière',
+            'value_method' => 'matiere_edit_link'
+        )
+    );
+
     public function index() {
         $this->init_default_columns();
         $this->process_params_for_search();

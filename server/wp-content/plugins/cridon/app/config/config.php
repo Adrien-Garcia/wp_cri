@@ -84,6 +84,7 @@ class Config {
     public static $contentWithMatiere = array(
         'veilles',
         'flashes',
+        'cahier_cridons',
     );
 
     // list of category not to be imported

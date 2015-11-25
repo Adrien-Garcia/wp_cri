@@ -4,7 +4,8 @@ class CahierCridon extends MvcModel {
     var $table          = "{prefix}cahier_cridon";
     var $includes       = array('Post');
     var $belongs_to     = array(
-        'Post' => array('foreign_key' => 'post_id')
+        'Post' => array('foreign_key' => 'post_id'),
+        'Matiere' => array('foreign_key' => 'id_matiere')
     );
     var $display_field = 'post_id';
     public function delete($id) {
