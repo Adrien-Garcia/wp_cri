@@ -1,4 +1,5 @@
 <select name="id_parent">
+    <option value="">Aucun</option>
 <?php
 foreach( $aParent as $value ){
 

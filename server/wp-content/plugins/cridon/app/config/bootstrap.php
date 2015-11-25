@@ -30,9 +30,14 @@ function save_post_in_table( $post_ID ){
         if( ($model = findBy( $modelConf['name'], $post_ID )) == null ){//no duplicate
             $model = insertInTable( $modelConf['name'], $post_ID );
         }
-        updateRelatedContent( $model ,array(
-            'id_matiere' => $_POST['cri_category']
-        ));
+        $aAdditionalFields = array();
+        if (!empty($_POST['cri_category'])) {
+            $aAdditionalFields['id_matiere'] = $_POST['cri_category'];
+        }
+        if (!empty($_POST['id_parent'])) {
+            $aAdditionalFields['id_parent'] = $_POST['id_parent'];
+        }
+        updateRelatedContent( $model , $aAdditionalFields);
     }
     return $post_ID;
 }
@@ -144,15 +149,18 @@ function init_parent_meta_boxes( $post, $args ){
     $config = arrayGet(Config::$data, $models, reset(Config::$data));
     $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
     $oParent = mvc_model( $config['model'] );//load model Matiere to use functions
-    $aParent = $oParent->find( array(
-        'selects' => array('Post.post_title as label', $config['model'].'.id'),
+    $aQueryOptions = array(
+        'selects' => array('Post.post_title as label', $config['model'].'.*'),
         'order' => 'Post.post_title ASC',
         'conditions' => array(
             $config['model'].'.id_parent' => null,
-            $config['model'].'.id != ' => $oModel->id,
         ),
         'joins' => array('Post')
-    ) );
+    );
+    if (!empty($oModel->id)) {
+        $aQueryOptions['conditions'][$config['model'].'.id != '] = $oModel->id;
+    }
+    $aParent = $oParent->find( $aQueryOptions );
 
     // prepare vars
     $vars = array(
