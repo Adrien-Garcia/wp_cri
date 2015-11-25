@@ -2,7 +2,7 @@
 
 class Document extends MvcModel {
 
-    var $display_field = 'file_path';
+    var $display_field = 'name';
     var $table         = '{prefix}document';
 
     /**
@@ -27,6 +27,11 @@ class Document extends MvcModel {
         if ($data['Document']['type'] != 'question') {
             $path = $this->upload();
             if ($path) {
+                if (empty($data['Document']['name'])) {
+                    $name = explode(DIRECTORY_SEPARATOR, $path);
+                    $name = array_pop($name);
+                    $data['Document']['name'] = $name;
+                }
                 $data['Document']['file_path'] = $path;
             }
         }

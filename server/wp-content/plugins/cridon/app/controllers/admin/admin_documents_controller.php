@@ -14,7 +14,7 @@
 
 class AdminDocumentsController extends MvcAdminController {
     
-    var $default_columns = array('file_path','download_url','date_modified','type');
+    var $default_columns = array('name', 'file_path','download_url','date_modified','type');
     
     public function index() {
         $this->init_default_columns();
