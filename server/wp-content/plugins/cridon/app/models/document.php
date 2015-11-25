@@ -11,18 +11,27 @@ class Document extends MvcModel {
     protected $queryBuilder;
 
     public function create($data) {
-        //Before insert 
-        $date = new DateTime('now');
-        $data[ 'Document' ][ 'date_modified' ] = $date->format('Y-m-d H:i:s');
+        $data = $this->customProperties($data);
         return parent::create($data);
     }
+
     public function save($data) {
-        //Before update
-        $date = new DateTime('now');
-        $data[ 'Document' ][ 'date_modified' ] = $date->format('Y-m-d H:i:s');
+        $data = $this->customProperties($data);
         return parent::save($data);
     }
 
+    protected function customProperties($data) {
+        //Before insert OR update
+        $date = new DateTime('now');
+        $data[ 'Document' ][ 'date_modified' ] = $date->format('Y-m-d H:i:s');
+        if ($data['Document']['type'] != 'question') {
+            $path = $this->upload();
+            if ($path) {
+                $data['Document']['file_path'] = $path;
+            }
+        }
+        return $data;
+    }
     /**
      * Constructor
      */
@@ -33,6 +42,49 @@ class Document extends MvcModel {
         $this->queryBuilder = mvc_model('QueryBuilder');
 
         parent::__construct();
+    }
+
+    /**
+     * Function to upload doc
+     *
+     * @param array $data Contains data of model
+     * @return string|null
+     */
+    private function upload( $data = array() ){
+        if( isset( $_FILES ) ){
+            $upload_dir = wp_upload_dir();// the current upload directory
+            $root = $upload_dir['basedir'];
+            $date = new DateTime('now');
+            $path = $root . '/documents/'.$date->format('Ym');//Upload directory
+            $isDirectoryExist = true;// Directory is already exist.
+            if( !file_exists( $path )){//not yet directory
+                $isDirectoryExist = wp_mkdir_p($path);
+            }
+            $file = $_FILES['data']['name']['Document']['file_path'];
+            if( $isDirectoryExist && file_exists( $path.DIRECTORY_SEPARATOR.$file ) ){//if file is already exist
+                $file = mt_rand(1, 10).'_'.$_FILES['data']['name']['Document']['file_path'];
+            }
+            //moving file
+            if( $isDirectoryExist && move_uploaded_file( $_FILES['data']['tmp_name']['Document']['file_path'], $path.DIRECTORY_SEPARATOR.$file ) ){
+                if( !empty( $data ) ){
+                    $obj = $this->find_by_id( $data['Document']['id'] );
+                    $file_path = $obj->file_path;
+                    if( $file_path ){
+                        $tmp = explode( $path, $file_path );
+                        if( ( count($tmp) > 1 ) && ( $tmp[1] !== $file ) ){//remove old doc
+                            if( file_exists( $path.DIRECTORY_SEPARATOR.$tmp[1] ) ){
+                                unlink( $path.DIRECTORY_SEPARATOR.$tmp[1] );//erase
+                            }
+                        }
+                    }
+                }
+                //return relative path on server
+                $relative = substr($path, strlen($root));
+                return $relative.DIRECTORY_SEPARATOR.$file;
+            }
+
+        }
+        return null;
     }
 
     /**

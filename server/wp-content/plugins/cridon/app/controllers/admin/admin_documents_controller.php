@@ -32,6 +32,7 @@ class AdminDocumentsController extends MvcAdminController {
     public function add() {
         $this->create_or_save();
         $this->load_helper('Select');
+        $this->load_helper('CustomForm');
         $this->set( 'options' , Config::$optionDocumentType );
     }
     public function edit() {
@@ -39,6 +40,7 @@ class AdminDocumentsController extends MvcAdminController {
         $this->create_or_save();
         $this->set_object();
         $this->load_helper('Select');
+        $this->load_helper('CustomForm');
         
         $this->set( 'options' , Config::$optionDocumentType );
     }

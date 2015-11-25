@@ -33,24 +33,24 @@ class CustomFormHelper extends MvcFormHelper {
         $this->model = MvcModelRegistry::get_model($model_name);
         $this->schema = $this->model->schema;
         //surcharge spécifique pour le cas d'un fichier
+        $object_id = !empty($this->object) && !empty($this->object->__id) ? $this->object->__id : null;
+        $router_options = array('controller' => $options['controller'], 'action' => $options['action']);
+        if ($object_id) {
+            $router_options['id'] = $object_id;
+        }
+        $html = '<form action="'.MvcRouter::admin_url($router_options).'"';
         if ($options['enctype']) {
-            $object_id = !empty($this->object) && !empty($this->object->__id) ? $this->object->__id : null;
-            $router_options = array('controller' => $options['controller'], 'action' => $options['action']);
-            if ($object_id) {
-                $router_options['id'] = $object_id;
-            }
-            $html = '<form action="'.MvcRouter::admin_url($router_options).'"';
             $html .= ' enctype="multipart/form-data"';
+        }
 
-            if ($options['public']) {
-                $html .= ' method="post">';
-            } else {
-                $html .= ' method="post">';
-            }
-            
-            if ($object_id) {
-                $html .= '<input type="hidden" id="'.$this->input_id('hidden_id').'" name="'.$this->input_name('id').'" value="'.$object_id.'" />';
-            }
+        if ($options['public']) {
+            $html .= ' method="post">';
+        } else {
+            $html .= ' method="post">';
+        }
+
+        if ($object_id) {
+            $html .= '<input type="hidden" id="'.$this->input_id('hidden_id').'" name="'.$this->input_name('id').'" value="'.$object_id.'" />';
         }
         return $html;
     }
@@ -59,7 +59,7 @@ class CustomFormHelper extends MvcFormHelper {
         $defaults = array(
             'id' => $this->input_id($field_name),
             'name' => $this->input_name($field_name),
-            'type' => 'text'
+            'type' => 'file'
         );
         $options = array_merge($defaults, $options);
         $attributes_html = self::attributes_html($options, 'input');
