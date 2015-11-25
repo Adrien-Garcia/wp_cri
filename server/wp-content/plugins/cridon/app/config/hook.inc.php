@@ -111,6 +111,14 @@ function append_js_files()
                 'question_max_file_size'   => CONST_QUESTION_MAX_FILE_SIZE,
                 'question_file_size_error' => sprintf(CONST_QUESTION_FILE_SIZE_ERROR,
                                                       (CONST_QUESTION_MAX_FILE_SIZE / 1000000) . 'M'),
+                // newsletter
+                'newsletter_form_id'       => CONST_NEWSLETTER_FORM_ID,
+                'newsletter_nonce'         => wp_create_nonce("process_newsletter_nonce"),
+                'newsletter_msgblock_id'   => CONST_NEWSLETTER_MSGBLOCK_ID,
+                'newsletter_user_email'    => CONST_NEWSLETTER_EMAIL_FIELD,
+                'newsletter_empty_error'   => CONST_NEWSLETTER_EMPTY_ERROR_MSG,
+                'newsletter_success_msg'   => CONST_NEWSLETTER_SUCCESS_MSG,
+                'newsletter_email_error'   => CONST_NEWSLETTER_EMAIL_ERROR_MSG,
             )
         );
     }
@@ -208,3 +216,15 @@ function custom_remove_menu_pages() {
         remove_menu_page('users.php');	//Section Utilisateurs        
     }
 }
+
+/**
+ * hook for newsletter subscription
+ */
+function newsletter()
+{
+    require_once WP_PLUGIN_DIR . '/cridon/app/controllers/notaires_controller.php';
+    $controller = new NotairesController();
+    $controller->newsletterSubsciprtion();
+}
+add_action( 'wp_ajax_newsletter',   'newsletter' );
+add_action( 'wp_ajax_nopriv_newsletter',   'newsletter' );

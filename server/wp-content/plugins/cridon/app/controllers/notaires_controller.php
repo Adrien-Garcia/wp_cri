@@ -226,4 +226,34 @@ class NotairesController extends BasePublicController
         }
         return $clean_input;
     }
+
+    public function newsletterSubsciprtion()
+    {
+        // init response
+        $ret = 'invalidemail';
+
+        // Verify that the nonce is valid.
+        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_newsletter_nonce')) {
+            // find the notaire email
+            $notaire = $this->model->find_one_by_email_adress($_REQUEST['email']);
+//            echo '<pre>'; die(print_r($notaire));
+//
+            // only an individual email is valid
+            if (is_object($notaire) && $notaire->id) {
+                // update notaire newsletter
+                $notaires = array(
+                    'Notaire' => array(
+                        'id'         => $notaire->id,
+                        'newsletter' => 1
+                    )
+                );
+                $this->model->save($notaires);
+                $ret = 'success';
+            }
+        }
+
+        echo json_encode($ret);
+
+        die;
+    }
 }

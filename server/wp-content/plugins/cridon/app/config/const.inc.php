@@ -432,3 +432,23 @@ if ( !defined( 'CONST_LOG_ERROR_DIR' ) ) {
     }
     define( 'CONST_LOG_ERROR_DIR',  $logDir);
 }
+
+// newsletter form
+if ( !defined( 'CONST_NEWSLETTER_EMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_NEWSLETTER_EMAIL_ERROR_MSG', 'Malheureusement vous ne disposez pas d\'adresse mail personnelle à laquelle envoyer la newsletter : veuillez contacter le Cridon pour l\'ajouter à vos informations personnes' );
+}
+if ( !defined( 'CONST_NEWSLETTER_EMPTY_ERROR_MSG' ) ) {
+    define( 'CONST_NEWSLETTER_EMPTY_ERROR_MSG', 'Merci de bien remplir votre adresse email!' );
+}
+if ( !defined( 'CONST_NEWSLETTER_SUCCESS_MSG' ) ) {
+    define( 'CONST_NEWSLETTER_SUCCESS_MSG', 'Inscription terminée avec succès.' );
+}
+if ( !defined( 'CONST_NEWSLETTER_FORM_ID' ) ) {
+    define( 'CONST_NEWSLETTER_FORM_ID', 'newsletterFormId' );
+}
+if ( !defined( 'CONST_NEWSLETTER_EMAIL_FIELD' ) ) {
+    define( 'CONST_NEWSLETTER_EMAIL_FIELD', 'userEmail' );
+}
+if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
+    define( 'CONST_NEWSLETTER_MSGBLOCK_ID', 'newsletterMsgId' );
+}
