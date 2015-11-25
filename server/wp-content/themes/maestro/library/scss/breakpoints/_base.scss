@@ -2592,7 +2592,7 @@ body.page-template-front-page{
 			h1{}
 
 			> ul{
-				margin:40px 0 0 0;
+				margin:40px 0 40px 0;
 				padding: 0;
 
 				>li{
@@ -2839,6 +2839,165 @@ body.page-template-front-page{
 							}
 						}
 
+						.mes-questions{
+							padding-left: 20px; 
+
+							> ul{
+								padding: 0;
+								margin: 0;
+
+
+
+								li{
+									margin: 0;
+									padding: 0;
+									position: relative;
+
+									&:before{display: none;}
+
+									p{
+										margin: 0;
+										padding: 0;
+										font-size: 14px;
+	    								line-height: 18px;
+	    								@extend .do-sm;
+	    								color:$bleu;
+	    								height: 36px;
+	    								overflow: hidden;
+									}
+
+									span{
+										font-size: 14px;
+	    								line-height: 18px;
+	    								@extend .do-sm;
+	    								color:$bleu;
+
+
+									}
+
+									.date{
+										position: absolute;
+										top: 0;
+										left: 40px;
+										font-family: $helvetica;
+										font-weight: 100;
+										color:$bleu;
+										font-size: 14px;
+										text-transform: uppercase;
+										text-decoration: none;
+									}
+
+									.reponse{
+										position: absolute;
+										top: 20px;
+										left: 40px;
+										font-family: $helvetica;
+										font-weight: 100;
+										color:$bleu;
+										font-size: 14px;
+										text-transform: uppercase;
+
+									}
+
+									.matiere{
+										@extend .do-sm;
+										color: #FFF;
+									    text-transform: uppercase;
+									    font-size: 12px;
+									    background: #009999;
+									    display: inline-block;
+									    padding: 0 2px;
+									    margin-bottom: 5px;
+									}
+
+									
+
+									.repondu{
+										color:$vert;
+										position: relative;
+										padding-left: 20px;
+										margin-bottom: 10px;
+
+										&:before{
+											@include svgicon('icon-status-repondu', 16px, 16px, $vert);
+											font-weight: normal;
+											position: absolute;
+											left:0px;
+											top: 50%;
+											margin-top: -8px;
+										}
+									}
+
+									.en-cours{								
+										
+										position: relative;
+										padding-left: 20px;
+
+										&:before{
+											@include svgicon('icon-clock', 16px, 16px, $bleu);
+											font-weight: normal;
+											position: absolute;
+											left:0px;
+											top: 50%;
+											margin-top: -8px;
+
+										}
+
+									}
+								}
+
+								> li{
+									margin-bottom: 15px;
+									cursor: pointer;
+
+									border-bottom:solid 4px #e6e6e6;
+									padding-bottom: 15px;
+
+									> ul{
+										margin: 0;
+										padding: 0;
+
+										> li{
+
+										}
+
+										> li:first-child{
+										    width: 30px;
+										    height: 30px;
+										    float: left;
+										    margin-right: 10px;
+										    border:solid 1px $bleu;
+										}
+
+										> li:nth-child(2){
+											padding-top: 15px;
+
+											//width: 258px;
+											margin-left: 40px;
+										}
+
+										> li:nth-child(3){
+											margin-left: 40px;
+										}
+									}
+								}
+
+								
+							}
+
+							> a{
+								@include lien-souligne($rouge);
+								border-bottom:solid 1px $rouge;
+								font-size: 16px !important;
+
+								&:after{
+									right: -25px;
+									top: -5px;
+									font-size: 40px;
+								}
+							}
+						}
+
 					}
 
 					/*
@@ -2846,6 +3005,8 @@ body.page-template-front-page{
 					  */
 
 					div#mes-questions{
+
+
 
 						a.pdf{
 						 	display: block;
@@ -3242,6 +3403,7 @@ body.page-template-front-page{
 									li{
 										padding: 0;
 										margin: 0;
+										margin-bottom: 15px;
 
 										@extend .do-sm;
 										font-size: 14px;
@@ -3253,7 +3415,8 @@ body.page-template-front-page{
 											font-size: 16px;
 											color:$rouge;
 											font-weight: normal;
-											margin: 20px 0;
+											display: inline-block;
+											//margin: 20px 0;
 
 										}
 
@@ -3263,19 +3426,27 @@ body.page-template-front-page{
 											font-size: 16px;
 											color:$rouge;
 											font-weight: normal;
-											text-decoration: underline;
+											border-bottom:solid 1px $rouge;
+											text-decoration: none;
 
 										}
 
-										input.datepicker{
-											width: 50px;
+										.du{
+											display: inline-block;
+										}
+										.au{
+											margin-left: 76px;
+										}
+
+										input{
+											width: 100px;
 											display: inline-block;
 											height: 35px;
-											line-height: 35px;
+											line-height: inherit;
 											border:solid 3px #e6e6e6;
 											@include border-radius(0);
 											margin: 0;
-											padding: 0;
+											padding:5px 0;
 											margin-right: 20px;
 											margin-left: 10px;
 										}
@@ -3297,7 +3468,7 @@ body.page-template-front-page{
 									>li:nth-child(2){
 										
 										.titre{
-											margin-right: 43px;
+											margin-right: 16px;
 										}
 
 										#dateto{margin-right: 0;}

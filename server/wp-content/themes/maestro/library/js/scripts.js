@@ -179,7 +179,15 @@ jQuery(document).ready(function($) {
 
 	/*datepicker*/
 
-	$( ".datepicker" ).datepicker();
+	if(Modernizr.inputtypes.date){
+	    //alert("This browser supports HTML5 DATE ");
+	  }
+	  else{
+	  	$( ".datepicker" ).datepicker();
+	  }
+
+
+	
 
 
 

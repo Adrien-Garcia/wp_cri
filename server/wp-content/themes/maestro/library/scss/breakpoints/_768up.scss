@@ -2164,7 +2164,7 @@ body.page-template-front-page{
 										float: left;
 
 										.titre{
-											margin: 0;
+											margin: 0; 
 
 										}
 
@@ -2177,9 +2177,12 @@ body.page-template-front-page{
 
 										}
 
-										input.datepicker{
+										input{
 											margin-left: 10px;
 											margin-right: 10px;
+											padding-top: 10px;
+											width: 120px;
+											line-height: 28px;
 										}
 
 										select{
@@ -2190,26 +2193,41 @@ body.page-template-front-page{
 											line-height: 15px;
 										}
 
+										.du{
+											display: inline-block;
+										}
+										.au{
+											margin-left: 0px;
+											display: inline-block;
+										}
+
 
 									}
 
 									> li:first-child{
 										float: left;
-										width: 143px;
+										width: 170px;
 									}
 
 									>li:nth-child(2){
-										width: 250px;
+										width: 490px;
 										
 										.titre{
 											margin-right: 10px;
+
+											display: block;
+											float: left;
+											height: 35px;
+											line-height: 35px;
 										}
 
 										#dateto{}
 									}
 									>li:last-child{
 										.titre{
-											margin-right: 5px;
+											//margin-right: 5px;
+											margin-right: 37px;
+											margin-left: 170px;
 										}
 									}
 								}

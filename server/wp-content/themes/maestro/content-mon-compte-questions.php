@@ -111,8 +111,8 @@
 			<li> <a href="">Toutes mes questions</a></li>
 			<li>
 				<span class="titre">Période :</span>
-				Du <input type="text" id="datefrom" class="datepicker">
-				Au <input type="text" id="dateto" class="datepicker">
+				<p class="du">Du <input type="date" id="datefrom" class="datepicker"></p>
+				<p class="au">Au <input type="date" id="dateto" class="datepicker"></p>
 			</li>
 			<li>
 				<span class="titre">Matière :</span>

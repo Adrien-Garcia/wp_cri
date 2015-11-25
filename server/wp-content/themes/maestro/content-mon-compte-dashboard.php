@@ -45,5 +45,60 @@
 </div>
 <div class="mes-questions">
 	<h2><?php _e('Mes dernières questions'); ?></h2>
+
+	<ul>
+		<li class="js-home-block-link">
+			<a href="#"><span class="date">Question du 09.10.2015</span></a> <!-- Lien vers la page liste des question avec une ancre sur la question cliqué !-->
+			<ul>
+				<li>					
+					<img src="" alt="">
+				</li>
+				<li>
+					<span class="matiere">Droit social</span>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis accumsan nisi, non molestie sem fringilla non. Proin tempus lacus eget nisi accumsan, nec dapibus quam pulvinar.</p>
+				</li>
+				<li>
+					<span class="en-cours">en cours</span>
+					<span class="repondu">répondu</span>
+				</li>
+			</ul>
+		</li>
+		<li class="js-home-block-link">
+			<a href="#"><span class="date">Question du 09.10.2015</span></a>
+			<ul>
+				<li>					
+					<img src="" alt="">
+				</li>
+				<li>
+					<span class="matiere">Droit social</span>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis accumsan nisi, non molestie sem fringilla non. Proin tempus lacus eget nisi accumsan, nec dapibus quam pulvinar.</p>
+				</li>
+				<li>
+					<span class="en-cours">en cours</span>
+					<span class="repondu">répondu</span>
+				</li>
+			</ul>
+		</li>
+		<li class="js-home-block-link">
+			<a href="#"><span class="date">Question du 09.10.2015</span></a>
+			<ul>
+				<li>					
+					<img src="" alt="">
+				</li>
+				<li>
+					<span class="matiere">Droit social</span>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis accumsan nisi, non molestie sem fringilla non. Proin tempus lacus eget nisi accumsan, nec dapibus quam pulvinar.</p>
+				</li>
+				<li>
+					<span class="en-cours">en cours</span>
+					<span class="repondu">répondu</span>
+				</li>
+			</ul>
+		</li>
+	</ul> 
+
+	<a href="#">Toutes mes questions</a>
+
+
 </div>
 
