@@ -1,0 +1,1 @@
+ALTER TABLE `cri_notaire` ADD COLUMN `newsletter` TINYINT(1) DEFAULT 0 NULL AFTER `id_wp_user`;
