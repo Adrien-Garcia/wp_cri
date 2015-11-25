@@ -110,22 +110,24 @@ class Document extends MvcModel {
                         }
                         // copy document dans Site
                         $uploadDir = wp_upload_dir();
-                        $path      = $uploadDir['basedir'] . '/questions/' . $question->id . '/';
+                        $path      = $uploadDir['basedir'] . '/questions/' . date('Ym') . '/';
                         if (!file_exists($path)) { // repertoire manquant
                             // creation du nouveau repertoire
                             wp_mkdir_p($path);
                         }
-                        if (@copy(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
-                                 $path . $contents[CridonGedParser::INDEX_NOMFICHIER])) {
+                        //Si le fichier existe dèja alors ajouter un suffixe sur le nom
+                        $filename = $this->getFileName($path, $contents[CridonGedParser::INDEX_NOMFICHIER]);
+                        if (( count($contents) == CridonGedParser::NB_COLONNE_CSV ) && @copy(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
+                                 $path . $filename)) {
                             // donnees document
                             $docData = array(
                                 'Document' => array(
-                                    'file_path'     => '/questions/' . $question->id . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
+                                    'file_path'     => '/questions/' . date('Ym') . '/' . $filename,
                                     'download_url'  => '/documents/download/' . $question->id,
                                     'date_modified' => date('Y-m-d H:i:s'),
                                     'type'          => 'question',
                                     'id_externe'    => $question->id,
-                                    'name'          => $contents[CridonGedParser::INDEX_NOMFICHIER],
+                                    'name'          => $filename,
                                     'cab'           => $contents[CridonGedParser::INDEX_VALCAB],
                                     'label'         => 'question/reponse'
                                 )
@@ -167,7 +169,7 @@ class Document extends MvcModel {
                         } else { // invalide doc
                             // archivage source des metadonnees
                             rename($document, $archivePath . $fileInfo['basename']);
-
+                            
                             // log : envoie mail
                             $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
                             reportError($message, '');
@@ -193,4 +195,18 @@ class Document extends MvcModel {
             reportError($message, '');
         }
     }    
+    
+    /**
+     * Get File name
+     * @param string $path
+     * @param string $original
+     * @return string
+     */
+    protected function getFileName( $path,$original ){
+        $output = $original;
+        if (file_exists($path.$original)) {
+            $output = mt_rand(1, 10) . '_' . $original;
+        }
+        return $output;
+    }
 }
