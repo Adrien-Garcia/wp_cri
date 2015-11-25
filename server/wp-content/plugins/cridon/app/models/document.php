@@ -78,7 +78,7 @@ class Document extends MvcModel {
                     $question = $this->queryBuilder->findOneByOptions($options);
 
                     // question exist
-                    if ($question->id) {
+                    if ($question->id) {                        
                         //Recherche de l'existance d'un document lié à la question
                         // recuperation id question par numero
                         $options               = array();
@@ -172,7 +172,8 @@ class Document extends MvcModel {
                                    $archivePath . $contents[CridonGedParser::INDEX_NOMFICHIER]);
                             // archivage source des metadonnees
                             rename($document, $archivePath . $fileInfo['basename']);
-
+                            // Mise de la date réelle de réponse de la question
+                            $this->updateQuestion($question, $contents);
                             $logDocList[] = $contents[CridonGedParser::INDEX_NOMFICHIER];
                         } else { // invalide doc
                             // archivage source des metadonnees
@@ -238,5 +239,26 @@ class Document extends MvcModel {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Update question
+     * 
+     * @param object $question
+     * @param array $contents
+     */
+    protected function updateQuestion( $question, $contents ){
+        if( !empty($contents[CridonGedParser::INDEX_DATEREPONSE]) ){
+            if( preg_match("/([0-9]{4}-[0-9]{2}-[0-9]{2})T/", $contents[CridonGedParser::INDEX_DATEREPONSE], $matches) ){
+                $questData = array(
+                    'Question' => array(
+                        'id'        => $question->id,
+                        'real_date' => $matches[1]
+                    )
+                );
+                // mise de la date réelle de réponse
+                mvc_model('Question')->save($questData);
+            }
+        }
     }
 }
