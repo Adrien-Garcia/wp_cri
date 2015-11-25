@@ -18,8 +18,9 @@ class UIContainer extends UIFields{
     private $title;
     private $database;
     private $currentObject;
-    private  $currentModel;
-    
+    private $currentModel;
+    private $type;
+
     public function __construct(){
         $this->database = new UIDatabase();
         //Defaults
@@ -34,7 +35,10 @@ class UIContainer extends UIFields{
      * 
      * @param string $model
      */
-    public function setModel( $model ){
+    public function setModel( $modelName ){
+        $model = mvc_model($modelName);
+        $config = assocToKeyVal(Config::$data, 'model', 'name');
+        $this->type = $config[$modelName];
         $this->currentModel = $model;
     }
     
@@ -115,7 +119,9 @@ class UIContainer extends UIFields{
      */
     protected function createLeft(){
         //Fill with 30 elements
-        $data = $this->database->find( array( 'limit' => 30 ) );
+        $data = $this->database->find( array( 'limit' => 30, 'conditions' => array(
+            'type' => $this->type,
+        ) ) );
         $res = array();
         foreach( $data as $v ){
             $cls = new stdClass();
@@ -157,7 +163,7 @@ class UIContainer extends UIFields{
         if( $this->currentObject != null ){
             $options = array(
                 'conditions' => array(
-                    'type' => strtolower($this->currentModel->name),
+                    'type' => $this->type,
                     'id_externe'=>  $this->currentObject->id,
                 ) 
             );

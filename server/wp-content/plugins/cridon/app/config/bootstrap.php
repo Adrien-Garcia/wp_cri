@@ -565,7 +565,7 @@ function init_ui_meta_boxes( $post ){
     }
     if( !empty( $current ) && !empty( $post ) ){
         $obj = findBy( $current[ 'name' ], $post->ID );
-        $container->setModel(mvc_model($current[ 'model' ]));
+        $container->setModel($current[ 'model' ]);
         $cls = new stdClass();
         $cls->id = $obj->id;
         $container->setObject($cls);
@@ -597,7 +597,7 @@ add_action('save_post','after_save_post_for_ui');
 function saveDocumentsFromUI( $model,$obj ){
     global $cri_container;
     $ui_container = $cri_container->get('ui_container');
-    $ui_container->setModel(mvc_model( $model ) );
+    $ui_container->setModel($model);
     $ui_container->setObject($obj);
     $ui_container->save();
 }
