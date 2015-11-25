@@ -189,7 +189,7 @@ class Document extends MvcModel {
                     } else { // doc sans question associee
 
                         // log : envoie mail
-                        $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
+                        $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[CridonGedParser::INDEX_NOMFICHIER]);
                         reportError($message, '');
                     }
                 }
