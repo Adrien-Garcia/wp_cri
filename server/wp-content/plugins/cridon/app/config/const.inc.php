@@ -65,10 +65,8 @@ if ( !defined( 'CONST_DB_HOST' ) ) {
             $host = '10.115.100.192';
             break;
         case PREPROD:
-            $host = '10.115.100.192';
-            break;
         case DEV:
-            $host = '10.115.100.192';
+            $host = '10.115.100.26';
             break;
         case LOCAL:
             $host = '192.168.69.7';
@@ -154,7 +152,20 @@ if ( !defined( 'CONST_DB_DATABASE' ) ) {
 	define( 'CONST_DB_DATABASE', $dbn );
 }
 if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
-	define( 'CONST_DB_TABLE_NOTAIRE', 'ZEXPNOTV' );
+    switch ($prefix) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+	define( 'CONST_DB_TABLE_NOTAIRE', $prefix.'ZEXPNOTV' );
 }
 
 // import CSV notaire file path
@@ -377,7 +388,20 @@ if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
 
 // import Question
 if ( !defined( 'CONST_ODBC_TABLE_QUEST' ) ) {
-    define( 'CONST_ODBC_TABLE_QUEST', 'ZQUESTV' );
+    switch ($prefix) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_ODBC_TABLE_QUEST', $prefix.'ZQUESTV' );
 }
 if ( !defined( 'CONST_QUEST_CREATED_BY_SITE' ) ) {
     define( 'CONST_QUEST_CREATED_BY_SITE', 0 );
