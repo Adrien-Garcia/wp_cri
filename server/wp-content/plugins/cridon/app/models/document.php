@@ -57,7 +57,17 @@ class Document extends MvcModel {
                 if (file_exists($document)) {
                     $content  = file_get_contents($document);
                     $contents = explode(CONST_IMPORT_GED_CONTENT_SEPARATOR, $content);
-
+                    // repertoire archivage des documents
+                    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/archives/' . date('YmdHi') . '/';
+                    if (!file_exists($archivePath)) { // repertoire manquant
+                        // creation du nouveau repertoire
+                        wp_mkdir_p($archivePath);
+                    }
+                    if( $this->importError($contents, $fileInfo) ){
+                        // les différentes informations ne sont pas présentes dans le csv.
+                        rename($document, $archivePath . $fileInfo['basename']);//archivage du csv
+                        continue;
+                    }
                     // recuperation id question par numero
                     $options               = array();
                     $options['attributes'] = array('id');
@@ -66,13 +76,6 @@ class Document extends MvcModel {
 
                     // question associée
                     $question = $this->queryBuilder->findOneByOptions($options);
-
-                    // repertoire archivage des documents
-                    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/archives/' . date('YmdHi') . '/';
-                    if (!file_exists($archivePath)) { // repertoire manquant
-                        // creation du nouveau repertoire
-                        wp_mkdir_p($archivePath);
-                    }
 
                     // question exist
                     if ($question->id) {
@@ -117,7 +120,7 @@ class Document extends MvcModel {
                         }
                         //Si le fichier existe dèja alors ajouter un suffixe sur le nom
                         $filename = $this->getFileName($path, $contents[CridonGedParser::INDEX_NOMFICHIER]);
-                        if (( count($contents) == CridonGedParser::NB_COLONNE_CSV ) && @copy(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
+                        if ( @copy(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
                                  $path . $filename)) {
                             // donnees document
                             $docData = array(
@@ -134,7 +137,12 @@ class Document extends MvcModel {
                             );
                             //Document suite/complément
                             if( $typeAction == 2 ){
-                                $docData['Document']['label'] = 'suite/complément';
+                                $label = 'Suite';
+                                //Si le nom de fichier commence par 'C'
+                                if(strtoupper(substr($contents[CridonGedParser::INDEX_NOMFICHIER], 0, 1)) == 'C' ){
+                                    $label = 'Complément';
+                                }
+                                $docData['Document']['label'] = $label;
                             }
                             if( $typeAction != 3 ){
                                 // insertion
@@ -171,7 +179,12 @@ class Document extends MvcModel {
                             rename($document, $archivePath . $fileInfo['basename']);
                             
                             // log : envoie mail
-                            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
+                            if( !file_exists(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER]) ){
+                                // PDF inexistant
+                                $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[CridonGedParser::INDEX_NUMQUESTION]);                                
+                            }else{
+                                $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG, date('d/m/Y à H:i'), $contents[CridonGedParser::INDEX_NOMFICHIER]);                                
+                            }
                             reportError($message, '');
                         }
                     } else { // doc sans question associee
@@ -208,5 +221,21 @@ class Document extends MvcModel {
             $output = mt_rand(1, 10) . '_' . $original;
         }
         return $output;
+    }
+    
+    /**
+     * Verification of the information in the CSV file
+     * 
+     * @param array $contents
+     * @param array $fileInfo
+     * @return boolean
+     */
+    protected function importError( $contents,$fileInfo ){
+        if( ( count($contents) !== CridonGedParser::NB_COLONNE_CSV ) || empty( $contents[CridonGedParser::INDEX_NUMQUESTION] ) || empty( $contents[CridonGedParser::INDEX_NOMFICHIER] ) ){
+            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
+            reportError($message, '');
+            return true;
+        }
+        return false;
     }
 }
