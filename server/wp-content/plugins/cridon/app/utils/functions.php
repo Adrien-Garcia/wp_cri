@@ -750,6 +750,7 @@ function CriDisableAdminBarForExistingNotaire() {
         $query .= ' WHEN ' . implode(' WHEN ', $updateMetaKey);
         $query .= ' ELSE `meta_key` ';
         $wpdb->query($queryStart . $query . $queryEnd);
+
         // meta_value
         $query = ' SET `meta_value` = CASE ';
         $query .= ' WHEN ' . implode(' WHEN ', $updateMetaValue);
