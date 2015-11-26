@@ -476,3 +476,8 @@ if ( !defined( 'CONST_NEWSLETTER_EMAIL_FIELD' ) ) {
 if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
     define( 'CONST_NEWSLETTER_MSGBLOCK_ID', 'newsletterMsgId' );
 }
+
+// log import notaire start and end of action
+if ( !defined( 'CONST_TRACE_IMPORT_NOTAIRE' ) ) {
+    define( 'CONST_TRACE_IMPORT_NOTAIRE', 1 );
+}
