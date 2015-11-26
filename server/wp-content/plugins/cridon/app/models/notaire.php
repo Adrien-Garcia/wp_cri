@@ -214,6 +214,10 @@ class Notaire extends MvcModel
                     $this->importDataUsingDBconnect();
                     break;
             }
+            
+            // disable notaire admin bar
+            CriDisableAdminBarForExistingNotaire();
+
         } catch (Exception $e) {
             // write into logfile
             writeLog($e, 'notaire.log');
