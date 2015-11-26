@@ -318,21 +318,25 @@ class Question extends MvcModel
     // Alert on issues without documents
     public function checkQuestionsWithoutDocuments(){
         $queryBuilder   = mvc_model('QueryBuilder');
+        $document = mvc_model('Document');
         $db = $queryBuilder->getInstanceMysqli();
         $sql = "
             SELECT q.id,q.srenum
-            FROM cri_question q
+            FROM ".$this->table." q
             WHERE q.id NOT IN (
-                SELECT q2.id FROM cri_question q2
-                JOIN cri_document d
+                SELECT q2.id FROM ".$this->table." q2
+                JOIN ".$document->table." d
                 ON d.id_externe = q2.id
                 WHERE d.type = 'question'
                 AND d.label = 'question/reponse'
             )
-            AND ROUND(DATEDIFF(NOW(),CONCAT(q.date_modif, ' ', q.hour_modif))*3600) >= 30
+            AND TIMESTAMPDIFF(MINUTE,CONCAT(q.date_modif, ' ', q.hour_modif),NOW()) >= 30
             AND q.confidential = 0
+            AND q.date_modif IS NOT NULL
+            AND q.hour_modif IS NOT NULL
          ";
         $datas = $db->query($sql);
+        
         while( $data = $datas->fetch_object() ){
             //questions without documents
         }        
