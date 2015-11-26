@@ -178,7 +178,8 @@ class Document extends MvcModel {
                         } else { // invalide doc
                             // archivage source des metadonnees
                             rename($document, $archivePath . $fileInfo['basename']);
-                            
+                            // message par défaut
+                            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
                             // log : envoie mail
                             if( !file_exists(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER]) ){
                                 // PDF inexistant
@@ -250,14 +251,18 @@ class Document extends MvcModel {
     protected function updateQuestion( $question, $contents ){
         if( !empty($contents[CridonGedParser::INDEX_DATEREPONSE]) ){
             if( preg_match("/([0-9]{4}-[0-9]{2}-[0-9]{2})T/", $contents[CridonGedParser::INDEX_DATEREPONSE], $matches) ){
-                $questData = array(
-                    'Question' => array(
-                        'id'        => $question->id,
-                        'real_date' => $matches[1]
-                    )
-                );
-                // mise de la date réelle de réponse
-                mvc_model('Question')->save($questData);
+                $d = DateTime::createFromFormat('Y-m-d', $matches[1]);
+                //Vérifier la validité de la date fournie
+                if( $d && $d->format('Y-m-d') == $matches[1] ){
+                    $questData = array(
+                        'Question' => array(
+                            'id'        => $question->id,
+                            'real_date' => $matches[1]
+                        )
+                    );
+                    // mise de la date réelle de réponse
+                    mvc_model('Question')->save($questData);                    
+                }
             }
         }
     }
