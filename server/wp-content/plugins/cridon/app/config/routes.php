@@ -12,10 +12,6 @@ MvcRouter::public_connect('rest/{:controller}', array('action' => 'index_json', 
 MvcRouter::public_connect('rest/{:controller}/{:id:[\d]+}', array('action' => 'show_json', 'layout' => 'json'));
 MvcRouter::public_connect('rest/{:controller}/{:action:[^\d]+}', array('layout' => 'json'));
 
-// download file
-MvcRouter::public_connect('download/question/{:id:[\d]+}',array('controller' => 'downloads','action' => 'downloadQuestion'));
-MvcRouter::public_connect('download/reponse/{:id:[\d]+}',array('controller' => 'downloads','action' => 'downloadAnswer'));
-
 // import (import notaire action)
 MvcRouter::public_connect('import/notaires', array('controller' => 'notaires', 'action' => 'import'));
 
