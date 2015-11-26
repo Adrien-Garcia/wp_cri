@@ -550,4 +550,12 @@ class QueryBuilder{
             writeLog($this->mysqli->error, 'query.log');
         }
     }
+    
+    /**
+     * Get instance of Mysqli
+     * @return mixed
+     */
+    public function getInstanceMysqli(){
+        return $this->mysqli;
+    }
 }
