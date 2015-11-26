@@ -314,4 +314,27 @@ class Question extends MvcModel
             $queryBulder->insertMultiRows($options);
         }
     }
+    
+    // Alert on issues without documents
+    public function checkQuestionsWithoutDocuments(){
+        $queryBuilder   = mvc_model('QueryBuilder');
+        $db = $queryBuilder->getInstanceMysqli();
+        $sql = "
+            SELECT q.id,q.srenum
+            FROM cri_question q
+            WHERE q.id NOT IN (
+                SELECT q2.id FROM cri_question q2
+                JOIN cri_document d
+                ON d.id_externe = q2.id
+                WHERE d.type = 'question'
+                AND d.label = 'question/reponse'
+            )
+            AND ROUND(DATEDIFF(NOW(),CONCAT(q.date_modif, ' ', q.hour_modif))*3600) >= 30
+            AND q.confidential = 0
+         ";
+        $datas = $db->query($sql);
+        while( $data = $datas->fetch_object() ){
+            //questions without documents
+        }        
+    } 
 }
