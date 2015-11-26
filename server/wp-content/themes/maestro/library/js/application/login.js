@@ -12,6 +12,8 @@ App.Login = {
     
     eventConnexionOpenSelector          : '.js-panel-connexion-open',
     eventConnexionCloseSelector         : '.js-panel-connexion-close',
+
+    blockConnexionErrorMessageSelector  : '.js-login-error-message-block',
     
     $panelConnexion                     : null,
     $panelConnexionOpen                 : null,
@@ -21,6 +23,8 @@ App.Login = {
 
     $buttonToConnexion                  : null,
     $buttonToMdp                        : null,
+
+    $blockConnexionErrorMessage         : null,
 
 
     init: function() {
@@ -36,7 +40,18 @@ App.Login = {
         this.$buttonToConnexion         = $(this.eventToConnexionSelector);
         this.$buttonToMdp               = $(this.eventToMdpSelector);
 
+        this.$blockConnexionErrorMessage= $(this.blockConnexionErrorMessageSelector);
+
         this.addListeners();
+
+        if (App.Utils.queryString['openLogin'] == "1") {
+            this.eventPanelConnexionToggle();
+        }
+
+        if (App.Utils.queryString['messageLogin'] != undefined) {
+            this.changeLoginErrorMessage(App.Utils.queryString['messageLogin']);
+        }
+
         this.debug("Login : init end");
 
     },
@@ -85,6 +100,17 @@ App.Login = {
    eventToMdp : function() {
         this.$formConnexion.removeClass("active");
         this.$formMdp.addClass("active");
+    },
+
+    changeLoginErrorMessage : function(error) {
+        var message = "";
+        switch (error) {
+            case "PROTECTED_CONTENT":
+                message = "Ce contenu est réservé au utilisateurs enregistrés, veuillez vous connecter.";
+                break;
+
+        }
+        this.$blockConnexionErrorMessage.text(message);
     },
 
     debug: function(t) {

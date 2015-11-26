@@ -122,7 +122,7 @@
 								<input type="submit" name="submit" value="Connectez-vous">
 							</form>
 							<a href="#" id="mdp_oublie" class="js-panel-connexion-to-mdp">> Mot de passe oublié ? <</a>
-							<div id="errorMsgId">									
+							<div id="errorMsgId" class="js-login-error-message-block">
 							</div>
 						<?php 
 							criSetLoginFormOptions('loginFormId', 'loginFieldId', 'passwordFieldId', 'errorMsgId');
