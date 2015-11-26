@@ -730,3 +730,31 @@ function criRestoreQuestions(){
 /*
  * End restore
  */
+
+function CriDisableAdminBarForExistingNotaire() {
+    // start/end query block
+    global $wpdb;
+
+    $queryStart = " UPDATE `{$wpdb->usermeta}` ";
+    $queryEnd   = ' END ';
+    $updateMetaKey = $updateMetaValue = array();
+    foreach (mvc_model('notaire')->find() as $notaire) {
+        $updateMetaKey[] = " user_id = {$notaire->id_wp_user} THEN 'show_admin_bar_front' ";
+        $updateMetaValue[] = " user_id = {$notaire->id_wp_user} THEN 'false' ";
+    }
+
+    // execute update query
+    if (count($updateMetaKey) > 0) {
+        // meta_key
+        $query = ' SET `meta_key` = CASE ';
+        $query .= ' WHEN ' . implode(' WHEN ', $updateMetaKey);
+        $query .= ' ELSE `meta_key` ';
+        $wpdb->query($queryStart . $query . $queryEnd);
+
+        // meta_value
+        $query = ' SET `meta_value` = CASE ';
+        $query .= ' WHEN ' . implode(' WHEN ', $updateMetaValue);
+        $query .= ' ELSE `meta_value` ';
+        $wpdb->query($queryStart . $query . $queryEnd);
+    }
+}
