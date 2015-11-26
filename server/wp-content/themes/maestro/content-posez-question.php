@@ -1,3 +1,4 @@
+<?php if (CriIsNotaire()) : ?>
 <div id="layer-posez-question">
 
 	<form action="" id="questionFormId" method="post">
@@ -23,7 +24,7 @@
 				<div id="owl-support" class="owl-carousel">
 				<?php foreach ($supports as $key => $support): ?>
 		            <div class="item">
-		            	<input id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" class="hidden js-question-support-radio">
+		            	<input title="support hidden" id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" class="hidden js-question-support-radio">
 		              	<span class="label"><?php echo $support->label_front; ?></span>
 		              	<p class="description">
 		              		<?php echo $support->description; ?>
@@ -45,7 +46,7 @@
 							$matieres = CriListMatieres();
 							$imatieres = 0;
 						 ?>
-						<select name="question_matiere" id="question_matiere" class="js-question-select-matiere" placeholder="Domaine d'activité principal">
+						<select name="question_matiere" id="question_matiere" class="js-question-select-matiere" >
 						<?php foreach($matieres as $id => $label): ?>
 							<option <?php echo ($imatieres == 0) ? "selected" : "" ?> value="<?php echo $id ?>"><?php echo $label ?></option>
 							<?php $imatieres++; ?>
@@ -56,7 +57,7 @@
 							<?php 
 								$competences = CriCompetenceByMatiere($id);
 							 ?>
-							<select class="js-question-select-competence <?php echo ($imatieres == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>" data-name="question_competence"  name="<?php echo ($imatieres == 0) ? "question_competence" : "" ?>" id="question_competence_<?php echo $id ?>" placeholder="Sous domaine d'activité">
+							<select class="js-question-select-competence <?php echo ($imatieres == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>" data-name="question_competence"  name="<?php echo ($imatieres == 0) ? "question_competence" : "" ?>" id="question_competence_<?php echo $id ?>" >
 								<?php foreach ($competences as $cid => $clabel): ?>
 									<option value="<?php echo $cid ?>"><?php echo $clabel ?></option>							
 								<?php endforeach ?>
@@ -150,3 +151,5 @@
 	</div>
 
 </div>
+
+<?php endif; ?>
