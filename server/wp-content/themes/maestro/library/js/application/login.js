@@ -14,7 +14,7 @@ App.Login = {
     eventConnexionCloseSelector         : '.js-panel-connexion-close',
 
     blockConnexionErrorMessageSelector  : '.js-login-error-message-block',
-    
+
     $panelConnexion                     : null,
     $panelConnexionOpen                 : null,
     $panelConnexionClose                : null,
