@@ -96,6 +96,11 @@
 
 					<nav role="navigation">
 						<?php // nav_principal(); ?>
+
+						<?php echo get_template_part("content","menu"); ?>
+
+
+
 					</nav>
 
 					<a id="bt-nav-mobile" href="#"></a>

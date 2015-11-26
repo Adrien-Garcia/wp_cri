@@ -15,15 +15,19 @@ and more scalable.
 	border-bottom: 0;
 	margin: 0;
 
+	>li{
+
+	}
+ 
 	li {
 
 		padding:0;
 
 		a {
 			display: block;
-			color: $white;
+			color: $bleu;
 			text-decoration: none;
-			padding: 0.75em 2em 0.75em 0;
+			//padding: 0.75em 2em 0.75em 0;
 
 			/*
 			remember this is for mobile ONLY, so there's no need
@@ -90,5 +94,48 @@ and more scalable.
 		a {}
 
 	}  /* end current highlighters */
+
+
+	> li{
+
+		height: 120px;
+
+		> a{
+			height: 120px;
+			display: block;
+
+			font-family: garamond;
+			font-size: 22px;
+			color:$bleu;
+
+			padding-top: 35px;
+			padding-right: 70px;
+
+			span{
+				display: block;
+				@extend .do-sm;
+				color:$bleu;
+				font-size: 30px;
+				line-height: 24px;
+				text-transform: uppercase;
+			}
+
+			&:hover{
+
+				span{
+					color:$rouge;
+				}
+				color:$rouge;
+			}
+		}
+	}
+	
+	/* Dernier li premier niveau*/
+	> li:last-child{
+
+		> a{
+			padding-right: 0;
+		}
+	}
 
 } /* end .nav */
