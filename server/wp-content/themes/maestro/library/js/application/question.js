@@ -1,5 +1,7 @@
 App.Question = {
 
+    buttonQuestionOpenSelector          : '.js-question-open',
+
     selectQuestionMatiereSelector       : '.js-question-select-matiere',
     selectQuestionCompetenceSelector    : '.js-question-select-competence',
 
@@ -21,6 +23,7 @@ App.Question = {
 
     selectedClass                       : 'selected',
 
+    $buttonQuestionOpen                 : null,
     $selectQuestionMatiere              : null,
     $selectQuestionCompetence           : null,
     $selectQuestionCompetenceArray      : [],
@@ -43,6 +46,8 @@ App.Question = {
         this.debug("Question : init start");
 
         var self = this;
+
+        this.$buttonQuestionOpen                    = $(this.buttonQuestionOpenSelector);
 
         this.$selectQuestionMatiere                 = $(this.selectQuestionMatiereSelector);
         this.$selectQuestionCompetence              = $(this.selectQuestionCompetenceSelector);
@@ -67,7 +72,12 @@ App.Question = {
 
         this.addListeners();
 
-        this.popupOverlayInit();
+        var bClass = App.Utils.getBodyClass();
+
+        if (bClass.indexOf("is_notaire") !== -1) {
+            this.popupOverlayInit();
+        }
+
 
         this.debug("Question : init end");
 
@@ -127,6 +137,7 @@ App.Question = {
      */
     addListeners: function() {
         var self = this;
+        var bClass = App.Utils.getBodyClass();
 
         this.debug("Question : addListeners start");
 
@@ -150,6 +161,13 @@ App.Question = {
         this.$fileQuestionReset.on('click', function(e) {
             self.eventFileReset($(this),e);
         });
+
+        if ( bClass.indexOf("is_notaire") === -1) {
+            this.$buttonQuestionOpen.on('click', function(e) {
+                App.Login.eventPanelConnexionToggle();
+                App.Login.changeLoginErrorMessage("ERROR_NOT_CONNECTED_QUESTION");
+            });
+        }
 
         this.debug("Question : addListeners end");
     },

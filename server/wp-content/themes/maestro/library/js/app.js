@@ -10,9 +10,10 @@ App = {
     debug: function (t) {
         console.log(t);
     }
-}
+};
 
 jQuery(document).ready(function($) {
+    App.Utils.init();
     App.Home.init();
     App.Login.init();
     if($(".page-mon-compte").length > 0) {

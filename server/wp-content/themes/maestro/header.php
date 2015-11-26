@@ -36,8 +36,13 @@
 	<?php // end of wordpress head ?>
 	
 </head>
-
-<body <?php body_class(); ?>>
+<?php
+    $bodyClass = array();
+    if (CriIsNotaire()) {
+        $bodyClass[] = "is_notaire";
+    }
+?>
+<body <?php body_class($bodyClass); ?>>
 
 	<?php
 	/*
@@ -66,7 +71,7 @@
 					<a class="contacter" href="#">
 						<?php _e('Contacter'); ?>
 					</a>
-					<a class="poser-question layer-posez-question_open" href="#">
+					<a class="poser-question layer-posez-question_open js-question-open" href="#">
 						<?php _e('Posez une question'); ?>
 					</a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
@@ -122,7 +127,7 @@
 								<input type="submit" name="submit" value="Connectez-vous">
 							</form>
 							<a href="#" id="mdp_oublie" class="js-panel-connexion-to-mdp">> Mot de passe oublié ? <</a>
-							<div id="errorMsgId">									
+							<div id="errorMsgId" class="js-login-error-message-block">
 							</div>
 						<?php 
 							criSetLoginFormOptions('loginFormId', 'loginFieldId', 'passwordFieldId', 'errorMsgId');
