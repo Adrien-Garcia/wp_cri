@@ -741,7 +741,6 @@ function CriDisableAdminBarForExistingNotaire() {
     foreach (mvc_model('notaire')->find() as $notaire) {
         $updateMetaKey[] = " user_id = {$notaire->id_wp_user} THEN 'show_admin_bar_front' ";
         $updateMetaValue[] = " user_id = {$notaire->id_wp_user} THEN 'false' ";
-//        update_user_meta( $notaire->id_wp_user, 'show_admin_bar_front', 'false' );
     }
 
     // execute update query
