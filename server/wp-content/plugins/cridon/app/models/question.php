@@ -325,30 +325,19 @@ class Question extends MvcModel
             $notaire = CriNotaireData();
 
             // notaire exist
-            if ($notaire->client_number && isset($post[CONST_QUESTION_OBJECT_FIELD])) {
+            if ($notaire->client_number && isset($post[CONST_QUESTION_OBJECT_FIELD]) && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && isset($post[CONST_QUESTION_MESSAGE_FIELD]) ) {
                 // prepare data
                 $question = array(
                     'Question' => array(
                         'client_number' => $notaire->client_number,
                         'sreccn' => $notaire->code_interlocuteur,
                         'resume' => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
-                        'creation_date' => date('Y-m-d H:i:s')
+                        'creation_date' => date('Y-m-d H:i:s'),
+                        'id_support' => $post[CONST_QUESTION_SUPPORT_FIELD],// Support
+                        'id_competence_1' => $post[CONST_QUESTION_COMPETENCE_FIELD],// Competence
+                        'content' => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD])// Message
                     )
                 );
-
-                // Support
-                if (isset($post[CONST_QUESTION_SUPPORT_FIELD])) {
-                    $question['Question']['id_support'] = $post[CONST_QUESTION_SUPPORT_FIELD];
-                }
-                // Competence
-                if (isset($post[CONST_QUESTION_COMPETENCE_FIELD])) {
-                    $question['Question']['id_competence_1'] = $post[CONST_QUESTION_COMPETENCE_FIELD];
-                }
-                // Message
-                if (isset($post[CONST_QUESTION_MESSAGE_FIELD])) {
-                    $question['Question']['content'] = htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]);
-                }
-
                 // insert question
                 $questionId = $this->create($question);
 
@@ -403,6 +392,8 @@ class Question extends MvcModel
                         }
                     }
                 }
+            }else{
+                return false;
             }
 
             return true;
