@@ -101,23 +101,6 @@ class AdminQuestionsController extends MvcAdminController {
         $this->setSupports();
         $this->setAffectations();
         $this->create_or_save();
-        $this->load_model('Document');
-        $options = array(
-            'conditions' => array(
-                'id_externe' => $this->object->id,
-                'type' => 'question'
-            )
-        );
-        $aObjectQuestion = $this->Document->find( $options );
-        $this->set('aObjectQuestion', $aObjectQuestion );
-        $options = array(
-            'conditions' => array(
-                'id_externe' => $this->object->id,
-                'type' => 'reponse'
-            )
-        );
-        $aObjectAnswer = $this->Document->find( $options );
-        $this->set('aObjectAnswer', $aObjectAnswer );
     }
 
     private function setCompetences()

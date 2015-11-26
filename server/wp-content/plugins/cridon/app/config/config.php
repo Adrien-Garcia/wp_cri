@@ -50,13 +50,12 @@ class Config {
 
     // option list of document type    
     public static $optionDocumentType = array(
-        'question'      => 'Question',
-        'reponse'       => 'Réponse',
-        'veille'        => 'Veille',
-        'formation'     => 'Formation',
-        'cahier_cridon' => 'Cahier cridon',
-        'actu_cridon'   => 'Actu cridon',
-        'flash'         => 'Flash'
+        'question'              => 'Question',
+        'veille'                => 'Veille',
+        'formation'             => 'Formation',
+        'cahier_cridon'         => 'Cahier cridon',
+        'actu_cridon'           => 'Actu cridon',
+        'flash'                 => 'Flash'
     );
 
     // list of cridon_type using default post form
