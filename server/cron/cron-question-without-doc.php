@@ -14,4 +14,9 @@
 
 require_once '../wp-load.php';
 $document = mvc_model('Question');
-$document->checkQuestionsWithoutDocuments();
+$result = $document->checkQuestionsWithoutDocuments();
+if( $result ){
+    echo 'Un mail a été envoyé';
+}else{
+    echo 'Aucun mail n\'a été envoyé';
+}
