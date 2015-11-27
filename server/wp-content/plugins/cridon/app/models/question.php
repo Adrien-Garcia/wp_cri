@@ -337,6 +337,27 @@ class Question extends MvcModel
         return true;
     } 
     
+    public function checkQuestionsWithoutDocumentsDaily(){
+        $queryBuilder   = mvc_model('QueryBuilder');        
+        $db = $queryBuilder->getInstanceMysqli();
+        $sql = $this->generateQueryEmptyPdf();
+        try{
+            $datas = $db->query($sql);            
+        } catch (\Exception $ex) {
+            writeLog($ex,'question_pdf');
+        }
+        if( $datas->num_rows == 0 ){
+            return false;
+        }
+        $nums = array();
+        while( $data = $datas->fetch_object() ){
+            //questions without documents
+            $nums[] = $data->srenum;
+        }   
+        sendNotification(Config::$emailNotificationEmptyDocument['message'], implode(',',$nums),Config::$emailNotificationEmptyDocument['administrators']);
+        return true;
+    } 
+    
     /**
      * Get query for question without document 
      * 
