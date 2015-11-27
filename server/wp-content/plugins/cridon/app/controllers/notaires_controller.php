@@ -131,13 +131,9 @@ class NotairesController extends BasePublicController
      */
     public function contentdashboard()
     {
-        // access secured
-        $this->secureAccess();
-
-        // set template vars
-        // @TODO to be completed with others notaire dynamic data
-        $vars = $this->get_object();
-        $this->set_vars($vars);
+        $this->prepareDashboard();
+        CriRenderView('contentdashboard', get_defined_vars(),'notaires');
+        die();
     }
 
     /**
@@ -148,7 +144,7 @@ class NotairesController extends BasePublicController
      */
     public function show()
     {
-        $this->contentdashboard();
+        $this->prepareDashboard();
     }
 
     /**
@@ -159,8 +155,9 @@ class NotairesController extends BasePublicController
      */
     public function contentquestions()
     {
-        // access secured
-        $this->secureAccess();
+        $this->prepareSecureAccess();
+        CriRenderView('contentquestions', get_defined_vars(),'notaires');
+        die();
     }
 
     /**
@@ -171,7 +168,7 @@ class NotairesController extends BasePublicController
      */
     public function questions()
     {
-        $this->contentquestions();
+        $this->prepareSecureAccess();
 
     }
 
@@ -183,41 +180,9 @@ class NotairesController extends BasePublicController
      */
     public function contentprofil()
     {
-        // access secured
-        $this->secureAccess();
-        if( isset( $_POST ) && !empty( $_POST ) && isset( $_POST['matieres'] ) ){
-            $notaire = $this->model->getUserConnectedData();
-            if( !empty( $notaire ) ){
-                $options = array(
-                    'conditions' => array(
-                        'Matiere.displayed' => 1
-                    )
-                );
-                $matieres = mvc_model('matiere')->find( $options );
-                //Clean $_POST before
-                $data = $this->clean( $_POST );
-                $toCompare = array();
-                //Create array to compare Matiere in $_POST
-                foreach ( $matieres as $mat ){
-                    $toCompare[] = $mat->id;
-                }
-                $insert = array();
-                $insert['Notaire']['id'] = $notaire->id;
-                foreach( $data['matieres'] as $v ){
-                    //Check if current Matiere is valid
-                    if( in_array( $v, $toCompare ) ){
-                        $insert['Notaire']['Matiere']['ids'][] = $v;
-                    }
-                }
-                //Put in DB
-                $this->model->save( $insert );
-            }
-
-        }
-        // set template vars
-        // @TODO to be completed with others notaire dynamic data
-        $vars = $this->get_object();
-        $this->set_vars($vars);
+        $this->prepareProfil();
+        CriRenderView('contentprofil', get_defined_vars(),'notaires');
+        die();
     }
 
     /**
@@ -228,7 +193,7 @@ class NotairesController extends BasePublicController
      */
     public function profil()
     {
-        $this->contentprofil();
+        $this->prepareProfil();
     }
 
     /**
@@ -240,7 +205,9 @@ class NotairesController extends BasePublicController
     public function contentfacturation()
     {
         // access secured
-        $this->secureAccess();
+        $this->prepareSecureAccess();
+        CriRenderView('contentfacturation', get_defined_vars(),'notaires');
+        die();
     }
     /**
      * Notaire Facturation page
@@ -250,7 +217,7 @@ class NotairesController extends BasePublicController
      */
     public function facturation()
     {
-        $this->contentfacturation();
+        $this->prepareSecureAccess();
     }
 
     /**
@@ -299,5 +266,62 @@ class NotairesController extends BasePublicController
         echo json_encode($ret);
 
         die;
+    }
+
+    protected function prepareDashboard()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+
+        // set template vars
+        // @TODO to be completed with others notaire dynamic data
+        $vars = $this->get_object();
+        $this->set_vars($vars);
+        return $vars;
+    }
+
+    protected function prepareSecureAccess()
+    {
+// access secured
+        $this->secureAccess();
+    }
+
+    protected function prepareProfil()
+    {
+// access secured
+        $this->prepareSecureAccess();
+        if (isset($_POST) && !empty($_POST) && isset($_POST['matieres'])) {
+            $notaire = $this->model->getUserConnectedData();
+            if (!empty($notaire)) {
+                $options = array(
+                    'conditions' => array(
+                        'Matiere.displayed' => 1
+                    )
+                );
+                $matieres = mvc_model('matiere')->find($options);
+                //Clean $_POST before
+                $data = $this->clean($_POST);
+                $toCompare = array();
+                //Create array to compare Matiere in $_POST
+                foreach ($matieres as $mat) {
+                    $toCompare[] = $mat->id;
+                }
+                $insert = array();
+                $insert['Notaire']['id'] = $notaire->id;
+                foreach ($data['matieres'] as $v) {
+                    //Check if current Matiere is valid
+                    if (in_array($v, $toCompare)) {
+                        $insert['Notaire']['Matiere']['ids'][] = $v;
+                    }
+                }
+                //Put in DB
+                $this->model->save($insert);
+            }
+
+        }
+        // set template vars
+        // @TODO to be completed with others notaire dynamic data
+        $vars = $this->get_object();
+        $this->set_vars($vars);
     }
 }

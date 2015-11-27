@@ -18,7 +18,7 @@
  
 				<h1>Mon compte</h1>
 				<ul id="sel-compte">
-					<li class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : ""?>" data-js-ajax-src="/notaires/<?php echo $id ; ?>/contentdashboard">
+					<li class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : ""?>" data-js-name="Dashboard" data-js-ajax-src="<?php get_home_url() ?>/notaires/<?php echo $id ; ?>/contentdashboard">
 						<div class="bt js-account-dashboard-button">Tableaux de bord</div>
 						<div id="tableau-de-bord" class="pannel js-account-ajax">
                             <?php if (!isset($onglet) || $onglet == 1) : ?>
@@ -27,7 +27,7 @@
 						</div>
 
 					</li>
-					<li class="js-account-questions js-account-blocs <?php echo ($onglet == 2) ? " active " : ""?>" data-js-ajax-src="/notaires/<?php echo $id ; ?>/contentquestions">
+					<li class="js-account-questions js-account-blocs <?php echo ($onglet == 2) ? " active " : ""?>" data-js-name="Questions" data-js-ajax-src="<?php get_home_url() ?>/notaires/<?php echo $id ; ?>/contentquestions">
 						<div class="bt js-account-questions-button">Mes Questions</div>
 						<div id="mes-questions" class="pannel js-account-ajax">
                             <?php if ($onglet == 2) : ?>
@@ -35,7 +35,7 @@
                             <?php endif; ?>
 						</div>
 					</li>
-					<li class="js-account-profil js-account-blocs <?php echo ($onglet == 3) ? " active " : ""?>" data-js-ajax-src="/notaires/<?php echo $id ; ?>/contentprofil">
+					<li class="js-account-profil js-account-blocs <?php echo ($onglet == 3) ? " active " : ""?>" data-js-name="Profil" data-js-ajax-src="<?php get_home_url() ?>/notaires/<?php echo $id ; ?>/contentprofil">
 						<div class="bt js-account-profil-button" id="sel-compte-profil-button">Mon profil</div>
 						<div id="mon-profil" class="pannel js-account-ajax">
                             <?php if ($onglet == 3) : ?>
@@ -44,7 +44,7 @@
 						</div>
 					</li>
 					<?php if (CriCanAccessFinance()): ?>
-					<li class="js-account-facturation js-account-blocs <?php echo ($onglet == 4) ? " active " : ""?>" data-js-ajax-src="/notaires/<?php echo $id ; ?>/contentfacturation">
+					<li class="js-account-facturation js-account-blocs <?php echo ($onglet == 4) ? " active " : ""?>" data-js-name="Facturation" data-js-ajax-src="<?php get_home_url() ?>/notaires/<?php echo $id ; ?>/contentfacturation">
 						<div class="bt js-account-facturation-button">Règles de facturation</div>
 						<div id="regles-facturation" class="pannel js-account-ajax">
                         <?php if ($onglet == 4) : ?>

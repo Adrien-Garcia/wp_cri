@@ -35,6 +35,15 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/profil', array('controller' => '
 // regles de facturation
 MvcRouter::public_connect('notaires/{:id:[\d]+}/facturation', array('controller' => 'notaires', 'action' => 'facturation'));
 
+// mon dashboard
+MvcRouter::public_connect('notaires/{:id:[\d]+}/contentdashboard', array('controller' => 'notaires', 'action' => 'contentdashboard'));
+// mes questions
+MvcRouter::public_connect('notaires/{:id:[\d]+}/contentquestions', array('controller' => 'notaires', 'action' => 'contentquestions'));
+// mon profil
+MvcRouter::public_connect('notaires/{:id:[\d]+}/contentprofil', array('controller' => 'notaires', 'action' => 'contentprofil'));
+// regles de facturation
+MvcRouter::public_connect('notaires/{:id:[\d]+}/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
+
 // default
 MvcRouter::public_connect('{:controller}', array('action' => 'index'));
 MvcRouter::public_connect('{:controller}/{:id:[\d]+}', array('action' => 'show'));
