@@ -316,15 +316,22 @@ class Question extends MvcModel
     }
     
     // Alert on issues without documents
+    
+    /**
+     * Alert on issues without documents every 30 minutes.
+     * 
+     * @return boolean
+     */
     public function checkQuestionsWithoutDocuments(){
         $queryBuilder   = mvc_model('QueryBuilder');        
-        $db = $queryBuilder->getInstanceMysqli();
-        $sql = $this->generateQueryEmptyPdf();
+        $db = $queryBuilder->getInstanceMysqli();//get instance mysqli
+        $sql = $this->generateQueryEmptyPdf();//get query
         try{
             $datas = $db->query($sql);            
         } catch (\Exception $ex) {
             writeLog($ex,'question_pdf');
         }
+        //No result
         if( $datas->num_rows == 0 ){
             return false;
         }
@@ -347,15 +354,21 @@ class Question extends MvcModel
         return true;
     } 
     
+    /**
+     * Alert on issues without documents once a day.
+     * 
+     * @return boolean
+     */
     public function checkQuestionsWithoutDocumentsDaily(){
         $queryBuilder   = mvc_model('QueryBuilder');        
-        $db = $queryBuilder->getInstanceMysqli();
-        $sql = $this->generateQueryEmptyPdf();
+        $db = $queryBuilder->getInstanceMysqli();//get instance mysqli
+        $sql = $this->generateQueryEmptyPdf();//get query
         try{
             $datas = $db->query($sql);            
         } catch (\Exception $ex) {
             writeLog($ex,'question_pdf');
         }
+        //No result
         if( $datas->num_rows == 0 ){
             return false;
         }
