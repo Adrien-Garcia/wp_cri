@@ -317,13 +317,37 @@ class Question extends MvcModel
     
     // Alert on issues without documents
     public function checkQuestionsWithoutDocuments(){
-        $queryBuilder   = mvc_model('QueryBuilder');
-        $document = mvc_model('Document');
+        $queryBuilder   = mvc_model('QueryBuilder');        
         $db = $queryBuilder->getInstanceMysqli();
+        $sql = $this->generateQueryEmptyPdf();
+        try{
+            $datas = $db->query($sql);            
+        } catch (\Exception $ex) {
+            writeLog($ex,'question_pdf');
+        }
+        if( $datas->num_rows == 0 ){
+            return false;
+        }
+        $nums = array();
+        while( $data = $datas->fetch_object() ){
+            //questions without documents
+            $nums[] = $data->srenum;
+        }   
+        sendNotification(Config::$emailNotificationEmptyDocument['message'], implode(',',$nums),Config::$emailNotificationEmptyDocument['secretaries']);
+        return true;
+    } 
+    
+    /**
+     * Get query for question without document 
+     * 
+     * @return string
+     */
+    protected function generateQueryEmptyPdf(){
+        $document = mvc_model('Document');
         $sql = "
             SELECT q.id,q.srenum
             FROM ".$this->table." q
-            WHERE q.id NOT IN (
+            WHERE q.id  NOT IN (
                 SELECT q2.id FROM ".$this->table." q2
                 JOIN ".$document->table." d
                 ON d.id_externe = q2.id
@@ -334,11 +358,8 @@ class Question extends MvcModel
             AND q.confidential = 0
             AND q.date_modif IS NOT NULL
             AND q.hour_modif IS NOT NULL
+            ORDER BY q.srenum ASC
          ";
-        $datas = $db->query($sql);
-        
-        while( $data = $datas->fetch_object() ){
-            //questions without documents
-        }        
-    } 
+        return $sql;
+    }
 }
