@@ -503,14 +503,15 @@ function assocToKeyVal($assoc, $key_field, $val_field)
 }
 
 /**
- * Render custom view  
+ * Render custom view
  *
  * @param string $path
  * @param array $view_vars
+ * @param string $folder
  */
-function CriRenderView($path, $view_vars) {
+function CriRenderView($path, $view_vars, $folder = "custom") {
     extract($view_vars);
-    require_once WP_PLUGIN_DIR . '/cridon/app/views/custom/' . $path . '.php';
+    require_once WP_PLUGIN_DIR . '/cridon/app/views/' . $folder . '/' . $path . '.php';
 }
 
 //End custom functions

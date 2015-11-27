@@ -124,12 +124,12 @@ class NotairesController extends BasePublicController
     }
 
     /**
-     * Notaire dashboard page
-     * Associated template : app/views/notaires/show.php
+     * Notaire dashboard Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentdashboard.php
      *
      * @return void
      */
-    public function show()
+    public function contentdashboard()
     {
         // access secured
         $this->secureAccess();
@@ -141,6 +141,29 @@ class NotairesController extends BasePublicController
     }
 
     /**
+     * Notaire dashboard page
+     * Associated template : app/views/notaires/show.php
+     *
+     * @return void
+     */
+    public function show()
+    {
+        $this->contentdashboard();
+    }
+
+    /**
+     * Notaire Questions Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentquestions.php
+     *
+     * @return void
+     */
+    public function contentquestions()
+    {
+        // access secured
+        $this->secureAccess();
+    }
+
+    /**
      * Notaire Questions page
      * Associated template : app/views/notaires/questions.php
      *
@@ -148,17 +171,17 @@ class NotairesController extends BasePublicController
      */
     public function questions()
     {
-        // access secured
-        $this->secureAccess();
+        $this->contentquestions();
+
     }
 
     /**
-     * Notaire Profil page
-     * Associated template : app/views/notaires/profil.php
+     * Notaire Profil Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentprofil.php
      *
      * @return void
      */
-    public function profil()
+    public function contentprofil()
     {
         // access secured
         $this->secureAccess();
@@ -172,7 +195,7 @@ class NotairesController extends BasePublicController
                 );
                 $matieres = mvc_model('matiere')->find( $options );
                 //Clean $_POST before
-                $data = $this->clean( $_POST ); 
+                $data = $this->clean( $_POST );
                 $toCompare = array();
                 //Create array to compare Matiere in $_POST
                 foreach ( $matieres as $mat ){
@@ -183,13 +206,13 @@ class NotairesController extends BasePublicController
                 foreach( $data['matieres'] as $v ){
                     //Check if current Matiere is valid
                     if( in_array( $v, $toCompare ) ){
-                        $insert['Notaire']['Matiere']['ids'][] = $v;                        
+                        $insert['Notaire']['Matiere']['ids'][] = $v;
                     }
                 }
                 //Put in DB
-                $this->model->save( $insert );               
+                $this->model->save( $insert );
             }
-           
+
         }
         // set template vars
         // @TODO to be completed with others notaire dynamic data
@@ -198,6 +221,28 @@ class NotairesController extends BasePublicController
     }
 
     /**
+     * Notaire Profil page
+     * Associated template : app/views/notaires/profil.php
+     *
+     * @return void
+     */
+    public function profil()
+    {
+        $this->contentprofil();
+    }
+
+    /**
+     * Notaire Facturation Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentfacturation.php
+     *
+     * @return void
+     */
+    public function contentfacturation()
+    {
+        // access secured
+        $this->secureAccess();
+    }
+    /**
      * Notaire Facturation page
      * Associated template : app/views/notaires/facturation.php
      *
@@ -205,10 +250,9 @@ class NotairesController extends BasePublicController
      */
     public function facturation()
     {
-        // access secured
-        $this->secureAccess();
+        $this->contentfacturation();
     }
-    
+
     /**
      * Cleaning data
      * 
