@@ -543,7 +543,35 @@ function reportError($message, $object) {
     // send email
     wp_mail($to, CONST_EMAIL_ERROR_SUBJECT, $message, $headers);
 }
-
+/**
+ * Send email for reporting
+ *
+ * @param string $message the default message in which we want to add the error
+ * @param mixed $object the error to introduce in the message
+ * @param array $ccs 
+ */
+function sendNotification($message, $object, $ccs = array() ) {
+    // message content
+    $message =  sprintf($message, $object);
+    $env = getenv('ENV');
+    //define receivers
+    if ((empty($env) || ($env !== 'PROD')) && !empty($ccs)) {
+        // just send to client in production mode
+        $ccs = (array) $ccs; //cast to guarantee array
+        $to = array_pop($ccs);
+    } else {
+        $to = arrayGet(Config::$emailNotificationEmptyDocument, 'to', Config::$emailNotificationEmptyDocument['to']);
+    }
+    $headers = array();
+    if (!empty($ccs)) {
+        foreach ((array) $ccs as $cc) {
+            $headers[] = 'Cc: '.$cc;
+        }
+    }
+    
+    // send email
+    wp_mail($to, Config::$emailNotificationEmptyDocument['subject'], $message, $headers);
+}
 //UI component
 add_action('add_meta_boxes','init_meta_boxes_ui_component');
 
