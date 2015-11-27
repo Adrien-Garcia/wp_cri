@@ -333,7 +333,17 @@ class Question extends MvcModel
             //questions without documents
             $nums[] = $data->srenum;
         }   
-        sendNotification(Config::$emailNotificationEmptyDocument['message'], implode(',',$nums),Config::$emailNotificationEmptyDocument['secretaries']);
+        $wp_secretaries = get_users( 'role=contributor' );//secretaries in website
+        if( empty( $wp_secretaries ) ){
+            $secretaries = Config::$emailNotificationEmptyDocument['secretaries'];//Default
+        }else{
+            $secretaries = array();
+            foreach ( $wp_secretaries as $secr ){
+                $secretaries[] = $secr->data->user_email;
+            }
+        }
+        $secretaries = array_unique($secretaries);
+        sendNotification(Config::$emailNotificationEmptyDocument['message'], implode(',',$nums),$secretaries);
         return true;
     } 
     
@@ -354,8 +364,28 @@ class Question extends MvcModel
             //questions without documents
             $nums[] = $data->srenum;
         }   
-        sendNotification(Config::$emailNotificationEmptyDocument['message'], implode(',',$nums),Config::$emailNotificationEmptyDocument['administrators']);
-        return true;
+        $wp_secretaries = get_users( 'role=contributor' );//secretaries in website
+        if( empty( $wp_secretaries ) ){
+            $secretaries = Config::$emailNotificationEmptyDocument['secretaries'];//Default
+        }else{
+            $secretaries = array();
+            foreach ( $wp_secretaries as $secr ){
+                $secretaries[] = $secr->data->user_email;
+            }
+        }
+        $wp_administrators = get_users( 'role=administrator' );//administrators in website
+        if( empty( $wp_administrators ) ){
+            $administrators = Config::$emailNotificationEmptyDocument['administrators'];//Default
+        }else{
+            $administrators = array();
+            foreach ( $wp_administrators as $admin ){
+                $administrators[] = $admin->data->user_email;
+            }
+        }
+        $mails = array_merge($secretaries,$administrators);
+        $mails = array_unique($mails);
+        //echo '<pre>';var_dump($mails);die;
+        return sendNotification(Config::$emailNotificationEmptyDocument['message'], implode(',',$nums),$mails);
     } 
     
     /**
