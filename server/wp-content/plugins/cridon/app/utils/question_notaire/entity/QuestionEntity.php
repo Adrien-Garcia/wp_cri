@@ -15,7 +15,7 @@
 class QuestionEntity extends Entity {
     
     public $fields = array(
-        'id','client_number','srenum','id_support','id_competence_1','id_affectation','real_date','date_modif',
+        'id','client_number','srenum','id_support','id_competence_1','id_affectation','real_date','wish_date','date_modif',
         'resume','content','juriste','confidential'
     );
     

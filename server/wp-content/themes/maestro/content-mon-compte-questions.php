@@ -1,30 +1,54 @@
+<?php
+    $questions = criRestoreQuestions();
+    $answered = $questions->getAnswered();
+    $pending = $questions->getPending();
+?>
 <div id="questions-attentes">
 	<h2><?php _e('Mes questions en attentes'); ?></h2>
 
 	<ul>
+        <?php foreach ($pending as $index => $question) : ?>
 		<li>
-			<span class="date">Question du 09.10.2015</span>
-			<span class="reponse">Réponse souhaitées le 09.10.2015</span>
+            <?php
+                $date = date_create_from_format('Y-m-d', $question->question->real_date);
+                $wdate = date_create_from_format('Y-m-d', $question->question->wish_date);
+                $sDate = date('d.m.Y', $date->getTimestamp());
+                $sWdate = date('d.m.Y', $wdate->getTimestamp());
+            ?>
+			<span class="date">Question du <?php echo $sDate ; ?></span>
+			<span class="reponse">Réponse souhaitées le <?php echo $sWdate ; ?></span>
 			<ul>
-				<li>					
-					<img src="" alt="">
+                <?php
+                    $matiere = $question->matiere;
+                ?>
+				<li>
+					<img src="<?php echo $matiere->picto; ?>" alt="<?php echo $matiere->short_label ; ?>">
 				</li>
 				<li>
-					<span class="matiere">Droit social</span>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis accumsan nisi, non molestie sem fringilla non. Proin tempus lacus eget nisi accumsan, nec dapibus quam pulvinar.</p>
+					<span class="matiere"><?php echo $matiere->label ; ?></span>
+                    <?php
+                        if ( !empty($question->question->content) ) {
+                            $resume = wp_trim_words($question->question->content, 18 );
+                        } else {
+                            $resume = wp_trim_words($question->question->resume, 18 );
+                        }
+                    ?>
+					<p><?php echo $resume ; ?></p>
 				</li>
 				<li>
-					<span class="status">en cours de traitement</span>
-					<span class="person">par Raphael DETTER</span>
+                    <?php
+                        $status = "En cours de traitement";
+                    ?>
+					<span class="status"><?php echo $status ; ?></span>
 				</li>
 				<li>
-					<span class="delai">délais 48h</span>
+					<span class="delai"><?php echo $question->support->label; ?></span>
 				</li>
 				<li>
-					<span class="pts">20 pts</span>
+					<span class="pts"><?php echo $question->support->value; ?> pts</span>
 				</li>
 				<li>
-					<span class="id-question">N ° 123456789</span>
+					<span class="id-question">N ° <?php echo $question->question->srenum ; ?></span>
 				</li>
 				<li class="pdf"></li>
 				<li class="plusdedetails">
@@ -32,75 +56,32 @@
 					<div class="details">
 						<ul>
 							<li>
-								<span>Domaine d'activité principal</span>
-								<span>Sous domaine d'activité</span>
-								<span>Objet</span>
+								<span><?php echo $matiere->label ; ?></span>
+								<span><?php echo $question->competence->label ; ?></span>
+								<span><?php echo $question->question->resume ; ?></span>
 								<ul>
 									<li><a href="" target="_blank">nomdufichier.pdf</a></li>
 									<li><a href="" target="_blank">nomdufichier.pdf</a></li>
 									<li><a href="" target="_blank">nomdufichier.pdf</a></li>
 								</ul>
 							</li>
-							<li>
-								<span>Votre question</span>
-								Lorem ipsum Consequat sunt ut mollit elit Ut ad reprehenderit veniam consequat Excepteur sed laborum laboris est non nostrud officia velit enim ea id laboris dolor id pariatur do dolor ex non.
-							</li>
+
+                            <?php if ( !empty($question->question->content) ) : ?>
+                                <li>
+                                    <span>Votre question</span>
+                                    <?php echo $question->question->content ; ?>
+                                </li>
+                            <?php endif; ?>
 						</ul>
-						
+
 					</div>
-					
+
 				</li>
 			</ul>
 		</li>
-		<li>
-			<span class="date">Question du 12.09.2015</span>
-			<span class="reponse">Réponse souhaitées le 09.10.2015</span>
-			<ul>
-				<li>					
-					<img src="" alt="">
-				</li>
-				<li>
-					<span class="matiere">Droit commercial</span>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis accumsan nisi, non molestie sem fringilla non. Proin tempus lacus eget nisi accumsan, nec dapibus quam pulvinar.</p>
-				</li>
-				<li>
-					<span class="status">en cours de traitement</span>
-					<span class="person">par Raphael DETTER</span>
-				</li>
-				<li>
-					<span class="delai">délais 48h</span>
-				</li>
-				<li>
-					<span class="pts">20 pts</span>
-				</li>
-				<li>
-					<span class="id-question">N ° 123456789</span>
-				</li>
-				<li class="pdf"></li>
-				<li class="plusdedetails">
-					<span>plus de détails</span>
-					<div class="details">
-						<ul>
-							<li>
-								<span>Domaine d'activité principal</span>
-								<span>Sous domaine d'activité</span>
-								<span>Objet</span>
-								<ul>
-									<li><a href="" target="_blank">nomdufichier.pdf</a></li>
-								</ul>
-							</li>
-							<li>
-								<span>Votre question</span>
-								Lorem ipsum Consequat sunt ut mollit elit Ut ad reprehenderit veniam consequat Excepteur sed laborum laboris est non nostrud officia velit enim ea id laboris dolor id pariatur do dolor ex non.
-							</li>
-						</ul>
-						
-					</div>
-					
-				</li>
-			</ul>
-		</li>
-	</ul>	
+        <?php endforeach; ?>
+
+	</ul>
 </div>
 
 <div id="historique-questions">
@@ -121,33 +102,50 @@
 				</select>
 			</li>
 		</ul>
-		
+
 	</div>
 
 	<ul>
-		<li>
-			<span class="date">Question du 09.10.2015</span>
+        <?php foreach ($answered as $index => $question) : ?>
+            <?php
+            $date = date_create_from_format('Y-m-d', $question->question->real_date);
+            $sDate = date('d.m.Y', $date->getTimestamp());
+            $adate = date_create_from_format('Y-m-d', $question->question->date_modif);
+            $sAdate = date('d.m.Y', $adate->getTimestamp());
+            ?>
+        <li>
+			<span class="date">Question du <?php echo $sDate ; ?></span>
 			<ul>
-				<li>					
-					<img src="" alt="">
-				</li>
+                <?php
+                $matiere = $question->matiere;
+                ?>
 				<li>
-					<span class="matiere">Droit civil de la famille</span>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis accumsan nisi, non molestie sem fringilla non. Proin tempus lacus eget nisi accumsan, nec dapibus quam pulvinar.</p>
-				</li>
+                    <img src="<?php echo $matiere->picto; ?>" alt="<?php echo $matiere->short_label ; ?>">
+                </li>
+				<li>
+                    <span class="matiere"><?php echo $matiere->label ; ?></span>
+                    <?php
+                    if ( !empty($question->question->content) ) {
+                        $resume = wp_trim_words($question->question->content, 18 );
+                    } else {
+                        $resume = wp_trim_words($question->question->resume, 18 );
+                    }
+                    ?>
+                    <p><?php echo $resume ; ?></p>
+                </li>
 				<li>
 					<!--span class="answer">répondu</span!-->
-					<span class="status">répondu le 22.08.2015</span>
-					<span class="person">par Raphael DETTER</span>
+					<span class="status">répondu le <?php echo $sAdate ; ?></span>
+					<span class="person">par <?php echo $question->question->juriste ; ?></span>
 				</li>
 				<li>
-					<span class="delai">délais 48h</span>
+					<span class="delai"><?php echo $question->support->label; ?></span>
 				</li>
 				<li>
-					<span class="pts">20 pts</span>
+					<span class="pts"><?php echo $question->support->value; ?> pts</span>
 				</li>
 				<li>
-					<span class="id-question">N ° 123456789</span>
+					<span class="id-question">N ° <?php echo $question->question->srenum; ?></span>
 				</li>
 				<li class="pdf">
 					<a href="" class="pdf"></a>
@@ -162,44 +160,11 @@
 				</li>
 			</ul>
 		</li>
-		<li>
-			<span class="date">Question du 09.10.2015</span>
-			<ul>
-				<li>					
-					<img src="" alt="">
-				</li>
-				<li>
-					<span class="matiere">Droit civil de la famille</span>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis accumsan nisi, non molestie sem fringilla non. Proin tempus lacus eget nisi accumsan, nec dapibus quam pulvinar.</p>
-				</li>
-				<li>
-					<!--span class="answer">répondu</span!-->
-					<span class="status">répondu le 22.08.2015</span>
-					<span class="person">par Raphael DETTER</span>
-				</li>
-				<li>
-					<span class="delai">délais 48h</span>
-				</li>
-				<li>
-					<span class="pts">20 pts</span>
-				</li>
-				<li>
-					<span class="id-question">N ° 123456789</span>
-				</li>
-				<li class="pdf">
-					<a href="" class="pdf"></a>
-				</li>
-			</ul>
-			<ul class="suite-complement">
-				<li class="pdf">
-					<a href="" class="pdf"><b>Suite</b> S123456789</a>
-				</li>
-				<li class="pdf">
-					<a href="" class="pdf"><b>Complément</b> C123456789</a>
-				</li>
-			</ul>
-		</li>
+		<?php endforeach; ?>
 	</ul>
 	<div style="clear:both;"></div>
+    <div>
+        <?php echo $questions->getPagination() ?>
+    </div>
 
 </div>
