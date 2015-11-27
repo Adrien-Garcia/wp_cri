@@ -570,7 +570,7 @@ function sendNotification($message, $object, $ccs = array() ) {
     }
     
     // send email
-    wp_mail($to, Config::$emailNotificationEmptyDocument['subject'], $message, $headers);
+    return wp_mail($to, Config::$emailNotificationEmptyDocument['subject'], $message, $headers);
 }
 //UI component
 add_action('add_meta_boxes','init_meta_boxes_ui_component');
