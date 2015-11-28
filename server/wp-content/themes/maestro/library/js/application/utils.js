@@ -4,11 +4,25 @@ App.Utils = {
 
     queryString                 : {},
 
+    animationUtilsAjaxSelector  : '.js-utils-animation-ajax',
+
+    $animationUtilsAjax         : null,
+
 
     init: function() {
         this.debug("Utils : init start");
 
+        var self = this;
+
         this.queryString = this.getQueryString();
+
+        this.$animationUtilsAjax        = $(this.animationUtilsAjaxSelector);
+
+        $(document).bind("ajaxSend", function(){
+            self.openAjaxAnimation();
+        }).bind("ajaxComplete", function(){
+            self.closeAjaxAnimation();
+        });
 
         this.debug("Utils : init end");
 
@@ -41,6 +55,14 @@ App.Utils = {
         var body_class = [];
         body_class = $('body')[0].className.split(/\s+/);
         return body_class;
+    },
+
+    openAjaxAnimation: function() {
+        this.$animationUtilsAjax.addClass('loading');
+    },
+
+    closeAjaxAnimation: function() {
+        this.$animationUtilsAjax.removeClass('loading');
     },
 
     debug: function(t) {

@@ -98,6 +98,9 @@
 			</footer>
 
 		</div>
+            <div class="ajax-loader-wrapper js-utils-animation-ajax">
+                <div class="ajax-loader"></div>
+            </div>
 		
 		<!--[if lte IE 9]>
 			<?php echo get_template_part("content","oldbrowser"); ?>
