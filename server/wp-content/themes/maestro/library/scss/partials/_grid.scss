@@ -71,6 +71,31 @@ $class_push:    'push';   //        //
     @return $total_width;
   }
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+// MARGIN MIXINS
+////////////////////////////////////////////////////////////////////////////////
+
+@mixin pre(){}
+@mixin post(){}
+@mixin squish(){}
+
+@mixin push($_column_index){
+    $_width_perc: 0;
+    @if ($total_width == 100%){
+        $_width_perc: ($gutter_width + element_width($_column_index));
+    }@else{
+        //$_width_perc: (column_width() + $gutter_width)*$_column_index;
+        $_width_perc: ($gutter_width + element_width($_column_index));
+    }
+
+    margin-left: $_width_perc;
+}
+
+@mixin pull(){}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // BASIC MIXINS
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,29 +152,6 @@ $class_push:    'push';   //        //
 @mixin column_omega(){
   
 }
-
-
-////////////////////////////////////////////////////////////////////////////////
-// MARGIN MIXINS
-////////////////////////////////////////////////////////////////////////////////
-
-@mixin pre(){}
-@mixin post(){}
-@mixin squish(){}
-
-@mixin push($_column_index){
-  $_width_perc: 0;
-  @if ($total_width == 100%){
-    $_width_perc: ($gutter_width + element_width($_column_index));
-  }@else{
-    //$_width_perc: (column_width() + $gutter_width)*$_column_index;
-    $_width_perc: ($gutter_width + element_width($_column_index));
-  }
-  
-  margin-left: $_width_perc;       
-}
-
-@mixin pull(){}
 
 
 ////////////////////////////////////////////////////////////////////////////////
