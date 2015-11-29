@@ -2660,6 +2660,24 @@ body.page-template-front-page{
 							height: 300px;
 							position: relative;
 
+                            &.inactive {
+                                svg {
+                                    #stop-gradient1,
+                                    #stop-gradient2 {
+                                        stop-opacity: 0.8;
+                                    }
+                                    #stop-gradient1 {
+                                        stop-color: #DDD;
+                                    }
+                                    #stop-gradient2 {
+                                        stop-color: #AAA;
+                                    }
+                                    #solde-circle-path {
+                                        stroke-dashoffset: 0 !important;
+                                    }
+                                }
+                            }
+
 							svg{
 								overflow: visible;
 								//width: 300px - 13px;
