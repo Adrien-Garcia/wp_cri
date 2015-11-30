@@ -44,16 +44,17 @@ $icons: (
     icon-flech-arrow: '\EA11',
     icon-mail: '\EA12',
     icon-menu-compte: '\EA13',
-    icon-menu-mobile: '\EA14',
-    icon-nl: '\EA15',
-    icon-pdf: '\EA16',
-    icon-rechercher: '\EA17',
-    icon-servicesplus: '\EA18',
-    icon-status-repondu: '\EA19',
-    icon-tel: '\EA1A',
-    icon-veille-juridique: '\EA1B',
-    icon-veille: '\EA1C',
-    icon-vieducridon: '\EA1D'
+    icon-menu-hover: '\EA14',
+    icon-menu-mobile: '\EA15',
+    icon-nl: '\EA16',
+    icon-pdf: '\EA17',
+    icon-rechercher: '\EA18',
+    icon-servicesplus: '\EA19',
+    icon-status-repondu: '\EA1A',
+    icon-tel: '\EA1B',
+    icon-veille-juridique: '\EA1C',
+    icon-veille: '\EA1D',
+    icon-vieducridon: '\EA1E'
 );
 
 @each $name, $icon in $icons {

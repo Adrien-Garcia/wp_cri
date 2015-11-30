@@ -2329,15 +2329,17 @@ NAVIGATION STYLES
 
 		a {
 			
-			border-bottom: 0;
+			border-bottom: 0; 
 
 			/*
 			you can use hover styles here even though this size
 			has the possibility of being a mobile device.
 			*/
 			&:hover, &:focus {
-				color: $white;
-				text-decoration: underline;
+
+				color:$rouge;
+				
+				text-decoration: none;
 			}
 		}
 
@@ -2354,13 +2356,13 @@ NAVIGATION STYLES
 			border: 1px solid #ccc;
 			border-top: 0;
 			position: absolute;
-			visibility: hidden;
+			//visibility: hidden; /* sous menu*/
 			z-index: 8999;
 
 			li {
 
 				a {
-					padding-left: 10px;
+					padding-left: 0;
 					border-right: 0;
 					display: block;
 					width: 180px;

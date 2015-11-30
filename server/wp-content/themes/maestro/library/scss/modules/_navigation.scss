@@ -15,10 +15,6 @@ and more scalable.
 	border-bottom: 0;
 	margin: 0;
 
-	>li{
-
-	}
- 
 	li {
 
 		padding:0;
@@ -59,7 +55,7 @@ and more scalable.
 
 			li {
 
-				a {
+				a { 
 					padding-left: 30px;
 
 					&:hover,
@@ -111,6 +107,10 @@ and more scalable.
 			padding-top: 35px;
 			padding-right: 70px;
 
+			position: relative;
+
+			@include transition(color 0.3s);
+
 			span{
 				display: block;
 				@extend .do-sm;
@@ -120,14 +120,156 @@ and more scalable.
 				text-transform: uppercase;
 			}
 
+			&:before{
+				@include transition (opacity 0.5s);
+				@include svgicon('icon-menu-hover', 11px, 11px, $rouge);
+				position: absolute;
+				left: 0;
+				top: 100px;
+				opacity: 0;
+			}
+
 			&:hover{
 
 				span{
 					color:$rouge;
 				}
+
 				color:$rouge;
+
+				&:before{
+					opacity: 1;
+
+					
+
+
+
+				}
 			}
 		}
+
+		> ul.sub-menu{
+
+			width: 1200px;
+			position: fixed;
+			left: -520px;
+			padding-top: 40px;
+
+			&:before{
+				content:'';
+				width: 200vw;
+				height: calc(100% + 40px);
+				background: #FFF;
+				position: absolute;
+				left: -50vw;
+				top:0;
+				border-top:solid 1px #898989;
+			}
+
+			> li{ /* Style générale 2eme niveau*/
+
+				> a{
+					@extend .do-sm;
+					font-size: 20px;
+					text-transform: uppercase;
+					color:$bleu;
+					position: relative;
+					padding: 0;
+					margin: 0 0 20px 0;
+					height: 22px;
+					line-height: 22px;
+					border-bottom:0px !important;
+
+					&:before{					
+						@include svgicon('icon-menu-hover', 11px, 11px, $rouge);
+						position: absolute;
+						left: 0;
+						bottom: -18px;
+					}
+
+
+
+
+				}
+
+			}
+			
+		}
+	}
+
+	> li:first-child{
+		/* Premier li premier niveau */
+
+		> ul.sub-menu{
+
+			visibility: visible !important;
+
+
+			> li:first-child{
+				width: 560px;
+				float: left;
+
+			border-right:solid 1px $rouge;
+
+				>ul.sub-menu{
+					visibility: visible;
+					width: 560px;
+					left: 0;
+					position: relative;
+					float: left;
+					background: #FFF;
+					border:0px;
+					padding-left: 30px;
+					padding-top: 5px;
+
+					> li{
+						width: 250px;
+						float: left;
+						margin: 4px 0;
+						padding: 0;
+						padding-right: 10px;
+						display: inline;
+
+						> a{
+							width: 100%;
+							display: block;
+							border-bottom: 0px;
+							font-size: 16px;
+							line-height: 20px;
+							@extend .do-re;
+							padding-left: 20px;
+							position: relative;
+							@include transition(margin 0.3s);
+
+							&:before{
+								height: 8px;
+								width: 8px;
+								border:solid 1px $rouge;
+								content:'';
+								position: absolute;
+								left: 0;
+								top: 50%;
+								margin-top: -4px;
+								background-color: #FFF;
+								@include border-radius(50%);
+							}
+
+							&:hover{
+
+								margin-left: 10px;
+
+								&:before{
+									background-color: $rouge;
+								}
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+
 	}
 	
 	/* Dernier li premier niveau*/
