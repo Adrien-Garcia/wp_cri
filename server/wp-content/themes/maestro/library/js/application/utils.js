@@ -57,6 +57,18 @@ App.Utils = {
         return body_class;
     },
 
+    scrollTop: function(duration, hash) {
+        var top = (hash !== undefined) ? $(hash).offset().top : 0;
+        duration = (duration !== undefined) ? duration : 700;
+        hash = (hash !== undefined) ? hash : "";
+
+        $('html, body').animate({
+            scrollTop: top
+        }, duration, function(){
+            window.location.hash = hash;
+        });
+    },
+
     openAjaxAnimation: function() {
         this.$animationUtilsAjax.addClass('loading');
     },

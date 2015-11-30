@@ -208,6 +208,7 @@ App.Account = {
                 self.initDashboard();
             }
         });
+        App.Utils.scrollTop();
     },
 
     /*
@@ -226,6 +227,8 @@ App.Account = {
                 self.initDashboard();
             }
         });
+        App.Utils.scrollTop();
+
     },
 
     /*
@@ -244,6 +247,8 @@ App.Account = {
                 self.initDashboard();
             }
         });
+        App.Utils.scrollTop();
+
     },
 
     /*
@@ -262,6 +267,8 @@ App.Account = {
                 self.initDashboard();
             }
         });
+        App.Utils.scrollTop();
+
     },
 
     reloadSolde: function() {
