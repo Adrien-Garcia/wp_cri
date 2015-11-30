@@ -46,58 +46,64 @@
 <div class="mes-questions">
 	<h2><?php _e('Mes dernières questions'); ?></h2>
 
-	<ul>
-		<li class="js-home-block-link">
-			<a href="#"><span class="date">Question du 09.10.2015</span></a> <!-- Lien vers la page liste des question avec une ancre sur la question cliqué !-->
-			<ul>
-				<li>					
-					<img src="" alt="">
-				</li>
-				<li>
-					<span class="matiere">Droit social</span>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis accumsan nisi, non molestie sem fringilla non. Proin tempus lacus eget nisi accumsan, nec dapibus quam pulvinar.</p>
-				</li>
-				<li>
-					<span class="en-cours">en cours</span>
-					<span class="repondu">répondu</span>
-				</li>
-			</ul>
-		</li>
-		<li class="js-home-block-link">
-			<a href="#"><span class="date">Question du 09.10.2015</span></a>
-			<ul>
-				<li>					
-					<img src="" alt="">
-				</li>
-				<li>
-					<span class="matiere">Droit social</span>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis accumsan nisi, non molestie sem fringilla non. Proin tempus lacus eget nisi accumsan, nec dapibus quam pulvinar.</p>
-				</li>
-				<li>
-					<span class="en-cours">en cours</span>
-					<span class="repondu">répondu</span>
-				</li>
-			</ul>
-		</li>
-		<li class="js-home-block-link">
-			<a href="#"><span class="date">Question du 09.10.2015</span></a>
-			<ul>
-				<li>					
-					<img src="" alt="">
-				</li>
-				<li>
-					<span class="matiere">Droit social</span>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis accumsan nisi, non molestie sem fringilla non. Proin tempus lacus eget nisi accumsan, nec dapibus quam pulvinar.</p>
-				</li>
-				<li>
-					<span class="en-cours">en cours</span>
-					<span class="repondu">répondu</span>
-				</li>
-			</ul>
-		</li>
+    <?php
+    $questions = criRestoreQuestions();
+    $answered = $questions->getAnswered();
+    $pending = $questions->getPending();
+    $n = 3;
+    $q = array();
+    for ($n = 3; $n > 0; $n--) {
+        if(isset($pending[ 3 - $n ])) {
+            $q[] = array('p',$pending[ 3 - $n ]);
+        } elseif (isset($answered[ 3 - $n ])) {
+            $q[] = array('a',$answered[ 3 - $n ]);
+
+        }
+    }
+    ?>
+    <ul>
+        <?php foreach($q as $data) : ?>
+        <?php $state = $data[0] ?>
+        <?php $question = $data[1] ?>
+            <li class="js-home-block-link js-account-questions">
+                <?php
+                $date = date_create_from_format('Y-m-d', $question->question->real_date);
+                $sDate = date('d.m.Y', $date->getTimestamp());
+                ?>
+                <a href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions"><span class="date">Question du <?php echo $sDate ; ?></span></a> <!-- Lien vers la page liste des question avec une ancre sur la question cliqué !-->
+                <ul>
+                    <li>
+                        <?php
+                        $matiere = $question->matiere;
+                        ?>
+                        <img width="30" height="30" src="<?php echo $matiere->picto ; ?>" alt="<?php echo $matiere->short_label ; ?>">
+                    </li>
+                    <li>
+                        <span class="matiere"><?php echo $matiere->label ; ?></span>
+                        <?php
+                        if ( !empty($question->question->content) ) {
+                            $resume = wp_trim_words($question->question->content, 18 );
+                        } else {
+                            $resume = wp_trim_words($question->question->resume, 18 );
+                        }
+                        ?>
+                        <p><?php echo $resume ; ?></p>
+                    </li>
+                    <li>
+                        <?php if ($state == 'p') : ?>
+                            <span class="en-cours">en cours</span>
+                        <?php else: ?>
+                            <span class="repondu">répondu</span>
+                        <?php endif; ?>
+
+                    </li>
+                </ul>
+            </li>
+        <?php endforeach; ?>
+
 	</ul> 
 
-	<a href="#">Toutes mes questions</a>
+	<a class="js-account-questions" href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions">Toutes mes questions</a>
 
 
 </div>
