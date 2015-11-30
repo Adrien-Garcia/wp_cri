@@ -237,7 +237,7 @@ function newsletter()
 {
     require_once WP_PLUGIN_DIR . '/cridon/app/controllers/notaires_controller.php';
     $controller = new NotairesController();
-    $controller->newsletterSubsciprtion();
+    $controller->newsletterSubscription();
 }
 add_action( 'wp_ajax_newsletter',   'newsletter' );
 add_action( 'wp_ajax_nopriv_newsletter',   'newsletter' );

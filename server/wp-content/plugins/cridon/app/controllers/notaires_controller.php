@@ -132,6 +132,7 @@ class NotairesController extends BasePublicController
     public function contentdashboard()
     {
         $this->prepareDashboard();
+        $is_ajax = true;
         CriRenderView('contentdashboard', get_defined_vars(),'notaires');
         die();
     }
@@ -156,6 +157,7 @@ class NotairesController extends BasePublicController
     public function contentquestions()
     {
         $this->prepareSecureAccess();
+        $is_ajax = true;
         CriRenderView('contentquestions', get_defined_vars(),'notaires');
         die();
     }
@@ -181,6 +183,7 @@ class NotairesController extends BasePublicController
     public function contentprofil()
     {
         $this->prepareProfil();
+        $is_ajax = true;
         CriRenderView('contentprofil', get_defined_vars(),'notaires');
         die();
     }
@@ -206,6 +209,7 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->prepareSecureAccess();
+        $is_ajax = true;
         CriRenderView('contentfacturation', get_defined_vars(),'notaires');
         die();
     }
@@ -238,7 +242,7 @@ class NotairesController extends BasePublicController
         return $clean_input;
     }
 
-    public function newsletterSubsciprtion()
+    public function newsletterSubscription()
     {
         // init response
         $ret = 'invalidemail';
