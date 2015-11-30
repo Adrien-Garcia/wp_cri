@@ -269,3 +269,15 @@ function cri_profile_subject_end() {
 
 add_action( 'admin_head-user-edit.php', 'cri_profile_subject_start' );
 add_action( 'admin_footer-user-edit.php', 'cri_profile_subject_end' );
+
+//Publish post
+function post_published_notification( $ID, $post ) {
+    $title = $post->post_title;
+    $permalink = get_permalink( $ID );
+    $subject = sprintf( 'Publication: %s', $title );
+    $message = sprintf ('Une article vient d\'être publiée: %s' . "\n\n",  $title );
+    $message .= sprintf( 'View: %s', $permalink );
+    $headers[] = '';
+    wp_mail( $mail, $subject, $message, $headers );
+}
+add_action( 'publish_post', 'post_published_notification', 10, 2 );
