@@ -9,7 +9,6 @@
 	<ul>
         <?php foreach ($pending as $index => $question) : ?>
 		<li>
-            <?php var_dump($question); ?>
             <?php
                 $date = date_create_from_format('Y-m-d', $question->question->real_date);
                 $wdate = date_create_from_format('Y-m-d', $question->question->wish_date);
@@ -61,6 +60,10 @@
 								<span><?php echo $question->competence->label ; ?></span>
 								<span><?php echo $question->question->resume ; ?></span>
 								<ul>
+                                    <?php
+                                        //$docs = $questions->getDocuments('question', $question->question->id);
+                                    //var_dump($docs);
+                                    ?>
 									<li><a href="" target="_blank">nomdufichier.pdf</a></li>
 									<li><a href="" target="_blank">nomdufichier.pdf</a></li>
 									<li><a href="" target="_blank">nomdufichier.pdf</a></li>
@@ -98,8 +101,15 @@
 			</li>
 			<li>
 				<span class="titre">Matière :</span>
+                <?php
+                $matieres = CriListMatieres();
+                ?>
 				<select name="">
 					<option value="">Selectionnez une matière</option>
+                    <?php foreach($matieres as $id => $label): ?>
+                        <option <?php echo ($imatieres == 0) ? "selected" : "" ?> value="<?php echo $id ?>"><?php echo $label ?></option>
+                        <?php $imatieres++; ?>
+                    <?php endforeach; ?>
 				</select>
 			</li>
 		</ul>

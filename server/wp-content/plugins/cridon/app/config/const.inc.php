@@ -339,6 +339,9 @@ if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
 }
 
 // Add Question Form
+if ( !defined( 'CONST_QUESTION_MATIERE_DOCUMENTATION_ID' ) ) {
+    define('CONST_QUESTION_MATIERE_DOCUMENTATION_ID', 1);
+}
 if ( !defined( 'CONST_QUESTION_SUPPORT_FIELD' ) ) {
     define( 'CONST_QUESTION_SUPPORT_FIELD', 'question_support' );
 }

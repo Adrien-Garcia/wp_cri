@@ -24,7 +24,7 @@
 				<div id="owl-support" class="owl-carousel">
 				<?php foreach ($supports as $key => $support): ?>
 		            <div class="item">
-		            	<input title="support hidden" id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" class="hidden js-question-support-radio">
+		            	<input title="support hidden" id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" data-value="<?php echo $support->value ; ?>" class="hidden js-question-support-radio">
 		              	<span class="label"><?php echo $support->label_front; ?></span>
 		              	<p class="description">
 		              		<?php echo $support->description; ?>
@@ -101,12 +101,12 @@
 				</h2>
 				<a href="#">+</a>
 			</li>
-			<li class="js-home-block-link">
+			<li class="js-question-documentation-button">
 				<h2>
 					<?php _e('Demander'); ?>
 					<span><?php _e('une documentation'); ?></span>
 				</h2>
-				<a href="">+</a>
+				<a>+</a>
 			</li>
 			<li class="js-home-block-link">
 				<h2>
@@ -128,7 +128,7 @@
 				</div>						
 			</div>
 
-			<div class="block demander js-home-block-link">
+			<div class="block demander js-question-documentation-button">
 				<div class="content">
 					<h2>
 						<?php _e('Demander'); ?>

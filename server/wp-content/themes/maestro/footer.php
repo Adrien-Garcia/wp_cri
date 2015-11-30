@@ -101,10 +101,15 @@
             <div class="ajax-loader-wrapper js-utils-animation-ajax">
                 <div class="ajax-loader"></div>
             </div>
-		
+            <script type="text/javascript">
+                //<![CDATA[
+                DocumentationID = <?php echo CONST_QUESTION_MATIERE_DOCUMENTATION_ID ?>;
+                //]]>
+            </script>
 		<!--[if lte IE 9]>
 			<?php echo get_template_part("content","oldbrowser"); ?>
 		<![endif]-->
+
 		
 		<?php wp_footer(); ?>
 		
