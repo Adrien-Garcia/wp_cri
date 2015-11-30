@@ -94,13 +94,14 @@ class QuestionNotaire extends SimpleController{
             'order' => 'Document.id ASC',
         );
         if( !empty( $label ) ){
-            $opt = 'Document.label = "'.$label.'"';
             if( is_array( $label ) ){
                 $lab = array();
                 foreach( $label as $v ){
                     $lab[] = 'Document.label = "'.$v.'"';
                 }
                 $opt = '('.implode(' OR ',$lab).')';
+            }else{
+                $opt = 'Document.label = "'.$label.'"';                
             }
             $options['conditions'][] = $opt;
         }
