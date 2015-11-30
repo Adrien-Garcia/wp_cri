@@ -9,6 +9,7 @@
 	<ul>
         <?php foreach ($pending as $index => $question) : ?>
 		<li>
+            <?php var_dump($question); ?>
             <?php
                 $date = date_create_from_format('Y-m-d', $question->question->real_date);
                 $wdate = date_create_from_format('Y-m-d', $question->question->wish_date);
@@ -163,7 +164,7 @@
 		<?php endforeach; ?>
 	</ul>
 	<div style="clear:both;"></div>
-    <div>
+    <div class="<?php echo (isset($is_ajax) && is_ajax == true) ? "js-account-ajax-pagination" : ""; ?>">
         <?php echo $questions->getPagination() ?>
     </div>
 

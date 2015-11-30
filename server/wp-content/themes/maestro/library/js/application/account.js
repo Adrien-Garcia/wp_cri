@@ -10,6 +10,8 @@ App.Account = {
     accountFacturationSelector          : '-facturation',
 
     ajaxSelector                        : '-ajax',
+    ajaxPaginationSelector              : '-pagination',
+    paginationSelector                  : '.page-numbers',
 
     accountSoldeDataSelector            : '#js-solde-data',
     accountSoldeSVGSelector             : '#solde-circle-path',
@@ -32,6 +34,8 @@ App.Account = {
     $accountQuestionButton              : null,
     $accountProfilButton                : null,
     $accountFacturationButton           : null,
+
+    $accountQuestionPagination          : null,
 
     $accountSoldeData                   : null,
     $accountSoldeSVG                    : null,
@@ -85,21 +89,28 @@ App.Account = {
         this.$accountSoldeSVG           = $(this.accountSoldeSVGSelector);
         this.$accountSoldeData          = $(this.accountSoldeDataSelector);
         this.reloadSolde();
+        this.addListenersDashboard();
 
     },
 
     initQuestions: function() {
         this.debug('Account : Init Questions');
 
+        var d = this.defaultSelector;
+        var a = this.ajaxSelector;
+
+        this.$accountQuestionPagination = $(d + a + this.ajaxPaginationSelector).find(this.paginationSelector);
+        this.addListenersQuestions();
     },
 
     initProfil: function() {
         this.debug('Account : Init Profil');
-
+        this.addListenersProfil();
     },
 
     initFacturation: function() {
         this.debug('Account : Init Facturation');
+        this.addListenersFacturation();
 
     },
 
@@ -150,11 +161,9 @@ App.Account = {
     addListenersDashboard: function() {
         var self = this;
 
-        this.debug("Account : addListenersDashboard start");
+        this.debug("Account : addListenersDashboard");
 
 
-
-        this.debug("Account : addListenersDashboard end");
     },
 
     /*
@@ -164,11 +173,14 @@ App.Account = {
     addListenersQuestions: function() {
         var self = this;
 
-        this.debug("Account : addListenersQuestions start");
+        this.debug("Account : addListenersQuestions");
 
+        this.$accountQuestionPagination.on('click', function (e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountQuestionPagination($(this));
+        });
 
-
-        this.debug("Account : addListenersQuestions end");
     },
 
     /*
@@ -178,11 +190,9 @@ App.Account = {
     addListenersProfil: function() {
         var self = this;
 
-        this.debug("Account : addListenersProfil start");
+        this.debug("Account : addListenersProfil");
 
 
-
-        this.debug("Account : addListenersProfil end");
     },
 
     /*
@@ -192,11 +202,9 @@ App.Account = {
     addListenersFacturation: function() {
         var self = this;
 
-        this.debug("Account : addListenersFacturation start");
+        this.debug("Account : addListenersFacturation");
 
 
-
-        this.debug("Account : addListenersFacturation end");
     },
 
 
@@ -232,7 +240,7 @@ App.Account = {
             {
                 self.$accountQuestionAjax.html(data);
                 self.debug('Account Question Loaded');
-                self.initDashboard();
+                self.initQuestions();
             }
         });
         App.Utils.scrollTop();
@@ -252,7 +260,7 @@ App.Account = {
             {
                 self.$accountProfilAjax.html(data);
                 self.debug('Account Profil Loaded');
-                self.initDashboard();
+                self.initProfil();
             }
         });
         App.Utils.scrollTop();
@@ -272,11 +280,30 @@ App.Account = {
             {
                 self.$accountFacturationAjax.html(data);
                 self.debug('Account Facturation Loaded');
-                self.initDashboard();
+                self.initFacturation();
             }
         });
         App.Utils.scrollTop();
 
+    },
+
+    eventAccountQuestionPagination: function(link) {
+        var self = this;
+        var url = link.attr('href');
+
+
+        this.$accountBlocks.removeClass("active");
+        this.$accountQuestion.addClass("active");
+        $.ajax({
+            url: url,
+            success: function(data)
+            {
+                self.$accountQuestionAjax.html(data);
+                self.debug('Account Question Pagination Loaded');
+                self.initQuestions();
+            }
+        });
+        App.Utils.scrollTop();
     },
 
     reloadSolde: function() {

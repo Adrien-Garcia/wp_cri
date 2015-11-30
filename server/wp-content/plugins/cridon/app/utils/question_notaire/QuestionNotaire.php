@@ -116,7 +116,7 @@ class QuestionNotaire extends SimpleController{
                     'entity' => array( 'Question' => 'id_support' ),
                     'on'     => array( 'Support' => 'id' )
                 ),
-                array( 
+                array(
                     'type'   => 'LEFT JOIN',
                     'entity' => array( 'Question' => 'id_competence_1' ),
                     'on'     => array( 'Competence' => 'id' )
