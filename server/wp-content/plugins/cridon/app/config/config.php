@@ -54,8 +54,8 @@ class Config {
         'reponse'       => 'Réponse',
         'veille'        => 'Veille',
         'formation'     => 'Formation',
-        'cahier_cridon' => 'Cahier cridon',
-        'actu_cridon'   => 'Actu cridon',
+        'cahiercridon' => 'Cahier cridon',
+        'viecridon'   => 'Vie cridon',
         'flash'         => 'Flash'
     );
 
