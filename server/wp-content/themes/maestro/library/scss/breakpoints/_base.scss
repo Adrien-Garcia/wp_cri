@@ -16,6 +16,7 @@ body {
 	color: $text-color;
   	-webkit-font-smoothing: antialiased;
   	box-sizing: border-box;
+  	background: #FFF;
 }
 
 /*********************
@@ -68,8 +69,9 @@ HEADER STYLES
 				margin: 0 auto;
 				padding: 0;
 
-                background-size: 170px 43px;
+                
                 background: url(../images/logo-cridon-new.svg) no-repeat center center;
+                background-size: 170px 43px;
 
                 &:after{
 					content:none;
@@ -1216,6 +1218,7 @@ body.page-template-front-page{
 		.row_02{
 			padding-top: 44px;
 			position: relative;
+			background: #FFF;
 
 			&:before{
 
@@ -1679,7 +1682,8 @@ body.page-template-front-page{
 			float: none;
 			clear: both;
 			position: relative;
-			padding: 60px 0 40px 0;			
+			padding: 60px 0 40px 0;	
+			background: #FFF;		
 
 			&:before{
 
@@ -1781,6 +1785,7 @@ body.page-template-front-page{
 						text-align: center;
 						padding: 0;
 						margin: 10px 0;
+						text-transform: uppercase;
 
 					}
 
@@ -2124,8 +2129,8 @@ body.page-template-front-page{
 
 
 #content.single-veilles{
-
-
+ 
+	
 	#inner-content{
 		.titre {
 			height: 43px;
@@ -2268,7 +2273,7 @@ body.page-template-front-page{
 					    line-height: 18px;
 					    color:$bleu;
 
-					    a{
+					    /*a{
 					    	color:$rouge;
 					    	text-decoration: underline;
 
@@ -2286,8 +2291,7 @@ body.page-template-front-page{
 					    h2, h3{
 					    	
 					    	font-size: 15px;
-					    	line-height: 18px;
-					    	
+					    	line-height: 18px;					    	
 					    	text-transform: uppercase;
 					    	
 					    	margin: 0;
@@ -2356,7 +2360,7 @@ body.page-template-front-page{
 					    		}
 
 					    	}
-					    }
+					    }*/
 					}
 
 					.mots_cles{
@@ -4026,6 +4030,7 @@ FOOTER STYLES
         -moz-border-radius: 50%;
         border-radius: 50%;
         opacity: 0.9;
+        z-index: 5999;
     }
 }
 
@@ -4108,7 +4113,7 @@ a.logoJP:hover{opacity: 1;
 					top: -1px;
 					left: 50px;
 					display: block;
-					z-index: 2000;					
+					z-index:0;					
 
 				}
 

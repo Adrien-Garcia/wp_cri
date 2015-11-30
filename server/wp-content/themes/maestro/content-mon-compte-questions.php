@@ -163,7 +163,7 @@
 		<?php endforeach; ?>
 	</ul>
 	<div style="clear:both;"></div>
-    <div>
+    <div class="pagination">
         <?php echo $questions->getPagination() ?>
     </div>
 
