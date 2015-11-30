@@ -65,7 +65,6 @@ header.php file to see what they are:
 	    height: 100%;
 	    text-align: center;
 	    margin: 0px auto;
-	    position: relative;
 	    top: 0px;
 	    left : 0px;
 	    z-index: 50005;
@@ -89,7 +88,7 @@ header.php file to see what they are:
 	    width: 480px;
 	    position: absolute;
 	    top: 190px;
-	    font-family: Helvetica, Arial;
+	    font-family: Helvetica, Arial, sans-serif;
 	    font-size:12px;
 	    line-height: 18px;
 	    left : 50%;
@@ -116,9 +115,8 @@ header.php file to see what they are:
 	    width: 100px;
 	    height: 134px;
 	    margin-left: 20px;
-	    background-position: center top;
-	    background-repeat: no-repeat;
-	    text-decoration: none;
+        background: no-repeat center top;
+        text-decoration: none;
 	    outline: none;
 	    color:#000;
 	}
@@ -133,7 +131,7 @@ header.php file to see what they are:
 	    display: block;
 	    font-size: 12px;
 	    line-height: 18px;
-	    font-family: Helvetica, Arial;
+	    font-family: Helvetica, Arial, sans-serif;
 	}
 
 	#ob_liens_nav a:first-child {

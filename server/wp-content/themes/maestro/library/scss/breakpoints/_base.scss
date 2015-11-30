@@ -67,14 +67,11 @@ HEADER STYLES
 				height: 60px;
 				margin: 0 auto;
 				padding: 0;
-				
-				background: url(../images/logo-cridon-new.svg);
-				background-size: 170px 43px;
-				background-repeat: no-repeat;
-				background-position: center center;
 
+                background-size: 170px 43px;
+                background: url(../images/logo-cridon-new.svg) no-repeat center center;
 
-				&:after{
+                &:after{
 					content:none;
 					//@include sprite($logo-cridon-mobile);			
 					position: relative;
@@ -347,13 +344,9 @@ HEADER STYLES
 #layer-posez-question{
 	width: 100%;
 	height: auto;
-	background-color: transparent;
-	width: 100%;
 	padding: 10px 10px 0 10px;
 	background: #FFF;
 	transform: scale(0.8);
-
-	// display: none;
 
 	.block_top{
 
@@ -698,19 +691,15 @@ HEADER STYLES
 							border:none;
 							line-height: 30px;
 							text-align: center;
-							margin:0 auto 10px auto; 
-							font-size: 14px;
+                            font-size: 14px;
 							@extend .do-me;
 							display: block;
 							text-transform: uppercase;
 							border-radius: 0;
 
-						    margin-left: calc(100% - 157px);
-						    margin-top: 50px;
+                            margin: 50px auto 10px calc(100% - 157px);
 
-
-
-						}
+                        }
 
 						input[type="file"]{
 							border:none;
@@ -741,9 +730,7 @@ HEADER STYLES
                                 float: right;
                                 position: relative;
                                 z-index:1;
-                                //height: 100%;
                                 width: 35px;
-                                border: 0 1px solid #000;
                                 background: transparent;
                                 color: #000;
                                 border:none;
@@ -801,7 +788,6 @@ HEADER STYLES
 
 								@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
 								position: absolute;
-								left: 0;
 								top: 0;
 								background: #FFF;
 								left: 50%;
@@ -909,7 +895,7 @@ HEADER STYLES
 						display: block;
 						font-size: 18px;
 						line-height: 18px;
-						font-family: 'EB Garamond';
+                        font-family: $garamond, Helvetica, serif;
 						color:#FFF;
 						text-transform: none;
 						font-weight: normal;
@@ -1118,7 +1104,7 @@ body.page-template-front-page{
 								display: block;
 								font-size: 22px;
 								line-height: 18px;
-								font-family: 'EB Garamond';
+								font-family: $garamond;
 								color:#FFF;
 								text-transform: none;
 								font-weight: normal;
@@ -1528,7 +1514,6 @@ body.page-template-front-page{
 			width: 100%;
 			background: #e6e6e6;
 			padding: 50px 0 40px 0;
-			background: #e6e6e6;
 			float: none;
 			clear: both;
 
@@ -1582,9 +1567,8 @@ body.page-template-front-page{
 						bottom: 0;
 						width: 200px;
 						height: 175px;
-						background: url(../images/origin/img-main-appli-mobile-2.png);
-					    background-position: top right;
-						border:0px;
+                        background: url(../images/origin/img-main-appli-mobile-2.png) top right;
+                        border:0px;
 						text-decoration: none;
 
 					}
@@ -2157,14 +2141,12 @@ body.page-template-front-page{
 			margin: 20px 0;
 			width: 100%;
 			clear: both;
-			margin: 20px 0;
 			position: relative;
 
 			&:before{
 
 				@include svgicon('ico-sep', 18px, 18px, #e6e6e6);
 				position: absolute;
-				left: 0;
 				top: 0;
 				background: #FFF;
 				left: 50%;
@@ -2341,9 +2323,8 @@ body.page-template-front-page{
 
 					    h3 + p {
 					    	color:$vert;
-					    	margin: 0;
-					    	margin-left: 20px;
-					    }
+                            margin: 0 0 0 20px;
+                        }
 
 					    >ul, ol{
 
@@ -2466,11 +2447,9 @@ body.page-template-front-page{
 			line-height: 30px;
 			text-align: center;
 			padding: 0;
-			margin:20px auto 40px auto;
-			margin-left: calc(50% - 35px);
+            margin: 20px auto 40px calc(50% - 35px);
 
-
-			&:before{
+            &:before{
     			@include svgicon('icon-angle-right', 15px, 15px, $vert);
     			right: inherit;
     			left: -5px;
@@ -2645,10 +2624,9 @@ body.page-template-front-page{
 							font-size: 20px;
 							text-transform: uppercase;
 							padding: 0;
-							margin: 0;
-							line-height: 20px;
-							margin-bottom: 20px;
-						}
+                            line-height: 20px;
+                            margin: 0 0 20px;
+                        }
 
 
 					}
@@ -3163,8 +3141,7 @@ body.page-template-front-page{
 										color:$rouge;
 										font-size: 30px;
 										@include rotate(90);
-										font-weight: normal;
-										@extend .do-el; 
+										@extend .do-el;
 									}
 
 									&:before{
@@ -3182,8 +3159,7 @@ body.page-template-front-page{
 											color:$rouge;
 											font-size: 30px;
 											@include rotate(45);
-											font-weight: normal;
-											@extend .do-el; 
+											@extend .do-el;
 										}
 
 										&:after{
@@ -3196,7 +3172,6 @@ body.page-template-front-page{
 								.details{
 									width: 100%;
 									background: #e6e6e6;
-									height: 100%;
 									padding: 0 20px 0 40px;
 
 									//display: none;
@@ -3226,11 +3201,10 @@ body.page-template-front-page{
 												}
 
 												>ul{
-													margin: 0;
-													padding: 0;
-													margin-top: 10px;
+                                                    padding: 0;
+                                                    margin: 10px 0 0;
 
-													>li {
+                                                    >li {
 														margin: 0;
 														padding: 0;
 
@@ -3289,7 +3263,6 @@ body.page-template-front-page{
 
 									//padding-bottom: 10px;
 									border-bottom:solid 2px #e6e6e6;
-									margin-bottom: 20px;
 
 									&:last-child{
 										margin-bottom: 40px;
@@ -3386,7 +3359,6 @@ body.page-template-front-page{
 
 									@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
 									position: absolute;
-									left: 0;
 									bottom: -20px;
 									background: #FFF;
 									left: 50%;
@@ -3402,16 +3374,15 @@ body.page-template-front-page{
 
 									li{
 										padding: 0;
-										margin: 0;
-										margin-bottom: 15px;
+                                        margin: 0 0 15px;
 
-										@extend .do-sm;
+                                        @extend .do-sm;
 										font-size: 14px;
 										color:$bleu;
 										line-height: 35px;
 
 										.titre{
-											font-family: garamond;
+											font-family: $garamond;
 											font-size: 16px;
 											color:$rouge;
 											font-weight: normal;
@@ -3422,7 +3393,7 @@ body.page-template-front-page{
 
 										> a{
 
-											font-family: garamond;
+											font-family: $garamond;
 											font-size: 16px;
 											color:$rouge;
 											font-weight: normal;
@@ -3445,11 +3416,9 @@ body.page-template-front-page{
 											line-height: inherit;
 											border:solid 3px #e6e6e6;
 											@include border-radius(0);
-											margin: 0;
-											padding:5px 0;
-											margin-right: 20px;
-											margin-left: 10px;
-										}
+                                            padding:5px 0;
+                                            margin: 0 20px 0 10px;
+                                        }
 
 										select{
 											display: inline-block;
@@ -3498,9 +3467,7 @@ body.page-template-front-page{
 										}
 
 										li.pdf{
-											display: block;
 											display: inline-block;
-											float: left;
 											float: left;
 											width: 134px;
 										}
@@ -3536,7 +3503,7 @@ body.page-template-front-page{
 												}
 
 												b{
-													font-family: helvetica;
+													font-family: $helvetica;
 													font-weight: normal;
 												}
 
@@ -3997,7 +3964,7 @@ FOOTER STYLES
 	-webkit-transition:opacity .2s;
 	transition:opacity .2s;
 	opacity:.6;
-	font-family:Arial;
+	font-family: $sans-serif;
 
 	&::before{
 		content:'';
@@ -4007,12 +3974,10 @@ FOOTER STYLES
 		position:absolute;
 		top:-5px;
 		left:0;
-		background-repeat:no-repeat;
-		background-position:0 -19px;
-		opacity:.8;transition:opacity .2s;
-		-webkit-transition:opacity .2s;
-		background-image:url(../images/signature_footer.png);
-	}
+        opacity:.8;
+        @include transition(opacity 0.2s);
+        background: url(../images/signature_footer.png) no-repeat 0 -19px;
+    }
 
 }
 

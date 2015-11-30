@@ -152,7 +152,7 @@ ICONES SVG
 
 //transform origin
 @mixin transform-origin ($origin) {
-    moz-transform-origin: $origin;
+    -moz-transform-origin: $origin;
 	 -o-transform-origin: $origin;
 	-ms-transform-origin: $origin;
 -webkit-transform-origin: $origin;
@@ -201,7 +201,6 @@ BT style crayon
       content:'';
       width: 0;
       height: 0;
-      border-style: solid;
       border-width: 7px 0 7px 9px;
       border-color: transparent transparent transparent $fond;
       border-style: dotted none dotted solid;

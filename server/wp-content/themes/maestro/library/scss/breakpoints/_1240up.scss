@@ -192,8 +192,7 @@ HEADER STYLES
 			.close_layer{				
 				right: 30px;
 				cursor: pointer;
-				cursor: pointer;
-				
+
 				&:before{
 					@include svgicon('icon-close-layer-question', 36px, 36px, #FFF);					
 					top: 3px;
@@ -251,7 +250,7 @@ HEADER STYLES
 
 				#owl-support{
 
-					-webkit-perspective: 1000;
+					-webkit-perspective: 1000px;
 						-webkit-transform-style: preserve-3d;
 						-moz-transform-style: preserve-3d;
 						transform-style: preserve-3d;
@@ -261,7 +260,7 @@ HEADER STYLES
 						cursor: pointer;
 						@include transition(top 0.3s);
 						
-						-webkit-perspective: 1000;
+						-webkit-perspective: 1000px;
 						-webkit-transform-style: preserve-3d;
 						-moz-transform-style: preserve-3d;
 						transform-style: preserve-3d;
@@ -1471,7 +1470,6 @@ body.page-template-front-page{
 					.bt{
 
 						height: 50px;
-						line-height: 50px;
 						font-size: 24px;
 						padding: 0;  
 						line-height: 20px; 
@@ -1573,7 +1571,7 @@ body.page-template-front-page{
 										font-size: 18px;
 										font-weight: 400;
 
-										font-family: helvetica !important;
+										font-family: $helvetica !important;
 										margin-bottom: 5px; 
 										display: block;
 
@@ -1583,7 +1581,7 @@ body.page-template-front-page{
 										font-size: 18px;
 										font-weight: 400;
 
-										font-family: helvetica !important;
+										font-family: $helvetica !important;
 										margin-bottom: 10px; 
 
 										left: 585px;
@@ -1701,7 +1699,7 @@ body.page-template-front-page{
 									font-size: 18px;
 									font-weight: 400;
 
-									font-family: helvetica !important;
+									font-family: $helvetica !important;
 									margin-bottom: 10px; 
 									display: block;
 								}
@@ -1710,7 +1708,7 @@ body.page-template-front-page{
 									font-size: 18px;
 									font-weight: 400;
 
-									font-family: helvetica !important;
+									font-family: $helvetica !important;
 									margin-bottom: 10px; 
 
 									left: 585px;
@@ -2498,7 +2496,7 @@ FOOTER STYLES
 
 	.footer-cridon {
 		padding: 45px 0 60px 0;
-		min-height: auto; 
+		min-height: default;
 
 		.block-left {
 			width: 650px;
