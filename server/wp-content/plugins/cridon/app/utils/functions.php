@@ -758,3 +758,23 @@ function CriDisableAdminBarForExistingNotaire() {
         $wpdb->query($queryStart . $query . $queryEnd);
     }
 }
+
+/**
+ * Recherche d'un fichier de facon recursif dans un repertoire
+ *
+ * @param string $path
+ * @param string $file
+ * @return string
+ */
+function CriRecursiveFindingFileInDirectory($path, $file)
+{
+    $path       = realpath($path);
+    $fileSource = '';
+    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)) as $filename) {
+        if ($file == $filename->getFileName()) {
+            $fileSource = $filename->getPathname();
+        }
+    }
+
+    return $fileSource;
+}

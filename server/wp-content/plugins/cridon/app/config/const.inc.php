@@ -476,3 +476,9 @@ if ( !defined( 'CONST_NEWSLETTER_EMAIL_FIELD' ) ) {
 if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
     define( 'CONST_NEWSLETTER_MSGBLOCK_ID', 'newsletterMsgId' );
 }
+
+// import cahier
+if ( !defined( 'CONST_IMPORT_CAHIER_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_CAHIER_PATH', $uploadDir['basedir'] . '/import/importsCahier/' );
+}
