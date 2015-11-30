@@ -314,4 +314,92 @@ class Question extends MvcModel
             $queryBulder->insertMultiRows($options);
         }
     }
+    
+    public function uploadDocuments( $post ){
+        //Not access form, only for Notaire connected
+        if( !is_user_logged_in() || !CriIsNotaire() ){
+            return false;
+        }
+        try {
+            // notaire data
+            $notaire = CriNotaireData();
+
+            // notaire exist
+            if ($notaire->client_number && isset($post[CONST_QUESTION_OBJECT_FIELD]) && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && isset($post[CONST_QUESTION_MESSAGE_FIELD]) ) {
+                // prepare data
+                $question = array(
+                    'Question' => array(
+                        'client_number' => $notaire->client_number,
+                        'sreccn' => $notaire->code_interlocuteur,
+                        'resume' => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
+                        'creation_date' => date('Y-m-d H:i:s'),
+                        'id_support' => $post[CONST_QUESTION_SUPPORT_FIELD],// Support
+                        'id_competence_1' => $post[CONST_QUESTION_COMPETENCE_FIELD],// Competence
+                        'content' => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD])// Message
+                    )
+                );
+                // insert question
+                $questionId = $this->create($question);
+
+                // Attached files
+                if ($questionId && isset($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD])) {
+                    // instance of CriFileUploader
+                    $criFileUploader = new CriFileUploader();
+                    // set files list
+                    $criFileUploader->setFiles($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]);
+                    // set max size from config (@see : const.inc.php)
+                    $criFileUploader->setMaxSize(CONST_QUESTION_MAX_FILE_SIZE);
+                    // set upload dir
+                    $uploadDir = wp_upload_dir();
+                    $path = $uploadDir['basedir'] . '/questions/' . date('Ym') . '/';
+                    if( !file_exists( $path )) { // not yet directory
+                        // crete the directory
+                        wp_mkdir_p($path);
+                    }
+                    $criFileUploader->setUploaddir($path);
+
+                    // validate file size, max upload authorized,...
+                    if ($criFileUploader->validate()) {
+                        $listDocuments = $criFileUploader->execute();
+
+                        if (is_array($listDocuments) && count($listDocuments) > 0) {
+                            foreach ($listDocuments as $document) {
+                                // prepare data
+                                $documents = array(
+                                    'Document' => array(
+                                        'file_path'     => '/questions/' . date('Ym') . '/' . $document,
+                                        'download_url'  => '/documents/download/' . $questionId,
+                                        'date_modified' => date('Y-m-d H:i:s'),
+                                        'type'          => 'question',
+                                        'id_externe'    => $questionId,
+                                        'name'          => $document,
+                                        'label'         => 'PJ'
+                                    )
+                                );
+
+                                // insert
+                                $documentId = mvc_model('Document')->create($documents);
+
+                                // update download_url
+                                $documents = array(
+                                    'Document' => array(
+                                        'id'            => $documentId,
+                                        'download_url'  => '/documents/download/' . $documentId
+                                    )
+                                );
+                                mvc_model('Document')->save($documents);
+                            }
+                        }
+                    }
+                }
+            }else{
+                return false;
+            }
+
+            return true;
+        } catch(\Exception $e) {
+            writeLog( $e,'upload.log' );
+            return false;
+        }
+    }
 }

@@ -56,9 +56,11 @@ class AdminQuestionsController extends MvcAdminController {
             'conditions' => array(
                 'id_externe' => $object->id,
                 'type' => 'question',
-                'label IS NULL AND ' => '1=1'//see MvcDatabaseAdapter , line 123-124
+                'OR' => array('label'=>'PJ','label '=>'question/reponse')
             )
         );
+        //SQL Généré
+        //SELECT `Document`.* FROM `cri_document` `Document` WHERE Document.id_externe = "60103" AND Document.type = "question" AND (Document.label = "PJ" OR Document.label = "question/reponse") 
         $documents = $this->Document->find( $options );
         return $this->getDocumentsLink($documents);
     }
@@ -74,9 +76,12 @@ class AdminQuestionsController extends MvcAdminController {
             'conditions' => array(
                 'id_externe' => $object->id,
                 'type' => 'question',
-                'label IS NOT NULL AND ' => '1=1'//see MvcDatabaseAdapter , line 123-124
+                'label <> ' => 'question/reponse',
+                'label <>' => 'PJ'
             )
         );
+        //SQL généré
+        //SELECT `Document`.* FROM `cri_document` `Document` WHERE Document.id_externe = "60103" AND Document.type = "question" AND Document.label <> "question/reponse" AND Document.label <> "PJ" 
         //Find "suite/complément"
         $documents = $this->Document->find( $options );
         return $this->getDocumentsLink($documents);
@@ -96,23 +101,6 @@ class AdminQuestionsController extends MvcAdminController {
         $this->setSupports();
         $this->setAffectations();
         $this->create_or_save();
-        $this->load_model('Document');
-        $options = array(
-            'conditions' => array(
-                'id_externe' => $this->object->id,
-                'type' => 'question'
-            )
-        );
-        $aObjectQuestion = $this->Document->find( $options );
-        $this->set('aObjectQuestion', $aObjectQuestion );
-        $options = array(
-            'conditions' => array(
-                'id_externe' => $this->object->id,
-                'type' => 'reponse'
-            )
-        );
-        $aObjectAnswer = $this->Document->find( $options );
-        $this->set('aObjectAnswer', $aObjectAnswer );
     }
 
     private function setCompetences()

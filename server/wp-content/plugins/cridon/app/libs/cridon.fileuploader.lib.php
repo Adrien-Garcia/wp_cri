@@ -187,11 +187,13 @@ class CriFileUploader
             for ($i = 0;$i < $num; $i++) {
                 $files = pathinfo($this->files['name'][$i]);
                 $filename = sanitize_title($files['basename']) . '.' . $files['extension'];
+                $output = $filename;
                 //$this->errors[0][] = $filename;
                 if ( !empty( $filename)) {			   // this will check if any blank field is entered
                     $add = $remdir . $filename;		   // upload directory path is set
                     if (file_exists($add)) {
-                        $add = $remdir . mt_rand(1, 10) . '_' . $filename;
+                        $output = mt_rand(1, 10) . '_' . $filename;
+                        $add = $remdir . $output;
                     }
                     if(is_uploaded_file($this->files['tmp_name'][$i]))
                     {
@@ -200,7 +202,7 @@ class CriFileUploader
                             $this->errors[0][] = "Problems with copy of: " . $filename;
                         }
 
-                        $outputs[] = $filename;
+                        $outputs[] = $output;
                     }
                 }
             }

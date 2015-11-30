@@ -79,4 +79,9 @@ class CridonGedParser extends CridonCsvParser
      * @var int : index Objet de la question
      */
     const INDEX_OBJET           = 13;
+    
+    /**
+     * @var int : nombre de colonne présent dans le csv
+     */
+    const NB_COLONNE_CSV        = 14;
 }
