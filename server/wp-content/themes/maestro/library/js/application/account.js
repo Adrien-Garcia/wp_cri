@@ -113,15 +113,23 @@ App.Account = {
         this.debug("Account : addListeners start");
 
         this.$accountDashboardButton.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
             self.eventAccountDashboardOpen($(this));
         });
         this.$accountQuestionButton.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
             self.eventAccountQuestionOpen($(this));
         });
         this.$accountProfilButton.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
             self.eventAccountProfilOpen($(this));
         });
         this.$accountFacturationButton.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
             self.eventAccountFacturationOpen($(this));
         });
 
