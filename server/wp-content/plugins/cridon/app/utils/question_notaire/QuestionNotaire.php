@@ -51,7 +51,6 @@ class QuestionNotaire extends SimpleController{
         $options['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
         $options = array_merge($options, $this->params );
         $collection = $this->entityManager->paginate($options);
-        $collection['objects'] = $this->appendDocuments( $collection['objects'] );
         $this->setPagination($collection);
         return $collection['objects'];
     }
@@ -65,7 +64,7 @@ class QuestionNotaire extends SimpleController{
     protected function appendDocuments( $data ){
         $newData = array();
         foreach( $data as $v ){
-            $documents = $this->getDocuments('question', $v->question->id );
+            $documents = $this->getDocuments($v->question->id,'');
             $v->{documents} = $documents;
             $newData[] = $v;
         }
@@ -74,11 +73,15 @@ class QuestionNotaire extends SimpleController{
     /**
      * Get documents for question
      * 
-     * @param string $type
      * @param integer $id
+     * @param string|array $label
+     * @param string type
      * @return mixed
      */
-    protected function getDocuments( $type,$id ){
+    public function getDocuments($id, $label = '', $type = 'question'){
+        if( empty( $id ) ){
+            return null;
+        }
         $options = array(
             'select' => array(
                 'Document'
@@ -90,6 +93,17 @@ class QuestionNotaire extends SimpleController{
             ),
             'order' => 'Document.id ASC',
         );
+        if( !empty( $label ) ){
+            $opt = 'Document.label = "'.$label.'"';
+            if( is_array( $label ) ){
+                $lab = array();
+                foreach( $label as $v ){
+                    $lab[] = 'Document.label = "'.$v.'"';
+                }
+                $opt = '('.implode(' OR ',$lab).')';
+            }
+            $options['conditions'][] = $opt;
+        }
         return $this->entityManager->getResults($options);
     }
     
