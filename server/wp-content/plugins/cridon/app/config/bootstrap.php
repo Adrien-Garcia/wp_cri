@@ -24,7 +24,7 @@ function resetGlobalVars(){
 // End retrieve post
 
 // After save into post table, save in others tables 
-function save_post_in_table( $post_ID ){
+function save_post_in_table( $post_ID,$post ){
     $modelConf = getRelatedContentConfInReferer($post_ID);
     if (!empty($modelConf)) {
         if( ($model = findBy( $modelConf['name'], $post_ID )) == null ){//no duplicate
@@ -34,6 +34,11 @@ function save_post_in_table( $post_ID ){
         if (!empty($_POST['cri_category'])) {
             $aAdditionalFields['id_matiere'] = $_POST['cri_category'];
         }
+        //Notification for published post
+        if( !empty( $aAdditionalFields ) && ( $post->post_status == 'publish' ) ){
+            sendNotificationForPostPublished($post, $model);
+        }
+        //End Notification for published post
         if (!empty($_POST['id_parent'])) {
             $aAdditionalFields['id_parent'] = $_POST['id_parent'];
         }
@@ -61,7 +66,7 @@ function getRelatedContentConfInReferer($post_ID) {
     return false;
 }
 
-add_action('save_post','save_post_in_table');
+add_action('save_post','save_post_in_table',10,2);
 
 function insertInTable( $table,$post_ID ){
     global $wpdb;
@@ -648,3 +653,74 @@ function writeLog($variable, $log_file = 'log.txt', $backtrace = 0) {
         fclose($handle);
     }
 }
+
+//Notification for published post
+function sendNotificationForPostPublished( $post,$model ){
+    //for using get_the_content() with all hook used in front
+    global $pages,$page ;
+    $pages = array($post->post_content);
+    $page = 1;
+    //
+    $options = array(
+        'conditions' => array(
+            'type'       => strtolower( $model->__model_name ),
+            'id_externe' => $model->id
+        )
+    );
+    $documents = mvc_model('Document')->find( $options );
+    $title = $post->post_title;
+    $date  = get_the_date('d-M-Y',$post);
+    $excerpt = get_the_excerpt();
+    $content = wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 35, "..." );
+    $matiere = $model->matiere->label;
+    $permalink = generateUrlByModel($model);
+    $subject  = sprintf( 'Publication: %s', $title );
+    $message  = sprintf('<h2>%s</h2>' . "\n\n",  $title );
+    $message .= sprintf('<p>Date: %s </p>' . "\n\n",  $date );
+    $message .= sprintf('<p>Résumé: %s </p>' . "\n\n",  $excerpt );
+    $message .= sprintf('<div>%s</div>' . "\n\n",  $content );
+    $message .= sprintf('<p>Matière associée: %s </p>' . "\n\n",  $matiere );
+    $message .= sprintf('Lien vers l\'article: <a href="%s">%s</a>' . "\n\n",  $permalink,$title );
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    if( !empty( $documents ) ){
+        $home = home_url();
+        $message .= '<p>Les documents associés: </p>'. "\n\n";
+        $message .= '<ul>';
+        foreach( $documents as $document ){
+            $message .= sprintf ('<li><a href="%s">%s</a></li>',   $home.$document->download_url,$document->name );            
+        }
+        $message .= '</ul>';
+    }
+    $tags = get_the_tags( $post->ID );
+    if( $tags ){
+        $message .= '<p>Etiquettes: ';
+        $a = array();
+        foreach ( $tags as $tag ){
+            $a[] .= $tag->name;
+        }
+        $message .= implode(',',$a) . '</p>';
+    }
+    $notaires = mvc_model('Notaire')->find();
+    if( !empty( $notaires ) ){
+        foreach( $notaires as $notaire ){
+            if( isset($notaire->email_adress ) ){
+                wp_mail( $notaire->email_adress , $subject, $message, $headers );  
+            }
+        }
+    }
+}
+
+function generateUrlByModel( $model ){
+    if( empty( $model ) ){
+        return '';
+    }
+    $options = array(
+        'controller' => MvcInflector::pluralize(strtolower($model->__model_name)),
+        'action'     => ( !isset( $model->id ) ) ? 'index' : 'show'        
+    );
+    if( isset( $model->id ) ){
+        $options['id'] = $model->id;
+    }
+    return MvcRouter::public_url($options);
+}
+//End Notification for published post
