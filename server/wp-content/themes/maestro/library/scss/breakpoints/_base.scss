@@ -3981,7 +3981,37 @@ FOOTER STYLES
 
 }
 
-	
+.ajax-loader-wrapper {
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(255,255,255,0.3);
+    z-index: -1;
+    @include transition(opacity 0.15s ease);
+    &.loading {
+        opacity: 1;
+        z-index: 999;
+    }
+    .ajax-loader {
+        width: 110px;
+        height: 110px;
+        background-color: #fff;
+        background-image: url(../images/ajaxloader.gif);
+        background-repeat:no-repeat;
+        position: absolute;
+        top: calc(50% - 55px);
+        right: calc(50% - 55px);
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        opacity: 0.9;
+    }
+}
+
+
 
 a.logoJP:hover{opacity: 1;
 	color:white;
