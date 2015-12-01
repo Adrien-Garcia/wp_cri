@@ -25,7 +25,7 @@
 				<?php _e('Accéder'); ?>
 				<span><?php _e('à ma veille juridique'); ?></span>
 			</h2>
-			<a href="#">+</a>
+			<a href="<?php echo MvcRouter::public_url(array('controller' => 'veilles', 'action'     => 'index')) ?>">+</a>
 		</div>						
 	</div>
 </div>

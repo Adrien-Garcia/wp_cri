@@ -2967,7 +2967,6 @@ body.page-template-front-page{
 										    height: 30px;
 										    float: left;
 										    margin-right: 10px;
-										    border:solid 1px $bleu;
 										}
 
 										> li:nth-child(2){
@@ -3006,6 +3005,10 @@ body.page-template-front-page{
 					  */
 
 					div#mes-questions{
+
+						font-size: 12px;
+						color:$bleu;
+						@extend .do-re;
 
 
 
@@ -3344,6 +3347,10 @@ body.page-template-front-page{
 										}
 									}
 
+								}
+
+								>li:last-child{
+									border-bottom: none;
 								}
 							}
 						}

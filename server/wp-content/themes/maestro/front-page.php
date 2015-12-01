@@ -170,10 +170,10 @@
 						<div class="img-appli" ></div>
 					</div>
 				</div>
-				<div class="veille-juridique js-home-block-link">
+				<div class="veille-juridique <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="Veuillez vous connecter pour choisir vos abonnements." <?php endif; ?> >
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
-						<a href="" title=""><span><?php _e('S\'abonner à votre veille !'); ?></span></a>
+						<a <?php if(CriIsNotaire()) : ?> href="/notaires/<?php echo CriNotaireData()->id ?>/profil" <?php else : ?> class="js-panel-connexion-open" href="#" data-login-message="Veuillez vous connecter pour choisir vos abonnements." <?php endif; ?> title=""><span><?php _e('S\'abonner à votre veille !'); ?></span></a>
 						<img src="" alt="" class="appli" />
 					</div>
 				</div>

@@ -1106,7 +1106,14 @@ body.page-template-front-page{
 						.sep{
 							top: -37px;
 							width: 1200px;
+
+							&:before{								
+								top: -1px;
+								
+							}
 						}
+
+
 						
 					}
 
@@ -1862,6 +1869,9 @@ body.page-template-front-page{
 						}
 
 						#questions-attentes, #historique-questions{	
+							font-size: 16px;
+
+
 
 							>ul{
 								
