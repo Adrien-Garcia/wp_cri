@@ -149,4 +149,7 @@ class Config {
         CONST_SUPPORT_URG48H_ID,
         CONST_SUPPORT_URGWEEK_ID
     );
+    
+    //Notification for published post
+    public static $notificationForAllNotaries = array( 'flash','viecridon' );
 }

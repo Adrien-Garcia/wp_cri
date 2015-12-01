@@ -671,13 +671,15 @@ function sendNotificationForPostPublished( $post,$model ){
     $title = $post->post_title;
     $date  = get_the_date('d-M-Y',$post);
     $excerpt = get_the_excerpt();
-    $content = wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 35, "..." );
+    $content = wp_strip_all_tags( get_the_content(), true );
     $matiere = $model->matiere->label;
     $permalink = generateUrlByModel($model);
     $subject  = sprintf( 'Publication: %s', $title );
     $message  = sprintf('<h2>%s</h2>' . "\n\n",  $title );
     $message .= sprintf('<p>Date: %s </p>' . "\n\n",  $date );
-    $message .= sprintf('<p>Résumé: %s </p>' . "\n\n",  $excerpt );
+    if( !empty( $excerpt ) ){
+        $message .= sprintf('<p>Résumé: %s </p>' . "\n\n",  $excerpt );        
+    }
     $message .= sprintf('<div>%s</div>' . "\n\n",  $content );
     $message .= sprintf('<p>Matière associée: %s </p>' . "\n\n",  $matiere );
     $message .= sprintf('Lien vers l\'article: <a href="%s">%s</a>' . "\n\n",  $permalink,$title );
@@ -700,7 +702,15 @@ function sendNotificationForPostPublished( $post,$model ){
         }
         $message .= implode(',',$a) . '</p>';
     }
-    $notaires = mvc_model('Notaire')->find();
+    /**
+     * type = 1 => all notaries
+     * type = 0 => subscribers notaries ( veille )
+     */
+    $type = checkTypeNofication($model);
+    if( $type == 1 ){
+        //all notaries
+        $notaires = mvc_model('Notaire')->find();        
+    }
     if( !empty( $notaires ) ){
         foreach( $notaires as $notaire ){
             if( isset($notaire->email_adress ) ){
@@ -722,5 +732,12 @@ function generateUrlByModel( $model ){
         $options['id'] = $model->id;
     }
     return MvcRouter::public_url($options);
+}
+
+function checkTypeNofication( $model ){
+    if( in_array(strtolower($model->__model_name),Config::$notificationForAllNotaries ) ){
+        return 1;//All notaries
+    }   
+    return 0;
 }
 //End Notification for published post
