@@ -152,4 +152,5 @@ class Config {
     
     //Notification for published post
     public static $notificationForAllNotaries = array( 'flash','viecridon' );
+    public static $notificationForSubscribersNotaries = array( 'veille' );
 }

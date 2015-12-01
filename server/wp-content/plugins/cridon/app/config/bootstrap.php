@@ -710,6 +710,10 @@ function sendNotificationForPostPublished( $post,$model ){
     if( $type == 1 ){
         //all notaries
         $notaires = mvc_model('Notaire')->find();        
+    }elseif( $type == 0 ){
+        $notaires = getNotariesByMatiere($model);
+    }else{
+        return false;//Don't send notification
     }
     if( !empty( $notaires ) ){
         foreach( $notaires as $notaire ){
@@ -737,7 +741,29 @@ function generateUrlByModel( $model ){
 function checkTypeNofication( $model ){
     if( in_array(strtolower($model->__model_name),Config::$notificationForAllNotaries ) ){
         return 1;//All notaries
-    }   
-    return 0;
+    }
+    if( in_array(strtolower($model->__model_name),Config::$notificationForSubscribersNotaries ) ){
+        return 0;//Subscribers notaries
+    }
+    return -1;//Don't send notification
+}
+
+function getNotariesByMatiere( $model ){
+    $options = array(
+        'fields'  => 'DISTINCT n.email_adress',
+        'synonym' => 'mn',
+        'join' => array(
+            array(
+                'table' => 'notaire n',
+                'column' => 'n.id = mn.id_notaire'
+            )
+        ),
+        'conditions' => 'mn.id_matiere = '.$model->id_matiere
+    );
+    /*
+     * SELECT DISTINCT n.email_adress FROM cri_matiere_notaire AS mn INNER JOIN cri_notaire n ON n.id = mn.id_notaire WHERE mn.id_matiere = 2 ORDER BY n.id ASC
+     */
+    $notaires = mvc_model('QueryBuilder')->findAll( 'matiere_notaire',$options,'n.id' );
+    return $notaires;
 }
 //End Notification for published post
