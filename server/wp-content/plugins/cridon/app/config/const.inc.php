@@ -17,11 +17,11 @@ define('PREPROD', 'PREPROD');
 
 // notaire role
 if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
-	define( 'CONST_NOTAIRE_ROLE', 'notaire' );
+    define( 'CONST_NOTAIRE_ROLE', 'notaire' );
 }
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
-	define( 'CONST_ADMIN_ROLE', 'administrator' );
+    define( 'CONST_ADMIN_ROLE', 'administrator' );
 }
 if ( !defined( 'CONST_LOGIN_SEPARATOR' ) ) {
     define( 'CONST_LOGIN_SEPARATOR', '~' );
@@ -29,12 +29,12 @@ if ( !defined( 'CONST_LOGIN_SEPARATOR' ) ) {
 
 // wpmvc prefix
 if ( !defined( 'CONST_WPMVC_PREFIX' ) ) {
-	define( 'CONST_WPMVC_PREFIX', 'mvc_' );
+    define( 'CONST_WPMVC_PREFIX', 'mvc_' );
 }
 
 // ODBC
 if ( !defined( 'CONST_ODBC_DRIVER' ) ) {
-	define( 'CONST_ODBC_DRIVER', '{MySQL ODBC 5.3 Ansi Driver}' );
+    define( 'CONST_ODBC_DRIVER', '{MySQL ODBC 5.3 Ansi Driver}' );
 }
 
 if ( !defined( 'CONST_DB_DEFAULT' ) ) {
@@ -75,7 +75,7 @@ if ( !defined( 'CONST_DB_HOST' ) ) {
             $host = '192.168.1.9';
             break;
     }
-	define( 'CONST_DB_HOST', $host );
+    define( 'CONST_DB_HOST', $host );
 }
 if ( !defined( 'CONST_DB_PORT' ) ) {
     switch ($env) {
@@ -89,7 +89,7 @@ if ( !defined( 'CONST_DB_PORT' ) ) {
             $port = 3306;
             break;
     }
-	define( 'CONST_DB_PORT', $port );
+    define( 'CONST_DB_PORT', $port );
 }
 if ( !defined( 'CONST_DB_USER' ) ) {
     switch ($env) {
@@ -109,7 +109,7 @@ if ( !defined( 'CONST_DB_USER' ) ) {
             $user = 'cridon';
             break;
     }
-	define( 'CONST_DB_USER', $user );
+    define( 'CONST_DB_USER', $user );
 }
 if ( !defined( 'CONST_DB_PASSWORD' ) ) {
     switch ($env) {
@@ -129,7 +129,7 @@ if ( !defined( 'CONST_DB_PASSWORD' ) ) {
             $pwd = '2d7nGNFc';
             break;
     }
-	define( 'CONST_DB_PASSWORD', $pwd );
+    define( 'CONST_DB_PASSWORD', $pwd );
 }
 if ( !defined( 'CONST_DB_DATABASE' ) ) {
     switch ($env) {
@@ -149,7 +149,7 @@ if ( !defined( 'CONST_DB_DATABASE' ) ) {
             $dbn = 'cridon';
             break;
     }
-	define( 'CONST_DB_DATABASE', $dbn );
+    define( 'CONST_DB_DATABASE', $dbn );
 }
 if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
     switch ($prefix) {
@@ -165,7 +165,7 @@ if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
             $prefix = '';
             break;
     }
-	define( 'CONST_DB_TABLE_NOTAIRE', $prefix.'ZEXPNOTV' );
+    define( 'CONST_DB_TABLE_NOTAIRE', $prefix.'ZEXPNOTV' );
 }
 
 // import CSV notaire file path
@@ -481,4 +481,21 @@ if ( !defined( 'CONST_NEWSLETTER_EMAIL_FIELD' ) ) {
 }
 if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
     define( 'CONST_NEWSLETTER_MSGBLOCK_ID', 'newsletterMsgId' );
+}
+// Export Question
+if ( !defined( 'CONST_DB_TABLE_QUESTTEMP' ) ) {
+    switch ($prefix) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_QUESTTEMP', $prefix.'X3' );
 }

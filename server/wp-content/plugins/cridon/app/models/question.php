@@ -314,7 +314,7 @@ class Question extends MvcModel
             $queryBulder->insertMultiRows($options);
         }
     }
-    
+
     public function uploadDocuments( $post ){
         //Not access form, only for Notaire connected
         if( !is_user_logged_in() || !CriIsNotaire() ){
@@ -401,5 +401,36 @@ class Question extends MvcModel
             writeLog( $e,'upload.log' );
             return false;
         }
+    }
+
+    /**
+     * @return array|null|object
+     */
+    public function exportQuestion()
+    {
+        $questions = $this->find(array(
+                                     'conditions' => array(
+                                         'transmis_erp'       => 0
+                                     )
+                                 )
+        );
+
+        // verification nb question à exporter
+        if (count($questions) > 0) {
+            // set adapter
+            switch (strtolower(CONST_IMPORT_OPTION)) {
+                case self::IMPORT_ODBC_OPTION:
+                    $this->adapter = CridonODBCAdapter::getInstance();
+                    break;
+                case self::IMPORT_OCI_OPTION:
+                    //if case above did not match, set OCI
+                    $this->adapter = CridonOCIAdapter::getInstance();
+                    break;
+            }
+        }
+
+        echo '<pre>'; die(print_r($questions));
+
+        return $questions;
     }
 }

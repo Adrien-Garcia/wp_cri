@@ -322,7 +322,138 @@ interface DBConnect
     /**
      * @var string : valeur en point
      */
-    const QUEST_YVALSRE         = 'YVALSRE_0';
+    const QUEST_YVALSRE     = 'YVALSRE_0';
+
+    /****************** Export Table Temp Structure *******************/
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_SRENUM  = 'SRENUM_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YIDQUEST  = 'YIDQUEST_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_SREBPC  = 'SREBPC_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_SRECCN  = 'SRECCN_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YCODESUP  = 'YCODESUP_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YMATIERE  = 'YMATIERE_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YMAT  = 'YMAT_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YCOMPETENC  = 'YCOMPETENC_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YCOMP  = 'YCOMP_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YRESUME  = 'YRESUME_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YSREASS  = 'YSREASS_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YTRAITEE  = 'YTRAITEE_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YERR  = 'YERR_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YMESER  = 'YMESER_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_CREDAT  = 'CREDAT_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YTEXTE  = 'YTEXTE_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YDOC1  = 'YDOC1_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YDOC2  = 'YDOC2_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YDOC3  = 'YDOC3_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YDOC4  = 'YDOC4_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YDOC5  = 'YDOC5_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YLIEN1  = 'YLIEN1_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YLIEN2  = 'YLIEN2_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YLIEN3  = 'YLIEN3_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YLIEN4  = 'YLIEN4_0';
+
+    /**
+     * @var string : valeur en point
+     */
+    const QUESTTEMP_YLIEN5  = 'YLIEN5_0';
 
     /**
      * Get instance
