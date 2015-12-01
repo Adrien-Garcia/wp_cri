@@ -195,11 +195,11 @@
             }
 
             formdata.append("action", 'add_question');
-            formdata.append(supportFieldId, $('#' + supportFieldId).val());
-            formdata.append(matiereFieldId, $('#' + matiereFieldId).val());
-            formdata.append(competenceFieldId, $('#' + competenceFieldId).val());
-            formdata.append(objectFieldId, $('#' + objectFieldId).val());
-            formdata.append(messageFieldId, $('#' + messageFieldId).val());
+            formdata.append(supportFieldId, $('*[name="' + supportFieldId + '"]').first().val() );
+            formdata.append(matiereFieldId, $('*[name="' + matiereFieldId + '"]').first().val() );
+            formdata.append(competenceFieldId, $('*[name="' + competenceFieldId + '"]').first().val() );
+            formdata.append(objectFieldId, $('*[name="' + objectFieldId + '"]').first().val() );
+            formdata.append(messageFieldId, $('*[name="' + messageFieldId + '"]').first().val() );
 
             $('#' + msgBlocId).html('');
 

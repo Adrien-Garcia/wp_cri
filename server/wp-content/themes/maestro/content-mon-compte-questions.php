@@ -12,8 +12,8 @@
             <?php
                 $date = date_create_from_format('Y-m-d', $question->question->real_date);
                 $wdate = date_create_from_format('Y-m-d', $question->question->wish_date);
-                $sDate = date('d.m.Y', $date->getTimestamp());
-                $sWdate = date('d.m.Y', $wdate->getTimestamp());
+                $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "00.00.0000";
+                $sWdate =  $wdate ? date('d.m.Y', $wdate->getTimestamp()) : "00.00.0000";
             ?>
 			<span class="date">Question du <?php echo $sDate ; ?></span>
 			<span class="reponse">Réponse souhaitées le <?php echo $sWdate ; ?></span>
@@ -120,9 +120,9 @@
         <?php foreach ($answered as $index => $question) : ?>
             <?php
             $date = date_create_from_format('Y-m-d', $question->question->real_date);
-            $sDate = date('d.m.Y', $date->getTimestamp());
+            $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "00.00.0000";
             $adate = date_create_from_format('Y-m-d', $question->question->date_modif);
-            $sAdate = date('d.m.Y', $adate->getTimestamp());
+            $sAdate = $adate ? date('d.m.Y', $adate->getTimestamp()) : "00.00.0000";
             ?>
         <li>
 			<span class="date">Question du <?php echo $sDate ; ?></span>
