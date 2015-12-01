@@ -6,6 +6,8 @@
 <div id="questions-attentes">
 	<h2><?php _e('Mes questions en attentes'); ?></h2>
 
+	<?php if(count($pending) != 0): ?>
+	
 	<ul>
         <?php foreach ($pending as $index => $question) : ?>
 		<li>
@@ -86,6 +88,9 @@
         <?php endforeach; ?>
 
 	</ul>
+<?php else:  ?>
+Vous n'avez actuellement aucune question en attente de réponse. 
+<?php endif; ?>
 </div>
 
 <div id="historique-questions">
@@ -115,6 +120,8 @@
 		</ul>
 
 	</div>
+
+	<?php if(count($answered) != 0): ?>
 
 	<ul>
         <?php foreach ($answered as $index => $question) : ?>
@@ -173,8 +180,11 @@
 		</li>
 		<?php endforeach; ?>
 	</ul>
+	<?php else:  ?>
+	Vous n'avez pas encore posé de questions 
+	<?php endif; ?>
 	<div style="clear:both;"></div>
-    <div class="<?php echo (isset($is_ajax) && is_ajax == true) ? "js-account-ajax-pagination" : ""; ?>">
+    <div class="pagination <?php echo (isset($is_ajax) && is_ajax == true) ? "js-account-ajax-pagination" : ""; ?>">
         <?php echo $questions->getPagination() ?>
     </div>
 

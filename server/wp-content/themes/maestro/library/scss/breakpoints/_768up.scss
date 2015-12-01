@@ -1350,10 +1350,11 @@ body.page-template-front-page{
 
 								@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
 								position: absolute;
-								top: -1px;
+								top: 0px;
 								background: #FFF;
 								left: 50%;
 								margin-left: -30px;
+								border:none;
 
 								 
 							}

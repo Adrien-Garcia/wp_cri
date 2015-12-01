@@ -88,7 +88,7 @@ App.Login = {
      * Event for toggling on and off the flash 
      */
 
-    eventPanelConnexionToggle: function() {
+    eventPanelConnexionToggle: function(button) {
         this.$panelConnexion.toggleClass("open");
         if (this.$panelConnexion.hasClass("open")) {
             this.$formConnexion.addClass('active');
@@ -96,6 +96,10 @@ App.Login = {
         } else {
             this.$formConnexion.removeClass('active');
             this.$formMdp.removeClass('active');
+        }
+
+        if (button.data('login-message')){
+            this.changeLoginErrorMessage(button.data('login-message'));
         }
     },
 
@@ -118,7 +122,9 @@ App.Login = {
             case "ERROR_NOT_CONNECTED_QUESTION":
                 message = "Veuillez vous connectez pour poser une question.";
                 break;
-
+            default:
+                message = error;
+                break;
         }
         this.$blockConnexionErrorMessage.text(message);
     },
