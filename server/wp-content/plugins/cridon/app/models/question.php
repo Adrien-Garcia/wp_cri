@@ -325,7 +325,12 @@ class Question extends MvcModel
             $notaire = CriNotaireData();
 
             // notaire exist
-            if ($notaire->client_number && isset($post[CONST_QUESTION_OBJECT_FIELD]) && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && isset($post[CONST_QUESTION_MESSAGE_FIELD]) ) {
+            if ($notaire->client_number
+                && isset($post[CONST_QUESTION_OBJECT_FIELD]) && $post[CONST_QUESTION_OBJECT_FIELD] != ''
+                && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && $post[CONST_QUESTION_SUPPORT_FIELD] != ''
+                && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && intval($post[CONST_QUESTION_COMPETENCE_FIELD]) > 0
+                && isset($post[CONST_QUESTION_MESSAGE_FIELD])
+            ) {
                 // prepare data
                 $question = array(
                     'Question' => array(
