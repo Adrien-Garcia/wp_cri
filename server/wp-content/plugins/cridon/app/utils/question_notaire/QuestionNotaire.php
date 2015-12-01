@@ -35,6 +35,8 @@ class QuestionNotaire extends SimpleController{
         }
         $options = $this->generateOptionsQueries(array(0,1));
         $results = $this->entityManager->getResults($options);
+        //Ajout des documents
+        $results = $this->appendDocuments($results);
         return $results;
     }
     
@@ -51,6 +53,8 @@ class QuestionNotaire extends SimpleController{
         $options['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
         $options = array_merge($options, $this->params );
         $collection = $this->entityManager->paginate($options);
+        //Ajout des documents
+        $collection['objects'] = $this->appendDocuments($collection['objects']);
         $this->setPagination($collection);
         return $collection['objects'];
     }
