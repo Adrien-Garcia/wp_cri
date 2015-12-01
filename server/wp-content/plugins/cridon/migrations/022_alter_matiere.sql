@@ -1,0 +1,1 @@
+UPDATE `cri_matiere` SET `id` = '14' , `code` = 'Q' WHERE `id` = '12'; 

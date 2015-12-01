@@ -76,7 +76,7 @@ class Config {
 
     //Default Matiere of model Veille
     public static $defaultMatiere = array(
-        'id'     => 12,
+        'id'     => 14,
         'name'   => 'Expertise transversale'
     );
 
