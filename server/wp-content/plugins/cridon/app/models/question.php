@@ -362,7 +362,7 @@ class Question extends MvcModel
     public function checkQuestionsWithoutDocumentsDaily(){
         $queryBuilder   = mvc_model('QueryBuilder');        
         $db = $queryBuilder->getInstanceMysqli();//get instance mysqli
-        $sql = $this->generateQueryEmptyPdf();//get query
+        $sql = $this->generateQueryEmptyPdf(true);//get query
         try{
             $datas = $db->query($sql);            
         } catch (\Exception $ex) {
@@ -397,7 +397,6 @@ class Question extends MvcModel
         }
         $mails = array_merge($secretaries,$administrators);
         $mails = array_unique($mails);
-        //echo '<pre>';var_dump($mails);die;
         return sendNotification(Config::$emailNotificationEmptyDocument['message'], implode(',',$nums),$mails);
     } 
     
@@ -406,22 +405,20 @@ class Question extends MvcModel
      * 
      * @return string
      */
-    protected function generateQueryEmptyPdf(){
+    protected function generateQueryEmptyPdf( $daily = false ){
         $document = mvc_model('Document');
+        $cond = ( !$daily ) ? " AND TIMESTAMPDIFF(MINUTE,CONCAT_WS(' ', q.date_modif, q.hour_modif), NOW()) >= ".CONST_ALERT_MINUTE : "";
         $sql = "
             SELECT q.id,q.srenum
             FROM ".$this->table." q
-            WHERE q.id  NOT IN (
-                SELECT q2.id FROM ".$this->table." q2
-                JOIN ".$document->table." d
-                ON d.id_externe = q2.id
-                WHERE d.type = 'question'
-                AND d.label = 'question/reponse'
-            )
-            AND TIMESTAMPDIFF(MINUTE,CONCAT(q.date_modif, ' ', q.hour_modif),NOW()) >= 30
+            LEFT JOIN ".$document->table." d
+            ON (d.id_externe = q.id AND d.type = 'question' AND d.label = 'question/reponse')
+            WHERE d.id IS NULL
             AND q.confidential = 0
             AND q.date_modif IS NOT NULL
             AND q.hour_modif IS NOT NULL
+            ".$cond.
+            " AND q.treated = 2
             ORDER BY q.srenum ASC
          ";
         return $sql;
