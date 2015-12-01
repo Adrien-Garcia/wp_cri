@@ -410,7 +410,7 @@ class Question extends MvcModel
     {
         $questions = $this->find(array(
                                      'conditions' => array(
-                                         'transmis_erp'       => 0
+                                         'transmis_erp' => 0
                                      )
                                  )
         );
@@ -427,10 +427,137 @@ class Question extends MvcModel
                     $this->adapter = CridonOCIAdapter::getInstance();
                     break;
             }
+
+            // bloc de requette
+            $queryBloc = array();
+            $query = '';
+            // adapter instance
+            $adapter = $this->adapter;
+            // list des id question pour maj cri_question apres transfert
+            $qList = array();
+
+            switch (CONST_DB_TYPE) {
+                case CONST_DB_ORACLE:
+                    /*
+                     * How to write a bulk insert in Oracle SQL
+                     INSERT ALL
+                      INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                      INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                      INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                    SELECT * FROM dual;
+                     */
+                    $oracleLimit = self::CONST_LIMIT + intval($this->offset);
+//                    $limitQuery = 'SELECT rownum rnum, subquery.* FROM ('.$mainQuery.') subquery WHERE rownum <= '.$oracleLimit;
+//                    $sql = 'SELECT * FROM ('.$limitQuery.') WHERE rnum >= '.$this->offset;
+                    break;
+                case CONST_DB_DEFAULT:
+                default:
+                    foreach ($questions as $question) {
+                        // remplit la liste des questions
+                        $qList[] = $question->id;
+
+                        // competence et matiere principale associées
+                        $compId     = 0;
+                        $maitiereId = 0;
+                        if (isset($question->competence) && is_object($question->competence)) {
+                            if ($question->competence->id) {
+                                $compId = $question->competence->id;
+                            }
+                            if ($question->competence->code_matiere) {
+                                $matieres = mvc_model('Matiere')->find_one_by_code($question->competence->code_matiere);
+                                if ($matieres->id) {
+                                    $maitiereId = $matieres->id;
+                                }
+                            }
+                        }
+
+                        // competence et maitere secondaire associées
+                        $zquest_zcomp_0 = $zquest_zcomp_1 = $zquest_zcomp_2 = $zquest_zcomp_3 = $zquest_zcomp_4 = 0;
+                        $zquest_ymat_0  = $zquest_ymat_1 = $zquest_ymat_2 = $zquest_ymat_3 = $zquest_ymat_4 = 0;
+                        if (is_array($question->competences) && count($question->competences) > 0) {
+                            foreach ($question->competences as $key => $comp) {
+                                $paramComp  = 'zquest_zcomp_' . $key;
+                                $paramMat   = 'zquest_ymat_' . $key;
+                                $$paramComp = $comp->id;
+
+                                $matSecond = mvc_model('Matiere')->find_one_by_code($comp->code_matiere);
+                                if ($matSecond->id) {
+                                    $$paramMat = $matSecond->id;
+                                }
+                            }
+                        }
+
+                        $value = "(";
+
+                        $value .= "'" . $question->id . "', "; // ZQUEST_ZIDQUEST_0
+                        $value .= "0, "; // ZQUEST_ZTRAITEE_0
+                        $value .= "'" . $question->client_number . "', "; // ZQUEST_SREBPC_0
+                        $value .= "'" . $question->sreccn . "', "; // ZQUEST_SRECCN_0
+                        $value .= "'" . $question->id_support . "', "; // ZQUEST_YCODESUP_0
+                        $value .= "'" . $maitiereId . "', "; // ZQUEST_YMATIERE_0
+                        $value .= "'" . $zquest_ymat_0 . "', "; // ZQUEST_YMAT_0
+                        $value .= "'" . $zquest_ymat_1 . "', "; // ZQUEST_YMAT_1
+                        $value .= "'" . $zquest_ymat_2 . "', "; // ZQUEST_YMAT_2
+                        $value .= "'" . $zquest_ymat_3 . "', "; // ZQUEST_YMAT_3
+                        $value .= "'" . $zquest_ymat_4 . "', "; // ZQUEST_YMAT_4
+                        $value .= "'" . $compId . "', ";        // ZQUEST_ZCOMPETENC_0
+                        $value .= "'" . $zquest_zcomp_0 . "', "; // ZQUEST_ZCOMP_0
+                        $value .= "'" . $zquest_zcomp_1 . "', "; // ZQUEST_ZCOMP_1
+                        $value .= "'" . $zquest_zcomp_2 . "', "; // ZQUEST_ZCOMP_2
+                        $value .= "'" . $zquest_zcomp_3 . "', "; // ZQUEST_ZCOMP_3
+                        $value .= "'" . $zquest_zcomp_4 . "', "; // ZQUEST_ZCOMP_4
+                        $value .= "'" . $question->resume . "', "; // ZQUEST_YRESUME_0
+                        $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
+                        $value .= "'" . date('d/m/Y', strtotime($question->creation_date)) . "'"; // ZQUEST_CREDAT_0
+
+                        $value .= ")";
+
+                        $queryBloc[] = $value;
+                    }
+                    // preparation requete en masse
+                    if (count($queryBloc) > 0) {
+                        $query  = " INSERT INTO " . CONST_DB_TABLE_QUESTTEMP;
+                        $query .= " (";
+                        $query .= $adapter::ZQUEST_ZIDQUEST_0 . ", "; // ZQUEST_ZIDQUEST_0
+                        $query .= $adapter::ZQUEST_ZTRAITEE_0 . ", "; // ZQUEST_ZTRAITEE_0
+                        $query .= $adapter::ZQUEST_SREBPC_0 . ", ";   // ZQUEST_SREBPC_0
+                        $query .= $adapter::ZQUEST_SRECCN_0 . ", ";   // ZQUEST_SRECCN_0
+                        $query .= $adapter::ZQUEST_YCODESUP_0 . ", ";   // ZQUEST_YCODESUP_0
+                        $query .= $adapter::ZQUEST_YMATIERE_0 . ", ";   // ZQUEST_YMATIERE_0
+                        $query .= $adapter::ZQUEST_YMAT_0 . ", ";   // ZQUEST_YMAT_0
+                        $query .= $adapter::ZQUEST_YMAT_1 . ", ";   // ZQUEST_YMAT_1
+                        $query .= $adapter::ZQUEST_YMAT_2 . ", ";   // ZQUEST_YMAT_2
+                        $query .= $adapter::ZQUEST_YMAT_3 . ", ";   // ZQUEST_YMAT_3
+                        $query .= $adapter::ZQUEST_YMAT_4 . ", ";   // ZQUEST_YMAT_4
+                        $query .= $adapter::ZQUEST_ZCOMPETENC_0 . ", ";   // ZQUEST_ZCOMPETENC_0
+                        $query .= $adapter::ZQUEST_ZCOMP_0 . ", ";   // ZQUEST_ZCOMP_0
+                        $query .= $adapter::ZQUEST_ZCOMP_1 . ", ";   // ZQUEST_ZCOMP_1
+                        $query .= $adapter::ZQUEST_ZCOMP_2 . ", ";   // ZQUEST_ZCOMP_2
+                        $query .= $adapter::ZQUEST_ZCOMP_3 . ", ";   // ZQUEST_ZCOMP_3
+                        $query .= $adapter::ZQUEST_ZCOMP_4 . ", ";   // ZQUEST_ZCOMP_4
+                        $query .= $adapter::ZQUEST_YRESUME_0 . ", ";   // ZQUEST_YRESUME_0
+                        $query .= $adapter::ZQUEST_YSREASS_0 . ", ";   // ZQUEST_YSREASS_0
+                        $query .= $adapter::ZQUEST_CREDAT_0 . "";   // ZQUEST_CREDAT_0
+                        $query .= ") ";
+                        $query .= " VALUES ";
+                        $query .= implode(', ', $queryBloc);
+                    }
+                    break;
+            }
         }
 
-        echo '<pre>'; die(print_r($questions));
+        // execution requete
+        if (!empty($query)) {
+            if ($result = $this->adapter->execute($query)) {
+                // update cri_question.transmis_erp
+                $sql = " UPDATE {$this->table} SET transmis_erp = 1 WHERE id IN (" . implode(', ', $qList) . ")";
+                $this->wpdb->query($sql);
+            } else {
+                // log erreur
+            }
+        }
 
+//        echo '<pre>'; die(print_r($questions));
         return $questions;
     }
 }

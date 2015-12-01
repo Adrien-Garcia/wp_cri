@@ -497,5 +497,5 @@ if ( !defined( 'CONST_DB_TABLE_QUESTTEMP' ) ) {
             $prefix = '';
             break;
     }
-    define( 'CONST_DB_TABLE_QUESTTEMP', $prefix.'X3' );
+    define( 'CONST_DB_TABLE_QUESTTEMP', $prefix.'ZQUEST' );
 }

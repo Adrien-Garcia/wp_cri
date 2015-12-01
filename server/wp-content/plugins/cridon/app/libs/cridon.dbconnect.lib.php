@@ -326,134 +326,119 @@ interface DBConnect
 
     /****************** Export Table Temp Structure *******************/
     /**
-     * @var string : valeur en point
+     * @var string : id question - Site
      */
-    const QUESTTEMP_SRENUM  = 'SRENUM_0';
+    const ZQUEST_ZIDQUEST_0  = 'ZIDQUEST_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : statut de l'enregistrement (initialisé à 0 par le site puis maj par ERP )
      */
-    const QUESTTEMP_YIDQUEST  = 'YIDQUEST_0';
+    const ZQUEST_ZTRAITEE_0  = 'ZTRAITEE_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : N° question - X3
      */
-    const QUESTTEMP_SREBPC  = 'SREBPC_0';
+    const ZQUEST_SRENUM_0  = 'SRENUM_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Numéro de client - Site
      */
-    const QUESTTEMP_SRECCN  = 'SRECCN_0';
+    const ZQUEST_SREBPC_0  = 'SREBPC_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Interlocuteur (Notaire) - Site
      */
-    const QUESTTEMP_YCODESUP  = 'YCODESUP_0';
+    const ZQUEST_SRECCN_0  = 'SRECCN_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Support de la question  - Site
      */
-    const QUESTTEMP_YMATIERE  = 'YMATIERE_0';
+    const ZQUEST_YCODESUP_0  = 'YCODESUP_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Matière - SIte
      */
-    const QUESTTEMP_YMAT  = 'YMAT_0';
+    const ZQUEST_YMATIERE_0  = 'YMATIERE_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Matière 1  - Site
      */
-    const QUESTTEMP_YCOMPETENC  = 'YCOMPETENC_0';
+    const ZQUEST_YMAT_0  = 'YMAT_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Matière 2  - SIte
      */
-    const QUESTTEMP_YCOMP  = 'YCOMP_0';
+    const ZQUEST_YMAT_1  = 'YMAT_1';
 
     /**
-     * @var string : valeur en point
+     * @var string : Matière 3  - SIte
      */
-    const QUESTTEMP_YRESUME  = 'YRESUME_0';
+    const ZQUEST_YMAT_2  = 'YMAT_2';
 
     /**
-     * @var string : valeur en point
+     * @var string : Matière 4  - SIte
      */
-    const QUESTTEMP_YSREASS  = 'YSREASS_0';
+    const ZQUEST_YMAT_3  = 'YMAT_3';
 
     /**
-     * @var string : valeur en point
+     * @var string : Matière 5  - SIte
      */
-    const QUESTTEMP_YTRAITEE  = 'YTRAITEE_0';
+    const ZQUEST_YMAT_4  = 'YMAT_4';
 
     /**
-     * @var string : valeur en point
+     * @var string : Compétence (sous matière) - Site
      */
-    const QUESTTEMP_YERR  = 'YERR_0';
+    const ZQUEST_ZCOMPETENC_0  = 'ZCOMPETENC_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Compétence 1 (sous matière) - Site
      */
-    const QUESTTEMP_YMESER  = 'YMESER_0';
+    const ZQUEST_ZCOMP_0  = 'ZCOMP_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Compétence 2 (sous matière) - Site
      */
-    const QUESTTEMP_CREDAT  = 'CREDAT_0';
+    const ZQUEST_ZCOMP_1  = 'ZCOMP_1';
 
     /**
-     * @var string : valeur en point
+     * @var string : Compétence 3 (sous matière) - Site
      */
-    const QUESTTEMP_YTEXTE  = 'YTEXTE_0';
+    const ZQUEST_ZCOMP_2  = 'ZCOMP_2';
 
     /**
-     * @var string : valeur en point
+     * @var string : Compétence 4 (sous matière) - Site
      */
-    const QUESTTEMP_YDOC1  = 'YDOC1_0';
+    const ZQUEST_ZCOMP_3  = 'ZCOMP_3';
 
     /**
-     * @var string : valeur en point
+     * @var string : Compétence 5 (sous matière) - Site
      */
-    const QUESTTEMP_YDOC2  = 'YDOC2_0';
+    const ZQUEST_ZCOMP_4  = 'ZCOMP_4';
 
     /**
-     * @var string : valeur en point
+     * @var string : Objet de la question - Site
      */
-    const QUESTTEMP_YDOC3  = 'YDOC3_0';
+    const ZQUEST_YRESUME_0  = 'YRESUME_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Affectation (Status de la question) - Site 
      */
-    const QUESTTEMP_YDOC4  = 'YDOC4_0';
+    const ZQUEST_YSREASS_0  = 'YSREASS_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Flag erreur - 0 : pas d’erreur | 1 : erreur - X3
      */
-    const QUESTTEMP_YDOC5  = 'YDOC5_0';
+    const ZQUEST_ZERR_0  = 'ZERR_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Message de l’erreur (vide par défaut) - X3
      */
-    const QUESTTEMP_YLIEN1  = 'YLIEN1_0';
+    const ZQUEST_ZMESERR_0  = 'ZMESERR_0';
 
     /**
-     * @var string : valeur en point
+     * @var string : Date de création de l’enregistrement (le moment où la Q est posée) - Site
      */
-    const QUESTTEMP_YLIEN2  = 'YLIEN2_0';
-
-    /**
-     * @var string : valeur en point
-     */
-    const QUESTTEMP_YLIEN3  = 'YLIEN3_0';
-
-    /**
-     * @var string : valeur en point
-     */
-    const QUESTTEMP_YLIEN4  = 'YLIEN4_0';
-
-    /**
-     * @var string : valeur en point
-     */
-    const QUESTTEMP_YLIEN5  = 'YLIEN5_0';
+    const ZQUEST_CREDAT_0  = 'CREDAT_0';
 
     /**
      * Get instance
