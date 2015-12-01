@@ -1,5 +1,4 @@
 'use strict';
-
 App.Login = {
 
     panelConnexionSelector              : '.js-panel-connexion',
@@ -9,11 +8,14 @@ App.Login = {
 
     eventToConnexionSelector            : '.js-panel-connexion-to-connexion',
     eventToMdpSelector                  : '.js-panel-connexion-to-mdp',
-    
+
     eventConnexionOpenSelector          : '.js-panel-connexion-open',
     eventConnexionCloseSelector         : '.js-panel-connexion-close',
 
+    eventConnexionErrorResetSelector    : '.js-panel-connexion-reset-error',
+
     blockConnexionErrorMessageSelector  : '.js-login-error-message-block',
+    blockForgotErrorMessageSelector     : '.js-forgot-error-message-block',
 
     $panelConnexion                     : null,
     $panelConnexionOpen                 : null,
@@ -24,7 +26,10 @@ App.Login = {
     $buttonToConnexion                  : null,
     $buttonToMdp                        : null,
 
+    $elementsConnexionErrorReset        : null,
+
     $blockConnexionErrorMessage         : null,
+    $blockForgotErrorMessage            : null,
 
 
     init: function() {
@@ -33,7 +38,7 @@ App.Login = {
         this.$panelConnexion            = $(this.panelConnexionSelector);
         this.$panelConnexionClose       = $(this.eventConnexionCloseSelector);
         this.$panelConnexionOpen        = $(this.eventConnexionOpenSelector);
-        
+
         this.$formConnexion             = $(this.formConnexionSelector);
         this.$formMdp                   = $(this.formMdpSelector);
 
@@ -41,6 +46,9 @@ App.Login = {
         this.$buttonToMdp               = $(this.eventToMdpSelector);
 
         this.$blockConnexionErrorMessage= $(this.blockConnexionErrorMessageSelector);
+        this.$blockForgotErrorMessage   = $(this.blockForgotErrorMessageSelector);
+
+        this.$elementsConnexionErrorReset=$(this.eventConnexionErrorResetSelector);
 
         this.addListeners();
 
@@ -59,7 +67,6 @@ App.Login = {
     /*
      * Listeners for the Login page events
      */
-
     addListeners: function() {
         var self = this;
 
@@ -80,12 +87,16 @@ App.Login = {
         this.$buttonToMdp.on("click", function(e) {
             self.eventToMdp($(this));
         });
-        
+        this.$elementsConnexionErrorReset.on('click focus', function(e) {
+            self.eventErrorReset($(this));
+        });
+
+
         this.debug("Login : addListeners end");
     },
 
     /*
-     * Event for toggling on and off the flash 
+     * Event for toggling on and off the flash
      */
 
     eventPanelConnexionToggle: function() {
@@ -123,7 +134,13 @@ App.Login = {
         this.$blockConnexionErrorMessage.text(message);
     },
 
+    eventErrorReset: function () {
+        this.$blockConnexionErrorMessage.text("");
+        this.$blockForgotErrorMessage.text("");
+    },
+
     debug: function(t) {
         App.debug(t);
-    }
+    },
+
 };
