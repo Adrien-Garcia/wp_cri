@@ -674,19 +674,19 @@ function sendNotificationForPostPublished( $post,$model ){
     $content = wp_strip_all_tags( get_the_content(), true );
     $matiere = $model->matiere->label;
     $permalink = generateUrlByModel($model);
-    $subject  = sprintf( 'Publication: %s', $title );
-    $message  = sprintf('<h2>%s</h2>' . "\n\n",  $title );
-    $message .= sprintf('<p>Date: %s </p>' . "\n\n",  $date );
+    $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
+    $message  = sprintf(Config::$mailBodyNotification['title'],  $title );
+    $message .= sprintf(Config::$mailBodyNotification['date'],  $date );
     if( !empty( $excerpt ) ){
-        $message .= sprintf('<p>Résumé: %s </p>' . "\n\n",  $excerpt );        
+        $message .= sprintf(Config::$mailBodyNotification['excerpt'],  $excerpt );        
     }
-    $message .= sprintf('<div>%s</div>' . "\n\n",  $content );
-    $message .= sprintf('<p>Matière associée: %s </p>' . "\n\n",  $matiere );
-    $message .= sprintf('Lien vers l\'article: <a href="%s">%s</a>' . "\n\n",  $permalink,$title );
+    $message .= sprintf(Config::$mailBodyNotification['content'],  $content );
+    $message .= sprintf(Config::$mailBodyNotification['matiere'],  $matiere );
+    $message .= sprintf(Config::$mailBodyNotification['permalink'],  $permalink,$title );    
     $headers = array('Content-Type: text/html; charset=UTF-8');
     if( !empty( $documents ) ){
         $home = home_url();
-        $message .= '<p>Les documents associés: </p>'. "\n\n";
+        $message .= Config::$mailBodyNotification['documents'];
         $message .= '<ul>';
         foreach( $documents as $document ){
             $message .= sprintf ('<li><a href="%s">%s</a></li>',   $home.$document->download_url,$document->name );            
@@ -701,7 +701,7 @@ function sendNotificationForPostPublished( $post,$model ){
             $a[] .= $tag->name;
         }
         $message .= implode(',',$a) . '</p>';
-    }
+    }    
     /**
      * type = 1 => all notaries
      * type = 0 => subscribers notaries ( veille )
