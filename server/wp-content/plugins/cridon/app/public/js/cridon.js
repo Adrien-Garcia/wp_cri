@@ -178,28 +178,40 @@
             messageFieldId = jsvar.question_message;
 
         // form data
-        var formdata = new FormData(), len = 0,
-            inputFile = document.getElementById(jsvar.question_fichier);
+        var formdata = new FormData(), len = 0;
+
+        // reset file list
+        resetFileList(jsvar.question_fichier);
 
         $('#' + questionFormId).append(nonce);
         $('#' + questionFormId).submit(function() {
-            if (inputFile) {
-                var i = 0, file;
-                len = inputFile.files.length;
-                for (; i < len; i++) {
-                    file = inputFile.files[i];
-                    if (formdata && (parseInt(inputFile.files[i].size) <= parseInt(jsvar.question_max_file_size))) {
-                        formdata.append(jsvar.question_fichier + '[]', file);
+            // check required field
+            if ($('*[name="' + objectFieldId + '"]').first().val() == '') {
+                $('#' + msgBlocId).html('Merci de bien remplir le champ "Objet de la question"');
+                $('*[name="' + objectFieldId + '"]').focus();
+
+                // stop action
+                return false;
+            }
+
+            len = jQuery('[id^=' + jsvar.question_fichier + '_').length;
+            if (len > 0) {
+                jQuery('[id^=' + jsvar.question_fichier + '_').each(function () {
+                    var file = $(this).get(0).files[0];
+                    if (file) {
+                        if (formdata && (parseInt(file.size) <= parseInt(jsvar.question_max_file_size))) {
+                            formdata.append(jsvar.question_fichier + '[]', file);
+                        }
                     }
-                }
+                });
             }
 
             formdata.append("action", 'add_question');
-            formdata.append(supportFieldId, $('#' + supportFieldId).val());
-            formdata.append(matiereFieldId, $('#' + matiereFieldId).val());
-            formdata.append(competenceFieldId, $('#' + competenceFieldId).val());
-            formdata.append(objectFieldId, $('#' + objectFieldId).val());
-            formdata.append(messageFieldId, $('#' + messageFieldId).val());
+            formdata.append(supportFieldId, $('*[name="' + supportFieldId + '"]').first().val() );
+            formdata.append(matiereFieldId, $('*[name="' + matiereFieldId + '"]').first().val() );
+            formdata.append(competenceFieldId, $('*[name="' + competenceFieldId + '"]').first().val() );
+            formdata.append(objectFieldId, $('*[name="' + objectFieldId + '"]').first().val() );
+            formdata.append(messageFieldId, $('*[name="' + messageFieldId + '"]').first().val() );
 
             $('#' + msgBlocId).html('');
 
@@ -231,6 +243,15 @@
 
             return false;
         });
+    }
+    function resetFileList(eltId) {
+        if (jQuery('[id^=' + eltId + '_').length > 0) {
+            jQuery('[id^=' + eltId + '_').each(function () {
+                if ($(this).get(0).files[0]) {
+                    $(this).get(0).files[0] = null;
+                }
+            });
+        }
     }
 
     /**
