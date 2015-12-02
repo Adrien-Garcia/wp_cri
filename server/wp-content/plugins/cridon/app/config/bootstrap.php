@@ -690,7 +690,7 @@ function sendNotificationForPostPublished( $post,$model ){
     }
     $tags = get_the_tags( $post->ID );
     if( $tags ){
-        $message .= '<p>Etiquettes: ';
+        $message .= '<p>'.Config::$mailBodyNotification['tags'].' ';
         $a = array();
         foreach ( $tags as $tag ){
             $a[] .= $tag->name;

@@ -161,6 +161,7 @@ class Config {
         'content'   => '<div>%s</div></br></br>',
         'matiere'   => '<p>Matière associée: %s </p></br></br>',
         'permalink' => 'Lien vers l\'article: <a href="%s">%s</a></br></br>',
-        'documents' => '<p>Les documents associés: </p></br>'
+        'documents' => '<p>Les documents associés: </p></br>',
+        'tags'      => 'Etiquettes:'
     );
 }
