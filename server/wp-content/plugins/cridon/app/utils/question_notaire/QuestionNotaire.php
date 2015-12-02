@@ -36,7 +36,7 @@ class QuestionNotaire extends SimpleController{
         $options = $this->generateOptionsQueries(array(0,1));
         $results = $this->entityManager->getResults($options);
         //Ajout des documents
-        $results = $this->appendDocuments($results);
+        //$results = $this->appendDocuments($results);
         return $results;
     }
     
@@ -119,6 +119,51 @@ class QuestionNotaire extends SimpleController{
      * @return array
      */
     protected function generateOptionsQueries( $treated ){
+        $options = array(
+            'select' => array(
+                'Document','Question','Support','Matiere','Competence','Affectation','Notaire'
+            ),
+            'from'   => 'Question',
+            'joins'  => array(
+                array(
+                    'type'   => 'LEFT JOIN',
+                    'entity' => array( 'Document' => 'id_externe' ),
+                    'on'     => '(Document.id_externe = Question.id AND Document.type = "question" )'
+                ),
+                array(
+                    'type'   => 'LEFT JOIN',
+                    'entity' => array( 'Question' => 'id_affectation' ),
+                    'on'     => array( 'Affectation' => 'id' )
+                ),
+                array(
+                    'type'   => 'LEFT JOIN',
+                    'entity' => array( 'Question' => 'id_support' ),
+                    'on'     => array( 'Support' => 'id' )
+                ),
+                array(
+                    'type'   => 'LEFT JOIN',
+                    'entity' => array( 'Question' => 'id_competence_1' ),
+                    'on'     => array( 'Competence' => 'id' )
+                ),
+                array(
+                    'type'   => 'LEFT JOIN',
+                    'entity' => array( 'Competence' => 'code_matiere' ),
+                    'on'     => array( 'Matiere' => 'code' )
+                ),
+                array(
+                    'entity' => array( 'Question' => 'client_number' ),
+                    'on'     => array( 'Notaire' => 'client_number' )
+                )
+            ),
+            'conditions' => array(
+                (!is_array($treated)) ? 'Question.treated = '.$treated : 'Question.treated IN ('.implode(',',$treated).')',
+                'Question.client_number = "'.$this->user->client_number.'"'
+            ),
+            'order' => 'Question.date_modif ASC',
+        );
+        return $options;
+    }
+    protected function generateOptionsQueriesPagination( $treated ){
         $options = array(
             'select' => array(
                 'Question','Support','Matiere','Competence','Affectation','Notaire'

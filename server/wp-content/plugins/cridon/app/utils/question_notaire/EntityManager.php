@@ -135,6 +135,77 @@ class EntityManager {
             }
             $results[] = $obj;
         }
+        $results = $this->splitArray($results);
+        return $results;
+    }
+    /**
+    * Découper le résultat en des tableaux contenant chaqun les mêmes questions.
+    *  
+    * @param mixed $data
+    * @return mixed
+    */
+    protected function splitArray( $data ){
+        if( empty($data) ){
+            return null;
+        }
+        $tmpQ = $data[0];//initialisation
+        if( !isset( $tmpQ->question ) || empty( $tmpQ->question ) ){
+            return $data;//Ce n'est pas la peine d'aller plus loin si le résulat ne contient aucune question
+        }
+        $aSplit = array();
+        $tmp = array();
+        //Regroupage des mêmes questions
+        foreach ( $data as $key=>$value ){
+            if( $tmpQ->question->id == $value->question->id ){//Si la question est toujours la même alors stocker la valeur
+                $tmp[] = $value;
+                $tmpQ = $value;
+            }else{
+                $aSplit[] = $tmp;
+                $tmp = array();
+                $tmp[] = $value;
+                $tmpQ = $value;// l'itération courante
+            }
+            if( count( $data ) - 1 === $key ){ // Si nous arrivons déjà à la fin
+                $aSplit[] = $tmp;
+            }
+        }
+        return $this->appendDocuments( $aSplit );
+    }
+    /**
+    * Ajouter les documents sur chaque question
+    * 
+    * @param mixed $data
+    * @return mixed
+    */
+    protected function appendDocuments( $data ){
+        if( empty($data) ){
+            return null;
+        }
+        $results = array();//contenant le résultat final
+        foreach( $data as $value ){
+        /**
+         * L'indice 0 correspond à la première question car nous pouvons avoir 3 résultats par exemple
+         * pour la même question avec 3 documents différents (du fait de l'association des documents à requête).
+         */
+        $newData = $value[0];
+        //Contenant la liste des documents associés à une question
+            $documents = array();
+            //Parcourir les documents
+            foreach( $value as $v ){
+                //Vérification de la présence de document
+                if( empty( $v->document ) ){
+                    continue;
+                }
+                $documents[] = $v->document;
+            }
+            //Associer les documents s'il y en a, à la question
+            $newData->{documents} = $documents;
+            if( empty( $newData->document ) || isset( $newData->document ) ){
+                //Supprimer l'attribut document associé au premier élément de la liste
+                unset( $newData->document );
+            }
+            $results[] = $newData;
+        } 
         return $results;
     }
     /**
