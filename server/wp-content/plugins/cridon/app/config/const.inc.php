@@ -501,3 +501,20 @@ if ( !defined( 'CONST_IMPORT_CAHIER_PATH' ) ) {
     $uploadDir = wp_upload_dir();
     define( 'CONST_IMPORT_CAHIER_PATH', $uploadDir['basedir'] . '/import/importsCahier/' );
 }
+
+// question message d'erreur
+if ( !defined( 'CONST_EMPTY_OBJECT_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_OBJECT_ERROR_MSG', 'Merci de bien renseigner l\'objet de votre question' );
+}
+if ( !defined( 'CONST_EMPTY_SUPPORT_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_SUPPORT_ERROR_MSG', 'Merci de bien renseigner votre type de consultation' );
+}
+if ( !defined( 'CONST_EMPTY_MATIERE_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_MATIERE_ERROR_MSG', 'Merci de bien renseigner le champ Matiere' );
+}
+if ( !defined( 'CONST_EMPTY_COMPETENCE_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_COMPETENCE_ERROR_MSG', 'Merci de bien renseigner le champ Competence' );
+}
+if ( !defined( 'CONST_MAXFILESIZE_ERROR_MSG' ) ) {
+    define( 'CONST_MAXFILESIZE_ERROR_MSG', 'Taille de ' );
+}

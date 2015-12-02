@@ -425,6 +425,9 @@ class Question extends MvcModel
     }
     
     public function uploadDocuments( $post ){
+        // init error
+        $error = array();
+
         //Not access form, only for Notaire connected
         if( !is_user_logged_in() || !CriIsNotaire() ){
             return false;
@@ -437,8 +440,8 @@ class Question extends MvcModel
             if ($notaire->client_number
                 && isset($post[CONST_QUESTION_OBJECT_FIELD]) && $post[CONST_QUESTION_OBJECT_FIELD] != ''
                 && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && $post[CONST_QUESTION_SUPPORT_FIELD] != ''
+                && isset($post[CONST_QUESTION_MATIERE_FIELD]) && intval($post[CONST_QUESTION_MATIERE_FIELD]) > 0
                 && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && intval($post[CONST_QUESTION_COMPETENCE_FIELD]) > 0
-                && isset($post[CONST_QUESTION_MESSAGE_FIELD])
             ) {
                 // prepare data
                 $question = array(
@@ -504,10 +507,27 @@ class Question extends MvcModel
                                 mvc_model('Document')->save($documents);
                             }
                         }
+                    } else {
+                        $error[] = sprintf(CONST_QUESTION_FILE_SIZE_ERROR,
+                                           (CONST_QUESTION_MAX_FILE_SIZE / 1000000) . 'M');
+
+                        return $error;
                     }
                 }
             }else{
-                return false;
+                if (!isset($post[CONST_QUESTION_OBJECT_FIELD]) || $post[CONST_QUESTION_OBJECT_FIELD] == '') {
+                    $error[] = CONST_EMPTY_OBJECT_ERROR_MSG;
+                }
+                if (!isset($post[CONST_QUESTION_SUPPORT_FIELD]) || intval($post[CONST_QUESTION_SUPPORT_FIELD] <= 0)) {
+                    $error[] = CONST_EMPTY_SUPPORT_ERROR_MSG;
+                }
+                if (!isset($post[CONST_QUESTION_MATIERE_FIELD]) || intval($post[CONST_QUESTION_MATIERE_FIELD] <= 0)) {
+                    $error[] = CONST_EMPTY_MATIERE_ERROR_MSG;
+                }
+                if (!isset($post[CONST_QUESTION_COMPETENCE_FIELD]) || intval($post[CONST_QUESTION_COMPETENCE_FIELD] <= 0)) {
+                    $error[] = CONST_EMPTY_COMPETENCE_ERROR_MSG;
+                }
+                return $error;
             }
 
             return true;
