@@ -152,7 +152,7 @@ if ( !defined( 'CONST_DB_DATABASE' ) ) {
     define( 'CONST_DB_DATABASE', $dbn );
 }
 if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
-    switch ($prefix) {
+    switch ($env) {
         case PROD:
             $prefix = 'CLCRIDON.';
             break;
