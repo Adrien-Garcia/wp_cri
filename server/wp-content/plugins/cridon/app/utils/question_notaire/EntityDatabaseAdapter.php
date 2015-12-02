@@ -147,23 +147,31 @@ class EntityDatabaseAdapter {
             }
             $entityJoinKey = array_keys($join['entity']);
             $joinEntity = $entityJoinKey[0];
-            $entityOnKey = array_keys($join['on']);
-            $onEntity = $entityOnKey[0];
             $sql = ' ';
             $sql .= ( isset( $join['type'] ) ) ? $join['type'] : 'JOIN';
             $sql .= ' '; 
-            $instanceOn = EntityRegistry::get( $onEntity.'Entity' ); 
-            if( !$instanceOn ){
-                return '';
+            if(!is_string($join['on'])){
+                $entityOnKey = array_keys($join['on']);
+                $onEntity = $entityOnKey[0];
+                $instanceOn = EntityRegistry::get( $onEntity.'Entity' ); 
+                if( !$instanceOn ){
+                    return '';
+                }
+                $mvc_model_on = $instanceOn->getMvcModel();
+                if( empty( $mvc_model_on ) ){
+                    return '';
+                }
+                $tableOn = $mvc_model_on->table;
+                $sql .= $tableOn.' AS '.$onEntity;
+                $sql .= ' ON ';
             }
-            $mvc_model_on = $instanceOn->getMvcModel();
-            if( empty( $mvc_model_on ) ){
-                return '';
+            if(is_string($join['on'])){
+                $instance = EntityRegistry::get( $joinEntity.'Entity' ); 
+                $mvc_model = $instance->getMvcModel();
+                $sql .= $mvc_model->table.' AS '.$joinEntity.' ON '.$join['on'];                
+            }else{
+                $sql .= $onEntity.'.'.$join['on'][$onEntity].' = '.$joinEntity.'.'.$join['entity'][$joinEntity];                
             }
-            $tableOn = $mvc_model_on->table;
-            $sql .= $tableOn.' AS '.$onEntity;
-            $sql .= ' ON ';
-            $sql .= $onEntity.'.'.$join['on'][$onEntity].' = '.$joinEntity.'.'.$join['entity'][$joinEntity];
             $joins[] = $sql;
         }
         return implode(' ', $joins);
