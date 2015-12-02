@@ -117,7 +117,7 @@ App.Login = {
         var message = "";
         switch (error) {
             case "PROTECTED_CONTENT":
-                message = "Ce contenu est réservé au utilisateurs enregistrés, veuillez vous connecter.";
+                message = "Ce contenu est réservé aux utilisateurs enregistrés, veuillez vous connecter.";
                 break;
             case "ERROR_NOT_CONNECTED_QUESTION":
                 message = "Veuillez vous connectez pour poser une question.";
