@@ -34,11 +34,6 @@ function save_post_in_table( $post_ID,$post ){
         if (!empty($_POST['cri_category'])) {
             $aAdditionalFields['id_matiere'] = $_POST['cri_category'];
         }
-        //Notification for published post
-        if( !empty( $aAdditionalFields ) && ( $post->post_status == 'publish' ) ){
-            sendNotificationForPostPublished($post, $model);
-        }
-        //End Notification for published post
         if (!empty($_POST['id_parent'])) {
             $aAdditionalFields['id_parent'] = $_POST['id_parent'];
         }

@@ -270,16 +270,27 @@ function cri_profile_subject_end() {
 add_action( 'admin_head-user-edit.php', 'cri_profile_subject_start' );
 add_action( 'admin_footer-user-edit.php', 'cri_profile_subject_end' );
 
-//Publish post
-function post_published_notification( $post_ID, $post ) {
-    //only for wp cron schedule
-    if (!isset($_POST['_wp_http_referer']) && ( $post->post_type == 'post ')) {
+
+function on_publish_future_post( $post ) {
+    foreach( Config::$data as $modelConf ){
+        if( ($model = findBy( $modelConf['name'], $post->ID ) && ( $post->post_type == 'post' ) ) != null ){//already create 
+             sendNotificationForPostPublished($post, $model);
+             break;
+        } 
+    }   
+}
+/**
+ * @see https://codex.wordpress.org/Post_Status_Transitions
+ */
+add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
+function on_insert_post( $post_ID,$post,$update ) {
+    if( !$update && ( $post->post_status == 'publish' ) && ( $post->post_type == 'post' ) ){
         foreach( Config::$data as $modelConf ){
-            if( ($model = findBy( $modelConf['name'], $post_ID )) != null ){//already create
+            if( ($model = findBy( $modelConf['name'], $post_ID )) != null ){//already create 
                  sendNotificationForPostPublished($post, $model);
                  break;
             } 
-        }
+        }         
     }
 }
-add_action( 'publish_post', 'post_published_notification', 10, 2 );
+add_action(  'wp_insert_post',  'on_insert_post', 10, 3 );
