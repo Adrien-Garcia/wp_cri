@@ -386,7 +386,7 @@ class Question extends MvcModel
                 $secretaries[] = $secr->data->user_email;
             }
         }
-        $wp_administrators = get_users( 'role=administrator' );//administrators in website
+        $wp_administrators = get_users( 'role=admincridon' );//administrators in website
         if( empty( $wp_administrators ) ){
             $administrators = Config::$emailNotificationEmptyDocument['administrators'];//Default
         }else{
