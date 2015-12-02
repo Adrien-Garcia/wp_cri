@@ -559,12 +559,4 @@ class QueryBuilder{
         $this->dbConnect();
         return $this->mysqli;
     }
-    
-    /**
-     * Get instance of Mysqli
-     * @return mixed
-     */
-    public function getInstanceMysqli(){
-        return $this->mysqli;
-    }
 }
