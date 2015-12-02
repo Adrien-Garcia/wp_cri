@@ -98,7 +98,7 @@ App.Login = {
             this.$formMdp.removeClass('active');
         }
 
-        if (button.data('login-message')){
+        if (button && button.data('login-message')){
             this.changeLoginErrorMessage(button.data('login-message'));
         }
     },
@@ -121,6 +121,9 @@ App.Login = {
                 break;
             case "ERROR_NOT_CONNECTED_QUESTION":
                 message = "Veuillez vous connectez pour poser une question.";
+                break;
+            case "ERROR_NEWSLETTER_NOT_CONNECTED":
+                message = "Veuillez vous connecter pour choisir vos abonnements.";
                 break;
             default:
                 message = error;
