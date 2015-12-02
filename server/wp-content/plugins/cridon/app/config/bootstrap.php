@@ -523,28 +523,51 @@ function CriRenderView($path, $view_vars, $folder = "custom") {
  * @param string $error the error to introduce in the message
  */
 function reportError($message, $object) {
+    $to = arrayGet(Config::$emailNotificationError, 'to', CONST_EMAIL_ERROR_CONTACT);
+    // send email
+    return sendMail($to,CONST_EMAIL_ERROR_SUBJECT,$message,$object,Config::$emailNotificationError['cc']);
+}
+/**
+ * Send email for reporting
+ *
+ * @param string $message the default message in which we want to add the error
+ * @param mixed $object the error to introduce in the message
+ * @param array $ccs 
+ */
+function sendNotification($message, $object, $ccs = array() ) {
+    $to = arrayGet(Config::$emailNotificationEmptyDocument, 'to', Config::$emailNotificationEmptyDocument['to']);
+    // send email
+    return sendMail($to,Config::$emailNotificationEmptyDocument['subject'],$message,$object,$ccs);
+}
+
+/**
+ * Send email
+ * 
+ * @param string $to
+ * @param string $subject
+ * @param mixed $message
+ * @param string $object
+ * @param array $ccs
+ * @return boolean
+ */
+function sendMail( $to,$subject,$message, $object, $ccs = array()){
     // message content
     $message =  sprintf($message, $object);
     $env = getenv('ENV');
     //define receivers
-    if ((empty($env) || ($env !== 'PROD')) && !empty(Config::$emailNotificationError['cc'])) {
+    if ((empty($env) || ($env !== 'PROD')) && !empty($ccs)) {
         // just send to client in production mode
-        $ccs = (array) Config::$emailNotificationError['cc']; //cast to guarantee array
+        $ccs = (array) $ccs; //cast to guarantee array
         $to = array_pop($ccs);
-    } else {
-        $to = arrayGet(Config::$emailNotificationError, 'to', CONST_EMAIL_ERROR_CONTACT);
     }
     $headers = array();
-    if (!empty(Config::$emailNotificationError['cc'])) {
-        foreach ((array) Config::$emailNotificationError['cc'] as $cc) {
+    if (!empty($ccs)) {
+        foreach ((array) $ccs as $cc) {
             $headers[] = 'Cc: '.$cc;
         }
     }
-
-    // send email
-    wp_mail($to, CONST_EMAIL_ERROR_SUBJECT, $message, $headers);
+    return wp_mail($to, $subject, $message, $headers);
 }
-
 //UI component
 add_action('add_meta_boxes','init_meta_boxes_ui_component');
 

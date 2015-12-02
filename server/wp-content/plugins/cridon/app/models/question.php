@@ -315,6 +315,115 @@ class Question extends MvcModel
         }
     }
     
+    // Alert on issues without documents
+    
+    /**
+     * Alert on issues without documents every 30 minutes.
+     * 
+     * @return boolean
+     */
+    public function checkQuestionsWithoutDocuments(){
+        $queryBuilder   = mvc_model('QueryBuilder');        
+        $db = $queryBuilder->getInstanceMysqli();//get instance mysqli
+        $sql = $this->generateQueryEmptyPdf();//get query
+        try{
+            $datas = $db->query($sql);            
+        } catch (\Exception $ex) {
+            writeLog($ex,'question_pdf');
+        }
+        //No result
+        if( $datas->num_rows == 0 ){
+            return false;
+        }
+        $nums = array();
+        while( $data = $datas->fetch_object() ){
+            //questions without documents
+            $nums[] = $data->srenum;
+        }   
+        $wp_secretaries = get_users( 'role=contributor' );//secretaries in website
+        if( empty( $wp_secretaries ) ){
+            $secretaries = Config::$emailNotificationEmptyDocument['secretaries'];//Default
+        }else{
+            $secretaries = array();
+            foreach ( $wp_secretaries as $secr ){
+                $secretaries[] = $secr->data->user_email;
+            }
+        }
+        $secretaries = array_unique($secretaries);
+        sendNotification(Config::$emailNotificationEmptyDocument['message'], implode(',',$nums),$secretaries);
+        return true;
+    } 
+    
+    /**
+     * Alert on issues without documents once a day.
+     * 
+     * @return boolean
+     */
+    public function checkQuestionsWithoutDocumentsDaily(){
+        $queryBuilder   = mvc_model('QueryBuilder');        
+        $db = $queryBuilder->getInstanceMysqli();//get instance mysqli
+        $sql = $this->generateQueryEmptyPdf(true);//get query
+        try{
+            $datas = $db->query($sql);            
+        } catch (\Exception $ex) {
+            writeLog($ex,'question_pdf');
+        }
+        //No result
+        if( $datas->num_rows == 0 ){
+            return false;
+        }
+        $nums = array();
+        while( $data = $datas->fetch_object() ){
+            //questions without documents
+            $nums[] = $data->srenum;
+        }   
+        $wp_secretaries = get_users( 'role=contributor' );//secretaries in website
+        if( empty( $wp_secretaries ) ){
+            $secretaries = Config::$emailNotificationEmptyDocument['secretaries'];//Default
+        }else{
+            $secretaries = array();
+            foreach ( $wp_secretaries as $secr ){
+                $secretaries[] = $secr->data->user_email;
+            }
+        }
+        $wp_administrators = get_users( 'role=administrator' );//administrators in website
+        if( empty( $wp_administrators ) ){
+            $administrators = Config::$emailNotificationEmptyDocument['administrators'];//Default
+        }else{
+            $administrators = array();
+            foreach ( $wp_administrators as $admin ){
+                $administrators[] = $admin->data->user_email;
+            }
+        }
+        $mails = array_merge($secretaries,$administrators);
+        $mails = array_unique($mails);
+        return sendNotification(Config::$emailNotificationEmptyDocument['message'], implode(',',$nums),$mails);
+    } 
+    
+    /**
+     * Get query for question without document 
+     * 
+     * @return string
+     */
+    protected function generateQueryEmptyPdf( $daily = false ){
+        $document = mvc_model('Document');
+        $cond = ( !$daily ) ? " AND TIMESTAMPDIFF(MINUTE,CONCAT_WS(' ', q.date_modif, q.hour_modif), NOW()) >= ".CONST_ALERT_MINUTE : "";
+        $sql = "
+            SELECT q.id,q.srenum
+            FROM ".$this->table." q
+            LEFT JOIN ".$document->table." d
+            ON (d.id_externe = q.id AND d.type = 'question' AND d.label = 'question/reponse')
+            WHERE d.id IS NULL
+            AND q.confidential = 0
+            AND q.date_modif IS NOT NULL
+            AND q.hour_modif IS NOT NULL
+            ".$cond.
+            " AND q.treated = 2
+            ORDER BY q.srenum ASC
+         ";
+        return $sql;
+    }
+    
     public function uploadDocuments( $post ){
         //Not access form, only for Notaire connected
         if( !is_user_logged_in() || !CriIsNotaire() ){

@@ -131,6 +131,19 @@ class Config {
             'victor.albert@jetpulp.fr',
         ),
     );
+    
+    // list of persons who will receive e-mail notification for empty document
+    public static $emailNotificationEmptyDocument = array(
+        'to' => 'info@cridon-lyon.fr',//Client e-mail, only use it in production mode
+        'administrators' => array(
+            'victor.albert@jetpulp.fr'
+        ),
+        'secretaries'=> array(
+            'victor.albert@jetpulp.fr'
+        ),
+        'subject' => 'Questions sans PDF',
+        'message' => 'Les questions suivantes n\'ont pas encore de document associé : "%s"'
+    );
 
     // list of notaire functions cannot access finances
     public static $cannotAccessFinance = array(
