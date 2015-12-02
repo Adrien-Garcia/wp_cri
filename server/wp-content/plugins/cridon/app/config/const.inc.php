@@ -365,7 +365,7 @@ if ( !defined( 'CONST_QUESTION_ATTACHEMENT_FIELD' ) ) {
 }
 // Files options
 if ( !defined( 'CONST_QUESTION_MAX_FILE_SIZE' ) ) {
-    define( 'CONST_QUESTION_MAX_FILE_SIZE', 8000000 ); // bytes
+    define( 'CONST_QUESTION_MAX_FILE_SIZE', 100000 ); // bytes
 }
 // Success Message
 if ( !defined( 'CONST_QUESTION_SUCCESS_MSG_FIELD' ) ) {
@@ -484,4 +484,21 @@ if ( !defined( 'CONST_NEWSLETTER_EMAIL_FIELD' ) ) {
 }
 if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
     define( 'CONST_NEWSLETTER_MSGBLOCK_ID', 'newsletterMsgId' );
+}
+
+// question message d'erreur
+if ( !defined( 'CONST_EMPTY_OBJECT_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_OBJECT_ERROR_MSG', 'Merci de bien renseigner l\'objet de votre question' );
+}
+if ( !defined( 'CONST_EMPTY_SUPPORT_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_SUPPORT_ERROR_MSG', 'Merci de bien renseigner votre type de consultation' );
+}
+if ( !defined( 'CONST_EMPTY_MATIERE_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_MATIERE_ERROR_MSG', 'Merci de bien renseigner le champ Matiere' );
+}
+if ( !defined( 'CONST_EMPTY_COMPETENCE_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_COMPETENCE_ERROR_MSG', 'Merci de bien renseigner le champ Competence' );
+}
+if ( !defined( 'CONST_MAXFILESIZE_ERROR_MSG' ) ) {
+    define( 'CONST_MAXFILESIZE_ERROR_MSG', 'Taille de ' );
 }

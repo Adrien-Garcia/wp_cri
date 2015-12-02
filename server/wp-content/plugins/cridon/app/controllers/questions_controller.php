@@ -7,7 +7,14 @@ class QuestionsController extends MvcPublicController
      */
     public function add()
     {
-        $ret = CriPostQuestion() ? CONST_QUESTION_ACTION_SUCCESSFUL : CONST_QUESTION_ACTION_ERROR;
+        $ret = CONST_QUESTION_ACTION_SUCCESSFUL;
+        $resp = CriPostQuestion();
+        if (is_array($resp) && isset($resp[0])) {
+            $ret = $resp[0];
+        } elseif(!$resp) {
+            $ret = CONST_QUESTION_ACTION_ERROR;
+        }
+
         echo json_encode($ret);
 
         die;
