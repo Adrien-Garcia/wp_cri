@@ -38,6 +38,11 @@ class VeillesController extends MvcPublicController {
             $referer = $_SERVER['HTTP_REFERER'];
             $redirect = $referer;
 
+            if (preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 && preg_match("/.*?[\?\&]messageLogin=PROTECTED_CONTENT.*?/", $referer) === 1 ) {
+                wp_redirect($redirect);
+                return;
+            }
+
             if (preg_match("/.*\?.*/", $referer)) {
                 $redirect .= "&";
             } else {
