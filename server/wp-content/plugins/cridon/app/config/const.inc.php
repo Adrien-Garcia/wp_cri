@@ -365,7 +365,7 @@ if ( !defined( 'CONST_QUESTION_ATTACHEMENT_FIELD' ) ) {
 }
 // Files options
 if ( !defined( 'CONST_QUESTION_MAX_FILE_SIZE' ) ) {
-    define( 'CONST_QUESTION_MAX_FILE_SIZE', 100000 ); // bytes
+    define( 'CONST_QUESTION_MAX_FILE_SIZE', 8000000 ); // bytes
 }
 // Success Message
 if ( !defined( 'CONST_QUESTION_SUCCESS_MSG_FIELD' ) ) {
