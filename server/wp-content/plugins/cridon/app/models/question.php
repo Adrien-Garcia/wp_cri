@@ -408,11 +408,14 @@ class Question extends MvcModel
             }else{
                 if (!isset($post[CONST_QUESTION_OBJECT_FIELD]) || $post[CONST_QUESTION_OBJECT_FIELD] == '') {
                     $error[] = CONST_EMPTY_OBJECT_ERROR_MSG;
-                } elseif (!isset($post[CONST_QUESTION_SUPPORT_FIELD]) || intval($post[CONST_QUESTION_SUPPORT_FIELD] <= 0)) {
+                }
+                if (!isset($post[CONST_QUESTION_SUPPORT_FIELD]) || intval($post[CONST_QUESTION_SUPPORT_FIELD] <= 0)) {
                     $error[] = CONST_EMPTY_SUPPORT_ERROR_MSG;
-                } elseif (!isset($post[CONST_QUESTION_MATIERE_FIELD]) || intval($post[CONST_QUESTION_MATIERE_FIELD] <= 0)) {
+                }
+                if (!isset($post[CONST_QUESTION_MATIERE_FIELD]) || intval($post[CONST_QUESTION_MATIERE_FIELD] <= 0)) {
                     $error[] = CONST_EMPTY_MATIERE_ERROR_MSG;
-                } elseif (!isset($post[CONST_QUESTION_COMPETENCE_FIELD]) || intval($post[CONST_QUESTION_COMPETENCE_FIELD] <= 0)) {
+                }
+                if (!isset($post[CONST_QUESTION_COMPETENCE_FIELD]) || intval($post[CONST_QUESTION_COMPETENCE_FIELD] <= 0)) {
                     $error[] = CONST_EMPTY_COMPETENCE_ERROR_MSG;
                 }
                 return $error;

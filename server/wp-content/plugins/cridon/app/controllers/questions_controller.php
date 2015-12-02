@@ -9,8 +9,9 @@ class QuestionsController extends MvcPublicController
     {
         $ret = CONST_QUESTION_ACTION_SUCCESSFUL;
         $resp = CriPostQuestion();
-        if (is_array($resp) && isset($resp[0])) {
-            $ret = $resp[0];
+        if (is_array($resp) && count($resp) > 0) {
+            // force la mise à la ligne de chaque erreur
+            $ret = implode('<br>', $resp);
         } elseif(!$resp) {
             $ret = CONST_QUESTION_ACTION_ERROR;
         }
