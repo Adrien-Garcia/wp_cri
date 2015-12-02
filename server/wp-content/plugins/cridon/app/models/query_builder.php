@@ -23,13 +23,12 @@ class QueryBuilder{
      * @var null|mixed
      */
     protected $mysqli = null;
-    
+
     public function __construct()
     {
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->lastInsertId = false;
-        $this->dbConnect();
     }
 
     /**
@@ -43,21 +42,21 @@ class QueryBuilder{
     /*
      * Delete data
      */
-    
+
     /**
      * Delete data in a table
-     * 
-     * @param array $options Contains table name and clause where 
+     *
+     * @param array $options Contains table name and clause where
      */
     public function delete( $options ){
         $this->wpdb->query( 'DELETE FROM '.$this->wpdb->prefix.$options['table'].' WHERE '.$options['conditions'] );
-    }    
-    
+    }
+
     /**
      * Delete document in associate with model
-     * 
+     *
      * @param string $model
-     * @param integer $object_id 
+     * @param integer $object_id
      */
     public function deleteDocument( $model,$object_id ){
         $table = $model->table;
@@ -69,7 +68,7 @@ class QueryBuilder{
         );
         $this->delete( $options );
     }
-    
+
     /**
      * Delete post for specific ID
      * @param type $post_ID
@@ -82,7 +81,7 @@ class QueryBuilder{
         $options_2 = array(
             'table' => 'posts',
             'conditions' => $conditions_2
-        );       
+        );
         $this->delete($options_2);
         // Delete comment
         $this->deleteComment( $post_ID );
@@ -91,7 +90,7 @@ class QueryBuilder{
         $options = array(
             'table' => 'posts',
             'conditions' => $conditions
-        );       
+        );
         $this->delete($options);
     }
     //Delete commentmeta when comment is deleted.
@@ -100,7 +99,7 @@ class QueryBuilder{
         $options = array(
             'table' => 'commentmeta',
             'conditions' => $conditions
-        );       
+        );
         $this->delete($options);
     }
     //Delete Comment when post is deleted
@@ -109,12 +108,12 @@ class QueryBuilder{
         $options = array(
             'table' => 'comments',
             'conditions' => $conditions
-        );  
+        );
         $aComments = $this->findAll( 'comments', $options,'comment_ID' );
         if( !empty( $aComments ) ){
             foreach ( $aComments as $comment ){
                 $this->deleteCommentMeta( $comment->comment_ID );
-            }            
+            }
         }
         $this->delete($options);
     }
@@ -124,22 +123,22 @@ class QueryBuilder{
         $options = array(
             'table' => 'postmeta',
             'conditions' => $conditions
-        );       
+        );
         $this->delete($options);
     }
-    
+
     /*
      * End delete data
      */
-    
+
     /*
      * Insert or update
      */
-    
+
     /**
-     * Insert data in table 
-     * 
-     * @param array $options Specify table name, attributes and values 
+     * Insert data in table
+     *
+     * @param array $options Specify table name, attributes and values
      */
     public function insert( $options ){
         $this->wpdb->query( 'INSERT INTO '.$this->wpdb->prefix.$options['table'].'('.$options['attributes'].') VALUE('.$options['values'].')' );
@@ -149,14 +148,14 @@ class QueryBuilder{
             $this->lastInsertId = false;
         }
     }
-    
+
     //This function return format for value when you used prepared query
     private function format( $value ){
         if( is_float( $value ) || is_double( $value )){
-            return "%f";                    
+            return "%f";
         }
         elseif( is_int( $value ) ){
-            return "%d";                    
+            return "%d";
         }
         return "%s";
     }
@@ -165,7 +164,7 @@ class QueryBuilder{
      * @param array $data Contain data to push
      * @param string $table Table where put data
      * @param string $primaryKey Specify primary key of table
-     * @return bool 
+     * @return bool
      */
     public function save( $data,$table,$primaryKey ){
         $this->lastInsertId = false; // init
@@ -174,16 +173,16 @@ class QueryBuilder{
         $fields = array();
         $values = array();
         $d = array();
-        foreach( $data as $k => $v ){ 
+        foreach( $data as $k => $v ){
             if( isset( $data->$key )&& !empty( $data->$key ) ){
                 if( $k !== $key ){
-                    $fields[] = "$k= ". $this->format( $v );        
+                    $fields[] = "$k= ". $this->format( $v );
                 }
             }else{
                 $fields[] = "$k";
-                $values[] = $this->format( $v ); 
+                $values[] = $this->format( $v );
             }
-            $d[] = $v;                    
+            $d[] = $v;
         }
         //update
         if( isset( $data->$key )&& !empty( $data->$key ) ){
@@ -191,7 +190,7 @@ class QueryBuilder{
             if (isset($data->$key)) {
                 unset($data->$key);
             }
-            $sql = 'UPDATE '.$table.' SET '.implode(',',$fields).' WHERE '.$key.'= %d';            
+            $sql = 'UPDATE '.$table.' SET '.implode(',',$fields).' WHERE '.$key.'= %d';
             $action = 'update';
         }
         else{
@@ -209,19 +208,19 @@ class QueryBuilder{
         }
         return true;
     }
-    
+
     /*
      * End insert or update
      */
-    
-    
+
+
     /*
      * Retrieve data from table
      */
-    
+
     /**
      * Find more elements in table with an sample clause WHERE in condition of query
-     * 
+     *
      * @param array $options Specify a model or a table, and the conditions in the query
      * @return array
      */
@@ -270,7 +269,7 @@ class QueryBuilder{
         }
         return $this->wpdb->get_row( $query );
     }
-    
+
     //Sample function to construct join clause
     private function constructJoin( $option ){
         if( isset( $option[ 'type'] ) ){
@@ -282,25 +281,25 @@ class QueryBuilder{
                     $sql = ' RIGHT JOIN ';
                     break;
                 case 'full':
-                    $sql = ' FULL JOIN ';            
+                    $sql = ' FULL JOIN ';
                     break;
                 default:
-                    $sql = ' INNER JOIN ';            
-            }            
+                    $sql = ' INNER JOIN ';
+            }
         }else{
-            $sql = ' INNER JOIN ';            
+            $sql = ' INNER JOIN ';
         }
         if( isset( $option['nested'] ) ){
             $table = $option['table'];
         }else{
-            $table = $this->wpdb->prefix.$option['table'];            
+            $table = $this->wpdb->prefix.$option['table'];
         }
         $sql .= $table.' ON '.$option['column'].' ';
         return $sql;
     }
     /**
      * Find more elements in table
-     * 
+     *
      * @param string $table Table name
      * @param array $options Contain keys where specified sql clauses (join,where,...)
      * @param string $primaryKey The primary key for table
@@ -308,7 +307,7 @@ class QueryBuilder{
      */
     public function findAll( $table , $options = array() ,$primaryKey = 'id' ){
         $table = $this->wpdb->prefix.$table;
-        $sql = 'SELECT ';         
+        $sql = 'SELECT ';
         if( isset( $options['fields'] ) ){
             if( is_array( $options['fields'] ) ){
                 $sql .= implode( ', ',$options['fields'] );
@@ -345,11 +344,11 @@ class QueryBuilder{
                 foreach( $options['conditions'] as $k=>$v ){
                     if( !is_numeric( $v ) ){
                         $v = '"'.mysqli_real_escape_string( $v ).'"'; //clean
-                    }                    
+                    }
                     $cond[] = "$k = $v";
                 }
                 $sql .= implode( ' AND ',$cond );
-            }            
+            }
         }
         if( isset( $options['not'] ) ){
             if ( !isset($options['conditions'] ) ) {
@@ -361,14 +360,14 @@ class QueryBuilder{
             foreach( $options['not'] as $k=>$v ){
                 if( !is_numeric($v) ){
                     $v = '"'.mysqli_real_escape_string($v).'"'; //clean
-                }                    
+                }
                 $cond[] = "$k <> $v";
             }
-            $sql .= implode( ' AND ',$cond );                
+            $sql .= implode( ' AND ',$cond );
         }
         if( isset( $options['in'] ) && !empty( $options['in'] ) ){
             if ( !isset($options['conditions'] ) && !isset( $options['not'] )) {
-                $sql .= 'WHERE ';                
+                $sql .= 'WHERE ';
             }else{
                 $sql .= ' AND ';
             }
@@ -383,12 +382,12 @@ class QueryBuilder{
                         }
                         $cond[] = "$w";
                     }
-                    $sql .= $k.' IN ('.implode(' ,',$cond).' )';                    
+                    $sql .= $k.' IN ('.implode(' ,',$cond).' )';
                 }
                 if( count( $options['in']) > 1 ){
                     $sql .= ' AND ';
                 }
-            }   
+            }
         }
         if( isset( $options['group'] ) ){
             $sql .= ' GROUP BY '.$options['group'];
@@ -404,10 +403,10 @@ class QueryBuilder{
         }
         return $this->wpdb->get_results( $sql );
     }
-    
-     /**
+
+    /**
      * Build sample query
-     * 
+     *
      * @param string $table Table name
      * @param array $options Contain keys where specified sql clauses (join,where,...)
      * @param string $primaryKey The primary key for table
@@ -415,7 +414,7 @@ class QueryBuilder{
      */
     public function buildQuery( $table , $options = array() ,$primaryKey = 'id' ){
         $table = $this->wpdb->prefix.$table;
-        $sql = 'SELECT ';         
+        $sql = 'SELECT ';
         if( isset( $options['fields'] ) ){
             if( is_array( $options['fields'] ) ){
                 $sql .= implode( ', ',$options['fields'] );
@@ -452,11 +451,11 @@ class QueryBuilder{
                 foreach( $options['conditions'] as $k=>$v ){
                     if( !is_numeric( $v ) ){
                         $v = '"'.mysqli_real_escape_string( $v ).'"'; //clean
-                    }                    
+                    }
                     $cond[] = "$k = $v";
                 }
                 $sql .= implode( ' AND ',$cond );
-            }            
+            }
         }
         if( isset( $options['not'] ) ){
             if ( !isset($options['conditions'] ) ) {
@@ -468,14 +467,14 @@ class QueryBuilder{
             foreach( $options['not'] as $k=>$v ){
                 if( !is_numeric($v) ){
                     $v = '"'.mysqli_real_escape_string($v).'"'; //clean
-                }                    
+                }
                 $cond[] = "$k <> $v";
             }
-            $sql .= implode( ' AND ',$cond );                
+            $sql .= implode( ' AND ',$cond );
         }
         if( isset( $options['in'] ) && !empty( $options['in'] ) ){
             if ( !isset($options['conditions'] ) && !isset( $options['not'] )) {
-                $sql .= 'WHERE ';                
+                $sql .= 'WHERE ';
             }else{
                 $sql .= ' AND ';
             }
@@ -504,12 +503,12 @@ class QueryBuilder{
         }
         if( isset( $options['limit'] ) ){
             $sql .= ' LIMIT '.$options['limit'];
-        }        
+        }
         return $sql;
     }
     /**
      * Find one element in table
-     * 
+     *
      * @param string $table Table name
      * @param array $options Contain keys where specified sql clauses (join,where,...)
      * @param string $primaryKey The primary key for table
@@ -544,11 +543,21 @@ class QueryBuilder{
             VALUES
             ' . $options['values'];
 
+        $this->getInstanceMysqli();
         $this->mysqli->query('SET @@global.max_allowed_packet = ' . 800 * 1024 * 1024);
         if (!$this->mysqli->query($query)) {
             // write into logfile
             writeLog($this->mysqli->error, 'query.log');
         }
+    }
+
+    /**
+     * Get instance of Mysqli
+     * @return mixed
+     */
+    public function getInstanceMysqli(){
+        $this->dbConnect();
+        return $this->mysqli;
     }
     
     /**

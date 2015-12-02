@@ -10,6 +10,11 @@ class Document extends MvcModel {
      */
     protected $queryBuilder;
 
+    /**
+     * @var string
+     */
+    protected $uploadDir;
+
     public function create($data) {
         $data = $this->customProperties($data);
         return parent::create($data);
@@ -45,6 +50,8 @@ class Document extends MvcModel {
         global $wpdb;
         $this->wpdb         = $wpdb;
         $this->queryBuilder = mvc_model('QueryBuilder');
+
+        $this->setUploadDir();
 
         parent::__construct();
     }
@@ -321,6 +328,68 @@ class Document extends MvcModel {
                     mvc_model('Question')->save($questData);                    
                 }
             }
+        }
+    }
+
+    /**
+     * Insert new document
+     *
+     * @param array $docData
+     * @return bool|int
+     */
+    public function insertDoc($docData)
+    {
+        $documentId = 0;
+
+        // donnees document
+        if (isset($docData['Document']['type']) && $docData['Document']['type']) {
+            $docData['Document']['file_path'] = isset($docData['Document']['file_path'])?$docData['Document']['file_path']:'';
+            $docData['Document']['download_url'] = isset($docData['Document']['download_url'])?$docData['Document']['download_url']:'';
+            $docData['Document']['id_externe'] = isset($docData['Document']['id_externe'])?$docData['Document']['id_externe']:0;
+
+            $files = pathinfo( $docData['Document']['file_path']);
+            if (isset($files['filename'])) {
+                $docData['Document']['name'] = $files['filename'];
+            }
+
+            // insertion
+            $documentId = $this->create($docData);
+
+            // maj download_url
+            if (!$docData['Document']['download_url']) {
+                $docData = array(
+                    'Document' => array(
+                        'id'           => $documentId,
+                        'download_url' => '/documents/download/' . $documentId
+                    )
+                );
+                $this->save($docData);
+            }
+        }
+
+        return $documentId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUploadDir()
+    {
+        return $this->uploadDir;
+    }
+
+    /**
+     * @param null|string $uploadDir
+     */
+    public function setUploadDir($uploadDir = null)
+    {
+        $this->uploadDir = $uploadDir;
+        if (!$this->uploadDir) {
+            $upload_dir      = wp_upload_dir();// the current upload directory
+            $root            = $upload_dir['basedir'];
+            $date            = new DateTime('now');
+            $path            = $root . '/documents/' . $date->format('Ym');//Upload directory
+            $this->uploadDir = $path;
         }
     }
 }

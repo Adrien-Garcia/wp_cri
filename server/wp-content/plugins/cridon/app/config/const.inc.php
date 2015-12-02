@@ -495,3 +495,9 @@ if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
 if ( !defined( 'CONST_TRACE_IMPORT_NOTAIRE' ) ) {
     define( 'CONST_TRACE_IMPORT_NOTAIRE', 1 );
 }
+
+// import cahier
+if ( !defined( 'CONST_IMPORT_CAHIER_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_CAHIER_PATH', $uploadDir['basedir'] . '/import/importsCahier/' );
+}
