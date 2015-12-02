@@ -499,3 +499,6 @@ if ( !defined( 'CONST_DB_TABLE_QUESTTEMP' ) ) {
     }
     define( 'CONST_DB_TABLE_QUESTTEMP', $prefix.'ZQUEST' );
 }
+if ( !defined( 'CONST_EXPORT_EMAIL_ERROR' ) ) {
+    define( 'CONST_EXPORT_EMAIL_ERROR', 'Export question interrompu le : %s' );
+}
