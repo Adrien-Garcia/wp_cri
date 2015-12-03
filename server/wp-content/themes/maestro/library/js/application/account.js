@@ -9,6 +9,8 @@ App.Account = {
     accountProfilSelector               : '-profil',
     accountFacturationSelector          : '-facturation',
 
+    accountQuestionMoreSelector         : '-more',
+
     ajaxSelector                        : '-ajax',
     ajaxPaginationSelector              : '-pagination',
     paginationSelector                  : '.page-numbers',
@@ -34,6 +36,8 @@ App.Account = {
     $accountQuestionButton              : null,
     $accountProfilButton                : null,
     $accountFacturationButton           : null,
+
+    $accountQuestionMoreButton          : null,
 
     $accountQuestionPagination          : null,
 
@@ -98,8 +102,12 @@ App.Account = {
 
         var d = this.defaultSelector;
         var a = this.ajaxSelector;
+        var b = this.eventAccountButtonSelector;
 
         this.$accountQuestionPagination = $(d + a + this.ajaxPaginationSelector).find(this.paginationSelector);
+
+        this.$accountQuestionMoreButton = $(d + this.accountQuestionSelector + this.accountQuestionMoreSelector + b);
+
         this.addListenersQuestions();
     },
 
@@ -179,6 +187,10 @@ App.Account = {
             e.returnValue = false;
             e.preventDefault();
             self.eventAccountQuestionPagination($(this));
+        });
+
+        this.$accountQuestionMoreButton.on('click', function (e) {
+            self.eventAccountQuestionMoreToggle($(this));
         });
 
     },
@@ -304,6 +316,12 @@ App.Account = {
             }
         });
         App.Utils.scrollTop();
+    },
+
+    eventAccountQuestionMoreToggle: function (button) {
+        var d = this.defaultSelector;
+        button.toggleClass('close');
+        button.siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).toggleClass('open');
     },
 
     reloadSolde: function() {

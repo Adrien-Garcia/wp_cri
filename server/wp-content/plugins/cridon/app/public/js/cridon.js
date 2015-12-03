@@ -181,7 +181,7 @@
         var formdata = new FormData(), len = 0;
 
         // reset file list
-        resetFileList(jsvar.question_fichier);
+        App.Question.eventFileReset();
 
         $('#' + questionFormId).append(nonce);
         $('#' + questionFormId).submit(function() {
@@ -248,7 +248,7 @@
         if (jQuery('[id^=' + eltId + '_').length > 0) {
             jQuery('[id^=' + eltId + '_').each(function () {
                 if ($(this).get(0).files[0]) {
-                    $(this).get(0).files[0] = null;
+                    $(this).val(null);
                 }
             });
         }

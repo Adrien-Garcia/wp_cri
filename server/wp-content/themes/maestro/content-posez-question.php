@@ -1,7 +1,7 @@
 <?php if (CriIsNotaire()) : ?>
 <div id="layer-posez-question" style="display:none;">
 
-	<form action="" id="questionFormId" method="post">
+	<form action="" id="questionFormId" method="post" enctype="multipart/form-data">
 	<div class="block_top">
 
 		<div class="titre">
@@ -44,25 +44,25 @@
 					<div class="form">
 						<?php 
 							$matieres = CriListMatieres();
-							$imatieres = 0;
 						 ?>
 						<select name="question_matiere" id="question_matiere" class="js-question-select-matiere" >
-						<?php foreach($matieres as $id => $label): ?>
-							<option <?php echo ($imatieres == 0) ? "selected" : "" ?> value="<?php echo $id ?>"><?php echo $label ?></option>
-							<?php $imatieres++; ?>
-						<?php endforeach; ?>
+                            <option selected value="">Choisir une matière</option>
+                            <?php foreach($matieres as $id => $label): ?>
+                                <option value="<?php echo $id ?>"><?php echo $label ?></option>
+                            <?php endforeach; ?>
 						</select>
-						<?php $imatieres = 0; ?>
+						<?php $icomp = 0; ?>
 						<?php foreach($matieres as $id => $label): ?>
-							<?php 
+							<?php
 								$competences = CriCompetenceByMatiere($id);
 							 ?>
-							<select class="js-question-select-competence <?php echo ($imatieres == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>" data-name="question_competence"  name="<?php echo ($imatieres == 0) ? "question_competence" : "" ?>" id="question_competence_<?php echo $id ?>" >
-								<?php foreach ($competences as $cid => $clabel): ?>
+							<select class="js-question-select-competence <?php echo ($icomp == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>" data-name="question_competence"  name="<?php echo ($icomp == 0) ? "question_competence" : "" ?>" id="question_competence_<?php echo $id ?>" >
+                                <option selected value="">Choisir une compétence</option>
+                                <?php foreach ($competences as $cid => $clabel): ?>
 									<option value="<?php echo $cid ?>"><?php echo $clabel ?></option>							
 								<?php endforeach ?>
 							</select>
-							<?php $imatieres++; ?>
+							<?php $icomp++; ?>
 						<?php endforeach; ?>
 						<input type="text" name="question_objet" id="question_objet" value="" placeholder="Objet de la question">
 						<textarea name="question_message" id="question_message" placeholder="Votre question"></textarea>

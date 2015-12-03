@@ -53,9 +53,9 @@
 					<span class="id-question">N ° <?php echo $question->question->srenum ; ?></span>
 				</li>
 				<li class="pdf"></li>
-				<li class="plusdedetails">
-					<span>plus de détails</span>
-					<div class="details">
+				<li class="plusdedetails ">
+					<span class="js-account-questions-more-button">plus de détails</span>
+					<div class="details js-account-questions-more">
 						<ul>
 							<li>
 								<span><?php echo $matiere->label ; ?></span>

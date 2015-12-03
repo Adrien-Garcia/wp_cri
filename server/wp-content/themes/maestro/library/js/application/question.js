@@ -207,11 +207,23 @@ App.Question = {
      */
 
     eventFileReset: function (reset, e) {
-        var file = reset.siblings(this.fileQuestionSelector);
-        file.wrap('<form>').closest('form').get(0).reset();
-        file.unwrap();
-
-        this.eventFileChange(file);
+        if (this.$fileQuestion == null) {
+            this.$fileQuestion = $(this.fileQuestionSelector);
+        }
+        var self = this;
+        if (reset != undefined) {
+            var file = reset.siblings(this.fileQuestionSelector);
+            file.wrap('<form>').closest('form').get(0).reset();
+            file.unwrap();
+            this.eventFileChange(file);
+        } else {
+            this.$fileQuestion.each(function(i,c) {
+                var file = $(c);
+                file.wrap('<form>').closest('form').get(0).reset();
+                file.unwrap();
+                self.eventFileChange(file);
+            });
+        }
     },
 
     eventFileChange: function (fileInput) {

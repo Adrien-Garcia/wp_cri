@@ -24,7 +24,25 @@ class QuestionNotaire extends SimpleController{
     public $entities = array(
         'Document','Affectation','Competence','Matiere','Notaire','Support','Question'
     );
-       
+
+    /**
+     * Get questions answered
+     *
+     * @return mixed
+     */
+    public function getQuestions(){
+        if( empty( $this->user ) ){
+            return null;
+        }
+        $options = $this->generateOptionsQueries(array(0,1,2));
+        $options['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
+        $options = array_merge($options, $this->params );
+        $collection = $this->entityManager->paginate($options);
+        $collection['objects'] = $this->appendDocuments( $collection['objects'] );
+        $this->setPagination($collection);
+        return $collection['objects'];
+    }
+
     /**
      * Get questions pending
      * @return mixed
@@ -135,7 +153,7 @@ class QuestionNotaire extends SimpleController{
                 ( !is_array( $treated ) ) ? 'Question.treated = '.$treated : 'Question.treated IN('.implode(',',$treated).')',
                 'Question.client_number = "'.$this->user->client_number.'"'
             ),
-            'order' => 'Question.date_modif ASC',
+            'order' => 'Question.creation_date DESC',
         );
         return $options;
     }

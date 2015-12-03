@@ -504,16 +504,19 @@ if ( !defined( 'CONST_IMPORT_CAHIER_PATH' ) ) {
 
 // question message d'erreur
 if ( !defined( 'CONST_EMPTY_OBJECT_ERROR_MSG' ) ) {
-    define( 'CONST_EMPTY_OBJECT_ERROR_MSG', 'Merci de bien renseigner l\'objet de votre question' );
+    define( 'CONST_EMPTY_OBJECT_ERROR_MSG', 'Veuillez renseigner l\'objet de votre question' );
+}
+if ( !defined( 'CONST_EMPTY_MESSAGE_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_MESSAGE_ERROR_MSG', 'Veuillez renseigner une question' );
 }
 if ( !defined( 'CONST_EMPTY_SUPPORT_ERROR_MSG' ) ) {
-    define( 'CONST_EMPTY_SUPPORT_ERROR_MSG', 'Merci de bien renseigner votre type de consultation' );
+    define( 'CONST_EMPTY_SUPPORT_ERROR_MSG', 'Veuillez renseigner votre type de consultation' );
 }
 if ( !defined( 'CONST_EMPTY_MATIERE_ERROR_MSG' ) ) {
-    define( 'CONST_EMPTY_MATIERE_ERROR_MSG', 'Merci de bien renseigner le champ Matiere' );
+    define( 'CONST_EMPTY_MATIERE_ERROR_MSG', 'Veuillez renseigner le champ Matiere' );
 }
 if ( !defined( 'CONST_EMPTY_COMPETENCE_ERROR_MSG' ) ) {
-    define( 'CONST_EMPTY_COMPETENCE_ERROR_MSG', 'Merci de bien renseigner le champ Competence' );
+    define( 'CONST_EMPTY_COMPETENCE_ERROR_MSG', 'Veuillez renseigner le champ Competence' );
 }
 if ( !defined( 'CONST_MAXFILESIZE_ERROR_MSG' ) ) {
     define( 'CONST_MAXFILESIZE_ERROR_MSG', 'Taille de ' );
