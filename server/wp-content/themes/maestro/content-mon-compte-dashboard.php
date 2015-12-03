@@ -48,22 +48,13 @@
 
     <?php
     $questions = criRestoreQuestions();
-    $answered = $questions->getAnswered();
-    $pending = $questions->getPending();
-    $n = 3;
-    $q = array();
-    for ($n = 3; $n > 0; $n--) {
-        if(isset($pending[ 3 - $n ])) {
-            $q[] = array('p',$pending[ 3 - $n ]);
-        } elseif (isset($answered[ 3 - $n ])) {
-            $q[] = array('a',$answered[ 3 - $n ]);
-
-        }
-    }
+    $q = $questions->getQuestions();
+    $i = 0;
     ?>
     <ul>
-        <?php foreach($q as $data) : ?>
-        <?php $state = $data[0] ?>
+        <?php foreach($q as $question) : ?>
+            <?php if ( $i >= 3 ) { break; } ?>
+        <?php $state = ($question->question->treated == 0 || $question->question->treated == 1) ? 'p' : 'a'; ?>
         <?php $question = $data[1] ?>
             <li class="js-home-block-link js-account-questions-button">
                 <?php
@@ -99,6 +90,7 @@
                     </li>
                 </ul>
             </li>
+            <?php $i++; ?>
         <?php endforeach; ?>
 
 	</ul> 
