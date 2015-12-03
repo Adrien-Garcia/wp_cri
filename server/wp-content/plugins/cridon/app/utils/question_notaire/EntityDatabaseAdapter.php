@@ -1,17 +1,15 @@
 <?php
 
 /**
- * Most method in this class is same in wp-mvc\core\models\mvc_database_adapter.php, it's a simple overide.
- * So to prevent hard dependency, It's necessary to have a copy of this class.
+ * Cette classe utilise les méthodes offertes par la WP_Query de WP pour les requêtes 
  */
-require_once 'EntityDatabase.php';
 
 class EntityDatabaseAdapter {
-
-    public $db;//database access
+    private $wpdb;
 
     function __construct() {
-        $this->db = new EntityDatabase();
+        global $wpdb;
+        $this->wpdb = $wpdb;
     }
     
     /**
@@ -21,7 +19,7 @@ class EntityDatabaseAdapter {
      * @return string
      */
     public function escape($value) {
-        return $this->db->escape($value);
+        return esc_sql($value);
     }
       
     /**
@@ -31,7 +29,7 @@ class EntityDatabaseAdapter {
      * @return mixed
      */
     public function query($sql) {
-        return $this->db->query($sql);
+        return $this->wpdb->query($sql);
     }
     
     /**
@@ -47,7 +45,7 @@ class EntityDatabaseAdapter {
         } else {
             $sql = $options_or_sql;
         }
-        return $this->db->get_results($sql);
+        return $this->wpdb->get_results($sql);
     }
     
     /**
@@ -57,7 +55,7 @@ class EntityDatabaseAdapter {
      * @return mixed
      */
     public function getVar($sql) {
-        return $this->db->get_var($sql);
+        return $this->wpdb->get_var($sql);
     }
     
     /**
@@ -234,110 +232,7 @@ class EntityDatabaseAdapter {
         }
         $limit = empty($options['limit']) ? '' : $options['limit'];
         return $limit ? 'LIMIT '.$this->escape($limit) : '';
-    }
-    
-    /**
-     * Return sql statement for UPDATE SET
-     * 
-     * @param array $data
-     * @return string
-     */
-    public function getSetSql($data) {
-        $clauses = array();
-        foreach ($data as $key => $value) {
-            if (is_string($value) || is_numeric($value)) {
-                $clauses[] = $key.' = "'.$this->escape($value).'"';
-            }
-        }
-        $sql = implode(', ', $clauses);
-        return $sql;
-    }
-    
-    /**
-     * Return sql statement INSERT
-     * @param array $data
-     * @return string
-     */
-    public function getInsertColumnsSql($data) {
-        $columns = array_keys($data);
-        $columns = $this->db->escape_array($columns);
-        $sql = '('.implode(', ', $columns).')';
-        return $sql;
-    }
-    
-    /**
-     * Return sql statement INSERT VALUES
-     * @param array $data
-     * @return string
-     */
-    public function getInsertValuesSql($data) {
-        $values = array();
-        foreach ($data as $value) {
-            $values[] = '"'.$this->escape($value).'"';
-        }
-        $sql = '('.implode(', ', $values).')';
-        return $sql;
-    }
-    
-    /**
-     * Insert into database
-     * 
-     * @param array $data
-     * @param array $options
-     * @return mixed
-     */
-    public function insert($data, $options=array()) {
-        $options['table_alias'] = false;
-        $options['use_table_alias'] = false;
-        if (empty($options['table_reference'])) {
-            // Filter out any data with a key that doesn't correspond to a column name in the table
-            $data = array_intersect_key($data, $this->schema);
-        }
-        $clauses = array(
-            'insert' => 'INSERT INTO '.$this->getTableReferenceSql($options),
-            'insert_columns' => $this->getInsertColumnsSql($data),
-            'insert_values' => 'VALUES '.$this->getInsertValuesSql($data)
-        );
-        $sql = implode(' ', $clauses);
-        $this->query($sql);
-        $insert_id = $this->db->insert_id();
-        return $insert_id;
-    }
-    
-    /**
-     * Update table
-     * 
-     * @param array $data
-     * @param array $options
-     */
-    public function updateAll($data, $options=array()) {
-        $clauses = array(
-            'update' => 'UPDATE '.$this->getTableReferenceSql($options),
-            'set' => 'SET '.$this->getSetSql($data),
-            'where' => $this->getWhereSql($options),
-            'limit' => $this->getLimitSql($options)
-        );
-        $sql = implode(' ', $clauses);
-        $this->query($sql);
-    }
-    
-    /**
-     * Delete data in table
-     * 
-     * @param array $options
-     */
-    public function deleteAll($options) {
-        $options['table_alias'] = false;
-        $options['use_table_alias'] = false;
-        $clauses = array(
-            'update' => 'DELETE FROM '.$this->getTableReferenceSql($options),
-            'where' => $this->getWhereSql($options),
-            'limit' => $this->getLimitSql($options)
-        );
-        $sql = implode(' ', $clauses);
-        $this->query($sql);
-    }
-
+    }    
 }
 
 ?>
