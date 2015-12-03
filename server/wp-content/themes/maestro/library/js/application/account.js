@@ -152,13 +152,6 @@ App.Account = {
             self.eventAccountFacturationOpen($(this));
         });
 
-        this.$accountBlocks.each(function(i, e) {
-            if ($(e).hasClass('active')) {
-                var block = $(e).data('js-name');
-                self['addListeners' + block]();
-            }
-        });
-
         this.debug("Account : addListeners end");
     },
 
