@@ -35,8 +35,6 @@ class QuestionNotaire extends SimpleController{
         }
         $options = $this->generateOptionsQueries(array(0,1));
         $results = $this->entityManager->getResults($options);
-        //Ajout des documents
-        //$results = $this->appendDocuments($results);
         return $results;
     }
     
@@ -53,8 +51,6 @@ class QuestionNotaire extends SimpleController{
         $options['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
         $options = array_merge($options, $this->params );
         $collection = $this->entityManager->paginate($options);
-        //Ajout des documents
-        $collection['objects'] = $this->appendDocuments($collection['objects']);
         $this->setPagination($collection);
         return $collection['objects'];
     }
@@ -113,93 +109,49 @@ class QuestionNotaire extends SimpleController{
     }
     
     /**
-     * Generate options for query
+     * Gérer les options pour la requête
      * 
-     * @param integer $treated
+     * @param type $treated
      * @return array
      */
     protected function generateOptionsQueries( $treated ){
+        global $wpdb;
+        $condTreated = (!is_array($treated)) ? 'Q.treated = '.$treated : 'Q.treated IN ('.implode(',',$treated).')';
+        //Requête principale
+        //Au niveau du SELECT nous avons les noms des modèles mais ils doivent être aussi utilisés comme alias aussi
+        //[LIMIT] sert à inserer le limit si nous avons une pagination sinon il sera remplacer par un vide('')
+        $sql = '
+            SELECT Document,Question,Support,Matiere,Competence,Affectation,Notaire
+            FROM (SELECT Q.* 
+                    FROM '.$wpdb->prefix.'question AS Q
+                    WHERE '.$condTreated.' AND Q.client_number = "'.$this->user->client_number.'" 
+                    ORDER BY Q.creation_date DESC 
+                    [LIMIT]
+                 ) AS Question
+            LEFT JOIN '.$wpdb->prefix.'document AS Document ON (Document.id_externe = Question.id AND Document.type = "question" ) 
+            LEFT JOIN '.$wpdb->prefix.'affectation AS Affectation ON Affectation.id = Question.id_affectation 
+            LEFT JOIN '.$wpdb->prefix.'support AS Support ON Support.id = Question.id_support 
+            LEFT JOIN '.$wpdb->prefix.'competence AS Competence ON Competence.id = Question.id_competence_1 
+            LEFT JOIN '.$wpdb->prefix.'matiere AS Matiere ON Matiere.code = Competence.code_matiere 
+            JOIN '.$wpdb->prefix.'notaire AS Notaire ON Notaire.client_number = Question.client_number
+                ';
+        //Requête utilisée pour le total des éléments pour la pagination
+        $sqlCount ='
+            SELECT COUNT(*) AS count 
+            FROM (SELECT Q.* 
+                    FROM '.$wpdb->prefix.'question AS Q
+                    WHERE '.$condTreated.' AND Q.client_number = "'.$this->user->client_number.'" 
+                    ORDER BY Q.creation_date DESC 
+                 ) AS Question
+            LEFT JOIN '.$wpdb->prefix.'affectation AS Affectation ON Affectation.id = Question.id_affectation 
+            LEFT JOIN '.$wpdb->prefix.'support AS Support ON Support.id = Question.id_support 
+            LEFT JOIN '.$wpdb->prefix.'competence AS Competence ON Competence.id = Question.id_competence_1 
+            LEFT JOIN '.$wpdb->prefix.'matiere AS Matiere ON Matiere.code = Competence.code_matiere 
+            JOIN '.$wpdb->prefix.'notaire AS Notaire ON Notaire.client_number = Question.client_number
+                '; 
         $options = array(
-            'select' => array(
-                'Document','Question','Support','Matiere','Competence','Affectation','Notaire'
-            ),
-            'from'   => 'Question',
-            'joins'  => array(
-                array(
-                    'type'   => 'LEFT JOIN',
-                    'entity' => array( 'Document' => 'id_externe' ),
-                    'on'     => '(Document.id_externe = Question.id AND Document.type = "question" )'
-                ),
-                array(
-                    'type'   => 'LEFT JOIN',
-                    'entity' => array( 'Question' => 'id_affectation' ),
-                    'on'     => array( 'Affectation' => 'id' )
-                ),
-                array(
-                    'type'   => 'LEFT JOIN',
-                    'entity' => array( 'Question' => 'id_support' ),
-                    'on'     => array( 'Support' => 'id' )
-                ),
-                array(
-                    'type'   => 'LEFT JOIN',
-                    'entity' => array( 'Question' => 'id_competence_1' ),
-                    'on'     => array( 'Competence' => 'id' )
-                ),
-                array(
-                    'type'   => 'LEFT JOIN',
-                    'entity' => array( 'Competence' => 'code_matiere' ),
-                    'on'     => array( 'Matiere' => 'code' )
-                ),
-                array(
-                    'entity' => array( 'Question' => 'client_number' ),
-                    'on'     => array( 'Notaire' => 'client_number' )
-                )
-            ),
-            'conditions' => array(
-                (!is_array($treated)) ? 'Question.treated = '.$treated : 'Question.treated IN ('.implode(',',$treated).')',
-                'Question.client_number = "'.$this->user->client_number.'"'
-            ),
-            'order' => 'Question.date_modif ASC',
-        );
-        return $options;
-    }
-    protected function generateOptionsQueriesPagination( $treated ){
-        $options = array(
-            'select' => array(
-                'Question','Support','Matiere','Competence','Affectation','Notaire'
-            ),
-            'from'   => 'Question',
-            'joins'  => array(
-                array(
-                    'type'   => 'LEFT JOIN',
-                    'entity' => array( 'Question' => 'id_affectation' ),
-                    'on'     => array( 'Affectation' => 'id' )
-                ),
-                array(
-                    'type'   => 'LEFT JOIN',
-                    'entity' => array( 'Question' => 'id_support' ),
-                    'on'     => array( 'Support' => 'id' )
-                ),
-                array(
-                    'type'   => 'LEFT JOIN',
-                    'entity' => array( 'Question' => 'id_competence_1' ),
-                    'on'     => array( 'Competence' => 'id' )
-                ),
-                array(
-                    'type'   => 'LEFT JOIN',
-                    'entity' => array( 'Competence' => 'code_matiere' ),
-                    'on'     => array( 'Matiere' => 'code' )
-                ),
-                array(
-                    'entity' => array( 'Question' => 'client_number' ),
-                    'on'     => array( 'Notaire' => 'client_number' )
-                )
-            ),
-            'conditions' => array(
-                (!is_array($treated)) ? 'Question.treated = '.$treated : 'Question.treated IN ('.implode(',',$treated).')',
-                'Question.client_number = "'.$this->user->client_number.'"'
-            ),
-            'order' => 'Question.date_modif ASC',
+            'query' => $sql,
+            'query_count' => $sqlCount
         );
         return $options;
     }
