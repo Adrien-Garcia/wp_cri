@@ -3353,9 +3353,7 @@ body.page-template-front-page{
 
 								}
 
-								>li:last-child{
-									border-bottom: none;
-								}
+								
 							}
 						}
 
@@ -3484,7 +3482,7 @@ body.page-template-front-page{
 								}
 							}
 
-							>ul >li:last-child{ margin-bottom: 0;}
+							>ul >li:last-child{ margin-bottom: 0; border-bottom:none;}
 
 							> ul{
 								> li{

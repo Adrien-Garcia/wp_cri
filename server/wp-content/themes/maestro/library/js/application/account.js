@@ -306,9 +306,9 @@ App.Account = {
                 self.$accountQuestionAjax.html(data);
                 self.debug('Account Question Pagination Loaded');
                 self.initQuestions();
+                App.Utils.scrollTop(undefined, "#historique-questions");
             }
         });
-        App.Utils.scrollTop();
     },
 
     eventAccountQuestionMoreToggle: function (button) {
