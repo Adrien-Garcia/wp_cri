@@ -89,6 +89,10 @@ class EntityDatabaseAdapter {
      * @return array
      */
     public function getSqlSelectClauses($options=array()) {
+        if( isset( $options['query'] ) ){
+            //Nous avons une requête SQL dans l'option
+            return array($options['query']);
+        }
         $clauses = array(
             'select' => 'SELECT '.$this->getSelectSql($options),
             'from' => 'FROM '.$this->getTableReferenceSql($options),
