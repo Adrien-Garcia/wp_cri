@@ -16,7 +16,7 @@ class QuestionEntity extends Entity {
     
     public $fields = array(
         'id','client_number','srenum','id_support','id_competence_1','id_affectation','real_date','wish_date','date_modif',
-        'resume','content','juriste','confidential','treated'
+        'resume','content','juriste','confidential','treated','creation_date'
     );
     
     public function __construct() {

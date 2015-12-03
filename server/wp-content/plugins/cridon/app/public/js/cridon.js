@@ -245,8 +245,8 @@
         });
     }
     function resetFileList(eltId) {
-        if (jQuery('[id^=' + eltId + '_').length > 0) {
-            jQuery('[id^=' + eltId + '_').each(function () {
+        if (jQuery('[id^=' + eltId + '_]').length > 0) {
+            jQuery('[id^=' + eltId + '_]').each(function () {
                 if ($(this).get(0).files[0]) {
                     $(this).val(null);
                 }
