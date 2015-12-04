@@ -13,5 +13,5 @@ require_once '../wp-load.php';
 // question model
 $model = mvc_model('Question');
 // call import action
-$code = $model->dailyUpdate();
+$code = $model->weeklyUpdate();
 echo $code;

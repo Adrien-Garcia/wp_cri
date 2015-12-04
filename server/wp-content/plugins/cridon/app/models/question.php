@@ -694,9 +694,7 @@ class Question extends MvcModel
                             $query .= " date_modif = '" . $dateTime->format('Y-m-d') . "', ";
                         }
 
-                        if (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':',
-                                                                                   $data[$adapter::QUEST_ZUPDHOU])) > 1
-                        ) {
+                        if (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':', $data[$adapter::QUEST_ZUPDHOU])) > 1) {
                             $query .= " hour_modif = '" . esc_sql($data[$adapter::QUEST_ZUPDHOU]) . "', ";
                         }
 
@@ -738,6 +736,66 @@ class Question extends MvcModel
                 // bulk update
                 $updtateQuery = implode(' ', $updateValues);
                 $queryBulder->getInstanceMysqli()->multi_query($updtateQuery);
+            }
+
+            return CONST_STATUS_CODE_OK;
+        } catch(\Exception $e) {
+            writeLog($e, 'questiondailyupdate.log');
+
+            return CONST_STATUS_CODE_GONE;
+        }
+    }
+
+
+    /**
+     * Weekly update
+     */
+    public function weeklyUpdate()
+    {
+        try {
+            // set adapter
+            switch (strtolower(CONST_IMPORT_OPTION)) {
+                case self::IMPORT_ODBC_OPTION:
+                    $this->adapter = $adapter = CridonODBCAdapter::getInstance();
+                    break;
+                case self::IMPORT_OCI_OPTION:
+                    //if case above did not match, set OCI
+                    $todateFunc    = 'TO_DATE'; // Oracle
+                    $intervalParam = 'SQL_TSI_MINUTE'; // Oracle
+                    $this->adapter = $adapter = CridonOCIAdapter::getInstance();
+                    break;
+            }
+
+            // query
+            $mainQuery = 'SELECT ' . $adapter::QUEST_SREBPC . ', ' . $adapter::QUEST_SRENUM . ' FROM ' . CONST_ODBC_TABLE_QUEST;
+            // filter by list of supports if necessary
+            if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
+                $mainQuery .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
+            }
+
+            // site quest list
+            $this->setSiteQuestList();
+            // store question list into local var
+            $siteQuestList = $this->siteQuestList;
+//            echo '<pre>'; die(print_r($siteQuestList));
+
+            // init query block
+            $deleteValues = array();
+
+            // exec query
+            $this->adapter->execute($mainQuery);
+            while ($data = $this->adapter->fetchData()) {
+                if (isset($data[$adapter::QUEST_SREBPC]) && intval($data[$adapter::QUEST_SREBPC]) > 0) { // valid client_number
+                    // unique key "client_number + num question"
+                    $uniqueKey = intval($data[$adapter::QUEST_SREBPC]) . $data[$adapter::QUEST_SRENUM];
+
+                    if (in_array($uniqueKey, $siteQuestList)) { // quest not found on site
+
+                        // prepare bulk insert
+                        unset($siteQuestList[$uniqueKey]);
+                        $deleteValues = $siteQuestList;
+                    }
+                }
             }
 
             return CONST_STATUS_CODE_OK;
