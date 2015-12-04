@@ -175,4 +175,27 @@ abstract class BasePublicController extends MvcPublicController
             return $status;
         }
     }
+    
+    /**
+     * Vérification du token 
+     * 
+     * @param \CridonRequest $request
+     * @return boolean
+     */
+    public function checkToken( $request ){
+        $token = null;
+        if( isset( $request->query['token'] ) ){
+            $token = $request->query['token'];
+        }else{
+            if( isset( $request->request['token'] ) ){
+                $token = $request->request['token'];
+            }
+        }
+        if( $token === null  ){            
+            return false;
+        }
+        $model = mvc_model('notaire');//load model notaire
+        $result = $model->checkLastConnect( $token );
+        return $result;
+    }
 }
