@@ -142,29 +142,6 @@ jQuery(document).ready(function($) {
   loadGravatars();
 
 
-
-
-  /*- checkbox mon compte-*/
-	
-	$('#mon-profil .mes-centres-dinterets ul li label').click(function(e){
-
-		if( $(e.target).is("label") ) {
-
-			if( $(this).hasClass("select") ) {
-				
-				$(this).removeClass("select");
-				$(this).addClass("unselect");
-				
-			} else {
-				$(this).removeClass("unselect");
-				$(this).addClass("select");
-			}
-
-		}
-
-	});
-
-
 	/*--
 		PAGE MON COMPTE > LISTE QUESTIONS
 	*/

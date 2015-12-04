@@ -95,8 +95,8 @@
 		<ul>
 			<?php foreach($matieres as $key => $matiere): ?>
 			<li>
-				<label class="<?php echo ($matiere['subscribed']) ? ' select ' : ' unselect ' ?>">
-					<input type="checkbox" id="" class="" name="matieres[]" value="<?php echo $key ?>" <?php echo ($matiere['subscribed']) ? 'checked="checked"' : '' ?>>
+				<label class="<?php echo ($matiere['subscribed']) ? ' select ' : ' unselect ' ?> js-account-profil-subscription-button">
+					<input type="checkbox" id="" class=" js-account-profil-subscription" name="matieres[]" value="<?php echo $key ?>" <?php echo ($matiere['subscribed']) ? 'checked="checked"' : '' ?>>
 					<?php echo $matiere['name'] ?>
 				</label>
 			</li>

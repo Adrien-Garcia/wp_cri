@@ -10,6 +10,8 @@ App.Account = {
     accountFacturationSelector          : '-facturation',
 
     accountQuestionMoreSelector         : '-more',
+    accountProfilSubscriptionSelector   : '-subscription',
+
 
     ajaxSelector                        : '-ajax',
     ajaxPaginationSelector              : '-pagination',
@@ -38,6 +40,8 @@ App.Account = {
     $accountFacturationButton           : null,
 
     $accountQuestionMoreButton          : null,
+
+    $accountProfilSubscription          : null,
 
     $accountQuestionPagination          : null,
 
@@ -113,6 +117,11 @@ App.Account = {
 
     initProfil: function() {
         this.debug('Account : Init Profil');
+
+        var d = this.defaultSelector;
+
+        this.$accountProfilSubscription = $(d + this.accountProfilSelector + this.accountProfilSubscriptionSelector);
+
         this.addListenersProfil();
     },
 
@@ -197,7 +206,9 @@ App.Account = {
 
         this.debug("Account : addListenersProfil");
 
-
+        this.$accountProfilSubscription.on('change', function (e) {
+            self.eventAccountProfilSubscriptionToggle($(this));
+        });
     },
 
     /*
@@ -315,6 +326,30 @@ App.Account = {
         var d = this.defaultSelector;
         button.toggleClass('close');
         button.siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).toggleClass('open');
+    },
+
+    eventAccountProfilSubscriptionToggle: function (input) {
+        var label = input.parents(
+            this.defaultSelector +
+            this.accountProfilSelector +
+            this.accountProfilSubscriptionSelector +
+            this.eventAccountButtonSelector
+        ).first();
+        if (label.hasClass('select')) {
+            label.removeClass('select');
+            label.addClass('unselect');
+        } else if (label.hasClass('unselect')) {
+            label.removeClass('unselect');
+            label.addClass('select');
+        } else {
+            if (input[0].checked) {
+                label.removeClass('unselect');
+                label.addClass('select');
+            } else {
+                label.removeClass('select');
+                label.addClass('unselect');
+            }
+        }
     },
 
     reloadSolde: function() {
