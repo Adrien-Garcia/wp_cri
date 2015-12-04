@@ -223,7 +223,9 @@ class QuestionNotaire{
             SELECT Document,Question,Support,Matiere,Competence,Affectation,Notaire
             FROM (SELECT Q.* 
                     FROM '.$wpdb->prefix.'question AS Q
-                    WHERE '.$condTreated.' AND Q.client_number = "'.$this->user->client_number.'" 
+                    JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
+                    JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
+                    WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" 
                     ORDER BY Q.creation_date DESC 
                     [LIMIT]
                  ) AS Question
@@ -239,7 +241,9 @@ class QuestionNotaire{
             SELECT COUNT(*) AS count 
             FROM (SELECT Q.* 
                     FROM '.$wpdb->prefix.'question AS Q
-                    WHERE '.$condTreated.' AND Q.client_number = "'.$this->user->client_number.'" 
+                    JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
+                    JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
+                    WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" 
                     ORDER BY Q.creation_date DESC 
                  ) AS Question
             LEFT JOIN '.$wpdb->prefix.'affectation AS Affectation ON Affectation.id = Question.id_affectation 
