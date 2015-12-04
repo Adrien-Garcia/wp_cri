@@ -592,7 +592,6 @@ class Question extends MvcModel
 
             // get last cron date if is set or use wp function with the time zone setup in BO options config
             $lastDateUpdate                                  = date('Y-m-d H:i:s');
-            $lastDateUpdate                                  = current_time('mysql');
             $lastCronDate                                    = get_option('cronquestionupdate') ? get_option('cronquestionupdate') : $lastDateUpdate;
             $date                                            = new DateTime($lastCronDate);
             $queryOptions                                    = array();
@@ -611,10 +610,6 @@ class Question extends MvcModel
 
             // update values
             $updateValues = array();
-
-            // debug and to be removed
-            $dateModif = '2015-10-14';
-            $hourModif = '09:44:30';
 
             $mainQuery = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST;
             $mainQuery .= " WHERE {$timestampFunc}({$intervalParam}, '{$dateModif} {$hourModif}', CONCAT_WS(' ', {$todateFunc}(" . $adapter::QUEST_UPDDAT . ", '%d/%m/%Y'), " . $adapter::QUEST_ZUPDHOU . ")) > 0  ";
