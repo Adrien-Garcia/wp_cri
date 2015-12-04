@@ -549,3 +549,11 @@ if ( !defined( 'CONST_WS_MSG_SUCCESS' ) ) {
 if ( !defined( 'CONST_WS_MSG_ERROR_METHOD' ) ) {
     define( 'CONST_WS_MSG_ERROR_METHOD',  'Action non autorisée');
 }
+
+// import status code
+if ( !defined( 'CONST_STATUS_CODE_OK' ) ) {
+    define( 'CONST_STATUS_CODE_OK', 200 );
+}
+if ( !defined( 'CONST_STATUS_CODE_GONE' ) ) {
+    define( 'CONST_STATUS_CODE_GONE', 410 );
+}
