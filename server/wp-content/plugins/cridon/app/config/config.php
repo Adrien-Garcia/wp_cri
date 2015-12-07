@@ -162,6 +162,7 @@ class Config {
         CONST_SUPPORT_URGWEEK_ID
     );
     
+    //Begin Translation
     // Admin menu translation
     public static $sidebarAdminMenuActions = array(
         'add' => array(
@@ -202,7 +203,17 @@ class Config {
         'document' => array(
             'add'    => 'Ajout d\'un document sécurisé du Cridon',
             'edit'   => 'Modification d\'un document sécurisé du Cridon'
+        ),
+        'matiere' => array(
+            'add'    => 'Ajout d\'une matière',
+            'edit'   => 'Modification d\'une matière'
         )
+    );
+    public static $titleFieldAdminForm = array(
+        'label'       => 'Libellé',
+        'code'        => 'Code',
+        'short_label' => 'Libellé court',
+        'displayed'   => 'Affiché sur le site ?'
     );
     //End translation
 }
