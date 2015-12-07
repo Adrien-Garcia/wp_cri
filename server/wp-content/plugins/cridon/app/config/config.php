@@ -193,5 +193,12 @@ class Config {
         'add'    => 'Ajouter',
         'update' => 'Mettre à jour'
     );
+    //Titre sur les formulaires d'édition et d'ajout
+    public static $titleAdminForm  = array(
+        'competence' => array(
+            'add'    => 'Ajout de compétence',
+            'edit'   => 'Edition de compétence'
+        )
+    );
     //End translation
 }
