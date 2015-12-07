@@ -223,15 +223,26 @@ class Notaire extends MvcModel
             // disable notaire admin bar
             CriDisableAdminBarForExistingNotaire();
 
+            // log end of import
+            if (CONST_TRACE_IMPORT_NOTAIRE) {
+                writeLog('Fin import', 'importnotaire.log');
+            }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
+
         } catch (Exception $e) {
             // write into logfile
             writeLog($e, 'notaire.log');
             array_push($this->logs['error'], $e->getMessage());
-        }
 
-        // log end of import
-        if (CONST_TRACE_IMPORT_NOTAIRE) {
-            writeLog('Fin import', 'importnotaire.log');
+            // log end of import
+            if (CONST_TRACE_IMPORT_NOTAIRE) {
+                writeLog('Fin import', 'importnotaire.log');
+            }
+
+            // status code
+            return CONST_STATUS_CODE_GONE;
         }
 
         echo json_encode($this->logs);
