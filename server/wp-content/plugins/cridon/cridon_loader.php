@@ -137,6 +137,9 @@ class CridonLoader extends MvcPluginLoader
         remove_role( CONST_OFFICES_ROLE );
         remove_role( CONST_ORGANISMES_ROLE );
         remove_role( CONST_CLIENTDIVERS_ROLE );
+
+        // disable admin bar for existing notaire
+        CriDisableAdminBarForExistingNotaire();
     }
 
     public function deactivate()

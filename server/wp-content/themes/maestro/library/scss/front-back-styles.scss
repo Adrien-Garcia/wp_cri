@@ -71,6 +71,101 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4{
 
 }
 
+#tinymce, .single article .content{
+
+  color:$bleu;
+
+  a{
+    color:$rouge;
+    text-decoration: underline;
+
+    &:hover{
+      text-decoration: none;
+    }
+  }
+
+  s{
+    background: $jaune;
+    text-decoration: none;
+
+  }
+
+  h2, h3{
+    
+    font-size: 15px;
+    line-height: 18px;                
+    text-transform: uppercase;
+    
+    margin: 0;
+    position: relative;
+
+    
+  }
+
+  h2{
+    color:$bleu;
+    @extend .do-bo;
+    padding: 10px 0;
+    &:after{
+      content:'';
+    width: 40px;
+    height: 1px;
+    background: $bleu;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    }
+  }
+
+  h3{
+    color:$vert;
+    @extend .do-me;
+    margin-left: 20px;
+  }
+
+  >p{
+    margin: 15px 0;
+  }
+
+  h3 + p {
+    color:$vert;
+                margin: 0 0 0 20px;
+            }
+
+  ul, ol{
+
+    margin: 0;
+    padding: 0;
+
+    li{
+      position: relative;
+      display: block;
+      vertical-align: middle;
+      line-height: 14px;
+
+      padding: 3px 0 0 20px;
+      margin: 0 0 5px 0;
+
+
+      &:before{
+        content:'';
+        height: 8px;
+        width: 8px;
+        border:solid 1px $rouge;
+        @include border-radius(25px);
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -5px;
+
+      }
+
+    }
+  }
+
+}
+
 /*********************************************************************************************
 /* LIENS
 /* - Courleur & comportement génériques. A surcharger pour les différentes partie de la charte
@@ -153,11 +248,10 @@ ul, ol{
 /****************/
 p{
 
-  text-color:$text-color;
+  //text-color:$text-color;
 
   /*-ms-word-break: break-all;
    -ms-word-wrap: break-all;*/
-     word-break: break-word;
      word-break: break-word;
   // cleaning up the ragged lines and breaks
   -webkit-hyphens: none;

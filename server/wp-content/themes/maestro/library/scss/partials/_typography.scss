@@ -179,30 +179,31 @@ I've edited it a bit, but it's a nice starting point.
 // font stacks
 $sans-serif:        Arial, "Helvetica Neue", Helvetica, sans-serif;
 $serif:             "Georgia", Cambria, Times New Roman, Times, serif;
+$dosis:             'Dosis', Helvetica, sans-serif;
 
 .do-re{
-    font-family: 'Dosis';
+    font-family: $dosis;
     font-weight: 400;
 }
 .do-me{
-    font-family: 'Dosis';
+    font-family: $dosis;
     font-weight: 500;
 }
 .do-bo{
 
-    font-family: 'Dosis';
+    font-family: $dosis;
     font-weight: 700;
 }
 .do-sm{
-    font-family: 'Dosis';
+    font-family: $dosis;
     font-weight: 600;
 }
 .do-el{
-    font-family: 'Dosis';
+    font-family: $dosis;
     font-weight: 200;
 }
 .do-eb{
-    font-family: 'Dosis';
+    font-family: $dosis;
     font-weight: 800;
 }
 

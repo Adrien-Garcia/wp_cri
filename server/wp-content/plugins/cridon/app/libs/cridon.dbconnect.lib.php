@@ -322,7 +322,123 @@ interface DBConnect
     /**
      * @var string : valeur en point
      */
-    const QUEST_YVALSRE         = 'YVALSRE_0';
+    const QUEST_YVALSRE     = 'YVALSRE_0';
+
+    /****************** Export Table Temp Structure *******************/
+    /**
+     * @var string : id question - Site
+     */
+    const ZQUEST_ZIDQUEST_0  = 'ZIDQUEST_0';
+
+    /**
+     * @var string : statut de l'enregistrement (initialisé à 0 par le site puis maj par ERP )
+     */
+    const ZQUEST_ZTRAITEE_0  = 'ZTRAITEE_0';
+
+    /**
+     * @var string : N° question - X3
+     */
+    const ZQUEST_SRENUM_0  = 'SRENUM_0';
+
+    /**
+     * @var string : Numéro de client - Site
+     */
+    const ZQUEST_SREBPC_0  = 'SREBPC_0';
+
+    /**
+     * @var string : Interlocuteur (Notaire) - Site
+     */
+    const ZQUEST_SRECCN_0  = 'SRECCN_0';
+
+    /**
+     * @var string : Support de la question  - Site
+     */
+    const ZQUEST_YCODESUP_0  = 'YCODESUP_0';
+
+    /**
+     * @var string : Matière - SIte
+     */
+    const ZQUEST_YMATIERE_0  = 'YMATIERE_0';
+
+    /**
+     * @var string : Matière 1  - Site
+     */
+    const ZQUEST_YMAT_0  = 'YMAT_0';
+
+    /**
+     * @var string : Matière 2  - SIte
+     */
+    const ZQUEST_YMAT_1  = 'YMAT_1';
+
+    /**
+     * @var string : Matière 3  - SIte
+     */
+    const ZQUEST_YMAT_2  = 'YMAT_2';
+
+    /**
+     * @var string : Matière 4  - SIte
+     */
+    const ZQUEST_YMAT_3  = 'YMAT_3';
+
+    /**
+     * @var string : Matière 5  - SIte
+     */
+    const ZQUEST_YMAT_4  = 'YMAT_4';
+
+    /**
+     * @var string : Compétence (sous matière) - Site
+     */
+    const ZQUEST_ZCOMPETENC_0  = 'ZCOMPETENC_0';
+
+    /**
+     * @var string : Compétence 1 (sous matière) - Site
+     */
+    const ZQUEST_ZCOMP_0  = 'ZCOMP_0';
+
+    /**
+     * @var string : Compétence 2 (sous matière) - Site
+     */
+    const ZQUEST_ZCOMP_1  = 'ZCOMP_1';
+
+    /**
+     * @var string : Compétence 3 (sous matière) - Site
+     */
+    const ZQUEST_ZCOMP_2  = 'ZCOMP_2';
+
+    /**
+     * @var string : Compétence 4 (sous matière) - Site
+     */
+    const ZQUEST_ZCOMP_3  = 'ZCOMP_3';
+
+    /**
+     * @var string : Compétence 5 (sous matière) - Site
+     */
+    const ZQUEST_ZCOMP_4  = 'ZCOMP_4';
+
+    /**
+     * @var string : Objet de la question - Site
+     */
+    const ZQUEST_YRESUME_0  = 'YRESUME_0';
+
+    /**
+     * @var string : Affectation (Status de la question) - Site 
+     */
+    const ZQUEST_YSREASS_0  = 'YSREASS_0';
+
+    /**
+     * @var string : Flag erreur - 0 : pas d’erreur | 1 : erreur - X3
+     */
+    const ZQUEST_ZERR_0  = 'ZERR_0';
+
+    /**
+     * @var string : Message de l’erreur (vide par défaut) - X3
+     */
+    const ZQUEST_ZMESERR_0  = 'ZMESERR_0';
+
+    /**
+     * @var string : Date de création de l’enregistrement (le moment où la Q est posée) - Site
+     */
+    const ZQUEST_CREDAT_0  = 'CREDAT_0';
 
     /**
      * Get instance

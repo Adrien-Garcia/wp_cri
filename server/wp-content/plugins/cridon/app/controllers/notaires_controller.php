@@ -124,6 +124,20 @@ class NotairesController extends BasePublicController
     }
 
     /**
+     * Notaire dashboard Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentdashboard.php
+     *
+     * @return void
+     */
+    public function contentdashboard()
+    {
+        $this->prepareDashboard();
+        $is_ajax = true;
+        CriRenderView('contentdashboard', get_defined_vars(),'notaires');
+        die();
+    }
+
+    /**
      * Notaire dashboard page
      * Associated template : app/views/notaires/show.php
      *
@@ -131,13 +145,21 @@ class NotairesController extends BasePublicController
      */
     public function show()
     {
-        // access secured
-        $this->secureAccess();
+        $this->prepareDashboard();
+    }
 
-        // set template vars
-        // @TODO to be completed with others notaire dynamic data
-        $vars = $this->get_object();
-        $this->set_vars($vars);
+    /**
+     * Notaire Questions Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentquestions.php
+     *
+     * @return void
+     */
+    public function contentquestions()
+    {
+        $this->prepareSecureAccess();
+        $is_ajax = true;
+        CriRenderView('contentquestions', get_defined_vars(),'notaires');
+        die();
     }
 
     /**
@@ -148,8 +170,22 @@ class NotairesController extends BasePublicController
      */
     public function questions()
     {
-        // access secured
-        $this->secureAccess();
+        $this->prepareSecureAccess();
+
+    }
+
+    /**
+     * Notaire Profil Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentprofil.php
+     *
+     * @return void
+     */
+    public function contentprofil()
+    {
+        $this->prepareProfil();
+        $is_ajax = true;
+        CriRenderView('contentprofil', get_defined_vars(),'notaires');
+        die();
     }
 
     /**
@@ -160,43 +196,23 @@ class NotairesController extends BasePublicController
      */
     public function profil()
     {
-        // access secured
-        $this->secureAccess();
-        if( isset( $_POST ) && !empty( $_POST ) && isset( $_POST['matieres'] ) ){
-            $notaire = $this->model->getUserConnectedData();
-            if( !empty( $notaire ) ){
-                $options = array(
-                    'conditions' => array(
-                        'Matiere.displayed' => 1
-                    )
-                );
-                $matieres = mvc_model('matiere')->find( $options );
-                //Clean $_POST before
-                $data = $this->clean( $_POST ); 
-                $toCompare = array();
-                //Create array to compare Matiere in $_POST
-                foreach ( $matieres as $mat ){
-                    $toCompare[] = $mat->id;
-                }
-                $insert = array();
-                $insert['Notaire']['id'] = $notaire->id;
-                foreach( $data['matieres'] as $v ){
-                    //Check if current Matiere is valid
-                    if( in_array( $v, $toCompare ) ){
-                        $insert['Notaire']['Matiere']['ids'][] = $v;                        
-                    }
-                }
-                //Put in DB
-                $this->model->save( $insert );               
-            }
-           
-        }
-        // set template vars
-        // @TODO to be completed with others notaire dynamic data
-        $vars = $this->get_object();
-        $this->set_vars($vars);
+        $this->prepareProfil();
     }
 
+    /**
+     * Notaire Facturation Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentfacturation.php
+     *
+     * @return void
+     */
+    public function contentfacturation()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+        $is_ajax = true;
+        CriRenderView('contentfacturation', get_defined_vars(),'notaires');
+        die();
+    }
     /**
      * Notaire Facturation page
      * Associated template : app/views/notaires/facturation.php
@@ -205,10 +221,9 @@ class NotairesController extends BasePublicController
      */
     public function facturation()
     {
-        // access secured
-        $this->secureAccess();
+        $this->prepareSecureAccess();
     }
-    
+
     /**
      * Cleaning data
      * 
@@ -227,7 +242,7 @@ class NotairesController extends BasePublicController
         return $clean_input;
     }
 
-    public function newsletterSubsciprtion()
+    public function newsletterSubscription()
     {
         // init response
         $ret = 'invalidemail';
@@ -255,5 +270,62 @@ class NotairesController extends BasePublicController
         echo json_encode($ret);
 
         die;
+    }
+
+    protected function prepareDashboard()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+
+        // set template vars
+        // @TODO to be completed with others notaire dynamic data
+        $vars = $this->get_object();
+        $this->set_vars($vars);
+        return $vars;
+    }
+
+    protected function prepareSecureAccess()
+    {
+// access secured
+        $this->secureAccess();
+    }
+
+    protected function prepareProfil()
+    {
+// access secured
+        $this->prepareSecureAccess();
+        if (isset($_POST) && !empty($_POST) && isset($_POST['matieres'])) {
+            $notaire = $this->model->getUserConnectedData();
+            if (!empty($notaire)) {
+                $options = array(
+                    'conditions' => array(
+                        'Matiere.displayed' => 1
+                    )
+                );
+                $matieres = mvc_model('matiere')->find($options);
+                //Clean $_POST before
+                $data = $this->clean($_POST);
+                $toCompare = array();
+                //Create array to compare Matiere in $_POST
+                foreach ($matieres as $mat) {
+                    $toCompare[] = $mat->id;
+                }
+                $insert = array();
+                $insert['Notaire']['id'] = $notaire->id;
+                foreach ($data['matieres'] as $v) {
+                    //Check if current Matiere is valid
+                    if (in_array($v, $toCompare)) {
+                        $insert['Notaire']['Matiere']['ids'][] = $v;
+                    }
+                }
+                //Put in DB
+                $this->model->save($insert);
+            }
+
+        }
+        // set template vars
+        // @TODO to be completed with others notaire dynamic data
+        $vars = $this->get_object();
+        $this->set_vars($vars);
     }
 }

@@ -1,5 +1,7 @@
 App.Question = {
 
+    buttonQuestionOpenSelector          : '.js-question-open',
+
     selectQuestionMatiereSelector       : '.js-question-select-matiere',
     selectQuestionCompetenceSelector    : '.js-question-select-competence',
 
@@ -16,11 +18,14 @@ App.Question = {
     buttonQuestionConsultationSelector  : '.js-question-button-consultation',
     buttonQuestionMaQuestionSelector    : '.js-question-button-ma-question',
 
+    buttonQuestionDocumentationSelector : '.js-question-documentation-button',
+
     owlCarouselSelector                 : "#owl-support",
     popupOverlaySelector                : "#layer-posez-question",
 
     selectedClass                       : 'selected',
 
+    $buttonQuestionOpen                 : null,
     $selectQuestionMatiere              : null,
     $selectQuestionCompetence           : null,
     $selectQuestionCompetenceArray      : [],
@@ -35,6 +40,8 @@ App.Question = {
     $buttonQuestionConsultation         : null,
     $buttonQuestionMaQuestion           : null,
 
+    $buttonQuestionDocumentation         : null,
+
     $owlCarousel                        : null,
     $popupOverlay                       : null,
 
@@ -43,6 +50,8 @@ App.Question = {
         this.debug("Question : init start");
 
         var self = this;
+
+        this.$buttonQuestionOpen                    = $(this.buttonQuestionOpenSelector);
 
         this.$selectQuestionMatiere                 = $(this.selectQuestionMatiereSelector);
         this.$selectQuestionCompetence              = $(this.selectQuestionCompetenceSelector);
@@ -62,12 +71,19 @@ App.Question = {
         this.$fileQuestionReset                     = $(this.fileQuestionResetSelector);
         this.$fileQuestionName                      = $(this.fileQuestionNameSelector);
 
+        this.$buttonQuestionDocumentation           = $(this.buttonQuestionDocumentationSelector);
+
         this.$owlCarousel                           = $(this.owlCarouselSelector);
         this.$popupOverlay                          = $(this.popupOverlaySelector);
 
         this.addListeners();
 
-        this.popupOverlayInit();
+        var bClass = App.Utils.getBodyClass();
+
+        if (bClass.indexOf("is_notaire") !== -1) {
+            this.popupOverlayInit();
+        }
+
 
         this.debug("Question : init end");
 
@@ -127,6 +143,7 @@ App.Question = {
      */
     addListeners: function() {
         var self = this;
+        var bClass = App.Utils.getBodyClass();
 
         this.debug("Question : addListeners start");
 
@@ -140,7 +157,7 @@ App.Question = {
         });
 
         this.$buttonQuestionMaQuestion.on('click', function(e) {
-            self.openTabQuestionMaQuestion($(this));
+            // self.openTabQuestionMaQuestion($(this));
         });
 
         this.$fileQuestion.on('change', function(e) {
@@ -150,6 +167,17 @@ App.Question = {
         this.$fileQuestionReset.on('click', function(e) {
             self.eventFileReset($(this),e);
         });
+
+        this.$buttonQuestionDocumentation.on('click', function(e) {
+            self.eventButtonDocumentationClick($(this));
+        });
+
+        if ( bClass.indexOf("is_notaire") === -1) {
+            this.$buttonQuestionOpen.on('click', function(e) {
+                App.Login.eventPanelConnexionToggle();
+                App.Login.changeLoginErrorMessage("ERROR_NOT_CONNECTED_QUESTION");
+            });
+        }
 
         this.debug("Question : addListeners end");
     },
@@ -166,7 +194,10 @@ App.Question = {
         });
 
         this.$radioQuestionSupport.on('change', function (e) {
-            self.eventRadioQuestionChange($(this));
+            self.openTabQuestionMaQuestion($(this));
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
         });
 
     },
@@ -176,11 +207,23 @@ App.Question = {
      */
 
     eventFileReset: function (reset, e) {
-        var file = reset.siblings(this.fileQuestionSelector);
-        file.wrap('<form>').closest('form').get(0).reset();
-        file.unwrap();
-
-        this.eventFileChange(file);
+        if (this.$fileQuestion == null) {
+            this.$fileQuestion = $(this.fileQuestionSelector);
+        }
+        var self = this;
+        if (reset != undefined) {
+            var file = reset.siblings(this.fileQuestionSelector);
+            file.wrap('<form>').closest('form').get(0).reset();
+            file.unwrap();
+            this.eventFileChange(file);
+        } else {
+            this.$fileQuestion.each(function(i,c) {
+                var file = $(c);
+                file.wrap('<form>').closest('form').get(0).reset();
+                file.unwrap();
+                self.eventFileChange(file);
+            });
+        }
     },
 
     eventFileChange: function (fileInput) {
@@ -214,12 +257,23 @@ App.Question = {
     eventZoneQuestionSupportClick: function(zone) {
         this.$zoneQuestionSupport.removeClass(this.selectedClass);
         zone.addClass(this.selectedClass);
-        zone.find(this.radioQuestionSupportSelector).first().prop("checked", true).trigger('change');
-        this.openTabQuestionConsultation(false);
+        var radio = zone.find(this.radioQuestionSupportSelector).first();
+        radio.prop("checked", true).change();
+        this.openTabQuestionMaQuestion(false);
     },
 
-    eventRadioQuestionChange: function (radio) {
-        this.openTabQuestionMaQuestion(false);
+    eventButtonDocumentationClick: function () {
+        var min = {el: undefined, val: undefined};
+        this.$radioQuestionSupport.each(function(i, el) {
+            if ($(el).data('value') < min.val || min.val == undefined ) {
+                min.val = $(el).data('value');
+                min.el = $(el);
+            }
+        });
+        this.eventZoneQuestionSupportClick(min.el.parents(this.zoneQuestionSupportSelector).first());
+        this.$selectQuestionMatiere.val( DocumentationID).change();
+        //this.eventSelectQuestionMatiereChange(false);
+
     },
 
 

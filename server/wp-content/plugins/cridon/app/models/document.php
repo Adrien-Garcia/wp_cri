@@ -10,6 +10,11 @@ class Document extends MvcModel {
      */
     protected $queryBuilder;
 
+    /**
+     * @var string
+     */
+    protected $uploadDir;
+
     public function create($data) {
         $data = $this->customProperties($data);
         return parent::create($data);
@@ -45,6 +50,8 @@ class Document extends MvcModel {
         global $wpdb;
         $this->wpdb         = $wpdb;
         $this->queryBuilder = mvc_model('QueryBuilder');
+
+        $this->setUploadDir();
 
         parent::__construct();
     }
@@ -114,7 +121,17 @@ class Document extends MvcModel {
                 if (file_exists($document)) {
                     $content  = file_get_contents($document);
                     $contents = explode(CONST_IMPORT_GED_CONTENT_SEPARATOR, $content);
-
+                    // repertoire archivage des documents
+                    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/archives/' . date('YmdHi') . '/';
+                    if (!file_exists($archivePath)) { // repertoire manquant
+                        // creation du nouveau repertoire
+                        wp_mkdir_p($archivePath);
+                    }
+                    if( $this->importError($contents, $fileInfo) ){
+                        // les différentes informations ne sont pas présentes dans le csv.
+                        rename($document, $archivePath . $fileInfo['basename']);//archivage du csv
+                        continue;
+                    }
                     // recuperation id question par numero
                     $options               = array();
                     $options['attributes'] = array('id');
@@ -124,15 +141,8 @@ class Document extends MvcModel {
                     // question associée
                     $question = $this->queryBuilder->findOneByOptions($options);
 
-                    // repertoire archivage des documents
-                    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/archives/' . date('YmdHi') . '/';
-                    if (!file_exists($archivePath)) { // repertoire manquant
-                        // creation du nouveau repertoire
-                        wp_mkdir_p($archivePath);
-                    }
-
                     // question exist
-                    if ($question->id) {
+                    if ($question->id) {                        
                         //Recherche de l'existance d'un document lié à la question
                         // recuperation id question par numero
                         $options               = array();
@@ -167,28 +177,36 @@ class Document extends MvcModel {
                         }
                         // copy document dans Site
                         $uploadDir = wp_upload_dir();
-                        $path      = $uploadDir['basedir'] . '/questions/' . $question->id . '/';
+                        $path      = $uploadDir['basedir'] . '/questions/' . date('Ym') . '/';
                         if (!file_exists($path)) { // repertoire manquant
                             // creation du nouveau repertoire
                             wp_mkdir_p($path);
                         }
-                        if (@copy(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
-                                 $path . $contents[CridonGedParser::INDEX_NOMFICHIER])) {
+                        //Si le fichier existe dèja alors ajouter un suffixe sur le nom
+                        $filename = $this->getFileName($path, $contents[CridonGedParser::INDEX_NOMFICHIER]);
+                        if ( @copy(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
+                                 $path . $filename)) {
                             // donnees document
                             $docData = array(
                                 'Document' => array(
-                                    'file_path'     => '/questions/' . $question->id . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
+                                    'file_path'     => '/questions/' . date('Ym') . '/' . $filename,
                                     'download_url'  => '/documents/download/' . $question->id,
                                     'date_modified' => date('Y-m-d H:i:s'),
                                     'type'          => 'question',
                                     'id_externe'    => $question->id,
-                                    'name'          => $contents[CridonGedParser::INDEX_NOMFICHIER],
-                                    'cab'           => $contents[CridonGedParser::INDEX_VALCAB]
+                                    'name'          => $filename,
+                                    'cab'           => $contents[CridonGedParser::INDEX_VALCAB],
+                                    'label'         => 'question/reponse'
                                 )
                             );
                             //Document suite/complément
                             if( $typeAction == 2 ){
-                                $docData['Document']['label'] = 'suite/complément';
+                                $label = 'Suite';
+                                //Si le nom de fichier commence par 'C'
+                                if(strtoupper(substr($contents[CridonGedParser::INDEX_NOMFICHIER], 0, 1)) == 'C' ){
+                                    $label = 'Complément';
+                                }
+                                $docData['Document']['label'] = $label;
                             }
                             if( $typeAction != 3 ){
                                 // insertion
@@ -218,22 +236,25 @@ class Document extends MvcModel {
                                    $archivePath . $contents[CridonGedParser::INDEX_NOMFICHIER]);
                             // archivage source des metadonnees
                             rename($document, $archivePath . $fileInfo['basename']);
-
+                            // Mise de la date réelle de réponse de la question
+                            $this->updateQuestion($question, $contents);
                             $logDocList[] = $contents[CridonGedParser::INDEX_NOMFICHIER];
                         } else { // invalide doc
                             // archivage source des metadonnees
                             rename($document, $archivePath . $fileInfo['basename']);
-
+                            // message par défaut
+                            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
                             // log : envoie mail
-                            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
+                            if( !file_exists(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER]) ){
+                                // PDF inexistant
+                                $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[CridonGedParser::INDEX_NUMQUESTION]);                                
+                            }
                             reportError($message, '');
                         }
                     } else { // doc sans question associee
-                        // archivage source des metadonnees
-                        rename($document, $archivePath . $fileInfo['basename']);
 
                         // log : envoie mail
-                        $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
+                        $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[CridonGedParser::INDEX_NOMFICHIER]);
                         reportError($message, '');
                     }
                 }
@@ -251,4 +272,124 @@ class Document extends MvcModel {
             reportError($message, '');
         }
     }    
+    
+    /**
+     * Get File name
+     * @param string $path
+     * @param string $original
+     * @return string
+     */
+    protected function getFileName( $path,$original ){
+        $output = $original;
+        if (file_exists($path.$original)) {
+            $output = mt_rand(1, 10) . '_' . $original;
+        }
+        return $output;
+    }
+    
+    /**
+     * Verification of the information in the CSV file
+     * 
+     * @param array $contents
+     * @param array $fileInfo
+     * @return boolean
+     */
+    protected function importError( $contents,$fileInfo ){
+        if( ( count($contents) !== CridonGedParser::NB_COLONNE_CSV ) || empty( $contents[CridonGedParser::INDEX_NUMQUESTION] ) || empty( $contents[CridonGedParser::INDEX_NOMFICHIER] ) ){
+            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
+            if( !empty( $contents[CridonGedParser::INDEX_NOMFICHIER] ) ){
+                $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG, date('d/m/Y à H:i'), $contents[CridonGedParser::INDEX_NOMFICHIER]);                                          
+            }
+            reportError($message, '');
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Update question
+     * 
+     * @param object $question
+     * @param array $contents
+     */
+    protected function updateQuestion( $question, $contents ){
+        if( !empty($contents[CridonGedParser::INDEX_DATEREPONSE]) ){
+            if( preg_match("/([0-9]{4}-[0-9]{2}-[0-9]{2})T/", $contents[CridonGedParser::INDEX_DATEREPONSE], $matches) ){
+                $d = DateTime::createFromFormat('Y-m-d', $matches[1]);
+                //Vérifier la validité de la date fournie
+                if( $d && $d->format('Y-m-d') == $matches[1] ){
+                    $questData = array(
+                        'Question' => array(
+                            'id'        => $question->id,
+                            'real_date' => $matches[1]
+                        )
+                    );
+                    // mise de la date réelle de réponse
+                    mvc_model('Question')->save($questData);                    
+                }
+            }
+        }
+    }
+
+    /**
+     * Insert new document
+     *
+     * @param array $docData
+     * @return bool|int
+     */
+    public function insertDoc($docData)
+    {
+        $documentId = 0;
+
+        // donnees document
+        if (isset($docData['Document']['type']) && $docData['Document']['type']) {
+            $docData['Document']['file_path'] = isset($docData['Document']['file_path'])?$docData['Document']['file_path']:'';
+            $docData['Document']['download_url'] = isset($docData['Document']['download_url'])?$docData['Document']['download_url']:'';
+            $docData['Document']['id_externe'] = isset($docData['Document']['id_externe'])?$docData['Document']['id_externe']:0;
+
+            $files = pathinfo( $docData['Document']['file_path']);
+            if (isset($files['filename'])) {
+                $docData['Document']['name'] = $files['filename'];
+            }
+
+            // insertion
+            $documentId = $this->create($docData);
+
+            // maj download_url
+            if (!$docData['Document']['download_url']) {
+                $docData = array(
+                    'Document' => array(
+                        'id'           => $documentId,
+                        'download_url' => '/documents/download/' . $documentId
+                    )
+                );
+                $this->save($docData);
+            }
+        }
+
+        return $documentId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUploadDir()
+    {
+        return $this->uploadDir;
+    }
+
+    /**
+     * @param null|string $uploadDir
+     */
+    public function setUploadDir($uploadDir = null)
+    {
+        $this->uploadDir = $uploadDir;
+        if (!$this->uploadDir) {
+            $upload_dir      = wp_upload_dir();// the current upload directory
+            $root            = $upload_dir['basedir'];
+            $date            = new DateTime('now');
+            $path            = $root . '/documents/' . $date->format('Ym');//Upload directory
+            $this->uploadDir = $path;
+        }
+    }
 }

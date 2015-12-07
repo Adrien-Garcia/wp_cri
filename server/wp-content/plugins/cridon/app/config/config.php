@@ -50,13 +50,12 @@ class Config {
 
     // option list of document type    
     public static $optionDocumentType = array(
-        'question'      => 'Question',
-        'reponse'       => 'Réponse',
-        'veille'        => 'Veille',
-        'formation'     => 'Formation',
-        'cahier_cridon' => 'Cahier cridon',
-        'actu_cridon'   => 'Actu cridon',
-        'flash'         => 'Flash'
+        'question'              => 'Question',
+        'veille'                => 'Veille',
+        'formation'             => 'Formation',
+        'cahier_cridon'         => 'Cahier cridon',
+        'actu_cridon'           => 'Actu cridon',
+        'flash'                 => 'Flash'
     );
 
     // list of cridon_type using default post form
@@ -76,7 +75,7 @@ class Config {
 
     //Default Matiere of model Veille
     public static $defaultMatiere = array(
-        'id'     => 12,
+        'id'     => 14,
         'name'   => 'Expertise transversale'
     );
 
@@ -131,6 +130,19 @@ class Config {
         'cc' => array(
             'victor.albert@jetpulp.fr',
         ),
+    );
+    
+    // list of persons who will receive e-mail notification for empty document
+    public static $emailNotificationEmptyDocument = array(
+        'to' => 'info@cridon-lyon.fr',//Client e-mail, only use it in production mode
+        'administrators' => array(
+            'victor.albert@jetpulp.fr'
+        ),
+        'secretaries'=> array(
+            'victor.albert@jetpulp.fr'
+        ),
+        'subject' => 'Questions sans PDF',
+        'message' => 'Les questions suivantes n\'ont pas encore de document associé : "%s"'
     );
 
     // list of notaire functions cannot access finances

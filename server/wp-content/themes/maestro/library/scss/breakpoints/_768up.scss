@@ -852,11 +852,10 @@ body.page-template-front-page{
 									&:last-child{padding-top: 4px};
 
 									>img{
-										
-										margin:0 0 43px 0;
-										float: left;
-										margin-right: 10px;
-									}
+
+                                        float: left;
+                                        margin: 0 10px 43px 0;
+                                    }
 
 									h4{
 										
@@ -885,6 +884,7 @@ body.page-template-front-page{
 										font-size: 10px;
 										width: 37px;
 										height: 14px;
+										line-height: 14px;
 
 										&:after{
 											border-width: 7px 0 7px 9px; 
@@ -982,9 +982,6 @@ body.page-template-front-page{
 					.img-appli{
 						
 						background: url(../images/origin/ico-appli-tablette.png);
-						width: 242px;
-						height: 210px;
-						display: none;
 						position: absolute;
 						right: 50px;
 						bottom: 20px; 
@@ -1344,6 +1341,8 @@ body.page-template-front-page{
 							top: -33px;
 							left: 0;
 							border-bottom:solid 5px $bg-top-footer;
+							height: 0px;
+							line-height: 20px;
 
 
 
@@ -1351,13 +1350,13 @@ body.page-template-front-page{
 
 								@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
 								position: absolute;
-								left: 0;
-								top: 0;
+								top: 0px;
 								background: #FFF;
 								left: 50%;
 								margin-left: -30px;
+								border:none;
 
-								
+								 
 							}
 						}
 
@@ -1431,15 +1430,16 @@ body.page-template-front-page{
 								}
 							}
 
-							>a{
+							> a{
 								
 								margin:10px 0 0 0;
 								height: 14px;
 							    width: 37px;
 							    font-size: 10px;
+							    line-height: 14px;
 
 							    &:after{
-							    	border-width: 7px 0 7px 9px;
+							    	border-width: 7px 0 7px 9px; 
 							    }
 
 							}
@@ -1689,7 +1689,7 @@ body.page-template-front-page{
 										width: 1px;
 										background: $bleu;
 										height: 18px;
-										z-index: 9999;
+										z-index: 200;
 										top:2px;
 										@include transition(all 0.3s);
 										//margin-top: -9px;
@@ -1811,7 +1811,6 @@ body.page-template-front-page{
 					.bt{
 
 						height: 40px;
-						line-height: 40px;
 						font-size: 14px;
 						display: table-cell;
 						vertical-align: middle;
@@ -2180,13 +2179,14 @@ body.page-template-front-page{
 										input{
 											margin-left: 10px;
 											margin-right: 10px;
-											padding-top: 10px;
-											width: 120px;
+											padding-top: 6px;
+											width: 140px;
 											line-height: 28px;
+											padding-left: 6px;
 										}
 
 										select{
-											width: 200px; 
+											width: 315px; 
 											height: 35px;
 											padding-top: 0;
 											padding-bottom: 0;
@@ -2261,11 +2261,10 @@ body.page-template-front-page{
 										> li{
 											width: 100%; 
 											text-align: right;
-											padding: 0;
-											margin-bottom: 10px;
-											padding-right: 30px; 
+                                            margin-bottom: 10px;
+                                            padding: 0 30px 0 0;
 
-											>a{
+                                            >a{
 
 												&:before{
 													right: -30px;

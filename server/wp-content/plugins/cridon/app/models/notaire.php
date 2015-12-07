@@ -193,6 +193,11 @@ class Notaire extends MvcModel
      */
     public function importIntoWpUsers()
     {
+        // log start of import
+        if (CONST_TRACE_IMPORT_NOTAIRE) {
+            writeLog('Debut import', 'importnotaire.log');
+        }
+
         // init logs
         $this->logs = array();
         $this->adapter = null;
@@ -214,10 +219,19 @@ class Notaire extends MvcModel
                     $this->importDataUsingDBconnect();
                     break;
             }
+
+            // disable notaire admin bar
+            CriDisableAdminBarForExistingNotaire();
+
         } catch (Exception $e) {
             // write into logfile
             writeLog($e, 'notaire.log');
             array_push($this->logs['error'], $e->getMessage());
+        }
+
+        // log end of import
+        if (CONST_TRACE_IMPORT_NOTAIRE) {
+            writeLog('Fin import', 'importnotaire.log');
         }
 
         echo json_encode($this->logs);

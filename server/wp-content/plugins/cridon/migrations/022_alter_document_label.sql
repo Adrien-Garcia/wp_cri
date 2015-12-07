@@ -1,0 +1,1 @@
+ALTER TABLE `cri_document` CHANGE `label` `label` VARCHAR(50) NOT NULL;

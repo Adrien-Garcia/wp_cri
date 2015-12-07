@@ -17,11 +17,11 @@ define('PREPROD', 'PREPROD');
 
 // notaire role
 if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
-	define( 'CONST_NOTAIRE_ROLE', 'notaire' );
+    define( 'CONST_NOTAIRE_ROLE', 'notaire' );
 }
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
-	define( 'CONST_ADMIN_ROLE', 'administrator' );
+    define( 'CONST_ADMIN_ROLE', 'administrator' );
 }
 if ( !defined( 'CONST_LOGIN_SEPARATOR' ) ) {
     define( 'CONST_LOGIN_SEPARATOR', '~' );
@@ -29,12 +29,12 @@ if ( !defined( 'CONST_LOGIN_SEPARATOR' ) ) {
 
 // wpmvc prefix
 if ( !defined( 'CONST_WPMVC_PREFIX' ) ) {
-	define( 'CONST_WPMVC_PREFIX', 'mvc_' );
+    define( 'CONST_WPMVC_PREFIX', 'mvc_' );
 }
 
 // ODBC
 if ( !defined( 'CONST_ODBC_DRIVER' ) ) {
-	define( 'CONST_ODBC_DRIVER', '{MySQL ODBC 5.3 Ansi Driver}' );
+    define( 'CONST_ODBC_DRIVER', '{MySQL ODBC 5.3 Ansi Driver}' );
 }
 
 if ( !defined( 'CONST_DB_DEFAULT' ) ) {
@@ -75,7 +75,7 @@ if ( !defined( 'CONST_DB_HOST' ) ) {
             $host = '192.168.1.9';
             break;
     }
-	define( 'CONST_DB_HOST', $host );
+    define( 'CONST_DB_HOST', $host );
 }
 if ( !defined( 'CONST_DB_PORT' ) ) {
     switch ($env) {
@@ -89,7 +89,7 @@ if ( !defined( 'CONST_DB_PORT' ) ) {
             $port = 3306;
             break;
     }
-	define( 'CONST_DB_PORT', $port );
+    define( 'CONST_DB_PORT', $port );
 }
 if ( !defined( 'CONST_DB_USER' ) ) {
     switch ($env) {
@@ -109,7 +109,7 @@ if ( !defined( 'CONST_DB_USER' ) ) {
             $user = 'cridon';
             break;
     }
-	define( 'CONST_DB_USER', $user );
+    define( 'CONST_DB_USER', $user );
 }
 if ( !defined( 'CONST_DB_PASSWORD' ) ) {
     switch ($env) {
@@ -129,7 +129,7 @@ if ( !defined( 'CONST_DB_PASSWORD' ) ) {
             $pwd = '2d7nGNFc';
             break;
     }
-	define( 'CONST_DB_PASSWORD', $pwd );
+    define( 'CONST_DB_PASSWORD', $pwd );
 }
 if ( !defined( 'CONST_DB_DATABASE' ) ) {
     switch ($env) {
@@ -149,10 +149,10 @@ if ( !defined( 'CONST_DB_DATABASE' ) ) {
             $dbn = 'cridon';
             break;
     }
-	define( 'CONST_DB_DATABASE', $dbn );
+    define( 'CONST_DB_DATABASE', $dbn );
 }
 if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
-    switch ($prefix) {
+    switch ($env) {
         case PROD:
             $prefix = 'CLCRIDON.';
             break;
@@ -165,7 +165,7 @@ if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
             $prefix = '';
             break;
     }
-	define( 'CONST_DB_TABLE_NOTAIRE', $prefix.'ZEXPNOTV' );
+    define( 'CONST_DB_TABLE_NOTAIRE', $prefix.'ZEXPNOTV' );
 }
 
 // import CSV notaire file path
@@ -339,6 +339,9 @@ if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
 }
 
 // Add Question Form
+if ( !defined( 'CONST_QUESTION_MATIERE_DOCUMENTATION_ID' ) ) {
+    define('CONST_QUESTION_MATIERE_DOCUMENTATION_ID', 1);
+}
 if ( !defined( 'CONST_QUESTION_SUPPORT_FIELD' ) ) {
     define( 'CONST_QUESTION_SUPPORT_FIELD', 'question_support' );
 }
@@ -435,7 +438,13 @@ if ( !defined( 'CONST_IMPORT_GED_LOG_SUCCESS_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_SUCCESS_MSG', 'Import GED du %s : action terminée avec succès pour les documents suivants "%s"' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG' ) ) {
-    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG', 'Import GED du %s : fichier d\'import mal formaté pour "%s"' );
+    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG', 'Import GED du %s : le CSV associé au document "%s" ne contenait pas les informations attendues' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG', 'Import GED du %s : fichier d\'import mal formaté pour "%s"' );
+}
+if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG' ) ) {
+    define( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG', 'Import GED du %s : le fichier PDF associé au CSV de la question "%s" est illisible' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : repertoire d\'import vide' );
@@ -475,4 +484,60 @@ if ( !defined( 'CONST_NEWSLETTER_EMAIL_FIELD' ) ) {
 }
 if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
     define( 'CONST_NEWSLETTER_MSGBLOCK_ID', 'newsletterMsgId' );
+}
+
+//Alert on issues without documents
+if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
+    define( 'CONST_ALERT_MINUTE', 30 );
+}
+
+// log import notaire start and end of action
+if ( !defined( 'CONST_TRACE_IMPORT_NOTAIRE' ) ) {
+    define( 'CONST_TRACE_IMPORT_NOTAIRE', 1 );
+}
+
+// import cahier
+if ( !defined( 'CONST_IMPORT_CAHIER_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_CAHIER_PATH', $uploadDir['basedir'] . '/import/importsCahier/' );
+}
+
+// question message d'erreur
+if ( !defined( 'CONST_EMPTY_OBJECT_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_OBJECT_ERROR_MSG', 'Veuillez renseigner l\'objet de votre question' );
+}
+if ( !defined( 'CONST_EMPTY_MESSAGE_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_MESSAGE_ERROR_MSG', 'Veuillez renseigner une question' );
+}
+if ( !defined( 'CONST_EMPTY_SUPPORT_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_SUPPORT_ERROR_MSG', 'Veuillez renseigner votre type de consultation' );
+}
+if ( !defined( 'CONST_EMPTY_MATIERE_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_MATIERE_ERROR_MSG', 'Veuillez renseigner le champ Matiere' );
+}
+if ( !defined( 'CONST_EMPTY_COMPETENCE_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_COMPETENCE_ERROR_MSG', 'Veuillez renseigner le champ Competence' );
+}
+if ( !defined( 'CONST_MAXFILESIZE_ERROR_MSG' ) ) {
+    define( 'CONST_MAXFILESIZE_ERROR_MSG', 'Taille de ' );
+}
+// Export Question
+if ( !defined( 'CONST_DB_TABLE_QUESTTEMP' ) ) {
+    switch ($prefix) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_QUESTTEMP', $prefix.'ZQUEST' );
+}
+if ( !defined( 'CONST_EXPORT_EMAIL_ERROR' ) ) {
+    define( 'CONST_EXPORT_EMAIL_ERROR', 'Export question interrompu le : %s' );
 }

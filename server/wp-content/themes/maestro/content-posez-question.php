@@ -1,6 +1,7 @@
+<?php if (CriIsNotaire()) : ?>
 <div id="layer-posez-question" style="display:none;">
 
-	<form action="" id="questionFormId" method="post">
+	<form action="" id="questionFormId" method="post" enctype="multipart/form-data">
 	<div class="block_top">
 
 		<div class="titre">
@@ -23,7 +24,7 @@
 				<div id="owl-support" class="owl-carousel">
 				<?php foreach ($supports as $key => $support): ?>
 		            <div class="item">
-		            	<input id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" class="hidden js-question-support-radio">
+		            	<input title="support hidden" id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" data-value="<?php echo $support->value ; ?>" class="hidden js-question-support-radio">
 		              	<span class="label"><?php echo $support->label_front; ?></span>
 		              	<p class="description">
 		              		<?php echo $support->description; ?>
@@ -43,25 +44,25 @@
 					<div class="form">
 						<?php 
 							$matieres = CriListMatieres();
-							$imatieres = 0;
 						 ?>
-						<select name="question_matiere" id="question_matiere" class="js-question-select-matiere" placeholder="Domaine d'activité principal">
-						<?php foreach($matieres as $id => $label): ?>
-							<option <?php echo ($imatieres == 0) ? "selected" : "" ?> value="<?php echo $id ?>"><?php echo $label ?></option>
-							<?php $imatieres++; ?>
-						<?php endforeach; ?>
+						<select name="question_matiere" id="question_matiere" class="js-question-select-matiere" >
+                            <option selected value="">Choisir une matière</option>
+                            <?php foreach($matieres as $id => $label): ?>
+                                <option value="<?php echo $id ?>"><?php echo $label ?></option>
+                            <?php endforeach; ?>
 						</select>
-						<?php $imatieres = 0; ?>
+						<?php $icomp = 0; ?>
 						<?php foreach($matieres as $id => $label): ?>
-							<?php 
+							<?php
 								$competences = CriCompetenceByMatiere($id);
 							 ?>
-							<select class="js-question-select-competence <?php echo ($imatieres == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>" data-name="question_competence"  name="<?php echo ($imatieres == 0) ? "question_competence" : "" ?>" id="question_competence_<?php echo $id ?>" placeholder="Sous domaine d'activité">
-								<?php foreach ($competences as $cid => $clabel): ?>
+							<select class="js-question-select-competence <?php echo ($icomp == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>" data-name="question_competence"  name="<?php echo ($icomp == 0) ? "question_competence" : "" ?>" id="question_competence_<?php echo $id ?>" >
+                                <option selected value="">Choisir une compétence</option>
+                                <?php foreach ($competences as $cid => $clabel): ?>
 									<option value="<?php echo $cid ?>"><?php echo $clabel ?></option>							
 								<?php endforeach ?>
 							</select>
-							<?php $imatieres++; ?>
+							<?php $icomp++; ?>
 						<?php endforeach; ?>
 						<input type="text" name="question_objet" id="question_objet" value="" placeholder="Objet de la question">
 						<textarea name="question_message" id="question_message" placeholder="Votre question"></textarea>
@@ -71,7 +72,7 @@
                             <span class="fileName js-file-name">Vide</span>
 						    <button class="btn btn-primary btn-reset js-file-reset">+</button>
 						    <input type="file" class="upload js-question-file"  id="question_fichier_<?php echo $i; ?>" name="question_fichier[]"  placeholder="Télécharger vos documents"/>
-						    
+
 						    <span class="fileButtonFront">Parcourir</span>
                         </div>
                         <?php endfor; ?>
@@ -100,12 +101,12 @@
 				</h2>
 				<a href="#">+</a>
 			</li>
-			<li class="js-home-block-link">
+			<li class="js-question-documentation-button">
 				<h2>
 					<?php _e('Demander'); ?>
 					<span><?php _e('une documentation'); ?></span>
 				</h2>
-				<a href="">+</a>
+				<a>+</a>
 			</li>
 			<li class="js-home-block-link">
 				<h2>
@@ -127,7 +128,7 @@
 				</div>						
 			</div>
 
-			<div class="block demander js-home-block-link">
+			<div class="block demander js-question-documentation-button">
 				<div class="content">
 					<h2>
 						<?php _e('Demander'); ?>
@@ -151,3 +152,5 @@
 	</div>
 
 </div>
+
+<?php endif; ?>

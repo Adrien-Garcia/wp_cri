@@ -131,11 +131,31 @@ class EntityManager {
                 //Attribut du résultat correspondant au nom du modèle associé au SELECT
                 $attr = strtolower($select);
                 //Create object for data in fields of result query
-                $obj->{$attr} = $this->newObject($object, $select);                
+                $newObj = $this->newObject($object, $select);
+                $this->appendLink($newObj,$attr);//Ajouter le lien 
+                $obj->{$attr} = $newObj; 
             }
             $results[] = $obj;
         }
         return $results;
+    }
+    
+    /**
+     * Ajouter le lien de l'objet
+     * 
+     * @param object $object
+     * @param string $model
+     */
+    protected function appendLink( &$object,$model ){
+        //Seulement pour le modèle matière
+        if( !is_null( $object ) && isset( $object->id ) && ( $model == 'matiere' ) ){
+            $option = array(
+                'controller' => $model.'s',
+                'action' => 'show',
+                'id' => $object->id
+            );
+            $object->url = MvcRouter::public_url( $option );
+        }
     }
     /**
      * Create new object

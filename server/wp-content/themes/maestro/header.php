@@ -36,8 +36,13 @@
 	<?php // end of wordpress head ?>
 	
 </head>
-
-<body <?php body_class(); ?>>
+<?php
+    $bodyClass = array();
+    if (CriIsNotaire()) {
+        $bodyClass[] = "is_notaire";
+    }
+?>
+<body <?php body_class($bodyClass); ?>>
 
 	<?php
 	/*
@@ -66,7 +71,7 @@
 					<a class="contacter" href="#">
 						<?php _e('Contacter'); ?>
 					</a>
-					<a class="poser-question layer-posez-question_open" href="#">
+					<a class="poser-question layer-posez-question_open js-question-open" href="#">
 						<?php _e('Posez une question'); ?>
 					</a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
@@ -122,12 +127,12 @@
 						<p>Accédez à vos informations et bénéficiez d’un contenu personnalisé.</p>
 						 <div class="pannel_01 js-panel-connexion-connexion-form">
 							<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
-								<input type="text" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
-								<input type="password" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
+								<input type="text" class="js-panel-connexion-reset-error" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
+								<input type="password" class="js-panel-connexion-reset-error" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
 								<input type="submit" name="submit" value="Connectez-vous">
 							</form>
 							<a href="#" id="mdp_oublie" class="js-panel-connexion-to-mdp">> Mot de passe oublié ? <</a>
-							<div id="errorMsgId">									
+							<div id="errorMsgId" class="js-login-error-message-block">
 							</div>
 						<?php 
 							criSetLoginFormOptions('loginFormId', 'loginFieldId', 'passwordFieldId', 'errorMsgId');
@@ -137,12 +142,12 @@
 						
 						<div class="pannel_02 js-panel-connexion-mdp-form">
 							<form action="" method="" accept-charset="utf-8" id="lostPwdFormId">
-								<input type="text" name="emailFieldId" value="" id="emailFieldId" placeholder="Votre adresse mail">
-								<input type="text" name="crpcenFieldId" value="" id="crpcenFieldId" placeholder="Votre CRPCEN">
+								<input type="text" class="js-panel-connexion-reset-error" name="emailFieldId" value="" id="emailFieldId" placeholder="Votre adresse mail">
+								<input type="text" class="js-panel-connexion-reset-error" name="crpcenFieldId" value="" id="crpcenFieldId" placeholder="Votre CRPCEN">
 								<input type="submit" name="submit" value="Récupérer mon mot de passe">						
 							</form>
 							<a href="#" id="mdp_retour" class="js-panel-connexion-to-connexion">< Retour </a>
-							<div id="errorMsgForgotId">									
+							<div id="errorMsgForgotId" class="js-forgot-error-message-block">
 							</div>
 							<?php criSetLostPwdOptions('lostPwdFormId', 'emailFieldId', 'crpcenFieldId', 'errorMsgForgotId'); ?>
 						</div>

@@ -237,7 +237,35 @@ function newsletter()
 {
     require_once WP_PLUGIN_DIR . '/cridon/app/controllers/notaires_controller.php';
     $controller = new NotairesController();
-    $controller->newsletterSubsciprtion();
+    $controller->newsletterSubscription();
 }
 add_action( 'wp_ajax_newsletter',   'newsletter' );
 add_action( 'wp_ajax_nopriv_newsletter',   'newsletter' );
+
+/**
+ * Suppression option "show admin bar" sur fiche notaire en admin
+ *
+ * @param $subject
+ * @return mixed
+ */
+function cri_remove_personal_options( $subject ) {
+    if (isset($_GET['user_id']) && $_GET['user_id']) {
+        $notaire = mvc_model('notaire')->find_one_by_id_wp_user($_GET['user_id']);
+
+        if ($notaire->id) {
+            $subject = preg_replace('#<tr class="show-admin-bar user-admin-bar-front-wrap">.+?/tr>#s', '', $subject, 1);
+        }
+    }
+    return $subject;
+}
+
+function cri_profile_subject_start() {
+    ob_start( 'cri_remove_personal_options' );
+}
+
+function cri_profile_subject_end() {
+    ob_end_flush();
+}
+
+add_action( 'admin_head-user-edit.php', 'cri_profile_subject_start' );
+add_action( 'admin_footer-user-edit.php', 'cri_profile_subject_end' );

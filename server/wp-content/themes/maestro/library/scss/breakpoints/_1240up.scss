@@ -192,8 +192,7 @@ HEADER STYLES
 			.close_layer{				
 				right: 30px;
 				cursor: pointer;
-				cursor: pointer;
-				
+
 				&:before{
 					@include svgicon('icon-close-layer-question', 36px, 36px, #FFF);					
 					top: 3px;
@@ -251,7 +250,7 @@ HEADER STYLES
 
 				#owl-support{
 
-					-webkit-perspective: 1000;
+					-webkit-perspective: 1000px;
 						-webkit-transform-style: preserve-3d;
 						-moz-transform-style: preserve-3d;
 						transform-style: preserve-3d;
@@ -261,7 +260,7 @@ HEADER STYLES
 						cursor: pointer;
 						@include transition(top 0.3s);
 						
-						-webkit-perspective: 1000;
+						-webkit-perspective: 1000px;
 						-webkit-transform-style: preserve-3d;
 						-moz-transform-style: preserve-3d;
 						transform-style: preserve-3d;
@@ -414,6 +413,110 @@ HEADER STYLES
 						.sep{							
 
 						}
+
+
+
+
+						.fileUpload {
+						    
+
+                            .btn-reset {
+                                
+							    float: right;
+							    font-size: 50px;
+							    height: 35px;
+							    line-height: 18px;
+							    position: relative;
+							    top: -8px;
+							    width: 35px;
+							    z-index: 102;
+
+                            }
+                            span {
+                                display: inline-block;
+                                float: left;
+                                padding: 0 10px;
+                                height: 100%;
+                                background: #ffffff;
+                                color: #000000;
+                            }
+                            span.fileName {
+                                max-width: 400px;
+
+                            }
+                            span.fileButtonFront {
+                                float: none;
+							    position: absolute;
+							    right: 33px;
+
+                            }
+						}
+
+						.fileUpload input.upload {
+						    width: 100px;
+						    right: 25px;
+						    z-index: 100;
+						}
+
+						.sep{
+							/*height: 4px;
+							background: #e6e6e6;
+							margin: 20px 0;
+							width: 100%;
+							clear: both;
+
+							position: relative;
+
+							&:before{
+
+								@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
+								position: absolute;
+								top: 0;
+								background: #FFF;
+								left: 50%;
+								margin-left: -30px;
+
+								
+							}*/
+
+
+
+						}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 						
 					}
@@ -1107,7 +1210,14 @@ body.page-template-front-page{
 						.sep{
 							top: -37px;
 							width: 1200px;
+
+							&:before{								
+								top: -1px;
+								
+							}
 						}
+
+
 						
 					}
 
@@ -1471,7 +1581,6 @@ body.page-template-front-page{
 					.bt{
 
 						height: 50px;
-						line-height: 50px;
 						font-size: 24px;
 						padding: 0;  
 						line-height: 20px; 
@@ -1573,7 +1682,7 @@ body.page-template-front-page{
 										font-size: 18px;
 										font-weight: 400;
 
-										font-family: helvetica !important;
+										font-family: $helvetica !important;
 										margin-bottom: 5px; 
 										display: block;
 
@@ -1583,7 +1692,7 @@ body.page-template-front-page{
 										font-size: 18px;
 										font-weight: 400;
 
-										font-family: helvetica !important;
+										font-family: $helvetica !important;
 										margin-bottom: 10px; 
 
 										left: 585px;
@@ -1701,7 +1810,7 @@ body.page-template-front-page{
 									font-size: 18px;
 									font-weight: 400;
 
-									font-family: helvetica !important;
+									font-family: $helvetica !important;
 									margin-bottom: 10px; 
 									display: block;
 								}
@@ -1710,7 +1819,7 @@ body.page-template-front-page{
 									font-size: 18px;
 									font-weight: 400;
 
-									font-family: helvetica !important;
+									font-family: $helvetica !important;
 									margin-bottom: 10px; 
 
 									left: 585px;
@@ -1864,6 +1973,9 @@ body.page-template-front-page{
 						}
 
 						#questions-attentes, #historique-questions{	
+							font-size: 16px;
+
+
 
 							>ul{
 								
@@ -2001,7 +2113,7 @@ body.page-template-front-page{
 											margin: 0 10px 0 5px;
 											width: 165px;
 											line-height: 25px;
-											padding: 0;
+											padding: 0 0 0 6px;
 										}
 
 										select{
@@ -2511,7 +2623,7 @@ FOOTER STYLES
 
 	.footer-cridon {
 		padding: 45px 0 60px 0;
-		min-height: auto; 
+		min-height: default;
 
 		.block-left {
 			width: 650px;

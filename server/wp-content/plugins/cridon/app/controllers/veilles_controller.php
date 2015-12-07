@@ -31,6 +31,32 @@ class VeillesController extends MvcPublicController {
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
     }
+
+
+    public function show() {
+        if ( !CriIsNotaire() ) {
+            $referer = $_SERVER['HTTP_REFERER'];
+            $redirect = $referer;
+
+            if (preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 && preg_match("/.*?[\?\&]messageLogin=PROTECTED_CONTENT.*?/", $referer) === 1 ) {
+                wp_redirect($redirect);
+                return;
+            }
+
+            if (preg_match("/.*\?.*/", $referer)) {
+                $redirect .= "&";
+            } else {
+                $redirect .= "?";
+            }
+
+            $redirect .= "openLogin=1&messageLogin=PROTECTED_CONTENT";
+
+            wp_redirect($redirect);
+        } else {
+            parent::show();
+        }
+    }
+
     /**
      * @override
      */
