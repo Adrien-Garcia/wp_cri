@@ -2313,6 +2313,9 @@ body.page-template-front-page{
 NAVIGATION STYLES
 *********************/
 
+#menu{display: block; visibility: visible;}
+#menu_mobile{display: none;}
+
 .nav {
 
 	border: 0;
@@ -2353,7 +2356,7 @@ NAVIGATION STYLES
 		ul.children {
 		
 			margin-top: 0;
-			border: 1px solid #ccc;
+			//border: 1px solid #ccc;
 			border-top: 0;
 			position: absolute;
 			//visibility: hidden; /* sous menu*/
@@ -2365,8 +2368,8 @@ NAVIGATION STYLES
 					padding-left: 0;
 					border-right: 0;
 					display: block;
-					width: 180px;
-					border-bottom: 1px solid #ccc;
+					//width: 180px;
+					//border-bottom: 1px solid #ccc;
 
 					&:hover,
 					&:focus {}
@@ -2406,7 +2409,15 @@ NAVIGATION STYLES
 		&:hover > ul {
 			top: auto;
 			visibility:visible;
+
+			> li > ul{
+				top: auto;
+				visibility:visible;
+
+			}
 		}
+
+		
 
 	} /* end .menu ul li */
 

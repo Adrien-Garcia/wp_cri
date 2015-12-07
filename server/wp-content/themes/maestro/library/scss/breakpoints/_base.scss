@@ -1230,6 +1230,7 @@ body.page-template-front-page{
 		.row_02{
 			padding-top: 44px;
 			position: relative;
+			background: #FFF;
 
 			&:before{
 
@@ -1696,6 +1697,7 @@ body.page-template-front-page{
 			clear: both;
 			position: relative;
 			padding: 60px 0 40px 0;			
+			background: #FFF;
 
 			&:before{
 
@@ -3785,6 +3787,9 @@ body.page-template-front-page{
 /*********************
 POSTS & CONTENT STYLES
 *********************/
+
+#menu{display: none; visibility: hidden;}
+#menu_mobile{display: block;}
 
 #content {
 	//margin-top: 1.5em;

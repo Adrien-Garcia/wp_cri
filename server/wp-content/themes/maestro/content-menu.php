@@ -50,61 +50,84 @@
 				<a href="#">Cahiers du cridon</a>				
 			</li>
 			<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="#">Sites partenaires utils</a>				
+				<a href="#">Sites partenaires utiles</a>				
 			</li>
-			<li><img src="" alt="" /></li>
+			<li>
+				<div class="block rechercher js-home-block-link">
+					<div class="content">
+						<h2>
+							Rechercher <span>dans les bases de connaissances</span>
+						</h2>
+						<a href="">+</a>
+					</div>						
+				</div>
+			</li>
 		</ul>
 	</li>
 	<li id="menu-item-1173" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children">
 		<a href="#"><span>Commander</span> un service</a>
 		<ul class="sub-menu">
-			<li id="menu-item-1533" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a>Poser une question</a>
+			<li id="menu-item-1533" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children">
+				<a>Poser une question</a>
 				<ul class="sub-menu">
 					<li id="menu-item-1384" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/la-mairie/les-elus/">Urgente</a>
+						<a href="#">Urgente</a>
 					</li>
 					<li id="menu-item-1385" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/la-mairie/personnel-de-mairie/">Semaine</a>
+						<a href="#">Semaine</a>
 					</li>
 					<li id="menu-item-1383" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/la-mairie/le-comite-de-votre-quartier/">Normal</a>
+						<a href="#">Normal</a>
 					</li>
 					<li id="menu-item-1387" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/la-mairie/expression-politique/">Demande de documentation</a>
+						<a href="#">Demande de documentation</a>
 					</li>
 					<li id="menu-item-2241" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/la-mairie/le-conseil-municipal-des-enfants/">Prendre un rendez-vous</a>
+						<a href="#">Prendre un rendez-vous</a>
 					</li>
 				</ul>
 			</li>
-			<li id="menu-item-1534" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a>Se former</a>
+			<li id="menu-item-1534" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children">
+				<a>Se former</a>
 				<ul class="sub-menu">
 					<li id="menu-item-1389" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/la-metropole-de-lyon-et-lorganisation-externe/metrople/">Catalogue</a>
+						<a href="#">Catalogue</a>
 					</li>
 					<li id="menu-item-1390" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/la-metropole-de-lyon-et-lorganisation-externe/les-organismes-exterieurs/">Me former en ligne</a>
+						<a href="#">Me former en ligne</a>
 					</li>
 					<li id="menu-item-1390" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/la-metropole-de-lyon-et-lorganisation-externe/les-organismes-exterieurs/">Me former en temps réel</a>
+						<a href="#">Me former en temps réel</a>
 					</li>
 				</ul>
 			</li>
-			<li id="menu-item-1535" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a>Service +</a>
+			<li id="menu-item-1535" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children">
+				<a>Service +</a>
 				<ul class="sub-menu">
 					<li id="menu-item-1395" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/documents-en-ligne/les-recueils-des-actes-administratifs/">Traduction</a>
+						<a href="#">Traduction</a>
 					</li>
 					<li id="menu-item-1393" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/documents-en-ligne/les-proces-verbaux-du-conseil-municipal/">Rèseau partenaires étrangers</a>
+						<a href="#">Rèseau partenaires étrangers</a>
 					</li>
 					<li id="menu-item-1392" class="menu-item menu-item-type-post_type menu-item-object-page">
-						<a href="http://collongesaumontdor.preprod.addonline.biz/mes-demarches/documents-en-ligne/les-marches-publics/">Assistance fiscale</a>
+						<a href="#">Assistance fiscale</a>
 					</li>
 				</ul>
 			</li>
-			<li id="menu-item-1535" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a>Calculer</a></li>
-			<li><img src="" alt="" /></li>
+			<li id="menu-item-1535" class="menu-item menu-item-type-custom menu-item-object-custom">
+				<a href="#">Calculer</a></li>
+			<li>
+				<div class="block acceder js-home-block-link">
+					<div class="content">
+						<h2>
+							<?php _e('Accéder'); ?>
+							<span><?php _e('à ma veille juridique'); ?></span>
+						</h2>
+						<a href="#">+</a>
+					</div>						
+				</div>
+			</li>
 		</ul>
 	</li>
 	<li id="menu-item-1173" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children">
@@ -131,7 +154,17 @@
 			<li id="menu-item-1533" class="menu-item menu-item-type-custom menu-item-object-custom">
 				<a href="">Contacts</a>				
 			</li>
-			<li><img src="" alt="" /></li>
+			<li>
+				<div class="block consulter js-home-block-link">
+					<div class="content">
+						<h2>
+							<?php _e('Consulter'); ?>
+							<span><?php _e('un expert juridique'); ?></span>
+						</h2>
+						<a href="#">+</a>
+					</div>						
+				</div>
+			</li>
 		</ul>
 	</li>
 </ul>

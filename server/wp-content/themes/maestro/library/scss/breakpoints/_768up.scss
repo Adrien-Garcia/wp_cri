@@ -2482,7 +2482,7 @@ NAVIGATION STYLES
 		ul.sub-menu,
 		ul.children {
 			margin-top: 0;
-			border: 1px solid #ccc;
+			//border: 1px solid #ccc;
 			border-top: 0;
 			position: absolute;
 			visibility: hidden;
@@ -2495,7 +2495,7 @@ NAVIGATION STYLES
 					border-right: 0;
 					display: block;
 					width: 180px;
-					border-bottom: 1px solid #ccc;
+					//border-bottom: 1px solid #ccc;
 
 					&:hover,
 					&:focus {}
