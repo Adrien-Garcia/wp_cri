@@ -1,6 +1,8 @@
 <?php
+// base admin ctrl
+require_once 'base_admin_controller.php';
 
-class AdminSoldesController extends MvcAdminController
+class AdminSoldesController extends BaseAdminController
 {
 
     /**

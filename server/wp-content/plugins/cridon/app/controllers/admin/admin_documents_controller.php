@@ -12,7 +12,10 @@
  *
  */
 
-class AdminDocumentsController extends MvcAdminController {
+// base admin ctrl
+require_once 'base_admin_controller.php';
+
+class AdminDocumentsController extends BaseAdminController {
     
     var $default_columns = array('name', 'file_path','download_url','date_modified','type');
     

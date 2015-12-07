@@ -7,7 +7,11 @@
  * @contributor Joeli
  * @version 1.0
  */
-class AdminCompetencesController extends MvcAdminController
+
+// base admin ctrl
+require_once 'base_admin_controller.php';
+
+class AdminCompetencesController extends BaseAdminController
 {
 
     public $default_columns = array(

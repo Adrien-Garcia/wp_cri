@@ -11,7 +11,10 @@
  *
  */
 
-class AdminQuestionsController extends MvcAdminController {
+// base admin ctrl
+require_once 'base_admin_controller.php';
+
+class AdminQuestionsController extends BaseAdminController {
     
     /**
      *
