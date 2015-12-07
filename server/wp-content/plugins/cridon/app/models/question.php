@@ -64,6 +64,11 @@ class Question extends MvcModel
     protected $results;
 
     /**
+     * @var array : list of question to be deleted
+     */
+    protected $questListForDelete = array();
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -760,42 +765,39 @@ class Question extends MvcModel
                     break;
                 case self::IMPORT_OCI_OPTION:
                     //if case above did not match, set OCI
-                    $todateFunc    = 'TO_DATE'; // Oracle
-                    $intervalParam = 'SQL_TSI_MINUTE'; // Oracle
                     $this->adapter = $adapter = CridonOCIAdapter::getInstance();
                     break;
-            }
-
-            // query
-            $mainQuery = 'SELECT ' . $adapter::QUEST_SREBPC . ', ' . $adapter::QUEST_SRENUM . ' FROM ' . CONST_ODBC_TABLE_QUEST;
-            // filter by list of supports if necessary
-            if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
-                $mainQuery .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
             }
 
             // site quest list
             $this->setSiteQuestList();
             // store question list into local var
             $siteQuestList = $this->siteQuestList;
-//            echo '<pre>'; die(print_r($siteQuestList));
 
-            // init query block
-            $deleteValues = array();
+            // nb items
+            $this->getNbItems();
 
-            // exec query
-            $this->adapter->execute($mainQuery);
-            while ($data = $this->adapter->fetchData()) {
-                if (isset($data[$adapter::QUEST_SREBPC]) && intval($data[$adapter::QUEST_SREBPC]) > 0) { // valid client_number
-                    // unique key "client_number + num question"
-                    $uniqueKey = intval($data[$adapter::QUEST_SREBPC]) . $data[$adapter::QUEST_SRENUM];
+            // list of question
+            $i = 0;
+            $this->setQuestListForDelete($i, $siteQuestList);
 
-                    if (in_array($uniqueKey, $siteQuestList)) { // quest not found on site
+            // delete action
+            /**
+             * $this->questListForDelete : tableau de couple "client_number + srenum"
+             * si srenum null ce sera client_number, or au niveau mysql CONCAT(client_number, NULL) = NULL
+             * d'où la conditoin dans le "WHERE" suivant
+             */
+            if (count($this->questListForDelete) > 0) {
+                $conditions = "'" . implode("','", $this->questListForDelete) . "'";
+                $query = "DELETE
+                          FROM `{$this->table}`
+                          WHERE (CASE
+                                    WHEN srenum IS NOT NULL THEN CONCAT(client_number, srenum)
+                                    ELSE client_number
+                                END) IN (" . $conditions . ")";
 
-                        // prepare bulk insert
-                        unset($siteQuestList[$uniqueKey]);
-                        $deleteValues = $siteQuestList;
-                    }
-                }
+                // execute query
+                mvc_model('QueryBuilder')->getInstanceMysqli()->query($query);
             }
 
             return CONST_STATUS_CODE_OK;
@@ -803,6 +805,95 @@ class Question extends MvcModel
             writeLog($e, 'questiondailyupdate.log');
 
             return CONST_STATUS_CODE_GONE;
+        }
+    }
+
+    /**
+     * Set Quest list for delete
+     *
+     * @param int $i
+     * @param array $siteQuestList
+     */
+    protected function setQuestListForDelete($i, $siteQuestList)
+    {
+        writeLog($i, 'debug.log');
+        try {
+            // increase memory limit
+            ini_set('memory_limit', '-1');
+
+            // instance of adapter
+            $adapter = $this->adapter;
+
+            // set max limit
+            $limitMax = intval($this->nbItems / self::CONST_LIMIT) + 1;
+
+            // repeat action until limit max OR the end is reached
+            if ($i <= $limitMax) {
+
+                // query
+                $mainQuery = 'SELECT ' . $adapter::QUEST_SREBPC . ', ' . $adapter::QUEST_SRENUM . ' FROM ' . CONST_ODBC_TABLE_QUEST;
+                // filter by list of supports if necessary
+                if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
+                    $mainQuery .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
+                }
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a LIMIT OFFSET in Oracle SQL
+                         SELECT * FROM (
+                            SELECT rownum rnum, a.*
+                            FROM(
+                                SELECT fieldA,fieldB
+                                FROM table
+                            ) a
+                            WHERE rownum <= offset + limit
+                        )
+                        WHERE rnum >= offset
+                         */
+                        $oracleLimit = self::CONST_LIMIT + intval($this->offset);
+                        $limitQuery = 'SELECT rownum rnum, subquery.* FROM ('.$mainQuery.') subquery WHERE rownum <= '.$oracleLimit;
+                        $sql = 'SELECT * FROM ('.$limitQuery.') WHERE rnum >= '.$this->offset;
+                        break;
+                    case CONST_DB_DEFAULT:
+                    default:
+                        $sql = $mainQuery.' LIMIT ' . self::CONST_LIMIT . ' OFFSET ' . intval($this->offset);
+                        break;
+                }
+                $this->offset += self::CONST_LIMIT;
+
+                // exec query
+                $this->adapter->execute($sql);
+                while ($data = $this->adapter->fetchData()) {
+                    if (isset($data[$adapter::QUEST_SREBPC]) && intval($data[$adapter::QUEST_SREBPC]) > 0) { // valid client_number
+                        // unique key "client_number + num question"
+                        $uniqueKey = intval($data[$adapter::QUEST_SREBPC]) . $data[$adapter::QUEST_SRENUM];
+
+                        if (in_array($uniqueKey, $siteQuestList)) { // quest found on Site / ERP
+
+                            // remove quest on list
+                            $key = array_search($uniqueKey, $siteQuestList);
+                            if ($key !== false) {
+                                unset($siteQuestList[$key]);
+                                $this->questListForDelete = $siteQuestList;
+                            }
+                        }
+                    }
+                }
+
+                // increments flag
+                $i++;
+
+                // call import action
+                $this->setQuestListForDelete($i, $siteQuestList);
+
+            } else {
+                // Close Connection
+                $this->adapter->closeConnection();
+            }
+
+        } catch (\Exception $e) {
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 }
