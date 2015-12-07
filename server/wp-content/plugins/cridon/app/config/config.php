@@ -198,6 +198,10 @@ class Config {
         'competence' => array(
             'add'    => 'Ajout de compétence',
             'edit'   => 'Edition de compétence'
+        ),
+        'document' => array(
+            'add'    => 'Ajout d\'un document sécurisé du Cridon',
+            'edit'   => 'Modification d\'un document sécurisé du Cridon'
         )
     );
     //End translation
