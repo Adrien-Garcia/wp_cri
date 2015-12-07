@@ -189,5 +189,9 @@ class Config {
         'delete' => 'Supprimer'
     );
     public static $msgConfirmDelete = 'Êtes-vous sur de vouloir supprimer';
+    public static $btnTextAdmin = array(
+        'add'    => 'Ajouter',
+        'update' => 'Mettre à jour'
+    );
     //End translation
 }
