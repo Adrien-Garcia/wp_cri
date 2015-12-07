@@ -12,7 +12,10 @@
  *
  */
 
-class AdminSupportsController extends MvcAdminController {
+// base admin ctrl
+require_once 'base_admin_controller.php';
+
+class AdminSupportsController extends BaseAdminController {
     
     var $default_columns = array('id', 'label', 'value');
     public function index() {
