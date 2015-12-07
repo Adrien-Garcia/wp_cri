@@ -181,4 +181,13 @@ class Config {
     public static $listOfControllersWithNoActionAdd = array(
         'notaires'
     );
+    
+    //Admin wp_mvc action translation
+    public static $actionsWpmvcTranslation = array(
+        'view'   => 'Voir',
+        'edit'   => 'Editer',
+        'delete' => 'Supprimer'
+    );
+    public static $msgConfirmDelete = 'Êtes-vous sur de vouloir supprimer';
+    //End translation
 }
