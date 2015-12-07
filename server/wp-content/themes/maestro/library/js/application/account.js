@@ -112,6 +112,13 @@ App.Account = {
 
         this.$accountQuestionMoreButton = $(d + this.accountQuestionSelector + this.accountQuestionMoreSelector + b);
 
+        if(Modernizr.inputtypes.date){
+
+        }
+        else{
+            $( ".datepicker" ).datepicker();
+        }
+
         this.addListenersQuestions();
     },
 

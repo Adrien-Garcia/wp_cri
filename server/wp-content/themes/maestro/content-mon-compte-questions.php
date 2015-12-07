@@ -47,8 +47,10 @@
 					<span class="delai"><?php echo $question->support->label; ?></span>
 				</li>
 				<li>
+                    <?php if (! empty($question->support->value) ) : ?>
 					<span class="pts"><?php echo $question->support->value; ?> pts</span>
-				</li>
+                    <?php endif; ?>
+                </li>
 				<li>
 					<span class="id-question">N ° <?php echo $question->question->srenum ; ?></span>
 				</li>
