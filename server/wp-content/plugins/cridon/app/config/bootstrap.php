@@ -240,16 +240,6 @@ function updateRelatedContent( $object, $postFields ){
 }
 // End Category managment
 
-//Remove on menu Notaire action add
-MvcConfiguration::append(array(
-    'AdminPages' => array(
-        'notaires' => array(
-            'delete',
-            'edit'
-        )
-    )
-));
-//End remove
 
 // Workflow
 
@@ -277,6 +267,7 @@ function checkUserAuthorization(){
     $roles = $user->roles;//get roles
     //If user is an administrator, he has full control
     if( empty( $roles ) || in_array( CONST_ADMIN_ROLE, $roles ) ){
+        setAdminbarTranslation(Config::$listOfControllersWpMvcOnSidebar);//translate to french
         return;
     }
     foreach( $capabilities as $key => $value ){
@@ -292,6 +283,7 @@ function checkUserAuthorization(){
         }
     }
     $listRolesByCtrl = array();
+    $controllers = array();//list of controller
     if( empty( $aIndex ) ){
         return;
     }
@@ -302,15 +294,36 @@ function checkUserAuthorization(){
         }
         //Set role of controller
         $listRolesByCtrl[$controller] = $roles[0];
+        $controllers[] = $controller;//add to list
     }
     //Admin menu page generate with WP_MVC
     MvcConfiguration::append(array(
         'admin_controller_capabilities'=>$listRolesByCtrl
     ));
+    setAdminbarTranslation($controllers);//translate to french
 }
 
 // End workflow
-
+//Sidebar admin translation
+function setAdminbarTranslation( $controllers ){
+    $appends = array();
+    foreach( $controllers as $ctrl ){
+        $actions = Config::$sidebarAdminMenuActions;
+        if( in_array($ctrl,Config::$listOfControllersWithNoActionAdd )){
+            if( isset( $actions['add'] ) ){
+                unset($actions['add']);
+            }
+        }
+        $appends[$ctrl] = $actions;
+        MvcConfiguration::append(array(
+                'AdminPages' => array(
+                    $ctrl => $actions
+                )
+            )
+        );
+    }
+}
+//End Sidebar admin translation
 //Admin User Cridon
 
 

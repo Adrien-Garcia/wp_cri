@@ -161,4 +161,24 @@ class Config {
         CONST_SUPPORT_URG48H_ID,
         CONST_SUPPORT_URGWEEK_ID
     );
+    
+    // Admin menu translation
+    public static $sidebarAdminMenuActions = array(
+        'add' => array(
+            'label' => 'Ajouter'
+        ),
+        'delete' => array(
+            'label' => 'Suppression'
+        ),
+        'edit' => array(
+            'label' => 'Edition'
+        )
+    );
+    public static $listOfControllersWpMvcOnSidebar = array(
+        'affectations','cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
+        'questions','soldes','supports','user_cridons','veilles','vie_cridons'
+    );
+    public static $listOfControllersWithNoActionAdd = array(
+        'notaires'
+    );
 }
