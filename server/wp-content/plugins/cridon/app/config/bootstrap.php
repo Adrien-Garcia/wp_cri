@@ -306,7 +306,6 @@ function checkUserAuthorization(){
 // End workflow
 //Sidebar admin translation
 function setAdminbarTranslation( $controllers ){
-    $appends = array();
     foreach( $controllers as $ctrl ){
         $actions = Config::$sidebarAdminMenuActions;
         if( in_array($ctrl,Config::$listOfControllersWithNoActionAdd )){
@@ -314,7 +313,6 @@ function setAdminbarTranslation( $controllers ){
                 unset($actions['add']);
             }
         }
-        $appends[$ctrl] = $actions;
         MvcConfiguration::append(array(
                 'AdminPages' => array(
                     $ctrl => $actions
