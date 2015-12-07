@@ -28,6 +28,8 @@ class AdminDocumentsController extends MvcAdminController {
         }
         $this->set('objects', $collection['objects']);        
         $this->set_pagination($collection);
+        //Load custom helper
+        $this->load_helper('AdminCustom');
     }
     public function add() {
         $this->create_or_save();

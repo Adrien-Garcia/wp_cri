@@ -15,7 +15,17 @@ class AdminCompetencesController extends MvcAdminController
 	    'label',
 	    'matiere' => array('value_method' => 'matiere_edit_link')
     );
-
+    
+    public function index() {
+        $this->init_default_columns();
+        $this->process_params_for_search();
+        $collection = $this->model->paginate($this->params);
+        $this->set('objects', $collection['objects']);
+        $this->set_pagination($collection);
+        //Load custom helper
+        $this->load_helper('AdminCustom');
+    }
+    
     public function add()
     {
         $this->setMatieres();
