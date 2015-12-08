@@ -186,6 +186,7 @@
         $('#' + questionFormId).append(nonce);
         $('#' + questionFormId).submit(function() {
             // check required field
+
             if ($('*[name="' + objectFieldId + '"]').first().val() == '') {
                 $('#' + msgBlocId).html('Merci de bien remplir le champ "Objet de la question"');
                 $('*[name="' + objectFieldId + '"]').focus();
@@ -222,6 +223,8 @@
                 // stop action
                 return false;
             }
+            $('.js-question-submit').attr('disabled',true);
+
 
             jQuery.ajax({
                 type: 'POST',
@@ -231,11 +234,28 @@
                 contentType: false,
                 success: function (data) {
                     // init formdata
-                    formdata = new FormData();
+                    var formdata = new FormData();
 
                     data = JSON.parse(data);
                     // show message response
-                    $('#' + msgBlocId).html(data);
+                    var content = $(document.createElement('ul'));
+                    if ( Array.isArray(data) && data.error != undefined && Array.isArray(data.error) ) {
+                        data.error.forEach(function(c, i, a) {
+                            content.append(document.createElement('li'));
+                            content.find('li').last().text(c);
+                        });
+                    }else {
+                        content.append(document.createElement('li'));
+                        content.find('li').last().addClass('success').text(data);
+                        window.setTimeout( function() {
+                            $('.js-question-submit').attr('disabled',false);
+                            App.Question.$popupOverlay.popup('hide');
+                            App.Question.$formQuestion[0].reset();
+                        }, 1500);
+
+                    }
+                    $('#' + msgBlocId).html(content);
+
 
                     return false;
                 }
