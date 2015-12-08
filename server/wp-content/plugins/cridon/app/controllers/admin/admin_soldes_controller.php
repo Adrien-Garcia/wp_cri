@@ -4,7 +4,13 @@ require_once 'base_admin_controller.php';
 
 class AdminSoldesController extends BaseAdminController
 {
-
+    
+    var $default_searchable_fields = array(
+        'id', 
+        'client_number',
+        'quota',
+        'points'
+    );
     /**
      * @var array
      */
