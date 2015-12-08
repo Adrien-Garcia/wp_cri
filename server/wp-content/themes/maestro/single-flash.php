@@ -1,10 +1,10 @@
 <?php get_header(); ?>
 
-	<div id="content" class="single single-veilles">
+	<div id="content" class="single single-flash">
 
 		<div class="breadcrumbs">
 			<div id="" class="wrap cf">				
-				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux bases de connaissances</a>  +  <a href="">Veille juridique</a>  +  <span>Titre POST veilles</span>
+				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux bases de connaissances</a>  +  <a href="">Flash infos</a>  +  <span>Titre POST flashes</span>
 			</div>
 		</div>
 
@@ -16,7 +16,7 @@
 				
 
 				<div class="titre">
-					<span class="h1"><?php _e('Veille Juridique'); ?></span>
+					<span class="h1"><?php _e('Flash infos'); ?></span>
 				</div>
 
 				<div class="sep"></div>
@@ -28,7 +28,7 @@
 
 
 
-					<a href="<?php echo MvcRouter::public_url(array('controller' => 'veilles', 'action'     => 'index')) ?>"><?php _e('Retour'); ?></a>
+					<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>"><?php _e('Retour'); ?></a>
 
 				<?php // endwhile; ?>
 

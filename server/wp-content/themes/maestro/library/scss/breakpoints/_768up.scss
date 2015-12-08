@@ -1214,7 +1214,7 @@ body.page-template-front-page{
 
 */   
 
-#content.archive-veilles{
+#content.archive{
 	padding-top: 130px;
 
 	.breadcrumbs{
@@ -1266,6 +1266,7 @@ body.page-template-front-page{
 				
 				font-size: 50px;
 				line-height: 40px;
+				margin-top: 0;
 
 				&:before{	}
 
@@ -1274,12 +1275,13 @@ body.page-template-front-page{
 
 			#filtres_veilles{
 				border-bottom: none;
+				height: inherit;
 
 			}
 
 			.listing{
 
-
+			margin-top: 80px;
 
 				article{
 
@@ -1473,7 +1475,7 @@ body.page-template-front-page{
 */
 
 
-#content.single-veilles{
+#content.single{
 
 
 	#inner-content{
