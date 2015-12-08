@@ -86,10 +86,12 @@ and more scalable.
 				top: 100px;
 				opacity: 0;
 			}
+			
+		}
 
-			&:hover{
+		&:hover > a {
 
-				span{
+			span{
 					color:$rouge;
 				}
 
@@ -97,13 +99,8 @@ and more scalable.
 
 				&:before{
 					opacity: 1;
-
-					
-
-
-
 				}
-			}
+
 		}
 
 		> ul.sub-menu{
@@ -122,6 +119,8 @@ and more scalable.
 				left: -50vw;
 				top:0;
 				border-top:solid 1px #898989;
+
+				@include box-shadow(0px 4px 10px 0px #999999);
 			}
 
 			> li{ /* Style générale 2eme niveau*/
