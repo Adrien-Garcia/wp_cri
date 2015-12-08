@@ -225,6 +225,13 @@ class Question extends MvcModel
                 $this->siteQuestList[$question->id] = $question->client_number . $question->srenum;
             }
 
+        } elseif(isset($queryOptions['weekly']) && $queryOptions['weekly']) {
+            $sql .= " WHERE srenum IS NOT NULL ";
+            $questions = $this->wpdb->get_results($sql);
+            // fill list of existing question on site with unique key (client_number + srenum)
+            foreach ($questions as $question) {
+                array_push($this->siteQuestList, $question->client_number . $question->srenum);
+            }
         } else {
             $questions = $this->wpdb->get_results($sql);
             // fill list of existing question on site with unique key (client_number + srenum)
@@ -777,7 +784,8 @@ class Question extends MvcModel
             }
 
             // site quest list
-            $this->setSiteQuestList();
+            $queryOptions['weekly'] = true;
+            $this->setSiteQuestList($queryOptions);
             // store question list into local var
             $siteQuestList = $this->siteQuestList;
 
@@ -791,17 +799,13 @@ class Question extends MvcModel
             // delete action
             /**
              * $this->questListForDelete : tableau de couple "client_number + srenum"
-             * si srenum null ce sera client_number, or au niveau mysql CONCAT(client_number, NULL) = NULL
-             * d'où la conditoin dans le "WHERE" suivant
              */
             if (count($this->questListForDelete) > 0) {
+                // obtenir une chaine sous la forme : '84803274728', '80603274726', '82605774731'
                 $conditions = "'" . implode("','", $this->questListForDelete) . "'";
                 $query = "DELETE
                           FROM `{$this->table}`
-                          WHERE (CASE
-                                    WHEN srenum IS NOT NULL THEN CONCAT(client_number, srenum)
-                                    ELSE client_number
-                                END) IN (" . $conditions . ")";
+                          WHERE CONCAT(client_number, srenum) IN (" . $conditions . ")";
 
                 // execute query
                 mvc_model('QueryBuilder')->getInstanceMysqli()->query($query);
@@ -809,7 +813,7 @@ class Question extends MvcModel
 
             return CONST_STATUS_CODE_OK;
         } catch(\Exception $e) {
-            writeLog($e, 'questiondailyupdate.log');
+            writeLog($e, 'questionweeklyupdate.log');
 
             return CONST_STATUS_CODE_GONE;
         }
