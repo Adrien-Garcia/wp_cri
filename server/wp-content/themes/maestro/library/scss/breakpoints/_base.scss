@@ -350,7 +350,6 @@ HEADER STYLES
 	height: auto;
 	padding: 10px 10px 0 10px;
 	background: #FFF;
-	transform: scale(0.8);
 
 	.block_top{
 
@@ -716,7 +715,11 @@ HEADER STYLES
 						}
 
 						#msgBlockQuestionId{
-							color:$rouge; 
+							color:$rouge;
+                            .success {
+                                color: $vert;
+                                font-size: 150%;
+                            }
 						}
 
 						.fileUpload {

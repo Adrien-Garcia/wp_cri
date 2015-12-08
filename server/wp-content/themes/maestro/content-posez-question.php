@@ -1,7 +1,7 @@
 <?php if (CriIsNotaire()) : ?>
 <div id="layer-posez-question" style="display:none;">
 
-	<form action="" id="questionFormId" method="post" enctype="multipart/form-data">
+	<form action="" id="questionFormId" method="post" enctype="multipart/form-data" class="js-question-form">
 	<div class="block_top">
 
 		<div class="titre">
@@ -73,13 +73,13 @@
 						    <button class="btn btn-primary btn-reset js-file-reset">+</button>
 						    <input type="file" class="upload js-question-file"  id="question_fichier_<?php echo $i; ?>" name="question_fichier[]"  placeholder="Télécharger vos documents"/>
 
-						    <span class="fileButtonFront">Parcourir</span>
+						    <span class="fileButtonFront">Attacher une pièce jointe</span>
                         </div>
                         <?php endfor; ?>
 
 						<div class="sep"></div>
 
-						<input type="submit" name="Envoyer ma question" value="Envoyer ma question">
+						<input class="js-question-submit" type="submit" name="Envoyer ma question" value="Envoyer ma question">
 					    <div id="msgBlockQuestionId"></div>
                     </div>
 					

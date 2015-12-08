@@ -427,7 +427,8 @@ class Question extends MvcModel
 
     public function uploadDocuments( $post ){
         // init error
-        $error = array();
+        $response = array();
+        $response['error'] = array();
 
         //Not access form, only for Notaire connected
         if( !is_user_logged_in() || !CriIsNotaire() ){
@@ -510,29 +511,29 @@ class Question extends MvcModel
                             }
                         }
                     } else {
-                        $error[] = sprintf(CONST_QUESTION_FILE_SIZE_ERROR,
+                        $response['error'][] = sprintf(CONST_QUESTION_FILE_SIZE_ERROR,
                                            (CONST_QUESTION_MAX_FILE_SIZE / 1000000) . 'M');
 
-                        return $error;
+                        return $response['error'];
                     }
                 }
             }else{
                 if (!isset($post[CONST_QUESTION_OBJECT_FIELD]) || $post[CONST_QUESTION_OBJECT_FIELD] == '') {
-                    $error[] = CONST_EMPTY_OBJECT_ERROR_MSG;
+                    $response['error'][] = CONST_EMPTY_OBJECT_ERROR_MSG;
                 }
                 if (!isset($post[CONST_QUESTION_MESSAGE_FIELD]) || $post[CONST_QUESTION_MESSAGE_FIELD] == '') {
-                    $error[] = CONST_EMPTY_MESSAGE_ERROR_MSG;
+                    $response['error'][] = CONST_EMPTY_MESSAGE_ERROR_MSG;
                 }
                 if (!isset($post[CONST_QUESTION_SUPPORT_FIELD]) || intval($post[CONST_QUESTION_SUPPORT_FIELD] <= 0)) {
-                    $error[] = CONST_EMPTY_SUPPORT_ERROR_MSG;
+                    $response['error'][] = CONST_EMPTY_SUPPORT_ERROR_MSG;
                 }
                 if (!isset($post[CONST_QUESTION_MATIERE_FIELD]) || intval($post[CONST_QUESTION_MATIERE_FIELD] <= 0)) {
-                    $error[] = CONST_EMPTY_MATIERE_ERROR_MSG;
+                    $response['error'][] = CONST_EMPTY_MATIERE_ERROR_MSG;
                 }
                 if (!isset($post[CONST_QUESTION_COMPETENCE_FIELD]) || intval($post[CONST_QUESTION_COMPETENCE_FIELD] <= 0)) {
-                    $error[] = CONST_EMPTY_COMPETENCE_ERROR_MSG;
+                    $response['error'][] = CONST_EMPTY_COMPETENCE_ERROR_MSG;
                 }
-                return $error;
+                return $response;
             }
 
             return true;

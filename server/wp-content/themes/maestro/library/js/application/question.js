@@ -2,6 +2,8 @@ App.Question = {
 
     buttonQuestionOpenSelector          : '.js-question-open',
 
+    formQuestionSelector                : '.js-question-form',
+
     selectQuestionMatiereSelector       : '.js-question-select-matiere',
     selectQuestionCompetenceSelector    : '.js-question-select-competence',
 
@@ -26,6 +28,7 @@ App.Question = {
     selectedClass                       : 'selected',
 
     $buttonQuestionOpen                 : null,
+    $formQuestion                       : null,
     $selectQuestionMatiere              : null,
     $selectQuestionCompetence           : null,
     $selectQuestionCompetenceArray      : [],
@@ -52,6 +55,8 @@ App.Question = {
         var self = this;
 
         this.$buttonQuestionOpen                    = $(this.buttonQuestionOpenSelector);
+
+        this.$formQuestion                          = $(this.formQuestionSelector);
 
         this.$selectQuestionMatiere                 = $(this.selectQuestionMatiereSelector);
         this.$selectQuestionCompetence              = $(this.selectQuestionCompetenceSelector);

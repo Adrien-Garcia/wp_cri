@@ -21,10 +21,10 @@
 				<?php $current_date = null; ?>
 
 				<?php
-					foreach ($objects as $key => $veille) :
+                foreach ($objects as $key => $veille) :
 				 ?>
 
-				<?php criWpPost($veille); ?>
+                    <?php criWpPost($veille); ?>
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
 						<?php 
