@@ -213,7 +213,10 @@ class Config {
         'label'       => 'Libellé',
         'code'        => 'Code',
         'short_label' => 'Libellé court',
-        'displayed'   => 'Affiché sur le site ?'
+        'displayed'   => 'Affiché sur le site ?',
+        'label_front' => 'Libellé en front',
+        'value'       => 'Valeur',
+        'description' => 'Description'
     );
     //End translation
 }
