@@ -207,9 +207,6 @@ class Question extends MvcModel
      */
     protected function setSiteQuestList($queryOptions = array())
     {
-        // increase memory limit
-        ini_set('memory_limit', '-1');
-
         // get list of existing question
         $sql = "SELECT id, srenum, client_number FROM {$this->table}";
         if (isset($queryOptions['cronquestionupdate'])) {
@@ -578,6 +575,11 @@ class Question extends MvcModel
     public function dailyUpdate()
     {
         try {
+            // enable gbcollector
+            if (function_exists('gc_enable')) {
+                gc_enable();
+            }
+
             // set adapter
             switch (strtolower(CONST_IMPORT_OPTION)) {
                 case self::IMPORT_ODBC_OPTION:
@@ -619,8 +621,8 @@ class Question extends MvcModel
 
             $mainQuery = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST;
             $mainQuery .= " WHERE {$timestampFunc}({$intervalParam}, '{$dateModif} {$hourModif}', CONCAT_WS(' ', {$todateFunc}(" . $adapter::QUEST_UPDDAT . ", '%d/%m/%Y'), " . $adapter::QUEST_ZUPDHOU . ")) > 0  ";
-            $mainQuery .= " AND ZUPDHOU_0 IS NOT NULL
-                        AND ZUPDHOU_0 != '' ";
+            $mainQuery .= " AND " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
+                        AND " . $adapter::QUEST_ZUPDHOU . " != '' ";
             // filter by list of supports if necessary
             if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
                 $mainQuery .= ' AND ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',',
@@ -719,7 +721,7 @@ class Question extends MvcModel
                         // conditions
                         if (isset($data[$adapter::QUEST_ZIDQUEST]) && intval($data[$adapter::QUEST_ZIDQUEST]) > 0) { // maj par id question
                             $query .= " WHERE id = '" . intval($data[$adapter::QUEST_ZIDQUEST]) . "';";
-                        } else {
+                        } else { // maj par client_number et srenum
                             $query .= " WHERE client_number = '" . esc_sql($data[$adapter::QUEST_SREBPC]) . "'";
                             $query .= " AND srenum = '" . esc_sql($data[$adapter::QUEST_SRENUM]) . "';";
                         }
@@ -759,6 +761,10 @@ class Question extends MvcModel
     public function weeklyUpdate()
     {
         try {
+            // enable gbcollector
+            if (function_exists('gc_enable')) {
+                gc_enable();
+            }
             // set adapter
             switch (strtolower(CONST_IMPORT_OPTION)) {
                 case self::IMPORT_ODBC_OPTION:
@@ -817,11 +823,7 @@ class Question extends MvcModel
      */
     protected function setQuestListForDelete($i, $siteQuestList)
     {
-        writeLog($i, 'debug.log');
         try {
-            // increase memory limit
-            ini_set('memory_limit', '-1');
-
             // instance of adapter
             $adapter = $this->adapter;
 
