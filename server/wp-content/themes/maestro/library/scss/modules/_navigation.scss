@@ -22,9 +22,9 @@ and more scalable.
 		a {
 			display: block;
 			color: $bleu;
-			text-decoration: none;			
+			text-decoration: none;
 		}
-		
+
 		ul.sub-menu,
 		ul.children {
 			margin:0;
@@ -62,7 +62,7 @@ and more scalable.
 			color:$bleu;
 
 			padding-top: 35px;
-			padding-right: 70px;
+			padding-right: 68px;
 
 			position: relative;
 
@@ -86,7 +86,7 @@ and more scalable.
 				top: 100px;
 				opacity: 0;
 			}
-			
+
 		}
 
 		&:hover > a {
@@ -143,7 +143,7 @@ and more scalable.
 				    margin-bottom: 20px;
 				    height: 100%;
 
-					&:before{					
+					&:before{
 						@include svgicon('icon-menu-hover', 11px, 11px, $rouge);
 						@include transition(left 0.3s);
 						position: absolute;
@@ -157,7 +157,7 @@ and more scalable.
 				    	}
 				    }
 
-					
+
 
 				}
 
@@ -273,7 +273,7 @@ and more scalable.
 							> a{
 								@extend .do-bo;
 							}
-						} 				
+						}
 
 					}
 
@@ -292,27 +292,27 @@ and more scalable.
 							position: absolute;
 							top: 0;
 							display: block;
-							height: 260px;							
+							height: 260px;
 							box-sizing: border-box;
-							
+
 
 						}
 
-						&:before{							
+						&:before{
 							@include border-radius(0 20px 0 0);
 							left: 0;
 						}
 
-						&:after{ 
+						&:after{
 							@include border-radius(20px 0 0 0);
 							right: 0;
 
 
 						}
 
-						
-						
-						h2{ 
+
+
+						h2{
 							position: relative;
 							z-index: 2000;
 							@extend .do-sm;
@@ -342,7 +342,7 @@ and more scalable.
 						}
 
 						> a{
-							display: block; 
+							display: block;
 							color:#FFF;
 							position: relative;
 							z-index: 2000;
@@ -353,15 +353,15 @@ and more scalable.
 							line-height: 27px;
 							padding: 0;
 							margin: 0;
-							width: 100%; 
+							width: 100%;
 						}
-					}	
-					
+					}
+
 				}
 
 
 			}
-			
+
 		}
 	}
 
@@ -381,7 +381,7 @@ and more scalable.
 				//border-right:solid 1px $rouge;
 
 				> a{
-				    width: 240px;    
+				    width: 240px;
 				}
 			}
 
@@ -394,10 +394,10 @@ and more scalable.
 				border-left:0px;
 				border-right:0px;
 
-				> a{			
+				> a{
 					width: 240px;
 
-					
+
 				    &:hover{
 				    	&:before{
 				    		left:0px;
@@ -406,13 +406,13 @@ and more scalable.
 				}
 
 				>ul.sub-menu{
-					
+
 					//visibility: visible;
 
 					> li{
 						width: 270px;
 						float: left;
-						
+
 					}
 				}
 			}
@@ -422,7 +422,7 @@ and more scalable.
 			}
 
 			>li:last-child{ /* IMAGE RECHERCHE */
-				
+
 				border-right:none;
 				border-left:none;
 
@@ -430,19 +430,19 @@ and more scalable.
 					background: url(../images/origin/bg-rechercher-mobile_02.png);
 
 					.content{
-						&:before, &:after{							
+						&:before, &:after{
 							background: $bleu;
 							@include gradient-opacity(transparentize($bleu, 0.4),opacify($bleu, 1));
 							background-size: 100% 200%;
-						}							
+						}
 					}
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-rechercher', 42px, 42px, #FFFFFF);					
+						@include svgicon('icon-rechercher', 42px, 42px, #FFFFFF);
 						position:absolute;
 						top: -55px;
-						left:calc( 50% - 15px); 
+						left:calc( 50% - 15px);
 					}
 				}
 			}
@@ -484,7 +484,7 @@ and more scalable.
 					//visibility: visible;
 					width: 100%;
 
-					
+
 
 					>li{
 						width: 100%;
@@ -512,41 +512,41 @@ and more scalable.
 				//border-left:solid 1px $rouge;
 				padding-bottom: 0;
 
-				
+
 				>div.block{
 					background: url(../images/origin/bg-acceder-mobile_02.png);
 					background-size: cover;
-					
-					
+
+
 
 
 					.content{
-						&:before, &:after{							
+						&:before, &:after{
 							background: $bleu;
 							@include gradient-opacity(transparentize($jaune, 0.4),opacify($jaune, 1));
 							background-size: 100% 200%;
-						}							
+						}
 					}
 
 					h2:before{
 						display:block;
-						@include svgicon('iicon-veille-juridique', 42px, 42px, #FFFFFF);					
+						@include svgicon('iicon-veille-juridique', 42px, 42px, #FFFFFF);
 						position:absolute;
 						top: -55px;
-						left:calc( 50% - 15px); 
+						left:calc( 50% - 15px);
 					}
 				}
 
 			}
 		}
 	}
-	
+
 	/* Dernier li premier niveau*/
 	> li:last-child{ /* MENU CONNAITRE */
 
 		> a{
 			padding-right: 0;
-		}		
+		}
 
 		> ul.sub-menu{
 
@@ -599,10 +599,10 @@ and more scalable.
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-consulter', 28px, 28px, #FFFFFF);					
+						@include svgicon('icon-consulter', 28px, 28px, #FFFFFF);
 						position:absolute;
 						top:-32px;
-						left:calc( 50% - 15px ); 
+						left:calc( 50% - 15px );
 					}
 
 					.content{
@@ -637,9 +637,9 @@ and more scalable.
 
 nav#menu_mobile{
 
-	
 
-	
+
+
 
 	.mm-navbar{
 		border:0;
@@ -661,7 +661,7 @@ nav#menu_mobile{
 
 		.mm-close{
 
-			    @include rotate(45); 
+			    @include rotate(45);
 			    top:19px;
 
 			&:after{
