@@ -236,6 +236,33 @@ and more scalable.
 				right: -260px;
 				top: 40px;
 
+
+				&:after{ /* SEP */
+					content:'';
+					height: 260px;
+					width: 1px;
+					background: $rouge;
+					position: absolute;
+					left: -272px;
+					top: 0;
+					z-index: 9000;
+				}
+
+				&:before{ /* SEP */
+					content:'';
+					height: 260px;
+					width: 1px;
+					background: $rouge;
+					position: absolute;
+					left: 0;
+					top: 0;
+					z-index: 9000;
+					display: block;
+				}
+
+
+
+
 				>div.block{
 					width: 340px;
 					height: 260px;
@@ -344,15 +371,15 @@ and more scalable.
 
 		> ul.sub-menu{
 
-			//visibility: hidden;
+			//visibility: visible;
 			width: 850px;
 
 			>li{
 				width: 270px;
 				padding-bottom: 24px;
 				padding-left: 20px;
-				border-left:solid 1px $rouge;
-				border-right:solid 1px $rouge;
+				//border-left:solid 1px $rouge;
+				//border-right:solid 1px $rouge;
 
 				> a{
 				    width: 240px;    
@@ -381,6 +408,7 @@ and more scalable.
 
 				>ul.sub-menu{
 					
+					//visibility: visible;
 
 					> li{
 						width: 270px;
@@ -432,11 +460,22 @@ and more scalable.
 			width: 850px;
 			left: -820px;
 
+			&:after{
+				content:'';
+				height: 260px;
+				width: 1px;
+				background: $rouge;
+				position: absolute;
+				left: 280px;
+				top: 40px;
+				z-index: 200;
+			}
+
 			>li{
 				width: 280px;
 				float: left;
 				overflow: hidden;
-				border-right:solid 1px $rouge;
+				//border-right:solid 1px $rouge;
 				padding: 0 20px;
 				padding-bottom: 20px;
 
@@ -445,6 +484,8 @@ and more scalable.
 				ul.sub-menu{
 					//visibility: visible;
 					width: 100%;
+
+					
 
 					>li{
 						width: 100%;
@@ -469,10 +510,10 @@ and more scalable.
 
 				overflow: inherit;
 				border-right: none;
-				border-left:solid 1px $rouge;
+				//border-left:solid 1px $rouge;
 				padding-bottom: 0;
 
-
+				
 				>div.block{
 					background: url(../images/origin/bg-acceder-mobile_02.png);
 					background-size: cover;
@@ -515,11 +556,22 @@ and more scalable.
 			left: -1050px;
 			display: table;
 
+			&:after{ /* SEP */
+				content:'';
+				height: 260px;
+				width: 1px;
+				background: $rouge;
+				position: absolute;
+				left: 280px;
+				top: 40px;
+				z-index: 200;
+			}
+
 			>li{
 
 				width: 280px;
 				float: left;
-				border-right:solid 1px $rouge;
+				//border-right:solid 1px $rouge;
 				padding: 0 20px;
 				display: table-cell;
 				vertical-align: middle;
@@ -533,6 +585,10 @@ and more scalable.
 
 				}
 
+			}
+
+			>li:nth-child(3n-2){
+				padding-left: 0;
 			}
 
 			>li:last-child{
@@ -571,15 +627,61 @@ and more scalable.
 
 
 /* NAV mobile */
+.mm-menu.mm-theme-dark .mm-navbar .mm-btn:before,
+.mm-menu.mm-theme-dark .mm-navbar .mm-btn:after{
+
+  border-color: rgba(46, 72, 103, 1) !important;
+  height: 15px;
+  width: 15px;
+  top: 26px;
+}
 
 nav#menu_mobile{
+
+	
+
+	
 
 	.mm-navbar{
 		border:0;
 
+		height: 60px;
+
 		&:before{
-			content:'';
+		    content: "";
+			position: absolute;
+			top: 10px;
+			left: 50%;
+			margin-left: -85px;
+			display: block;
+			background: url(../images/logo-cridon-new.svg) no-repeat center center;
+            background-size: 170px 43px;
+            width: 170px;
+            height: 43px;
 		}
+
+		.mm-close{
+
+			    @include rotate(45); 
+			    top:19px;
+
+			&:after{
+				    border-color: rgba(46, 72, 103, 1);
+				    content:'+';
+				    font-size: 48px;
+				    line-height: 0px;
+				    @extend .do-el;
+				    color:$bleu;
+			}
+
+
+		}
+
+		.mm-prev:after{border-color: rgba(46, 72, 103, 1);}
+	}
+
+	.mm-panel{
+		top: 60px;
 	}
 
 	#menu-menu-principal{
@@ -599,8 +701,33 @@ nav#menu_mobile{
 					> span{ font-size: 20px;}
 
 				}
+
+				.mm-next{
+
+					&:after{
+
+					border-color: rgba(46, 72, 103, 1);
+					//background: rgba(46, 72, 103, 1);
+					}
+				}
+
+
+
+
 			}
 		}
 	}
 
 }
+
+.sub-menu > li > a, .sub-menu > li > span{
+					color:$bleu !important;
+					@extend .do-re;
+					font-size: 16px;
+				}
+
+.mm-menu.mm-theme-dark .mm-listview > li .mm-prev:before, .mm-menu.mm-theme-dark .mm-listview > li .mm-next:after, .mm-menu.mm-theme-dark .mm-listview > li .mm-arrow:after{
+	border-color: rgba(46, 72, 103, 1) !important;
+
+}
+.mm-menu.mm-theme-dark .mm-listview > li .mm-prev:after, .mm-menu.mm-theme-dark .mm-listview > li .mm-next:before{ content:none !important;}

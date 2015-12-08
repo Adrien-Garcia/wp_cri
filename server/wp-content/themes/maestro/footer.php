@@ -86,10 +86,7 @@
 							<a href="http://www.jetpulp.fr" class="class2 logoJP" title="Jetpulp" target="_blank">Jetpulp</a>
 						<?php else : ?>
 							<span class="class2 logoJP" title="Jetpulp">Jetpulp</span>
-						<?php endif; ?>
-						<a class="poser-question layer-posez-question_open" href="#">
-						<?php _e('Posez une question'); ?>
-					</a>
+						<?php endif; ?>						
 
 					</div>
 				</div>
