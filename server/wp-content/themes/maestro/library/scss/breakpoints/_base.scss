@@ -64,7 +64,7 @@ HEADER STYLES
 
 			h1, .h1 {	
 		
-				width: 100%;
+				width: 170px;
 				height: 60px;
 				margin: 0 auto;
 				padding: 0;
@@ -72,6 +72,8 @@ HEADER STYLES
                 
                 background: url(../images/logo-cridon-new.svg) no-repeat center center;
                 background-size: 170px 43px;
+
+                
 
                 &:after{
 					content:none;
@@ -1687,7 +1689,7 @@ body.page-template-front-page{
 			clear: both;
 			position: relative;
 			padding: 60px 0 40px 0;	
-			background: #FFF;		
+			background: #FFF;
 
 			&:before{
 
@@ -2133,7 +2135,7 @@ body.page-template-front-page{
 
 
 #content.single-veilles{
- 
+
 	
 	#inner-content{
 		.titre {
@@ -2479,6 +2481,7 @@ body.page-template-front-page{
 #content.page, #content.archive, #content.single {
 
 	padding: 60px 0 0 0;
+	background: #FFF;
 
 	.breadcrumbs{
 		width: 100%;
@@ -2570,6 +2573,8 @@ body.page-template-front-page{
 
 
 #content.page-mon-compte{
+
+	
 
 	#main{
 		//padding-top: 0;
@@ -3785,6 +3790,9 @@ body.page-template-front-page{
 POSTS & CONTENT STYLES
 *********************/
 
+#menu{display: none; visibility: hidden;}
+#menu_mobile{display: block;}
+
 #content {
 	//margin-top: 1.5em;
 	//padding:0 0 104px 0; /* Hauteur du footer */
@@ -4243,12 +4251,16 @@ a.logoJP:hover{opacity: 1;
 		nav {
 			font-size: 13px;
 			@extend .do-re;
+
 			li {
 				// float: left;
 				display: inline-block;
 
 				a{
 					padding: 0 7px;
+					@extend .do-re;
+					font-size: 13px;
+					height: auto;
 					&:after {
 						content: "|";
 						display: inline-block;

@@ -140,7 +140,7 @@ HEADER STYLES
 			h1, .h1 {	
 				margin-left: 10px;
 		
-				width: 400px;
+				width: 510px;
 				float: left;
 				height: 120px;
 				background-size: 310px 85px;	
@@ -2425,6 +2425,9 @@ body.page-template-front-page{
 NAVIGATION STYLES
 *********************/
 
+#menu{display: block; visibility: visible;}
+#menu_mobile{display: none;}
+
 .nav {
 
 	border: 0;
@@ -2441,15 +2444,17 @@ NAVIGATION STYLES
 
 		a {
 			
-			border-bottom: 0;
+			border-bottom: 0; 
 
 			/*
 			you can use hover styles here even though this size
 			has the possibility of being a mobile device.
 			*/
 			&:hover, &:focus {
-				color: $white;
-				text-decoration: underline;
+
+				color:$rouge;
+				
+				text-decoration: none;
 			}
 		}
 
@@ -2463,20 +2468,20 @@ NAVIGATION STYLES
 		ul.children {
 		
 			margin-top: 0;
-			border: 1px solid #ccc;
+			//border: 1px solid #ccc;
 			border-top: 0;
 			position: absolute;
-			visibility: hidden;
+			//visibility: hidden; /* sous menu*/
 			z-index: 8999;
 
 			li {
 
 				a {
-					padding-left: 10px;
+					padding-left: 0;
 					border-right: 0;
 					display: block;
-					width: 180px;
-					border-bottom: 1px solid #ccc;
+					//width: 180px;
+					//border-bottom: 1px solid #ccc;
 
 					&:hover,
 					&:focus {}
@@ -2516,7 +2521,15 @@ NAVIGATION STYLES
 		&:hover > ul {
 			top: auto;
 			visibility:visible;
+
+			> li > ul{
+				top: auto;
+				visibility:visible;
+
+			}
 		}
+
+		
 
 	} /* end .menu ul li */
 

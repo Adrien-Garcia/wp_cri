@@ -118,6 +118,10 @@ function bones_scripts_and_styles() {
 		// popup overlay
 		wp_register_script( 'popupoverlay', get_stylesheet_directory_uri() . '/library/js/jquery.popupoverlay.js', array(), '', false );
 
+		// mmenu
+		wp_register_script( 'mmenu', get_stylesheet_directory_uri() . '/library/js/min/jquery.mmenu.min.all.js', array(), '', false );
+
+
 		// register main stylesheet
 		wp_register_style( 'bones-stylesheet', get_stylesheet_directory_uri() . '/library/css/style.css', array(), '', 'all' );
 
@@ -154,6 +158,7 @@ function bones_scripts_and_styles() {
 		wp_enqueue_script( 'bones-modernizr' );
 		wp_enqueue_script( 'jQuery-ui' );		
 		wp_enqueue_script( 'owl-carousel' );
+		wp_enqueue_script( 'mmenu' );
 		wp_enqueue_script( 'popupoverlay' );
 		wp_enqueue_script( 'bxslider' );
 		wp_enqueue_script( 'picturefill' );

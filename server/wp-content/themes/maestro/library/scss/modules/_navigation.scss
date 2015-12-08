@@ -21,60 +21,17 @@ and more scalable.
 
 		a {
 			display: block;
-			color: $white;
-			text-decoration: none;
-			padding: 0.75em 2em 0.75em 0;
-
-			/*
-			remember this is for mobile ONLY, so there's no need
-			to even declare hover styles here, you can do it in
-			the style.scss file where it's relevant. We want to
-			keep this file as small as possible!
-			*/
-			&:hover, &:focus {
-
-			}
+			color: $bleu;
+			text-decoration: none;			
 		}
-
-		&:first-child {}
-
-		&:last-child {}
-
-		/*
-		so you really have to rethink your dropdowns for mobile.
-		you don't want to have it expand too much because the
-		screen is so small. How you manage your menu should
-		depend on the project. Here's some great info on it:
-		http://www.alistapart.com/articles/organizing-mobile/
-		*/
+		
 		ul.sub-menu,
 		ul.children {
-
-			background:lightgrey;
 			margin:0;
-
-			li {
-
-				a {
-					padding-left: 30px;
-
-					&:hover,
-					&:focus {}
-
-					&:link {}
-
-				}
-
-				&:first-child {}
-
-				&:last-child {}
-
-			}
 
 		}
 
 		&:before{
-
 			content:"";
 			display:none;
 
@@ -91,4 +48,686 @@ and more scalable.
 
 	}  /* end current highlighters */
 
+
+	> li{
+
+		//height: 120px;
+
+		> a{ /* Lien 1ere niveau*/
+			height: 120px;
+			display: block;
+
+			font-family: garamond;
+			font-size: 22px;
+			color:$bleu;
+
+			padding-top: 35px;
+			padding-right: 70px;
+
+			position: relative;
+
+
+			@include transition(color 0.3s);
+
+			span{
+				display: block;
+				@extend .do-sm;
+				color:$bleu;
+				font-size: 30px;
+				line-height: 24px;
+				text-transform: uppercase;
+			}
+
+			&:before{
+				@include transition (opacity 0.5s);
+				@include svgicon('icon-menu-hover', 11px, 11px, $rouge);
+				position: absolute;
+				left: 0;
+				top: 100px;
+				opacity: 0;
+			}
+
+			&:hover{
+
+				span{
+					color:$rouge;
+				}
+
+				color:$rouge;
+
+				&:before{
+					opacity: 1;
+
+					
+
+
+
+				}
+			}
+		}
+
+		> ul.sub-menu{
+
+			width: 100%;
+			left: -520px;
+			padding-top: 40px;
+
+			&:before{
+				content:'';
+				width: 200vw;
+				min-height: 340px;
+				height: calc(100% + 40px);
+				background: #FFF;
+				position: absolute;
+				left: -50vw;
+				top:0;
+				border-top:solid 1px #898989;
+			}
+
+			> li{ /* Style générale 2eme niveau*/
+
+				> a{  /* Lien 2eme niveau*/
+					@extend .do-sm;
+					font-size: 20px;
+					text-transform: uppercase;
+					color:$bleu;
+					position: relative;
+					padding: 0;
+					margin: 0 0 20px 0;
+					height: 22px;
+					line-height: 22px;
+					border-bottom:0px !important;
+
+					display: block;
+				    width: 100%;
+				    padding-bottom: 0px;
+				    margin-bottom: 20px;
+				    height: 100%;
+
+					&:before{					
+						@include svgicon('icon-menu-hover', 11px, 11px, $rouge);
+						@include transition(left 0.3s);
+						position: absolute;
+						left: 0;
+						bottom: -18px;
+					}
+
+					&:hover{
+				    	&:before{
+				    		left:20px;
+				    	}
+				    }
+
+					
+
+				}
+
+				&.menu-item-has-children{
+
+					> a{
+
+						&:hover{
+					    	&:before{
+					    		left:0px;
+					    	}
+					    }
+
+					}
+
+				}
+
+				>ul.sub-menu{
+					width: 570px;
+					left: 0;
+					position: relative;
+					float: left;
+					background: #FFF;
+					border:0px;
+					padding-left: 30px;
+					padding-top: 5px;
+
+					> li{
+						margin: 6px 0;
+						padding: 0;
+						padding-right: 10px;
+						display: inline;
+
+						> a{
+							width: 100%;
+							display: block;
+							border-bottom: 0px;
+							font-size: 16px;
+							line-height: 20px;
+							@extend .do-re;
+							padding-left: 20px;
+							position: relative;
+							@include transition(margin 0.3s);
+
+							&:before{
+								height: 8px;
+								width: 8px;
+								border:solid 1px $rouge;
+								content:'';
+								position: absolute;
+								left: 0;
+								top: 50%;
+								margin-top: -4px;
+								background-color: #FFF;
+								@include border-radius(50%);
+							}
+
+							&:hover{
+
+								margin-left: 10px;
+
+								&:before{
+									background-color: $rouge;
+								}
+							}
+						}
+					}
+				}
+
+			}
+
+			>li:last-child{ /* IMAGE */
+				border: 0;
+				position: absolute;
+				right: -260px;
+				top: 40px;
+
+
+				&:after{ /* SEP */
+					content:'';
+					height: 260px;
+					width: 1px;
+					background: $rouge;
+					position: absolute;
+					left: -272px;
+					top: 0;
+					z-index: 9000;
+				}
+
+				&:before{ /* SEP */
+					content:'';
+					height: 260px;
+					width: 1px;
+					background: $rouge;
+					position: absolute;
+					left: 0;
+					top: 0;
+					z-index: 9000;
+					display: block;
+				}
+
+
+
+
+				>div.block{
+					width: 340px;
+					height: 260px;
+					background-size: cover;
+
+					&:hover{
+						cursor: pointer;
+						.content {
+							> a{
+								@extend .do-bo;
+							}
+						} 				
+
+					}
+
+
+					.content{
+						position: absolute;
+						width: 340px;
+						height: 260px;
+						top: 0;
+						left: 20px;
+						padding-top: 80px;
+
+						&:before, &:after{
+							content: '';
+							width: calc(100% / 2);
+							position: absolute;
+							top: 0;
+							display: block;
+							height: 260px;							
+							box-sizing: border-box;
+							
+
+						}
+
+						&:before{							
+							@include border-radius(0 20px 0 0);
+							left: 0;
+						}
+
+						&:after{ 
+							@include border-radius(20px 0 0 0);
+							right: 0;
+
+
+						}
+
+						
+						
+						h2{ 
+							position: relative;
+							z-index: 2000;
+							@extend .do-sm;
+							color:#FFF;
+							font-size: 50px;
+							line-height: 45px;
+							text-transform: uppercase;
+							text-align: center;
+							margin: 30px 0 0 0;
+							padding: 0;
+							font-weight: normal;
+
+							span{
+								display: block;
+								font-size: 28px;
+								line-height: 30px;
+								font-family: 'EB Garamond';
+								color:#FFF;
+								text-transform: none;
+								font-weight: normal;
+
+							}
+
+							&:before{
+								font-weight:normal;
+							}
+						}
+
+						> a{
+							display: block; 
+							color:#FFF;
+							position: relative;
+							z-index: 2000;
+							text-decoration: none;
+							text-align: center;
+							@extend .do-el;
+							font-size: 40px;
+							line-height: 27px;
+							padding: 0;
+							margin: 0;
+							width: 100%; 
+						}
+					}	
+					
+				}
+
+
+			}
+			
+		}
+	}
+
+	> li:first-child{
+		/* MENU ACCEDER */
+
+		> ul.sub-menu{
+
+			//visibility: visible;
+			width: 850px;
+
+			>li{
+				width: 270px;
+				padding-bottom: 24px;
+				padding-left: 20px;
+				//border-left:solid 1px $rouge;
+				//border-right:solid 1px $rouge;
+
+				> a{
+				    width: 240px;    
+				}
+			}
+
+
+			> li:first-child{
+				width: 570px;
+				float: left;
+				padding-left: 0;
+
+				border-left:0px;
+				border-right:0px;
+
+				> a{			
+					width: 240px;
+
+					
+				    &:hover{
+				    	&:before{
+				    		left:0px;
+				    	}
+				    }
+				}
+
+				>ul.sub-menu{
+					
+					//visibility: visible;
+
+					> li{
+						width: 270px;
+						float: left;
+						
+					}
+				}
+			}
+
+			>li:nth-last-child(2){
+				padding-bottom: 0;
+			}
+
+			>li:last-child{ /* IMAGE RECHERCHE */
+				
+				border-right:none;
+				border-left:none;
+
+				>div.block{
+					background: url(../images/origin/bg-rechercher-mobile_02.png);
+
+					.content{
+						&:before, &:after{							
+							background: $bleu;
+							@include gradient-opacity(transparentize($bleu, 0.4),opacify($bleu, 1));
+							background-size: 100% 200%;
+						}							
+					}
+
+					h2:before{
+						display:block;
+						@include svgicon('icon-rechercher', 42px, 42px, #FFFFFF);					
+						position:absolute;
+						top: -55px;
+						left:calc( 50% - 15px); 
+					}
+				}
+			}
+
+		}
+
+	}
+
+	> li:nth-child(2){ /* MENU COMMANDER */
+
+		> ul.sub-menu{
+
+			//visibility: visible;
+			width: 850px;
+			left: -820px;
+
+			&:after{
+				content:'';
+				height: 260px;
+				width: 1px;
+				background: $rouge;
+				position: absolute;
+				left: 280px;
+				top: 40px;
+				z-index: 200;
+			}
+
+			>li{
+				width: 280px;
+				float: left;
+				overflow: hidden;
+				//border-right:solid 1px $rouge;
+				padding: 0 20px;
+				padding-bottom: 20px;
+
+				> a{ height: auto;}
+
+				ul.sub-menu{
+					//visibility: visible;
+					width: 100%;
+
+					
+
+					>li{
+						width: 100%;
+						clear: both;
+						//padding: 0;
+						margin: 6px 0;
+					}
+
+				}
+			}
+
+			>li:first-child{
+				padding-left: 0;
+			}
+
+			>li:nth-child(3){
+				//height: 260px;
+				border-right: none;
+			}
+
+			> li:last-child{/*IMAGE*/
+
+				overflow: inherit;
+				border-right: none;
+				//border-left:solid 1px $rouge;
+				padding-bottom: 0;
+
+				
+				>div.block{
+					background: url(../images/origin/bg-acceder-mobile_02.png);
+					background-size: cover;
+					
+					
+
+
+					.content{
+						&:before, &:after{							
+							background: $bleu;
+							@include gradient-opacity(transparentize($jaune, 0.4),opacify($jaune, 1));
+							background-size: 100% 200%;
+						}							
+					}
+
+					h2:before{
+						display:block;
+						@include svgicon('iicon-veille-juridique', 42px, 42px, #FFFFFF);					
+						position:absolute;
+						top: -55px;
+						left:calc( 50% - 15px); 
+					}
+				}
+
+			}
+		}
+	}
+	
+	/* Dernier li premier niveau*/
+	> li:last-child{ /* MENU CONNAITRE */
+
+		> a{
+			padding-right: 0;
+		}		
+
+		> ul.sub-menu{
+
+			//visibility: visible;
+			width: 850px;
+			left: -1050px;
+			display: table;
+
+			&:after{ /* SEP */
+				content:'';
+				height: 260px;
+				width: 1px;
+				background: $rouge;
+				position: absolute;
+				left: 280px;
+				top: 40px;
+				z-index: 200;
+			}
+
+			>li{
+
+				width: 280px;
+				float: left;
+				//border-right:solid 1px $rouge;
+				padding: 0 20px;
+				display: table-cell;
+				vertical-align: middle;
+				height: 44px;
+				padding-bottom: 20px;
+
+				>a{
+					width: 100%;
+					display: block;
+					height: auto;
+
+				}
+
+			}
+
+			>li:nth-child(3n-2){
+				padding-left: 0;
+			}
+
+			>li:last-child{
+
+				.consulter{
+
+					background: url(../images/origin/bg-consulter-mobile_02.png);
+					background-size: cover;
+
+					h2:before{
+						display:block;
+						@include svgicon('icon-consulter', 28px, 28px, #FFFFFF);					
+						position:absolute;
+						top:-32px;
+						left:calc( 50% - 15px ); 
+					}
+
+					.content{
+						&:before, &:after{
+							background: $vert;
+							@include gradient-opacity(transparentize($vert, 0.4),opacify($vert, 1));
+
+						}
+					}
+
+				}
+
+			}
+
+		}
+
+
+	}
+
 } /* end .nav */
+
+
+/* NAV mobile */
+.mm-menu.mm-theme-dark .mm-navbar .mm-btn:before,
+.mm-menu.mm-theme-dark .mm-navbar .mm-btn:after{
+
+  border-color: rgba(46, 72, 103, 1) !important;
+  height: 15px;
+  width: 15px;
+  top: 26px;
+}
+
+nav#menu_mobile{
+
+	
+
+	
+
+	.mm-navbar{
+		border:0;
+
+		height: 60px;
+
+		&:before{
+		    content: "";
+			position: absolute;
+			top: 10px;
+			left: 50%;
+			margin-left: -85px;
+			display: block;
+			background: url(../images/logo-cridon-new.svg) no-repeat center center;
+            background-size: 170px 43px;
+            width: 170px;
+            height: 43px;
+		}
+
+		.mm-close{
+
+			    @include rotate(45); 
+			    top:19px;
+
+			&:after{
+				    border-color: rgba(46, 72, 103, 1);
+				    content:'+';
+				    font-size: 48px;
+				    line-height: 0px;
+				    @extend .do-el;
+				    color:$bleu;
+			}
+
+
+		}
+
+		.mm-prev:after{border-color: rgba(46, 72, 103, 1);}
+	}
+
+	.mm-panel{
+		top: 60px;
+	}
+
+	#menu-menu-principal{
+
+		> ul{
+
+			> li{
+
+				width: 100%;
+
+				> a{
+
+					height: 60px;
+					color:$rouge;
+					font-size: 16px;
+
+					> span{ font-size: 20px;}
+
+				}
+
+				.mm-next{
+
+					&:after{
+
+					border-color: rgba(46, 72, 103, 1);
+					//background: rgba(46, 72, 103, 1);
+					}
+				}
+
+
+
+
+			}
+		}
+	}
+
+}
+
+.sub-menu > li > a, .sub-menu > li > span{
+					color:$bleu !important;
+					@extend .do-re;
+					font-size: 16px;
+				}
+
+.mm-menu.mm-theme-dark .mm-listview > li .mm-prev:before, .mm-menu.mm-theme-dark .mm-listview > li .mm-next:after, .mm-menu.mm-theme-dark .mm-listview > li .mm-arrow:after{
+	border-color: rgba(46, 72, 103, 1) !important;
+
+}
+.mm-menu.mm-theme-dark .mm-listview > li .mm-prev:after, .mm-menu.mm-theme-dark .mm-listview > li .mm-next:before{ content:none !important;}

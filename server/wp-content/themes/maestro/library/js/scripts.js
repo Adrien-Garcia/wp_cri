@@ -180,6 +180,49 @@ jQuery(document).ready(function($) {
 	  }
 
 
+
+
+  /* MMENU */
+
+  	$("#menu").clone().attr("id","menu_mobile").insertBefore("#menu");
+
+	$("#menu_mobile").mmenu({
+       "extensions": [
+          "border-none",
+          "effect-menu-slide",
+          "effect-listitems-slide",
+          null,
+          "pageshadow",
+          "theme-dark"
+       ],
+       "autoHeight": true,
+       "navbars": [
+          {
+             "position": "top",
+             "content": [
+                "prev",
+                "",
+                "close"
+             ]
+          }
+       ]
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
 	
 
 

@@ -99,11 +99,16 @@
 						</p>
 					<?php endif; ?>
 
-					<nav role="navigation">
+					<nav id="menu" role="navigation">
 						<?php // nav_principal(); ?>
+
+						<?php echo get_template_part("content","menu"); ?>
+
+
+
 					</nav>
 
-					<a id="bt-nav-mobile" href="#"></a>
+					<a id="bt-nav-mobile" href="#menu_mobile"></a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
 						<div id="bt-account" class="js-panel-connexion-open sel-open-onglet-connexion"></div>
 					<?php else: ?>
