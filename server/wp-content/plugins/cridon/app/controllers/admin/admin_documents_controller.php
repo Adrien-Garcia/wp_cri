@@ -16,7 +16,10 @@
 require_once 'base_admin_controller.php';
 
 class AdminDocumentsController extends BaseAdminController {
-    
+    var $default_searchable_fields = array(
+        'name', 
+        'type'
+    );
     var $default_columns = array('name', 'file_path','download_url','date_modified','type');
     
     public function index() {
