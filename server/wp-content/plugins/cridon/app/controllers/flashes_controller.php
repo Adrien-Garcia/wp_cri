@@ -16,17 +16,65 @@ class FlashesController extends MvcPublicController {
     /*
      * We use the standard function for wordpress for queries ( query_posts() ) in views
      */
-    public function show() {
-        global $wpdb;
-        global $custom_global_join;
-        $custom_global_join = ' JOIN '.$this->model->table.' ON '.$wpdb->posts.'.ID = '.$this->model->table.'.post_id';
-        global $custom_global_where;
-        $custom_global_where = ' AND '.$this->model->table.'.id = ' . $this->params['id'];        
+   public function show() {
+        if ( !CriIsNotaire() ) {
+            $referer = $_SERVER['HTTP_REFERER'];
+            $redirect = $referer;
+
+            if (preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 && preg_match("/.*?[\?\&]messageLogin=PROTECTED_CONTENT.*?/", $referer) === 1 ) {
+                wp_redirect($redirect);
+                return;
+            }
+
+            if (preg_match("/.*\?.*/", $referer)) {
+                $redirect .= "&";
+            } else {
+                $redirect .= "?";
+            }
+
+            $redirect .= "openLogin=1&messageLogin=PROTECTED_CONTENT";
+
+            wp_redirect($redirect);
+        } else {
+            parent::show();
+        }     
     }
     public function index() {
-        global $wpdb;
-        global $custom_global_join;
-        $custom_global_join = ' JOIN '.$this->model->table.' ON '.$wpdb->posts.'.ID = '.$this->model->table.'.post_id';
+        if ( !CriIsNotaire() ) {
+            $referer = $_SERVER['HTTP_REFERER'];
+            $redirect = $referer;
+
+            if (preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 && preg_match("/.*?[\?\&]messageLogin=PROTECTED_CONTENT.*?/", $referer) === 1 ) {
+                wp_redirect($redirect);
+                return;
+            }
+
+            if (preg_match("/.*\?.*/", $referer)) {
+                $redirect .= "&";
+            } else {
+                $redirect .= "?";
+            }
+
+            $redirect .= "openLogin=1&messageLogin=PROTECTED_CONTENT";
+
+            wp_redirect($redirect);
+        } else {
+            $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
+            //Set explicit join
+            $this->params['joins'] = array(
+                'Post'
+            );
+            //Set conditions
+            $this->params['conditions'] = array(
+                'Post.post_status'=>'publish'            
+            );
+            //Order by date publish
+            $this->params['order'] = 'Post.post_date DESC' ;
+            $collection = $this->model->paginate($this->params);
+
+            $this->set('objects', $collection['objects']);
+            $this->set_pagination($collection);
+        }
     }
 }
 

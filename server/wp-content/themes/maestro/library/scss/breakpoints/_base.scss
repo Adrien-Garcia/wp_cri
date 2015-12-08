@@ -1867,16 +1867,16 @@ body.page-template-front-page{
 
 /*   
 
-                   _     _             _ _     _                   _ _ _           
-    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___  __   _____(_) | | ___  ___ 
-   / _ \ | '__/ __| '_ \| \ \ / / _ \ | | / __| __/ _ \ \ \ / / _ \ | | |/ _ \/ __|
-  / ___ \| | | (__| | | | |\ V /  __/ | | \__ \ ||  __/  \ V /  __/ | | |  __/\__ \
- /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___|   \_/ \___|_|_|_|\___||___/
+                   _     _             _ _     _                              
+    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___ 
+   / _ \ | '__/ __| '_ \| \ \ / / _ \ | | / __| __/ _ \
+  / ___ \| | | (__| | | | |\ V /  __/ | | \__ \ ||  __/
+ /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___| 
                                                                                    
 
 */   
 
-#content.archive-veilles{
+#content.archive{
 	padding-top: 60px;
 
 	
@@ -1890,11 +1890,13 @@ body.page-template-front-page{
 				width: 100%;
 				border-bottom:solid 5px $bg-top-footer;
 				height: 20px;
-				margin-bottom: 20px;
+				//margin-bottom: 20px;
 
 			}
 
 			.listing{
+
+				margin-top: 40px;
 
 				article{
 
@@ -2064,6 +2066,11 @@ body.page-template-front-page{
 	
 }
 
+#content.archive-vie-cridon{
+	.block_right {width: 100% !important;}
+
+}
+
 .pagination{
 					
 	border-top:solid 4px #e6e6e6;
@@ -2126,21 +2133,22 @@ body.page-template-front-page{
 
 /*
 
-  ____ ___ _   _  ____ _     _____  __     _______ ___ _     _     _____ ____  
- / ___|_ _| \ | |/ ___| |   | ____| \ \   / / ____|_ _| |   | |   | ____/ ___| 
- \___ \| ||  \| | |  _| |   |  _|    \ \ / /|  _|  | || |   | |   |  _| \___ \ 
-  ___) | || |\  | |_| | |___| |___    \ V / | |___ | || |___| |___| |___ ___) |
- |____/___|_| \_|\____|_____|_____|    \_/  |_____|___|_____|_____|_____|____/ 
+  ____ ___ _   _  ____ _     _____   
+ / ___|_ _| \ | |/ ___| |   | ____|  
+ \___ \| ||  \| | |  _| |   |  _|    
+  ___) | || |\  | |_| | |___| |___    
+ |____/___|_| \_|\____|_____|_____|     
                                                                                
 
 
 */
 
 
-#content.single-veilles{
+#content.single{
 
 	
 	#inner-content{
+
 		.titre {
 			height: 43px;
 			
@@ -2476,6 +2484,12 @@ body.page-template-front-page{
 
 
 
+}
+
+#content.single-vie-cridon{
+
+	.block_right {width: 100% !important;}
+	
 }
 
 
