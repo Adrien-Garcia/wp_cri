@@ -4261,12 +4261,16 @@ a.logoJP:hover{opacity: 1;
 					@extend .do-re;
 					font-size: 13px;
 					height: auto;
+					color:#FFF;
+
 					&:after {
 						content: "|";
 						display: inline-block;
 						position: relative;
 						left: 7px;
 					}
+
+					&:hover{ text-decoration: underline;}
 				}
 				&:last-child a:after {content:none;}
 			}

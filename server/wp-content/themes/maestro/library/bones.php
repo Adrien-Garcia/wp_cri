@@ -116,7 +116,7 @@ function bones_scripts_and_styles() {
 		wp_register_script( 'owl-carousel', get_stylesheet_directory_uri() . '/library/js/min/owl.carousel.min.js', array(), '', false );
 
 		// popup overlay
-		wp_register_script( 'popupoverlay', get_stylesheet_directory_uri() . '/library/js/jquery.popupoverlay.js', array(), '', false );
+		wp_register_script( 'popupoverlay', get_stylesheet_directory_uri() . '/library/js/min/jquery.popupoverlay.min.js', array(), '', false );
 
 		// mmenu
 		wp_register_script( 'mmenu', get_stylesheet_directory_uri() . '/library/js/min/jquery.mmenu.min.all.js', array(), '', false );
