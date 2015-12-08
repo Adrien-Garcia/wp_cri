@@ -2488,7 +2488,8 @@ body.page-template-front-page{
 
 #content.single-vie-cridon{
 
-	.block_right {width: 100% !important;}
+	
+	#inner-content article .details .block_full, #inner-content article .details .block_right {width: 100%;}
 	
 }
 
