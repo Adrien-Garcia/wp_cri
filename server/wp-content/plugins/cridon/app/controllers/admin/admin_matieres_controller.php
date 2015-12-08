@@ -12,7 +12,12 @@ require_once 'base_admin_controller.php';
 
 class AdminMatieresController extends BaseAdminController
 {
-
+    var $default_searchable_fields = array(
+        'id', 
+        'label',
+        'code',
+        'short_label'
+    );
     public $default_columns = array(
         'id', 
         'label', 
