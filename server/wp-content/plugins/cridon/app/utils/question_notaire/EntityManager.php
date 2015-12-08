@@ -276,16 +276,19 @@ class EntityManager {
     */
     protected function splitArray( $data ){
         if( empty($data) ){
-            return null;
+            return array();//Erreur au niveau de l'utilisation du foreach
         }
-        $tmpQ = $data[0];//initialisation
+        // on remet le pointeur au début
+        reset($data);
+        $tmpQ = current($data);//initialisation
         if( !isset( $tmpQ->question ) || empty( $tmpQ->question ) ){
             return $data;//Ce n'est pas la peine d'aller plus loin si le résulat ne contient aucune question
         }
         $aSplit = array();
         $tmp = array();
         //Regroupage des mêmes questions
-        foreach ( $data as $key=>$value ){
+        while (!empty($data)) {
+            $value = array_shift($data);
             if( $tmpQ->question->id == $value->question->id ){//Si la question est toujours la même alors stocker la valeur
                 $tmp[] = $value;
                 $tmpQ = $value;
@@ -295,7 +298,7 @@ class EntityManager {
                 $tmp[] = $value;
                 $tmpQ = $value;// l'itération courante
             }
-            if( count( $data ) - 1 === $key ){ // Si nous arrivons déjà à la fin
+            if( count( $data )  === 1  ){ // Si nous arrivons déjà à la fin
                 $aSplit[] = $tmp;
             }
         }
@@ -313,12 +316,13 @@ class EntityManager {
         }
         $results = array();//contenant le résultat final
         foreach( $data as $value ){
-        /**
-         * L'indice 0 correspond à la première question car nous pouvons avoir 3 résultats par exemple
-         * pour la même question avec 3 documents différents (du fait de l'association des documents à requête).
-         */
-        $newData = $value[0];
-        //Contenant la liste des documents associés à une question
+            /**
+             * L'indice 0 correspond à la première question car nous pouvons avoir 3 résultats par exemple
+             * pour la même question avec 3 documents différents (du fait de l'association des documents à requête).
+             */
+            reset($value);
+            $newData = current($value);
+            //Contenant la liste des documents associés à une question
             $documents = array();
             //Parcourir les documents
             foreach( $value as $v ){
@@ -329,7 +333,7 @@ class EntityManager {
                 $documents[] = $v->document;
             }
             //Associer les documents s'il y en a, à la question
-            $newData->{documents} = $documents;
+            $newData->documents = $documents;
             if( empty( $newData->document ) || isset( $newData->document ) ){
                 //Supprimer l'attribut document associé au premier élément de la liste
                 unset( $newData->document );
