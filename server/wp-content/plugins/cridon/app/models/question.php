@@ -528,7 +528,7 @@ class Question extends MvcModel
                 $realDate = $dateTime->format('Y-m-d');
             }
         }
-        $updatedDate = '0000-00-00'; // accepted date format if not set
+        $updatedDate = ''; // accepted date format if not set
         if (isset($data[$adapter::QUEST_UPDDAT])) {
             if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_UPDDAT])) {
                 $dateTime    = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
@@ -558,8 +558,8 @@ class Question extends MvcModel
         $value .= "'" . (isset($data[$adapter::QUEST_YUSER]) ? esc_sql($data[$adapter::QUEST_YUSER]) : '') . "', "; // yuser
         $value .= "'" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
         $value .= "'" . (($updatedDate != '0000-00-00') ? $updatedDate : date('Y-m-d')) . "', "; // creation_date
-        $value .= "'" . $updatedDate . "', "; // date_modif
-        $value .= "'" . ((isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':', $data[$adapter::QUEST_ZUPDHOU])) > 1) ? esc_sql($data[$adapter::QUEST_ZUPDHOU]) : '00:00:00') . "', "; // hour_modif
+        $value .= empty($updatedDate) ? 'NULL, ' : "'" . $updatedDate . "', "; // date_modif
+        $value .= (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':', $data[$adapter::QUEST_ZUPDHOU])) > 1) ? "'" . esc_sql($data[$adapter::QUEST_ZUPDHOU]) . "', " : 'NULL, '; // hour_modif
         $value .= "'" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
         $value .= "'" . $confidential . "', "; // confidential
         $value .= "''"; // content
