@@ -8,7 +8,12 @@ class AdminSoldesController extends BaseAdminController
     /**
      * @var array
      */
-    public $default_columns = array('id', 'client_number', 'quota', 'points');
+    public $default_columns = array(
+            'id', 
+            'client_number'=>array('label' => 'Numéro client'),
+            'quota', 
+            'points'
+    );
     
     public function index() {
         $this->init_default_columns();
