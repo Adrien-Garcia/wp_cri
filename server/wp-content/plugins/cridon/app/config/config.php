@@ -211,6 +211,10 @@ class Config {
         'support' => array(
             'add'    => 'Ajout d\'un support',
             'edit'   => 'Modification d\'un support'
+        ),
+        'solde' => array(
+            'add'    => 'Ajout d\'un solde',
+            'edit'   => 'Modification d\'un solde'
         )
     );
     public static $titleFieldAdminForm = array(
@@ -220,7 +224,11 @@ class Config {
         'displayed'   => 'Affiché sur le site ?',
         'label_front' => 'Libellé en front',
         'value'       => 'Valeur',
-        'description' => 'Description'
+        'description' => 'Description',
+        'client_number' => 'Numéro client',
+        'quota'         => 'Quota',
+        'type_support'  => 'Type du support',
+        'date_arret'    => 'Date d\'arrêt'
     );
     //End translation
 }
