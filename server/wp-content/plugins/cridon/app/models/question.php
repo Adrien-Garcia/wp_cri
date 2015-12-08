@@ -223,15 +223,14 @@ class Question extends MvcModel
             $sql .= " OR hour_modif IS NULL";
 
             $questions = $this->wpdb->get_results($sql);
-//            echo '<pre>'; die(print_r($sql));
-            // fill list of existing question on site with unique key (crpcen + passwd)
+            // fill list of existing question on site with unique key (client_number + srenum)
             foreach ($questions as $question) {
                 $this->siteQuestList[$question->id] = $question->client_number . $question->srenum;
             }
 
         } else {
             $questions = $this->wpdb->get_results($sql);
-            // fill list of existing question on site with unique key (crpcen + passwd)
+            // fill list of existing question on site with unique key (client_number + srenum)
             foreach ($questions as $question) {
                 array_push($this->siteQuestList, $question->client_number . $question->srenum);
             }
@@ -580,17 +579,19 @@ class Question extends MvcModel
     {
         try {
             // set adapter
-            $todateFunc    = 'STR_TO_DATE'; // SQL
-            $intervalParam = 'MINUTE'; // SQL
-            $timestampFunc = 'TIMESTAMPDIFF'; // idem for SQL and ORACLE @see: https://docs.oracle.com/html/A95915_01/sqfunc.htm#i1006893
             switch (strtolower(CONST_IMPORT_OPTION)) {
                 case self::IMPORT_ODBC_OPTION:
+                    $todateFunc    = 'STR_TO_DATE'; // SQL
+                    $intervalParam = 'MINUTE'; // SQL
+                    $timestampFunc = 'TIMESTAMPDIFF'; // SQL
                     $this->adapter = $adapter = CridonODBCAdapter::getInstance();
                     break;
                 case self::IMPORT_OCI_OPTION:
+                default :
                     //if case above did not match, set OCI
                     $todateFunc    = 'TO_DATE'; // Oracle
                     $intervalParam = 'SQL_TSI_MINUTE'; // Oracle
+                    $timestampFunc = 'TIMESTAMPDIFF'; // @see: https://docs.oracle.com/html/A95915_01/sqfunc.htm#i1006893
                     $this->adapter = $adapter = CridonOCIAdapter::getInstance();
                     break;
             }
