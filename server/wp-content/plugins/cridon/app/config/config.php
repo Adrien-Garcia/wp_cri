@@ -207,6 +207,10 @@ class Config {
         'matiere' => array(
             'add'    => 'Ajout d\'une matière',
             'edit'   => 'Modification d\'une matière'
+        ),
+        'support' => array(
+            'add'    => 'Ajout d\'un support',
+            'edit'   => 'Modification d\'un support'
         )
     );
     public static $titleFieldAdminForm = array(

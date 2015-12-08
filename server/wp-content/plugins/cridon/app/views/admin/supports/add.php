@@ -1,4 +1,4 @@
-<h2>Add Support</h2>
+<h2><?php echo Config::$titleAdminForm['support']['add'] ?></h2>
 
 <?php echo $this->form->create($model->name); ?>
 <?php echo $this->form->input('label',array('label' => Config::$titleFieldAdminForm['label'])); ?>
