@@ -1148,7 +1148,7 @@ body.page-template-front-page{
 
 	#main{
 		
-		padding-top: 50px;
+		//padding-top: 50px;
 
 		&:before{
 
@@ -1339,6 +1339,7 @@ body.page-template-front-page{
 
 
 	#inner-content{
+
 		.titre {
 			height: auto;
 			
@@ -1508,6 +1509,13 @@ body.page-template-front-page{
 
 }
 
+#content.single-vie-cridon{
+
+	
+	#inner-content article .details .block_right, #inner-content article .details .block_full {width: 730px;}
+	
+}
+
 
 
 
@@ -1520,14 +1528,16 @@ body.page-template-front-page{
 
 	}
 
-	#main{		
+	#main{	
+
+	padding-top: 50px;	
 
 		#inner-content{
 
 
 			.h1{
 				
-				margin: 0 0 70px 0; 
+				margin: 0 0 50px 0; 
 			}
 		}
 	}
