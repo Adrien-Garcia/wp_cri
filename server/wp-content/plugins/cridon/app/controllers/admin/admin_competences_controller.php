@@ -13,7 +13,10 @@ require_once 'base_admin_controller.php';
 
 class AdminCompetencesController extends BaseAdminController
 {
-
+    var $default_searchable_fields = array(
+        'id', 
+        'label'
+    );
     public $default_columns = array(
 	    'id',
 	    'label',
