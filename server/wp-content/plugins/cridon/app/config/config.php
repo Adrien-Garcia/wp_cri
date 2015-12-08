@@ -48,17 +48,6 @@ class Config {
         )
     );
 
-    // option list of document type    
-    public static $optionDocumentType = array(
-        'question'      => 'Question',
-        'reponse'       => 'Réponse',
-        'veille'        => 'Veille',
-        'formation'     => 'Formation',
-        'cahiercridon' => 'Cahier cridon',
-        'viecridon'   => 'Vie cridon',
-        'flash'         => 'Flash'
-    );
-
     // list of cridon_type using default post form
     public static $mvcWithPostForm = array('vie_cridons','cahier_cridons','flashes','formations','veilles');
 
