@@ -13,7 +13,16 @@
  */
 
 class AdminVeillesController extends MvcAdminController {
-    
+    var $default_search_joins = array('Matiere','Post');
+    /**
+     *
+     * @var array
+     */
+    var $default_searchable_fields = array(
+        'id', 
+        'Post.post_title',
+        'Matiere.label'
+    );
     var $default_columns = array(
         'id', 
         'post' => array('label'=> 'Titre' ,'value_method' => 'post_edit_link'),
