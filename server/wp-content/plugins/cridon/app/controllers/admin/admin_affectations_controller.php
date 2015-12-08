@@ -14,6 +14,10 @@
 
 class AdminAffectationsController extends MvcAdminController {
     
+    var $default_searchable_fields = array(
+        'id', 
+        'label'
+    );
     var $default_columns = array('id', 'label');
     public function index() {
         $this->init_default_columns();
