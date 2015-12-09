@@ -649,49 +649,56 @@ class Question extends MvcModel
                         // list of field
                         $query = " UPDATE  {$this->table}";
                         $query .= " SET ";
-                        if (isset($data[$adapter::QUEST_SRENUM])) {
+                        if (isset($data[$adapter::QUEST_SRENUM])) { // srenum
                             $query .= " srenum = '" . esc_sql($data[$adapter::QUEST_SRENUM]) . "', ";
                         }
 
-                        if (isset($data[$adapter::QUEST_SRECCN])) {
+                        if (isset($data[$adapter::QUEST_SREBPC])) { // client_number
+                            $query .= " client_number = '" . esc_sql($data[$adapter::QUEST_SREBPC]) . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_SRECCN])) { // sreccn
                             $query .= " sreccn = '" . esc_sql($data[$adapter::QUEST_SRECCN]) . "', ";
                         }
 
-                        if (isset($data[$adapter::QUEST_YCODESUP])) {
+                        if (isset($data[$adapter::QUEST_YCODESUP])) { // id_support
                             $query .= " id_support = '" . esc_sql($data[$adapter::QUEST_YCODESUP]) . "', ";
                         }
 
-                        if (isset($data[$adapter::QUEST_ZCOMPETENC])) {
+                        if (isset($data[$adapter::QUEST_ZCOMPETENC])) { // id_competence_1
                             $query .= " id_competence_1 = '" . intval($data[$adapter::QUEST_ZCOMPETENC]) . "', ";
                         }
 
-                        if (isset($data[$adapter::QUEST_YRESUME])) {
+                        if (isset($data[$adapter::QUEST_YRESUME])) { // resume
                             $query .= " resume = '" . esc_sql($data[$adapter::QUEST_YRESUME]) . "', ";
                         }
 
-                        if (isset($data[$adapter::QUEST_YSREASS])) {
+                        if (isset($data[$adapter::QUEST_YSREASS])) { // id_affectation
                             $query .= " id_affectation = '" . intval($data[$adapter::QUEST_YSREASS]) . "', ";
                         }
 
-                        if (isset($data[$adapter::QUEST_SREDET])) {
+                        if (isset($data[$adapter::QUEST_SREDET])) { // juriste
                             $query .= " juriste = '" . esc_sql($data[$adapter::QUEST_SREDET]) . "', ";
                         }
 
-                        if (isset($data[$adapter::QUEST_SREDET])) {
-                            $query .= " affectation_date = '" . esc_sql($data[$adapter::QUEST_SREDET]) . "', ";
+                        if (isset($data[$adapter::QUEST_SREDATASS]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
+                                $data[$adapter::QUEST_SREDATASS])
+                        ) { // affectation_date
+                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SREDATASS]);
+                            $query .= " affectation_date = '" . $dateTime->format('Y-m-d') . "', ";
                         }
 
                         if (isset($data[$adapter::QUEST_YRESSOUH]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
                                 $data[$adapter::QUEST_YRESSOUH])
-                        ) {
+                        ) { // wish_date
                             $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_YRESSOUH]);
                             $query .= " wish_date = '" . $dateTime->format('Y-m-d') . "', ";
                         }
 
                         if (isset($data[$adapter::QUEST_SRERESDAT]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
                                 $data[$adapter::QUEST_SRERESDAT])
-                        ) {
-                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
+                        ) { // real_date
+                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SRERESDAT]);
                             $query .= " real_date = '" . $dateTime->format('Y-m-d') . "', ";
                         }
 
@@ -699,22 +706,22 @@ class Question extends MvcModel
                             $query .= " yuser = '" . esc_sql($data[$adapter::QUEST_YUSER]) . "', ";
                         }
 
-                        $query .= " treated = '" . CONST_QUEST_UPDATED_IN_X3 . "', ";
+                        $query .= " treated = '" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
 
                         if (isset($data[$adapter::QUEST_UPDDAT]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
                                 $data[$adapter::QUEST_UPDDAT])
-                        ) {
+                        ) { // date_modif
                             $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
                             $query .= " date_modif = '" . $dateTime->format('Y-m-d') . "', ";
                         }
 
                         if (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':',
                                 $data[$adapter::QUEST_ZUPDHOU])) > 1
-                        ) {
+                        ) { // hour_modif
                             $query .= " hour_modif = '" . esc_sql($data[$adapter::QUEST_ZUPDHOU]) . "', ";
                         }
 
-                        $query .= " transmis_erp = '" . CONST_QUEST_TRANSMIS_ERP . "', ";
+                        $query .= " transmis_erp = '" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
 
                         /**
                          * "0 : non
@@ -724,7 +731,7 @@ class Question extends MvcModel
                         if (isset($data[$adapter::QUEST_ZANOAMITEL]) && intval($data[$adapter::QUEST_ZANOAMITEL]) == 1) {
                             $confidential = $data[$adapter::QUEST_ZANOAMITEL];
                         }
-                        $query .= " confidential = '" . $confidential . "' ";
+                        $query .= " confidential = '" . $confidential . "' "; // confidential
 
                         // conditions
                         if (isset($data[$adapter::QUEST_ZIDQUEST]) && intval($data[$adapter::QUEST_ZIDQUEST]) > 0) { // maj par id question
