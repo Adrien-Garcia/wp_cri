@@ -127,8 +127,8 @@
 						<p>Accédez à vos informations et bénéficiez d’un contenu personnalisé.</p>
 						 <div class="pannel_01 js-panel-connexion-connexion-form">
 							<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
-								<input type="text" class="js-panel-connexion-reset-error" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
-								<input type="password" class="js-panel-connexion-reset-error" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
+								<input type="text" class="js-panel-connexion-reset-error js-login-login-field" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
+								<input type="password" class="js-panel-connexion-reset-error js-login-password-field" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
 								<input type="submit" name="submit" value="Connectez-vous">
 							</form>
 							<a href="#" id="mdp_oublie" class="js-panel-connexion-to-mdp">> Mot de passe oublié ? <</a>

@@ -9,7 +9,7 @@
     // document ready
     $(function() {
         // login
-        criLoginAction();
+        //criLoginAction();
 
         // lost pwd
         criLostPwd();
@@ -35,10 +35,10 @@
 
         // get default var of login form parameters
         // @see hook.inc.php
-        var loginFormId = jsvar.form_id,
-            errorBlocId = jsvar.error_bloc_id,
-            loginFieldId = jsvar.login_field_id,
-            passwordFieldId = jsvar.password_field_id;
+        var loginFormId = jsvar.login_form_id,
+            errorBlocId = jsvar.login_error_bloc_id,
+            loginFieldId = jsvar.login_login_field_id,
+            passwordFieldId = jsvar.login_password_field_id;
 
         // override login form params from template if specified
         if (typeof loginFormIdOverride !== 'undefined') {
@@ -71,7 +71,7 @@
                         data = JSON.parse(data);
                         if(data == 'invalidlogin')
                         {
-                            $('#' + errorBlocId).html(jsvar.error_msg);
+                            $('#' + errorBlocId).html(jsvar.login_error_msg);
                         }
                         else
                         {
@@ -81,7 +81,7 @@
                     }
                 });
             } else {
-                $('#' + errorBlocId).html(jsvar.empty_error_msg);
+                $('#' + errorBlocId).html(jsvar.login_empty_error_msg);
             }
 
             return false;
@@ -98,14 +98,14 @@
         nonce.type  = 'hidden';
         nonce.name  = 'tokenpwd';
         nonce.id    = 'tokenpwd';
-        nonce.value = jsvar.lostpwd_nonce;
+        nonce.value = jsvar.password_lostpwd_nonce;
 
         // get default var of login form parameters
         // @see hook.inc.php
-        var lostPwdFormId = jsvar.pwdform_id,
-            msgBlocId = jsvar.pwdmsg_block,
-            emailFieldId = jsvar.email_field_id,
-            crpcenFieldId = jsvar.crpcen_field_id;
+        var lostPwdFormId = jsvar.password_pwdform_id,
+            msgBlocId = jsvar.password_pwdmsg_block,
+            emailFieldId = jsvar.password_email_field_id,
+            crpcenFieldId = jsvar.password_crpcen_field_id;
 
         // override login form params from template if specified
         if (typeof lostPwdFormIdOverride !== 'undefined') {
@@ -138,17 +138,17 @@
                         data = JSON.parse(data);
                         if(data == 'success')
                         {
-                            $('#' + msgBlocId).html(jsvar.crpcen_success_msg);
+                            $('#' + msgBlocId).html(jsvar.password_crpcen_success_msg);
                         }
                         else
                         {
-                            $('#' + msgBlocId).html(jsvar.crpcen_error_msg);
+                            $('#' + msgBlocId).html(jsvar.password_crpcen_error_msg);
                         }
                         return false;
                     }
                 });
             } else {
-                $('#' + msgBlocId).html(jsvar.empty_crpcen_msg);
+                $('#' + msgBlocId).html(jsvar.password_empty_crpcen_msg);
             }
 
             return false;

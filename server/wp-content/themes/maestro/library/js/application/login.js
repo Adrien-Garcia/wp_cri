@@ -17,6 +17,9 @@ App.Login = {
     blockConnexionErrorMessageSelector  : '.js-login-error-message-block',
     blockForgotErrorMessageSelector     : '.js-forgot-error-message-block',
 
+    fieldConnexionLoginSelector         : '.js-login-login-field',
+    fieldConnexionPasswordSelector      : '.js-login-password-field',
+
     $panelConnexion                     : null,
     $panelConnexionOpen                 : null,
     $panelConnexionClose                : null,
@@ -30,6 +33,9 @@ App.Login = {
 
     $blockConnexionErrorMessage         : null,
     $blockForgotErrorMessage            : null,
+
+    $fieldConnexionLogin                : null,
+    $fieldConnexionPassword             : null,
 
 
     init: function() {
@@ -50,6 +56,8 @@ App.Login = {
 
         this.$elementsConnexionErrorReset=$(this.eventConnexionErrorResetSelector);
 
+        this.initLoginAjaxForm();
+
         this.addListeners();
 
         if (App.Utils.queryString['openLogin'] == "1") {
@@ -61,6 +69,20 @@ App.Login = {
         }
 
         this.debug("Login : init end");
+
+    },
+
+    initLoginAjaxForm: function() {
+        this.$fieldConnexionLogin = $(this.fieldConnexionLoginSelector);
+        this.$fieldConnexionPassword = $(this.fieldConnexionPasswordSelector);
+
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'token';
+        nonce.id    = 'token';
+        nonce.value = jsvar.login_nonce;
+
+        this.$formConnexion.append(nonce);
 
     },
 
@@ -91,6 +113,11 @@ App.Login = {
             self.eventErrorReset($(this));
         });
 
+        this.$formConnexion.on('submit', function(e) {
+            self.eventSubmitLogin($(this));
+            return false;
+        });
+
 
         this.debug("Login : addListeners end");
     },
@@ -119,7 +146,7 @@ App.Login = {
         this.$formMdp.removeClass("active");
     },
 
-   eventToMdp : function() {
+    eventToMdp : function() {
         this.$formConnexion.removeClass("active");
         this.$formMdp.addClass("active");
     },
@@ -147,6 +174,42 @@ App.Login = {
         this.$blockConnexionErrorMessage.text("");
         this.$blockForgotErrorMessage.text("");
     },
+
+    eventSubmitLogin: function () {
+        this.$blockConnexionErrorMessage.html('');
+        if (this.$fieldConnexionLogin.val() != '' && this.$fieldConnexionPassword.val() != '') {
+            jQuery.ajax({
+                type: 'POST',
+                url: jsvar.ajaxurl,
+                data: {
+                    action: 'logins_connect',
+                    login: this.$fieldConnexionLogin.val(),
+                    token: $('#token').val(),
+                    password: this.$fieldConnexionPassword.val()
+                },
+                success: this.successLogin.bind(this)
+            });
+        } else {
+            this.$blockConnexionErrorMessage.html(jsvar.login_empty_error_msg);
+        }
+
+    },
+
+    // AJAX LOGIN
+    successLogin: function(data) {
+        data = JSON.parse(data);
+        if(data == 'invalidlogin')
+        {
+            this.$blockConnexionErrorMessage.html(jsvar.login_error_msg);
+        }
+        else
+        {
+            window.location.href = data;
+        }
+        return false;
+
+    },
+
 
     debug: function(t) {
         App.debug(t);
