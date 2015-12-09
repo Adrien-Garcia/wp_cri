@@ -2693,6 +2693,7 @@ body.page-template-front-page{
 				.gfield_label{
 					font-size: 14px;
 					color:$bleu;
+					margin: 5px 0;
 				}
 
 				.ginput_container{
@@ -2703,6 +2704,12 @@ body.page-template-front-page{
 						min-width: 100%;
 						width: 100%;
 						margin-bottom: 10px;
+					}
+				}
+
+				.gfield_captcha_input_container {
+					input{
+						width: 100%;
 					}
 				}
 
@@ -2717,6 +2724,9 @@ body.page-template-front-page{
 						font-size: $helvetica;
 						color:#170910;
 						font-size: 10px;
+						height: 30px;
+						display: block;
+						line-height: 30px;
 					}
 				}
 			}
@@ -4004,6 +4014,13 @@ body.page-template-front-page{
 						text-align:center;					
 					    font-size: 18px;
 					    line-height: 20px;
+					    margin-bottom: 20px;
+					}
+
+					> img{
+						margin-bottom: 0;
+						//max-width: 980px;
+						margin: 0 auto;
 					}
 				}
 
@@ -4083,6 +4100,10 @@ body.page-template-front-page{
 									}
 								}
 							}
+						}
+
+						.mapp-layout{
+							border:0px !important;
 						}
 					}
 				}
