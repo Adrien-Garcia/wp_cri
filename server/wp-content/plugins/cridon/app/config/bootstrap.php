@@ -683,3 +683,11 @@ function writeLog($variable, $log_file = 'log.txt', $backtrace = 0) {
         fclose($handle);
     }
 }
+
+/**
+ * CSS pour les formulaires en admin des modèles WP_MVC
+ */
+function loadAdminCustomCss(){
+    wp_register_style( 'mvcform-style-css', plugins_url('cridon/app/public/css/form-style.css'), false ); 
+    wp_enqueue_style( 'mvcform-style-css' );
+}
