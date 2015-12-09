@@ -215,6 +215,14 @@ class Config {
         'solde' => array(
             'add'    => 'Ajout d\'un solde',
             'edit'   => 'Modification d\'un solde'
+        ),
+        'affectation' => array(
+            'add'    => 'Ajout d\'une affectation',
+            'edit'   => 'Modification d\'une affectation'
+        ),
+        'question' => array(
+            'add'    => 'Ajout d\'une question',
+            'edit'   => 'Modification d\'une question'
         )
     );
     public static $titleFieldAdminForm = array(
