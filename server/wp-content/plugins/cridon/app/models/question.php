@@ -209,18 +209,12 @@ class Question extends MvcModel
     {
         // get list of existing question
         $sql = "SELECT id, srenum, client_number FROM {$this->table}";
-        if (isset($queryOptions['cronquestionupdate'])) {
-            $dateModif = $queryOptions['cronquestionupdate']['dateModif'];
-            $hourModif = $queryOptions['cronquestionupdate']['hourModif'];
-
-            $sql .= " WHERE (
-                                TIMESTAMPDIFF(MINUTE, CONCAT_WS(' ', date_modif, hour_modif), '{$dateModif} {$hourModif}') > 0
-                      )";
-            $sql .= " OR date_modif IS NULL";
-            $sql .= " OR hour_modif IS NULL";
+        if (isset($queryOptions['daily'])) {
 
             $questions = $this->wpdb->get_results($sql);
-            // fill list of existing question on site with unique key (client_number + srenum)
+            // fill list of existing question on site
+            // with key id_question : for matching created question on ERP
+            // and value (client_number + srenum) : for matching created question by ERP on Site
             foreach ($questions as $question) {
                 $this->siteQuestList[$question->id] = $question->client_number . $question->srenum;
             }
@@ -605,13 +599,15 @@ class Question extends MvcModel
                     break;
             }
 
-            // get last cron date if is set or use wp function with the time zone setup in BO options config
-            $lastDateUpdate                                  = date('Y-m-d H:i:s');
-            $lastCronDate                                    = get_option('cronquestionupdate') ? get_option('cronquestionupdate') : $lastDateUpdate;
-            $date                                            = new DateTime($lastCronDate);
-            $queryOptions                                    = array();
-            $queryOptions['cronquestionupdate']['dateModif'] = $dateModif = $date->format('Y-m-d');
-            $queryOptions['cronquestionupdate']['hourModif'] = $hourModif = $date->format('H:i:s');
+            // get last cron date if is set or server datetime
+            $lastDateUpdate        = date('Y-m-d H:i:s');
+            $lastCronDate          = get_option('cronquestionupdate') ? get_option('cronquestionupdate') : $lastDateUpdate;
+            $date                  = new DateTime($lastCronDate);
+            $queryOptions          = array();
+            $queryOptions['daily'] = true;
+            $dateModif             = $date->format('Y-m-d');
+            $hourModif             = $date->format('H:i:s');
+
             $this->setSiteQuestList($queryOptions);
 
             // insert options
@@ -633,7 +629,7 @@ class Question extends MvcModel
             // filter by list of supports if necessary
             if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
                 $mainQuery .= ' AND ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',',
-                                                                                    Config::$acceptedSupports) . ')';
+                        Config::$acceptedSupports) . ')';
             }
 
             // exec query
@@ -644,8 +640,7 @@ class Question extends MvcModel
                     $uniqueKey = intval($data[$adapter::QUEST_SREBPC]) . $data[$adapter::QUEST_SRENUM];
 
                     if (!in_array($uniqueKey, $this->siteQuestList) // quest ERP unique key condition
-                        && !array_key_exists(intval($data[$adapter::QUEST_ZIDQUEST]),
-                                             $this->siteQuestList) // id quest condition
+                        && !array_key_exists(intval($data[$adapter::QUEST_ZIDQUEST]), $this->siteQuestList) // id quest condition
                     ) { // quest not found on site
 
                         // prepare bulk insert
@@ -654,6 +649,10 @@ class Question extends MvcModel
                         // list of field
                         $query = " UPDATE  {$this->table}";
                         $query .= " SET ";
+                        if (isset($data[$adapter::QUEST_SRENUM])) {
+                            $query .= " srenum = '" . esc_sql($data[$adapter::QUEST_SRENUM]) . "', ";
+                        }
+
                         if (isset($data[$adapter::QUEST_SRECCN])) {
                             $query .= " sreccn = '" . esc_sql($data[$adapter::QUEST_SRECCN]) . "', ";
                         }
@@ -683,14 +682,14 @@ class Question extends MvcModel
                         }
 
                         if (isset($data[$adapter::QUEST_YRESSOUH]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
-                                                                                 $data[$adapter::QUEST_YRESSOUH])
+                                $data[$adapter::QUEST_YRESSOUH])
                         ) {
                             $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_YRESSOUH]);
                             $query .= " wish_date = '" . $dateTime->format('Y-m-d') . "', ";
                         }
 
                         if (isset($data[$adapter::QUEST_SRERESDAT]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
-                                                                                  $data[$adapter::QUEST_SRERESDAT])
+                                $data[$adapter::QUEST_SRERESDAT])
                         ) {
                             $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
                             $query .= " real_date = '" . $dateTime->format('Y-m-d') . "', ";
@@ -703,13 +702,15 @@ class Question extends MvcModel
                         $query .= " treated = '" . CONST_QUEST_UPDATED_IN_X3 . "', ";
 
                         if (isset($data[$adapter::QUEST_UPDDAT]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
-                                                                               $data[$adapter::QUEST_UPDDAT])
+                                $data[$adapter::QUEST_UPDDAT])
                         ) {
                             $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
                             $query .= " date_modif = '" . $dateTime->format('Y-m-d') . "', ";
                         }
 
-                        if (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':', $data[$adapter::QUEST_ZUPDHOU])) > 1) {
+                        if (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':',
+                                $data[$adapter::QUEST_ZUPDHOU])) > 1
+                        ) {
                             $query .= " hour_modif = '" . esc_sql($data[$adapter::QUEST_ZUPDHOU]) . "', ";
                         }
 
@@ -753,8 +754,11 @@ class Question extends MvcModel
                 $queryBulder->getInstanceMysqli()->multi_query($updtateQuery);
             }
 
+            // maj derniere date d'execution
+            update_option('cronquestionupdate', $lastDateUpdate);
+
             return CONST_STATUS_CODE_OK;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             writeLog($e, 'questiondailyupdate.log');
 
             return CONST_STATUS_CODE_GONE;
