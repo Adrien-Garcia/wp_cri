@@ -1,0 +1,27 @@
+.mvc-title{
+    margin-left: 10%;
+}
+.mvc-form{
+    margin-top:25px;
+}
+.mvc-form form label {
+    float: left;
+    width: 10%;
+    text-align: right;
+    margin-right: 0.5em;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+.mvc-form form input[type="file"]{
+    margin-left: 10%;
+}
+.mvc-form form input[type="submit"]{
+    height: 30px;
+    line-height: 28px;
+    padding: 0 12px 2px;
+    border-radius: 3px;
+    margin-left: 10%;
+}
