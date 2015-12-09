@@ -751,7 +751,11 @@ class Question extends MvcModel
                 $queryBulder = mvc_model('QueryBuilder');
                 // bulk update
                 $updtateQuery = implode(' ', $updateValues);
-                $queryBulder->getInstanceMysqli()->multi_query($updtateQuery);
+
+                if (!$queryBulder->getInstanceMysqli()->multi_query($updtateQuery)) {
+                    // write into logfile
+                    writeLog($queryBulder->getInstanceMysqli()->error, 'query.log');
+                }
             }
 
             // maj derniere date d'execution
