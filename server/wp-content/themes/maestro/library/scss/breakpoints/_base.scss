@@ -2604,6 +2604,8 @@ body.page-template-front-page{
 	padding: 60px 0 0 0;
 	background: #FFF;
 
+
+
 	.breadcrumbs{
 		width: 100%;
 		background: $bg-top-footer;
@@ -2649,32 +2651,29 @@ body.page-template-front-page{
 
 		}
 
-		#inner-content{
+		.h1{
+			@extend .do-sm;
+			font-size: 30px;
+			line-height: 24px;
+			color:$bleu;
+			text-transform: uppercase;
+			width: 100%;
+			text-align: center;
+			position: relative;
+			display: block;
 
-
-			.h1{
-				@extend .do-sm;
-				font-size: 30px;
-				line-height: 24px;
-				color:$bleu;
-				text-transform: uppercase;
-				width: 100%;
-				text-align: center;
-				position: relative;
-				display: block;
-
-				&:before{
-					display:block;
-					@include svgicon('icon-vieducridon', 10px, 10px,$rouge);	 				
-					position: absolute;
-				    bottom: -19px;
-				    left: 50%;
-				    margin-left: -27px;				
-				}
-
-
+			&:before{
+				display:block;
+				@include svgicon('icon-vieducridon', 10px, 10px,$rouge);	 				
+				position: absolute;
+			    bottom: -19px;
+			    left: 50%;
+			    margin-left: -27px;				 
 			}
+
+
 		}
+		
 	}
 
 }
@@ -3895,6 +3894,14 @@ body.page-template-front-page{
 	
 
 
+}
+
+#content.page-iframe{
+
+	iframe{
+		margin: 30px 0;
+		border:none;
+	}
 }
 
 
