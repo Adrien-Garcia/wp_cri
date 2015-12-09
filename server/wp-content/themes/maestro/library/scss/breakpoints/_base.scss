@@ -2071,6 +2071,109 @@ body.page-template-front-page{
 
 }
 
+#content.archive-cahier{
+
+	 #main #inner-content .listing article{
+
+		.details{
+			width: 100%;
+
+			.block_right{
+				width: 100%;
+
+				>h2{ margin-bottom: 5px;}
+
+				> a{
+					color:$rouge;
+					background: none;
+					display: block;
+					width: auto;
+					text-transform: none;
+					font-size: 14px;
+					@extend .do-el;
+					float: none;
+					margin: 0;
+					padding: 0;
+					text-align: left;
+
+					&:after{ display: none;}
+				}
+
+				> ul{
+					width: 100%;
+					margin: 20px 0 0 0;
+					padding: 0 0 0 10px;
+
+					>li{
+						width: 100%;
+						clear: both;
+						margin: 15px 0;
+						padding: 0;
+
+						line-height: 30px;
+						height: 30px;
+
+						display: block;
+
+						> div, h3, a{
+							display: inline !important;
+						}
+
+						div.img-cat{
+							width: 30px;
+							height: 30px;
+							margin-right: 10px;
+
+							img{
+								width: 30px;
+								height: 30px;
+								vertical-align: middle;
+							}
+
+						}
+
+						.matiere{
+							top: 0;
+						}
+
+						> h3{
+							@extend .do-me;
+							color:$bleu;
+							font-size: 14px;
+							//text-transform: uppercase;
+							margin: 0 10px;
+							line-height: 30px;
+						}
+
+						>a{
+						 	width: 16px;
+						 	height: 16px;
+						 	position: relative;
+						 	margin-left: 10px;
+
+						 	&:before{
+						 		@include svgicon('icon-pdf', 16px, 16px, $rouge);
+						 		position: absolute;
+						 		top: 0;
+						 		left: 0;
+						 	}
+
+						 	&:hover{
+						 		&:before{
+							 		@include svgicon('icon-pdf', 16px, 16px, $bleu);
+							 	}
+						 	}
+						 }
+
+
+					}
+				}
+			}
+		}
+
+	}  
+}
+
 .pagination{
 					
 	border-top:solid 4px #e6e6e6;

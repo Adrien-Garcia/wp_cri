@@ -1320,6 +1320,67 @@ body.page-template-front-page{
 	
 }
 
+#content.archive-cahier{
+
+	 #main #inner-content .listing article{
+
+		.details{
+			/*width: 100%;*/
+
+			.block_right{
+				width: 460px;
+
+				>a{
+					float: none;
+					clear: both;
+					position: static;
+					font-size: 22px;
+				}
+
+				>h2{ 
+					margin-bottom: 0px;
+				}
+
+				> a{					
+					font-size: 16px;
+					width: 100%;
+					margin-top: 5px;
+				}
+
+				> ul{					
+					padding: 0 0 0 20px;	
+
+					>li{
+
+						> h3{
+							font-size: 18px;
+						}
+
+						> a{
+						 	width: 24px;
+						 	height: 24px;
+
+						 	display: inline-block;
+
+						 	&:before{
+						 		@include svgicon('icon-pdf', 24px, 24px, $rouge);
+						 		top: -5px; 
+						 	}
+
+						 	&:hover{
+						 		&:before{
+							 		@include svgicon('icon-pdf', 24px, 24px, $bleu);
+							 	}
+						 	}
+						 }
+					}				
+				}
+			}
+		}
+
+	}  
+}
+
 
 
 /***
