@@ -37,8 +37,7 @@ class UIContainer extends UIFields{
      */
     public function setModel( $modelName ){
         $model = mvc_model($modelName);
-        $config = assocToKeyVal(Config::$data, 'model', 'name');
-        $this->type = $config[$modelName];
+        $this->type = $modelName;
         $this->currentModel = $model;
     }
     
