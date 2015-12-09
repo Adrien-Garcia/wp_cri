@@ -72,15 +72,23 @@
 			<?php endforeach; endif; ?>
 			</ul>
 
+            <?php
+            $class = $object->__model_name;
+            ?>
+            <?php if (method_exists($class, "getDocuments")) : ?>
+
 			<div class="documents-liees">
 				<ul>
-					<li><a href="#" target="_blank">NomDuDocument.pdf</a></li>
-					<li><a href="#" target="_blank">NomDuDocument.pdf</a></li>
-					<li><a href="#" target="_blank">NomDuDocument.pdf</a></li>
-					<li><a href="#" target="_blank">NomDuDocument.pdf</a></li>
+                    <?php
+                    $documents = $class::getDocuments($object->id);
+                    ?>
+                    <?php foreach ($documents as $index => $document) : ?>
+                        <li><a href="<?php echo $document->file_path ; ?>" target="_blank"><?php echo $document->name ; ?></a></li>
+                    <?php endforeach; ?>
 				</ul>
 			</div>
-			
+
+            <?php endif; ?>
 			
 		</div>
 
