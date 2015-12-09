@@ -44,10 +44,10 @@
 				<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>">Flash infos</a>				
 			</li>
 			<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="#">Base des consultations du cridon</a>				
+				<a href="/rechercher-dans-les-bases-de-connaissances/">Base des consultations du cridon</a>				
 			</li>
 			<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="#">Cahiers du cridon</a>				
+				<a href="<?php echo MvcRouter::public_url(array('controller' => 'cahier_cridons', 'action'     => 'index')) ?>">Cahiers du cridon</a>				
 			</li>
 			<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom">
 				<a href="#">Sites partenaires utiles</a>				
@@ -59,7 +59,7 @@
 							<?php _e('Rechercher'); ?>
 							<span><?php _e('dans les bases de connaissances'); ?></span> 
 						</h2>
-						<a href="">+</a>
+						<a href="/rechercher-dans-les-bases-de-connaissances/">+</a>
 					</div>						
 				</div>
 			</li>

@@ -15,7 +15,7 @@
 				<?php _e('Rechercher'); ?>
 				<span><?php _e('dans les bases de connaissances'); ?></span> 
 			</h2>
-			<a href="">+</a>
+			<a href="/rechercher-dans-les-bases-de-connaissances/">+</a>
 		</div>						
 	</div>
 
