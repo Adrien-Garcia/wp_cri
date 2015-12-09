@@ -691,3 +691,30 @@ function CriRecursiveFindingFileInDirectory($path, $file)
 
     return $fileSource;
 }
+
+function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
+    $referer = $_SERVER['HTTP_REFERER'];
+    if (! empty($referer) ){
+        $redirect = $referer;
+    } else {
+        $redirect = get_home_url();
+    }
+
+    if (
+        preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 &&
+        preg_match("/.*?[\?\&]messageLogin=" . $error_code . ".*?/", $referer) === 1
+    ) {
+        wp_redirect($redirect);
+        return;
+    }
+
+    if (preg_match("/.*\?.*/", $referer)) {
+        $redirect .= "&";
+    } else {
+        $redirect .= "?";
+    }
+
+    $redirect .= "openLogin=1&messageLogin=" . $error_code;
+
+    wp_redirect($redirect);
+}
