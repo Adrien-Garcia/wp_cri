@@ -11,8 +11,10 @@
  * @contributor Fabrice MILA
  *
  */
+// base admin ctrl
+require_once 'base_admin_controller.php';
 
-class AdminFlashesController extends MvcAdminController {
+class AdminFlashesController extends BaseAdminController {
     var $default_search_joins = array('Matiere','Post');
     /**
      *

@@ -11,8 +11,10 @@
  * @contributor Fabrice MILA
  *
  */
+// base admin ctrl
+require_once 'base_admin_controller.php';
 
-class AdminAffectationsController extends MvcAdminController {
+class AdminAffectationsController extends BaseAdminController {
     
     var $default_searchable_fields = array(
         'id', 

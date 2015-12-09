@@ -11,8 +11,10 @@
  * @contributor Fabrice MILA
  *
  */
+// base admin ctrl
+require_once 'base_admin_controller.php';
 
-class AdminVieCridonsController extends MvcAdminController {
+class AdminVieCridonsController extends BaseAdminController {
     var $default_search_joins = array('Post');
     /**
      *

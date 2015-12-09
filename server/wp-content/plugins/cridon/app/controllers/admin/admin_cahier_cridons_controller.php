@@ -11,8 +11,10 @@
  * @contributor Fabrice MILA
  *
  */
+// base admin ctrl
+require_once 'base_admin_controller.php';
 
-class AdminCahierCridonsController extends MvcAdminController {
+class AdminCahierCridonsController extends BaseAdminController {
     
     var $default_search_joins = array('Matiere','Post');
     /**
