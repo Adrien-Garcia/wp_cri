@@ -33,7 +33,7 @@ class AdminDocumentsController extends MvcAdminController {
         $this->create_or_save();
         $this->load_helper('Select');
         $this->load_helper('CustomForm');
-        $this->set( 'options' , Config::$optionDocumentType );
+        $this->set( 'options' , $this->model->optionDocumentType );
     }
     public function edit() {
         $this->verify_id_param();
@@ -42,7 +42,7 @@ class AdminDocumentsController extends MvcAdminController {
         $this->load_helper('Select');
         $this->load_helper('CustomForm');
         
-        $this->set( 'options' , Config::$optionDocumentType );
+        $this->set( 'options' , $this->model->optionDocumentType );
     }
     
     //Ajax search

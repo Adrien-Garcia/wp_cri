@@ -48,16 +48,6 @@ class Config {
         )
     );
 
-    // option list of document type    
-    public static $optionDocumentType = array(
-        'question'              => 'Question',
-        'veille'                => 'Veille',
-        'formation'             => 'Formation',
-        'cahier_cridon'         => 'Cahier cridon',
-        'actu_cridon'           => 'Actu cridon',
-        'flash'                 => 'Flash'
-    );
-
     // list of cridon_type using default post form
     public static $mvcWithPostForm = array('vie_cridons','cahier_cridons','flashes','formations','veilles');
 
@@ -160,5 +150,20 @@ class Config {
         CONST_SUPPORT_COURRIER_ID,
         CONST_SUPPORT_URG48H_ID,
         CONST_SUPPORT_URGWEEK_ID
+    );
+    
+    //Notification for published post
+    public static $notificationForAllNotaries = array( 'flash','viecridon' );
+    public static $notificationForSubscribersNotaries = array( 'veille' );
+    public static $mailBodyNotification  = array(
+        'subject'   => 'Publication: %s',
+        'title'     => '<h2>%s</h2></br></br>',
+        'date'      => '<p>Date: %s </p></br></br>',
+        'excerpt'   => '<p>Résumé: %s </p></br></br>',
+        'content'   => '<div>%s</div></br></br>',
+        'matiere'   => '<p>Matière associée: %s </p></br></br>',
+        'permalink' => 'Lien vers l\'article: <a href="%s">%s</a></br></br>',
+        'documents' => '<p>Les documents associés: </p></br>',
+        'tags'      => 'Etiquettes:'
     );
 }

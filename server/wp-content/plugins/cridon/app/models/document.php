@@ -4,7 +4,15 @@ class Document extends MvcModel {
 
     var $display_field = 'name';
     var $table         = '{prefix}document';
-
+    // option list of document type    
+    public $optionDocumentType = array(
+        'question'      => 'Question',
+        'veille'        => 'Veille',
+        'formation'     => 'Formation',
+        'cahiercridon'  => 'Cahier cridon',
+        'viecridon'     => 'Vie cridon',
+        'flash'         => 'Flash'
+    );
     /**
      * @var mixed
      */
