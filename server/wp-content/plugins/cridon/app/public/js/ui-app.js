@@ -74,7 +74,8 @@
     function search( search ){
         var data = {
             action: 'admin_documents_search',
-            search: search
+            search: search,
+            type  : $('#ui-document-type').val()
         };
         xhr = $.post( ajaxurl , data, function(response){
             clearTimeout(timer);
