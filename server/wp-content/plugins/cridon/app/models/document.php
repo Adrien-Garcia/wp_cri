@@ -405,4 +405,34 @@ class Document extends MvcModel {
             $this->uploadDir = $path;
         }
     }
+    //Encryption
+    /**
+     * Encrypt value
+     * 
+     * @param string $val
+     * @return string
+     */
+    public function encryptVal( $val ) {
+        $salt = wp_salt( 'secure_auth' );
+        
+        $qEncoded = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $salt ), $val, MCRYPT_MODE_CBC, md5( md5( $salt ) ) ) );
+        return $qEncoded;
+    }
+    /**
+     * Decrypt value
+     * 
+     * @param string $val
+     * @return string
+     */
+    public function decryptVal( $val ) {
+        $salt = wp_salt( 'secure_auth' );
+        $qDecoded = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $salt ), base64_decode( $val ), MCRYPT_MODE_CBC, md5( md5( $salt ) ) ), "\0");
+        return $qDecoded;
+    }
+    
+    public function generatePublicUrl( $id ){
+        $url = Config::$confPublicDownloadURL['url'].$id;
+        return '/'.$this->encryptVal($url);
+    }
+    //End Encryption
 }
