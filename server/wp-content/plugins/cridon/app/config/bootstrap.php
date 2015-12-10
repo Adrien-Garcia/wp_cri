@@ -514,6 +514,34 @@ function assocToKeyVal($assoc, $key_field, $val_field)
 }
 
 /**
+ * Search for the specified file
+ * returns FALSE if not found, file name in the correct form otherwise
+ * (avoid problems with case when using file_exists)
+ * @param string    $fileName
+ * @param bool|true $caseSensitive
+ *
+ * @return mixed file name OR false
+ */
+function fileExists($fileName, $caseSensitive = true) {
+
+    if(file_exists($fileName)) {
+        return $fileName;
+    }
+    if($caseSensitive) return false;
+
+    // Handle case insensitive requests
+    $directoryName = dirname($fileName);
+    $fileArray = glob($directoryName . '/*', GLOB_NOSORT);
+    $fileNameLowerCase = strtolower($fileName);
+    foreach($fileArray as $file) {
+        if(strtolower($file) == $fileNameLowerCase) {
+            return $file;
+        }
+    }
+    return false;
+}
+
+/**
  * Render custom view
  *
  * @param string $path
