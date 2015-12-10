@@ -5,14 +5,14 @@
 		<div class="breadcrumbs">
 			<div id="inner-content" class="wrap cf">
 				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
-				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux connaissances juridiques </a>  +  <span>Veille juridique</span>
+				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux connaissances juridiques </a>  +  <span>Les cahiers du CRIDON</span>
 			</div>
 		</div>
 
 		<div id="main" class="cf" role="main">
 			<div id="inner-content" class="wrap cf">
 
-				<h1 class="h1">Veille juridique</h1>
+				<h1 class="h1">Les cahiers du cridons</h1>
 
 				<div id="filtres_veilles">					
 				</div>
