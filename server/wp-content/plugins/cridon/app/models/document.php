@@ -139,8 +139,8 @@ class Document extends MvcModel {
                         wp_mkdir_p($archivePath);
                     }
                     if( $this->importError($contents, $fileInfo) ){
-                        // les différentes informations ne sont pas présentes dans le csv.
-                        rename($document, $archivePath . $fileInfo['basename']);//archivage du csv
+                        // les différentes informations ne sont pas présentes dans le txt.
+                        rename($document, $archivePath . $fileInfo['basename']);//archivage du txt
                         continue;
                     }
                     // recuperation id question par numero
@@ -160,7 +160,7 @@ class Document extends MvcModel {
                         $options['attributes'] = array('id,cab','file_path');
                         $options['model']      = 'document';
                         $options['conditions'] = ' id_externe = ' . $question->id . ' AND type="question"';
-    
+
                         // document associé
                         $docs = $this->queryBuilder->find($options);
                         /*
@@ -193,9 +193,14 @@ class Document extends MvcModel {
                             // creation du nouveau repertoire
                             wp_mkdir_p($path);
                         }
-                        //Si le fichier existe dèja alors ajouter un suffixe sur le nom
-                        $filename = $this->getFileName($path, $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]);
-                        if ( @copy(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']],
+
+                        $docName = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
+                        if (($iPos = strpos($docName, '_')) !== false) {
+                            //a prefix can be mentionned in the file. Don't use it.
+                            $docName = substr($docName, $iPos + 1);
+                        }
+                        $filename = $this->getFileName($path, $docName);
+                        if ( copy($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName,
                                  $path . $filename)) {
                             // donnees document
                             $docData = array(
@@ -233,7 +238,7 @@ class Document extends MvcModel {
                                     }
                                 }
                             }
-    
+
                             // maj download_url
                             $docData = array(
                                 'Document' => array(
@@ -242,9 +247,9 @@ class Document extends MvcModel {
                                 )
                             );
                             $this->save($docData);
-    
+
                             // archivage PDF
-                            rename(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']],
+                            rename($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName,
                                    $archivePath . $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]);
                             // archivage source des metadonnees
                             rename($document, $archivePath . $fileInfo['basename']);
@@ -304,14 +309,14 @@ class Document extends MvcModel {
     }
     
     /**
-     * Verification of the information in the CSV file
+     * Verification of the information in the import file
      * 
      * @param array $contents
      * @param array $fileInfo
      * @return boolean
      */
     protected function importError( $contents,$fileInfo ){
-        if( ( count($contents) !== Config::$GEDtxtIndexes['NB_COLONNE_CSV'] ) || empty( $contents[Config::$GEDtxtIndexes['INDEX_NUMQUESTION']] ) || empty( $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']] ) ){
+        if( ( count($contents) !== Config::$GEDtxtIndexes['NB_COLONNES'] ) || empty( $contents[Config::$GEDtxtIndexes['INDEX_NUMQUESTION']] ) || empty( $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']] ) ){
             $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
             if( !empty( $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']] ) ){
                 $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG, date('d/m/Y à H:i'), $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]);

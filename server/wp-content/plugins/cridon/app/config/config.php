@@ -198,7 +198,7 @@ class Config {
         /* index Objet de la question */
         'INDEX_OBJET'           => 13,
         /* nombre de colonne présent dans le csv */
-        'NB_COLONNE_CSV'        => 14,
+        'NB_COLONNES'        => 14,
     );
 
 
