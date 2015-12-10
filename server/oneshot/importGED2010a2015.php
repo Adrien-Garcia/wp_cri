@@ -39,9 +39,21 @@ $indexes = array(
 $csvFiles = glob(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH.'BackupCourriersPDF'.DIRECTORY_SEPARATOR.'*.csv');
 $csvFile = reset($csvFiles);
 
+//OFFSET
+$offset = 0;
+$pack = $limit = isset($argv[2]) ? (int) $argv[2] : 5000;
+if (isset($argv[1])) {
+    $offset = (int) $argv[1] * $pack;
+    $limit = $offset + $pack;
+}
+
+// LOGs
+$logDocList = array();
+$errorDocList = array();
+
 $csvParser = new parseCSV();
 $csvParser->delimiter = ";";
-$csvParser->parse($csvFile, 0, 10);
+$csvParser->parse($csvFile, $offset, $limit);
 
 /**
  * @var $modelDoc Document
@@ -123,8 +135,10 @@ foreach ($csvParser->data as $row => $data) {
             $docName = substr($docName, $iPos + 1);
         }
         $filename = $modelDoc->getFileName($path, $docName);
-        $fileToImport = fileExists(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'BackupCourriersPDF' . DIRECTORY_SEPARATOR . $docPath, false);
-        if (copy($fileToImport,
+        // preserve file as exists in metadata : fileExists might change it into FALSE if not found
+        $storedInfoFile = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'BackupCourriersPDF' . DIRECTORY_SEPARATOR . $docPath;
+        $fileToImport = fileExists($storedInfoFile, false);
+        if ($fileToImport && copy($fileToImport,
             $path . $filename)) {
             // donnees document
             $docData = array(
@@ -173,7 +187,7 @@ foreach ($csvParser->data as $row => $data) {
             $modelDoc->save($docData);
 
             // archivage PDF
-            rename(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'BackupCourriersPDF' . DIRECTORY_SEPARATOR . $docPath,
+            rename($fileToImport,
                 $archivePath . $filename);
             $modelDoc->updateQuestion($question, $contents);
             $logDocList[] = $filename;
@@ -181,17 +195,25 @@ foreach ($csvParser->data as $row => $data) {
             // message par défaut
             $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $docName);
             // log : envoie mail
-            if( !file_exists($fileToImport) ){
+            if( !$fileToImport ){
                 // PDF inexistant
                 $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[$indexes['INDEX_NUMQUESTION']]);
-                $message .= "\n PATH Chemin sur le serveur : ".$fileToImport;
+                $message .= "\n PATH Chemin sur le serveur : ".$storedInfoFile;
             }
             reportError($message, '');
+            $errorDocList[] = '404 File : ' . $storedInfoFile;
         }
     } else { // doc sans question associee
 
         // log : envoie mail
         $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[$indexes['INDEX_VALCAB']]);
         reportError($message, '');
+        $errorDocList[] = '404 Quest : ' . $contents[$indexes['INDEX_NUMQUESTION']];
     }
 }
+
+echo 'OK : '.count($logDocList);
+echo "\n";
+echo 'KO : '.count($errorDocList);
+
+writeLog($errorDocList, 'import2010_2015.log');
