@@ -19,6 +19,8 @@ App.Login = {
 
     fieldConnexionLoginSelector         : '.js-login-login-field',
     fieldConnexionPasswordSelector      : '.js-login-password-field',
+    fieldPasswordMailSelector           : '.js-password-mail-field',
+    fieldPasswordCRPCENSelector         : '.js-password-crpcen-field',
 
     $panelConnexion                     : null,
     $panelConnexionOpen                 : null,
@@ -36,6 +38,8 @@ App.Login = {
 
     $fieldConnexionLogin                : null,
     $fieldConnexionPassword             : null,
+    $fieldPasswordMail                  : null,
+    $fieldPasswordCRPCEN                : null,
 
 
     init: function() {
@@ -56,16 +60,27 @@ App.Login = {
 
         this.$elementsConnexionErrorReset=$(this.eventConnexionErrorResetSelector);
 
-        this.$fieldConnexionLogin        = $(this.fieldConnexionLoginSelector);
-        this.$fieldConnexionPassword     = $(this.fieldConnexionPasswordSelector);
+        this.$fieldConnexionLogin       = $(this.fieldConnexionLoginSelector);
+        this.$fieldConnexionPassword    = $(this.fieldConnexionPasswordSelector);
 
-        var nonce   = document.createElement('input');
-        nonce.type  = 'hidden';
-        nonce.name  = 'token';
-        nonce.id    = 'token';
-        nonce.value = jsvar.login_nonce;
+        this.$fieldPasswordCRPCEN       = $(this.fieldPasswordCRPCENSelector);
+        this.$fieldPasswordMail         = $(this.fieldPasswordMailSelector);
 
-        this.$formConnexion.append(nonce);
+        var loginNonce   = document.createElement('input');
+        loginNonce.type  = 'hidden';
+        loginNonce.name  = 'token';
+        loginNonce.id    = 'token';
+        loginNonce.value = jsvar.login_nonce;
+
+        var passwordNonce   = document.createElement('input');
+        passwordNonce.type  = 'hidden';
+        passwordNonce.name  = 'tokenpwd';
+        passwordNonce.id    = 'tokenpwd';
+        passwordNonce.value = jsvar.password_lostpwd_nonce;
+
+        this.$formConnexion.find('form').first().append(loginNonce);
+
+        this.$formMdp.find('form').first().append(passwordNonce);
 
         this.addListeners();
 
@@ -111,6 +126,11 @@ App.Login = {
 
         this.$formConnexion.on('submit', function(e) {
             self.eventSubmitLogin($(this));
+            return false;
+        });
+
+        this.$formMdp.on('submit', function(e) {
+            self.eventSubmitPassword($(this));
             return false;
         });
 
@@ -191,6 +211,26 @@ App.Login = {
 
     },
 
+    eventSubmitPassword: function () {
+        this.$blockForgotErrorMessage.html('');
+        if (this.$fieldPasswordMail.val() != '' && this.$fieldPasswordCRPCEN.val() != '') {
+            jQuery.ajax({
+                type: 'POST',
+                url: jsvar.ajaxurl,
+                data: {
+                    action: 'lost_password',
+                    email: this.$fieldPasswordMail.val(),
+                    token: $('#tokenpwd').val(),
+                    crpcen: this.$fieldPasswordCRPCEN.val()
+                },
+                success: this.successPassword.bind(this)
+            });
+        } else {
+            this.$blockForgotErrorMessage.html(jsvar.password_empty_crpcen_msg);
+        }
+
+    },
+
     // AJAX LOGIN
     successLogin: function(data) {
         data = JSON.parse(data);
@@ -201,6 +241,21 @@ App.Login = {
         else
         {
             window.location.href = data;
+        }
+        return false;
+
+    },
+
+    // AJAX Forgotten password
+    successPassword: function(data) {
+        data = JSON.parse(data);
+        if(data == 'success')
+        {
+            this.$blockForgotErrorMessage.html(jsvar.password_crpcen_success_msg);
+        }
+        else
+        {
+            this.$blockForgotErrorMessage.html(jsvar.password_crpcen_error_msg);
         }
         return false;
 

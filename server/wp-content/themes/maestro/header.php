@@ -142,8 +142,8 @@
 						
 						<div class="pannel_02 js-panel-connexion-mdp-form">
 							<form action="" method="" accept-charset="utf-8" id="lostPwdFormId">
-								<input type="text" class="js-panel-connexion-reset-error" name="emailFieldId" value="" id="emailFieldId" placeholder="Votre adresse mail">
-								<input type="text" class="js-panel-connexion-reset-error" name="crpcenFieldId" value="" id="crpcenFieldId" placeholder="Votre CRPCEN">
+								<input type="text" class="js-panel-connexion-reset-error js-password-mail-field" name="emailFieldId" value="" id="emailFieldId" placeholder="Votre adresse mail">
+								<input type="text" class="js-panel-connexion-reset-error js-password-crpcen-field" name="crpcenFieldId" value="" id="crpcenFieldId" placeholder="Votre CRPCEN">
 								<input type="submit" name="submit" value="Récupérer mon mot de passe">						
 							</form>
 							<a href="#" id="mdp_retour" class="js-panel-connexion-to-connexion">< Retour </a>
