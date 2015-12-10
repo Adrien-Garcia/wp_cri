@@ -697,7 +697,8 @@ function sendNotificationForPostPublished( $post,$model ){
             'id_externe' => $model->id
         )
     );
-    $documents = mvc_model('Document')->find( $options );
+    $documentModel = mvc_model('Document');
+    $documents = $documentModel->find( $options );
     $title = $post->post_title;
     $date  = get_the_date('d-M-Y',$post);
     $excerpt = get_the_excerpt();
@@ -719,7 +720,7 @@ function sendNotificationForPostPublished( $post,$model ){
         $message .= Config::$mailBodyNotification['documents'];
         $message .= '<ul>';
         foreach( $documents as $document ){
-            $message .= sprintf ('<li><a href="%s">%s</a></li>',   $home.$document->download_url,$document->name );            
+            $message .= sprintf ('<li><a href="%s">%s</a></li>',   $home.$documentModel->generatePublicUrl($document->id),$document->name );            
         }
         $message .= '</ul>';
     }
