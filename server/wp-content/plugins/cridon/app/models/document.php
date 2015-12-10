@@ -4,11 +4,19 @@ class Document extends MvcModel {
 
     var $display_field = 'name';
     var $table         = '{prefix}document';
-
+    // option list of document type    
+    public $optionDocumentType = array(
+        'question'      => 'Question',
+        'veille'        => 'Veille',
+        'formation'     => 'Formation',
+        'cahiercridon'  => 'Cahier cridon',
+        'viecridon'     => 'Vie cridon',
+        'flash'         => 'Flash'
+    );
     /**
      * @var mixed
      */
-    protected $queryBuilder;
+    public $queryBuilder;
 
     /**
      * @var string
@@ -100,23 +108,25 @@ class Document extends MvcModel {
     }
 
     /**
-     * Import initial
+     * Import documents
      */
-    public function importInitial()
+    public function import()
     {
         // doc list pour log
         $logDocList = array();
-
-        // recupere tous les fichiers
-        $documents = glob(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/*.' . CONST_IMPORT_FILE_TYPE);
-
-        // repertoire non vide
-        if (count($documents) > 0) {
+        try{
+            
+            $Directory = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH);
+            $Iterator = new RecursiveIteratorIterator($Directory);
+            //remove the ending symbol $ as a txt file contains a '0' behind the extension...
+            $documents = new RegexIterator($Iterator, '/^.+\.'.CONST_IMPORT_FILE_TYPE.'/i', RecursiveRegexIterator::GET_MATCH);
+    
             // parse la liste des fichiers
             foreach ($documents as $document) {
                 // info fichier
+                $document = reset($document);
                 $fileInfo = pathinfo($document);
-
+    
                 // recuperation contenu fichier s'il existe
                 if (file_exists($document)) {
                     $content  = file_get_contents($document);
@@ -128,21 +138,21 @@ class Document extends MvcModel {
                         wp_mkdir_p($archivePath);
                     }
                     if( $this->importError($contents, $fileInfo) ){
-                        // les différentes informations ne sont pas présentes dans le csv.
-                        rename($document, $archivePath . $fileInfo['basename']);//archivage du csv
+                        // les différentes informations ne sont pas présentes dans le txt.
+                        rename($document, $archivePath . $fileInfo['basename']);//archivage du txt
                         continue;
                     }
                     // recuperation id question par numero
                     $options               = array();
                     $options['attributes'] = array('id');
                     $options['model']      = 'question';
-                    $options['conditions'] = ' srenum = ' . $contents[CridonGedParser::INDEX_NUMQUESTION];
-
+                    $options['conditions'] = ' srenum = ' . $contents[Config::$GEDtxtIndexes['INDEX_NUMQUESTION']];
+    
                     // question associée
                     $question = $this->queryBuilder->findOneByOptions($options);
-
+    
                     // question exist
-                    if ($question->id) {                        
+                    if ($question->id) {
                         //Recherche de l'existance d'un document lié à la question
                         // recuperation id question par numero
                         $options               = array();
@@ -164,12 +174,12 @@ class Document extends MvcModel {
                         foreach ( $docs as $doc ){
                             $cabs[$doc->id] = $doc->cab;
                             $filepaths[$doc->id] = $doc->file_path;
-                        }                        
+                        }
                         $cabs = array_unique($cabs);
                         //Si le CAB existe dans csv
-                        if( !empty( $docs ) && !empty($contents[CridonGedParser::INDEX_VALCAB]) ){
+                        if( !empty( $docs ) && !empty($contents[Config::$GEDtxtIndexes['INDEX_VALCAB']]) ){
                             //Si le CAB du csv existe parmi les CAB dans les docs du site
-                            if( in_array( $contents[CridonGedParser::INDEX_VALCAB],$cabs ) ){
+                            if( in_array( $contents[Config::$GEDtxtIndexes['INDEX_VALCAB']],$cabs ) ){
                                 $typeAction = 3;//mise à jour
                             }else{
                                 $typeAction = 2;//complément/suite
@@ -182,9 +192,14 @@ class Document extends MvcModel {
                             // creation du nouveau repertoire
                             wp_mkdir_p($path);
                         }
-                        //Si le fichier existe dèja alors ajouter un suffixe sur le nom
-                        $filename = $this->getFileName($path, $contents[CridonGedParser::INDEX_NOMFICHIER]);
-                        if ( @copy(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
+
+                        $docName = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
+                        if (($iPos = strpos($docName, '_')) !== false) {
+                            //a prefix can be mentionned in the file. Don't use it.
+                            $docName = substr($docName, $iPos + 1);
+                        }
+                        $filename = $this->getFileName($path, $docName);
+                        if ( copy($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName,
                                  $path . $filename)) {
                             // donnees document
                             $docData = array(
@@ -195,25 +210,26 @@ class Document extends MvcModel {
                                     'type'          => 'question',
                                     'id_externe'    => $question->id,
                                     'name'          => $filename,
-                                    'cab'           => $contents[CridonGedParser::INDEX_VALCAB],
+                                    'cab'           => $contents[Config::$GEDtxtIndexes['INDEX_VALCAB']],
                                     'label'         => 'question/reponse'
                                 )
                             );
                             //Document suite/complément
                             if( $typeAction == 2 ){
                                 $label = 'Suite';
-                                //Si le nom de fichier commence par 'C'
-                                if(strtoupper(substr($contents[CridonGedParser::INDEX_NOMFICHIER], 0, 1)) == 'C' ){
+                                //if file ends with a 'C', then it's a "Complément"
+                                //Should otherwise ends with a 'S'.
+                                if(strtoupper(substr($contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']], -1, 1)) == 'C' ){
                                     $label = 'Complément';
                                 }
                                 $docData['Document']['label'] = $label;
                             }
                             if( $typeAction != 3 ){
                                 // insertion
-                                $documentId = $this->create($docData);                                
+                                $documentId = $this->create($docData);
                             }else{
                                 //mise à jour
-                                $documentId = array_search($contents[CridonGedParser::INDEX_VALCAB], $cabs);
+                                $documentId = array_search($contents[Config::$GEDtxtIndexes['INDEX_VALCAB']], $cabs);
                                 $docData['Document']['id'] = $documentId;
                                 if( $this->save($docData) ){
                                     if( isset($filepaths[$documentId]) && file_exists($uploadDir['basedir'].$filepaths[$documentId])){
@@ -232,45 +248,49 @@ class Document extends MvcModel {
                             $this->save($docData);
 
                             // archivage PDF
-                            rename(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER],
-                                   $archivePath . $contents[CridonGedParser::INDEX_NOMFICHIER]);
+                            rename($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName,
+                                   $archivePath . $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]);
                             // archivage source des metadonnees
                             rename($document, $archivePath . $fileInfo['basename']);
                             // Mise de la date réelle de réponse de la question
                             $this->updateQuestion($question, $contents);
-                            $logDocList[] = $contents[CridonGedParser::INDEX_NOMFICHIER];
+                            $logDocList[] = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
                         } else { // invalide doc
                             // archivage source des metadonnees
                             rename($document, $archivePath . $fileInfo['basename']);
                             // message par défaut
                             $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
                             // log : envoie mail
-                            if( !file_exists(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[CridonGedParser::INDEX_NOMFICHIER]) ){
+                            if( !file_exists(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]) ){
                                 // PDF inexistant
-                                $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[CridonGedParser::INDEX_NUMQUESTION]);                                
+                                $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[Config::$GEDtxtIndexes['INDEX_NUMQUESTION']]);
                             }
                             reportError($message, '');
                         }
                     } else { // doc sans question associee
-
+    
                         // log : envoie mail
-                        $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[CridonGedParser::INDEX_NOMFICHIER]);
+                        $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]);
                         reportError($message, '');
                     }
                 }
             }
-
+    
             // log : envoie par email list des documents importés
             if (count($logDocList) > 0) {
                 $listDoc = implode(', ', $logDocList);
                 $message = sprintf(CONST_IMPORT_GED_LOG_SUCCESS_MSG, date('d/m/Y à H:i'), $listDoc);
                 reportError($message, '');
+            } else { // repertoire import vide
+                // log : envoie mail
+                $message = sprintf(CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG, date('d/m/Y à H:i'));
+                reportError($message, '');
             }
-        } else { // repertoire import vide
-            // log : envoie mail
-            $message = sprintf(CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG, date('d/m/Y à H:i'));
-            reportError($message, '');
+        } catch ( \Exception $e ){
+            writeLog( $e,'majdocument.log' );
+            return CONST_STATUS_CODE_GONE;
         }
+        return CONST_STATUS_CODE_OK;
     }    
     
     /**
@@ -279,7 +299,7 @@ class Document extends MvcModel {
      * @param string $original
      * @return string
      */
-    protected function getFileName( $path,$original ){
+    public function getFileName( $path,$original ){
         $output = $original;
         if (file_exists($path.$original)) {
             $output = mt_rand(1, 10) . '_' . $original;
@@ -288,17 +308,17 @@ class Document extends MvcModel {
     }
     
     /**
-     * Verification of the information in the CSV file
+     * Verification of the information in the import file
      * 
      * @param array $contents
      * @param array $fileInfo
      * @return boolean
      */
     protected function importError( $contents,$fileInfo ){
-        if( ( count($contents) !== CridonGedParser::NB_COLONNE_CSV ) || empty( $contents[CridonGedParser::INDEX_NUMQUESTION] ) || empty( $contents[CridonGedParser::INDEX_NOMFICHIER] ) ){
+        if( ( count($contents) !== Config::$GEDtxtIndexes['NB_COLONNES'] ) || empty( $contents[Config::$GEDtxtIndexes['INDEX_NUMQUESTION']] ) || empty( $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']] ) ){
             $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
-            if( !empty( $contents[CridonGedParser::INDEX_NOMFICHIER] ) ){
-                $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG, date('d/m/Y à H:i'), $contents[CridonGedParser::INDEX_NOMFICHIER]);                                          
+            if( !empty( $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']] ) ){
+                $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_DOC_MSG, date('d/m/Y à H:i'), $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]);
             }
             reportError($message, '');
             return true;
@@ -312,9 +332,9 @@ class Document extends MvcModel {
      * @param object $question
      * @param array $contents
      */
-    protected function updateQuestion( $question, $contents ){
-        if( !empty($contents[CridonGedParser::INDEX_DATEREPONSE]) ){
-            if( preg_match("/([0-9]{4}-[0-9]{2}-[0-9]{2})T/", $contents[CridonGedParser::INDEX_DATEREPONSE], $matches) ){
+    public function updateQuestion( $question, $contents ){
+        if( !empty($contents[Config::$GEDtxtIndexes['INDEX_DATEREPONSE']]) ){
+            if( preg_match("/([0-9]{4}-[0-9]{2}-[0-9]{2})T/", $contents[Config::$GEDtxtIndexes['INDEX_DATEREPONSE']], $matches) ){
                 $d = DateTime::createFromFormat('Y-m-d', $matches[1]);
                 //Vérifier la validité de la date fournie
                 if( $d && $d->format('Y-m-d') == $matches[1] ){

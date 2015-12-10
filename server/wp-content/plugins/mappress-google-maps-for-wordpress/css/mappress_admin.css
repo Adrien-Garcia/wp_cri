@@ -14,18 +14,14 @@
 }
 
 .mapp-m-map-list {
-	width: 100%;
-	height: 100%;
+	width: 100%; 
+	height: 100%; 
 	margin-top: 5px;
 	overflow: auto;
 }
 
 .mapp-m-actions {
 	visibility: hidden;
-}
-
-.mobile .mapp-m-actions {
-	visibility: visible;
 }
 
 tr:hover > td > .mapp-m-actions {
@@ -39,47 +35,15 @@ tr:hover > td > .mapp-m-actions {
 */
 
 .mapp-e-edit-panel {
-	border-top: 1px solid lightgray;
+	border-top: 1px solid lightgray; 
 	margin-top: 5px;
-	white-space:nowrap;
+	white-space:nowrap; 
 }
 
 table.mapp-e-editor {
 	border-collapse: collapse;
 	table-layout: fixed;
-	width: 100%;
-}
-
-.mapp-searchbox {
-	display: block;
-	width: 100%;
-	max-width: 500px;
-}
-
-.mapp-searchbox input {
-	vertical-align: middle;
-	width: 100%;
-}
-
-.mapp-search-button, .mapp-geolocate-button {
-	background-repeat: no-repeat !important;
-	background-position: center center !important;
-	margin: 0 !important;
-	vertical-align: middle !important;
-}
-
-.mapp-search-button:before, #mappress .mapp-geolocate-button:before {
-	content: "XX";
-	visibility: hidden;
-}
-
-.mapp-search-button, .mapp-search-button:hover, .mapp-search-button:focus {
-	background-image: url('../images/search.png') !important;
-}
-
-.mapp-geolocate-button, .mapp-geolocate-button:hover, .mapp-geolocate-button:focus {
-	background-image: url('../images/geolocate-2x.png') !important;
-	background-size: 18px 18px !important;
+	width: 100%;   
 }
 
 .mapp-e-editor td {
@@ -88,18 +52,17 @@ table.mapp-e-editor {
 
 .mapp-e-top-toolbar {
 	font-size: 12px;
-	height: 20px;
 }
-
+	
 .mapp-e-canvas {
-	width: 100%;
-	min-height: 200px;
+	max-width: 100%;
+	min-height: 200px;				/* Used only if a % height is applied */
 	border: 1px solid lightgray;
 }
-
+	
 .mapp-e-poi-list {
+	border-left: 1px solid lightgray;
 	cursor: move;
-	height: 370px;
 	overflow: auto;
 }
 
@@ -112,15 +75,11 @@ table.mapp-e-editor {
 }
 
 .mapp-e-poi-list tr:nth-of-type(odd) {
-	background-color: rgb(252, 252, 252);
+	background-color: rgb(252, 252, 252);    
 }
 
 .mapp-e-actions {
 	visibility: hidden;
-}
-
-.mobile .mapp-e-actions {
-	visibility: visible;
 }
 
 tr:hover > td > .mapp-e-actions {
@@ -130,13 +89,13 @@ tr:hover > td > .mapp-e-actions {
 .mapp-e-icon {
 	vertical-align: top;
 	padding-right: 5px;
-	max-height: 24px;
-	max-width: 24px;
+	max-height: 32px;
+	max-width: 32px;
 }
 
 .mapp-e-infobox {
-	width: 475px;
-	height: 325px;
+	width: 425px;
+	height: 300px;
 }
 
 #mapp_e_poi_title {
@@ -146,7 +105,7 @@ tr:hover > td > .mapp-e-actions {
 
 /* Body as a textarea - also hard-coded into tinymce init */
 #mapp_e_poi_body {
-	width: 100%;
+	width: 400px;
 	height:175px;
 }
 
@@ -155,44 +114,17 @@ tr:hover > td > .mapp-e-actions {
 	cursor: pointer;
 }
 
-/* Border around tinyMCE editor (WP removes it).  mceLayout is for WP < 3.9 */
-.mapp-e-infobox .mce-panel, .mapp-e-infobox table.mceLayout {
-	border: 1px solid lightgray !important;
-}
-
 #mapp_e_poi_kml_url {
 	width: 350px;
 }
 
-
-/*
-	-----------------------------------------------------------------------------------
-	Settings
-	-----------------------------------------------------------------------------------
-*/
-.form-table table {
-	border-collapse: collapse;
-	width: auto;
-	height: auto;
-	border: 1px solid #dfdfdf;
+#mapp_e_poi_icon_picker .mapp-icon-picker-body {
+	max-height: 250px;
+	width: 400px;
+	overflow: auto;
 }
 
-.form-table table th {
-	font-weight: bold;
-	background-color: rgb(241, 241, 241);
-	width: auto;
-	height: auto;
-	border-bottom: 1px solid lightgray;
-	padding: 7px;
-}
 
-.form-table table td {
-	width: auto;
-	height: auto;
-	border-bottom: 1px solid lightgray;
-	vertical-align: top;
-	padding: 5px;
-}
 
 /*
 	-----------------------------------------------------------------------------------
@@ -200,121 +132,134 @@ tr:hover > td > .mapp-e-actions {
 	-----------------------------------------------------------------------------------
 */
 
-.mapp-iconpicker-toggle {
-	max-width: 24px;
-	max-height: 24px;
-	vertical-align: middle;
-}
-
-/* Panel */
-.mapp-iconpicker {
-	background-color: white;
+#mapp_icon_picker_dialog {
 	border: 1px solid gray;
-	display: none;
-	height: 330px;
-	position: absolute;
 	width: 350px;
-	z-index: 100300;
+	position: absolute;
 }
 
-.mapp-iconpicker-wrapper {
-	height: 275px;
-	margin: 5px 20px 0 0;
+.mapp-icon-picker {
+	background-color: white;
+	padding: 5px;
+}
+
+.mapp-icon-picker-menu {
+	padding-bottom: 5px;
+}
+
+.mapp-icon-picker-body {
+	max-height: 200px;
 	overflow: auto;
-	padding: 5px;
+}
+
+.mapp-icon-picker ul {
+	list-style-type: none;
+	margin: 0px;
+	line-height: normal;
 	user-select: none;
 }
 
-.mapp-iconpicker-toolbar {
-	padding: 5px;
-	border-top: 1px solid lightgray;
-}
-
-.mapp-iconpicker .mapp-icon, .mapp-iconpicker .mapp-icon-sprite {
-	border: 2px solid white;
+.mapp-icon-picker li {
+	border: 2px solid white;	
+	display: inline-block;
 	user-select: none;
-	margin: 0;
+	margin: 0px;
 }
 
-.mapp-iconpicker img.mapp-icon:hover, .mapp-iconpicker span.mapp-icon-sprite:hover {
+.mapp-icon-picker li:hover {
 	border: 2px solid blue;
 }
 
-.mapp-iconpicker .mapp-icon { max-width: 32px; }
-.mapp-iconpicker .mapp-icon-sprite { display: inline-block; background: transparent url('../images/icons.png') no-repeat; width: 32px; height: 32px }
+/* Default icon appears as an empty dotted box */
+li.mapp-default-icon {
+	width: 32px;
+	height: 32px;
+	border: 1px dotted black;
+}
 
+.mapp-icon-sprite { background: transparent url('../images/icons.png') no-repeat; width: 32px; height: 32px }
 
 /*
 	-----------------------------------------------------------------------------------
 	Color picker
 	-----------------------------------------------------------------------------------
 */
-
-.mapp-colorpicker-toggle {
-	border: 1px solid lightgray;
-	cursor: pointer;
-	display: inline-block;
-	height: 20px;
-	margin: 1px;
-	vertical-align: middle;
-	width: 20px;
-}
-
-.mapp-colorpicker {
-	background-color: white;
-	border: 1px solid gray;
-	box-shadow: 5px 5px 10px #888;
-	display: none;
-	line-height: 1;
-	padding: 5px;
+#mapp_colorpicker:before {
 	position: absolute;
-	width: 265px;
-	z-index: 100200;
-}
-
-.mapp-colorpicker span {
-	border: 2px solid lightgray;
+	top: -7px;
+	left: 9px;
 	display: inline-block;
-	height: 15px;
-	margin: 1px;
-	width: 15px;
+	border-right: 7px solid transparent;
+	border-bottom: 7px solid #ccc;
+	border-left: 7px solid transparent;
+	border-bottom-color: rgba(0, 0, 0, 0.2);
+	content: '';
 }
 
-.mapp-colorpicker span:hover {
-	border: 2px solid black;
-	height: 15px;
-	width: 15px;
-}
-
-/*
-	-----------------------------------------------------------------------------------
-	Dropdown
-	-----------------------------------------------------------------------------------
-*/
-
-.mapp-dropdown {
-	display: inline-block;
-	position: relative;
-}
-
-.mapp-dropdown .mapp-dropdown-panel {
-	display: none;
+#mapp_colorpicker:after {
 	position: absolute;
-	z-index: 160000;
+	top: -6px;
+	left: 10px;
+	display: inline-block;
+	border-right: 6px solid transparent;
+	border-bottom: 6px solid #ffffff;
+	border-left: 6px solid transparent;
+	content: '';
 }
 
-
-.mapp-dropdown.mapp-open .mapp-dropdown-panel {
-	display: block;
-}
-
-.mapp-dropdown-backdrop {
-	display: none;
-	position: fixed;
+#mapp_colorpicker {
+	position: absolute;
+	top: 100%;
 	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	z-index: 159900;
+	z-index: 10000;
+	display: none;
+	float: left;
+	min-width: 160px;
+	max-width: 209px;
+	padding: 4px 0px 0px 4px;
+	margin: 1px 0 0;
+	list-style: none;
+	background-color: #ffffff;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	*border-right-width: 2px;
+	*border-bottom-width: 2px;
+
+	-webkit-border-radius: 5px;
+	 -moz-border-radius: 5px;
+		  border-radius: 5px;
+
+	-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	 -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+		  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+
+	-webkit-background-clip: padding-box;
+	 -moz-background-clip: padding;
+		  background-clip: padding-box;
 }
 
+#mapp_colorpicker ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#mapp_colorpicker ul li {
+	float: left;
+	margin: 0 4px 4px 0;
+}
+
+#mapp_colorpicker ul li a {
+	display: block;
+	width: 15px;
+	height: 15px;
+
+	text-indent: -100000px;
+}
+
+#mapp_colorpicker ul li a:hover {
+	width: 13px;
+	height: 13px;
+
+	border: 1px solid black;
+}

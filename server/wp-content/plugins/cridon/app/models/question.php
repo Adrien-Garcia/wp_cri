@@ -768,9 +768,15 @@ class Question extends MvcModel
                     reportError(CONST_EXPORT_EMAIL_ERROR, $error);
                 }
             }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
         } catch(\Exception $e) {
             // write into logfile
             writeLog($e, 'exportquestion.log');
+
+            // status code
+            return CONST_STATUS_CODE_GONE;
         }
     }
 }

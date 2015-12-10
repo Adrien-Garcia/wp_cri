@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-	<div id="content">
+	<div id="content" class="page page-search">
 
 		<div id="inner-content" class="wrap cf">
 
@@ -42,7 +42,7 @@
 
 						<article id="post-not-found" class="hentry cf">
 							<header class="article-header">
-								<h1><?php _e( 'Sorry, No Results.', 'bonestheme' ); ?></h1>
+								<h1 class="h1"><?php _e( 'Sorry, No Results.', 'bonestheme' ); ?></h1>
 							</header>
 							<section class="entry-content">
 								<p><?php _e( 'Try your search again.', 'bonestheme' ); ?></p>

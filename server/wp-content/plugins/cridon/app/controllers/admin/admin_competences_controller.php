@@ -7,15 +7,32 @@
  * @contributor Joeli
  * @version 1.0
  */
-class AdminCompetencesController extends MvcAdminController
-{
 
+// base admin ctrl
+require_once 'base_admin_controller.php';
+
+class AdminCompetencesController extends BaseAdminController
+{
+    var $default_searchable_fields = array(
+        'id', 
+        'label'
+    );
     public $default_columns = array(
 	    'id',
 	    'label',
 	    'matiere' => array('value_method' => 'matiere_edit_link')
     );
-
+    
+    public function index() {
+        $this->init_default_columns();
+        $this->process_params_for_search();
+        $collection = $this->model->paginate($this->params);
+        $this->set('objects', $collection['objects']);
+        $this->set_pagination($collection);
+        //Load custom helper
+        $this->load_helper('AdminCustom');
+    }
+    
     public function add()
     {
         $this->setMatieres();

@@ -6,7 +6,10 @@
  * @contributor Joelio
  *
  */
-class AdminNotairesController extends MvcAdminController
+// base admin ctrl
+require_once 'base_admin_controller.php';
+
+class AdminNotairesController extends BaseAdminController
 {
     var $default_search_joins = array('Etude');
     /**

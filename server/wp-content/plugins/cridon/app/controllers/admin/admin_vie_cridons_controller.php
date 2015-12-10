@@ -11,9 +11,19 @@
  * @contributor Fabrice MILA
  *
  */
+// base admin ctrl
+require_once 'base_admin_controller.php';
 
-class AdminVieCridonsController extends MvcAdminController {
-    
+class AdminVieCridonsController extends BaseAdminController {
+    var $default_search_joins = array('Post');
+    /**
+     *
+     * @var array
+     */
+    var $default_searchable_fields = array(
+        'id', 
+        'Post.post_title'
+    );
     var $default_columns = array('id', 'post' => array('label'=> 'Titre' ,'value_method' => 'post_edit_link'));
     public function index() {
         $this->init_default_columns();

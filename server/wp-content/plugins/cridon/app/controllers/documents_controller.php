@@ -143,11 +143,6 @@ class DocumentsController extends MvcPublicController {
             die('Error - can not open file.'); 			
         die();
     }
-
-    public function importinitial()
-    {
-        $this->model->importInitial();
-    }
     
     private function checkAccess( $question,$notaire,$document ){
         //If we are in BO, logged and not a Notaire

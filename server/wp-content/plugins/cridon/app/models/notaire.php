@@ -223,15 +223,26 @@ class Notaire extends MvcModel
             // disable notaire admin bar
             CriDisableAdminBarForExistingNotaire();
 
+            // log end of import
+            if (CONST_TRACE_IMPORT_NOTAIRE) {
+                writeLog('Fin import', 'importnotaire.log');
+            }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
+
         } catch (Exception $e) {
             // write into logfile
             writeLog($e, 'notaire.log');
             array_push($this->logs['error'], $e->getMessage());
-        }
 
-        // log end of import
-        if (CONST_TRACE_IMPORT_NOTAIRE) {
-            writeLog('Fin import', 'importnotaire.log');
+            // log end of import
+            if (CONST_TRACE_IMPORT_NOTAIRE) {
+                writeLog('Fin import', 'importnotaire.log');
+            }
+
+            // status code
+            return CONST_STATUS_CODE_GONE;
         }
 
         echo json_encode($this->logs);
@@ -1609,4 +1620,122 @@ class Notaire extends MvcModel
             && !in_array($object->fonction->id, Config::$cannotAccessFinance)
         ) ? true : false;
     }
+    
+    //Start webservice
+    
+    /**
+     * Generate token for webservice
+     */
+    public function generateToken( $id,$login,$password ){
+        return $id.'!'.$this->encryption($login, $password).'~'.time();
+    }
+    
+    /**
+     * Construct encrypted value
+     * 
+     * @param string $login
+     * @param string $password
+     * @return string
+     */
+    public function encryption( $login,$password ){
+        $salt = wp_salt( 'secure_auth' );
+        return sha1( $salt.$login.$password );
+    }
+    
+    /**
+     * Verify if token given is valid
+     * 
+     * @return object
+     */
+    public function checkLastConnect( $token ){  
+	$notaire = $this->verify($token);
+        //No model find
+        if( !$notaire ){
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Compare two values
+     * 
+     * @param mixed $v1
+     * @param mixed $v2
+     * @return boolean
+     */
+    private function compare( $v1,$v2 ){
+        return ( $v1 == $v2);
+    }
+    
+    /**
+     * Compare two dates
+     * 
+     * @param integer $timestamp
+     * @return boolean
+     */
+    private function compareDate( $timestamp ){
+        $date = new DateTime();
+        $date->setTimestamp( $timestamp );//given
+        $now = new DateTime();//today
+        $interval = $date->diff($now ,true )->days;
+        return ( $interval < Config::$tokenDuration );
+    }
+    
+    /**
+     * Determine values matched in preg_match
+     * 
+     * @param array $matches
+     * @return boolean
+     */
+    protected function checkMatched( $matches ){
+        if( count( $matches ) != 4 ){
+            return false;
+        }
+        if( !isset( $matches[1][0] ) || empty( $matches[1][0] ) ){
+            return false;
+        }
+        if( !isset( $matches[2][0] ) || empty( $matches[2][0] ) ){
+            return false;
+        }
+        if( !isset( $matches[3][0] ) || empty( $matches[3][0] ) ){
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Check if current token given is valid
+     * Three steps to valid this
+     * 
+     * @param string $authToken
+     * @return object|boolean
+     */
+    protected function verify( $authToken )
+    {
+        //Structure of token: [id]![encrypted value]~[timestamp]
+        //encrypted value = salt + login + password encrypted in sha1 algorithm
+        //Pattern regex to use 
+        $pattern = "/([0-9]+)!([a-zA-Z0-9]+)~([0-9]+)/";
+        if( preg_match_all( $pattern, $authToken, $matches ) ){
+            //Check if id, encrypted value and timestamp exists in token given
+            if( $this->checkMatched( $matches ) ){
+                //Check if Notaire exist with this Id
+                $notaire = $this->find_one_by_id( $matches[1][0] );
+                if( $notaire ){
+                    //Get encrypted value with the Notaire
+                    $encryption = $this->encryption( $notaire->crpcen, $notaire->web_password );
+                    //Check encrypted value given 
+                    if( $this->compare($encryption, $matches[2][0] ) ){
+                        //Check timestamp if duration exceeded
+                        if( $this->compareDate($matches[3][0]) ){
+                            return $notaire;
+                        }                      
+                    }
+                }           
+            }
+        }
+        return false;
+    }
+    
+    //End webservice
 }

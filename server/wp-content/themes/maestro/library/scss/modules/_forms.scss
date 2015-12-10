@@ -45,13 +45,17 @@ textarea,
   margin-bottom: 14px;
   font-size: 1em;
   color: $text-color;
-  border-radius: 3px;
+  //border-radius: 3px;
   vertical-align: middle;
   box-shadow: none;
-  border:1px solid $input-border;
+  border:3px solid #e6e6e6;
   width: 100%;
   max-width: 400px;
   @include transition(background-color 0.24s ease-in-out);
+
+  font-family: $helvetica;
+  font-size: 14px;
+  color:#170910;
 
   // a focused input (or hovered on)
   &:focus,
@@ -110,6 +114,24 @@ select {
     &::-ms-expand{
   	display:none;
   }
+}
+
+input[type="submit"]{
+   display: inline-block;
+    padding: 5px 10px;
+    background: #009999;
+    color: #FFF;
+    text-transform: uppercase;
+    font-size: 14px;
+    position: relative;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: none;
+    @extend .do-sm;
+
+    &:hover{
+      opacity: 0.8;
+    }
 }
 
 

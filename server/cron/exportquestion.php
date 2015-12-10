@@ -13,4 +13,6 @@ require_once '../wp-load.php';
 // question model
 $model = mvc_model('question');
 // call export action
-$model->exportQuestion();
+$code = $model->exportQuestion();
+
+echo $code;

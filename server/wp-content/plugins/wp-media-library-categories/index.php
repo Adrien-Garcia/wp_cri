@@ -3,8 +3,9 @@
  * Plugin Name: Media Library Categories
  * Plugin URI: http://wordpress.org/plugins/wp-media-library-categories/
  * Description: Adds the ability to use categories in the media library.
- * Version: 1.5.1
+ * Version: 1.5.2
  * Author: Jeffrey-WP
+ * Text Domain: wp-media-library-categories
  * Author URI: http://codecanyon.net/user/jeffrey-wp/?ref=jeffrey-wp
  */
 
@@ -164,8 +165,9 @@ function wpmediacategory_gallery_atts( $result, $defaults, $atts ) {
 			}
 
 		}
-
-		$result['include'] = implode( ',', $atts['ids'] );
+		if ( isset( $atts['ids'] ) ) {
+			$result['include'] = implode( ',', $atts['ids'] );
+		}
 		$result['category'] = $atts['category'];
 
 	}
@@ -245,7 +247,7 @@ if ( is_admin() ) {
 				$dropdown_options = array(
 					'taxonomy'        => $taxonomy,
 					'name'            => $taxonomy,
-					'show_option_all' => __( 'View all categories' ),
+					'show_option_all' => __( 'View all categories', 'wp-media-library-categories' ),
 					'hide_empty'      => false,
 					'hierarchical'    => true,
 					'orderby'         => 'name',
@@ -256,7 +258,7 @@ if ( is_admin() ) {
 			} else {
 				$dropdown_options = array(
 					'taxonomy'        => $taxonomy,
-					'show_option_all' => __( 'View all categories' ),
+					'show_option_all' => __( 'View all categories', 'wp-media-library-categories' ),
 					'hide_empty'      => false,
 					'hierarchical'    => true,
 					'orderby'         => 'name',
@@ -282,24 +284,24 @@ if ( is_admin() ) {
 
 			echo '<script type="text/javascript">';
 			echo 'jQuery(window).load(function() {';
-			echo 'jQuery(\'<optgroup id="wpmediacategory_optgroup1" label="' .  html_entity_decode( __( 'Categories' ), ENT_QUOTES, 'UTF-8' ) . '">\').appendTo("select[name=\'action\']");';
-			echo 'jQuery(\'<optgroup id="wpmediacategory_optgroup2" label="' .  html_entity_decode( __( 'Categories' ), ENT_QUOTES, 'UTF-8' ) . '">\').appendTo("select[name=\'action2\']");';
+			echo 'jQuery(\'<optgroup id="wpmediacategory_optgroup1" label="' .  html_entity_decode( __( 'Categories', 'wp-media-library-categories' ), ENT_QUOTES, 'UTF-8' ) . '">\').appendTo("select[name=\'action\']");';
+			echo 'jQuery(\'<optgroup id="wpmediacategory_optgroup2" label="' .  html_entity_decode( __( 'Categories', 'wp-media-library-categories' ), ENT_QUOTES, 'UTF-8' ) . '">\').appendTo("select[name=\'action2\']");';
 
 			// add categories
 			foreach ( $terms as $term ) {
-				$sTxtAdd = esc_js( __( 'Add' ) . ': ' . $term->name );
+				$sTxtAdd = esc_js( __( 'Add', 'wp-media-library-categories' ) . ': ' . $term->name );
 				echo "jQuery('<option>').val('wpmediacategory_add_" . $term->term_taxonomy_id . "').text('" . $sTxtAdd . "').appendTo('#wpmediacategory_optgroup1');";
 				echo "jQuery('<option>').val('wpmediacategory_add_" . $term->term_taxonomy_id . "').text('" . $sTxtAdd . "').appendTo('#wpmediacategory_optgroup2');";
 			}
 			// remove categories
 			foreach ( $terms as $term ) {
-				$sTxtRemove = esc_js( __( 'Remove' ) . ': ' . $term->name );
+				$sTxtRemove = esc_js( __( 'Remove', 'wp-media-library-categories' ) . ': ' . $term->name );
 				echo "jQuery('<option>').val('wpmediacategory_remove_" . $term->term_taxonomy_id . "').text('" . $sTxtRemove . "').appendTo('#wpmediacategory_optgroup1');";
 				echo "jQuery('<option>').val('wpmediacategory_remove_" . $term->term_taxonomy_id . "').text('" . $sTxtRemove . "').appendTo('#wpmediacategory_optgroup2');";
 			}
 			// remove all categories
-			echo "jQuery('<option>').val('wpmediacategory_remove_0').text('" . esc_js(  __( 'Delete all' ) ) . "').appendTo('#wpmediacategory_optgroup1');";
-			echo "jQuery('<option>').val('wpmediacategory_remove_0').text('" . esc_js(  __( 'Delete all' ) ) . "').appendTo('#wpmediacategory_optgroup2');";
+			echo "jQuery('<option>').val('wpmediacategory_remove_0').text('" . esc_js(  __( 'Remove all categories', 'wp-media-library-categories' ) ) . "').appendTo('#wpmediacategory_optgroup1');";
+			echo "jQuery('<option>').val('wpmediacategory_remove_0').text('" . esc_js(  __( 'Remove all categories', 'wp-media-library-categories' ) ) . "').appendTo('#wpmediacategory_optgroup2');";
 			echo "});";
 			echo "</script>";
 
@@ -416,7 +418,7 @@ if ( is_admin() ) {
 		global $post_type, $pagenow;
 
 		if ( $pagenow == 'upload.php' && $post_type == 'attachment' && isset( $_GET['editCategory'] ) ) {
-			echo '<div class="updated"><p>' . __( 'Settings saved.' ) . '</p></div>';
+			echo '<div class="updated"><p>' . __( 'Category changes are saved.', 'wp-media-library-categories' ) . '</p></div>';
 		}
 	}
 	add_action( 'admin_notices', 'wpmediacategory_custom_bulk_admin_notices' );
@@ -430,8 +432,8 @@ if ( is_admin() ) {
 		$taxonomy = apply_filters( 'wpmediacategory_taxonomy', $taxonomy );
 		return array_merge(
 			array(
-				'settings' => '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/edit-tags.php?taxonomy=' . $taxonomy . '&amp;post_type=attachment">' . __( 'Categories' ) . '</a>',
-				'premium' => '<a href="http://codecanyon.net/item/media-library-categories-premium/6691290?ref=jeffrey-wp">' . __( 'Get Premium Version' ) . '</a>'
+				'settings' => '<a href="' . get_bloginfo( 'wpurl' ) . '/wp-admin/edit-tags.php?taxonomy=' . $taxonomy . '&amp;post_type=attachment">' . __( 'Categories', 'wp-media-library-categories' ) . '</a>',
+				'premium' => '<a href="http://codecanyon.net/item/media-library-categories-premium/6691290?ref=jeffrey-wp">' . __( 'Get Premium Version', 'wp-media-library-categories' ) . '</a>'
 			),
 			$links
 		);
@@ -524,13 +526,13 @@ if ( is_admin() ) {
 
 			echo '<script type="text/javascript">';
 			echo '/* <![CDATA[ */';
-			echo 'var wpmediacategory_taxonomies = {"' . $taxonomy . '":{"list_title":"' . html_entity_decode( __( 'View all categories' ), ENT_QUOTES, 'UTF-8' ) . '","term_list":[' . substr( $attachment_terms, 2 ) . ']}};';
+			echo 'var wpmediacategory_taxonomies = {"' . $taxonomy . '":{"list_title":"' . html_entity_decode( __( 'View all categories', 'wp-media-library-categories' ), ENT_QUOTES, 'UTF-8' ) . '","term_list":[' . substr( $attachment_terms, 2 ) . ']}};';
 			echo '/* ]]> */';
 			echo '</script>';
 
-			wp_enqueue_script( 'wpmediacategory-media-views', plugins_url( 'js/wpmediacategory-media-views.min.js', __FILE__ ), array( 'media-views' ), '1.5.1', true );
+			wp_enqueue_script( 'wpmediacategory-media-views', plugins_url( 'js/wpmediacategory-media-views.min.js', __FILE__ ), array( 'media-views' ), '1.5.2', true );
 		}
-		wp_enqueue_style( 'wpmediacategory', plugins_url( 'css/wpmediacategory.min.css', __FILE__ ), array(), '1.5.1' );
+		wp_enqueue_style( 'wpmediacategory', plugins_url( 'css/wpmediacategory.min.css', __FILE__ ), array(), '1.5.2' );
 	}
 	add_action( 'admin_enqueue_scripts', 'wpmediacategory_enqueue_media_action' );
 

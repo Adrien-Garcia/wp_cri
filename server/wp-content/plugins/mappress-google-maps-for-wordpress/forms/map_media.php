@@ -22,18 +22,18 @@
 					<td><?php _e('Map ID', 'mappress');?>:</td>
 					<td><span id='mapp_m_mapid'></span></td>
 				</tr>
-
+				
 				<tr>
-					<td><?php _e('Map Title', 'mappress');?>:</td>
+					<td><?php _e('Map Title');?>:</td>
 					<td><input id='mapp_m_title' type='text' size='40' /></td>
 				</tr>
-
+				
 				<tr>
 					<td><?php _e('Size', 'mappress');?>:</td>
 					<td>
 						<?php
 							$sizes = array();
-							foreach(Mappress::$options->sizes as $i => $size)
+							foreach(Mappress::$options->mapSizes as $i => $size) 
 								$sizes[] = "<a href='#' class='mapp-m-size' data-width='{$size['width']}' data-height='{$size['height']}'>" . $size['width'] . 'x' . $size['height'] . "</a>";
 							echo implode(' | ', $sizes);
 						?>
@@ -43,8 +43,8 @@
 			</table>
 		</div>
 		<div>
-			<input class='button button-primary' type='button' id='mapp_m_save' value='<?php esc_attr_e('Save', 'mappress'); ?>' />
-			<input class='button' type='button' id='mapp_m_cancel' value='<?php esc_attr_e('Cancel', 'mappress'); ?>' />
+			<input class='button-primary' type='button' id='mapp_m_save' value='<?php esc_attr_e('Save', 'mappress'); ?>' />
+			<input class='button' type='button' id='mapp_m_cancel' value='<?php esc_attr_e('Cancel', 'mappress'); ?>' />	
 			<input class='button' type='button' id='mapp_m_insert' value='<?php esc_attr_e('Insert into post', 'mappress'); ?>' />
 		</div>
 		<hr/>
