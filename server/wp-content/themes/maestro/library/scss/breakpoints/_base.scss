@@ -2677,7 +2677,7 @@ body.page-template-front-page{
 		
 		article{
 
-			a{
+			/*a{
 			color:$rouge;
 			text-decoration: none;
 			border-bottom:solid 1px $rouge;
@@ -2685,7 +2685,7 @@ body.page-template-front-page{
 			&:hover{
 				border-bottom:solid 1px transparent;
 			}
-		}
+		}*/
 
 		}
 		
@@ -3271,7 +3271,7 @@ body.page-template-front-page{
 						 	float: right;
 
 						 	&:before{
-						 		@include svgicon('icon-pdf', 16px, 16px, $vert);
+						 		@include svgicon('icon-pdf', 16px, 16px, $rouge);
 						 		position: absolute;
 						 		top: 0;
 						 		left: 0;

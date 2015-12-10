@@ -1986,7 +1986,7 @@ body.page-template-front-page{
 									 	
 
 									 	&:before{
-									 		@include svgicon('icon-pdf', 24px, 24px, $vert);
+									 		@include svgicon('icon-pdf', 24px, 24px, $rouge);
 									 		
 									 	}
 									 }
@@ -2304,7 +2304,7 @@ body.page-template-front-page{
 												font-size: 16px;
 
 												&:before{
-											 		@include svgicon('icon-pdf', 24px, 24px, $vert);
+											 		@include svgicon('icon-pdf', 24px, 24px, $rouge);
 											 		top:-4px;
 											 		right: -60px;
 											 		
