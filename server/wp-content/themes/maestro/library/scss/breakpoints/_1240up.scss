@@ -1334,7 +1334,7 @@ body.page-template-front-page{
 
 						 	&:hover{
 						 		&:before{
-							 		@include svgicon('icon-pdf', 24px, 24px, $bleu);
+							 		@include svgicon('icon-pdf', 24px, 24px, $rouge);
 							 	}
 						 	}
 						 }

@@ -70,7 +70,7 @@ class ewwwflag {
 		}
 //		ewww_image_optimizer_cloud_verify(false); 
 		?>
-		<div class="wrap"><div id="icon-upload" class="icon32"></div><h2>GRAND FlAGallery <?php _e('Bulk Optimize', EWWW_IMAGE_OPTIMIZER_DOMAIN); ?></h2>
+		<div class="wrap"><div id="icon-upload" class="icon32"></div><h1>GRAND FlAGallery <?php _e('Bulk Optimize', EWWW_IMAGE_OPTIMIZER_DOMAIN); ?></h1>
 		<?php
 		// Retrieve the value of the 'bulk resume' option and set the button text for the form to use
 		$resume = get_option('ewww_image_optimizer_bulk_flag_resume');
@@ -378,12 +378,12 @@ class ewwwflag {
 	/* flag_manage_image_custom_column hook - output the EWWW IO information on the gallery display */
 	function ewww_manage_image_custom_column( $column_name, $id ) {
 		// check to make sure we're outputing our custom column
-		if($column_name == 'ewww_image_optimizer') {
+		if( $column_name == 'ewww_image_optimizer' ) {
 			// get the metadata
-			$meta = new flagMeta($id);
-			if (ewww_image_optimizer_get_option('ewww_image_optimizer_debug')) {
-				$print_meta = print_r($meta->image->meta_data, TRUE);
-				$print_meta = preg_replace(array('/ /', '/\n+/'), array('&nbsp;', '<br />'), $print_meta);
+			$meta = new flagMeta( $id );
+			if ( ewww_image_optimizer_get_option( 'ewww_image_optimizer_debug' ) ) {
+				$print_meta = print_r( $meta->image->meta_data, TRUE );
+				$print_meta = preg_replace( array( '/ /', '/\n+/' ), array( '&nbsp;', '<br />' ), $print_meta );
 				echo '<div style="background-color:#ffff99;font-size: 10px;padding: 10px;margin:-10px -10px 10px;line-height: 1.1em">' . $print_meta . '</div>';
 			}
 			// grab the image status from the meta
@@ -392,9 +392,9 @@ class ewwwflag {
 			// get the image path from the meta
 			$file_path = $meta->image->imagePath;
 			// get the mimetype
-			$type = ewww_image_optimizer_mimetype($file_path, 'i');
+			$type = ewww_image_optimizer_mimetype( $file_path, 'i' );
 			// get the file size
-			$file_size = size_format(filesize($file_path), 2);
+			$file_size = size_format( ewww_image_optimizer_filesize( $file_path ), 2 );
 			$file_size = str_replace( 'B ', 'B', $file_size );
 			$valid = true;
 			// if we don't have a valid tool for the image type, output the appropriate message

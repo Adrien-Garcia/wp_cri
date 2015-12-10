@@ -2160,7 +2160,8 @@ body.page-template-front-page{
 
 						 	&:hover{
 						 		&:before{
-							 		@include svgicon('icon-pdf', 16px, 16px, $bleu);
+						 			@include svgicon('icon-pdf', 16px, 16px, $rouge);
+							 		opacity: 0.8;
 							 	}
 						 	}
 						 }
@@ -2673,8 +2674,10 @@ body.page-template-front-page{
 
 
 		}
+		
+		article{
 
-		a{
+			a{
 			color:$rouge;
 			text-decoration: none;
 			border-bottom:solid 1px $rouge;
@@ -2683,6 +2686,9 @@ body.page-template-front-page{
 				border-bottom:solid 1px transparent;
 			}
 		}
+
+		}
+		
 		
 	}
 

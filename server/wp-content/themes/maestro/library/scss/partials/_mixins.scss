@@ -195,6 +195,7 @@ BT style crayon
     text-align: center;
     text-transform: uppercase;
       transition: background $duration*1.5 ease, color $duration*1.5 ease;
+      border:none;
 
 
     &:after{
@@ -273,6 +274,7 @@ Lien souligné avec "+"
     font-size: 16px;
     position: relative;
     line-height: 20px;
+    border-bottom:none;
 
     span{
 
