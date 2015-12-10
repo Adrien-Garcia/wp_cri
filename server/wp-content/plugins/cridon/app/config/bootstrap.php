@@ -24,11 +24,13 @@ function resetGlobalVars(){
 // End retrieve post
 
 // After save into post table, save in others tables 
-function save_post_in_table( $post_ID ){
+function save_post_in_table( $post_ID, $post ){
     $modelConf = getRelatedContentConfInReferer($post_ID);
+    $isInsert = false;
     if (!empty($modelConf)) {
         if( ($model = findBy( $modelConf['name'], $post_ID )) == null ){//no duplicate
             $model = insertInTable( $modelConf['name'], $post_ID );
+            $isInsert = true;
         }
         $aAdditionalFields = array();
         if (!empty($_POST['cri_category'])) {
@@ -38,6 +40,10 @@ function save_post_in_table( $post_ID ){
             $aAdditionalFields['id_parent'] = $_POST['id_parent'];
         }
         updateRelatedContent( $model , $aAdditionalFields);
+        //Only on insert and post status is publish
+        if( $isInsert && ( $post->post_status == 'publish' ) && ( $post->post_type == 'post' ) ){
+            sendNotificationForPostPublished($post, $model);
+        }
     }
     return $post_ID;
 }
