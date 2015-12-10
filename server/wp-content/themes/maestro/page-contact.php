@@ -68,8 +68,8 @@
 									</td>
 									<td>04 37 24 79 71</td>
 								</tr>
-								<tr>
-									<td>
+								<tr itemtype="http://schema.org/Restaurant" >
+									<td itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 										CRIDON LYON
 										<span>37 Bd des Brotteaux<br />
 										69455 LYON CEDEX 06</span>

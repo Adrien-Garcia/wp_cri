@@ -2673,6 +2673,16 @@ body.page-template-front-page{
 
 
 		}
+
+		a{
+			color:$rouge;
+			text-decoration: none;
+			border-bottom:solid 1px $rouge;
+
+			&:hover{
+				border-bottom:solid 1px transparent;
+			}
+		}
 		
 	}
 
@@ -2735,6 +2745,8 @@ body.page-template-front-page{
 
 		.gform_footer {
 
+			
+
 			.gform_button {
 				display: inline-block;
 			    padding: 5px 10px;
@@ -2746,10 +2758,39 @@ body.page-template-front-page{
 			    text-decoration: none;
 			    transition: all 0.3s;
 			    border: none;
+			    @extend .do-sm;
+
+			    &:hover{
+			    	opacity: 0.85;
+			    }
 
 			}
 
 		}
+	}
+
+	.gform_validation_error{
+
+		.validation_error{display: none;}
+
+		.gfield_error{
+			background-color: #FFF;
+		    margin-bottom: 0!important;
+		    padding: 0;
+		    border-top: none!important;
+		    border-bottom:  none!important;
+
+		    input, select{
+		    	border: 1px solid $rouge;
+		    }
+
+		    .validation_message{
+		    	color:$rouge !important;
+		    	padding: 0 !important;
+		    	margin: 0 !important; 
+		    }
+		}
+
 	}
 }
 

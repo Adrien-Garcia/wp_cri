@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-	<div id="content">
+	<div id="content" class="page page-404">
 
 		<div id="inner-content" class="wrap cf">
 
@@ -10,7 +10,7 @@
 
 					<header class="article-header">
 
-						<h1><?php _e( 'Epic 404 - Article Not Found', 'bonestheme' ); ?></h1>
+						<h1 class="h1"><?php _e( 'Epic 404 - Article Not Found', 'bonestheme' ); ?></h1>
 
 					</header>
 
