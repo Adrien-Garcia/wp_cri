@@ -166,7 +166,42 @@ class Config {
         'documents' => '<p>Les documents associés: </p></br>',
         'tags'      => 'Etiquettes:'
     );
-    
+
+    //GED Administration
+    public static $GEDtxtIndexes = array(
+        /* index Nom du fichier PDF  */
+        'INDEX_NOMFICHIER'      => 0,
+        /* index Valeur CAB */
+        'INDEX_VALCAB'          => 1,
+        /* index Nombre de pages correspondant à la question  */
+        'INDEX_NBPAGE'          => 2,
+        /* index Nombre de pages du document PDF */
+        'INDEX_NBPAGEDOC'       => 3,
+        /* index N° Question */
+        'INDEX_NUMQUESTION'     => 4,
+        /* index N° CRPCEN de l'étude */
+        'INDEX_CRPCEN'          => 5,
+        /* index Nom du notaire */
+        'INDEX_NOMNOTAIRE'      => 6,
+        /* index Prénom du notaire  */
+        'INDEX_PRENOMNOTAIRE'   => 7,
+        /* index Matière de la question */
+        'INDEX_MATIERE'         => 8,
+        /* index Support de la question */
+        'INDEX_SUPPORT'         => 9,
+        /* index Date d'affectation de la question */
+        'INDEX_DATEAFFECTION'   => 10,
+        /* index Date de réponse */
+        'INDEX_DATEREPONSE'     => 11,
+        /* index Nom du juriste principal */
+        'INDEX_NOMJURISTE'      => 12,
+        /* index Objet de la question */
+        'INDEX_OBJET'           => 13,
+        /* nombre de colonne présent dans le csv */
+        'NB_COLONNE_CSV'        => 14,
+    );
+
+
     //Begin Translation
     // Admin menu translation
     public static $sidebarAdminMenuActions = array(
