@@ -7,7 +7,6 @@
 	</thead>
 	<tbody>
 	<?php foreach($map->pois as $poi) : ?>
-		<?php if ($poi->type == 'kml') continue; ?>
 		<tr>
 			<td>
 				<?php echo $poi->get_icon(); ?>
