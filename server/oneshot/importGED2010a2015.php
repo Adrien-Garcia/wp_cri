@@ -123,7 +123,8 @@ foreach ($csvParser->data as $row => $data) {
             $docName = substr($docName, $iPos + 1);
         }
         $filename = $modelDoc->getFileName($path, $docName);
-        if ( copy(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'BackupCourriersPDF' . DIRECTORY_SEPARATOR . $docPath,
+        $fileToImport = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'BackupCourriersPDF' . DIRECTORY_SEPARATOR . $docPath;
+        if (file_exists($fileToImport) && copy($fileToImport,
             $path . $filename)) {
             // donnees document
             $docData = array(
@@ -176,13 +177,11 @@ foreach ($csvParser->data as $row => $data) {
                 $archivePath . $filename);
             $modelDoc->updateQuestion($question, $contents);
             $logDocList[] = $filename;
-        } else { // invalide doc
-            // archivage source des metadonnees
-            rename($document, $archivePath . $fileInfo['basename']);
+        } else {
             // message par défaut
-            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
+            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $docName);
             // log : envoie mail
-            if( !file_exists(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[$indexes['INDEX_NOMFICHIER']]) ){
+            if( !file_exists($fileToImport) ){
                 // PDF inexistant
                 $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[$indexes['INDEX_NUMQUESTION']]);
             }
@@ -191,7 +190,7 @@ foreach ($csvParser->data as $row => $data) {
     } else { // doc sans question associee
 
         // log : envoie mail
-        $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[$indexes['INDEX_NOMFICHIER']]);
+        $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[$indexes['INDEX_VALCAB']]);
         reportError($message, '');
     }
 }
