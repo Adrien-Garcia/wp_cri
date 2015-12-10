@@ -123,8 +123,8 @@ foreach ($csvParser->data as $row => $data) {
             $docName = substr($docName, $iPos + 1);
         }
         $filename = $modelDoc->getFileName($path, $docName);
-        $fileToImport = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'BackupCourriersPDF' . DIRECTORY_SEPARATOR . $docPath;
-        if (file_exists($fileToImport) && copy($fileToImport,
+        $fileToImport = fileExists(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'BackupCourriersPDF' . DIRECTORY_SEPARATOR . $docPath, false);
+        if (copy($fileToImport,
             $path . $filename)) {
             // donnees document
             $docData = array(
@@ -184,6 +184,7 @@ foreach ($csvParser->data as $row => $data) {
             if( !file_exists($fileToImport) ){
                 // PDF inexistant
                 $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[$indexes['INDEX_NUMQUESTION']]);
+                $message .= "\n PATH Chemin sur le serveur : ".$fileToImport;
             }
             reportError($message, '');
         }
