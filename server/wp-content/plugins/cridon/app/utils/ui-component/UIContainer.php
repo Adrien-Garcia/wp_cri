@@ -96,6 +96,7 @@ class UIContainer extends UIFields{
         $html = ' <div class="field relationship_search">';
         $html .= '<p class="label">'
                 . '<label for="acf-field-document_sur_les_contenus">'.$this->title.'</label></p>';
+        $html .= '<input type="hidden" id="ui-document-type" value="'.$this->type.'" />';
         $html .= '<div class="cri_relationship has-search">';
         $html .= '<div class="relationship_left">';
         $html .= '<table class="widefat"><thead><tr><th>';

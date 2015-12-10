@@ -97,8 +97,52 @@ class LoginsController extends MvcPublicController
     
     //Webservice
     
+    /**
+     * Action pour la connexion mobile
+     * 
+     * @global CridonContainer $cri_container
+     */
     public function login(){
-        $rest = new RestServer();
-        $rest->checkLogin();
+        global $cri_container;
+        $request = $cri_container->get('request');
+        $success = true;
+        $message = CONST_WS_MSG_SUCCESS;
+        $token   = false;
+        //N'accepter que les requêtes POST
+        if( !$request->isMethod( 'POST' ) ){  
+            $message = CONST_WS_MSG_ERROR_METHOD;
+            $success = false;
+        }else{
+            $method = $request->getMethod();
+            $token = $this->generateToken( $request->get( $method, 'login' ),$request->get( $method, 'password' ) );
+            //No token generated
+            if( !$token ){
+                $success = false;
+                $message = CONST_LOGIN_ERROR_MSG;
+            }            
+        }
+        //output token
+        $encoded = $request->response->getResponse( array( 'success'=>$success,'message' => $message,'token'=>$token ) );
+        $this->set('encoded',$encoded);
+        $this->render_view('login', array('layout' => 'response_json'));
     }
+    
+    /**
+     * Attempt to authenticate
+     * 
+     * @param string $login
+     * @param string $password
+     * @return boolean|object
+     */
+    protected function generateToken( $login,$password ){
+        $model = mvc_model('notaire');//load model notaire
+        //Check if Notaire exist with this login and password 
+        $notaire = $model->findByLoginAndPassword( $login, $password );
+        if( empty( $notaire ) ){ 
+            return false;
+        }        
+        return $model->generateToken( $notaire->id,$login,$password );
+    }  
+        
+    //End webservice
 }

@@ -541,3 +541,19 @@ if ( !defined( 'CONST_DB_TABLE_QUESTTEMP' ) ) {
 if ( !defined( 'CONST_EXPORT_EMAIL_ERROR' ) ) {
     define( 'CONST_EXPORT_EMAIL_ERROR', 'Export question interrompu le : %s' );
 }
+
+if ( !defined( 'CONST_WS_MSG_SUCCESS' ) ) {
+    define( 'CONST_WS_MSG_SUCCESS',  'Connexion réussie');
+}
+
+if ( !defined( 'CONST_WS_MSG_ERROR_METHOD' ) ) {
+    define( 'CONST_WS_MSG_ERROR_METHOD',  'Action non autorisée');
+}
+
+// import status code
+if ( !defined( 'CONST_STATUS_CODE_OK' ) ) {
+    define( 'CONST_STATUS_CODE_OK', 200 );
+}
+if ( !defined( 'CONST_STATUS_CODE_GONE' ) ) {
+    define( 'CONST_STATUS_CODE_GONE', 410 );
+}

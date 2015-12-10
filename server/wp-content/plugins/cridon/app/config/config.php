@@ -166,4 +166,82 @@ class Config {
         'documents' => '<p>Les documents associés: </p></br>',
         'tags'      => 'Etiquettes:'
     );
+    
+    //Begin Translation
+    // Admin menu translation
+    public static $sidebarAdminMenuActions = array(
+        'add' => array(
+            'label' => 'Ajouter'
+        ),
+        'delete' => array(
+            'label' => 'Suppression'
+        ),
+        'edit' => array(
+            'label' => 'Edition'
+        )
+    );
+    public static $listOfControllersWpMvcOnSidebar = array(
+        'affectations','cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
+        'questions','soldes','supports','user_cridons','veilles','vie_cridons'
+    );
+    public static $listOfControllersWithNoActionAdd = array(
+        'notaires'
+    );
+    
+    //Admin wp_mvc action translation
+    public static $actionsWpmvcTranslation = array(
+        'view'   => 'Voir',
+        'edit'   => 'Editer',
+        'delete' => 'Supprimer'
+    );
+    public static $msgConfirmDelete = 'Êtes-vous sur de vouloir supprimer';
+    public static $btnTextAdmin = array(
+        'add'    => 'Ajouter',
+        'update' => 'Mettre à jour'
+    );
+    //Titre sur les formulaires d'édition et d'ajout
+    public static $titleAdminForm  = array(
+        'competence' => array(
+            'add'    => 'Ajout de compétence',
+            'edit'   => 'Edition de compétence'
+        ),
+        'document' => array(
+            'add'    => 'Ajout d\'un document sécurisé du Cridon',
+            'edit'   => 'Modification d\'un document sécurisé du Cridon'
+        ),
+        'matiere' => array(
+            'add'    => 'Ajout d\'une matière',
+            'edit'   => 'Modification d\'une matière'
+        ),
+        'support' => array(
+            'add'    => 'Ajout d\'un support',
+            'edit'   => 'Modification d\'un support'
+        ),
+        'solde' => array(
+            'add'    => 'Ajout d\'un solde',
+            'edit'   => 'Modification d\'un solde'
+        ),
+        'affectation' => array(
+            'add'    => 'Ajout d\'une affectation',
+            'edit'   => 'Modification d\'une affectation'
+        ),
+        'question' => array(
+            'add'    => 'Ajout d\'une question',
+            'edit'   => 'Modification d\'une question'
+        )
+    );
+    public static $titleFieldAdminForm = array(
+        'label'       => 'Libellé',
+        'code'        => 'Code',
+        'short_label' => 'Libellé court',
+        'displayed'   => 'Affiché sur le site ?',
+        'label_front' => 'Libellé en front',
+        'value'       => 'Valeur',
+        'description' => 'Description',
+        'client_number' => 'Numéro client',
+        'quota'         => 'Quota',
+        'type_support'  => 'Type du support',
+        'date_arret'    => 'Date d\'arrêt'
+    );
+    //End translation
 }
