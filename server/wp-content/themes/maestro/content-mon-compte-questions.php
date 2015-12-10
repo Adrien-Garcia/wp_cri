@@ -168,15 +168,15 @@ Vous n'avez actuellement aucune question en attente de réponse.
 					<span class="id-question">N ° <?php echo $question->question->srenum; ?></span>
 				</li>
 				<li class="pdf">
-					<a href="" class="pdf"></a>
+					<a href="" class="pdf" title="télécharger le document"></a>
 				</li>
 			</ul>
 			<ul class="suite-complement">
 				<li class="pdf">
-					<a href="" class="pdf"><b>Suite</b> S123456789</a>
+					<a href="" class="pdf" title="télécharger le document"><b>Suite</b> S123456789</a>
 				</li>
 				<li class="pdf">
-					<a href="" class="pdf"><b>Complément</b> C123456789</a>
+					<a href="" class="pdf" title="télécharger le document"><b>Complément</b> C123456789</a>
 				</li>
 			</ul>
 		</li>

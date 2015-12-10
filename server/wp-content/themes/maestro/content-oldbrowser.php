@@ -1,6 +1,7 @@
 <div id="ob_page">
 
-	<div id="ob_logo"><img src="<?php echo get_template_directory_uri(); ?>/library/images/browsers/logo-client.png" alt="<?php bloginfo('name'); ?>" /></div>
+	<div id="ob_logo">
+		<img src="<?php echo get_template_directory_uri(); ?>/library/images/login-logo.png" alt="<?php bloginfo('name'); ?>" /></div>
 
 	<p>Votre navigateur est obsolète,<br/>merci de le mettre à jour afin de profiter pleinement de ce site web.</p>
 

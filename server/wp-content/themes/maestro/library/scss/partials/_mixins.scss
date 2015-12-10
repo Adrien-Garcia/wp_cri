@@ -368,6 +368,8 @@ Lien bouton Mon compte rectangle
   text-decoration: none; 
   transition: all $duration;
 
+  text-indent: -9000;
+
   &:before{
     @include svgicon('icon-angle-right', 15px, 15px, $fond); 
     position: absolute;
