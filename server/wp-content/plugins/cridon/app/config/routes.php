@@ -48,3 +48,6 @@ MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
 
 //Ajax admin
 MvcRouter::admin_ajax_connect(array('controller' => 'admin_documents', 'action' => 'search'));
+
+// Téléchargement des documents publics, toujours en dernier dans les routes pour éviter les problèmes des "/" dans les données cryptées 
+MvcRouter::public_connect('{:id:[a-zA-Z0-9=+\/]+}', array('controller' => 'documents', 'action' => 'publicDownload'));
