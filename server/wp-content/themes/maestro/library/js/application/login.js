@@ -56,7 +56,16 @@ App.Login = {
 
         this.$elementsConnexionErrorReset=$(this.eventConnexionErrorResetSelector);
 
-        this.initLoginAjaxForm();
+        this.$fieldConnexionLogin        = $(this.fieldConnexionLoginSelector);
+        this.$fieldConnexionPassword     = $(this.fieldConnexionPasswordSelector);
+
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'token';
+        nonce.id    = 'token';
+        nonce.value = jsvar.login_nonce;
+
+        this.$formConnexion.append(nonce);
 
         this.addListeners();
 
@@ -72,19 +81,6 @@ App.Login = {
 
     },
 
-    initLoginAjaxForm: function() {
-        this.$fieldConnexionLogin = $(this.fieldConnexionLoginSelector);
-        this.$fieldConnexionPassword = $(this.fieldConnexionPasswordSelector);
-
-        var nonce   = document.createElement('input');
-        nonce.type  = 'hidden';
-        nonce.name  = 'token';
-        nonce.id    = 'token';
-        nonce.value = jsvar.login_nonce;
-
-        this.$formConnexion.append(nonce);
-
-    },
 
     /*
      * Listeners for the Login page events
