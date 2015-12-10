@@ -16,7 +16,7 @@ class Document extends MvcModel {
     /**
      * @var mixed
      */
-    protected $queryBuilder;
+    public $queryBuilder;
 
     /**
      * @var string
@@ -116,8 +116,7 @@ class Document extends MvcModel {
         $logDocList = array();
         try{
             
-            //$Directory = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH);
-            $Directory = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_TEMP_PATH);
+            $Directory = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH);
             $Iterator = new RecursiveIteratorIterator($Directory);
             //remove the ending symbol $ as a txt file contains a '0' behind the extension...
             $documents = new RegexIterator($Iterator, '/^.+\.'.CONST_IMPORT_FILE_TYPE.'/i', RecursiveRegexIterator::GET_MATCH);
@@ -300,7 +299,7 @@ class Document extends MvcModel {
      * @param string $original
      * @return string
      */
-    protected function getFileName( $path,$original ){
+    public function getFileName( $path,$original ){
         $output = $original;
         if (file_exists($path.$original)) {
             $output = mt_rand(1, 10) . '_' . $original;
@@ -333,7 +332,7 @@ class Document extends MvcModel {
      * @param object $question
      * @param array $contents
      */
-    protected function updateQuestion( $question, $contents ){
+    public function updateQuestion( $question, $contents ){
         if( !empty($contents[Config::$GEDtxtIndexes['INDEX_DATEREPONSE']]) ){
             if( preg_match("/([0-9]{4}-[0-9]{2}-[0-9]{2})T/", $contents[Config::$GEDtxtIndexes['INDEX_DATEREPONSE']], $matches) ){
                 $d = DateTime::createFromFormat('Y-m-d', $matches[1]);
