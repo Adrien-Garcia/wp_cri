@@ -508,21 +508,21 @@ class Question extends MvcModel
         $adapter = $this->adapter;
 
         // convert date to mysql format
-        $affectationDate = '0000-00-00'; // accepted date format if not set
+        $affectationDate = ''; // accepted date format if not set
         if (isset($data[$adapter::QUEST_SREDATASS])) {
             if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_SREDATASS])) {
                 $dateTime        = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SREDATASS]);
                 $affectationDate = $dateTime->format('Y-m-d');
             }
         }
-        $wishDate = '0000-00-00'; // accepted date format if not set
+        $wishDate = ''; // accepted date format if not set
         if (isset($data[$adapter::QUEST_YRESSOUH])) {
             if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_YRESSOUH])) {
                 $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_YRESSOUH]);
                 $wishDate = $dateTime->format('Y-m-d');
             }
         }
-        $realDate = '0000-00-00'; // accepted date format if not set
+        $realDate = ''; // accepted date format if not set
         if (isset($data[$adapter::QUEST_SRERESDAT])) {
             if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_SRERESDAT])) {
                 $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SRERESDAT]);
@@ -553,12 +553,12 @@ class Question extends MvcModel
         $value .= "'" . (isset($data[$adapter::QUEST_YRESUME]) ? esc_sql($data[$adapter::QUEST_YRESUME]) : '') . "', "; // resume
         $value .= "'" . (isset($data[$adapter::QUEST_YSREASS]) ? intval($data[$adapter::QUEST_YSREASS]) : 0) . "', "; // id_affectation
         $value .= "'" . (isset($data[$adapter::QUEST_SREDET]) ? esc_sql($data[$adapter::QUEST_SREDET]) : '') . "', "; // juriste
-        $value .= "'" . $affectationDate . "', "; // affectation_date
-        $value .= "'" . $wishDate . "', "; // wish_date
-        $value .= "'" . $realDate . "', "; // real_date
+        $value .= empty($affectationDate) ? 'NULL, ' : "'" . $affectationDate . "', "; // affectation_date
+        $value .= empty($wishDate) ? 'NULL, ' : "'" . $wishDate . "', "; // wish_date
+        $value .= empty($realDate) ? 'NULL, ' : "'" . $realDate . "', "; // real_date
         $value .= "'" . (isset($data[$adapter::QUEST_YUSER]) ? esc_sql($data[$adapter::QUEST_YUSER]) : '') . "', "; // yuser
         $value .= "'" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
-        $value .= "'" . (($updatedDate != '0000-00-00') ? $updatedDate : date('Y-m-d')) . "', "; // creation_date
+        $value .= "'" . (($updatedDate != '') ? $updatedDate : date('Y-m-d')) . "', "; // creation_date
         $value .= empty($updatedDate) ? 'NULL, ' : "'" . $updatedDate . "', "; // date_modif
         $value .= (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':', $data[$adapter::QUEST_ZUPDHOU])) > 1) ? "'" . esc_sql($data[$adapter::QUEST_ZUPDHOU]) . "', " : 'NULL, '; // hour_modif
         $value .= "'" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
