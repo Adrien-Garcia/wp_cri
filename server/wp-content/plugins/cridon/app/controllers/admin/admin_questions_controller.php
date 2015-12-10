@@ -11,7 +11,10 @@
  *
  */
 
-class AdminQuestionsController extends MvcAdminController {
+// base admin ctrl
+require_once 'base_admin_controller.php';
+
+class AdminQuestionsController extends BaseAdminController {
     
     /**
      *
@@ -27,6 +30,17 @@ class AdminQuestionsController extends MvcAdminController {
         'Documents' => array('value_method' => 'question_download_link'),
         'Suite/complément' => array('value_method' => 'other_download_link')
     );
+    
+    public function index() {
+        $this->init_default_columns();
+        $this->process_params_for_search();
+        $collection = $this->model->paginate($this->params);
+        $this->set('objects', $collection['objects']);
+        $this->set_pagination($collection);
+        //Load custom helper
+        $this->load_helper('AdminCustom');
+    }
+    
     /**
      * Get link of Notaire
      * @param object $object

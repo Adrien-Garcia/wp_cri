@@ -17,61 +17,11 @@
 				<div id="filtres_veilles">					
 				</div>
 
-				<div class="listing veille" id="sel-veilles">						
-				<?php $current_date = null; ?>
+				<div class="listing veille" id="sel-veilles">
+					<?php set_query_var( 'objects', $objects ); ?>						
+					
+					<?php echo get_template_part("content","post-list"); ?>
 
-				<?php
-                foreach ($objects as $key => $veille) :
-				 ?>
-
-                    <?php criWpPost($veille); ?>
-
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
-						<?php 
-							if( $current_date != get_the_date('d-M-Y')) :
-								$current_date = get_the_date('d-M-Y');
-						 ?>
-							<div class="date-veille sel-veilles-date">
-								<div class="sep"></div>
-								<span class="jour"><?php echo get_the_date( 'd') ?></span>
-						      	<span class="mois"><?php echo get_the_date( 'M') ?></span>
-						      	<span class="annee"><?php echo get_the_date( 'Y') ?></span> 				
-							</div>
-						<?php endif; ?>
-						<div class="details">
-							<div class="block_left">
-								<div class="img-cat">
-								<?php 
-									$matiere = get_the_matiere();
-								 ?>
-									<img class="sel-veilles-picto" src="<?php echo $veille->matiere->picto ?>" alt="<?php echo $veille->matiere->label ?>" />
-								</div>
-							</div>
-							<div class="block_right sel-veilles-content js-home-block-link" >
-							<?php //var_dump($this) ?>
-								<div class="matiere"><?php echo $veille->matiere->label ?></div>
-								<h2><?php the_title() ?></h2>
-								<div class="chapeau">
-									<?php echo get_the_excerpt() ?>
-								</div>
-								<div class="extrait">
-									<?php echo wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 35, "..." ) ?>
-								</div>
-								<ul class="mots_cles">
-								<?php 
-									$tags = get_the_tags();
-									if( $tags ) : foreach ($tags as $tag) :
-								 ?>
-									<li><?php echo $tag->name; ?></li>
-								<?php endforeach; endif; ?>
-								</ul>
-								<a href="<?php the_permalink(); ?>" title="<?php the_title() ?>">Lire</a>
-							</div>
-						</div>
-						
-					</article>
-
-                    <?php endforeach; ?>
                     <div class="pagination">
                     	<?php echo $this->pagination(); ?>
                     </div>

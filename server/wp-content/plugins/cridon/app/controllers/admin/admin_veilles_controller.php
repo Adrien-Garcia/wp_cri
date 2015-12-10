@@ -11,9 +11,20 @@
  * @contributor Fabrice MILA
  *
  */
+// base admin ctrl
+require_once 'base_admin_controller.php';
 
-class AdminVeillesController extends MvcAdminController {
-    
+class AdminVeillesController extends BaseAdminController {
+    var $default_search_joins = array('Matiere','Post');
+    /**
+     *
+     * @var array
+     */
+    var $default_searchable_fields = array(
+        'id', 
+        'Post.post_title',
+        'Matiere.label'
+    );
     var $default_columns = array(
         'id', 
         'post' => array('label'=> 'Titre' ,'value_method' => 'post_edit_link'),

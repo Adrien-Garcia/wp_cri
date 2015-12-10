@@ -12,10 +12,26 @@
  *
  */
 
-class AdminSupportsController extends MvcAdminController {
+// base admin ctrl
+require_once 'base_admin_controller.php';
+
+class AdminSupportsController extends BaseAdminController {
     
-    var $default_columns = array('id', 'label', 'value');
-    
+    var $default_searchable_fields = array(
+        'id', 
+        'label',
+        'value'
+    );
+    var $default_columns = array('id', 'label' => array('label'=>'Libellé'), 'value'=> array('label'=>'Valeur'));
+    public function index() {
+        $this->init_default_columns();
+        $this->process_params_for_search();
+        $collection = $this->model->paginate($this->params);
+        $this->set('objects', $collection['objects']);
+        $this->set_pagination($collection);
+        //Load custom helper
+        $this->load_helper('AdminCustom');
+    }
 }
 
 ?>

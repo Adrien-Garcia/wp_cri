@@ -65,7 +65,7 @@
 						<img src="" alt="">
 						<img src="" alt="">
 					</div>
-					<a href="#" class="rechercher">
+					<a href="/rechercher-dans-les-bases-de-connaissances/" class="rechercher">
 						<?php _e('Rechercher dans les bases de connaissances'); ?>
 					</a>
 					<a class="contacter" href="#">

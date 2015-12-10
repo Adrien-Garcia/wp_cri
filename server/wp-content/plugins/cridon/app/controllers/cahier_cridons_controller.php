@@ -21,12 +21,24 @@ class CahierCridonsController extends MvcPublicController {
         global $custom_global_join;
         $custom_global_join = ' JOIN '.$this->model->table.' ON '.$wpdb->posts.'.ID = '.$this->model->table.'.post_id';
         global $custom_global_where;
-        $custom_global_where = ' AND '.$this->model->table.'.id = ' . $this->params['id'];        
+        $custom_global_where = ' AND '.$this->model->table.'.id = ' . $this->params['id'];
     }
     public function index() {
-        global $wpdb;
-        global $custom_global_join;
-        $custom_global_join = ' JOIN '.$this->model->table.' ON '.$wpdb->posts.'.ID = '.$this->model->table.'.post_id';
+        $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
+        //Set explicit join
+        $this->params['joins'] = array(
+            'Post'
+        );
+        //Set conditions
+        $this->params['conditions'] = array(
+            'Post.post_status'=>'publish'
+        );
+        //Order by date publish
+        $this->params['order'] = 'Post.post_date DESC' ;
+        $collection = $this->model->paginate($this->params);
+
+        $this->set('objects', $collection['objects']);
+        $this->set_pagination($collection);
     }
 }
 

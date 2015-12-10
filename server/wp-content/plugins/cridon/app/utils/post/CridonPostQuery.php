@@ -67,8 +67,14 @@ class CridonPostQuery {
         $type = $this->isPostData( $data );//Check type of data
         if( $type ){
             if ( ( $type === 'mvcModelObj' ) && !isset( $data->link ) ){
+                $ctrl = null;
+                $config = assocToKeyVal(Config::$data, 'model', 'controller');//get config
+                if( !empty($config) && isset($config[$data->__model_name]) && !empty($config[$data->__model_name]) ){
+                    //controller name
+                    $ctrl = $config[$data->__model_name];
+                }
 	        //Generate URL ( used in hook WP )
-                $data->{link} = CridonPostUrl::generatePostUrl( strtolower( $data->__model_name ),$data->__id );
+                $data->{link} = CridonPostUrl::generatePostUrl( $data->__model_name,$data->__id,$ctrl );
             }
             CridonPostStorage::set( $data );//Store result. It's used to get link of model in Frontend ( same as the_permalink in WP )
             if( ( $type === 'object' )  || ( $type === 'mvcModelObj' ) ){ //If is it an object so set global variable $post which is necessary for more function in WP

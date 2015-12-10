@@ -1,6 +1,8 @@
 <?php
+// base admin ctrl
+require_once 'base_admin_controller.php';
 
-class AdminUserCridonsController extends MvcAdminController {
+class AdminUserCridonsController extends BaseAdminController {
     
     var $default_search_joins = array('User');
     /**

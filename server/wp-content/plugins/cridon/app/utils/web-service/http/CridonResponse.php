@@ -73,8 +73,7 @@ class CridonResponse {
      * @param array $data
      * @return mixed
      */
-    protected function getResponse( $data ) {
-        header( "Content-Type: application/json", true );
+    public function getResponse( $data,$status = 200 ) {
         header( "HTTP/1.1 " . $status . " " . $this->getStatus( $status ) );
         return json_encode( $data );
     }

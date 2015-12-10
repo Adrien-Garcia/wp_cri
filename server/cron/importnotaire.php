@@ -13,4 +13,6 @@ require_once '../wp-load.php';
 // notaire model
 $model = mvc_model('notaire');
 // call import action
-$model->importIntoWpUsers();
+$code = $model->importIntoWpUsers();
+
+echo $code;

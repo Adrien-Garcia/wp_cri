@@ -41,13 +41,13 @@
 				</ul>
 			</li>
 			<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="#">Flash infos</a>				
+				<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>">Flash infos</a>				
 			</li>
 			<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="#">Base des consultations du cridon</a>				
+				<a href="/rechercher-dans-les-bases-de-connaissances/">Base des consultations du cridon</a>				
 			</li>
 			<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="#">Cahiers du cridon</a>				
+				<a href="<?php echo MvcRouter::public_url(array('controller' => 'cahier_cridons', 'action'     => 'index')) ?>">Cahiers du cridon</a>				
 			</li>
 			<li id="menu-item-1531" class="menu-item menu-item-type-custom menu-item-object-custom">
 				<a href="#">Sites partenaires utiles</a>				
@@ -59,7 +59,7 @@
 							<?php _e('Rechercher'); ?>
 							<span><?php _e('dans les bases de connaissances'); ?></span> 
 						</h2>
-						<a href="">+</a>
+						<a href="/rechercher-dans-les-bases-de-connaissances/">+</a>
 					</div>						
 				</div>
 			</li>
@@ -135,25 +135,25 @@
 		<a href="#"><span>Connaître</span> le cridon</a>
 		<ul class="sub-menu">
 			<li id="menu-item-1533" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="">Qui sommes nous ?</a>				
+				<a href="#">Qui sommes nous ?</a>				
 			</li>
 			<li id="menu-item-1533" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="">Offre de services</a>				
+				<a href="#">Offre de services</a>				
 			</li>
 			<li id="menu-item-1533" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="">Actu Cridon</a>				
+				<a href="<?php echo MvcRouter::public_url(array('controller' => 'vie_cridons', 'action'     => 'index')) ?>">Actu Cridon</a>				
 			</li>
 			<li id="menu-item-1533" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="">Partenaires</a>				
+				<a href="#">Partenaires</a>				
 			</li>
 			<li id="menu-item-1533" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="">Dirigeants / collaborateurs</a>				
+				<a href="#">Dirigeants / collaborateurs</a>				
 			</li>
 			<li id="menu-item-1533" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="">Chiffres clés</a>				
+				<a href="#">Chiffres clés</a>				
 			</li>
 			<li id="menu-item-1533" class="menu-item menu-item-type-custom menu-item-object-custom">
-				<a href="">Contacts</a>				
+				<a href="/contact">Contacts</a>				
 			</li>
 			<li>
 				<div class="block consulter layer-posez-question_open js-question-open" >

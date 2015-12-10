@@ -12,7 +12,6 @@
  *
  */
 
-require_once 'SimpleController.php';
 require_once 'EntityInterface.php';
 require_once 'Entity.php';
 require_once 'entity/AffectationEntity.php';

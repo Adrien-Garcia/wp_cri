@@ -15,7 +15,7 @@
 								</li>
 								<li class="cahier js-home-block-link">
 									<?php _e('Les cahiers du cridon'); ?>
-									<a href="#" title=""><span><?php _e('Consulter'); ?></span></a>
+									<a href="<?php echo MvcRouter::public_url(array('controller' => 'cahier_cridons', 'action'     => 'index')) ?>" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 								<li class="services js-home-block-link"> 
 									<?php _e('Les services plus'); ?>

@@ -12,8 +12,14 @@
  *
  */
 
-class AdminDocumentsController extends MvcAdminController {
-    
+// base admin ctrl
+require_once 'base_admin_controller.php';
+
+class AdminDocumentsController extends BaseAdminController {
+    var $default_searchable_fields = array(
+        'name', 
+        'type'
+    );
     var $default_columns = array('name', 'file_path','download_url','date_modified','type');
     
     public function index() {
@@ -28,12 +34,14 @@ class AdminDocumentsController extends MvcAdminController {
         }
         $this->set('objects', $collection['objects']);        
         $this->set_pagination($collection);
+        //Load custom helper
+        $this->load_helper('AdminCustom');
     }
     public function add() {
         $this->create_or_save();
         $this->load_helper('Select');
         $this->load_helper('CustomForm');
-        $this->set( 'options' , Config::$optionDocumentType );
+        $this->set( 'options' , $this->model->optionDocumentType );
     }
     public function edit() {
         $this->verify_id_param();
@@ -42,15 +50,16 @@ class AdminDocumentsController extends MvcAdminController {
         $this->load_helper('Select');
         $this->load_helper('CustomForm');
         
-        $this->set( 'options' , Config::$optionDocumentType );
+        $this->set( 'options' , $this->model->optionDocumentType );
     }
     
     //Ajax search
     public function search(){
         $search = $this->params['search'];
+        $type = $this->params['type'];
         $options = array(
-            'conditions' => ' Document.name LIKE "%'.$search.'%"'
-        );
+            'conditions' => ' Document.name LIKE "%'.$search.'%" AND Document.type = "'.$type.'"'
+        );        
         $data = $this->model->find( $options );
         $this->set('data', $data);
         $this->render_view('search', array('layout' => 'json'));

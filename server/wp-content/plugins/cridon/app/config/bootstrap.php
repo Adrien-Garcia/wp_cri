@@ -61,7 +61,7 @@ function getRelatedContentConfInReferer($post_ID) {
     return false;
 }
 
-add_action('save_post','save_post_in_table');
+add_action('save_post','save_post_in_table',10,2);
 
 function insertInTable( $table,$post_ID ){
     global $wpdb;
@@ -240,16 +240,6 @@ function updateRelatedContent( $object, $postFields ){
 }
 // End Category managment
 
-//Remove on menu Notaire action add
-MvcConfiguration::append(array(
-    'AdminPages' => array(
-        'notaires' => array(
-            'delete',
-            'edit'
-        )
-    )
-));
-//End remove
 
 // Workflow
 
@@ -277,6 +267,7 @@ function checkUserAuthorization(){
     $roles = $user->roles;//get roles
     //If user is an administrator, he has full control
     if( empty( $roles ) || in_array( CONST_ADMIN_ROLE, $roles ) ){
+        setAdminbarTranslation(Config::$listOfControllersWpMvcOnSidebar);//translate to french
         return;
     }
     foreach( $capabilities as $key => $value ){
@@ -292,6 +283,7 @@ function checkUserAuthorization(){
         }
     }
     $listRolesByCtrl = array();
+    $controllers = array();//list of controller
     if( empty( $aIndex ) ){
         return;
     }
@@ -302,15 +294,34 @@ function checkUserAuthorization(){
         }
         //Set role of controller
         $listRolesByCtrl[$controller] = $roles[0];
+        $controllers[] = $controller;//add to list
     }
     //Admin menu page generate with WP_MVC
     MvcConfiguration::append(array(
         'admin_controller_capabilities'=>$listRolesByCtrl
     ));
+    setAdminbarTranslation($controllers);//translate to french
 }
 
 // End workflow
-
+//Sidebar admin translation
+function setAdminbarTranslation( $controllers ){
+    foreach( $controllers as $ctrl ){
+        $actions = Config::$sidebarAdminMenuActions;
+        if( in_array($ctrl,Config::$listOfControllersWithNoActionAdd )){
+            if( isset( $actions['add'] ) ){
+                unset($actions['add']);
+            }
+        }
+        MvcConfiguration::append(array(
+                'AdminPages' => array(
+                    $ctrl => $actions
+                )
+            )
+        );
+    }
+}
+//End Sidebar admin translation
 //Admin User Cridon
 
 
@@ -671,4 +682,127 @@ function writeLog($variable, $log_file = 'log.txt', $backtrace = 0) {
         fwrite($handle, $sLogMsg);
         fclose($handle);
     }
+}
+
+//Notification for published post
+function sendNotificationForPostPublished( $post,$model ){
+    //for using get_the_content() with all hook used in front
+    global $pages,$page ;
+    $pages = array($post->post_content);
+    $page = 1;
+    //
+    $options = array(
+        'conditions' => array(
+            'type'       => strtolower( $model->__model_name ),
+            'id_externe' => $model->id
+        )
+    );
+    $documents = mvc_model('Document')->find( $options );
+    $title = $post->post_title;
+    $date  = get_the_date('d-M-Y',$post);
+    $excerpt = get_the_excerpt();
+    $content = wp_strip_all_tags( get_the_content(), true );
+    $matiere = $model->matiere->label;
+    $permalink = generateUrlByModel($model);
+    $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
+    $message  = sprintf(Config::$mailBodyNotification['title'],  $title );
+    $message .= sprintf(Config::$mailBodyNotification['date'],  $date );
+    if( !empty( $excerpt ) ){
+        $message .= sprintf(Config::$mailBodyNotification['excerpt'],  $excerpt );        
+    }
+    $message .= sprintf(Config::$mailBodyNotification['content'],  $content );
+    $message .= sprintf(Config::$mailBodyNotification['matiere'],  $matiere );
+    $message .= sprintf(Config::$mailBodyNotification['permalink'],  $permalink,$title );    
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    if( !empty( $documents ) ){
+        $home = home_url();
+        $message .= Config::$mailBodyNotification['documents'];
+        $message .= '<ul>';
+        foreach( $documents as $document ){
+            $message .= sprintf ('<li><a href="%s">%s</a></li>',   $home.$document->download_url,$document->name );            
+        }
+        $message .= '</ul>';
+    }
+    $tags = get_the_tags( $post->ID );
+    if( $tags ){
+        $message .= '<p>'.Config::$mailBodyNotification['tags'].' ';
+        $a = array();
+        foreach ( $tags as $tag ){
+            $a[] .= $tag->name;
+        }
+        $message .= implode(',',$a) . '</p>';
+    }    
+    /**
+     * type = 1 => all notaries
+     * type = 0 => subscribers notaries ( veille )
+     */
+    $type = checkTypeNofication($model);
+    if( $type == 1 ){
+        //all notaries
+        $notaires = mvc_model('Notaire')->find();        
+    }elseif( $type == 0 ){
+        $notaires = getNotariesByMatiere($model);
+    }else{
+        return false;//Don't send notification
+    }
+    if( !empty( $notaires ) ){
+        foreach( $notaires as $notaire ){
+            if( isset($notaire->email_adress ) ){
+                wp_mail( $notaire->email_adress , $subject, $message, $headers );  
+            }
+        }
+    }
+}
+
+function generateUrlByModel( $model ){
+    if( empty( $model ) ){
+        return '';
+    }
+    $options = array(
+        'controller' => MvcInflector::pluralize(strtolower($model->__model_name)),
+        'action'     => ( !isset( $model->id ) ) ? 'index' : 'show'        
+    );
+    if( isset( $model->id ) ){
+        $options['id'] = $model->id;
+    }
+    return MvcRouter::public_url($options);
+}
+
+function checkTypeNofication( $model ){
+    if( in_array(strtolower($model->__model_name),Config::$notificationForAllNotaries ) ){
+        return 1;//All notaries
+    }
+    if( in_array(strtolower($model->__model_name),Config::$notificationForSubscribersNotaries ) ){
+        return 0;//Subscribers notaries
+    }
+    return -1;//Don't send notification
+}
+
+function getNotariesByMatiere( $model ){
+    $options = array(
+        'fields'  => 'DISTINCT n.email_adress',
+        'synonym' => 'mn',
+        'join' => array(
+            array(
+                'table' => 'notaire n',
+                'column' => 'n.id = mn.id_notaire'
+            )
+        ),
+        'conditions' => 'mn.id_matiere = '.$model->id_matiere
+    );
+    /*
+     * SELECT DISTINCT n.email_adress FROM cri_matiere_notaire AS mn INNER JOIN cri_notaire n ON n.id = mn.id_notaire WHERE mn.id_matiere = 2 ORDER BY n.id ASC
+     */
+    $notaires = mvc_model('QueryBuilder')->findAll( 'matiere_notaire',$options,'n.id' );
+    return $notaires;
+}
+//End Notification for published post
+
+
+/**
+ * CSS pour les formulaires en admin des modèles WP_MVC
+ */
+function loadAdminCustomCss(){
+    wp_register_style( 'mvcform-style-css', plugins_url('cridon/app/public/css/form-style.css'), false ); 
+    wp_enqueue_style( 'mvcform-style-css' );
 }

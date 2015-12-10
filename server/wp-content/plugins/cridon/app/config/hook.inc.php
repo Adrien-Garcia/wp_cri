@@ -269,3 +269,35 @@ function cri_profile_subject_end() {
 
 add_action( 'admin_head-user-edit.php', 'cri_profile_subject_start' );
 add_action( 'admin_footer-user-edit.php', 'cri_profile_subject_end' );
+
+
+function on_publish_future_post( $post ) {
+    /**
+     * Ce hook démarre lorsqu'un article passe de planifier à publier.
+     * Manuellement ou chnager automatiquement par WP lorsqu'il y a une visite sur le site (BO ou FO) 
+     */
+    if( ( $post->post_type != 'post' ) ){
+        return;
+    }
+    foreach( Config::$data as $modelConf ){
+        if( ($model = findBy( $modelConf['name'], $post->ID ) ) != null ){//already create 
+             sendNotificationForPostPublished($post, $model);
+             break;
+        } 
+    } 
+}
+/**
+ * @see https://codex.wordpress.org/Post_Status_Transitions
+ */
+add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
+function on_insert_post( $post_ID,$post,$update ) {
+    if( !$update && ( $post->post_status == 'publish' ) && ( $post->post_type == 'post' ) ){
+        foreach( Config::$data as $modelConf ){
+            if( ($model = findBy( $modelConf['name'], $post_ID )) != null ){//already create 
+                 sendNotificationForPostPublished($post, $model);
+                 break;
+            } 
+        }         
+    }
+}
+add_action(  'wp_insert_post',  'on_insert_post', 10, 3 );

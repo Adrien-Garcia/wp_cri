@@ -21,6 +21,22 @@ class Veille extends MvcModel {
         $qb->deleteDocument( $this , $id );
         parent::delete($id);
     }
+    
+    /**
+     * Récupération des documents d'une veille
+     * 
+     * @param integer $id Id de la veille
+     * @return mixed
+     */
+    public static function getDocuments($id){
+        $options = array(
+            'conditions' => array(
+                'type' => 'veille',//type de document
+                'id_externe' => $id //id de la veille
+            )
+        );
+        return mvc_model('Document')->find($options);
+    }
 }
 
 ?>

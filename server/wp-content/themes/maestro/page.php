@@ -1,12 +1,17 @@
 <?php get_header(); ?>
 
-	<div id="content">
+	<div id="content" class="page">
+
+		<div class="breadcrumbs">
+			<div id="inner-content" class="wrap cf">
+				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
+				<a href="#" title="">Accueil</a> + <span>Mon compte</span>
+			</div>
+		</div>
 
 		<div id="inner-content" class="wrap cf">
 
-			<div id="main" class="cf" role="main">
-			
-				<?php if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
+			<div id="main" class="cf" role="main">	
 
 				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
@@ -14,7 +19,7 @@
 
 					<header class="article-header">
 
-						<h1 class="page-title" itemprop="headline"><?php the_title(); ?></h1>
+						<h1 class="page-title h1" itemprop="headline"><?php the_title(); ?></h1>
 
 					</header> <?php // end article header ?>
 
@@ -32,17 +37,17 @@
 
 				<?php endwhile; else : ?>
 
-						<article id="post-not-found" class="hentry cf">
-							<header class="article-header">
-								<h1><?php _e( 'Oops, Post Not Found!', 'bonestheme' ); ?></h1>
-							</header>
-							<section class="entry-content">
-								<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'bonestheme' ); ?></p>
-							</section>
-							<footer class="article-footer">
-									<p><?php _e( 'This is the error message in the page.php template.', 'bonestheme' ); ?></p>
-							</footer>
-						</article>
+					<article id="post-not-found" class="hentry cf">
+						<header class="article-header">
+							<h1><?php _e( 'Oops, Post Not Found!', 'bonestheme' ); ?></h1>
+						</header>
+						<section class="entry-content">
+							<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'bonestheme' ); ?></p>
+						</section>
+						<footer class="article-footer">
+								<p><?php _e( 'This is the error message in the page.php template.', 'bonestheme' ); ?></p>
+						</footer>
+					</article>
 
 				<?php endif; ?>
 
