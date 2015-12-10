@@ -64,6 +64,11 @@ class Question extends MvcModel
     protected $results;
 
     /**
+     * @var array : list of question to be deleted
+     */
+    protected $questListForDelete = array();
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -200,17 +205,33 @@ class Question extends MvcModel
      *
      * @return void
      */
-    protected function setSiteQuestList()
+    protected function setSiteQuestList($queryOptions = array())
     {
-        // increase memory limit
-        ini_set('memory_limit', '-1');
-
         // get list of existing question
-        $sql = "SELECT srenum, client_number FROM {$this->table}";
-        $questions = $this->wpdb->get_results($sql);
-        // fill list of existing question on site with unique key (crpcen + passwd)
-        foreach ($questions as $question) {
-            array_push($this->siteQuestList, $question->client_number . $question->srenum);
+        $sql = "SELECT id, srenum, client_number FROM {$this->table}";
+        if (isset($queryOptions['daily'])) {
+
+            $questions = $this->wpdb->get_results($sql);
+            // fill list of existing question on site
+            // with key id_question : for matching created question on ERP
+            // and value (client_number + srenum) : for matching created question by ERP on Site
+            foreach ($questions as $question) {
+                $this->siteQuestList[$question->id] = $question->client_number . $question->srenum;
+            }
+
+        } elseif(isset($queryOptions['weekly']) && $queryOptions['weekly']) {
+            $sql .= " WHERE srenum IS NOT NULL ";
+            $questions = $this->wpdb->get_results($sql);
+            // fill list of existing question on site with unique key (client_number + srenum)
+            foreach ($questions as $question) {
+                array_push($this->siteQuestList, $question->client_number . $question->srenum);
+            }
+        } else {
+            $questions = $this->wpdb->get_results($sql);
+            // fill list of existing question on site with unique key (client_number + srenum)
+            foreach ($questions as $question) {
+                array_push($this->siteQuestList, $question->client_number . $question->srenum);
+            }
         }
     }
 
@@ -238,69 +259,8 @@ class Question extends MvcModel
                 $uniqueKey = intval($data[$adapter::QUEST_SREBPC]) . $data[$adapter::QUEST_SRENUM];
 
                 if (!in_array($uniqueKey, $this->siteQuestList)) { // quest not found on site
-
-                    // convert date to mysql format
-                    $affectationDate = '0000-00-00'; // accepted date format if not set
-                    if (isset($data[$adapter::QUEST_SREDATASS])) {
-                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_SREDATASS])) {
-                            $dateTime        = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SREDATASS]);
-                            $affectationDate = $dateTime->format('Y-m-d');
-                        }
-                    }
-                    $wishDate = '0000-00-00'; // accepted date format if not set
-                    if (isset($data[$adapter::QUEST_YRESSOUH])) {
-                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_YRESSOUH])) {
-                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_YRESSOUH]);
-                            $wishDate = $dateTime->format('Y-m-d');
-                        }
-                    }
-                    $realDate = '0000-00-00'; // accepted date format if not set
-                    if (isset($data[$adapter::QUEST_SRERESDAT])) {
-                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_SRERESDAT])) {
-                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SRERESDAT]);
-                            $realDate = $dateTime->format('Y-m-d');
-                        }
-                    }
-                    $updatedDate = '0000-00-00'; // accepted date format if not set
-                    if (isset($data[$adapter::QUEST_UPDDAT])) {
-                        if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_UPDDAT])) {
-                            $dateTime    = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
-                            $updatedDate = $dateTime->format('Y-m-d');
-                        }
-                    }
-
-                    // confidential
-                    $confidential = 0;
-                    if (isset($data[$adapter::QUEST_ZANOAMITEL]) && intval($data[$adapter::QUEST_ZANOAMITEL]) == 1) {
-                        $confidential = $data[$adapter::QUEST_ZANOAMITEL];
-                    }
-                    // prepare bulk insert query
-                    $value = "(";
-
-                    $value .= "'" . (isset($data[$adapter::QUEST_SRENUM]) ? esc_sql($data[$adapter::QUEST_SRENUM]) : '') . "', "; // srenum
-                    $value .= "'" . (isset($data[$adapter::QUEST_SREBPC]) ? esc_sql($data[$adapter::QUEST_SREBPC]) : '') . "', "; // client_number
-                    $value .= "'" . (isset($data[$adapter::QUEST_SRECCN]) ? esc_sql($data[$adapter::QUEST_SRECCN]) : '') . "', "; // sreccn
-                    $value .= "'" . (isset($data[$adapter::QUEST_YCODESUP]) ? esc_sql($data[$adapter::QUEST_YCODESUP]) : '') . "', "; // id_support
-                    $value .= "'" . (isset($data[$adapter::QUEST_ZCOMPETENC]) ? esc_sql(intval($data[$adapter::QUEST_ZCOMPETENC])) : '') . "', "; // id_competence_1
-                    $value .= "'" . (isset($data[$adapter::QUEST_YRESUME]) ? esc_sql($data[$adapter::QUEST_YRESUME]) : '') . "', "; // resume
-                    $value .= "'" . (isset($data[$adapter::QUEST_YSREASS]) ? intval($data[$adapter::QUEST_YSREASS]) : 0) . "', "; // id_affectation
-                    $value .= "'" . (isset($data[$adapter::QUEST_SREDET]) ? esc_sql($data[$adapter::QUEST_SREDET]) : '') . "', "; // juriste
-                    $value .= "'" . $affectationDate . "', "; // affectation_date
-                    $value .= "'" . $wishDate . "', "; // wish_date
-                    $value .= "'" . $realDate . "', "; // real_date
-                    $value .= "'" . (isset($data[$adapter::QUEST_YUSER]) ? esc_sql($data[$adapter::QUEST_YUSER]) : '') . "', "; // yuser
-                    $value .= "'" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
-                    $value .= "'" . date('Y-m-d') . "', "; // creation_date
-                    $value .= "'" . $updatedDate . "', "; // date_modif
-                    $value .= "'" . ((isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':', $data[$adapter::QUEST_ZUPDHOU])) > 1) ? esc_sql($data[$adapter::QUEST_ZUPDHOU]) : '00:00:00') . "', "; // hour_modif
-                    $value .= "'" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
-                    $value .= "'" . $confidential . "', "; // confidential
-                    $value .= "''"; // content
-
-                    $value .= ")";
-
-                    $insertValues[] = $value;
-
+                    // prepare bulk insert
+                    $insertValues[] = $this->prepareBulkInsert($data);
                 }
 
             }
@@ -540,6 +500,428 @@ class Question extends MvcModel
         } catch(\Exception $e) {
             writeLog( $e,'upload.log' );
             return false;
+        }
+    }
+
+    /**
+     * Prepare bulk query
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function prepareBulkInsert($data = array())
+    {
+        $adapter = $this->adapter;
+
+        // convert date to mysql format
+        $affectationDate = ''; // accepted date format if not set
+        if (isset($data[$adapter::QUEST_SREDATASS])) {
+            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_SREDATASS])) {
+                $dateTime        = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SREDATASS]);
+                $affectationDate = $dateTime->format('Y-m-d');
+            }
+        }
+        $wishDate = ''; // accepted date format if not set
+        if (isset($data[$adapter::QUEST_YRESSOUH])) {
+            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_YRESSOUH])) {
+                $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_YRESSOUH]);
+                $wishDate = $dateTime->format('Y-m-d');
+            }
+        }
+        $realDate = ''; // accepted date format if not set
+        if (isset($data[$adapter::QUEST_SRERESDAT])) {
+            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_SRERESDAT])) {
+                $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SRERESDAT]);
+                $realDate = $dateTime->format('Y-m-d');
+            }
+        }
+        $updatedDate = ''; // accepted date format if not set
+        if (isset($data[$adapter::QUEST_UPDDAT])) {
+            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_UPDDAT])) {
+                $dateTime    = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
+                $updatedDate = $dateTime->format('Y-m-d');
+            }
+        }
+
+        // confidential
+        $confidential = 0;
+        if (isset($data[$adapter::QUEST_ZANOAMITEL]) && intval($data[$adapter::QUEST_ZANOAMITEL]) == 1) {
+            $confidential = $data[$adapter::QUEST_ZANOAMITEL];
+        }
+        // prepare bulk insert query
+        $value = "(";
+
+        $value .= "'" . (isset($data[$adapter::QUEST_SRENUM]) ? esc_sql($data[$adapter::QUEST_SRENUM]) : '') . "', "; // srenum
+        $value .= "'" . (isset($data[$adapter::QUEST_SREBPC]) ? esc_sql($data[$adapter::QUEST_SREBPC]) : '') . "', "; // client_number
+        $value .= "'" . (isset($data[$adapter::QUEST_SRECCN]) ? esc_sql($data[$adapter::QUEST_SRECCN]) : '') . "', "; // sreccn
+        $value .= "'" . (isset($data[$adapter::QUEST_YCODESUP]) ? esc_sql($data[$adapter::QUEST_YCODESUP]) : '') . "', "; // id_support
+        $value .= "'" . (isset($data[$adapter::QUEST_ZCOMPETENC]) ? esc_sql(intval($data[$adapter::QUEST_ZCOMPETENC])) : '') . "', "; // id_competence_1
+        $value .= "'" . (isset($data[$adapter::QUEST_YRESUME]) ? esc_sql($data[$adapter::QUEST_YRESUME]) : '') . "', "; // resume
+        $value .= "'" . (isset($data[$adapter::QUEST_YSREASS]) ? intval($data[$adapter::QUEST_YSREASS]) : 0) . "', "; // id_affectation
+        $value .= "'" . (isset($data[$adapter::QUEST_SREDET]) ? esc_sql($data[$adapter::QUEST_SREDET]) : '') . "', "; // juriste
+        $value .= empty($affectationDate) ? 'NULL, ' : "'" . $affectationDate . "', "; // affectation_date
+        $value .= empty($wishDate) ? 'NULL, ' : "'" . $wishDate . "', "; // wish_date
+        $value .= empty($realDate) ? 'NULL, ' : "'" . $realDate . "', "; // real_date
+        $value .= "'" . (isset($data[$adapter::QUEST_YUSER]) ? esc_sql($data[$adapter::QUEST_YUSER]) : '') . "', "; // yuser
+        $value .= "'" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
+        $value .= "'" . (($updatedDate != '') ? $updatedDate : date('Y-m-d')) . "', "; // creation_date
+        $value .= empty($updatedDate) ? 'NULL, ' : "'" . $updatedDate . "', "; // date_modif
+        $value .= (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':', $data[$adapter::QUEST_ZUPDHOU])) > 1) ? "'" . esc_sql($data[$adapter::QUEST_ZUPDHOU]) . "', " : 'NULL, '; // hour_modif
+        $value .= "'" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
+        $value .= "'" . $confidential . "', "; // confidential
+        $value .= "''"; // content
+
+        $value .= ")";
+
+        return $value;
+    }
+
+    /**
+     * Daily update
+     */
+    public function dailyUpdate()
+    {
+        try {
+            // enable gbcollector
+            if (function_exists('gc_enable')) {
+                gc_enable();
+            }
+
+            // set adapter
+            switch (strtolower(CONST_IMPORT_OPTION)) {
+                case self::IMPORT_ODBC_OPTION:
+                    $todateFunc    = 'STR_TO_DATE'; // SQL
+                    $intervalParam = 'MINUTE'; // SQL
+                    $timestampFunc = 'TIMESTAMPDIFF'; // SQL
+                    $this->adapter = $adapter = CridonODBCAdapter::getInstance();
+                    break;
+                case self::IMPORT_OCI_OPTION:
+                default :
+                    //if case above did not match, set OCI
+                    $todateFunc    = 'TO_DATE'; // Oracle
+                    $intervalParam = 'SQL_TSI_MINUTE'; // Oracle
+                    $timestampFunc = 'TIMESTAMPDIFF'; // @see: https://docs.oracle.com/html/A95915_01/sqfunc.htm#i1006893
+                    $this->adapter = $adapter = CridonOCIAdapter::getInstance();
+                    break;
+            }
+
+            // get last cron date if is set or server datetime
+            $lastDateUpdate        = date('Y-m-d H:i:s');
+            $lastCronDate          = get_option('cronquestionupdate') ? get_option('cronquestionupdate') : $lastDateUpdate;
+            $date                  = new DateTime($lastCronDate);
+            $queryOptions          = array();
+            $queryOptions['daily'] = true;
+            $dateModif             = $date->format('Y-m-d');
+            $hourModif             = $date->format('H:i:s');
+
+            $this->setSiteQuestList($queryOptions);
+
+            // insert options
+            $options               = array();
+            $options['table']      = 'question';
+            $options['attributes'] = 'srenum, client_number, sreccn, id_support, id_competence_1, `resume`, id_affectation, juriste, ';
+            $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, treated, creation_date, date_modif, ';
+            $options['attributes'] .= 'hour_modif, transmis_erp, confidential, content';
+            // insert values
+            $insertValues = array();
+
+            // update values
+            $updateValues = array();
+
+            $mainQuery = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST;
+            $mainQuery .= " WHERE {$timestampFunc}({$intervalParam}, '{$dateModif} {$hourModif}', CONCAT_WS(' ', {$todateFunc}(" . $adapter::QUEST_UPDDAT . ", '%d/%m/%Y'), " . $adapter::QUEST_ZUPDHOU . ")) > 0  ";
+            $mainQuery .= " AND " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
+                        AND " . $adapter::QUEST_ZUPDHOU . " != '' ";
+            // filter by list of supports if necessary
+            if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
+                $mainQuery .= ' AND ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',',
+                        Config::$acceptedSupports) . ')';
+            }
+
+            // exec query
+            $this->adapter->execute($mainQuery);
+            while ($data = $this->adapter->fetchData()) {
+                if (isset($data[$adapter::QUEST_SREBPC]) && intval($data[$adapter::QUEST_SREBPC]) > 0) { // valid client_number
+                    // unique key "client_number + num question"
+                    $uniqueKey = intval($data[$adapter::QUEST_SREBPC]) . $data[$adapter::QUEST_SRENUM];
+
+                    if (!in_array($uniqueKey, $this->siteQuestList) // quest ERP unique key condition
+                        && !array_key_exists(intval($data[$adapter::QUEST_ZIDQUEST]), $this->siteQuestList) // id quest condition
+                    ) { // quest not found on site
+
+                        // prepare bulk insert
+                        $insertValues[] = $this->prepareBulkInsert($data);
+                    } else { // update bloc
+                        // list of field
+                        $query = " UPDATE  {$this->table}";
+                        $query .= " SET ";
+                        if (isset($data[$adapter::QUEST_SRENUM])) { // srenum
+                            $query .= " srenum = '" . esc_sql($data[$adapter::QUEST_SRENUM]) . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_SREBPC])) { // client_number
+                            $query .= " client_number = '" . esc_sql($data[$adapter::QUEST_SREBPC]) . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_SRECCN])) { // sreccn
+                            $query .= " sreccn = '" . esc_sql($data[$adapter::QUEST_SRECCN]) . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_YCODESUP])) { // id_support
+                            $query .= " id_support = '" . esc_sql($data[$adapter::QUEST_YCODESUP]) . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_ZCOMPETENC])) { // id_competence_1
+                            $query .= " id_competence_1 = '" . intval($data[$adapter::QUEST_ZCOMPETENC]) . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_YRESUME])) { // resume
+                            $query .= " resume = '" . esc_sql($data[$adapter::QUEST_YRESUME]) . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_YSREASS])) { // id_affectation
+                            $query .= " id_affectation = '" . intval($data[$adapter::QUEST_YSREASS]) . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_SREDET])) { // juriste
+                            $query .= " juriste = '" . esc_sql($data[$adapter::QUEST_SREDET]) . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_SREDATASS]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
+                                $data[$adapter::QUEST_SREDATASS])
+                        ) { // affectation_date
+                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SREDATASS]);
+                            $query .= " affectation_date = '" . $dateTime->format('Y-m-d') . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_YRESSOUH]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
+                                $data[$adapter::QUEST_YRESSOUH])
+                        ) { // wish_date
+                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_YRESSOUH]);
+                            $query .= " wish_date = '" . $dateTime->format('Y-m-d') . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_SRERESDAT]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
+                                $data[$adapter::QUEST_SRERESDAT])
+                        ) { // real_date
+                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SRERESDAT]);
+                            $query .= " real_date = '" . $dateTime->format('Y-m-d') . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_YUSER])) {
+                            $query .= " yuser = '" . esc_sql($data[$adapter::QUEST_YUSER]) . "', ";
+                        }
+
+                        $query .= " treated = '" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
+
+                        if (isset($data[$adapter::QUEST_UPDDAT]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
+                                $data[$adapter::QUEST_UPDDAT])
+                        ) { // date_modif
+                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
+                            $query .= " date_modif = '" . $dateTime->format('Y-m-d') . "', ";
+                        }
+
+                        if (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':',
+                                $data[$adapter::QUEST_ZUPDHOU])) > 1
+                        ) { // hour_modif
+                            $query .= " hour_modif = '" . esc_sql($data[$adapter::QUEST_ZUPDHOU]) . "', ";
+                        }
+
+                        $query .= " transmis_erp = '" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
+
+                        /**
+                         * "0 : non
+                         * 1 : oui (afficher sans document PDF, pas de génération d'alerte email pour les secrétaire)"
+                         */
+                        $confidential = 0;
+                        if (isset($data[$adapter::QUEST_ZANOAMITEL]) && intval($data[$adapter::QUEST_ZANOAMITEL]) == 1) {
+                            $confidential = $data[$adapter::QUEST_ZANOAMITEL];
+                        }
+                        $query .= " confidential = '" . $confidential . "' "; // confidential
+
+                        // conditions
+                        if (isset($data[$adapter::QUEST_ZIDQUEST]) && intval($data[$adapter::QUEST_ZIDQUEST]) > 0) { // maj par id question
+                            $query .= " WHERE id = '" . intval($data[$adapter::QUEST_ZIDQUEST]) . "';";
+                        } else { // maj par client_number et srenum
+                            $query .= " WHERE client_number = '" . esc_sql($data[$adapter::QUEST_SREBPC]) . "'";
+                            $query .= " AND srenum = '" . esc_sql($data[$adapter::QUEST_SRENUM]) . "';";
+                        }
+
+                        // query bloc
+                        $updateValues[] = $query;
+                    }
+                }
+            }
+
+            // execute query
+            if (count($insertValues) > 0) {
+                $queryBulder       = mvc_model('QueryBuilder');
+                $options['values'] = implode(', ', $insertValues);
+                // bulk insert
+                $queryBulder->insertMultiRows($options);
+            }
+            if (count($updateValues) > 0) {
+                $queryBulder = mvc_model('QueryBuilder');
+                // bulk update
+                $updtateQuery = implode(' ', $updateValues);
+
+                if (!$queryBulder->getInstanceMysqli()->multi_query($updtateQuery)) {
+                    // write into logfile
+                    writeLog($queryBulder->getInstanceMysqli()->error, 'query.log');
+                }
+            }
+
+            // maj derniere date d'execution
+            update_option('cronquestionupdate', $lastDateUpdate);
+
+            return CONST_STATUS_CODE_OK;
+        } catch (\Exception $e) {
+            writeLog($e, 'questiondailyupdate.log');
+
+            return CONST_STATUS_CODE_GONE;
+        }
+    }
+
+
+    /**
+     * Weekly update
+     */
+    public function weeklyUpdate()
+    {
+        try {
+            // enable gbcollector
+            if (function_exists('gc_enable')) {
+                gc_enable();
+            }
+            // set adapter
+            switch (strtolower(CONST_IMPORT_OPTION)) {
+                case self::IMPORT_ODBC_OPTION:
+                    $this->adapter = $adapter = CridonODBCAdapter::getInstance();
+                    break;
+                case self::IMPORT_OCI_OPTION:
+                    //if case above did not match, set OCI
+                    $this->adapter = $adapter = CridonOCIAdapter::getInstance();
+                    break;
+            }
+
+            // site quest list
+            $queryOptions['weekly'] = true;
+            $this->setSiteQuestList($queryOptions);
+            // store question list into local var
+            $siteQuestList = $this->siteQuestList;
+
+            // nb items
+            $this->getNbItems();
+
+            // list of question
+            $i = 0;
+            $this->setQuestListForDelete($i, $siteQuestList);
+
+            // delete action
+            /**
+             * $this->questListForDelete : tableau de couple "client_number + srenum"
+             */
+            if (count($this->questListForDelete) > 0) {
+                // obtenir une chaine sous la forme : '84803274728', '80603274726', '82605774731'
+                $conditions = "'" . implode("','", $this->questListForDelete) . "'";
+                $query = "DELETE
+                          FROM `{$this->table}`
+                          WHERE CONCAT(client_number, srenum) IN (" . $conditions . ")";
+
+                // execute query
+                mvc_model('QueryBuilder')->getInstanceMysqli()->query($query);
+            }
+
+            return CONST_STATUS_CODE_OK;
+        } catch(\Exception $e) {
+            writeLog($e, 'questionweeklyupdate.log');
+
+            return CONST_STATUS_CODE_GONE;
+        }
+    }
+
+    /**
+     * Set Quest list for delete
+     *
+     * @param int $i
+     * @param array $siteQuestList
+     */
+    protected function setQuestListForDelete($i, $siteQuestList)
+    {
+        try {
+            // instance of adapter
+            $adapter = $this->adapter;
+
+            // set max limit
+            $limitMax = intval($this->nbItems / self::CONST_LIMIT) + 1;
+
+            // repeat action until limit max OR the end is reached
+            if ($i <= $limitMax) {
+
+                // query
+                $mainQuery = 'SELECT ' . $adapter::QUEST_SREBPC . ', ' . $adapter::QUEST_SRENUM . ' FROM ' . CONST_ODBC_TABLE_QUEST;
+                // filter by list of supports if necessary
+                if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
+                    $mainQuery .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
+                }
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a LIMIT OFFSET in Oracle SQL
+                         SELECT * FROM (
+                            SELECT rownum rnum, a.*
+                            FROM(
+                                SELECT fieldA,fieldB
+                                FROM table
+                            ) a
+                            WHERE rownum <= offset + limit
+                        )
+                        WHERE rnum >= offset
+                         */
+                        $oracleLimit = self::CONST_LIMIT + intval($this->offset);
+                        $limitQuery = 'SELECT rownum rnum, subquery.* FROM ('.$mainQuery.') subquery WHERE rownum <= '.$oracleLimit;
+                        $sql = 'SELECT * FROM ('.$limitQuery.') WHERE rnum >= '.$this->offset;
+                        break;
+                    case CONST_DB_DEFAULT:
+                    default:
+                        $sql = $mainQuery.' LIMIT ' . self::CONST_LIMIT . ' OFFSET ' . intval($this->offset);
+                        break;
+                }
+                $this->offset += self::CONST_LIMIT;
+
+                // exec query
+                $this->adapter->execute($sql);
+                while ($data = $this->adapter->fetchData()) {
+                    if (isset($data[$adapter::QUEST_SREBPC]) && intval($data[$adapter::QUEST_SREBPC]) > 0) { // valid client_number
+                        // unique key "client_number + num question"
+                        $uniqueKey = intval($data[$adapter::QUEST_SREBPC]) . $data[$adapter::QUEST_SRENUM];
+
+                        if (in_array($uniqueKey, $siteQuestList)) { // quest found on Site / ERP
+
+                            // remove quest on list
+                            $key = array_search($uniqueKey, $siteQuestList);
+                            if ($key !== false) {
+                                unset($siteQuestList[$key]);
+                                $this->questListForDelete = $siteQuestList;
+                            }
+                        }
+                    }
+                }
+
+                // increments flag
+                $i++;
+
+                // call import action
+                $this->setQuestListForDelete($i, $siteQuestList);
+
+            } else {
+                // Close Connection
+                $this->adapter->closeConnection();
+            }
+
+        } catch (\Exception $e) {
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
     }
 

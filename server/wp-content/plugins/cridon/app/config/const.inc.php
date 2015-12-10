@@ -524,6 +524,14 @@ if ( !defined( 'CONST_EMPTY_COMPETENCE_ERROR_MSG' ) ) {
 if ( !defined( 'CONST_MAXFILESIZE_ERROR_MSG' ) ) {
     define( 'CONST_MAXFILESIZE_ERROR_MSG', 'Taille de ' );
 }
+
+// import status code
+if ( !defined( 'CONST_STATUS_CODE_OK' ) ) {
+    define( 'CONST_STATUS_CODE_OK', 200 );
+}
+if ( !defined( 'CONST_STATUS_CODE_GONE' ) ) {
+    define( 'CONST_STATUS_CODE_GONE', 410 );
+}
 // Export Question
 if ( !defined( 'CONST_DB_TABLE_QUESTTEMP' ) ) {
     switch ($prefix) {
