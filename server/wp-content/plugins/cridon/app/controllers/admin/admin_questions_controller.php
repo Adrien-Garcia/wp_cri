@@ -31,6 +31,13 @@ class AdminQuestionsController extends BaseAdminController {
         'Suite/complément' => array('value_method' => 'other_download_link')
     );
     
+    private $documentModel;
+    
+    public function __construct() {
+        $this->documentModel = mvc_model('Document');
+        parent::__construct();
+    }
+    
     public function index() {
         $this->init_default_columns();
         $this->process_params_for_search();
@@ -148,7 +155,7 @@ class AdminQuestionsController extends BaseAdminController {
         }
         $links = array();
         foreach( $documents as $document ){
-            $links[] = '<a href="'.$document->download_url.'" title="Télécharger" target="_blank"><span class="dashicons dashicons-download"></span></a>';
+            $links[] = '<a href="'.$this->documentModel->generatePublicUrl($document->id).'" title="Télécharger" target="_blank"><span class="dashicons dashicons-download"></span></a>';
         }
         return implode('|',$links);
     }
