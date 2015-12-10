@@ -269,3 +269,8 @@ function cri_profile_subject_end() {
 
 add_action( 'admin_head-user-edit.php', 'cri_profile_subject_start' );
 add_action( 'admin_footer-user-edit.php', 'cri_profile_subject_end' );
+
+/**
+ * Hook for  admin navigation menu
+ */
+add_action( 'admin_init', array( 'CriAdminNavMenu', 'init' ) );
