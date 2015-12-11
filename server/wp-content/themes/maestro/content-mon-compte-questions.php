@@ -12,14 +12,19 @@
         <?php foreach ($pending as $index => $question) : ?>
 		<li>
             <?php
-                $date = date_create_from_format('Y-m-d', $question->question->real_date);
+                $date = date_create_from_format('Y-m-d', $question->question->creation_date);
                 $wdate = date_create_from_format('Y-m-d', $question->question->wish_date);
-                $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "00.00.0000";
-                $sWdate =  $wdate ? date('d.m.Y', $wdate->getTimestamp()) : "00.00.0000";
+                $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "";
+                $sWdate =  $wdate ? date('d.m.Y', $wdate->getTimestamp()) : "";
             ?>
+            <?php if (! empty($sDate)) : ?>
 			<span class="date">Question du <?php echo $sDate ; ?></span>
-			<span class="reponse">Réponse souhaitées le <?php echo $sWdate ; ?></span>
-			<ul>
+            <?php endif; ?>
+            <?php if (! empty($sWdate)) : ?>
+            <span class="reponse">Réponse souhaitées le <?php echo $sWdate ; ?></span>
+            <?php endif; ?>
+
+            <ul>
                 <?php
                     $matiere = $question->matiere;
                 ?>
@@ -52,8 +57,10 @@
                     <?php endif; ?>
                 </li>
 				<li>
+                    <?php if (! empty($question->question->srenum)) : ?>
 					<span class="id-question">N ° <?php echo $question->question->srenum ; ?></span>
-				</li>
+                    <?php endif; ?>
+                </li>
 				<li class="pdf"></li>
 				<li class="plusdedetails ">
 					<span class="js-account-questions-more-button">plus de détails</span>
@@ -131,14 +138,17 @@ Vous n'avez actuellement aucune question en attente de réponse.
 	<ul>
         <?php foreach ($answered as $index => $question) : ?>
             <?php
-            $date = date_create_from_format('Y-m-d', $question->question->real_date);
-            $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "00.00.0000";
+            $date = date_create_from_format('Y-m-d', $question->question->creation_date);
+            $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "";
             $adate = date_create_from_format('Y-m-d', $question->question->date_modif);
-            $sAdate = $adate ? date('d.m.Y', $adate->getTimestamp()) : "00.00.0000";
+            $sAdate = $adate ? date('d.m.Y', $adate->getTimestamp()) : "";
             ?>
         <li>
+            <?php if (! empty($sDate)) : ?>
 			<span class="date">Question du <?php echo $sDate ; ?></span>
-			<ul>
+            <?php endif; ?>
+
+            <ul>
                 <?php
                 $matiere = $question->matiere;
                 ?>
@@ -158,8 +168,10 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 </li>
 				<li>
 					<!--span class="answer">répondu</span!-->
+                    <?php if (! empty($sAdate)) : ?>
 					<span class="status">répondu le <?php echo $sAdate ; ?></span>
-					<span class="person">par <?php echo $question->question->juriste ; ?></span>
+                    <?php endif; ?>
+                    <span class="person">par <?php echo $question->question->juriste ; ?></span>
 				</li>
 				<li>
 					<span class="delai"><?php echo $question->support->label; ?></span>
@@ -168,7 +180,10 @@ Vous n'avez actuellement aucune question en attente de réponse.
 					<span class="pts"><?php echo $question->support->value; ?> pts</span>
 				</li>
 				<li>
-					<span class="id-question">N ° <?php echo $question->question->srenum; ?></span>
+                    <?php if (! empty($question->question->srenum)) : ?>
+                    <span class="id-question">N ° <?php echo $question->question->srenum; ?></span>
+                    <?php endif; ?>
+
 				</li>
 				<li class="pdf">
 					<a href="" class="pdf" title="télécharger le document"></a>
