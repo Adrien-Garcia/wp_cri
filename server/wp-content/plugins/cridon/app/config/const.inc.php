@@ -568,3 +568,8 @@ if ( !defined( 'CONST_STATUS_CODE_OK' ) ) {
 if ( !defined( 'CONST_STATUS_CODE_GONE' ) ) {
     define( 'CONST_STATUS_CODE_GONE', 410 );
 }
+
+// admin nb items per page
+if ( !defined( 'CONST_NB_ITEM_PERPAGE' ) ) {
+    define( 'CONST_NB_ITEM_PERPAGE', 20 );
+}

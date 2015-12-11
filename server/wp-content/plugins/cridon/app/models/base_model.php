@@ -9,5 +9,5 @@
  */
 class BaseModel extends MvcModel
 {
-    var $per_page = 20;
+    var $per_page = CONST_NB_ITEM_PERPAGE;
 }
