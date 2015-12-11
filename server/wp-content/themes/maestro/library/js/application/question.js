@@ -12,6 +12,8 @@ App.Question = {
     fileQuestionSelector                : '.js-question-file',
     fileQuestionResetSelector           : '.js-file-reset',
     fileQuestionNameSelector            : '.js-file-name',
+    objectQuestionFieldSelector         : '.js-question-object',
+    messageQuestionFieldSelector        : '.js-question-message',
 
     selectQuestionCompetenceName        : 'question_competence',
 
@@ -19,6 +21,9 @@ App.Question = {
     tabQuestionMaQuestionSelector       : '.js-question-tab-ma-question',
     buttonQuestionConsultationSelector  : '.js-question-button-consultation',
     buttonQuestionMaQuestionSelector    : '.js-question-button-ma-question',
+    submitQuestionSelector              : '.js-question-submit',
+
+    blockQuestionErrorSelector          : '.js-question-error',
 
     buttonQuestionDocumentationSelector : '.js-question-documentation-button',
 
@@ -37,13 +42,18 @@ App.Question = {
     $fileQuestion                       : null,
     $fileQuestionReset                  : null,
     $fileQuestionName                   : null,
+    $objectQuestionField                : null,
+    $messageQuestionField               : null,
 
     $tabQuestionConsultation            : null,
     $tabQuestionMaQuestion              : null,
     $buttonQuestionConsultation         : null,
     $buttonQuestionMaQuestion           : null,
+    $submitQuestion                     : null,
 
-    $buttonQuestionDocumentation         : null,
+    $buttonQuestionDocumentation        : null,
+
+    $blockQuestionError                 : null,
 
     $owlCarousel                        : null,
     $popupOverlay                       : null,
@@ -78,8 +88,15 @@ App.Question = {
 
         this.$buttonQuestionDocumentation           = $(this.buttonQuestionDocumentationSelector);
 
+        this.$blockQuestionError                    = $(this.blockQuestionErrorSelector);
+
+        this.$objectQuestionField                   = $(this.objectQuestionFieldSelector);
+        this.$messageQuestionField                   = $(this.messageQuestionFieldSelector);
+
         this.$owlCarousel                           = $(this.owlCarouselSelector);
         this.$popupOverlay                          = $(this.popupOverlaySelector);
+
+        this.$submitQuestion                        = $(this.submitQuestionSelector);
 
         this.addListeners();
 
@@ -104,9 +121,7 @@ App.Question = {
             color: '#324968',
             offsettop: 10,
             vertical: top,
-            onopen: function() {
-                App.Question.owlCarouselInit();
-            }
+            onopen: this.owlCarouselInit.bind(this)
 
         });
     },
@@ -140,6 +155,19 @@ App.Question = {
             }
 
         });
+
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'tokenquestion';
+        nonce.id    = 'tokenquestion';
+        nonce.value = jsvar.question_nonce;
+
+
+        // reset file list
+        this.eventFileReset();
+        this.$formQuestion[0].reset();
+        this.$submitQuestion.attr('disabled',false);
+        this.$formQuestion.append(nonce);
     },
 
 
@@ -203,6 +231,11 @@ App.Question = {
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
+        });
+
+        this.$formQuestion.on('submit', function (e) {
+            self.eventSubmitQuestion($(this));
+            return false;
         });
 
     },
@@ -281,7 +314,6 @@ App.Question = {
 
     },
 
-
     openTabQuestionConsultation: function(button) {
         this.$buttonQuestionConsultation.addClass('open');
         this.$tabQuestionConsultation.addClass('open');
@@ -294,6 +326,86 @@ App.Question = {
         this.$tabQuestionConsultation.removeClass('open');
         this.$buttonQuestionMaQuestion.addClass('open');
         this.$tabQuestionMaQuestion.addClass('open');
+    },
+
+    eventSubmitQuestion: function(form) {
+        var supportFieldId = jsvar.question_support,
+            matiereFieldId = jsvar.question_matiere,
+            competenceFieldId = jsvar.question_competence,
+            objectFieldId = jsvar.question_objet,
+            messageFieldId = jsvar.question_message;
+
+        var formdata = new FormData();
+        var nbFiles = 0;
+        if (this.$objectQuestionField.first().val() == '') {
+            this.$blockQuestionError.text('Merci de bien remplir le champ "Objet de la question"');
+            this.$objectQuestionField.focus();
+
+            // stop action
+            return false;
+        }
+        nbFiles = this.$fileQuestion.length;
+        if (nbFiles > 0) {
+            this.$fileQuestion.each(function () {
+                var file = $(this).get(0).files[0];
+                if (file) {
+                    if (formdata && (parseInt(file.size) <= parseInt(jsvar.question_max_file_size))) {
+                        formdata.append(jsvar.question_fichier + '[]', file);
+                    }
+                }
+            });
+        }
+        formdata.append("action", 'add_question');
+        formdata.append(supportFieldId, $(this.radioQuestionSupportSelector + ':checked').first().val() );
+        formdata.append(matiereFieldId, this.$selectQuestionMatiere.first().val() );
+        formdata.append(competenceFieldId, $('*[name="' + competenceFieldId + '"]').first().val() );
+        formdata.append(objectFieldId, this.$objectQuestionField.first().val() );
+        formdata.append(messageFieldId, this.$messageQuestionField.first().val() );
+        this.$messageQuestionField.html('');
+
+        if (parseInt(nbFiles) > parseInt(jsvar.question_nb_file)) {
+            this.$messageQuestionField.html(jsvar.question_nb_file_error);
+
+            // stop action
+            return false;
+        }
+        this.$submitQuestion.attr('disabled',true);
+
+        jQuery.ajax({
+            type: 'POST',
+            url: jsvar.ajaxurl,
+            data: formdata,
+            processData: false,
+            contentType: false,
+            success: this.successQuestion.bind(this)
+        });
+
+    },
+
+    successQuestion: function (data) {
+
+        data = JSON.parse(data);
+        // show message response
+        var content = $(document.createElement('ul'));
+        if ( Array.isArray(data) && data.error != undefined && Array.isArray(data.error) ) {
+            data.error.forEach(function(c, i, a) {
+                content.append(document.createElement('li'));
+                content.find('li').last().text(c);
+            });
+        }else {
+            content.append(document.createElement('li'));
+            content.find('li').last().addClass('success').text(data);
+            window.setTimeout( (function() {
+                this.$submitQuestion.attr('disabled',false);
+                this.$popupOverlay.popup('hide');
+                this.$formQuestion[0].reset();
+            }).bind(this), 1500);
+
+        }
+        this.$messageQuestionField.html(content);
+
+
+        return false;
     },
 
     debug: function(t) {

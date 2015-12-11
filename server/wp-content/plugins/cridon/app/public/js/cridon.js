@@ -15,7 +15,7 @@
         //criLostPwd();
 
         // post question
-        criQuestion();
+        //criQuestion();
 
         // post newsletter
         criNewsletter();
