@@ -15,7 +15,7 @@
 class DocumentEntity extends Entity {
     
     public $fields = array(
-        'id','file_path','download_url','date_modified','type','id_externe','label'
+        'id','file_path','download_url','date_modified','type','id_externe','label','name'
     );
     
     public function __construct() {

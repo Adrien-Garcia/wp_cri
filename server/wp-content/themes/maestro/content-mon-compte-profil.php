@@ -91,7 +91,7 @@
 	<?php 
 		$matieres = getMatieresByNotaire();
 	 ?>
-	<form method="post" action="/notaires/<?php echo $notaire->id ?>/profil">
+	<form method="post" action="/notaires/<?php echo $notaire->id ?>/profil" class="form-centre-interet">
 		<ul>
 			<?php foreach($matieres as $key => $matiere): ?>
 			<li>
@@ -109,9 +109,19 @@
 <div class="newsletter">
 
 	<h2><?php _e('Ma newsletter'); ?></h2>
-	<div class="description">
-		<?php _e('Vous êtes inscrit à notre newsletter selon vos centres d\'interets.'); ?>
-	</div>
-	<a href="#" title=""><?php _e('Me désinscrire   '); ?></a>
+        <div class="description">
+            <?php if ($notaire->newsletter == 0 ):?>
+            <?php _e('Vous n\'êtes pas inscrit à notre newsletter.'); ?>
+            <?php else : ?>
+            <?php _e('Vous êtes inscrit à notre newsletter selon vos centres d\'interets.'); ?>
+            <?php endif; ?>
+        </div>
+        <form action="/notaires/<?php echo $notaire->id ?>/profil" method="post" accept-charset="utf-8" id="newsletterFormId1" class="form-newsletter">
+            <input type="hidden" name="userEmail" value="<?php echo $notaire->email_adress ?>" id="userEmail" placeholder="<?php _e('Votre adresse email'); ?>">
+            <input type="hidden" name="disabled" value="<?php echo $notaire->newsletter; ?>">
+            <input type="submit" name="submit" value="<?php _e( ($notaire->newsletter == 0 ? "S'inscrire" : "Me désinscrire" ) ); ?>">
+        </form>
+        <div id="newsletterMsgId">
+        </div>
 
 </div>
