@@ -433,7 +433,7 @@ interface DBConnect
     /**
      * @var string : Message de l’erreur (vide par défaut) - X3
      */
-    const ZQUEST_ZMESERR_0  = 'ZMESERR_0';
+    const ZQUEST_ZMESERR_0  = 'ZMESSERR_0';
 
     /**
      * @var string : Date de création de l’enregistrement (le moment où la Q est posée) - Site

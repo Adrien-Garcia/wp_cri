@@ -995,7 +995,17 @@ class Question extends MvcModel
                           INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
                         SELECT * FROM dual;
                          */
+                        // Add required fields on the Oracle DB
+                        $query = substr($query, 0, - strlen(")  VALUES ")).', ';
+                        $query .= $adapter::ZQUEST_SRENUM_0 . ", ";   // ZQUEST_SRENUM_0
+                        $query .= $adapter::ZQUEST_ZMESERR_0 . ", ";   // ZQUEST_ZMESSERR_0
+                        $query .= $adapter::ZQUEST_ZERR_0 . " ";   // ZQUEST_ZERR_0
+
+                        $query .= ")  VALUES ";
+
                         foreach ($questions as $question) {
+                            // remplit la liste des questions
+                            $qList[] = $question->id;
                             // competence et matiere principale associées
                             $compId     = 0;
                             $maitiereId = 0;
@@ -1047,9 +1057,12 @@ class Question extends MvcModel
                             $value .= "'" . $zquest_zcomp_2 . "', "; // ZQUEST_ZCOMP_2
                             $value .= "'" . $zquest_zcomp_3 . "', "; // ZQUEST_ZCOMP_3
                             $value .= "'" . $zquest_zcomp_4 . "', "; // ZQUEST_ZCOMP_4
-                            $value .= "'" . $question->resume . "', "; // ZQUEST_YRESUME_0
+                            $value .= "'" . ( empty($question->resume) ? ' ' : $question->resume ) . "', "; // ZQUEST_YRESUME_0
                             $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
-                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy')"; // ZQUEST_CREDAT_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy'), "; // ZQUEST_CREDAT_0
+                            $value .= "'000000',"; // ZQUEST_SRENUM_0
+                            $value .= "' ',"; // ZQUEST_ZMESSERR_0
+                            $value .= "'0'"; // ZQUEST_ZERR_0
 
                             $value .= ")";
 
@@ -1137,7 +1150,7 @@ writeLog($query, 'query_export.log');
 
             // execution requete
             if (!empty($query)) {
-                if ($result = $this->adapter->execute($query)) {
+                if ($result = $this->adapter->execute($query) && !empty($qList)) {
                     // update cri_question.transmis_erp
                     $sql = " UPDATE {$this->table} SET transmis_erp = 1 WHERE id IN (" . implode(', ', $qList) . ")";
                     $this->wpdb->query($sql);
