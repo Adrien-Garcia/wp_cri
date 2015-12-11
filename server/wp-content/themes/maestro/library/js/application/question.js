@@ -387,13 +387,14 @@ App.Question = {
         data = JSON.parse(data);
         // show message response
         var content = $(document.createElement('ul'));
-        if ( Array.isArray(data) && data.error != undefined && Array.isArray(data.error) ) {
+        if ( data != undefined && data.error != undefined && Array.isArray(data.error) ) {
             data.error.forEach(function(c, i, a) {
-                content.append(document.createElement('li'));
+                content.append($(document.createElement('li')));
                 content.find('li').last().text(c);
             });
+            this.$submitQuestion.attr('disabled',false);
         }else {
-            content.append(document.createElement('li'));
+            content.append($(document.createElement('li')));
             content.find('li').last().addClass('success').text(data);
             window.setTimeout( (function() {
                 this.$submitQuestion.attr('disabled',false);
@@ -402,7 +403,8 @@ App.Question = {
             }).bind(this), 1500);
 
         }
-        this.$messageQuestionField.html(content);
+        this.$blockQuestionError.html('');
+        this.$blockQuestionError.append(content);
 
 
         return false;
