@@ -127,8 +127,8 @@
 						<p>Accédez à vos informations et bénéficiez d’un contenu personnalisé.</p>
 						 <div class="pannel_01 js-panel-connexion-connexion-form">
 							<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
-								<input type="text" class="js-panel-connexion-reset-error" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
-								<input type="password" class="js-panel-connexion-reset-error" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
+								<input type="text" class="js-panel-connexion-reset-error js-login-login-field" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
+								<input type="password" class="js-panel-connexion-reset-error js-login-password-field" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
 								<input type="submit" name="submit" value="Connectez-vous">
 							</form>
 							<a href="#" id="mdp_oublie" class="js-panel-connexion-to-mdp">> Mot de passe oublié ? <</a>
@@ -142,8 +142,8 @@
 						
 						<div class="pannel_02 js-panel-connexion-mdp-form">
 							<form action="" method="" accept-charset="utf-8" id="lostPwdFormId">
-								<input type="text" class="js-panel-connexion-reset-error" name="emailFieldId" value="" id="emailFieldId" placeholder="Votre adresse mail">
-								<input type="text" class="js-panel-connexion-reset-error" name="crpcenFieldId" value="" id="crpcenFieldId" placeholder="Votre CRPCEN">
+								<input type="text" class="js-panel-connexion-reset-error js-password-mail-field" name="emailFieldId" value="" id="emailFieldId" placeholder="Votre adresse mail">
+								<input type="text" class="js-panel-connexion-reset-error js-password-crpcen-field" name="crpcenFieldId" value="" id="crpcenFieldId" placeholder="Votre CRPCEN">
 								<input type="submit" name="submit" value="Récupérer mon mot de passe">						
 							</form>
 							<a href="#" id="mdp_retour" class="js-panel-connexion-to-connexion">< Retour </a>

@@ -64,8 +64,8 @@
 							</select>
 							<?php $icomp++; ?>
 						<?php endforeach; ?>
-						<input type="text" name="question_objet" id="question_objet" value="" placeholder="Objet de la question">
-						<textarea name="question_message" id="question_message" placeholder="Votre question"></textarea>
+						<input class="js-question-object" type="text" name="question_objet" id="question_objet" value="" placeholder="Objet de la question">
+						<textarea class="js-question-message" name="question_message" id="question_message" placeholder="Votre question"></textarea>
 
                         <?php for ($i = 0; $i < 5; $i++) : ?>
 						<div class="fileUpload btn btn-primary <?php echo ($i == 0) ? "" : "hidden"; ?>">
@@ -80,7 +80,7 @@
 						<div class="sep"></div>
 
 						<input class="js-question-submit" type="submit" name="Envoyer ma question" value="Envoyer ma question">
-					    <div id="msgBlockQuestionId"></div>
+					    <div id="msgBlockQuestionId" class="js-question-error"></div>
                     </div>
 					
 				</div>
