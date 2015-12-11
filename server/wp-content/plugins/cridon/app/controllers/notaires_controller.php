@@ -294,6 +294,22 @@ class NotairesController extends BasePublicController
     {
 // access secured
         $this->prepareSecureAccess();
+        //unsubscribe to newsletter
+        if(isset($_GET['disabled']) && ( $_GET['disabled'] == 1 )){
+            $notaire = $this->model->getUserConnectedData();
+            $update = array();
+            $update['Notaire']['id'] = $notaire->id;
+            $update['Notaire']['newsletter'] = 0;
+            $this->model->save($update);
+            $options = array(
+                'controller' => 'notaires',
+                'action'     => 'profil',
+                'id'         => $this->params['id']
+            );
+            $publicUrl  = MvcRouter::public_url($options);
+            wp_redirect( $publicUrl, 302 );
+            exit;
+        }
         if (isset($_POST) && !empty($_POST) && isset($_POST['matieres'])) {
             $notaire = $this->model->getUserConnectedData();
             if (!empty($notaire)) {

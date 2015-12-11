@@ -300,7 +300,7 @@ class EntityManager {
                 $tmp[] = $value;
                 $tmpQ = $value;// l'itération courante
             }
-            if( count( $data )  === 1  ){ // Si nous arrivons déjà à la fin
+            if( count( $data )  === 0  ){ // Si nous arrivons déjà à la fin
                 $aSplit[] = $tmp;
             }
         }
