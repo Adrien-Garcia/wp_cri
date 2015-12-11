@@ -3971,7 +3971,7 @@ body.page-template-front-page{
 									}
 								}
 
-								input[type="submit"]{
+								a,input[type="submit"]{
 
 									@include bt-rectangle($vert, #FFF);
 								 	border:none;

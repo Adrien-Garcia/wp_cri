@@ -295,11 +295,12 @@ class NotairesController extends BasePublicController
 // access secured
         $this->prepareSecureAccess();
         //unsubscribe to newsletter
-        if(isset($_GET['disabled']) && ( $_GET['disabled'] == 1 )){
+        if(isset($_POST['disabled'])){
+            $disabled = $_POST['disabled'] == 1 ? 0 : 1;
             $notaire = $this->model->getUserConnectedData();
             $update = array();
             $update['Notaire']['id'] = $notaire->id;
-            $update['Notaire']['newsletter'] = 0;
+            $update['Notaire']['newsletter'] = $disabled;
             $this->model->save($update);
             $options = array(
                 'controller' => 'notaires',
