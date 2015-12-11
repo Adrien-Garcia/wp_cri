@@ -99,7 +99,7 @@ class CriAdminNavMenu
     public function add_archive_meta_box(){
         add_meta_box(
             'archive_meta_box'
-            ,__( 'Archives Model Cridon' )
+            ,__( 'Archives Modèle Cridon' )
             ,array( $this, 'render_archive_box_content' )
             ,'nav-menus' // important !!!
             ,'side' // important, only side seems to work!!!

@@ -66,7 +66,7 @@ class CriCustomWalker extends Walker_Nav_Menu
         $this->accederAssocPagelink    = mvc_public_url(array('controller' => 'veilles', 'action' => 'index'));
         $this->consulterAssocPagelink  = '';
 
-        // cablage tire et sous titre de chaque bloc
+        // cablage titre et sous titre de chaque bloc
         $this->rechercherBlocTitle    = __('Rechercher');
         $this->rechercherBlocSubTitle = __('dans les bases de connaissances');
 
