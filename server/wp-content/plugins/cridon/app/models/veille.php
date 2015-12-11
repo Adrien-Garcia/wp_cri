@@ -1,6 +1,8 @@
 <?php
 
-class Veille extends MvcModel {    
+require_once 'base_model.php';
+
+class Veille extends BaseModel {
     var $table          = "{prefix}veille";
     var $includes       = array('Post','Matiere');
     var $belongs_to     = array(

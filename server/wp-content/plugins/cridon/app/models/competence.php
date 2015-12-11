@@ -1,6 +1,8 @@
 <?php
 
-class Competence extends MvcModel
+require_once 'base_model.php';
+
+class Competence extends BaseModel
 {
     var $display_field  = 'label';
     var $table          = '{prefix}competence';

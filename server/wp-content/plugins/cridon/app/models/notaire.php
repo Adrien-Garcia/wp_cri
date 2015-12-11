@@ -5,7 +5,10 @@
  * @author Etech
  * @contributor Joelio
  */
-class Notaire extends MvcModel
+
+require_once 'base_model.php';
+
+class Notaire extends BaseModel
 {
 
     /**
