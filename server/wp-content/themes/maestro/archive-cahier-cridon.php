@@ -5,14 +5,14 @@
 		<div class="breadcrumbs">
 			<div id="inner-content" class="wrap cf">
 				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
-				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux connaissances juridiques </a>  +  <span>Veille juridique</span>
+				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux connaissances juridiques </a>  +  <span>Les cahiers du CRIDON</span>
 			</div>
 		</div>
 
 		<div id="main" class="cf" role="main">
 			<div id="inner-content" class="wrap cf">
 
-				<h1 class="h1">Veille juridique</h1>
+				<h1 class="h1">Les Cahiers du CRIDON</h1>
 
 				<div id="filtres_veilles">					
 				</div>
@@ -32,7 +32,7 @@
 						<div class="details">							
 							<div class="block_right sel-veilles-content js-home-block-link" >								
 								<h2><?php the_title() ?></h2>
-								<a href="" title="télécharger le document pdf">Lien sommaire</a>
+								<a href="" title="télécharger le document pdf">Télécharger le sommaire</a>
 								<ul>
 									<li>
 										<div class="img-cat">
@@ -76,7 +76,7 @@
 						<div class="details">							
 							<div class="block_right sel-veilles-content js-home-block-link" >								
 								<h2><?php the_title() ?></h2>
-								<a href="" title="télécharger le document pdf">Lien sommaire</a>
+								<a href="" title="télécharger le document pdf">Télécharger le sommaire</a>
 								<ul>
 									<li>
 										<div class="img-cat">
