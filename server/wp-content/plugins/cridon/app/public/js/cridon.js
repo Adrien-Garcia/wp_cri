@@ -12,7 +12,7 @@
         //criLoginAction();
 
         // lost pwd
-        criLostPwd();
+        //criLostPwd();
 
         // post question
         criQuestion();
