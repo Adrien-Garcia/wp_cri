@@ -109,9 +109,18 @@
 <div class="newsletter">
 
 	<h2><?php _e('Ma newsletter'); ?></h2>
+        <?php if ($notaire->newsletter == 0 ):?>
+        <form action="" method="" accept-charset="utf-8" id="newsletterFormId">
+            <input type="text" name="userEmail" value="" id="userEmail" placeholder="<?php _e('Votre adresse email'); ?>">
+            <input type="submit" name="submit" value="<?php _e("S'inscrire   "); ?>">
+        </form>
+        <div id="newsletterMsgId">
+        </div>
+        <?php else: ?>
 	<div class="description">
 		<?php _e('Vous êtes inscrit à notre newsletter selon vos centres d\'interets.'); ?>
 	</div>
-	<a href="#" title=""><?php _e('Me désinscrire   '); ?></a>
+	<a href="?disabled=1" title=""><?php _e('Me désinscrire   '); ?></a>
+        <?php endif ?>
 
 </div>
