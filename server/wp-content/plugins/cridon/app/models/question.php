@@ -959,7 +959,7 @@ class Question extends MvcModel
                 $qList = array();
 
                 // requete commune
-                $query  = " INSERT INTO " . CONST_DB_TABLE_QUESTTEMP;
+                $query  = " INTO " . CONST_DB_TABLE_QUESTTEMP;
                 $query .= " (";
                 $query .= $adapter::ZQUEST_ZIDQUEST_0 . ", "; // ZQUEST_ZIDQUEST_0
                 $query .= $adapter::ZQUEST_ZTRAITEE_0 . ", "; // ZQUEST_ZTRAITEE_0
@@ -1049,7 +1049,7 @@ class Question extends MvcModel
                             $value .= "'" . $zquest_zcomp_4 . "', "; // ZQUEST_ZCOMP_4
                             $value .= "'" . $question->resume . "', "; // ZQUEST_YRESUME_0
                             $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
-                            $value .= "'" . date('d/m/Y', strtotime($question->creation_date)) . "'"; // ZQUEST_CREDAT_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy')"; // ZQUEST_CREDAT_0
 
                             $value .= ")";
 
@@ -1060,7 +1060,7 @@ class Question extends MvcModel
                             $query = 'INSERT ALL ';
                             $query .= implode(' ', $queryBloc);
                             $query .= ' SELECT * FROM dual';
-
+writeLog($query, 'query_export.log');
                         }
                         break;
                     case CONST_DB_DEFAULT:
@@ -1129,7 +1129,7 @@ class Question extends MvcModel
                         }
                         // preparation requete en masse
                         if (count($queryBloc) > 0) {
-                            $query .= implode(', ', $queryBloc);
+                            $query = 'INSERT' . $query . implode(', ', $queryBloc);
                         }
                         break;
                 }
