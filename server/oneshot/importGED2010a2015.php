@@ -41,9 +41,12 @@ $csvFile = reset($csvFiles);
 
 //OFFSET
 $offset = 0;
-$pack = $limit = isset($argv[2]) ? (int) $argv[2] : 5000;
-if (isset($argv[1])) {
+$pack = $limit = (int) isset($argv[2]) ? (int) $argv[2] : (isset($_GET['pack']) ? $_GET['pack'] : 0);
+if (isset($argv[1]) && !empty($pack)) {
     $offset = (int) $argv[1] * $pack;
+    $limit = $offset + $pack;
+} elseif (isset($_GET['offset']) && !empty($pack)) {
+    $offset = (int) $_GET['offset'] * $pack;
     $limit = $offset + $pack;
 }
 
@@ -53,7 +56,12 @@ $errorDocList = array();
 
 $csvParser = new parseCSV();
 $csvParser->delimiter = ";";
-$csvParser->parse($csvFile, $offset, $limit);
+$csvParser->heading = $offset ? false : true;
+if (!empty($pack)) {
+    $csvParser->parse($csvFile, $offset, $limit);
+} else {
+    $csvParser->parse($csvFile);
+}
 
 /**
  * @var $modelDoc Document
@@ -73,11 +81,14 @@ foreach ($csvParser->data as $row => $data) {
     }
 
     // recuperation id question par numero
+    $srenum = $contents[$indexes['INDEX_NUMQUESTION']];
+    while (strlen($srenum) < 6) {
+        $srenum = '0'.$srenum;
+    }
     $options               = array();
     $options['attributes'] = array('id');
     $options['model']      = 'question';
-    $options['conditions'] = ' srenum = ' . $contents[$indexes['INDEX_NUMQUESTION']];
-
+    $options['conditions'] = ' srenum = \'' . $srenum .'\'';
     // question associée
     $question = $modelDoc->queryBuilder->findOneByOptions($options);
 
@@ -138,7 +149,7 @@ foreach ($csvParser->data as $row => $data) {
         // preserve file as exists in metadata : fileExists might change it into FALSE if not found
         $storedInfoFile = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'BackupCourriersPDF' . DIRECTORY_SEPARATOR . $docPath;
         $fileToImport = fileExists($storedInfoFile, false);
-        if ($fileToImport && copy($fileToImport,
+        if (!empty($fileToImport) && copy($fileToImport,
             $path . $filename)) {
             // donnees document
             $docData = array(
@@ -201,7 +212,7 @@ foreach ($csvParser->data as $row => $data) {
                 $message .= "\n PATH Chemin sur le serveur : ".$storedInfoFile;
             }
             reportError($message, '');
-            $errorDocList[] = '404 File : ' . $storedInfoFile;
+            $errorDocList[] = '404 File : ' . $storedInfoFile . ' (doc_name : ' . $docName .')';
         }
     } else { // doc sans question associee
 
@@ -215,5 +226,4 @@ foreach ($csvParser->data as $row => $data) {
 echo 'OK : '.count($logDocList);
 echo "\n";
 echo 'KO : '.count($errorDocList);
-
 writeLog($errorDocList, 'import2010_2015.log');
