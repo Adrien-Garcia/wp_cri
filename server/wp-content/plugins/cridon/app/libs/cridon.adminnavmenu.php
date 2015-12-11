@@ -85,7 +85,7 @@ class CriAdminNavMenu
     public function add_veille_meta_box(){
         add_meta_box(
             'veille_meta_box'
-            ,__( 'Veilles' )
+            ,__( 'Veilles Juridiques' )
             ,array( $this, 'render_veille_box_content' )
             ,'nav-menus' // important !!!
             ,'side' // important, only side seems to work!!!
@@ -154,6 +154,10 @@ class CriAdminNavMenu
             'vie_cridons' => array(
                 'title' => 'Vie Cridon',
                 'link' => MvcRouter::public_url(array('controller' => 'vie_cridons', 'action' => 'index'))
+            ),
+            'cahier_cridons' => array(
+                'title' => 'Cahiers du Cridon',
+                'link' => MvcRouter::public_url(array('controller' => 'cahier_cridons', 'action' => 'index'))
             ),
         );
 

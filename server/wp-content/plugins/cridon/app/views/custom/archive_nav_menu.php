@@ -6,36 +6,40 @@
                     <input type="checkbox" class="menu-item-checkbox" name="menu-item[-1][menu-item-object-id]" value="flashes"> <?php echo $flashes['title']; ?>
                 </label>
                 <input type="hidden" class="menu-item-type" name="menu-item[-1][menu-item-type]" value="custom">
-                <input type="hidden" class="menu-item-title" name="menu-item[-1][menu-item-title]" value="Flash Info">
+                <input type="hidden" class="menu-item-title" name="menu-item[-1][menu-item-title]" value="<?php echo $flashes['title']; ?>">
                 <input type="hidden" class="menu-item-url" name="menu-item[-1][menu-item-url]" value="<?php echo $flashes['link']; ?>">
-                <input type="hidden" class="menu-item-classes" name="menu-item[-1][menu-item-classes]" value="wl-archives_nav_menu-pop">
             </li>
             <li>
                 <label class="menu-item-title">
                     <input type="checkbox" class="menu-item-checkbox" name="menu-item[-2][menu-item-object-id]" value="veilles"> <?php echo $veilles['title']; ?>
                 </label>
                 <input type="hidden" class="menu-item-type" name="menu-item[-2][menu-item-type]" value="custom">
-                <input type="hidden" class="menu-item-title" name="menu-item[-2][menu-item-title]" value="Veilles Juridiques">
+                <input type="hidden" class="menu-item-title" name="menu-item[-2][menu-item-title]" value="<?php echo $veilles['title']; ?>">
                 <input type="hidden" class="menu-item-url" name="menu-item[-2][menu-item-url]" value="<?php echo $veilles['link']; ?>">
-                <input type="hidden" class="menu-item-classes" name="menu-item[-2][menu-item-classes]" value="wl-archives_nav_menu-pop">
             </li>
             <li>
                 <label class="menu-item-title">
                     <input type="checkbox" class="menu-item-checkbox" name="menu-item[-3][menu-item-object-id]" value="flash"> <?php echo $formations['title']; ?>
                 </label>
                 <input type="hidden" class="menu-item-type" name="menu-item[-3][menu-item-type]" value="custom">
-                <input type="hidden" class="menu-item-title" name="menu-item[-3][menu-item-title]" value="Formations">
+                <input type="hidden" class="menu-item-title" name="menu-item[-3][menu-item-title]" value="<?php echo $formations['title']; ?>">
                 <input type="hidden" class="menu-item-url" name="menu-item[-3][menu-item-url]" value="<?php echo $formations['link']; ?>">
-                <input type="hidden" class="menu-item-classes" name="menu-item[-3][menu-item-classes]" value="wl-archives_nav_menu-pop">
             </li>
             <li>
                 <label class="menu-item-title">
-                    <input type="checkbox" class="menu-item-checkbox" name="menu-item[-1][menu-item-object-id]" value="vie_cridons"> <?php echo $vie_cridons['title']; ?>
+                    <input type="checkbox" class="menu-item-checkbox" name="menu-item[-4][menu-item-object-id]" value="vie_cridons"> <?php echo $vie_cridons['title']; ?>
                 </label>
-                <input type="hidden" class="menu-item-type" name="menu-item[-1][menu-item-type]" value="custom">
-                <input type="hidden" class="menu-item-title" name="menu-item[-1][menu-item-title]" value="Flash Info">
-                <input type="hidden" class="menu-item-url" name="menu-item[-1][menu-item-url]" value="<?php echo $vie_cridons['link']; ?>">
-                <input type="hidden" class="menu-item-classes" name="menu-item[-1][menu-item-classes]" value="wl-archives_nav_menu-pop">
+                <input type="hidden" class="menu-item-type" name="menu-item[-4][menu-item-type]" value="custom">
+                <input type="hidden" class="menu-item-title" name="menu-item[-4][menu-item-title]" value="<?php echo $vie_cridons['title']; ?>">
+                <input type="hidden" class="menu-item-url" name="menu-item[-4][menu-item-url]" value="<?php echo $vie_cridons['link']; ?>">
+            </li>
+            <li>
+                <label class="menu-item-title">
+                    <input type="checkbox" class="menu-item-checkbox" name="menu-item[-5][menu-item-object-id]" value="cahier_cridons"> <?php echo $cahier_cridons['title']; ?>
+                </label>
+                <input type="hidden" class="menu-item-type" name="menu-item[-5][menu-item-type]" value="custom">
+                <input type="hidden" class="menu-item-title" name="menu-item[-5][menu-item-title]" value="<?php echo $cahier_cridons['title']; ?>">
+                <input type="hidden" class="menu-item-url" name="menu-item[-5][menu-item-url]" value="<?php echo $cahier_cridons['link']; ?>">
             </li>
         </ul>
     </div>

@@ -19,7 +19,6 @@
                                 <input type="hidden" class="menu-item-type" name="menu-item[<?php echo $i; ?>][menu-item-type]" value="custom">
                                 <input type="hidden" class="menu-item-title" name="menu-item[<?php echo $i; ?>][menu-item-title]" value="<?php echo $item->post->post_title; ?>">
                                 <input type="hidden" class="menu-item-url" name="menu-item[<?php echo $i; ?>][menu-item-url]" value="<?php echo mvc_public_url(array('controller' => 'veilles', 'id' => $item->id)) ?>">
-                                <input type="hidden" class="menu-item-classes" name="menu-item[<?php echo $i; ?>][menu-item-classes]" value="wl-veille_nav_menu-pop">
                             </li>
                     <?php
                         endforeach;
