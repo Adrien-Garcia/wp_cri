@@ -160,4 +160,25 @@ class DocumentsController extends MvcPublicController {
         }
         return true;
     }
+    //Téléchagement des documents à lien public
+    public function publicDownload(){
+        $crypted = $this->params['id'];//encrypted value
+        $decrypted = $this->model->decryptVal( $crypted );//decrypt value
+        if(preg_match(Config::$confPublicDownloadURL['pattern'], $decrypted,$matches)){
+            $document = $this->model->find_one_by_id($matches[1]);
+            if( !$document && !empty($document->file_path) ){
+                $this->generateError();
+            }
+            //Let's begin download
+            $uploadDir = wp_upload_dir();
+            $file = $uploadDir['basedir'].$document->file_path;
+            $pathinfo = pathinfo($document->file_path);
+            //Get file name
+            $filename = $pathinfo['basename'];
+            //download
+            $this->output_file($file, $filename);
+        }else{
+            $this->generateError();
+        }
+    }
 }

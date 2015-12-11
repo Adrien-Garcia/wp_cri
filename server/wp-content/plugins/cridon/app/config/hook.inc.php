@@ -290,14 +290,3 @@ function on_publish_future_post( $post ) {
  * @see https://codex.wordpress.org/Post_Status_Transitions
  */
 add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
-function on_insert_post( $post_ID,$post,$update ) {
-    if( !$update && ( $post->post_status == 'publish' ) && ( $post->post_type == 'post' ) ){
-        foreach( Config::$data as $modelConf ){
-            if( ($model = findBy( $modelConf['name'], $post_ID )) != null ){//already create 
-                 sendNotificationForPostPublished($post, $model);
-                 break;
-            } 
-        }         
-    }
-}
-add_action(  'wp_insert_post',  'on_insert_post', 10, 3 );

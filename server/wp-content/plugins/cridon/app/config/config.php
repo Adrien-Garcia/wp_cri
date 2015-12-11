@@ -279,4 +279,11 @@ class Config {
         'date_arret'    => 'Date d\'arrêt'
     );
     //End translation
+    
+    //Public download URL
+    public static $confPublicDownloadURL = array(
+        'pattern' => '/documents\/public\/([0-9]+)/',//Pattern à utilisé pour un test preg_match 
+        'url'     => 'documents/public/'//Sera ajouté à l'encodage, l'id sera ajouté dynamiquement (ex:documents/public/1)
+    );
+    //End Public download URL
 }
