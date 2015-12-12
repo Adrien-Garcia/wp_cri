@@ -197,9 +197,6 @@ class Notaire extends MvcModel
         if (CONST_TRACE_IMPORT_NOTAIRE) {
             writeLog('Debut import', 'importnotaire.log');
         }
-
-        // init logs
-        $this->logs = array();
         $this->adapter = null;
 
         // try to import and prevent exception to announce a false positive result
@@ -234,7 +231,6 @@ class Notaire extends MvcModel
         } catch (Exception $e) {
             // write into logfile
             writeLog($e, 'notaire.log');
-            array_push($this->logs['error'], $e->getMessage());
 
             // log end of import
             if (CONST_TRACE_IMPORT_NOTAIRE) {
@@ -244,9 +240,6 @@ class Notaire extends MvcModel
             // status code
             return CONST_STATUS_CODE_GONE;
         }
-
-        echo json_encode($this->logs);
-        exit();
     }
 
     /**
@@ -334,17 +327,17 @@ class Notaire extends MvcModel
             while ($data = $adapter->fetchData()) {
                 if (isset( $data[$adapter::NOTAIRE_CRPCEN] ) && intval($data[$adapter::NOTAIRE_CRPCEN]) > 0) { // valid login
                     // the only unique key available is the "crpcen + web_password"
-                    $uniqueKey = intval($data[$adapter::NOTAIRE_CRPCEN]) . $data[$adapter::NOTAIRE_PWDWEB];
+                    $uniqueKey = $data[$adapter::NOTAIRE_CRPCEN] . $data[$adapter::NOTAIRE_PWDWEB];
                     array_push($this->erpNotaireList, $uniqueKey);
 
                     // notaire data filter
                     $this->erpNotaireData[$uniqueKey] = $data;
 
                     // Fill list of ERP Etude
-                    array_push($this->erpEtudeList, intval($data[$adapter::NOTAIRE_CRPCEN]));
+                    array_push($this->erpEtudeList, $data[$adapter::NOTAIRE_CRPCEN]);
 
                     // Etude data filter
-                    $this->erpEtudeData[intval($data[$adapter::NOTAIRE_CRPCEN])] = $data;
+                    $this->erpEtudeData[$data[$adapter::NOTAIRE_CRPCEN]] = $data;
                 }
             }
 
@@ -389,7 +382,7 @@ class Notaire extends MvcModel
             // only notaire having CRPCEN
             if (isset($items[$csv::NOTAIRE_CRPCEN]) && $items[$csv::NOTAIRE_CRPCEN]) {
                 // the only unique key available is the "crpcen + web_password"
-                $uniqueKey = intval($items[$csv::NOTAIRE_CRPCEN]) . $items[$csv::NOTAIRE_PWDWEB];
+                $uniqueKey = $items[$csv::NOTAIRE_CRPCEN] . $items[$csv::NOTAIRE_PWDWEB];
                 array_push($this->erpNotaireList, $uniqueKey);
 
                 // notaire data filter
@@ -523,13 +516,13 @@ class Notaire extends MvcModel
                         $dateModified = '0000-00-00';
                         if (isset($newData[$adapter::NOTAIRE_DATEMODIF])) {
                             $dateModified = date("Y-m-d",
-                                                 strtotime(
-                                                     str_replace(
-                                                         array('/', '"'),
-                                                         array('-', ''),
-                                                         $newData[$adapter::NOTAIRE_DATEMODIF]
-                                                     )
-                                                 )
+                                strtotime(
+                                    str_replace(
+                                        array('/', '"'),
+                                        array('-', ''),
+                                        $newData[$adapter::NOTAIRE_DATEMODIF]
+                                    )
+                                )
                             );
                         }
                         $newDate = new DateTime($dateModified);
@@ -554,7 +547,7 @@ class Notaire extends MvcModel
                                 $updatePwdtelValues[]       = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_INTERCODE]))
-                                $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . esc_sql(intval($newData[$adapter::NOTAIRE_INTERCODE])) . "' ";
+                                $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_INTERCODE]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_CIVILIT]))
                                 $updateCivlitValues[]       = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CIVILIT]) . "' ";
@@ -670,13 +663,13 @@ class Notaire extends MvcModel
                         $dateModified = '0000-00-00';
                         if (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_DATEMODIF])) {
                             $dateModified = date("Y-m-d",
-                                                 strtotime(
-                                                     str_replace(
-                                                         array('/', '"'),
-                                                         array('-', ''),
-                                                         $this->erpNotaireData[$notaire][$adapter::NOTAIRE_DATEMODIF]
-                                                     )
-                                                 )
+                                strtotime(
+                                    str_replace(
+                                        array('/', '"'),
+                                        array('-', ''),
+                                        $this->erpNotaireData[$notaire][$adapter::NOTAIRE_DATEMODIF]
+                                    )
+                                )
                             );
                         }
 
@@ -686,10 +679,10 @@ class Notaire extends MvcModel
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) : '') . "', ";
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) : '') . "', ";
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN]) ? esc_sql(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN])) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN]) : '') . "', ";
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) : '') . "', ";
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE]) ? esc_sql(intval($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE])) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE]) : '') . "', ";
                         $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CIVILIT]) : '') . ", ";
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL]) : '') . "', ";
                         $value .= (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FONC]) : '') . ", ";
@@ -783,7 +776,7 @@ class Notaire extends MvcModel
                             $updateAdress3Values[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS3]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_CP]))
-                            $updateCpValues[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(intval($newData[$adapter::NOTAIRE_CP])) . "' ";
+                            $updateCpValues[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CP]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_CITY]))
                             $updateCityValues[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CITY]) . "' ";
@@ -889,10 +882,10 @@ class Notaire extends MvcModel
                     $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_SIGLE]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_SIGLE]) : '') . "', ";
                     $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_OFFICENAME]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_OFFICENAME]) : '') . "', ";
                     $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS1]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS1]) : '') . "', ";
-                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS2]) ? esc_sql(intval($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS2])) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS2]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS2]) : '') . "', ";
                     $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS3]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_ADRESS3]) : '') . "', ";
                     $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_CP]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_CP]) : '') . "', ";
-                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_CITY]) ? esc_sql(intval($this->erpEtudeData[$etude][$adapter::NOTAIRE_CITY])) : '') . "', ";
+                    $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_CITY]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_CITY]) : '') . "', ";
                     $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL1]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL1]) : '') . "', ";
                     $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL2]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL2]) : '') . "', ";
                     $value .= "'" . (isset($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL3]) ? esc_sql($this->erpEtudeData[$etude][$adapter::NOTAIRE_MAIL3]) : '') . "', ";
@@ -1218,19 +1211,19 @@ class Notaire extends MvcModel
     public function findByLoginAndEmail($login, $email)
     {
         $items = $this->find(array(
-                                       'selects'    => array(
-                                           'Notaire.id',
-                                           'Notaire.web_password',
-                                           'Notaire.email_adress',
-                                           'Notaire.crpcen',
-                                           'Notaire.id_civilite',
-                                           'Notaire.id_fonction'
-                                       ),
-                                       'conditions' => array(
-                                           'crpcen'       => $login,
-                                           'email_adress' => $email
-                                       )
-                                   )
+                'selects'    => array(
+                    'Notaire.id',
+                    'Notaire.web_password',
+                    'Notaire.email_adress',
+                    'Notaire.crpcen',
+                    'Notaire.id_civilite',
+                    'Notaire.id_fonction'
+                ),
+                'conditions' => array(
+                    'crpcen'       => $login,
+                    'email_adress' => $email
+                )
+            )
         );
 
         return $items;
@@ -1615,24 +1608,24 @@ class Notaire extends MvcModel
         $object = $this->getUserConnectedData();
 
         return (isset($object->category)
-            && strtolower($object->category) === CONST_OFFICES_ROLE
-            && isset($object->fonction->id)
-            && !in_array($object->fonction->id, Config::$cannotAccessFinance)
+                && strtolower($object->category) === CONST_OFFICES_ROLE
+                && isset($object->fonction->id)
+                && !in_array($object->fonction->id, Config::$cannotAccessFinance)
         ) ? true : false;
     }
-    
+
     //Start webservice
-    
+
     /**
      * Generate token for webservice
      */
     public function generateToken( $id,$login,$password ){
         return $id.'!'.$this->encryption($login, $password).'~'.time();
     }
-    
+
     /**
      * Construct encrypted value
-     * 
+     *
      * @param string $login
      * @param string $password
      * @return string
@@ -1641,24 +1634,24 @@ class Notaire extends MvcModel
         $salt = wp_salt( 'secure_auth' );
         return sha1( $salt.$login.$password );
     }
-    
+
     /**
      * Verify if token given is valid
-     * 
+     *
      * @return object
      */
-    public function checkLastConnect( $token ){  
-	$notaire = $this->verify($token);
+    public function checkLastConnect( $token ){
+        $notaire = $this->verify($token);
         //No model find
         if( !$notaire ){
             return false;
         }
         return true;
     }
-    
+
     /**
      * Compare two values
-     * 
+     *
      * @param mixed $v1
      * @param mixed $v2
      * @return boolean
@@ -1666,10 +1659,10 @@ class Notaire extends MvcModel
     private function compare( $v1,$v2 ){
         return ( $v1 == $v2);
     }
-    
+
     /**
      * Compare two dates
-     * 
+     *
      * @param integer $timestamp
      * @return boolean
      */
@@ -1680,10 +1673,10 @@ class Notaire extends MvcModel
         $interval = $date->diff($now ,true )->days;
         return ( $interval < Config::$tokenDuration );
     }
-    
+
     /**
      * Determine values matched in preg_match
-     * 
+     *
      * @param array $matches
      * @return boolean
      */
@@ -1702,11 +1695,11 @@ class Notaire extends MvcModel
         }
         return true;
     }
-    
+
     /**
      * Check if current token given is valid
      * Three steps to valid this
-     * 
+     *
      * @param string $authToken
      * @return object|boolean
      */
@@ -1729,13 +1722,13 @@ class Notaire extends MvcModel
                         //Check timestamp if duration exceeded
                         if( $this->compareDate($matches[3][0]) ){
                             return $notaire;
-                        }                      
+                        }
                     }
-                }           
+                }
             }
         }
         return false;
     }
-    
+
     //End webservice
 }
