@@ -283,11 +283,13 @@ class Document extends MvcModel {
             if (count($logDocList) > 0) {
                 $listDoc = implode(', ', $logDocList);
                 $message = sprintf(CONST_IMPORT_GED_LOG_SUCCESS_MSG, date('d/m/Y à H:i'), $listDoc);
+                writeLog($message, 'importdocs.log');
                 reportError($message, '');
             } else { // repertoire import vide
                 // log : envoie mail
                 $message = sprintf(CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG, date('d/m/Y à H:i'));
                 reportError($message, '');
+                writeLog($message, 'importdocs.log');
             }
         } catch ( \Exception $e ){
             writeLog( $e,'majdocument.log' );

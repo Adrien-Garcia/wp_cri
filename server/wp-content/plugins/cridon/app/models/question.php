@@ -195,6 +195,7 @@ class Question extends MvcModel
             }
 
         } catch (\Exception $e) {
+            writeLog($e->getMessage(), 'importQuestions.log');
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
         }
