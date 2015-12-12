@@ -290,3 +290,21 @@ function on_publish_future_post( $post ) {
  * @see https://codex.wordpress.org/Post_Status_Transitions
  */
 add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
+
+/**
+ * Hook add new post link (only apply on Cridon modele )
+ *
+ * @param string $url
+ * @param string $path
+ * @param int $blog_id
+ * @return string
+ */
+function add_new_post_url( $url, $path, $blog_id ) {
+
+    if ( $path == "post-new.php" && isset($_GET['cridon_type']) ) {
+        $path = "post-new.php?cridon_type=" . $_GET['cridon_type'];
+    }
+
+    return $path;
+}
+add_filter( 'admin_url', 'add_new_post_url', 10, 3 );
