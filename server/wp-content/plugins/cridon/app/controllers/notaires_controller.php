@@ -26,26 +26,6 @@ class NotairesController extends BasePublicController
     }
 
     /**
-     * Import Notaire into wp_users
-     */
-    public function import()
-    {
-        $rets = $this->model->importIntoWpUsers();
-
-        $this->set('rets', $rets);
-    }
-
-    /**
-     * Import Solde
-     */
-    public function importsolde()
-    {
-        $rets = $this->model->importSolde();
-
-        $this->set('rets', $rets);
-    }
-
-    /**
      * Secure Access Page
      *
      * @return void

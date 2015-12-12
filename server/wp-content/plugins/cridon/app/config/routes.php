@@ -12,11 +12,6 @@ MvcRouter::public_connect('rest/{:controller}', array('action' => 'index_json', 
 MvcRouter::public_connect('rest/{:controller}/{:id:[\d]+}', array('action' => 'show_json', 'layout' => 'json'));
 MvcRouter::public_connect('rest/{:controller}/{:action:[^\d]+}', array('layout' => 'json'));
 
-// import (import notaire action)
-MvcRouter::public_connect('import/notaires', array('controller' => 'notaires', 'action' => 'import'));
-
-// import solde
-MvcRouter::public_connect('import/soldes', array('controller' => 'notaires', 'action' => 'importsolde'));
 
 // import initial questions
 MvcRouter::public_connect('questions/importinitial', array('controller' => 'questions', 'action' => 'importinitial'));
