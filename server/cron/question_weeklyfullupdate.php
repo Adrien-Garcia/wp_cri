@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of question_dailyupdate.php
+ * Description of question_weeklyfullupdate.php
  *
  * @package wp_cridon
  * @author eTech

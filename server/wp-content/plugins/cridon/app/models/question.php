@@ -600,7 +600,7 @@ class Question extends MvcModel
     /**
      * Daily update
      */
-    public function dailyUpdate()
+    public function cronUpdate()
     {
         try {
             // enable gbcollector
@@ -609,27 +609,29 @@ class Question extends MvcModel
             }
 
             // set adapter
-            switch (strtolower(CONST_IMPORT_OPTION)) {
+            switch (strtolower(CONST_IMPORT_OPTION)) {//wrong test, this does not depend on the connector but on the used DB type
                 case self::IMPORT_ODBC_OPTION:
-                    $todateFunc    = 'STR_TO_DATE'; // SQL
-                    $intervalParam = 'MINUTE'; // SQL
-                    $timestampFunc = 'TIMESTAMPDIFF'; // SQL
                     $this->adapter = $adapter = CridonODBCAdapter::getInstance();
                     break;
                 case self::IMPORT_OCI_OPTION:
                 default :
-                    //if case above did not match, set OCI
-                    $todateFunc    = 'TO_DATE'; // Oracle
-                    $intervalParam = 'SQL_TSI_MINUTE'; // Oracle
-                    $timestampFunc = 'TIMESTAMPDIFF'; // @see: https://docs.oracle.com/html/A95915_01/sqfunc.htm#i1006893
                     $this->adapter = $adapter = CridonOCIAdapter::getInstance();
                     break;
             }
 
             // get last cron date if is set or server datetime
-            $lastDateUpdate        = date('Y-m-d H:i:s');
-            $lastCronDate          = get_option('cronquestionupdate') ? get_option('cronquestionupdate') : $lastDateUpdate;
-            $date                  = new DateTime($lastCronDate);
+            $lastDateUpdate          = get_option('cronquestionupdate');
+            if (empty($lastDateUpdate)) {
+                $lastUpQuestion = $this->find_one(array(
+                        'conditions' => array(
+                            'transmis_erp' => CONST_QUEST_TRANSMIS_ERP, //avoid considering those coming from website
+                        ),
+                        'order' => 'Question.date_modif DESC, Question.hour_modif DESC',
+                    )
+                );
+                $lastDateUpdate = $lastUpQuestion->date_modif . ' ' . $lastUpQuestion->hour_modif;
+            }
+            $date                  = new DateTime($lastDateUpdate);
             $queryOptions          = array();
             $queryOptions['daily'] = true;
             $dateModif             = $date->format('Y-m-d');
@@ -649,10 +651,56 @@ class Question extends MvcModel
             // update values
             $updateValues = array();
 
-            $mainQuery = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST;
-            $mainQuery .= " WHERE {$timestampFunc}({$intervalParam}, '{$dateModif} {$hourModif}', CONCAT_WS(' ', {$todateFunc}(" . $adapter::QUEST_UPDDAT . ", '%d/%m/%Y'), " . $adapter::QUEST_ZUPDHOU . ")) > 0  ";
-            $mainQuery .= " AND " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
+            $mainQuery = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST . ' WHERE ';
+            switch (strtolower(CONST_IMPORT_OPTION)) {//wrong test, this does not depend on the connector but on the used DB type
+                case self::IMPORT_ODBC_OPTION:
+                    $mainQuery .= "TIMESTAMPDIFF(MINUTE, '{$dateModif} {$hourModif}', CONCAT_WS(' ', STR_TO_DATE(" . $adapter::QUEST_UPDDAT . ", '%d/%m/%Y'), " . $adapter::QUEST_ZUPDHOU . ")) > 0 AND ";
+                    $mainQuery .= " " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
                         AND " . $adapter::QUEST_ZUPDHOU . " != '' ";
+                    break;
+                case self::IMPORT_OCI_OPTION:
+                default:
+               /* $mainQuery .= " ". $adapter::QUEST_UPDDAT . " >= TO_DATE('". $dateModif . "', 'YYYY-MM-DD')
+                        AND (
+                            ( " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
+                                AND " . $adapter::QUEST_ZUPDHOU . " != ' '
+                                AND " . $adapter::QUEST_ZUPDHOU . " != ''
+                                AND ". $adapter::QUEST_ZUPDHOU . " >= TO_DATE('". $hourModif . "', 'hh24:mi:ss')
+                            )
+                            OR (" . $adapter::QUEST_ZUPDHOU . " IS NULL
+                                OR " . $adapter::QUEST_ZUPDHOU . " = ' '
+                                OR " . $adapter::QUEST_ZUPDHOU . " = ''
+                            )
+                        )";*/
+                $mainQuery .= " (
+                            CASE
+                                WHEN (
+                                    ( " . $adapter::QUEST_UPDDAT . " IS NOT NULL
+                                        AND " . $adapter::QUEST_UPDDAT . " != ' '
+                                        AND " . $adapter::QUEST_UPDDAT . " != ''
+                                    )
+                                    AND (
+                                        " . $adapter::QUEST_ZUPDHOU . " IS NULL
+                                        OR " . $adapter::QUEST_ZUPDHOU . " = ' '
+                                        OR " . $adapter::QUEST_ZUPDHOU . " = ''
+                                    )
+                                ) THEN ". $adapter::QUEST_UPDDAT . "
+                                WHEN (
+                                    ( " . $adapter::QUEST_UPDDAT . " IS NOT NULL
+                                        AND " . $adapter::QUEST_UPDDAT . " != ' '
+                                        AND " . $adapter::QUEST_UPDDAT . " != ''
+                                    )
+                                    AND (
+                                        " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
+                                        AND " . $adapter::QUEST_ZUPDHOU . " != ' '
+                                        AND " . $adapter::QUEST_ZUPDHOU . " != ''
+                                    )
+                                ) THEN TO_DATE(". $adapter::QUEST_UPDDAT . "||' '||". $adapter::QUEST_ZUPDHOU . ", 'DD-MON-YY hh24:mi:ss')
+                                ELSE TO_DATE('". $dateModif . " " . $hourModif . "', 'YYYY-MM-DD hh24:mi:ss')
+                            END >= TO_DATE('". $dateModif . " " . $hourModif . "', 'YYYY-MM-DD hh24:mi:ss')
+                        )";
+                break;
+            }
             // filter by list of supports if necessary
             if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
                 $mainQuery .= ' AND ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',',
@@ -676,6 +724,60 @@ class Question extends MvcModel
                         // list of field
                         $query = " UPDATE  {$this->table}";
                         $query .= " SET ";
+
+                        // convert date to mysql format
+                        $affectationDate = ''; // accepted date format if not set
+                        if (isset($data[$adapter::QUEST_SREDATASS])) {
+                            $date = $data[$adapter::QUEST_SREDATASS];
+                            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date)) {
+                                $dateTime        = date_create_from_format('d/m/Y', $date);
+                                $affectationDate = $dateTime->format('Y-m-d');
+                            } elseif (preg_match("/^(\d+)-([A-Z]{1,4})-(\d+)$/", $date)) {
+                                $affectationDate = date('Y-m-d', strtotime($date));
+                            }
+                        }
+                        $wishDate = ''; // accepted date format if not set
+                        if (isset($data[$adapter::QUEST_YRESSOUH])) {
+                            $date = $data[$adapter::QUEST_YRESSOUH];
+                            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date)) {
+                                $dateTime = date_create_from_format('d/m/Y', $date);
+                                $wishDate = $dateTime->format('Y-m-d');
+                            } elseif (preg_match("/^(\d+)-([A-Z]{1,4})-(\d+)$/", $date)) {
+                                $wishDate = date('Y-m-d', strtotime($date));
+                            }
+                        }
+                        $realDate = ''; // accepted date format if not set
+                        if (isset($data[$adapter::QUEST_SRERESDAT])) {
+                            $date = $data[$adapter::QUEST_SRERESDAT];
+                            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date)) {
+                                $dateTime = date_create_from_format('d/m/Y', $date);
+                                $realDate = $dateTime->format('Y-m-d');
+                            } elseif (preg_match("/^(\d+)-([A-Z]{1,4})-(\d+)$/", $date)) {
+                                $realDate = date('Y-m-d', strtotime($date));
+                            }
+                        }
+                        $updatedDate = ''; // accepted date format if not set
+                        if (isset($data[$adapter::QUEST_UPDDAT])) {
+                            $date = $data[$adapter::QUEST_UPDDAT];
+                            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date)) {
+                                $dateTime    = date_create_from_format('d/m/Y', $date);
+                                $updatedDate = $dateTime->format('Y-m-d');
+                            } elseif (preg_match("/^(\d+)-([A-Z]{1,4})-(\d+)$/", $date)) {
+                                $updatedDate = date('Y-m-d', strtotime($date));
+                            }
+                        }
+                        $updatedHour = '';
+                        if (isset($data[$adapter::QUEST_ZUPDHOU])) {
+                            $hour = trim($data[$adapter::QUEST_ZUPDHOU]);
+                            if (!empty($hour)) {
+                                if (count(explode(':', $hour)) > 1) {
+                                    $updatedHour = $hour;
+                                }
+                            }
+                        }
+
+                        //Start Query
+
                         if (isset($data[$adapter::QUEST_SRENUM])) { // srenum
                             $query .= " srenum = '" . esc_sql($data[$adapter::QUEST_SRENUM]) . "', ";
                         }
@@ -708,26 +810,9 @@ class Question extends MvcModel
                             $query .= " juriste = '" . esc_sql($data[$adapter::QUEST_SREDET]) . "', ";
                         }
 
-                        if (isset($data[$adapter::QUEST_SREDATASS]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
-                                $data[$adapter::QUEST_SREDATASS])
-                        ) { // affectation_date
-                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SREDATASS]);
-                            $query .= " affectation_date = '" . $dateTime->format('Y-m-d') . "', ";
-                        }
-
-                        if (isset($data[$adapter::QUEST_YRESSOUH]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
-                                $data[$adapter::QUEST_YRESSOUH])
-                        ) { // wish_date
-                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_YRESSOUH]);
-                            $query .= " wish_date = '" . $dateTime->format('Y-m-d') . "', ";
-                        }
-
-                        if (isset($data[$adapter::QUEST_SRERESDAT]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
-                                $data[$adapter::QUEST_SRERESDAT])
-                        ) { // real_date
-                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SRERESDAT]);
-                            $query .= " real_date = '" . $dateTime->format('Y-m-d') . "', ";
-                        }
+                        $query .= " affectation_date = " . empty($affectationDate) ? 'NULL' : $affectationDate . ", ";
+                        $query .= " wish_date = " . empty($wishDate) ? 'NULL' : $wishDate . ", ";
+                        $query .= " real_date = " . empty($realDate) ? 'NULL' : $realDate . ", ";
 
                         if (isset($data[$adapter::QUEST_YUSER])) {
                             $query .= " yuser = '" . esc_sql($data[$adapter::QUEST_YUSER]) . "', ";
@@ -735,18 +820,9 @@ class Question extends MvcModel
 
                         $query .= " treated = '" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
 
-                        if (isset($data[$adapter::QUEST_UPDDAT]) && preg_match("/^(\d+)\/(\d+)\/(\d+)$/",
-                                $data[$adapter::QUEST_UPDDAT])
-                        ) { // date_modif
-                            $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
-                            $query .= " date_modif = '" . $dateTime->format('Y-m-d') . "', ";
-                        }
+                        $query .= " date_modif = " . empty($updatedDate) ? 'NULL' : $updatedDate . ", ";
+                        $query .= " hour_modif = " . empty($updatedHour) ? 'NULL' : $updatedHour . ", ";
 
-                        if (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':',
-                                $data[$adapter::QUEST_ZUPDHOU])) > 1
-                        ) { // hour_modif
-                            $query .= " hour_modif = '" . esc_sql($data[$adapter::QUEST_ZUPDHOU]) . "', ";
-                        }
 
                         $query .= " transmis_erp = '" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
 
@@ -797,7 +873,7 @@ class Question extends MvcModel
 
             return CONST_STATUS_CODE_OK;
         } catch (\Exception $e) {
-            writeLog($e, 'questiondailyupdate.log');
+            writeLog($e, 'questioncronUpdate.log');
 
             return CONST_STATUS_CODE_GONE;
         }
