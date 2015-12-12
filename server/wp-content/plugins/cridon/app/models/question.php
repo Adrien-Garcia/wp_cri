@@ -516,30 +516,51 @@ class Question extends MvcModel
         // convert date to mysql format
         $affectationDate = ''; // accepted date format if not set
         if (isset($data[$adapter::QUEST_SREDATASS])) {
-            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_SREDATASS])) {
-                $dateTime        = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SREDATASS]);
+            $date = $data[$adapter::QUEST_SREDATASS];
+            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date)) {
+                $dateTime        = date_create_from_format('d/m/Y', $date);
                 $affectationDate = $dateTime->format('Y-m-d');
+            } elseif (preg_match("/^(\d+)-([A-Z]{1,4})-(\d+)$/", $date)) {
+                $affectationDate = date('Y-m-d', strtotime($date));
             }
         }
         $wishDate = ''; // accepted date format if not set
         if (isset($data[$adapter::QUEST_YRESSOUH])) {
-            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_YRESSOUH])) {
-                $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_YRESSOUH]);
+            $date = $data[$adapter::QUEST_YRESSOUH];
+            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date)) {
+                $dateTime = date_create_from_format('d/m/Y', $date);
                 $wishDate = $dateTime->format('Y-m-d');
+            } elseif (preg_match("/^(\d+)-([A-Z]{1,4})-(\d+)$/", $date)) {
+                $wishDate = date('Y-m-d', strtotime($date));
             }
         }
         $realDate = ''; // accepted date format if not set
         if (isset($data[$adapter::QUEST_SRERESDAT])) {
-            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_SRERESDAT])) {
-                $dateTime = date_create_from_format('d/m/Y', $data[$adapter::QUEST_SRERESDAT]);
+            $date = $data[$adapter::QUEST_SRERESDAT];
+            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date)) {
+                $dateTime = date_create_from_format('d/m/Y', $date);
                 $realDate = $dateTime->format('Y-m-d');
+            } elseif (preg_match("/^(\d+)-([A-Z]{1,4})-(\d+)$/", $date)) {
+                $realDate = date('Y-m-d', strtotime($date));
             }
         }
         $updatedDate = ''; // accepted date format if not set
         if (isset($data[$adapter::QUEST_UPDDAT])) {
-            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $data[$adapter::QUEST_UPDDAT])) {
-                $dateTime    = date_create_from_format('d/m/Y', $data[$adapter::QUEST_UPDDAT]);
+            $date = $data[$adapter::QUEST_UPDDAT];
+            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date)) {
+                $dateTime    = date_create_from_format('d/m/Y', $date);
                 $updatedDate = $dateTime->format('Y-m-d');
+            } elseif (preg_match("/^(\d+)-([A-Z]{1,4})-(\d+)$/", $date)) {
+                $updatedDate = date('Y-m-d', strtotime($date));
+            }
+        }
+        $updatedHour = '';
+        if (isset($data[$adapter::QUEST_ZUPDHOU])) {
+            $hour = trim($data[$adapter::QUEST_ZUPDHOU]);
+            if (!empty($hour)) {
+                if (count(explode(':', $hour)) > 1) {
+                    $updatedHour = $hour;
+                }
             }
         }
 
@@ -566,7 +587,7 @@ class Question extends MvcModel
         $value .= "'" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
         $value .= "'" . (($updatedDate != '') ? $updatedDate : date('Y-m-d')) . "', "; // creation_date
         $value .= empty($updatedDate) ? 'NULL, ' : "'" . $updatedDate . "', "; // date_modif
-        $value .= (isset($data[$adapter::QUEST_ZUPDHOU]) && count(explode(':', $data[$adapter::QUEST_ZUPDHOU])) > 1) ? "'" . esc_sql($data[$adapter::QUEST_ZUPDHOU]) . "', " : 'NULL, '; // hour_modif
+        $value .= empty($updatedHour) ? 'NULL, ' : "'" . $updatedHour . "', "; // hour_modif
         $value .= "'" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
         $value .= "'" . $confidential . "', "; // confidential
         $value .= "''"; // content

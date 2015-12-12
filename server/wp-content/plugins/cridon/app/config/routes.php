@@ -12,10 +12,6 @@ MvcRouter::public_connect('rest/{:controller}', array('action' => 'index_json', 
 MvcRouter::public_connect('rest/{:controller}/{:id:[\d]+}', array('action' => 'show_json', 'layout' => 'json'));
 MvcRouter::public_connect('rest/{:controller}/{:action:[^\d]+}', array('layout' => 'json'));
 
-
-// import initial questions
-MvcRouter::public_connect('questions/importinitial', array('controller' => 'questions', 'action' => 'importinitial'));
-
 // mes questions
 MvcRouter::public_connect('notaires/{:id:[\d]+}/questions', array('controller' => 'notaires', 'action' => 'questions'));
 // mon profil
