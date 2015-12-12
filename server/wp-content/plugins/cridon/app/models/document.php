@@ -126,6 +126,9 @@ class Document extends MvcModel {
                 // info fichier
                 $document = reset($document);
                 $fileInfo = pathinfo($document);
+                if (strpos($fileInfo['dirname'], 'archives') !== false) {
+                    continue;
+                }
     
                 // recuperation contenu fichier s'il existe
                 if (file_exists($document)) {
