@@ -1,6 +1,6 @@
 <?php criWpPost($object); ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
-	<div class="date-veille sel-veilles-date">
+	<div class="date-object sel-object-date">
 		<span class="jour"><?php echo get_the_date( 'd') ?></span>
       	<span class="mois"><?php echo get_the_date( 'M') ?></span>
       	<span class="annee"><?php echo get_the_date( 'Y') ?></span> 				
@@ -11,14 +11,14 @@
 		
 		<div class="block_left">
 			<div class="img-cat">
-				<img class="sel-veilles-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+				<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
 			</div>
 		</div>
 		<?php endif; ?>
 
 		
 
-		<div class="block_right sel-veilles-content">	
+		<div class="block_right sel-object-content">
 		<?php if (isset($object->matiere)) : ?>						
 			<div class="matiere"><?php echo $object->matiere->label ?></div>
 		<?php endif; ?>

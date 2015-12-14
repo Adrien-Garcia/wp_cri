@@ -27,17 +27,21 @@ class CahierCridonsController extends MvcPublicController {
         $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
         //Set explicit join
         $this->params['joins'] = array(
-            'Post'
+            'Post',
+            'CahierCridon'
+
         );
         //Set conditions
         $this->params['conditions'] = array(
-            'Post.post_status'=>'publish'
+            'Post.post_status'=>'publish',
+            //'CahierCridon.id_parent'=> null
         );
         //Order by date publish
         $this->params['order'] = 'Post.post_date DESC' ;
         $collection = $this->model->paginate($this->params);
 
         $this->set('objects', $collection['objects']);
+
         $this->set_pagination($collection);
     }
 }
