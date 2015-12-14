@@ -61,7 +61,6 @@ App.Utils = {
         var top = (hash !== undefined) ? $(hash).offset().top - ($("header.header").height() + 30) : 0;
         duration = (duration !== undefined) ? duration : 700;
         hash = (hash !== undefined) ? hash : "";
-        this.debug(top);
         $('html, body').animate({
             scrollTop: top
         }, duration, function(){

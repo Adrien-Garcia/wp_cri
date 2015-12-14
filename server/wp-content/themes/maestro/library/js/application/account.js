@@ -3,6 +3,7 @@ App.Account = {
     defaultSelector                     :'.js-account',
 
     accountBlocksSelector               : '-blocs',
+    accountMessageSelector              : '-message',
 
     accountDashboardSelector            : '-dashboard',
     accountQuestionSelector             : '-questions',
@@ -11,6 +12,11 @@ App.Account = {
 
     accountQuestionMoreSelector         : '-more',
     accountProfilSubscriptionSelector   : '-subscription',
+    accountProfilNewsletterSelector     : '-newsletter',
+    accountFormSelector                 : '-form',
+
+    accountEmailSelector                : '-email',
+    accountStateSelector                : '-state',
 
 
     ajaxSelector                        : '-ajax',
@@ -42,6 +48,10 @@ App.Account = {
     $accountQuestionMoreButton          : null,
 
     $accountProfilSubscription          : null,
+    $accountProfilNewsletterForm        : null,
+    $accountProfilNewsletterMessage     : null,
+    $accountProfilNewsletterEmail       : null,
+    $accountProfilNewsletterState       : null,
 
     $accountQuestionPagination          : null,
 
@@ -112,6 +122,11 @@ App.Account = {
 
         this.$accountQuestionMoreButton = $(d + this.accountQuestionSelector + this.accountQuestionMoreSelector + b);
 
+        this.$accountQuestionMoreButton.each((function(i, el) {
+            var h = $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).find('ul').first().outerHeight();
+            $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).css('height', h);
+        }).bind(this));
+
         if(Modernizr.inputtypes.date){
 
         }
@@ -125,7 +140,21 @@ App.Account = {
     initProfil: function() {
         this.debug('Account : Init Profil');
 
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'tokennewsletter';
+        nonce.id    = 'tokennewsletter';
+        nonce.value = jsvar.newsletter_nonce;
+
         var d = this.defaultSelector;
+
+        this.$accountProfilNewsletterForm = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountFormSelector);
+        this.$accountProfilNewsletterForm.append(nonce);
+
+        this.$accountProfilNewsletterMessage = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountMessageSelector);
+        this.$accountProfilNewsletterEmail = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountEmailSelector);
+        this.$accountProfilNewsletterState = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountStateSelector);
+
 
         this.$accountProfilSubscription = $(d + this.accountProfilSelector + this.accountProfilSubscriptionSelector);
 
@@ -215,6 +244,11 @@ App.Account = {
 
         this.$accountProfilSubscription.on('change', function (e) {
             self.eventAccountProfilSubscriptionToggle($(this));
+        });
+
+        this.$accountProfilNewsletterForm.on('submit', function (e) {
+            self.eventAccountProfilNewsletterSubmit($(this));
+            return false;
         });
     },
 
@@ -357,6 +391,41 @@ App.Account = {
                 label.addClass('unselect');
             }
         }
+    },
+
+    eventAccountProfilNewsletterSubmit: function () {
+        this.$accountProfilNewsletterMessage.html('');
+        var email = this.$accountProfilNewsletterEmail.val();
+        if (email != '') {
+            jQuery.ajax({
+                type: 'POST',
+                url: jsvar.ajaxurl,
+                data: {
+                    action: 'newsletter',
+                    email: email,
+                    token: $('#tokennewsletter').val(),
+                    state: this.$accountProfilNewsletterState.val()
+                },
+                success: this.successNewsletterToggle.bind(this)
+            });
+        } else {
+            this.$accountProfilNewsletterMessage.html(jsvar.newsletter_empty_error);
+        }
+
+        return false;
+    },
+
+    successNewsletterToggle: function (data) {
+        data = JSON.parse(data);
+        if(data == 'success')
+        {
+            this.eventAccountProfilOpen();
+        }
+        else
+        {
+            this.$accountProfilNewsletterMessage.html(jsvar.newsletter_email_error);
+        }
+        return false;
     },
 
     reloadSolde: function() {
