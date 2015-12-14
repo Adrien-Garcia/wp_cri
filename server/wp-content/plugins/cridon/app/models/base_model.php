@@ -9,5 +9,12 @@
  */
 class BaseModel extends MvcModel
 {
-    var $per_page = CONST_NB_ITEM_PERPAGE;
+    public function __construct()
+    {
+        // only in admin area
+        if (is_admin()) {
+            $this->per_page = CONST_ADMIN_NB_ITEM_PERPAGE;
+        }
+        parent::__construct();
+    }
 }

@@ -570,6 +570,6 @@ if ( !defined( 'CONST_STATUS_CODE_GONE' ) ) {
 }
 
 // admin nb items per page
-if ( !defined( 'CONST_NB_ITEM_PERPAGE' ) ) {
-    define( 'CONST_NB_ITEM_PERPAGE', 20 );
+if ( !defined( 'CONST_ADMIN_NB_ITEM_PERPAGE' ) ) {
+    define( 'CONST_ADMIN_NB_ITEM_PERPAGE', 20 );
 }
