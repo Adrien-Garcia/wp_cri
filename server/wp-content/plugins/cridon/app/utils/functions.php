@@ -718,3 +718,25 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
 
     wp_redirect($redirect);
 }
+
+/**
+ *  Menu principal
+ *
+ */
+function criNavPrincipal() {
+    // Affiche le menu wp3 si possible (sinon, fallback)
+    wp_nav_menu(array(
+        'container' => false,                           // Supprime le conteneur par défaut de la navigation
+        'container_class' => 'menu clearfix',           // Classe du conteneur
+        'menu' => 'Menu principal',                     // Nom du menu
+        'menu_class' => 'nav top-nav clearfix',         // Classe du menu
+        'theme_location' => 'main-nav',           // Localisation du menu dans le thème
+        'before' => '',                                 // Balisage avant le menu
+        'after' => '',                                  // Balisage après le menu
+        'link_before' => '',                            // Balisage avant chaque lien
+        'link_after' => '',                             // Balisage après chaque lien
+        'depth' => 0,                                   // Profondeur du menu (0 : aucune)
+        'fallback_cb' => 'ao_nav_principale_fallback',  // fallback fonction (si pas de support du menu)
+        'walker' => new CriCustomWalker			// Utilisation de la description
+    ));
+}
