@@ -49,8 +49,15 @@ class CriAdminNavMenu
     {
         $matieres = mvc_model('Matiere')->find(array(
             'selects'    => array(
-                'Matiere.id',
+                'DISTINCT Matiere.id',
                 'Matiere.label'
+            ),
+            'joins'     => array(
+                'Veille' => array(
+                    'table' => 'cri_veille',
+                    'alias' => 'Veille',
+                    'on' => 'Veille.id_matiere = Matiere.id'
+                )
             ),
             'order' => 'Matiere.label'
         ));
