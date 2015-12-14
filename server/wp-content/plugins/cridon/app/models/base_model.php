@@ -4,8 +4,8 @@
  * Description of base_model.php
  *
  * @package wp_cridon
- * @author
- * @contributor
+ * @author eTech
+ * @contributor Joelio
  */
 class BaseModel extends MvcModel
 {
