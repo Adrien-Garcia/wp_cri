@@ -170,20 +170,24 @@ Vous n'avez actuellement aucune question en attente de réponse.
 				<li>
 					<span class="id-question">N ° <?php echo $question->question->srenum; ?></span>
 				</li>
-				<li class="pdf">
-					<a href="" class="pdf" title="télécharger le document"></a>
-				</li>
-			</ul>
-			<ul class="suite-complement">
-                            <?php foreach($question->documents as $document): ?>
-                                <?php if( ($document->label == 'Suite')|| ($document->label == 'Complément') ): ?>
-				<li class="pdf">
-					<a href="<?php echo $document->download_url ?>" class="pdf" title="télécharger le document"><b><?php echo $document->label ?></b> <?php echo $document->name ?></a>
-				</li>
-                                <?php endif ?>
-                            <?php endforeach ?>
-			</ul>
-		</li>
+                <li class="pdf">
+                    <?php foreach($question->documents as $document): ?>
+                        <?php if( !($document->label == 'Suite') && !($document->label == 'Complément') ): ?>
+                            <a href="<?php echo $document->download_url ?>" class="pdf" title="Télécharger le document de Question/Réponse"></a>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                </li>
+            </ul>
+            <ul class="suite-complement">
+                <?php foreach($question->documents as $document): ?>
+                    <?php if( ($document->label == 'Suite')|| ($document->label == 'Complément') ): ?>
+                        <li class="pdf">
+                            <a href="<?php echo $document->download_url ?>" class="pdf" title="Télécharger le document de <?php echo $document->label ?>"><b><?php echo $document->label ?></b> <?php echo $document->name ?></a>
+                        </li>
+                    <?php endif ?>
+                <?php endforeach ?>
+            </ul>
+        </li>
 		<?php endforeach; ?>
 	</ul>
 	<?php else:  ?>

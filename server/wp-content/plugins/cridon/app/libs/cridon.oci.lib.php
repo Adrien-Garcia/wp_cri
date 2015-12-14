@@ -82,7 +82,7 @@ class CridonOCIAdapter implements DBConnect
     (INSTANCE_NAME = ".CONST_DB_DATABASE.")
   )
 )";
-        $conn = oci_connect(CONST_DB_USER, CONST_DB_PASSWORD, $conf);
+        $conn = oci_connect(CONST_DB_USER, CONST_DB_PASSWORD, $conf, 'AL32UTF8');
 
         if (!$conn || !is_resource($conn)) {
             $error = oci_error();
