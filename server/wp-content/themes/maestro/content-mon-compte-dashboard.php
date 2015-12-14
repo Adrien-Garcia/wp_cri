@@ -58,9 +58,13 @@
             <li class="js-home-block-link js-account-questions-button">
                 <?php
                 $date = date_create_from_format('Y-m-d', $question->question->creation_date);
-                $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "00.00.0000";
+                $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "";
                 ?>
-                <a href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions"><span class="date">Question du <?php echo $sDate ; ?></span></a> <!-- Lien vers la page liste des question avec une ancre sur la question cliqué !-->
+                <a href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions">
+                    <?php if (! empty($sDate)) : ?>
+                        <span class="date">Question du <?php echo $sDate ; ?></span>
+                    <?php endif; ?>
+                </a> <!-- Lien vers la page liste des question avec une ancre sur la question cliqué !-->
                 <ul>
                     <li>
                         <?php
