@@ -700,6 +700,12 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
         $redirect = get_home_url();
     }
 
+    $request = urlencode(htmlspecialchars("//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}", ENT_QUOTES, "UTF-8"));
+
+    if( empty($request) ) {
+        $request = false;
+    }
+
     if (
         preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 &&
         preg_match("/.*?[\?\&]messageLogin=" . $error_code . ".*?/", $referer) === 1
@@ -715,7 +721,9 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
     }
 
     $redirect .= "openLogin=1&messageLogin=" . $error_code;
-
+    if ($request) {
+        $redirect .= "&requestUrl=" . $request;
+    }
     wp_redirect($redirect);
 }
 
