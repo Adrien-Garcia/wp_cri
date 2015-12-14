@@ -122,6 +122,11 @@ App.Account = {
 
         this.$accountQuestionMoreButton = $(d + this.accountQuestionSelector + this.accountQuestionMoreSelector + b);
 
+        this.$accountQuestionMoreButton.each((function(i, el) {
+            var h = $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).find('ul').first().outerHeight();
+            $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).css('height', h);
+        }).bind(this));
+
         if(Modernizr.inputtypes.date){
 
         }
@@ -414,7 +419,7 @@ App.Account = {
         data = JSON.parse(data);
         if(data == 'success')
         {
-            this.$accountProfilNewsletterMessage.html(jsvar.newsletter_success_msg);
+            this.eventAccountProfilOpen();
         }
         else
         {

@@ -1670,7 +1670,8 @@ body.page-template-front-page{
 
 	#main{
 
-		#inner-content{
+        #inner-content{
+            overflow: hidden;
 
 			h1{}
 
@@ -2395,6 +2396,7 @@ body.page-template-front-page{
 
                             .form-newsletter {
                                 width: 490px;
+                                margin-right: 0px;
 
                                 input[type="submit"] {
                                     margin-left: 0;
