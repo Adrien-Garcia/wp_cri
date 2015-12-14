@@ -248,18 +248,18 @@ class NotairesController extends BasePublicController
         $ret = 'invalidemail';
 
         // Verify that the nonce is valid.
-        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_newsletter_nonce')) {
+        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_newsletter_nonce') && isset($_REQUEST['email'])) {
             // find the notaire email
             $notaire = $this->model->find_one_by_email_adress($_REQUEST['email']);
 //            echo '<pre>'; die(print_r($notaire));
 //
             // only an individual email is valid
-            if (is_object($notaire) && $notaire->id) {
+            if (is_object($notaire) && $notaire->id && isset($_REQUEST['state'])) {
                 // update notaire newsletter
                 $notaires = array(
                     'Notaire' => array(
                         'id'         => $notaire->id,
-                        'newsletter' => 1
+                        'newsletter' => intval($_REQUEST['state'])
                     )
                 );
                 $this->model->save($notaires);
