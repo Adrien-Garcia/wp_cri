@@ -190,7 +190,8 @@ class Document extends MvcModel {
                         }
                         // copy document dans Site
                         $uploadDir = wp_upload_dir();
-                        $path      = $uploadDir['basedir'] . '/questions/' . date('Ym') . '/';
+                        $date = date('Ym');
+                        $path      = $uploadDir['basedir'] . '/questions/' . $date . '/';
                         if (!file_exists($path)) { // repertoire manquant
                             // creation du nouveau repertoire
                             wp_mkdir_p($path);
@@ -207,7 +208,7 @@ class Document extends MvcModel {
                             // donnees document
                             $docData = array(
                                 'Document' => array(
-                                    'file_path'     => '/questions/' . date('Ym') . '/' . $filename,
+                                    'file_path'     => '/questions/' . $date . '/' . $filename,
                                     'download_url'  => '/documents/download/' . $question->id,
                                     'date_modified' => date('Y-m-d H:i:s'),
                                     'type'          => 'question',
