@@ -111,7 +111,7 @@ App.Login = {
 
         this.$panelConnexionOpen.on("click", function(e) {
             self.eventPanelConnexionToggle($(this));
-            if (this.href && this.href != "#") {
+            if (this.href && this.href.substr(-1) != "#") {
                 self.targetUrl = this.href;
             }
         });
