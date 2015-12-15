@@ -135,7 +135,8 @@ class Document extends MvcModel {
                     $content  = file_get_contents($document);
                     $contents = explode(CONST_IMPORT_GED_CONTENT_SEPARATOR, $content);
                     // repertoire archivage des documents
-                    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/archives/' . date('YmdHi') . '/';
+                    $date = date('Ym');
+                    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/archives/' . $date . '/';
                     if (!file_exists($archivePath)) { // repertoire manquant
                         // creation du nouveau repertoire
                         wp_mkdir_p($archivePath);
@@ -190,7 +191,6 @@ class Document extends MvcModel {
                         }
                         // copy document dans Site
                         $uploadDir = wp_upload_dir();
-                        $date = date('Ym');
                         $path      = $uploadDir['basedir'] . '/questions/' . $date . '/';
                         if (!file_exists($path)) { // repertoire manquant
                             // creation du nouveau repertoire
