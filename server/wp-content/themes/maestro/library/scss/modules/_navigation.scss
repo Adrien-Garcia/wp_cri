@@ -89,17 +89,17 @@ and more scalable.
 
 		}
 
-		&:hover > a {
+		&:hover, &.current-menu-parent > a {
 
 			span{
-					color:$rouge;
-				}
-
 				color:$rouge;
+			}
 
-				&:before{
-					opacity: 1;
-				}
+			color:$rouge;
+
+			&:before{
+				opacity: 1;
+			}
 
 		}
 
@@ -574,7 +574,7 @@ and more scalable.
 				padding: 0 20px;
 				display: table-cell;
 				vertical-align: middle;
-				height: 44px;
+				height: 64px;
 				padding-bottom: 20px;
 
 				>a{

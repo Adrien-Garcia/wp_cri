@@ -56,7 +56,9 @@
 									</li>
 									<li class="flash">
 										<h4><?php _e('Flash info en exclusivité'); ?></h4>
-										<a href="#"><span><?php _e('S\'inscrire à votre newsletter'); ?></span></a>
+										<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>">
+											<span><?php _e('Consulter les flash infos'); ?></span>
+										</a>
 									</li>
 								</ul>
 							</div>
