@@ -661,44 +661,14 @@ class Question extends MvcModel
                     break;
                 case self::IMPORT_OCI_OPTION:
                 default:
-               /* $mainQuery .= " ". $adapter::QUEST_UPDDAT . " >= TO_DATE('". $dateModif . "', 'YYYY-MM-DD')
+                    $dateModif = explode('-', $dateModif);
+                    $dateModif = $dateModif[2].'/'.$dateModif[1].'/'.$dateModif[0];
+                    $mainQuery .= " ". $adapter::QUEST_UPDDAT . " >= TO_DATE('". $dateModif . "', 'DD/MM/YYYY')
                         AND (
-                            ( " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
-                                AND " . $adapter::QUEST_ZUPDHOU . " != ' '
-                                AND " . $adapter::QUEST_ZUPDHOU . " != ''
-                                AND ". $adapter::QUEST_ZUPDHOU . " >= TO_DATE('". $hourModif . "', 'hh24:mi:ss')
+                            ( " . $adapter::QUEST_ZUPDHOU . " <> ' '
+                                AND TO_DATE(". $adapter::QUEST_ZUPDHOU . ", ' hh24:mi:ss') >= TO_DATE('". $hourModif . "', ' hh24:mi:ss')
                             )
-                            OR (" . $adapter::QUEST_ZUPDHOU . " IS NULL
-                                OR " . $adapter::QUEST_ZUPDHOU . " = ' '
-                                OR " . $adapter::QUEST_ZUPDHOU . " = ''
-                            )
-                        )";*/
-                $mainQuery .= " (
-                            CASE
-                                WHEN (
-                                    ( " . $adapter::QUEST_UPDDAT . " IS NOT NULL
-                                        AND " . $adapter::QUEST_UPDDAT . " != ' '
-                                        AND " . $adapter::QUEST_UPDDAT . " != ''
-                                    )
-                                    AND (
-                                        " . $adapter::QUEST_ZUPDHOU . " IS NULL
-                                        OR " . $adapter::QUEST_ZUPDHOU . " = ' '
-                                        OR " . $adapter::QUEST_ZUPDHOU . " = ''
-                                    )
-                                ) THEN ". $adapter::QUEST_UPDDAT . "
-                                WHEN (
-                                    ( " . $adapter::QUEST_UPDDAT . " IS NOT NULL
-                                        AND " . $adapter::QUEST_UPDDAT . " != ' '
-                                        AND " . $adapter::QUEST_UPDDAT . " != ''
-                                    )
-                                    AND (
-                                        " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
-                                        AND " . $adapter::QUEST_ZUPDHOU . " != ' '
-                                        AND " . $adapter::QUEST_ZUPDHOU . " != ''
-                                    )
-                                ) THEN TO_DATE(". $adapter::QUEST_UPDDAT . "||' '||". $adapter::QUEST_ZUPDHOU . ", 'DD-MON-YY hh24:mi:ss')
-                                ELSE TO_DATE('". $dateModif . " " . $hourModif . "', 'YYYY-MM-DD hh24:mi:ss')
-                            END >= TO_DATE('". $dateModif . " " . $hourModif . "', 'YYYY-MM-DD hh24:mi:ss')
+                            OR " . $adapter::QUEST_ZUPDHOU . " = ' '
                         )";
                 break;
             }
