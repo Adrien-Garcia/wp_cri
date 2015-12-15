@@ -62,7 +62,7 @@ class CriCustomWalker extends Walker_Nav_Menu
     public function __construct()
     {
         // cablage lien page de destination associée au bloc d'image
-        $this->rechercherAssocPagelink = '';
+        $this->rechercherAssocPagelink = '/rechercher-dans-les-bases-de-connaissances/';
         $this->accederAssocPagelink    = mvc_public_url(array('controller' => 'veilles', 'action' => 'index'));
         $this->consulterAssocPagelink  = '';
 
