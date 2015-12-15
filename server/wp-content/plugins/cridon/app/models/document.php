@@ -126,9 +126,6 @@ class Document extends MvcModel {
                 // info fichier
                 $document = reset($document);
                 $fileInfo = pathinfo($document);
-                if (strpos($fileInfo['dirname'], 'archives') !== false) {
-                    continue;
-                }
     
                 // recuperation contenu fichier s'il existe
                 if (file_exists($document)) {
@@ -136,7 +133,7 @@ class Document extends MvcModel {
                     $contents = explode(CONST_IMPORT_GED_CONTENT_SEPARATOR, $content);
                     // repertoire archivage des documents
                     $date = date('Ym');
-                    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/archives/' . $date . '/';
+                    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '..'.DIRECTORY_SEPARATOR.'archives/' . $date . '/';
                     if (!file_exists($archivePath)) { // repertoire manquant
                         // creation du nouveau repertoire
                         wp_mkdir_p($archivePath);
@@ -186,7 +183,7 @@ class Document extends MvcModel {
                             if( in_array( $contents[Config::$GEDtxtIndexes['INDEX_VALCAB']],$cabs ) ){
                                 $typeAction = 3;//mise à jour
                             }else{
-                                $typeAction = 2;//complément/suite
+                                $typeAction = 2;//complément/suite ou question non importee auparavant
                             }
                         }
                         // copy document dans Site
@@ -198,8 +195,8 @@ class Document extends MvcModel {
                         }
 
                         $docName = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
-                        if (($iPos = strpos($docName, '_')) !== false) {
-                            //a prefix can be mentionned in the file. Don't use it.
+                        if (!fileExists($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName) && ($iPos = strpos($docName, '_') !== false)) {
+                            //a prefix can be mentionned in the file. Don't use it if the file is not prefixed
                             $docName = substr($docName, $iPos + 1);
                         }
                         $filename = $this->getFileName($path, $docName);
@@ -219,15 +216,12 @@ class Document extends MvcModel {
                                 )
                             );
                             //Document suite/complément
-                            if( $typeAction == 2 ){
-                                $label = 'Suite';
-                                //if file ends with a 'C', then it's a "Complément"
-                                //Should otherwise ends with a 'S'.
-                                if(strtoupper(substr($contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']], -1, 1)) == 'C' ){
-                                    $label = 'Complément';
-                                }
-                                $docData['Document']['label'] = $label;
+                            if (strpos($contents[Config::$GEDtxtIndexes['INDEX_VALCAB']], 'C') !== false) {
+                                $docData['Document']['label'] = 'Complément';
+                            } elseif (strpos($contents[Config::$GEDtxtIndexes['INDEX_VALCAB']], 'S') !== false) {
+                                $docData['Document']['label'] = 'Suite';
                             }
+
                             if( $typeAction != 3 ){
                                 // insertion
                                 $documentId = $this->create($docData);
@@ -270,12 +264,14 @@ class Document extends MvcModel {
                                 $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[Config::$GEDtxtIndexes['INDEX_NUMQUESTION']]);
                             }
                             reportError($message, '');
+                            writeLog( $message,'majdocument.log' );
                         }
                     } else { // doc sans question associee
     
                         // log : envoie mail
                         $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]);
                         reportError($message, '');
+                        writeLog( $message,'majdocument.log' );
                     }
                 }
             }
@@ -285,7 +281,6 @@ class Document extends MvcModel {
                 $listDoc = implode(', ', $logDocList);
                 $message = sprintf(CONST_IMPORT_GED_LOG_SUCCESS_MSG, date('d/m/Y à H:i'), $listDoc);
                 writeLog($message, 'importdocs.log');
-                reportError($message, '');
             } else { // repertoire import vide
                 // log : envoie mail
                 $message = sprintf(CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG, date('d/m/Y à H:i'));
