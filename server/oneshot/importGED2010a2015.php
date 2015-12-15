@@ -72,9 +72,10 @@ foreach ($csvParser->data as $row => $data) {
 
     // extract transmission date for current PDF
     $transDate = explode(' ', $contents[$indexes['INDEX_DATETRANS']])[0];
-    $transDate = str_replace('-', '', $transDate);
+    $transDate = explode('-', $transDate);
+    $transDate = $transDate[0].$transDate[1]; //YYYYMM
     // repertoire archivage des documents
-    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'archives'. DIRECTORY_SEPARATOR .$transDate . DIRECTORY_SEPARATOR;
+    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '..'.DIRECTORY_SEPARATOR.'archives'. DIRECTORY_SEPARATOR .$transDate . DIRECTORY_SEPARATOR;
     if (!file_exists($archivePath)) { // repertoire manquant
         // creation du nouveau repertoire
         wp_mkdir_p($archivePath);
@@ -154,7 +155,7 @@ foreach ($csvParser->data as $row => $data) {
             // donnees document
             $docData = array(
                 'Document' => array(
-                    'file_path'     => '/questions/' . date('Ym') . '/' . $filename,
+                    'file_path'     => '/questions/' . $transDate . '/' . $filename,
                     'download_url'  => '/documents/download/' . $question->id,
                     'date_modified' => date('Y-m-d H:i:s'),
                     'type'          => 'question',
@@ -165,15 +166,12 @@ foreach ($csvParser->data as $row => $data) {
                 )
             );
             //Document suite/complément
-            if( $typeAction == 2 ){
-                $label = 'Suite';
-                //if file ends with a 'C', then it's a "Complément"
-                //Should otherwise ends with a 'S'.
-                if(strtoupper(substr($contents[$indexes['INDEX_NOMFICHIER']], -1, 1)) == 'C' ){
-                    $label = 'Complément';
-                }
-                $docData['Document']['label'] = $label;
+            if (strpos($contents[Config::$GEDtxtIndexes['INDEX_VALCAB']], 'C') !== false) {
+                $docData['Document']['label'] = 'Complément';
+            } elseif (strpos($contents[Config::$GEDtxtIndexes['INDEX_VALCAB']], 'S') !== false) {
+                $docData['Document']['label'] = 'Suite';
             }
+            
             if( $typeAction != 3 ){
                 // insertion
                 $documentId = $modelDoc->create($docData);

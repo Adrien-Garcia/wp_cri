@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of question_dailyupdate.php
+ * Description of importnotaire.php
  *
  * @package wp_cridon
  * @author eTech
@@ -10,8 +10,12 @@
 // load WP Core
 require_once '../wp-load.php';
 
-// question model
-$model = mvc_model('Question');
+// notaire model
+/**
+ * @var $model Notaire
+ */
+$model = mvc_model('notaire');
 // call import action
-$code = $model->dailyUpdate();
+$code = $model->importSolde();
+
 echo $code;
