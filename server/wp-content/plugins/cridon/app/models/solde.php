@@ -5,7 +5,10 @@
  * @author Etech
  * @contributor Joelio
  */
-class Solde extends MvcModel
+
+require_once 'base_model.php';
+
+class Solde extends BaseModel
 {
 
     /**

@@ -1,6 +1,8 @@
 <?php
 
-class Affectation extends MvcModel {
+require_once 'base_model.php';
+
+class Affectation extends BaseModel {
 
     var $display_field = 'label';
     var $table         = '{prefix}affectation';

@@ -1,6 +1,8 @@
 <?php
 
-class UserCridon extends MvcModel {
+require_once 'base_model.php';
+
+class UserCridon extends BaseModel {
     var $table        = '{prefix}user_cridon';
     var $display_field = 'id_erp';
     var $includes  = array('User');

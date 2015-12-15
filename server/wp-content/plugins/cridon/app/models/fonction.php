@@ -1,5 +1,7 @@
 <?php
 
+require_once 'base_model.php';
+
 class Fonction extends MvcModel {
 
     var $display_field  = 'label';
