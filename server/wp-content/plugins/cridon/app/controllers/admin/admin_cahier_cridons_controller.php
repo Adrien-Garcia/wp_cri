@@ -35,6 +35,10 @@ class AdminCahierCridonsController extends BaseAdminController {
         'matiere' => array(
             'label'=>'Matière',
             'value_method' => 'matiere_edit_link'
+        ),
+        'Sommaire' => array(
+            'label'=>'Sommaire',
+            'value_method' => 'sommaire_edit_link'
         )
     );
 
@@ -98,7 +102,26 @@ class AdminCahierCridonsController extends BaseAdminController {
         $this->prepareData($aOptionList, $object->matiere);
         return empty($object->matiere) ? Config::$defaultMatiere['name'] : HtmlHelper::admin_object_link($object->matiere, array('action' => 'edit'));
     }
+    public function sommaire_edit_link($object)
+    {
+        if ($object->id_parent) {
+            $aQueryOptions = array(
+                'selects' => array('Post.post_title as label', 'CahierCridon.*'),
+                'conditions' => array(
+                    'CahierCridon.id' => $object->id_parent
+                ),
+                'joins' => array('Post')
+            );
+            $aParent = $this->model->find( $aQueryOptions );
+
+            if (isset($aParent[0])) {
+                $aOptionList = array(
+                    '__name'    => 'label'
+                );
+                $this->prepareData($aOptionList, $aParent[0]);
+                return '<a href="'.$this->postEditUrl($aParent[0], $this).'" title="Edit">'.$aParent[0]->__name.'</a>';
+            }
+        }
+    }
     
 }
-
-?>
