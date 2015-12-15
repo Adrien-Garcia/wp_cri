@@ -1,0 +1,1 @@
+UPDATE cri_competence SET code_matiere = 'B' WHERE id >= 49;
