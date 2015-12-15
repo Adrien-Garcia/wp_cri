@@ -553,10 +553,19 @@ function fileExists($fileName, $caseSensitive = true) {
  * @param string $path
  * @param array $view_vars
  * @param string $folder
+ * @param boolean $echo
+ *
+ * @return string
  */
-function CriRenderView($path, $view_vars, $folder = "custom") {
+function CriRenderView($path, $view_vars, $folder = "custom", $echo = true) {
+    if (!$echo) {
+        ob_start();
+    }
     extract($view_vars);
     require_once WP_PLUGIN_DIR . '/cridon/app/views/' . $folder . '/' . $path . '.php';
+    if (!$echo) {
+        return ob_get_clean();
+    }
 }
 
 //End custom functions
@@ -740,7 +749,13 @@ function sendNotificationForPostPublished( $post,$model ){
     $matiere = $model->matiere->label;
     $permalink = generateUrlByModel($model);
     $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
-    $message  = sprintf(Config::$mailBodyNotification['title'],  $title );
+
+
+    $message = CriRenderView('mail', get_defined_vars(),'custom', false);
+
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+ /*   $message  = sprintf(Config::$mailBodyNotification['title'],  $title );
     $message .= sprintf(Config::$mailBodyNotification['date'],  $date );
     if( !empty( $excerpt ) ){
         $message .= sprintf(Config::$mailBodyNotification['excerpt'],  $excerpt );        
@@ -766,7 +781,7 @@ function sendNotificationForPostPublished( $post,$model ){
             $a[] .= $tag->name;
         }
         $message .= implode(',',$a) . '</p>';
-    }    
+    }    */
     /**
      * type = 1 => all notaries
      * type = 0 => subscribers notaries ( veille )
@@ -780,10 +795,14 @@ function sendNotificationForPostPublished( $post,$model ){
     }else{
         return false;//Don't send notification
     }
-    if( !empty( $notaires ) ){
+    $env = getenv('ENV');
+    if (empty($env)|| ($env !== 'PROD')) {
+        $mail = wp_mail( Config::$notificationAddressPreprod , $subject, $message, $headers );
+        writeLog("not Prod: " . $mail . "\n", "mailog.txt");
+    } elseif( !empty( $notaires ) ){
         foreach( $notaires as $notaire ){
             if( isset($notaire->email_adress ) ){
-                wp_mail( $notaire->email_adress , $subject, $message, $headers );  
+                wp_mail( $notaire->email_adress , $subject, $message, $headers );
             }
         }
     }

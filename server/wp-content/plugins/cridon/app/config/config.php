@@ -166,6 +166,7 @@ class Config {
         'documents' => '<p>Les documents associés: </p></br>',
         'tags'      => 'Etiquettes:'
     );
+    public static $notificationAddressPreprod = "clement.horgues@jetpulp.fr";
 
     //GED Administration
     public static $GEDtxtIndexes = array(
