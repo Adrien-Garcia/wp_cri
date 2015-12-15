@@ -74,7 +74,7 @@
 										<span>37 Bd des Brotteaux<br />
 										69455 LYON CEDEX 06</span>
 									</td>
-									<td><a href=""><?php _e('Localisez vous !'); ?></a></td>
+									<td><b><?php _e('Localisez vous !'); ?><b></td>
 								</tr>
 							</table>
 							<?php echo do_shortcode('[mappress mapid="1" width="100%" height="322"]'); ?>
