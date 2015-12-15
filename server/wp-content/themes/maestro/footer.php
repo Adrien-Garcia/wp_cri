@@ -48,13 +48,13 @@
 								<ul>
 									<li class="application">
 										<h4><?php  _e('Le cridon dans ma poche'); ?></h4>
-										<a href="#"><span><?php _e('Découvrir notre application'); ?></span></a>
+										<a href="/le-cridon-dans-ma-poche/"><span><?php _e('Découvrir notre application'); ?></span></a>
 									</li>
 									<li class="veille">
 										<h4><?php  _e('Veille juridique personnalisée'); ?></h4>
 										<a href="#"><span><?php _e('S\'abonner à votre veille'); ?></span></a>	
 									</li>
-									<li class="flash">
+									<li class="flash <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="PROTECTED_CONTENT" <?php endif; ?>>
 										<h4><?php _e('Flash info en exclusivité'); ?></h4>
 										<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>">
 											<span><?php _e('Consulter les flash infos'); ?></span>

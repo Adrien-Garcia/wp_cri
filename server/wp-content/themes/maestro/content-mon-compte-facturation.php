@@ -1,6 +1,6 @@
 <?php 
 
-$page_data = get_page( 253 ); 
+$page_data = get_page( 1515 ); 
 $content = $page_data->post_content;
 ?>
 

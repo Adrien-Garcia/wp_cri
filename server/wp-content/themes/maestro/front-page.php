@@ -166,7 +166,7 @@
 					<div class="content">
 						<div class="img-main"></div>
 						<h2><?php _e('Le cridon dans ma poche'); ?> </h2>
-						<a href="#" title=""><span><?php _e('Découvrir notre application !'); ?></span></a>
+						<a href="/le-cridon-dans-ma-poche/" title=""><span><?php _e('Découvrir notre application !'); ?></span></a>
 						<div class="img-appli" ></div>
 					</div>
 				</div>
@@ -179,11 +179,11 @@
 						<img src="" alt="" class="appli" />
 					</div>
 				</div>
-				<div class="info-flash-exclu <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?>>
+				<div class="info-flash-exclu <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="PROTECTED_CONTENT" <?php endif; ?>>
 					<div class="content">
 						<h2><?php _e('Info flash en exclusivité'); ?> </h2>
-						<a href="#" <?php if(CriIsNotaire()) : ?> href="/notaires/<?php echo CriNotaireData()->id ?>/profil" <?php else : ?> class="js-panel-connexion-open" href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?>>
-							<span><?php _e('S\'inscrire à votre newsletter'); ?></span>
+						<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>">
+							<span><?php _e('Consulter les flash infos'); ?></span>
 						</a>						
 					</div>
 				</div>

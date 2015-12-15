@@ -162,7 +162,7 @@ HEADER STYLES
 				@include rotate(-45);
 				position: absolute;
 				top: -60px;
-				right: 0px;
+				right: 20px;
 				cursor: pointer;
 			}
 
@@ -2687,6 +2687,117 @@ body.page-template-front-page{
 			}
 		}*/
 
+			section{
+
+				a{
+			    	color:$rouge;
+			    	text-decoration: underline;
+
+			    	&:hover{
+			    		text-decoration: none;
+			    	}
+			    }
+
+			    s{
+					background: $jaune;
+					text-decoration: none;
+
+				}
+
+			    h2, h3{
+			    	
+			    	font-size: 15px;
+			    	line-height: 18px;					    	
+			    	text-transform: uppercase;
+			    	
+			    	margin: 0 0 20px 0;
+			    	position: relative;
+
+			    	
+			    }
+
+			    h2{
+			    	color:$bleu;
+			    	@extend .do-bo;
+			    	padding: 10px 0;
+			    	&:after{
+			    		content:'';
+						width: 40px;
+						height: 1px;
+						background: $bleu;
+						position: absolute;
+						left: 0;
+						bottom: 0;
+			    	}
+		    	}
+
+		    	h3{
+		    		color:$vert;
+		    		@extend .do-me;
+		    		margin-left: 20px;
+		    	}
+
+			    >p{
+			    	margin: 15px 0;
+			    }
+
+			    h3 + p {
+			    	color:$vert;
+		            margin: 0 0 0 20px;
+		        }
+
+			    ul, ol{
+
+			    	margin: 0;
+			    	padding: 0;
+
+			    	>li{
+			    		position: relative;
+			    		display: block;
+			    		vertical-align: middle;
+			    		line-height: 14px;
+
+			    		padding: 3px 0 0 20px;
+			    		margin: 0 0 5px 0;
+
+
+			    		&:before{
+			    			content:'';
+			    			height: 8px;
+			    			width: 8px;
+			    			border:solid 1px $rouge;
+			    			@include border-radius(25px);
+			    			display: block;
+			    			position: absolute;
+			    			left: 0;
+			    			top: 50%;
+			    			margin-top: -5px;
+			    			display: block; 
+
+			    		}
+
+			    	}
+			    }
+
+			    .wsp-pages-list{
+			    	>li { margin: 15px 0;
+
+			    		>a { 
+			    			color:$bleu; 
+			    			text-decoration: none;
+
+			    			&:hover{
+			    				text-decoration: underline;
+			    			}
+			    		}
+			    	}
+			    }
+
+
+			}
+
+			
+
 		}
 		
 		
@@ -3847,7 +3958,9 @@ body.page-template-front-page{
 								color:$bleu;
 								font-size: 15px;
 
-								.notaire{margin-top: 20px;}
+								.notaire{
+									//margin-top: 20px;
+								}
 
 								.nom{
 																	
@@ -4127,6 +4240,13 @@ body.page-template-front-page{
 										&:hover{
 											border-bottom:solid 1px #FFF;
 										}
+									}
+
+									b{
+										color:$rouge;
+										text-decoration: underline;
+										font-weight: normal;
+										font-family: $garamond;
 									}
 								}
 
