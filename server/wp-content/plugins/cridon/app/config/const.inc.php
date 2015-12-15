@@ -269,7 +269,7 @@ if ( !defined( 'CONST_EMAIL_SENDER_NAME' ) ) {
     define( 'CONST_EMAIL_SENDER_NAME', 'Cridon' );
 }
 if ( !defined( 'CONST_EMAIL_SENDER_CONTACT' ) ) {
-    define( 'CONST_EMAIL_SENDER_CONTACT', 'cridon@jetpulp.dev' );
+    define( 'CONST_EMAIL_SENDER_CONTACT', 'informations@cridon-lyon.fr' );
 }
 
 // import CSV solde file path

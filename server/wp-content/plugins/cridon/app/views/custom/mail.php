@@ -60,11 +60,11 @@
         <tbody>
 
         <tr>
-            <td width="600" height="100" colspan="3" valign="bottom" style="background-color:#fff; line-height:0px; text-align:left"><a href="http://www.cridon-lyon.fr/" target="_blank"><img src="public/images/mail/cridon_logo.png" height="100" width="264" alt="Cridon Lyon, partenaire expert du notaire" style="border:none" /></a></td>
+            <td width="600" height="100" colspan="3" valign="bottom" style="background-color:#fff; line-height:0px; text-align:left"><a href="http://www.cridon-lyon.fr/" target="_blank"><img src="<?php echo plugins_url("../public/images/mail/cridon_logo.png", dirname(__FILE__)) ?>" height="100" width="264" alt="Cridon Lyon, partenaire expert du notaire" style="border:none" /></a></td>
         </tr>
 
         <tr>
-            <td colspan="3" width="600" style="background-color:#fff"><img src="<?php plugin_dir_url( __FILE__ ) ?>public/images/mail/banner.png" alt="Ma veille juridique" />
+            <td colspan="3" width="600" style="background-color:#fff"><img src="<?php echo plugins_url( "../public/images/mail/banner.png", dirname(__FILE__) ) ?>" data-src="../public/images/mail/banner.png" alt="Ma veille juridique" />
             </td>
         </tr>
 
@@ -74,12 +74,35 @@
 
         <tr>
             <td width="20" style="background-color:#fff;"></td>
-            <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;"><span class="newsletter_date">10 SEPT 2015</span><br/><br/>
-                <span class="section">DROIT SOCIAL</span>
-                <h1>Surendettement des particuliers</h1>
-                <span class="introduction">Epersped ulla con num quasint essimos dolut reium a ium aliquodis prestrum facepe pror modio.Nem se net faccum fugiant, tem estrum saniam nobissit, officia volut etum aut il mil et officid ut faccus seni aligent aut eosam ratquam nis enimuscipist volupta iunt et aut quata velectiam adissit iatemporro qui de pliquam aliquatet lacimagnat audis aut pelitibus.</span><br/>
-                <img src="public/images/mail/icon.png" alt="icon" /><br/>
-                //CONTENT
+            <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;"><span class="newsletter_date"><?php echo sprintf(Config::$mailBodyNotification['date'],  $date ); ?></span><br/><br/>
+                <span class="section"><?php echo sprintf(Config::$mailBodyNotification['matiere'],  $matiere ); ; ?></span>
+                <h1><?php echo  sprintf(Config::$mailBodyNotification['title'],  $title );?></h1>
+                <span class="introduction"><?php echo !empty($excerpt) ? sprintf(Config::$mailBodyNotification['excerpt'],  $excerpt ) : "" ?></span><br/>
+                <img src="<?php echo plugins_url("../public/images/mail/icon.png", dirname(__FILE__)) ?>" alt="icon" /><br/>
+                <?php echo sprintf(Config::$mailBodyNotification['content'],  $content ); ?>
+
+                <p>
+                    <?php
+                    if( !empty( $documents ) ){
+                        $home = home_url();
+                        $message .= Config::$mailBodyNotification['documents'];
+                        $message .= '<ul>';
+                        foreach( $documents as $document ){
+                            $message .= sprintf ('<li><a href="%s">%s</a></li>',   $home.$documentModel->generatePublicUrl($document->id),$document->name );
+                        }
+                        $message .= '</ul>';
+                    }
+                    $tags = get_the_tags( $post->ID );
+                    if( $tags ){
+                        $message .= '<p>'.Config::$mailBodyNotification['tags'].' ';
+                        $a = array();
+                        foreach ( $tags as $tag ){
+                            $a[] .= $tag->name;
+                        }
+                        $message .= implode(',',$a) . '</p>';
+                    }
+                    ?>
+                </p>
             <td width="20" style="background-color:#fff;"></td>
         </tr>
 
@@ -91,7 +114,7 @@
 
 
         <tr>
-            <td colspan="3" width="600" style="background-color:#15283f; line-height:0px; text-align:left"><a href="http://www.cridon-lyon.fr/" target="_blank"><img src="public/images/mail/cridon_footer.png" width="265" height="120" alt="Cridon Lyon, partenaire expert du notaire" style="border:none" /></a></td>
+            <td colspan="3" width="600" style="background-color:#15283f; line-height:0px; text-align:left"><a href="http://www.cridon-lyon.fr/" target="_blank"><img src="<?php echo plugins_url("../public/images/mail/cridon_footer.png", dirname(__FILE__)) ?>" width="265" height="120" alt="Cridon Lyon, partenaire expert du notaire" style="border:none" /></a></td>
         </tr>
 
         <tr>
@@ -124,7 +147,7 @@
 
 
         <tr>
-            <td colspan="3" width="600" style="background-color:#15283f; line-height:0px" valign="bottom"><img src="public/images/mail/arrow.png" alt="--" /></td>
+            <td colspan="3" width="600" style="background-color:#15283f; line-height:0px" valign="bottom"><img src="<?php echo plugins_url("../public/images/mail/arrow.png", dirname(__FILE__)) ?>" alt="--" /></td>
         </tr>
 
 

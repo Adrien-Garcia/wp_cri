@@ -745,17 +745,30 @@ function sendNotificationForPostPublished( $post,$model ){
     $title = $post->post_title;
     $date  = get_the_date('d-M-Y',$post);
     $excerpt = get_the_excerpt();
-    $content = wp_strip_all_tags( get_the_content(), true );
+    $content = get_the_content();
     $matiere = $model->matiere->label;
     $permalink = generateUrlByModel($model);
     $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
 
+    $vars = array(
+        "documentModel" => $documentModel,
+        "documents" => $documents,
+        "title" => $title,
+        "date " => $date ,
+        "excerpt" => $excerpt,
+        "content" => $content,
+        "matiere" => $matiere,
+        "permalink" => $permalink,
+        "subject " => $subject ,
 
-    $message = CriRenderView('mail', get_defined_vars(),'custom', false);
+    );
 
+
+    $message = CriRenderView('mail', $vars,'custom', true);
+    die();
     $headers = array('Content-Type: text/html; charset=UTF-8');
 
- /*   $message  = sprintf(Config::$mailBodyNotification['title'],  $title );
+    /*$message  = sprintf(Config::$mailBodyNotification['title'],  $title );
     $message .= sprintf(Config::$mailBodyNotification['date'],  $date );
     if( !empty( $excerpt ) ){
         $message .= sprintf(Config::$mailBodyNotification['excerpt'],  $excerpt );        
@@ -781,7 +794,7 @@ function sendNotificationForPostPublished( $post,$model ){
             $a[] .= $tag->name;
         }
         $message .= implode(',',$a) . '</p>';
-    }    */
+    }*/
     /**
      * type = 1 => all notaries
      * type = 0 => subscribers notaries ( veille )
@@ -796,6 +809,7 @@ function sendNotificationForPostPublished( $post,$model ){
         return false;//Don't send notification
     }
     $env = getenv('ENV');
+
     if (empty($env)|| ($env !== 'PROD')) {
         $mail = wp_mail( Config::$notificationAddressPreprod , $subject, $message, $headers );
         writeLog("not Prod: " . $mail . "\n", "mailog.txt");
