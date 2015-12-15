@@ -195,9 +195,9 @@ class Document extends MvcModel {
                         }
 
                         $docName = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
-                        if (!fileExists($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName) && ($iPos = strpos($docName, '_') !== false)) {
+                        if (!fileExists($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName) && (strpos($docName, '_') !== false)) {
                             //a prefix can be mentionned in the file. Don't use it if the file is not prefixed
-                            $docName = substr($docName, $iPos + 1);
+                            $docName = substr($docName, strpos($docName, '_') + 1);
                         }
                         $filename = $this->getFileName($path, $docName);
                         if ( copy($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName,
