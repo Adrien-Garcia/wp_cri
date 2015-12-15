@@ -621,7 +621,7 @@ class Question extends MvcModel
             }
 
             // get last cron date if is set or server datetime
-            $lastDateUpdate          = get_option('cronquestionupdate');
+//            $lastDateUpdate          = get_option('cronquestionupdate');
             if (empty($lastDateUpdate)) {
                 $lastUpQuestion = $this->find_one(array(
                         'conditions' => array(
@@ -781,9 +781,9 @@ class Question extends MvcModel
                             $query .= " juriste = '" . esc_sql($data[$adapter::QUEST_SREDET]) . "', ";
                         }
 
-                        $query .= " affectation_date = " . empty($affectationDate) ? 'NULL' : $affectationDate . ", ";
-                        $query .= " wish_date = " . empty($wishDate) ? 'NULL' : $wishDate . ", ";
-                        $query .= " real_date = " . empty($realDate) ? 'NULL' : $realDate . ", ";
+                        $query .= " affectation_date = " . (empty($affectationDate) ? "NULL," : "'".$affectationDate."'") . ", ";
+                        $query .= " wish_date = " . (empty($wishDate) ? "NULL," : "'".$wishDate."'") . ", ";
+                        $query .= " real_date = " . (empty($realDate) ? "NULL," : "'".$realDate."'") . ", ";
 
                         if (isset($data[$adapter::QUEST_YUSER])) {
                             $query .= " yuser = '" . esc_sql($data[$adapter::QUEST_YUSER]) . "', ";
@@ -791,8 +791,8 @@ class Question extends MvcModel
 
                         $query .= " treated = '" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
 
-                        $query .= " date_modif = " . empty($updatedDate) ? 'NULL' : $updatedDate . ", ";
-                        $query .= " hour_modif = " . empty($updatedHour) ? 'NULL' : $updatedHour . ", ";
+                        $query .= " date_modif = " . (empty($updatedDate) ? "NULL," : "'".$updatedDate."'") . ", ";
+                        $query .= " hour_modif = " . (empty($updatedHour) ? "NULL," : "'".$updatedHour."'") . ", ";
 
 
                         $query .= " transmis_erp = '" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
