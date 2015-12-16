@@ -20,7 +20,12 @@ class AdminDocumentsController extends BaseAdminController {
         'name', 
         'type'
     );
-    var $default_columns = array('name', 'file_path','download_url','date_modified','type');
+    var $default_columns = array(
+        'name' => array('label' => 'Nom'), 
+        'file_path' => array('label' => 'Chemin du fichier'),
+        'download_url' => array('label' => 'Lien de téléchargement','value_method' => 'download_link'),
+        'date_modified' => array('label' => 'Date de modification')
+        ,'type');
     
     public function index() {
         $this->init_default_columns();
@@ -35,7 +40,7 @@ class AdminDocumentsController extends BaseAdminController {
         $this->set('objects', $collection['objects']);        
         $this->set_pagination($collection);
         //Load custom helper
-        $this->load_helper('AdminCustom');
+        $this->load_helper('AdminDocument');
     }
     public function add() {
         $this->create_or_save();
@@ -63,6 +68,17 @@ class AdminDocumentsController extends BaseAdminController {
         $data = $this->model->find( $options );
         $this->set('data', $data);
         $this->render_view('search', array('layout' => 'json'));
+    }
+    
+    /**
+     * Link of documents
+     * 
+     * @param object $object
+     * @return string
+     */
+    public function download_link($object)
+    {   
+        return ltrim($this->model->generatePublicUrl($object->id),'/');
     }
 }
 
