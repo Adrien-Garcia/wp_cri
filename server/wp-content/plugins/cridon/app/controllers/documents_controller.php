@@ -153,6 +153,8 @@ class DocumentsController extends MvcPublicController {
         //Access download document of news
         if( in_array($document->type,Config::$accessDowloadDocument) && !empty( $notaire ) ){
             return true;
+        }elseif(in_array($document->type,Config::$accessDowloadDocument)){
+            $this->generateError();
         //Check if question exist, document file path is valid
         }elseif( empty( $notaire ) || empty( $question ) || empty( $document->file_path ) ){
             $this->generateError();
