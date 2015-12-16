@@ -182,6 +182,20 @@ jQuery(document).ready(function($) {
 
 
 
+    /* LIENS FOOTER */
+
+    $(".block-right > li > a.js-panel-connexion-open").click(function( event ){
+    	event.preventDefault();
+    });
+
+    $(".row_03 a.js-panel-connexion-open").click(function( event ){
+    	event.preventDefault();
+    });
+
+
+
+
+
 
 
 
