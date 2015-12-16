@@ -159,10 +159,7 @@ function init_parent_meta_boxes( $post, $args ){
         'selects' => array('Post.post_title as label', $config['model'].'.*'),
         'order' => 'Post.post_title ASC',
         'conditions' => array(
-            'OR' => array(
-                $config['model'].'.id_parent' => null,
-                $config['model'].'.id_parent' => 0,
-            )
+            $config['model'].'.id_parent' => null
         ),
         'joins' => array('Post')
     );
