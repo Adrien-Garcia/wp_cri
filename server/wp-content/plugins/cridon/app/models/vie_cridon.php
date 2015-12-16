@@ -22,6 +22,21 @@ class VieCridon extends BaseModel {
         $qb->deleteDocument( $this , $id );
         parent::delete($id);
     }
+    /**
+     * Récupération des documents d'une viecridon
+     *
+     * @param integer $id Id de la viecridon
+     * @return mixed
+     */
+    public static function getDocuments($id){
+        $options = array(
+            'conditions' => array(
+                'type' => 'viecridon',//type de document
+                'id_externe' => $id //id de la viecridon
+            )
+        );
+        return mvc_model('Document')->find($options);
+    }
 }
 
 ?>

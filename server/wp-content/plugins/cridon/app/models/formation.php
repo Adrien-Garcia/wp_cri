@@ -22,6 +22,21 @@ class Formation extends BaseModel {
         $qb->deleteDocument( $this , $id );
         parent::delete($id);
     }
+    /**
+     * Récupération des documents d'une formation
+     *
+     * @param integer $id Id de la formation
+     * @return mixed
+     */
+    public static function getDocuments($id){
+        $options = array(
+            'conditions' => array(
+                'type' => 'formation',//type de document
+                'id_externe' => $id //id de la formation
+            )
+        );
+        return mvc_model('Document')->find($options);
+    }
 }
 
 ?>

@@ -11,7 +11,7 @@ foreach ($objects as $key => $object) :
 		if( $current_date != get_the_date('d-M-Y')) :
 			$current_date = get_the_date('d-M-Y');
 	 ?>
-		<div class="date-veille sel-veilles-date">
+		<div class="date sel-object-date">
 			<div class="sep"></div>
 			<span class="jour"><?php echo get_the_date( 'd') ?></span>
 	      	<span class="mois"><?php echo get_the_date( 'M') ?></span>
@@ -23,11 +23,11 @@ foreach ($objects as $key => $object) :
 			
 		<div class="block_left">
 			<div class="img-cat">
-				<img class="sel-veilles-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+				<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
 			</div>
 		</div>
 		<?php endif ?>
-		<div class="block_right sel-veilles-content js-home-block-link" >
+		<div class="block_right sel-object-content js-home-block-link" >
 		<?php //var_dump($this) ?>
 			<?php if ( isset($object->matiere) ): ?>
 			<div class="matiere"><?php echo $object->matiere->label ?></div>

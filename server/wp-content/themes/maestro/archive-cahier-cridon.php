@@ -13,101 +13,98 @@
 			<div id="inner-content" class="wrap cf">
 
 				<h1 class="h1">Les Cahiers du CRIDON</h1>
+                <?php
+                $current_date = null;
+                foreach ($objects as $key => $object) :
+                ?>
+                <?php criWpPost($object); ?>
+                <?php //var_dump($object) ?>
+                <?php //var_dump($object->documents) ?>
 
-				<div id="filtres_veilles">					
-				</div>
-
-				<div class="listing veille" id="sel-veilles">
+				<div class="listing object" id="sel-object">
 					
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
-						
-							<div class="date-veille sel-veilles-date">
-								<div class="sep"></div>
-								<span class="jour">21</span>
-						      	<span class="mois">oct</span>
-						      	<span class="annee">2016</span> 				
-							</div>
+                        <?php
+                        if( $current_date != get_the_date('d-M-Y')) :
+                        $current_date = get_the_date('d-M-Y');
+                        ?>
+                        <div class="date sel-object-date">
+                            <div class="sep"></div>
+                            <span class="jour"><?php echo get_the_date( 'd') ?></span>
+                            <span class="mois"><?php echo get_the_date( 'M') ?></span>
+                            <span class="annee"><?php echo get_the_date( 'Y') ?></span>
+                        </div>
+                        <?php endif; ?>
+
 						
 						<div class="details">							
-							<div class="block_right sel-veilles-content js-home-block-link" >								
+							<div class="block_right sel-object-content" >
 								<h2><?php the_title() ?></h2>
-								<a href="" title="télécharger le document pdf">Télécharger le sommaire</a>
+                                <?php
+                                $class = $object->__model_name;
+
+                                ?>
+                                <?php if (method_exists($class, "getDocuments")) : ?>
+                                    <?php
+                                    $documents = $class::getDocuments($object->id);
+                                    ?>
+                                    <?php foreach ($documents as $index => $document) : ?>
+                                        <?php
+                                        $options = array(
+                                            'controller' => 'documents',
+                                            'action'     => 'download',
+                                            'id'         => $document->id
+                                        );
+                                        $publicUrl  = MvcRouter::public_url($options);
+                                        ?>
+                                        <a href="<?php echo $publicUrl; ?>" title="télécharger le document pdf" target="_blank">Télécharger le sommaire</a>
+                                    <?php endforeach; ?>
+
+                                <?php endif; ?>
 								<ul>
-									<li>
+                                    <?php
+                                    $subcahiers = $object->cahier_cridons;
+                                    foreach ($subcahiers as $subcahier) :
+                                    ?>
+                                        <?php criWpPost($subcahier); ?>
+									<li class="js-home-block-link">
 										<div class="img-cat">
-											<img class="" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+											<img class="" src="<?php echo $subcahier->matiere->picto ?>" alt="<?php echo $subcahier->matiere->label ?>" />
 										</div>
-										<div class="matiere">Matière</div>
-										<h3>Titre</h3>
-										<a href="" title="Télécharger le document pdf"></a>
+										<div class="matiere"><?php echo $subcahier->matiere->label ?></div>
+										<h3><?php the_title() ; ?></h3>
+                                        <?php
+                                        $class = $subcahier->__model_name;
+                                        ?>
+                                        <?php if (method_exists($class, "getDocuments")) : ?>
+                                            <?php
+                                            $documents = $class::getDocuments($subcahier->id);
+                                            ?>
+                                            <?php foreach ($documents as $index => $document) : ?>
+                                                <?php
+                                                $options = array(
+                                                    'controller' => 'documents',
+                                                    'action'     => 'download',
+                                                    'id'         => $document->id
+                                                );
+                                                $publicUrl  = MvcRouter::public_url($options);
+                                                ?>
+                                                <a href="<?php echo $publicUrl ; ?>" title="Télécharger le document pdf" target="_blank"></a>
+                                            <?php endforeach; ?>
+
+                                        <?php endif; ?>
+
 									</li>
-									<li>
-										<div class="img-cat">
-											<img class="" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
-										</div>
-										<div class="matiere">Matière</div>
-										<h3>Titre</h3>
-										<a href="" title="Télécharger le document pdf"></a>
-									</li>
-									<li>
-										<div class="img-cat">
-											<img class="" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
-										</div>
-										<div class="matiere">Matière</div>
-										<h3>Titre</h3>
-										<a href="" title="Télécharger le document pdf"></a>
-									</li>
+                                    <?php endforeach; ?>
+                                    <?php criWpPost($object); ?>
 								</ul>
 							</div>
 						</div>
 						
 					</article>	
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
-						
-							<div class="date-veille sel-veilles-date">
-								<div class="sep"></div>
-								<span class="jour">21</span>
-						      	<span class="mois">oct</span>
-						      	<span class="annee">2016</span> 				
-							</div>
-						
-						<div class="details">							
-							<div class="block_right sel-veilles-content js-home-block-link" >								
-								<h2><?php the_title() ?></h2>
-								<a href="" title="télécharger le document pdf">Télécharger le sommaire</a>
-								<ul>
-									<li>
-										<div class="img-cat">
-											<img class="" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
-										</div>
-										<div class="matiere">Matière</div>
-										<h3>Titre</h3>
-										<a href="" title="Télécharger le document pdf"></a>
-									</li>
-									<li>
-										<div class="img-cat">
-											<img class="" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
-										</div>
-										<div class="matiere">Matière</div>
-										<h3>Titre</h3>
-										<a href="" title="Télécharger le document pdf"></a>
-									</li>
-									<li>
-										<div class="img-cat">
-											<img class="" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
-										</div>
-										<div class="matiere">Matière</div>
-										<h3>Titre</h3>
-										<a href="" title="Télécharger le document pdf"></a>
-									</li>
-								</ul>
-							</div>
-						</div>
-						
-					</article>
-
+                    <?php endforeach; ?>
 									
                     <div class="pagination">
                     	<?php echo $this->pagination(); ?>
@@ -118,16 +115,6 @@
 			</div>					
 
 		</div>
-
-		<?php // endwhile; ?>
-
-		<?php // wp_pagenavi(); ?>
-
-		
-
-			
-
-		<?php /*get_sidebar();*/ ?>
 
 		
 	</div>

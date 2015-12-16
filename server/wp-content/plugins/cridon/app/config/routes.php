@@ -6,6 +6,9 @@
  * @author Etech
  */
 
+// Téléchargement des documents publics, toujours en dernier dans les routes pour éviter les problèmes des "/" dans les données cryptées
+MvcRouter::public_connect('{:id:[a-zA-Z0-9=+\/]+}', array('controller' => 'documents', 'action' => 'publicDownload'));
+
 // rest
 MvcRouter::public_connect('rest/login', array( 'controller' =>'logins','action' => 'login'));
 MvcRouter::public_connect('rest/{:controller}', array('action' => 'index_json', 'layouts' => 'json'));
@@ -28,8 +31,6 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/contentprofil', array('controlle
 // regles de facturation
 MvcRouter::public_connect('notaires/{:id:[\d]+}/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
 
-// Téléchargement des documents publics, toujours en dernier dans les routes pour éviter les problèmes des "/" dans les données cryptées
-MvcRouter::public_connect('{:id:[a-zA-Z0-9=+\/]+}', array('controller' => 'documents', 'action' => 'publicDownload'));
 
 // default
 MvcRouter::public_connect('{:controller}', array('action' => 'index'));

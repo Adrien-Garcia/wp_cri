@@ -23,6 +23,21 @@ class Flash extends BaseModel {
         $qb->deleteDocument( $this , $id );
         parent::delete($id);
     }
+    /**
+     * Récupération des documents d'une flash
+     *
+     * @param integer $id Id de la flash
+     * @return mixed
+     */
+    public static function getDocuments($id){
+        $options = array(
+            'conditions' => array(
+                'type' => 'flash',//type de document
+                'id_externe' => $id //id de la flash
+            )
+        );
+        return mvc_model('Document')->find($options);
+    }
 }
 
 ?>
