@@ -9,16 +9,16 @@ require_once 'base_model.php';
 class CahierCridon extends BaseModel
 {
     var $table = "{prefix}cahier_cridon";
-    var $includes = array('Post');
+    var $includes = array('Post', 'CahierCridon');
     var $belongs_to = array(
         'Post'      => array('foreign_key' => 'post_id'),
         'Matiere'   => array('foreign_key' => 'id_matiere'),
-        //'principal' => array('foreign_key' => 'id_parent'),
+        'CahierCridon' => array('foreign_key' => 'id_parent'),
     );
     var $has_many = array(
-        'CahierCridon'
-               => array('foreign_key' => 'id_parent'),
-
+        'CahierCridon' => array(
+            'foreign_key' => 'id_parent'
+        )
     );
     var $display_field = 'post_id';
 

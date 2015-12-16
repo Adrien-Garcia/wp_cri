@@ -134,7 +134,8 @@ class Document extends BaseModel {
                     $content  = file_get_contents($document);
                     $contents = explode(CONST_IMPORT_GED_CONTENT_SEPARATOR, $content);
                     // repertoire archivage des documents
-                    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/archives/' . date('YmdHi') . '/';
+                    $date = date('Ym');
+                    $archivePath = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '..'.DIRECTORY_SEPARATOR.'archives/' . $date . '/';
                     if (!file_exists($archivePath)) { // repertoire manquant
                         // creation du nouveau repertoire
                         wp_mkdir_p($archivePath);
@@ -184,21 +185,21 @@ class Document extends BaseModel {
                             if( in_array( $contents[Config::$GEDtxtIndexes['INDEX_VALCAB']],$cabs ) ){
                                 $typeAction = 3;//mise à jour
                             }else{
-                                $typeAction = 2;//complément/suite
+                                $typeAction = 2;//complément/suite ou question non importee auparavant
                             }
                         }
                         // copy document dans Site
                         $uploadDir = wp_upload_dir();
-                        $path      = $uploadDir['basedir'] . '/questions/' . date('Ym') . '/';
+                        $path      = $uploadDir['basedir'] . '/questions/' . $date . '/';
                         if (!file_exists($path)) { // repertoire manquant
                             // creation du nouveau repertoire
                             wp_mkdir_p($path);
                         }
 
                         $docName = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
-                        if (($iPos = strpos($docName, '_')) !== false) {
-                            //a prefix can be mentionned in the file. Don't use it.
-                            $docName = substr($docName, $iPos + 1);
+                        if (!fileExists($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName) && (strpos($docName, '_') !== false)) {
+                            //a prefix can be mentionned in the file. Don't use it if the file is not prefixed
+                            $docName = substr($docName, strpos($docName, '_') + 1);
                         }
                         $filename = $this->getFileName($path, $docName);
                         if ( copy($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName,
@@ -206,7 +207,7 @@ class Document extends BaseModel {
                             // donnees document
                             $docData = array(
                                 'Document' => array(
-                                    'file_path'     => '/questions/' . date('Ym') . '/' . $filename,
+                                    'file_path'     => '/questions/' . $date . '/' . $filename,
                                     'download_url'  => '/documents/download/' . $question->id,
                                     'date_modified' => date('Y-m-d H:i:s'),
                                     'type'          => 'question',
@@ -217,15 +218,12 @@ class Document extends BaseModel {
                                 )
                             );
                             //Document suite/complément
-                            if( $typeAction == 2 ){
-                                $label = 'Suite';
-                                //if file ends with a 'C', then it's a "Complément"
-                                //Should otherwise ends with a 'S'.
-                                if(strtoupper(substr($contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']], -1, 1)) == 'C' ){
-                                    $label = 'Complément';
-                                }
-                                $docData['Document']['label'] = $label;
+                            if (strpos($contents[Config::$GEDtxtIndexes['INDEX_VALCAB']], 'C') !== false) {
+                                $docData['Document']['label'] = 'Complément';
+                            } elseif (strpos($contents[Config::$GEDtxtIndexes['INDEX_VALCAB']], 'S') !== false) {
+                                $docData['Document']['label'] = 'Suite';
                             }
+
                             if( $typeAction != 3 ){
                                 // insertion
                                 $documentId = $this->create($docData);
@@ -268,12 +266,14 @@ class Document extends BaseModel {
                                 $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[Config::$GEDtxtIndexes['INDEX_NUMQUESTION']]);
                             }
                             reportError($message, '');
+                            writeLog( $message,'majdocument.log' );
                         }
                     } else { // doc sans question associee
     
                         // log : envoie mail
                         $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]);
                         reportError($message, '');
+                        writeLog( $message,'majdocument.log' );
                     }
                 }
             }
@@ -282,11 +282,12 @@ class Document extends BaseModel {
             if (count($logDocList) > 0) {
                 $listDoc = implode(', ', $logDocList);
                 $message = sprintf(CONST_IMPORT_GED_LOG_SUCCESS_MSG, date('d/m/Y à H:i'), $listDoc);
-                reportError($message, '');
+                writeLog($message, 'importdocs.log');
             } else { // repertoire import vide
                 // log : envoie mail
                 $message = sprintf(CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG, date('d/m/Y à H:i'));
                 reportError($message, '');
+                writeLog($message, 'importdocs.log');
             }
         } catch ( \Exception $e ){
             writeLog( $e,'majdocument.log' );
