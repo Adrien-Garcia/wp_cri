@@ -140,6 +140,9 @@ class CridonLoader extends MvcPluginLoader
 
         // disable admin bar for existing notaire
         CriDisableAdminBarForExistingNotaire();
+        
+        // update download_url field in cri_document when it's empty
+        updateEmptyDownloadUrlFieldsDocument();
     }
 
     public function deactivate()
