@@ -227,7 +227,8 @@ class Config {
     public static $actionsWpmvcTranslation = array(
         'view'   => 'Voir',
         'edit'   => 'Editer',
-        'delete' => 'Supprimer'
+        'delete' => 'Supprimer',
+        'download' => 'Télécharger'
     );
     public static $msgConfirmDelete = 'Êtes-vous sur de vouloir supprimer';
     public static $btnTextAdmin = array(
@@ -286,4 +287,12 @@ class Config {
         'url'     => 'documents/public/'//Sera ajouté à l'encodage, l'id sera ajouté dynamiquement (ex:documents/public/1)
     );
     //End Public download URL
+    
+    //Access documents
+    
+    //Liste des actus dont les téléchargements de document est à restreindre au notaire connecté
+    public static $accessDowloadDocument = array(
+        'flash','veille'//correspond au champ type de la table cri_document
+    );
+    //End access
 }

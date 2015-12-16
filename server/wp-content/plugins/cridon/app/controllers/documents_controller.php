@@ -17,10 +17,10 @@ class DocumentsController extends MvcPublicController {
         if( empty( $model ) ){
             $this->generateError();
         }
-        if( $model->name == 'Question' ){
-            $question = $model->find_one_by_id( $document->id_externe );
+        if( ($model->name == 'Question') || in_array($document->type,Config::$accessDowloadDocument) ){
+            $object = $model->find_one_by_id( $document->id_externe );
             //Check user access
-            $this->checkAccess($question,$notaire, $document);            
+            $this->checkAccess($object,$notaire, $document);            
         }
         //Let's begin download
         $uploadDir = wp_upload_dir();
@@ -144,18 +144,24 @@ class DocumentsController extends MvcPublicController {
         die();
     }
     
-    private function checkAccess( $question,$notaire,$document ){
+    private function checkAccess( $object,$notaire,$document ){
         //If we are in BO, logged and not a Notaire
         if ( is_user_logged_in() && empty( $notaire ) ) {
             //If user cridon, they can download with no restriction
             return true;
         }
+        //Access download document of news
+        if( in_array($document->type,Config::$accessDowloadDocument) && !empty( $notaire ) ){
+            return true;
+        }elseif(in_array($document->type,Config::$accessDowloadDocument)){
+            $this->generateError();
         //Check if question exist, document file path is valid
-        if( empty( $notaire ) || empty( $question ) || empty( $document->file_path ) ){
+        }elseif( empty( $notaire ) || empty( $object ) || empty( $document->file_path ) ){
             $this->generateError();
         }        
         //Check if question is created by current user
-        if( $question->client_number != $notaire->client_number ){
+        //$objet = Question MvcModelObject
+        if( $object->client_number != $notaire->client_number ){
             $this->generateError();
         }
         return true;
