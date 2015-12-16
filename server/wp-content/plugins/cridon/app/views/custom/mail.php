@@ -25,6 +25,7 @@
         table, div {
             font-family:Arial, Helvetica, sans-serif;
             font-size:12px;
+            margin-bottom: 5px;
         }
 
         h1 {color:#009999; font-weight:normal; font-size:28px; text-transform:uppercase; line-height:20px; margin:15px 0px 5px 0px; padding:0px; font-family:'Dosis', Arial, Helvetica, sans-serif;}
@@ -64,7 +65,19 @@
         </tr>
 
         <tr>
-            <td colspan="3" width="600" style="background-color:#fff"><img src="<?php echo plugins_url( "../public/images/mail/banner.png", dirname(__FILE__) ) ?>" data-src="../public/images/mail/banner.png" alt="Ma veille juridique" />
+            <td colspan="3" width="600" style="background-color:#fff">
+                <?php
+                $modelFile = "banner.png";
+                $alt = "Ma veille juridique";
+                if ($model == "flash") {
+                    $modelFile = "banner-flash.png";
+                    $alt = "Mes flash info";
+                } else if ($model == "viecridon") {
+                    $modelFile = "banner-vie-cridon.png";
+                    $alt = "La vie du Cridon";
+                }
+                ?>
+                <img src="<?php echo plugins_url( "../public/images/mail/".$modelFile, dirname(__FILE__) ) ?>" alt="<?php echo $alt ; ?>" />
             </td>
         </tr>
 
@@ -74,32 +87,41 @@
 
         <tr>
             <td width="20" style="background-color:#fff;"></td>
-            <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;"><span class="newsletter_date"><?php echo sprintf(Config::$mailBodyNotification['date'],  $date ); ?></span><br/><br/>
-                <span class="section"><?php echo sprintf(Config::$mailBodyNotification['matiere'],  $matiere ); ; ?></span>
+            <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
+                <span class="newsletter_date" style="text-transform: uppercase;"><?php echo sprintf(Config::$mailBodyNotification['date'],  $date ); ?></span>
+                <br/><br/>
+                <?php if (! empty($matiere)) : ?>
+                <span class="section"><?php echo sprintf(Config::$mailBodyNotification['matiere'],  $matiere->label ); ?></span>
+                <?php endif; ?>
                 <h1><?php echo  sprintf(Config::$mailBodyNotification['title'],  $title );?></h1>
                 <span class="introduction"><?php echo !empty($excerpt) ? sprintf(Config::$mailBodyNotification['excerpt'],  $excerpt ) : "" ?></span><br/>
-                <img src="<?php echo plugins_url("../public/images/mail/icon.png", dirname(__FILE__)) ?>" alt="icon" /><br/>
+                <?php if (! empty($matiere)) : ?>
+                <img src="<?php echo $matiere->picto ?>" alt="icon" /><br/>
+                <?php endif; ?>
+
                 <?php echo sprintf(Config::$mailBodyNotification['content'],  $content ); ?>
 
                 <p>
+
                     <?php
                     if( !empty( $documents ) ){
                         $home = home_url();
-                        $message .= Config::$mailBodyNotification['documents'];
-                        $message .= '<ul>';
+                        echo '<h3>Documents liés</h3><ul>';
                         foreach( $documents as $document ){
-                            $message .= sprintf ('<li><a href="%s">%s</a></li>',   $home.$documentModel->generatePublicUrl($document->id),$document->name );
+                            echo sprintf ('<li><a href="%s">%s</a></li>',   $home. $documentModel->generatePublicUrl($document->id),$document->name );
                         }
-                        $message .= '</ul>';
-                    }
-                    $tags = get_the_tags( $post->ID );
+                        echo '</ul>';
+                    }?>
+                </p>
+                <p>
+                <?php
                     if( $tags ){
-                        $message .= '<p>'.Config::$mailBodyNotification['tags'].' ';
+                        echo '<p>'.Config::$mailBodyNotification['tags'].' ';
                         $a = array();
                         foreach ( $tags as $tag ){
                             $a[] .= $tag->name;
                         }
-                        $message .= implode(',',$a) . '</p>';
+                        echo implode(',',$a) . '</p>';
                     }
                     ?>
                 </p>

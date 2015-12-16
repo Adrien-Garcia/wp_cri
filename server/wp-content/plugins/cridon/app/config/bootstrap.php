@@ -40,6 +40,8 @@ function save_post_in_table( $post_ID, $post ){
             $aAdditionalFields['id_parent'] = $_POST['id_parent'];
         }
         updateRelatedContent( $model , $aAdditionalFields);
+
+        $model = mvc_model($modelConf['name'])->find_by_id($model->id);
         //Only on insert and post status is publish
         if( $isInsert && ( $post->post_status == 'publish' ) && ( $post->post_type == 'post' ) ){
             sendNotificationForPostPublished($post, $model);
@@ -235,7 +237,7 @@ function check( $needle ,$haystack, $property = 'id_matiere' ){
  * @param MvcModelObject $object Related content
  * @param array $postFields related fields
  */
-function updateRelatedContent( $object, $postFields ){
+function updateRelatedContent( &$object, $postFields ){
     $class = $object->__model_name;
     /**
      * @var MvcModel $class
@@ -733,7 +735,6 @@ function sendNotificationForPostPublished( $post,$model ){
     global $pages,$page ;
     $pages = array($post->post_content);
     $page = 1;
-    //
     $options = array(
         'conditions' => array(
             'type'       => strtolower( $model->__model_name ),
@@ -741,27 +742,37 @@ function sendNotificationForPostPublished( $post,$model ){
         )
     );
     $documentModel = mvc_model('Document');
-    $documents = $documentModel->find( $options );
+    $documents = false;
+    $class = $model->__model_name;
+    if (method_exists($class, "getDocuments")) {
+        $documents = $class::getDocuments($model->id);
+    }
     $title = $post->post_title;
-    $date  = get_the_date('d-M-Y',$post);
+    $date  = get_the_date('d M Y',$post->ID);
     $excerpt = get_the_excerpt();
     $content = get_the_content();
-    $matiere = $model->matiere->label;
+    $matiere = isset($model->matiere) ? $model->matiere : false;
     $permalink = generateUrlByModel($model);
-    $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
+    $tags = get_the_tags( $post->ID );
+
+    //writeLog($post, "mailog.txt");
 
     $vars = array(
         "documentModel" => $documentModel,
+        "model" => strtolower( $model->__model_name ),
         "documents" => $documents,
         "title" => $title,
-        "date " => $date ,
+        "date" => $date ,
         "excerpt" => $excerpt,
         "content" => $content,
         "matiere" => $matiere,
         "permalink" => $permalink,
-        "subject " => $subject ,
+        "tags" => $tags,
 
     );
+
+    writeLog($vars, "mailog.txt");
+
 
 
     $message = CriRenderView('mail', $vars,'custom', true);
