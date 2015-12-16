@@ -173,16 +173,18 @@
 				<div class="veille-juridique <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
-						<a <?php if(CriIsNotaire()) : ?> href="/notaires/<?php echo CriNotaireData()->id ?>/profil" <?php else : ?> class="js-panel-connexion-open" href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+
+						<a <?php if(CriIsNotaire()) : ?> href="/notaires/<?php echo CriNotaireData()->id ?>/profil" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
 							<span><?php _e('S\'abonner à votre veille !'); ?></span>
 						</a>
+
 						<img src="" alt="" class="appli" />
 					</div>
 				</div>
 				<div class="info-flash-exclu <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="PROTECTED_CONTENT" <?php endif; ?>>
 					<div class="content">
 						<h2><?php _e('Info flash en exclusivité'); ?> </h2>
-						<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>">
+						<a <?php if(CriIsNotaire()) : ?> href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
 							<span><?php _e('Consulter les flash infos'); ?></span>
 						</a>						
 					</div>

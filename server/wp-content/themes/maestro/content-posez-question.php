@@ -99,7 +99,7 @@
 					<?php _e('Poser'); ?>
 					<span><?php _e('une question par téléphone'); ?></span>
 				</h2>
-				<a href="#">+</a>
+				<a href="/poser-une-question-par-telephone/">+</a>
 			</li>
 			<li class="js-question-documentation-button">
 				<h2>
@@ -124,7 +124,7 @@
 						<?php _e('Poser'); ?>
 						<span><?php _e('une question par téléphone'); ?></span>
 					</h2>
-					<a href="#">+</a>
+					<a href="/poser-une-question-par-telephone/">+</a>
 				</div>						
 			</div>
 

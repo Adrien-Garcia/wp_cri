@@ -2710,7 +2710,6 @@ body.page-template-front-page{
 			    	line-height: 18px;					    	
 			    	text-transform: uppercase;
 			    	
-			    	margin: 0 0 20px 0;
 			    	position: relative;
 
 			    	
@@ -2720,6 +2719,7 @@ body.page-template-front-page{
 			    	color:$bleu;
 			    	@extend .do-bo;
 			    	padding: 10px 0;
+			    	margin: 0 0 20px 0;
 			    	&:after{
 			    		content:'';
 						width: 40px;
@@ -2735,6 +2735,7 @@ body.page-template-front-page{
 		    		color:$vert;
 		    		@extend .do-me;
 		    		margin-left: 20px;
+		    		margin-bottom: 0;
 		    	}
 
 			    >p{

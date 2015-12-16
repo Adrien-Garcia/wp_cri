@@ -11,7 +11,7 @@
 							<ul id="">
 								<li class="formations js-home-block-link">
 									<?php _e('Le catalogue formations'); ?>
-									<a href="#" title=""><span><?php _e('Consulter'); ?></span></a>
+									<a href="/catalogue-formation/" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 								<li class="cahier js-home-block-link">
 									<?php _e('Les cahiers du cridon'); ?>
@@ -19,7 +19,7 @@
 								</li>
 								<li class="services js-home-block-link"> 
 									<?php _e('Les services plus'); ?>
-									<a href="#" title=""><span><?php _e('Consulter'); ?></span></a>
+									<a href="/les-services-plus/" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 							</ul>
 						</div>
@@ -52,12 +52,18 @@
 									</li>
 									<li class="veille">
 										<h4><?php  _e('Veille juridique personnalisée'); ?></h4>
-										<a href="#"><span><?php _e('S\'abonner à votre veille'); ?></span></a>	
+										<!-- <a href="#"><span><?php _e('S\'abonner à votre veille'); ?></span></a>	 -->
+										<a <?php if(CriIsNotaire()) : ?> href="/notaires/<?php echo CriNotaireData()->id ?>/profil" <?php else : ?> class="js-panel-connexion-open" href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+											<span><?php _e('S\'abonner à votre veille !'); ?></span>
+										</a>
 									</li>
-									<li class="flash <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="PROTECTED_CONTENT" <?php endif; ?>>
+									<li class="flash">
 										<h4><?php _e('Flash info en exclusivité'); ?></h4>
-										<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>">
+										
+										<a <?php if(CriIsNotaire()) : ?> href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>" <?php else : ?> class="js-panel-connexion-open" href="#" data-login-message="PROTECTED_CONTENT" <?php endif; ?>  >
+
 											<span><?php _e('Consulter les flash infos'); ?></span>
+
 										</a>
 									</li>
 								</ul>
