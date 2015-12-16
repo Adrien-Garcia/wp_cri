@@ -18,8 +18,8 @@
                 foreach ($objects as $key => $object) :
                 ?>
                 <?php criWpPost($object); ?>
-                <?php var_dump($object) ?>
-                <?php //var_dump($object->secondaires) ?>
+                <?php //var_dump($object) ?>
+                <?php //var_dump($object->documents) ?>
 
 				<div class="listing object" id="sel-object">
 					
@@ -29,7 +29,7 @@
                         if( $current_date != get_the_date('d-M-Y')) :
                         $current_date = get_the_date('d-M-Y');
                         ?>
-                        <div class="date-object sel-object-date">
+                        <div class="date sel-object-date">
                             <div class="sep"></div>
                             <span class="jour"><?php echo get_the_date( 'd') ?></span>
                             <span class="mois"><?php echo get_the_date( 'M') ?></span>
@@ -39,34 +39,65 @@
 
 						
 						<div class="details">							
-							<div class="block_right sel-object-content js-home-block-link" >
+							<div class="block_right sel-object-content" >
 								<h2><?php the_title() ?></h2>
-								<a href="" title="télécharger le document pdf">Télécharger le sommaire</a>
+                                <?php
+                                $class = $object->__model_name;
+
+                                ?>
+                                <?php if (method_exists($class, "getDocuments")) : ?>
+                                    <?php
+                                    $documents = $class::getDocuments($object->id);
+                                    ?>
+                                    <?php foreach ($documents as $index => $document) : ?>
+                                        <?php
+                                        $options = array(
+                                            'controller' => 'documents',
+                                            'action'     => 'download',
+                                            'id'         => $document->id
+                                        );
+                                        $publicUrl  = MvcRouter::public_url($options);
+                                        ?>
+                                        <a href="<?php echo $publicUrl; ?>" title="télécharger le document pdf" target="_blank">Télécharger le sommaire</a>
+                                    <?php endforeach; ?>
+
+                                <?php endif; ?>
 								<ul>
-									<li>
+                                    <?php
+                                    $subcahiers = $object->cahier_cridons;
+                                    foreach ($subcahiers as $subcahier) :
+                                    ?>
+                                        <?php criWpPost($subcahier); ?>
+									<li class="js-home-block-link">
 										<div class="img-cat">
-											<img class="" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+											<img class="" src="<?php echo $subcahier->matiere->picto ?>" alt="<?php echo $subcahier->matiere->label ?>" />
 										</div>
-										<div class="matiere"><?php echo $object->matiere->label ?></div>
-										<h3>Titre</h3>
-										<a href="" title="Télécharger le document pdf"></a>
+										<div class="matiere"><?php echo $subcahier->matiere->label ?></div>
+										<h3><?php the_title() ; ?></h3>
+                                        <?php
+                                        $class = $subcahier->__model_name;
+                                        ?>
+                                        <?php if (method_exists($class, "getDocuments")) : ?>
+                                            <?php
+                                            $documents = $class::getDocuments($subcahier->id);
+                                            ?>
+                                            <?php foreach ($documents as $index => $document) : ?>
+                                                <?php
+                                                $options = array(
+                                                    'controller' => 'documents',
+                                                    'action'     => 'download',
+                                                    'id'         => $document->id
+                                                );
+                                                $publicUrl  = MvcRouter::public_url($options);
+                                                ?>
+                                                <a href="<?php echo $publicUrl ; ?>" title="Télécharger le document pdf" target="_blank"></a>
+                                            <?php endforeach; ?>
+
+                                        <?php endif; ?>
+
 									</li>
-									<li>
-										<div class="img-cat">
-											<img class="" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
-										</div>
-										<div class="matiere"><?php echo $object->matiere->label ?></div>
-										<h3>Titre</h3>
-										<a href="" title="Télécharger le document pdf"></a>
-									</li>
-									<li>
-										<div class="img-cat">
-											<img class="" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
-										</div>
-										<div class="matiere"><?php echo $object->matiere->label ?></div>
-										<h3>Titre</h3>
-										<a href="" title="Télécharger le document pdf"></a>
-									</li>
+                                    <?php endforeach; ?>
+                                    <?php criWpPost($object); ?>
 								</ul>
 							</div>
 						</div>

@@ -118,4 +118,19 @@ class CahierCridon extends BaseModel
             }
         }
     }
+    /**
+     * Récupération des documents d'une cahiercridon
+     *
+     * @param integer $id Id de la cahiercridon
+     * @return mixed
+     */
+    public static function getDocuments($id){
+        $options = array(
+            'conditions' => array(
+                'type' => 'cahiercridon',//type de document
+                'id_externe' => $id //id de la cahier cridon
+            )
+        );
+        return mvc_model('Document')->find($options);
+    }
 }

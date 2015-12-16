@@ -71,16 +71,24 @@
 								<span><?php echo $question->competence->label ; ?></span>
 								<span><?php echo $question->question->resume ; ?></span>
 								<ul>
-                                                                    <?php
-                                                                        foreach($question->documents as $document):
-                                                                            if( ($document->label != 'Suite') &&  ($document->label != 'Complément') ):
-                                                                    ?>
-									<li><a href="<?php echo $document->download_url ?>" target="_blank"><?php echo $document->name ?></a></li>
+                                <?php
+                                    foreach($question->documents as $document):
+                                        if( ($document->label != 'Suite') &&  ($document->label != 'Complément') ):
+                                ?>
+                                    <?php
+                                    $options = array(
+                                        'controller' => 'documents',
+                                        'action'     => 'download',
+                                        'id'         => $document->id
+                                    );
+                                    $publicUrl  = MvcRouter::public_url($options);
+                                    ?>
+									<li><a href="<?php echo $publicUrl ?>" target="_blank"><?php echo $document->name ?></a></li>
                                                                     
-                                                                    <?php 
-                                                                            endif;
-                                                                        endforeach; 
-                                                                    ?>
+                                <?php
+                                        endif;
+                                    endforeach;
+                                ?>
 								</ul>
 							</li>
 
@@ -188,7 +196,15 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 <li class="pdf">
                     <?php foreach($question->documents as $document): ?>
                         <?php if( !($document->label == 'Suite') && !($document->label == 'Complément') ): ?>
-                            <a href="<?php echo $document->download_url ?>" class="pdf" title="Télécharger le document de Question/Réponse"></a>
+                            <?php
+                            $options = array(
+                                'controller' => 'documents',
+                                'action'     => 'download',
+                                'id'         => $document->id
+                            );
+                            $publicUrl  = MvcRouter::public_url($options);
+                            ?>
+                            <a href="<?php echo $publicUrl ?>" class="pdf" title="Télécharger le document de Question/Réponse"></a>
                         <?php endif ?>
                     <?php endforeach ?>
                 </li>
@@ -197,7 +213,15 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 <?php foreach($question->documents as $document): ?>
                     <?php if( ($document->label == 'Suite')|| ($document->label == 'Complément') ): ?>
                         <li class="pdf">
-                            <a href="<?php echo $document->download_url ?>" class="pdf" title="Télécharger le document de <?php echo $document->label ?>"><b><?php echo $document->label ?></b> <?php echo $document->name ?></a>
+                            <?php
+                            $options = array(
+                                'controller' => 'documents',
+                                'action'     => 'download',
+                                'id'         => $document->id
+                            );
+                            $publicUrl  = MvcRouter::public_url($options);
+                            ?>
+                            <a href="<?php echo $publicUrl ?>" class="pdf" title="Télécharger le document de <?php echo $document->label ?>"><b><?php echo $document->label ?></b> <?php echo $document->name ?></a>
                         </li>
                     <?php endif ?>
                 <?php endforeach ?>

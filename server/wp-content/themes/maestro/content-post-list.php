@@ -11,7 +11,7 @@ foreach ($objects as $key => $object) :
 		if( $current_date != get_the_date('d-M-Y')) :
 			$current_date = get_the_date('d-M-Y');
 	 ?>
-		<div class="date-object sel-object-date">
+		<div class="date sel-object-date">
 			<div class="sep"></div>
 			<span class="jour"><?php echo get_the_date( 'd') ?></span>
 	      	<span class="mois"><?php echo get_the_date( 'M') ?></span>

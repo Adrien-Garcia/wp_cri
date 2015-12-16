@@ -694,13 +694,14 @@ function CriRecursiveFindingFileInDirectory($path, $file)
 
 function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
     $referer = $_SERVER['HTTP_REFERER'];
-    if (! empty($referer) ){
+    $request = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    if (! empty($referer) /*&& strripos( $request , $referer)*/ ){
         $redirect = $referer;
     } else {
         $redirect = get_home_url();
     }
 
-    $request = urlencode(htmlspecialchars("//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}", ENT_QUOTES, "UTF-8"));
+    $request = urlencode(htmlspecialchars("//" . $request, ENT_QUOTES, "UTF-8"));
 
     if( empty($request) ) {
         $request = false;

@@ -1,6 +1,6 @@
 <?php criWpPost($object); ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
-	<div class="date-object sel-object-date">
+	<div class="date sel-object-date">
 		<span class="jour"><?php echo get_the_date( 'd') ?></span>
       	<span class="mois"><?php echo get_the_date( 'M') ?></span>
       	<span class="annee"><?php echo get_the_date( 'Y') ?></span> 				
@@ -76,17 +76,28 @@
             $class = $object->__model_name;
             ?>
             <?php if (method_exists($class, "getDocuments")) : ?>
-
+            <?php
+            $documents = $class::getDocuments($object->id);
+                if (! empty($documents)) :
+            ?>
 			<div class="documents-liees">
 				<ul>
-                    <?php
-                    $documents = $class::getDocuments($object->id);
-                    ?>
+
                     <?php foreach ($documents as $index => $document) : ?>
-                        <li><a href="<?php echo $document->file_path ; ?>" target="_blank"><?php echo $document->name ; ?></a></li>
+                        <?php
+                        $options = array(
+                            'controller' => 'documents',
+                            'action'     => 'download',
+                            'id'         => $document->id
+                        );
+                        $publicUrl  = MvcRouter::public_url($options);
+                        ?>
+                        <li><a href="<?php echo $publicUrl ; ?>" target="_blank"><?php echo $document->name ; ?></a></li>
                     <?php endforeach; ?>
 				</ul>
 			</div>
+                <?php endif; ?>
+
 
             <?php endif; ?>
 			
