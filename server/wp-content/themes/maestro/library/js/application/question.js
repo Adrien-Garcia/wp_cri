@@ -22,10 +22,11 @@ App.Question = {
     buttonQuestionConsultationSelector  : '.js-question-button-consultation',
     buttonQuestionMaQuestionSelector    : '.js-question-button-ma-question',
     submitQuestionSelector              : '.js-question-submit',
-
     blockQuestionErrorSelector          : '.js-question-error',
 
     buttonQuestionDocumentationSelector : '.js-question-documentation-button',
+    buttonQuestionSupportSelector       : '.js-question-support-shortcut',
+    buttonQuestionSupportNSelector      : 'js-question-support-shortcut-',
 
     owlCarouselSelector                 : "#owl-support",
     popupOverlaySelector                : "#layer-posez-question",
@@ -52,6 +53,7 @@ App.Question = {
     $submitQuestion                     : null,
 
     $buttonQuestionDocumentation        : null,
+    $buttonQuestionSupportShortcut      : null,
 
     $blockQuestionError                 : null,
 
@@ -87,11 +89,12 @@ App.Question = {
         this.$fileQuestionName                      = $(this.fileQuestionNameSelector);
 
         this.$buttonQuestionDocumentation           = $(this.buttonQuestionDocumentationSelector);
+        this.$buttonQuestionSupportShortcut         = $(this.buttonQuestionSupportSelector);
 
         this.$blockQuestionError                    = $(this.blockQuestionErrorSelector);
 
         this.$objectQuestionField                   = $(this.objectQuestionFieldSelector);
-        this.$messageQuestionField                   = $(this.messageQuestionFieldSelector);
+        this.$messageQuestionField                  = $(this.messageQuestionFieldSelector);
 
         this.$owlCarousel                           = $(this.owlCarouselSelector);
         this.$popupOverlay                          = $(this.popupOverlaySelector);
@@ -104,6 +107,11 @@ App.Question = {
 
         if (bClass.indexOf("is_notaire") !== -1) {
             this.popupOverlayInit();
+        }
+
+        if (App.Utils.queryString['openQuestion'] == 1) {
+            this.$popupOverlay.popup('show');
+            this.openTabQuestionConsultation(false);
         }
 
 
@@ -201,14 +209,26 @@ App.Question = {
             self.eventFileReset($(this),e);
         });
 
-        this.$buttonQuestionDocumentation.on('click', function(e) {
-            self.eventButtonDocumentationClick($(this));
-        });
 
         if ( bClass.indexOf("is_notaire") === -1) {
-            this.$buttonQuestionOpen.on('click', function(e) {
+            this.$buttonQuestionOpen.add(this.buttonQuestionDocumentationSelector).add(this.buttonQuestionSupportSelector).on('click', function(e) {
                 App.Login.eventPanelConnexionToggle();
                 App.Login.changeLoginErrorMessage("ERROR_NOT_CONNECTED_QUESTION");
+                App.Login.targetUrl = (typeof App.Login.targetUrl) == "boolean" ? location.origin + location.pathname : App.Login.targetUrl;
+
+                if (App.Utils.queryString == false) {
+                    App.Login.targetUrl += "?openQuestion=1";
+                } else if ( ! App.Utils.queryString["openQuestion"]) {
+                    App.Login.targetUrl += "&openQuestion=1";
+                }
+            });
+        } else {
+            this.$buttonQuestionDocumentation.on('click', function(e) {
+                self.eventButtonDocumentationClick($(this));
+            });
+
+            this.$buttonQuestionSupportShortcut.on('click', function(e) {
+                self.eventButtonSupportClick($(this));
             });
         }
 
@@ -311,6 +331,25 @@ App.Question = {
         this.eventZoneQuestionSupportClick(min.el.parents(this.zoneQuestionSupportSelector).first());
         this.$selectQuestionMatiere.val( DocumentationID).change();
         //this.eventSelectQuestionMatiereChange(false);
+
+    },
+
+    eventButtonSupportClick: function(button) {
+        this.$popupOverlay.popup('show');
+        var support = button.data('support');
+        if (support == undefined) {
+            for(var i = 0; i < button[0].classList.length; i++ ) {
+                button[0].classList.item(i);
+                var re = new RegExp(this.buttonQuestionSupportNSelector + "(\\d+)");
+                var match = re.exec(button[0].classList.item(i));
+                if (match && match[1]) {
+                    support = match[1];
+                    break;
+                }
+            }
+        }
+        var radio = this.$radioQuestionSupport.eq( support );
+        this.eventZoneQuestionSupportClick(radio.parents(this.zoneQuestionSupportSelector).first());
 
     },
 
