@@ -17,7 +17,7 @@ class DocumentsController extends MvcPublicController {
         if( empty( $model ) ){
             $this->generateError();
         }
-        if( $model->name == 'Question' ){
+        if( ($model->name == 'Question') || in_array($document->type,Config::$accessDowloadDocument) ){
             $question = $model->find_one_by_id( $document->id_externe );
             //Check user access
             $this->checkAccess($question,$notaire, $document);            
@@ -150,8 +150,11 @@ class DocumentsController extends MvcPublicController {
             //If user cridon, they can download with no restriction
             return true;
         }
+        //Access download document of news
+        if( in_array($document->type,Config::$accessDowloadDocument) && !empty( $notaire ) ){
+            return true;
         //Check if question exist, document file path is valid
-        if( empty( $notaire ) || empty( $question ) || empty( $document->file_path ) ){
+        }elseif( empty( $notaire ) || empty( $question ) || empty( $document->file_path ) ){
             $this->generateError();
         }        
         //Check if question is created by current user
