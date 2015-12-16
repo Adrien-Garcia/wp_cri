@@ -1,6 +1,8 @@
 <?php
 
-class Matiere extends MvcModel
+require_once 'base_model.php';
+
+class Matiere extends BaseModel
 {
     var $display_field  = 'label';
     var $table          = '{prefix}matiere';

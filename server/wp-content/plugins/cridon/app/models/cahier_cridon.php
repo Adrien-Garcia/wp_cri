@@ -3,7 +3,10 @@
 /**
  * Class CahierCridon
  */
-class CahierCridon extends MvcModel
+
+require_once 'base_model.php';
+
+class CahierCridon extends BaseModel
 {
     var $table = "{prefix}cahier_cridon";
     var $includes = array('Post');

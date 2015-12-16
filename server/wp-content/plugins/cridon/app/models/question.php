@@ -3,7 +3,10 @@
 /**
  * Question Model
  */
-class Question extends MvcModel
+
+require_once 'base_model.php';
+
+class Question extends BaseModel
 {
     /**
      * @var string

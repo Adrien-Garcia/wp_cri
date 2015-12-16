@@ -1,6 +1,8 @@
 <?php
 
-class VieCridon extends MvcModel {
+require_once 'base_model.php';
+
+class VieCridon extends BaseModel {
     var $table          = "{prefix}vie_cridon";
     var $includes       = array('Post');
     var $belongs_to     = array(

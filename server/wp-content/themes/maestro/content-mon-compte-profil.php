@@ -111,17 +111,27 @@
 	<h2><?php _e('Ma newsletter'); ?></h2>
         <div class="description">
             <?php if ($notaire->newsletter == 0 ):?>
+                <script type="text/javascript">
+                //<![CDATA[
+                	jsvar.newsletter_success_msg = "Inscription terminée avec succès.";
+                //]]>
+                </script>
             <?php _e('Vous n\'êtes pas inscrit à notre newsletter.'); ?>
             <?php else : ?>
+                <script type="text/javascript">
+                    //<![CDATA[
+                    jsvar.newsletter_success_msg = "Désinscription terminée avec succès.";
+                    //]]>
+                </script>
             <?php _e('Vous êtes inscrit à notre newsletter selon vos centres d\'interets.'); ?>
             <?php endif; ?>
         </div>
-        <form action="/notaires/<?php echo $notaire->id ?>/profil" method="post" accept-charset="utf-8" id="newsletterFormId1" class="form-newsletter">
-            <input type="hidden" name="userEmail" value="<?php echo $notaire->email_adress ?>" id="userEmail" placeholder="<?php _e('Votre adresse email'); ?>">
-            <input type="hidden" name="disabled" value="<?php echo $notaire->newsletter; ?>">
+        <form action="/notaires/<?php echo $notaire->id ?>/profil" method="post" accept-charset="utf-8" id="newsletterFormId1" class="form-newsletter js-account-profil-newsletter-form">
+            <input type="hidden" name="userEmail" value="<?php echo $notaire->email_adress ?>" class="js-account-profil-newsletter-email" id="userEmail" placeholder="<?php _e('Votre adresse email'); ?>">
+            <input type="hidden" name="state" value="<?php echo $notaire->newsletter == 1 ? "0" : "1"; ?>" class="js-account-profil-newsletter-state">
             <input type="submit" name="submit" value="<?php _e( ($notaire->newsletter == 0 ? "S'inscrire" : "Me désinscrire" ) ); ?>">
         </form>
-        <div id="newsletterMsgId">
+        <div id="newsletterMsgId" class="js-account-profil-newsletter-message">
         </div>
 
 </div>

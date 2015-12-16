@@ -700,6 +700,12 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
         $redirect = get_home_url();
     }
 
+    $request = urlencode(htmlspecialchars("//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}", ENT_QUOTES, "UTF-8"));
+
+    if( empty($request) ) {
+        $request = false;
+    }
+
     if (
         preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 &&
         preg_match("/.*?[\?\&]messageLogin=" . $error_code . ".*?/", $referer) === 1
@@ -715,6 +721,30 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
     }
 
     $redirect .= "openLogin=1&messageLogin=" . $error_code;
-
+    if ($request) {
+        $redirect .= "&requestUrl=" . $request;
+    }
     wp_redirect($redirect);
+}
+
+/**
+ *  Menu principal
+ *
+ */
+function criNavPrincipal() {
+    // Affiche le menu wp3 si possible (sinon, fallback)
+    wp_nav_menu(array(
+        'container' => false,                           // Supprime le conteneur par défaut de la navigation
+        'container_class' => 'menu clearfix',           // Classe du conteneur
+        'menu' => 'Menu principal',                     // Nom du menu
+        'menu_class' => 'nav top-nav clearfix',         // Classe du menu
+        'theme_location' => 'main-nav',           // Localisation du menu dans le thème
+        'before' => '',                                 // Balisage avant le menu
+        'after' => '',                                  // Balisage après le menu
+        'link_before' => '',                            // Balisage avant chaque lien
+        'link_after' => '',                             // Balisage après chaque lien
+        'depth' => 0,                                   // Profondeur du menu (0 : aucune)
+        'fallback_cb' => 'ao_nav_principale_fallback',  // fallback fonction (si pas de support du menu)
+        'walker' => new CriCustomWalker			// Utilisation de la description
+    ));
 }

@@ -1,6 +1,8 @@
 <?php
 
-class Civilite extends MvcModel {
+require_once 'base_model.php';
+
+class Civilite extends BaseModel {
 
     var $display_field  = 'label';
     var $table          = '{prefix}civilite';

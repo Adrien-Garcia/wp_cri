@@ -3452,14 +3452,14 @@ body.page-template-front-page{
 									padding: 0 20px 0 40px;
 
 									//display: none;
-									height: 0px;
 									overflow: hidden;
 									//opacity: 0;
 									@include transition (height 0.3s);
 
-									&.open{
-										height: 100%;
-									}
+									&:not(.open) {
+                                        height: 0px !important;
+
+                                    }
 
 									> ul{
 										padding: 10px 0;
@@ -4412,6 +4412,8 @@ FOOTER STYLES
     bottom: 0;
     right: 0;
     left: 0;
+    padding: 0;
+    margin: 0;
     background: rgba(255,255,255,0.3);
     z-index: -1;
     @include transition(opacity 0.15s ease);

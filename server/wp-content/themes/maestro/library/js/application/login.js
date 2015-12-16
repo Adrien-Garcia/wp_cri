@@ -41,6 +41,8 @@ App.Login = {
     $fieldPasswordMail                  : null,
     $fieldPasswordCRPCEN                : null,
 
+    targetUrl                           : false,
+
 
     init: function() {
         this.debug("Login : init start");
@@ -92,6 +94,8 @@ App.Login = {
             this.changeLoginErrorMessage(App.Utils.queryString['messageLogin']);
         }
 
+        this.targetUrl = App.Utils.queryString['requestUrl'] ? App.Utils.queryString['requestUrl'] : false;
+
         this.debug("Login : init end");
 
     },
@@ -106,11 +110,14 @@ App.Login = {
         this.debug("Login : addListeners start");
 
         this.$panelConnexionOpen.on("click", function(e) {
-           self.eventPanelConnexionToggle($(this));
+            self.eventPanelConnexionToggle($(this));
+            if (this.href && this.href.substr(-1) != "#") {
+                self.targetUrl = this.href;
+            }
         });
 
         this.$panelConnexionClose.on("click", function(e) {
-           self.eventPanelConnexionToggle($(this));
+            self.eventPanelConnexionToggle($(this));
         });
 
         this.$buttonToConnexion.on("click", function(e) {
@@ -240,6 +247,10 @@ App.Login = {
         }
         else
         {
+            if (this.targetUrl) {
+                window.location.href = this.targetUrl;
+                return false;
+            }
             window.location.href = data;
         }
         return false;
@@ -259,6 +270,10 @@ App.Login = {
         }
         return false;
 
+    },
+
+    resetTargetUrl: function () {
+        this.targetUrl = false;
     },
 
 
