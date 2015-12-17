@@ -27,10 +27,10 @@
 			</div>
             <?php if (!empty($notaire->etude->tel) || !empty($notaire->etude->fax)): ?>
 			<div class="contact">
-                <?php if (!empty($notaire->etude->tel)): ?>
+                <?php if (!empty($notaire->etude->tel) && preg_match("/\+?\d{6,}/", $notaire->etude->tel) ): ?>
 				<span>Tel <?php echo $notaire->etude->tel ?></span>
                 <?php endif; ?>
-                <?php if (!empty($notaire->etude->fax)): ?>
+                <?php if (!empty($notaire->etude->fax) && preg_match("/\+?\d{6,}/", $notaire->etude->fax)): ?>
 				<span>Fax <?php echo $notaire->etude->fax ?></span>
                 <?php endif; ?>
 			</div>
@@ -66,13 +66,13 @@
 				<span id="sel-compte-mail"><?php echo $notaire->email_adress ?></span>
 			</div>
 			<div class="contact">
-				<?php if (!empty($notaire->tel_portable)): ?>
+				<?php if (!empty($notaire->tel_portable) && preg_match("/\+?\d{6,}/", $notaire->tel_portable)): ?>
 					<span>Mob  <a href="tel:<?php echo $notaire->tel_portable ?>"><?php echo $notaire->tel_portable ?></a></span>
 				<?php endif ?>
-				<?php if (!empty($notaire->tel)): ?>
+				<?php if (!empty($notaire->tel) && preg_match("/\+?\d{6,}/", $notaire->tel)): ?>
 				<span>Tel <a href="tel:<?php echo $notaire->tel ?>"><?php echo $notaire->tel ?></a></span>
 				<?php endif ?>
-				<?php if (!empty($notaire->fax)): ?>
+				<?php if (!empty($notaire->fax) && preg_match("/\+?\d{6,}/", $notaire->fax)): ?>
 					<span>Fax <?php echo $notaire->fax ?></span>
 				<?php endif ?>
 			</div>			
