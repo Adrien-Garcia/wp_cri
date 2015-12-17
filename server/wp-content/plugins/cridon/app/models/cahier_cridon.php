@@ -75,7 +75,7 @@ class CahierCridon extends BaseModel
                         'post_status' => 'publish',
                         'post_type' => 'post',
                         'post_author' => 3,
-                        'post_parent' => (strtolower($data[$parser::CAHIER_PARENTID]) != 'null')?$data[$parser::CAHIER_PARENTID]:0,
+                        'post_parent' => (strtolower($data[$parser::CAHIER_PARENTID]) != 'null')? $data[$parser::CAHIER_PARENTID] : 0,
                     );
                     $post_ID = wp_insert_post($post, true);
 
@@ -85,11 +85,12 @@ class CahierCridon extends BaseModel
                             'CahierCridon' => array(
                                 'id'      => $data[$parser::CAHIER_ID],
                                 'post_id' => $post_ID,
-                                'id_parent' => $post['post_parent'],
                                 'id_matiere'      => $data[$parser::CAHIER_MATIEREID],
                             )
                         );
-
+                        if (!empty($post['post_parent'])) {
+                            $cahierData['CahierCridon']['id_parent'] = $post['post_parent'];
+                        }
                         // id insertion
                         $id = $this->create($cahierData);
 
