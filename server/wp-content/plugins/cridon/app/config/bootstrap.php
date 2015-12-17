@@ -749,7 +749,8 @@ function sendNotificationForPostPublished( $post,$model ){
     }
     $title = $post->post_title;
     $date  = get_the_date('d M Y',$post->ID);
-    $excerpt = get_the_excerpt();
+
+    $excerpt = wp_trim_words(strip_tags($post->post_excerpt), 30);
     $content = get_the_content();
     $matiere = isset($model->matiere) ? $model->matiere : false;
     $permalink = generateUrlByModel($model);
@@ -768,7 +769,7 @@ function sendNotificationForPostPublished( $post,$model ){
         "matiere" => $matiere,
         "permalink" => $permalink,
         "tags" => $tags,
-
+        "post" => $post,
     );
 
     writeLog($vars, "mailog.txt");

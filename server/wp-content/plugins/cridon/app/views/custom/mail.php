@@ -25,12 +25,11 @@
         table, div {
             font-family:Arial, Helvetica, sans-serif;
             font-size:12px;
-            margin-bottom: 5px;
         }
 
         h1 {color:#009999; font-weight:normal; font-size:28px; text-transform:uppercase; line-height:20px; margin:15px 0px 5px 0px; padding:0px; font-family:'Dosis', Arial, Helvetica, sans-serif;}
         h2 {font-size: 20px; line-height: 18px; text-transform: uppercase;  margin:10px 0px; color:#2e4867; font-weight:normal; padding:0px; font-family:'Dosis', Arial, Helvetica, sans-serif;}
-        h3 {font-size: 20px; line-height: 18px; text-transform: uppercase; margin:10px 0px 2px 0px; color:#009999; font-weight:normal; padding:0px; font-family: 'Dosis', Arial, Helvetica, sans-serif;}
+        h3 {font-size: 20px; line-height: 18px; text-transform: uppercase; margin:10px 0px 2px 20px; color:#009999; font-weight:normal; padding:0px; font-family: 'Dosis', Arial, Helvetica, sans-serif;}
 
         a {
             cursor:pointer;
@@ -46,10 +45,9 @@
 
         .s{background-color:#ffd500; text-decoration: none;}
         .introduction{color:#b9003f; font-size:16px; line-height:22px; font-weight:normal;}
-        .couleur2{color:#009999}
+        .couleur2{color:#009999;margin-left:20px;}
         .section{background-color:#009999; color:#fff; text-transform:uppercase; font-family:'Dosis', Arial, Helvetica, sans-serif; padding:0px 3px;}
         .newsletter_date{color:#009999; font-size:28px; text-transform:uppercase; font-family:'Dosis', Arial, Helvetica, sans-serif;}
-
 
 
         -->
@@ -67,6 +65,8 @@
         <tr>
             <td colspan="3" width="600" style="background-color:#fff">
                 <?php
+                $home = home_url();
+
                 $modelFile = "banner.png";
                 $alt = "Ma veille juridique";
                 if ($model == "flash") {
@@ -86,42 +86,40 @@
         </tr>
 
         <tr>
-            <td width="20" style="background-color:#fff;"></td>
+            <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
                 <span class="newsletter_date" style="text-transform: uppercase;"><?php echo sprintf(Config::$mailBodyNotification['date'],  $date ); ?></span>
                 <br/><br/>
                 <?php if (! empty($matiere)) : ?>
-                <span class="section"><?php echo sprintf(Config::$mailBodyNotification['matiere'],  $matiere->label ); ?></span>
+                    <img src="<?php echo $matiere->picto ?>" alt="icon" width="90" height="90" style="width:90px;height:90px;" /><br/>
+                    <span class="section"><?php echo sprintf(Config::$mailBodyNotification['matiere'],  $matiere->label ); ?></span>
+
                 <?php endif; ?>
                 <h1><?php echo  sprintf(Config::$mailBodyNotification['title'],  $title );?></h1>
                 <span class="introduction"><?php echo !empty($excerpt) ? sprintf(Config::$mailBodyNotification['excerpt'],  $excerpt ) : "" ?></span><br/>
-                <?php if (! empty($matiere)) : ?>
-                <img src="<?php echo $matiere->picto ?>" alt="icon" /><br/>
-                <?php endif; ?>
 
                 <?php echo sprintf(Config::$mailBodyNotification['content'],  $content ); ?>
 
-                <p>
+                <p style="margin-top:25px;">
 
                     <?php
                     if( !empty( $documents ) ){
-                        $home = home_url();
-                        echo '<h3>Documents liés</h3><ul>';
+                        echo '<h2>Documents liés</h2><ul>';
                         foreach( $documents as $document ){
                             echo sprintf ('<li><a href="%s">%s</a></li>',   $home. $documentModel->generatePublicUrl($document->id),$document->name );
                         }
                         echo '</ul>';
                     }?>
                 </p>
-                <p>
+                <p style="font-weight:bold;">
                 <?php
                     if( $tags ){
-                        echo '<p>'.Config::$mailBodyNotification['tags'].' ';
+                        echo Config::$mailBodyNotification['tags'].' ';
                         $a = array();
                         foreach ( $tags as $tag ){
                             $a[] .= $tag->name;
                         }
-                        echo implode(',',$a) . '</p>';
+                        echo implode(' | ',$a);
                     }
                     ?>
                 </p>
@@ -189,7 +187,15 @@
 
         <tr>
             <td width="20" style="background-color:#e6e6e6;"></td>
-            <td width="560" height="30" style="background-color:#e6e6e6; font-size:11px; color:#15283f; text-align:left">Vous souhaitez vous désabonner de cette liste de veille juridique: <a href="#">cliquez-ici.</a></td>
+            <td width="560" height="30" style="background-color:#e6e6e6; font-size:11px; color:#15283f; text-align:left">Vous souhaitez vous désabonner de cette liste de veille juridique:
+                <?php if ($model == "veille") : ?>
+                <a href="<?php echo $home ?>/notaires/profil">cliquez-ici.</a>
+                <?php else : ?>
+                <a href="<?php echo $home ?>/contact">cliquez-ici.</a>
+
+                <?php endif; ?>
+
+            </td>
             <td width="20" style="background-color:#e6e6e6;"></td>
         </tr>
 
