@@ -442,7 +442,7 @@ class Document extends BaseModel {
     
     public function generatePublicUrl( $id ){
         $url = Config::$confPublicDownloadURL['url'].$id;
-        return '/'.$this->encryptVal($url);
+        return '/telechargement/'.$this->encryptVal($url);
     }
     //End Encryption
 }
