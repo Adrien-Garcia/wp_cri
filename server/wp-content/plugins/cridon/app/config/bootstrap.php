@@ -40,6 +40,8 @@ function save_post_in_table( $post_ID, $post ){
             $aAdditionalFields['id_parent'] = $_POST['id_parent'];
         }
         updateRelatedContent( $model , $aAdditionalFields);
+
+        $model = mvc_model($modelConf['name'])->find_by_id($model->id);
         //Only on insert and post status is publish
         if( $isInsert && ( $post->post_status == 'publish' ) && ( $post->post_type == 'post' ) ){
             sendNotificationForPostPublished($post, $model);
@@ -235,7 +237,7 @@ function check( $needle ,$haystack, $property = 'id_matiere' ){
  * @param MvcModelObject $object Related content
  * @param array $postFields related fields
  */
-function updateRelatedContent( $object, $postFields ){
+function updateRelatedContent( &$object, $postFields ){
     $class = $object->__model_name;
     /**
      * @var MvcModel $class
@@ -553,10 +555,19 @@ function fileExists($fileName, $caseSensitive = true) {
  * @param string $path
  * @param array $view_vars
  * @param string $folder
+ * @param boolean $echo
+ *
+ * @return string
  */
-function CriRenderView($path, $view_vars, $folder = "custom") {
+function CriRenderView($path, $view_vars, $folder = "custom", $echo = true) {
+    if (!$echo) {
+        ob_start();
+    }
     extract($view_vars);
     require_once WP_PLUGIN_DIR . '/cridon/app/views/' . $folder . '/' . $path . '.php';
+    if (!$echo) {
+        return ob_get_clean();
+    }
 }
 
 //End custom functions
@@ -724,7 +735,6 @@ function sendNotificationForPostPublished( $post,$model ){
     global $pages,$page ;
     $pages = array($post->post_content);
     $page = 1;
-    //
     $options = array(
         'conditions' => array(
             'type'       => strtolower( $model->__model_name ),
@@ -732,41 +742,45 @@ function sendNotificationForPostPublished( $post,$model ){
         )
     );
     $documentModel = mvc_model('Document');
-    $documents = $documentModel->find( $options );
+    $documents = false;
+    $class = $model->__model_name;
+    if (method_exists($class, "getDocuments")) {
+        $documents = $class::getDocuments($model->id);
+    }
     $title = $post->post_title;
-    $date  = get_the_date('d-M-Y',$post);
-    $excerpt = get_the_excerpt();
-    $content = wp_strip_all_tags( get_the_content(), true );
-    $matiere = $model->matiere->label;
+    $date  = get_the_date('d M Y',$post->ID);
+
+    $excerpt = wp_trim_words(strip_tags($post->post_excerpt), 30);
+    $content = get_the_content();
+    $matiere = isset($model->matiere) ? $model->matiere : false;
     $permalink = generateUrlByModel($model);
-    $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
-    $message  = sprintf(Config::$mailBodyNotification['title'],  $title );
-    $message .= sprintf(Config::$mailBodyNotification['date'],  $date );
-    if( !empty( $excerpt ) ){
-        $message .= sprintf(Config::$mailBodyNotification['excerpt'],  $excerpt );        
-    }
-    $message .= sprintf(Config::$mailBodyNotification['content'],  $content );
-    $message .= sprintf(Config::$mailBodyNotification['matiere'],  $matiere );
-    $message .= sprintf(Config::$mailBodyNotification['permalink'],  $permalink,$title );    
-    $headers = array('Content-Type: text/html; charset=UTF-8');
-    if( !empty( $documents ) ){
-        $home = home_url();
-        $message .= Config::$mailBodyNotification['documents'];
-        $message .= '<ul>';
-        foreach( $documents as $document ){
-            $message .= sprintf ('<li><a href="%s">%s</a></li>',   $home.$documentModel->generatePublicUrl($document->id),$document->name );            
-        }
-        $message .= '</ul>';
-    }
     $tags = get_the_tags( $post->ID );
-    if( $tags ){
-        $message .= '<p>'.Config::$mailBodyNotification['tags'].' ';
-        $a = array();
-        foreach ( $tags as $tag ){
-            $a[] .= $tag->name;
-        }
-        $message .= implode(',',$a) . '</p>';
-    }    
+    $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
+
+    //writeLog($post, "mailog.txt");
+
+    $vars = array(
+        "documentModel" => $documentModel,
+        "model" => strtolower( $model->__model_name ),
+        "documents" => $documents,
+        "title" => $title,
+        "date" => $date ,
+        "excerpt" => $excerpt,
+        "content" => $content,
+        "matiere" => $matiere,
+        "permalink" => $permalink,
+        "tags" => $tags,
+        "post" => $post,
+    );
+
+    writeLog($vars, "mailog.txt");
+
+
+
+    $message = CriRenderView('mail', $vars,'custom', false);
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+
     /**
      * type = 1 => all notaries
      * type = 0 => subscribers notaries ( veille )
@@ -780,10 +794,15 @@ function sendNotificationForPostPublished( $post,$model ){
     }else{
         return false;//Don't send notification
     }
-    if( !empty( $notaires ) ){
+    $env = getenv('ENV');
+
+    if (empty($env)|| ($env !== 'PROD')) {
+        $mail = wp_mail( Config::$notificationAddressPreprod , $subject, $message, $headers );
+        writeLog("not Prod: " . $mail . "\n", "mailog.txt");
+    } elseif( !empty( $notaires ) ){
         foreach( $notaires as $notaire ){
             if( isset($notaire->email_adress ) ){
-                wp_mail( $notaire->email_adress , $subject, $message, $headers );  
+                wp_mail( $notaire->email_adress , $subject, $message, $headers );
             }
         }
     }

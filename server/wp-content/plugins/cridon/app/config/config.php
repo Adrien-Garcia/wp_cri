@@ -157,15 +157,16 @@ class Config {
     public static $notificationForSubscribersNotaries = array( 'veille' );
     public static $mailBodyNotification  = array(
         'subject'   => 'Publication: %s',
-        'title'     => '<h2>%s</h2></br></br>',
-        'date'      => '<p>Date: %s </p></br></br>',
-        'excerpt'   => '<p>Résumé: %s </p></br></br>',
-        'content'   => '<div>%s</div></br></br>',
-        'matiere'   => '<p>Matière associée: %s </p></br></br>',
-        'permalink' => 'Lien vers l\'article: <a href="%s">%s</a></br></br>',
-        'documents' => '<p>Les documents associés: </p></br>',
-        'tags'      => 'Etiquettes:'
+        'title'     => '<h1>%s</h1>',
+        'date'      => '%s',
+        'excerpt'   => '%s',
+        'content'   => '%s',
+        'matiere'   => '%s',
+        'permalink' => '<a href="%s">%s</a>',
+        'documents' => 'Les documents associés: ',
+        'tags'      => ''
     );
+    public static $notificationAddressPreprod = "clement.horgues@jetpulp.fr";
 
     //GED Administration
     public static $GEDtxtIndexes = array(
