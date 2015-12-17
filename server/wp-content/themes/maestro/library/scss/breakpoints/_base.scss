@@ -1142,6 +1142,19 @@ body.page-template-front-page{
 						}
 					}
 
+					&:hover {
+						.content {
+							&, &:before, &:after {
+								height: 266px;
+								background-position: 0 100%;
+							}
+
+							> a{ font-weight: 700;} 
+						}
+
+						
+					}
+
 					
 				}
 
@@ -1951,6 +1964,9 @@ body.page-template-front-page{
 							height: 100px;
 							float: left;
 							
+							/**/
+							//margin-right: 20px;
+							
 							.img-cat{
 								width: 30px;
 								height: 30px;
@@ -1967,7 +1983,8 @@ body.page-template-front-page{
 						
 						.block_right{
 							float: right;
-							width: calc(100% - 50px);
+							width: 250px;
+							overflow: hidden;
 
 							.matiere{
 								@extend .do-bo;
@@ -1999,6 +2016,8 @@ body.page-template-front-page{
 							    width: 100%;
 							    line-height: 18px;
 							    margin-bottom: 10px;
+
+							    >a{ display: none;}
 							}
 
 							.extrait{
@@ -2655,7 +2674,8 @@ body.page-template-front-page{
 		.h1{
 			@extend .do-sm;
 			font-size: 30px;
-			line-height: 24px;
+			line-height: 30px;
+			margin-bottom: 40px;
 			color:$bleu;
 			text-transform: uppercase;
 			width: 100%;
@@ -4572,7 +4592,7 @@ a.logoJP:hover{opacity: 1;
 .footer {
 	clear: both;
 	width:100%;
-	background-color: $black;
+	background-color: #FFF;
 	bottom:0;
 	left:0;
 
