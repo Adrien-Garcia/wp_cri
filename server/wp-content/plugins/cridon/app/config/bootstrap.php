@@ -755,6 +755,7 @@ function sendNotificationForPostPublished( $post,$model ){
     $matiere = isset($model->matiere) ? $model->matiere : false;
     $permalink = generateUrlByModel($model);
     $tags = get_the_tags( $post->ID );
+    $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
 
     //writeLog($post, "mailog.txt");
 
@@ -776,37 +777,10 @@ function sendNotificationForPostPublished( $post,$model ){
 
 
 
-    $message = CriRenderView('mail', $vars,'custom', true);
-    die();
+    $message = CriRenderView('mail', $vars,'custom', false);
     $headers = array('Content-Type: text/html; charset=UTF-8');
 
-    /*$message  = sprintf(Config::$mailBodyNotification['title'],  $title );
-    $message .= sprintf(Config::$mailBodyNotification['date'],  $date );
-    if( !empty( $excerpt ) ){
-        $message .= sprintf(Config::$mailBodyNotification['excerpt'],  $excerpt );        
-    }
-    $message .= sprintf(Config::$mailBodyNotification['content'],  $content );
-    $message .= sprintf(Config::$mailBodyNotification['matiere'],  $matiere );
-    $message .= sprintf(Config::$mailBodyNotification['permalink'],  $permalink,$title );    
-    $headers = array('Content-Type: text/html; charset=UTF-8');
-    if( !empty( $documents ) ){
-        $home = home_url();
-        $message .= Config::$mailBodyNotification['documents'];
-        $message .= '<ul>';
-        foreach( $documents as $document ){
-            $message .= sprintf ('<li><a href="%s">%s</a></li>',   $home.$documentModel->generatePublicUrl($document->id),$document->name );            
-        }
-        $message .= '</ul>';
-    }
-    $tags = get_the_tags( $post->ID );
-    if( $tags ){
-        $message .= '<p>'.Config::$mailBodyNotification['tags'].' ';
-        $a = array();
-        foreach ( $tags as $tag ){
-            $a[] .= $tag->name;
-        }
-        $message .= implode(',',$a) . '</p>';
-    }*/
+
     /**
      * type = 1 => all notaries
      * type = 0 => subscribers notaries ( veille )
