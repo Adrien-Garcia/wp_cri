@@ -609,7 +609,8 @@ function CriListSupport()
         'conditions' => array(
             'Support.displayed' => 1
         ),
-        'order'      => 'Support.order ASC'
+        'order'      => 'Support.order ASC',
+        'limit'      => 3
     );
     $items   = mvc_model('Support')->find($options);
 
@@ -748,4 +749,21 @@ function criNavPrincipal() {
         'fallback_cb' => 'ao_nav_principale_fallback',  // fallback fonction (si pas de support du menu)
         'walker' => new CriCustomWalker			// Utilisation de la description
     ));
+}
+// update download_url field in cri_document when it's empty
+function updateEmptyDownloadUrlFieldsDocument() {
+    global $wpdb;
+    $documents = $wpdb->get_results("SELECT id FROM ".$wpdb->prefix."document WHERE download_url = ''");
+    if( !empty($documents)){
+        $queryStart = " UPDATE `{$wpdb->prefix}document` ";
+        $queryEnd   = ' END '; 
+        $updateValues = array();
+        foreach( $documents as $document ){
+            $updateValues[] = " id = {$document->id}  THEN '/documents/download/{$document->id}'";
+        }
+        $query = ' SET `download_url` = CASE ';
+        $query .= ' WHEN ' . implode(' WHEN ', $updateValues);
+        $query .= ' ELSE `download_url` ';
+        $wpdb->query($queryStart . $query . $queryEnd);
+    }
 }

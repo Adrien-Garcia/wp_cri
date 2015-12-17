@@ -27,7 +27,12 @@ class Document extends BaseModel {
 
     public function create($data) {
         $data = $this->customProperties($data);
-        return parent::create($data);
+        $id = parent::create($data);
+        if( $id ){
+            //Update download url
+            $this->update($id, array('download_url' => '/documents/download/'.$id));//Using WP_MVC to update model
+        }
+        return $id;
     }
 
     public function save($data) {
