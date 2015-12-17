@@ -25,7 +25,7 @@ if ( !CriIsNotaire() ) : ?>
                 <div id="main" class="cf" role="main">
 
                     <h1 class="h1" style="visibility:hidden;">SINEQUA</h1>
-                    <iframe style="height: 700px; width: 1200px;" src="http://10.115.100.32/search?profile=profil.CL_externe&amp;user=<?php echo $notaire->id ?>&amp;password=<?php echo $notaire->web_password ?>" width="300" height="150"></iframe>
+                    <iframe style="height: 700px; width: 1200px;" src="http://10.115.100.32/search?profile=profil.CL_externe&amp;login=<?php echo $notaire->id ?>" width="300" height="150"></iframe>
 
                 </div>
 
