@@ -442,6 +442,8 @@ HEADER STYLES
 				float: left;
 				margin-right: 10px; 
 
+				
+
 				&:nth-child(3){ margin-right: 0;} 
 
 
@@ -679,6 +681,8 @@ body.page-template-front-page{
 							right: 0;
 						}
 						
+
+						
 						h2{ 
 							font-size: 27px; 
 							line-height: 28px;
@@ -693,6 +697,19 @@ body.page-template-front-page{
 							font-size: 30px;
 							line-height: 10px;						
 						}
+					}
+
+					&:hover {
+							.content {
+							&, &:before, &:after {
+								height: 210px;
+								background-position: 0 100%;
+							}
+
+							> a{ font-weight: 700;} 
+						}
+
+						
 					}
 					
 					
@@ -1469,6 +1486,7 @@ body.page-template-front-page{
 							    width: 37px;
 							    font-size: 10px;
 							    line-height: 14px;
+							    clear: both;
 
 							    &:after{
 							    	border-width: 7px 0 7px 9px; 
@@ -1833,7 +1851,7 @@ body.page-template-front-page{
 			.h1{
 				
 				font-size: 50px;
-				line-height: 40px;
+				line-height: 55px;
 				margin-bottom: 50px;
 			}
 		
