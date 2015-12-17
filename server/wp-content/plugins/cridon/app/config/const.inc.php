@@ -311,6 +311,12 @@ if ( !defined( 'CONST_SUPPORT_URG48H_ID' ) ) {
 if ( !defined( 'CONST_SUPPORT_URGWEEK_ID' ) ) {
     define( 'CONST_SUPPORT_URGWEEK_ID',  7);
 }
+if ( !defined( 'CONST_SUPPORT_NON_FACTURE' ) ) {
+    define( 'CONST_SUPPORT_NON_FACTURE',  5);
+}
+if ( !defined( 'CONST_SUPPORT_MES_DIANE' ) ) {
+    define( 'CONST_SUPPORT_MES_DIANE',  4);
+}
 
 // Notaire fonctions id (used for filtering capability)
 if ( !defined( 'CONST_NOTAIRE_ASSOCIE' ) ) {

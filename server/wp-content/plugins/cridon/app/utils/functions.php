@@ -609,7 +609,8 @@ function CriListSupport()
         'conditions' => array(
             'Support.displayed' => 1
         ),
-        'order'      => 'Support.order ASC'
+        'order'      => 'Support.order ASC',
+        'limit'      => 3
     );
     $items   = mvc_model('Support')->find($options);
 
