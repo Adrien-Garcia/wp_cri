@@ -13,6 +13,8 @@
 			<div id="inner-content" class="wrap cf">
 
 				<h1 class="h1">Les Cahiers du CRIDON</h1>
+				<div class="listing object" id="sel-object">
+					
                 <?php
                 $current_date = null;
                 foreach ($objects as $key => $object) :
@@ -20,9 +22,6 @@
                 <?php criWpPost($object); ?>
                 <?php //var_dump($object) ?>
                 <?php //var_dump($object->documents) ?>
-
-				<div class="listing object" id="sel-object">
-					
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
                         <?php
