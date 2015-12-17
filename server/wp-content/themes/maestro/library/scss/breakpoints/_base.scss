@@ -1965,7 +1965,7 @@ body.page-template-front-page{
 							float: left;
 							
 							/**/
-							//margin-right: 20px;
+							margin-right: 20px;
 							
 							.img-cat{
 								width: 30px;
@@ -1984,7 +1984,7 @@ body.page-template-front-page{
 						.block_right{
 							float: right;
 							width: 250px;
-							overflow: hidden;
+							//overflow: hidden;
 
 							.matiere{
 								@extend .do-bo;
@@ -2013,7 +2013,8 @@ body.page-template-front-page{
 							    font-size: 15px;
 							    color: $rouge;
 							    font-family: $garamond;
-							    width: 100%;
+							    width: 250px;
+							    overflow: hidden;
 							    line-height: 18px;
 							    margin-bottom: 10px;
 
@@ -2024,6 +2025,8 @@ body.page-template-front-page{
 								font-family: $helvetica;
 							    font-size: 13px;
 							    line-height: 18px;
+							    width: 250px;
+							    overflow: hidden;
 							}
 
 							.mots_cles{
