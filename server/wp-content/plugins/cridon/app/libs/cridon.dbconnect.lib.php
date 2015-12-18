@@ -300,7 +300,7 @@ interface DBConnect
     const QUEST_YUSER      = 'YUSER_0';
 
     /**
-     * @var string : anomalie (0 = Non | 1 = Oui)
+     * @var string : anomalie (1 = Non | 2 = Oui)
      */
     const QUEST_ZANOAMITEL       = 'ZANOAMITEL_0';
 
