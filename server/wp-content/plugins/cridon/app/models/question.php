@@ -118,7 +118,8 @@ class Question extends BaseModel
                 // filter by list of supports if necessary
                 $sql = 'SELECT COUNT(*) as NB FROM ' . CONST_ODBC_TABLE_QUEST;
                 if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
-                    $sql .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
+                    $sql .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')
+                    AND '.$adapter::QUEST_NOFAC_TEL. '!= 2';
                 }
 
                 // exec query

@@ -305,6 +305,11 @@ interface DBConnect
     const QUEST_ZANOAMITEL       = 'ZANOAMITEL_0';
 
     /**
+     * @var string : anomalie (1 = Non | 2 = Oui)
+     */
+    const QUEST_NOFAC_TEL       = 'ZTELNOFAC';
+
+    /**
      * @var string : date de modification
      */
     const QUEST_UPDDAT    = 'UPDDAT_0';
