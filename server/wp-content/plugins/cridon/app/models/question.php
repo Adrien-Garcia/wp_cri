@@ -118,7 +118,8 @@ class Question extends BaseModel
                 // filter by list of supports if necessary
                 $sql = 'SELECT COUNT(*) as NB FROM ' . CONST_ODBC_TABLE_QUEST;
                 if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
-                    $sql .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
+                    $sql .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')
+                    AND '.$adapter::QUEST_NOFAC_TEL. '!= 2';
                 }
 
                 // exec query
@@ -568,10 +569,10 @@ class Question extends BaseModel
             }
         }
 
-        // confidential
+        // confidential : conversion du couple 1,2 vers un booleen 0,1
         $confidential = 0;
-        if (isset($data[$adapter::QUEST_ZANOAMITEL]) && intval($data[$adapter::QUEST_ZANOAMITEL]) == 1) {
-            $confidential = $data[$adapter::QUEST_ZANOAMITEL];
+        if (isset($data[$adapter::QUEST_ZANOAMITEL]) && intval($data[$adapter::QUEST_ZANOAMITEL]) == 2) {
+            $confidential = 1;
         }
         // prepare bulk insert query
         $value = "(";
@@ -801,12 +802,13 @@ class Question extends BaseModel
                         $query .= " transmis_erp = '" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
 
                         /**
-                         * "0 : non
-                         * 1 : oui (afficher sans document PDF, pas de génération d'alerte email pour les secrétaire)"
+                         * "1 : non (il n'y a pas d'anomalie)
+                         * 2 : oui (anomalie, afficher sans document PDF, pas de génération d'alerte email pour les secrétaire)"
+                         * A transformer en booleen
                          */
                         $confidential = 0;
-                        if (isset($data[$adapter::QUEST_ZANOAMITEL]) && intval($data[$adapter::QUEST_ZANOAMITEL]) == 1) {
-                            $confidential = $data[$adapter::QUEST_ZANOAMITEL];
+                        if (isset($data[$adapter::QUEST_ZANOAMITEL]) && intval($data[$adapter::QUEST_ZANOAMITEL]) == 2) {
+                            $confidential = '1';
                         }
                         $query .= " confidential = '" . $confidential . "' "; // confidential
 
