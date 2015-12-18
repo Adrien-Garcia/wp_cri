@@ -62,9 +62,9 @@ if ( !defined( 'CONST_DB_TYPE' ) ) {
 if ( !defined( 'CONST_DB_HOST' ) ) {
     switch ($env) {
         case PROD:
+        case PREPROD:
             $host = '10.115.100.192';
             break;
-        case PREPROD:
         case DEV:
             $host = '10.115.100.26';
             break;
@@ -94,11 +94,7 @@ if ( !defined( 'CONST_DB_PORT' ) ) {
 if ( !defined( 'CONST_DB_USER' ) ) {
     switch ($env) {
         case PROD:
-            $user = 'JETPULP';
-            break;
         case PREPROD:
-            $user = 'JETPULP';
-            break;
         case DEV:
             $user = 'JETPULP';
             break;
@@ -114,11 +110,7 @@ if ( !defined( 'CONST_DB_USER' ) ) {
 if ( !defined( 'CONST_DB_PASSWORD' ) ) {
     switch ($env) {
         case PROD:
-            $pwd = 'JTPLPX3';
-            break;
         case PREPROD:
-            $pwd = 'JTPLPX3';
-            break;
         case DEV:
             $pwd = 'JTPLPX3';
             break;
@@ -134,11 +126,7 @@ if ( !defined( 'CONST_DB_PASSWORD' ) ) {
 if ( !defined( 'CONST_DB_DATABASE' ) ) {
     switch ($env) {
         case PROD:
-            $dbn = 'X150';
-            break;
         case PREPROD:
-            $dbn = 'X150';
-            break;
         case DEV:
             $dbn = 'X150';
             break;
@@ -154,9 +142,9 @@ if ( !defined( 'CONST_DB_DATABASE' ) ) {
 if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
     switch ($env) {
         case PROD:
+        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
-        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
@@ -399,9 +387,9 @@ if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
 if ( !defined( 'CONST_ODBC_TABLE_QUEST' ) ) {
     switch ($env) {
         case PROD:
+        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
-        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
@@ -542,9 +530,9 @@ if ( !defined( 'CONST_STATUS_CODE_GONE' ) ) {
 if ( !defined( 'CONST_DB_TABLE_QUESTTEMP' ) ) {
     switch ($env) {
         case PROD:
+        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
-        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
