@@ -258,7 +258,7 @@ class Document extends BaseModel {
                             $this->save($docData);
 
                             // archivage PDF
-                            rename($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName,
+                            rename($fileToImport,
                                    $archivePath . $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]);
                             // archivage source des metadonnees
                             rename($document, $archivePath . $fileInfo['basename']);
