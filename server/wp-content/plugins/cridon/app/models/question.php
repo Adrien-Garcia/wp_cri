@@ -624,7 +624,7 @@ class Question extends MvcModel
             }
 
             // get last cron date if is set or server datetime
-//            $lastDateUpdate          = get_option('cronquestionupdate');
+            $lastDateUpdate          = get_option('cronquestionupdate');
             if (empty($lastDateUpdate)) {
                 $lastUpQuestion = $this->find_one(array(
                         'conditions' => array(
@@ -666,13 +666,17 @@ class Question extends MvcModel
                 default:
                     $dateModif = explode('-', $dateModif);
                     $dateModif = $dateModif[2].'/'.$dateModif[1].'/'.$dateModif[0];
-                    $mainQuery .= " ". $adapter::QUEST_UPDDAT . " >= TO_DATE('". $dateModif . "', 'DD/MM/YYYY')
+                    $mainQuery .= " (
+                    ( ". $adapter::QUEST_UPDDAT . " = TO_DATE('". $dateModif . "', 'DD/MM/YYYY')
                         AND (
                             ( " . $adapter::QUEST_ZUPDHOU . " <> ' '
                                 AND TO_DATE(". $adapter::QUEST_ZUPDHOU . ", ' hh24:mi:ss') >= TO_DATE('". $hourModif . "', ' hh24:mi:ss')
                             )
                             OR " . $adapter::QUEST_ZUPDHOU . " = ' '
-                        )";
+                        )
+                    )
+                    OR ". $adapter::QUEST_UPDDAT . " > TO_DATE('". $dateModif . "', 'DD/MM/YYYY')
+                )";
                 break;
             }
             // filter by list of supports if necessary
@@ -832,6 +836,7 @@ class Question extends MvcModel
                 $options['values'] = implode(', ', $insertValues);
                 // bulk insert
                 $queryBulder->insertMultiRows($options);
+                writeLog(count($insertValues). ' nouvelles questions','questioncronUpdate.log');
             }
             if (count($updateValues) > 0) {
                 $queryBulder = mvc_model('QueryBuilder');
@@ -840,8 +845,9 @@ class Question extends MvcModel
 
                 if (!$queryBulder->getInstanceMysqli()->multi_query($updtateQuery)) {
                     // write into logfile
-                    writeLog($queryBulder->getInstanceMysqli()->error, 'query.log');
+                    writeLog($queryBulder->getInstanceMysqli()->error, 'questioncronUpdate.log');
                 }
+                writeLog(count($updateValues). ' questions maj', 'questioncronUpdate.log');
             }
 
             // maj derniere date d'execution
