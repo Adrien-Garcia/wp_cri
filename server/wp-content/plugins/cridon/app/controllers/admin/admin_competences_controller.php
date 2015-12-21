@@ -18,14 +18,16 @@ class AdminCompetencesController extends BaseAdminController
         'label'
     );
     public $default_columns = array(
-	    'id',
-	    'label',
-	    'matiere' => array('value_method' => 'matiere_edit_link')
+        'id',
+        'label'         => array('label' => 'Libellé'),
+        'short_label'   => array('label' => 'Libellé court'),
+        'matiere'       => array('label' => 'Matière','value_method' => 'matiere_edit_link')
     );
     
     public function index() {
         $this->init_default_columns();
         $this->process_params_for_search();
+        $this->params['order'] = 'label ASC';
         $collection = $this->model->paginate($this->params);
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
