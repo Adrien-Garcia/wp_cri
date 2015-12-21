@@ -202,12 +202,17 @@ class Document extends BaseModel {
                         }
 
                         $docName = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
+                        // 1st check if the file exists as mentionned (case insensitive)
                         if (!fileExists($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName) && (strpos($docName, '_') !== false)) {
                             //a prefix can be mentionned in the file. Don't use it if the file is not prefixed
                             $docName = substr($docName, strpos($docName, '_') + 1);
                         }
                         $filename = $this->getFileName($path, $docName);
-                        if ( copy($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName,
+                        $storedInfoFile = $fileInfo['dirname'] . DIRECTORY_SEPARATOR . $docName;
+                        // Then, wether the file had a '_' or not, always find the right name for the file
+                        // 'fileExists' will search for the file case insensitive and return it with the right name if found
+                        $fileToImport = fileExists($storedInfoFile, false);
+                        if (!empty($fileToImport) && copy($fileToImport,
                                  $path . $filename)) {
                             // donnees document
                             $docData = array(
@@ -261,14 +266,12 @@ class Document extends BaseModel {
                             $this->updateQuestion($question, $contents);
                             $logDocList[] = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
                         } else { // invalide doc
-                            // archivage source des metadonnees
-                            rename($document, $archivePath . $fileInfo['basename']);
                             // message par défaut
-                            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $fileInfo['basename']);
+                            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $docName);
                             // log : envoie mail
-                            if( !file_exists(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . '/' . $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]) ){
+                            if( !$storedInfoFile ){
                                 // PDF inexistant
-                                $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[Config::$GEDtxtIndexes['INDEX_NUMQUESTION']]);
+                                $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $docName);
                             }
                             reportError($message, '');
                             writeLog( $message,'majdocument.log' );
