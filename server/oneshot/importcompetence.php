@@ -57,17 +57,15 @@ try {
                 $data[$indexes['INDEX_DISPLAYED']] = 0;
             }
             
-            $newData = array(
-                'Competence' => array(
-                    'id'            => $data[$indexes['INDEX_ID']],
-                    'label'         => $data[$indexes['INDEX_LABEL']],
-                    'short_label'   => $data[$indexes['INDEX_SHORT_LABEL']],
-                    'code_matiere'  => $data[$indexes['INDEX_CODE_MATIERE']],
-                    'displayed'     => $data[$indexes['INDEX_DISPLAYED']]
-                )
+            $newData = array(                
+                'id'            => $data[$indexes['INDEX_ID']],
+                'label'         => $data[$indexes['INDEX_LABEL']],
+                'short_label'   => $data[$indexes['INDEX_SHORT_LABEL']],
+                'code_matiere'  => $data[$indexes['INDEX_CODE_MATIERE']],
+                'displayed'     => $data[$indexes['INDEX_DISPLAYED']]               
             );
             //Insertion de la compétence
-            mvc_model('Competence')->create($newData);
+            mvc_model('Competence')->insert($newData);
             $count++; 
         }
     }else{
