@@ -1,8 +1,6 @@
 <?php
 
-require_once 'base_model.php';
-
-class Document extends BaseModel {
+class Document extends MvcModel {
 
     var $display_field = 'name';
     var $table         = '{prefix}document';

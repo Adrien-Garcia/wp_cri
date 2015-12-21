@@ -31,6 +31,13 @@ abstract class BaseAdminController extends MvcAdminController
      */
     const WARNING_NOTFOUND_MSG   = ' %s avec ID %s introuvable !';
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->model->per_page = CONST_ADMIN_NB_ITEM_PERPAGE;
+    }
+
 
     public function delete() {
         $this->verify_id_param();

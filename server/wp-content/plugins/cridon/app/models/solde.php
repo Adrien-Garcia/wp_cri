@@ -6,9 +6,7 @@
  * @contributor Joelio
  */
 
-require_once 'base_model.php';
-
-class Solde extends BaseModel
+class Solde extends MvcModel
 {
 
     /**
