@@ -154,7 +154,8 @@ class Question extends MvcModel
                 $mainQuery = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST;
                 // filter by list of supports if necessary
                 if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
-                    $mainQuery .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
+                    $mainQuery .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')
+                    AND '.$adapter::QUEST_NOFAC_TEL. '!= 2';
                 }
                 switch (CONST_DB_TYPE) {
                     case CONST_DB_ORACLE:
@@ -677,7 +678,8 @@ class Question extends MvcModel
             // filter by list of supports if necessary
             if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
                 $mainQuery .= ' AND ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',',
-                        Config::$acceptedSupports) . ')';
+                        Config::$acceptedSupports) . ')
+                    AND '.$adapter::QUEST_NOFAC_TEL. '!= 2';
             }
 
             // exec query
@@ -933,7 +935,8 @@ class Question extends MvcModel
                 $mainQuery = 'SELECT ' . $adapter::QUEST_SREBPC . ', ' . $adapter::QUEST_SRENUM . ' FROM ' . CONST_ODBC_TABLE_QUEST;
                 // filter by list of supports if necessary
                 if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
-                    $mainQuery .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')';
+                    $mainQuery .= ' WHERE ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',', Config::$acceptedSupports) . ')
+                    AND '.$adapter::QUEST_NOFAC_TEL. '!= 2';
                 }
                 switch (CONST_DB_TYPE) {
                     case CONST_DB_ORACLE:
