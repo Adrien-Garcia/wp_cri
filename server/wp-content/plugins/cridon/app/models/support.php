@@ -1,8 +1,6 @@
 <?php
 
-require_once 'base_model.php';
-
-class Support extends BaseModel {
+class Support extends MvcModel {
 
     var $display_field = 'label';
     var $table         = '{prefix}support';

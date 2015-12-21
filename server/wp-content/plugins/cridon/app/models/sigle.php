@@ -1,8 +1,6 @@
 <?php
 
-require_once 'base_model.php';
-
-class Sigle extends BaseModel {
+class Sigle extends MvcModel {
 
     var $display_field  = 'label';
     var $table          = '{prefix}sigle';

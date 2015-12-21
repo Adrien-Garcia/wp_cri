@@ -1,8 +1,6 @@
 <?php
 
-require_once 'base_model.php';
-
-class Flash extends BaseModel {
+class Flash extends MvcModel {
     var $table     = "{prefix}flash";
     var $includes       = array('Post');
     var $belongs_to     = array(

@@ -6,9 +6,7 @@
  * @contributor Joelio
  */
 
-require_once 'base_model.php';
-
-class Notaire extends BaseModel
+class Notaire extends MvcModel
 {
 
     /**

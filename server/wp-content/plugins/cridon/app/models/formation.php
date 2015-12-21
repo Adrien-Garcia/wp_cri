@@ -1,8 +1,6 @@
 <?php
 
-require_once 'base_model.php';
-
-class Formation extends BaseModel {
+class Formation extends MvcModel {
     var $table          = "{prefix}formation";
     var $includes       = array('Post');
     var $belongs_to     = array(

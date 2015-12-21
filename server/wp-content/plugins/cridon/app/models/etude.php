@@ -1,8 +1,6 @@
 <?php
 
-require_once 'base_model.php';
-
-class Etude extends BaseModel {
+class Etude extends MvcModel {
     public $primary_key = 'crpcen';
     public $display_field = 'office_name';
     public $table = '{prefix}etude';
