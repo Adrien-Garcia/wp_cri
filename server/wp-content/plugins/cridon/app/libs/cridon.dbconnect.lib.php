@@ -307,7 +307,7 @@ interface DBConnect
     /**
      * @var string : anomalie (1 = Non | 2 = Oui)
      */
-    const QUEST_NOFAC_TEL       = 'ZTELNOFAC';
+    const QUEST_NOFAC_TEL       = 'ZTELNOFAC_0';
 
     /**
      * @var string : date de modification
