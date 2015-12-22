@@ -65,14 +65,13 @@ foreach($documents as $document) {
     try{
         $crxml = simplexml_load_file($document[0]);
 
-        //Vérification du fichier XML
+        // valid XML File
         if(!method_exists($crxml->Index_Document[$indexes['SRENUM']]->VALEUR_NUMERIQUE, '__toString')
                 || !method_exists($crxml->Index_Document[$indexes['SRENUM']]->ID_INDEX, '__toString')
                 || !method_exists($crxml->Index[$indexes['SRENUM']]->ID_INDEX, '__toString')){
             throw new \ErrorException('Il y a une erreur dans le fichier '.pathinfo($document[0])['basename']. ' ('.$document[0].')');
         }
 
-        // valid XML File
         $shortLabel = $crxml->Index_Document[$indexes['MATIERE']]->VALEUR_TEXTE->__toString();
         $supportLabel = $crxml->Index_Document[$indexes['SUPPORT']]->VALEUR_TEXTE->__toString();
 
