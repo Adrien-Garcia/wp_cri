@@ -126,7 +126,7 @@ class QuestionNotaire{
     }
     
     /**
-     * Get questions answered
+     * Get questions
      *
      * @return mixed
      */
@@ -252,7 +252,7 @@ class QuestionNotaire{
             LEFT JOIN '.$wpdb->prefix.'affectation AS Affectation ON Affectation.id = Question.id_affectation 
             LEFT JOIN '.$wpdb->prefix.'support AS Support ON Support.id = Question.id_support 
             LEFT JOIN '.$wpdb->prefix.'competence AS Competence ON Competence.id = Question.id_competence_1 
-            LEFT JOIN '.$wpdb->prefix.'matiere AS Matiere ON Matiere.code = Competence.code_matiere 
+            LEFT JOIN '.$wpdb->prefix.'matiere AS Matiere ON Matiere.code = Competence.code_matiere
             JOIN '.$wpdb->prefix.'notaire AS Notaire ON Notaire.client_number = Question.client_number
                 ';
         //Requête utilisée pour le total des éléments pour la pagination

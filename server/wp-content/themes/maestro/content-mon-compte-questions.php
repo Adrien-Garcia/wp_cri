@@ -144,7 +144,9 @@ Vous n'avez actuellement aucune question en attente de réponse.
 	<?php if(count($answered) != 0): ?>
 
 	<ul>
+        <?php $juristes = QuestionEntity::getJuristeAndAssistantFromQuestions($answered) ?>
         <?php foreach ($answered as $index => $question) : ?>
+
             <?php
             $date = date_create_from_format('Y-m-d', $question->question->creation_date);
             $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "";
@@ -179,7 +181,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
                     <?php if (! empty($sAdate)) : ?>
 					<span class="status">répondu le <?php echo $sAdate ; ?></span>
                     <?php endif; ?>
-                    <span class="person">par <?php echo $question->question->juriste ; ?></span>
+                    <span class="person">par <?php echo $juristes[$question->question->id]->juriste_name != null ? $juristes[$question->question->id]->juriste_name : $juristes[$question->question->id]->juriste_code ?></span>
 				</li>
 				<li>
 					<span class="delai"><?php echo $question->support->label; ?></span>

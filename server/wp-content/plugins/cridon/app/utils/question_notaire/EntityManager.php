@@ -241,6 +241,7 @@ class EntityManager {
      * @param array $options
      * @param boolean $count Si la requête est utlisée pour faire un décompte de résultat
      * @throws \RuntimeException
+     * @return array
      */
     protected function extractSelectQuery( $options,$count = false ){
         $query = $options['query'];
