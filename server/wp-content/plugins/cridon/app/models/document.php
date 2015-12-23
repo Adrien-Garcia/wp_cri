@@ -429,11 +429,18 @@ class Document extends MvcModel {
      * @return string
      */
     public function encryptVal( $val ) {
-        $salt = wp_salt( 'secure_auth' );
-        
-        $qEncoded = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $salt ), $val, MCRYPT_MODE_CBC, md5( md5( $salt ) ) ) );
-        return $qEncoded;
+	$salt = wp_salt( 'secure_auth' );        
+	$td = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
+        $ks = mcrypt_enc_get_key_size($td);//key size
+	$key = substr(md5($salt),0,$ks);//create key
+	$iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($td), MCRYPT_RAND);
+	mcrypt_generic_init ($td, $key, $iv);
+	$encrypted_data = mcrypt_generic ($td, $val);
+	mcrypt_generic_deinit ($td);
+	mcrypt_module_close ($td);
+	return trim($this->urlBase64Encode($encrypted_data));
     }
+    
     /**
      * Decrypt value
      * 
@@ -442,13 +449,57 @@ class Document extends MvcModel {
      */
     public function decryptVal( $val ) {
         $salt = wp_salt( 'secure_auth' );
-        $qDecoded = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $salt ), base64_decode( $val ), MCRYPT_MODE_CBC, md5( md5( $salt ) ) ), "\0");
-        return $qDecoded;
+        //Decode base64
+        $input = trim($this->urlBase64Decode($val));
+        
+        /**
+         * @see http://php.net/manual/fr/function.mcrypt-module-open.php
+         */
+        
+        $td = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
+        $ks = mcrypt_enc_get_key_size($td);//key size
+        $key = substr(md5($salt),0,$ks);//create key
+        $iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($td), MCRYPT_RAND);
+        mcrypt_generic_init ($td, $key, $iv);
+        $decrypted_data = mdecrypt_generic ($td, $input);
+        mcrypt_generic_deinit ($td);
+        //Close algoritm module
+        mcrypt_module_close ($td);
+        return trim($decrypted_data);
     }
     
+    /**
+     * Encode in Base64
+     * 
+     * @param string $str
+     * @return string
+     */
+    public function urlBase64Encode($str){
+	return strtr(base64_encode($str),
+            array(
+		'/' => '~'
+            )
+	);
+    }
+    
+    /**
+     * Decode Base64
+     * 
+     * @param string $str
+     * @return string
+     */
+    public function urlBase64Decode($str){
+        return base64_decode(strtr($str,
+            array(
+                '~' => '/'
+                )
+            )
+        );
+    }    
+
     public function generatePublicUrl( $id ){
         $url = Config::$confPublicDownloadURL['url'].$id;
         return '/telechargement/'.$this->encryptVal($url);
     }
-    //End Encryption
+//End Encryption
 }
