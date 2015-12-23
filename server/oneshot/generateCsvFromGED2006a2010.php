@@ -183,7 +183,13 @@ function restoreRenamedFiles($Iterator, $uploadDir) {
 // action
 $action = '';
 if (PHP_SAPI === 'cli') { // script called by CLI
-    $action = (isset($argv[1])) ? $argv[1] : '';
+    if (isset($argv[1])) {
+        if ($argv[1] === 'restore') { // restore action
+            $action = 'restore';
+        } else { // change limit condition
+            $limit = (intval($argv[1]) > 0) ? intval($argv[1]) : $limit;
+        }
+    }
 } elseif (isset($_GET['action'])) { // script called by Web
     $action = $_GET['action'];
 }
