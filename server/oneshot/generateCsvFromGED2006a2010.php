@@ -190,8 +190,9 @@ if (PHP_SAPI === 'cli') { // script called by CLI
             $limit = (intval($argv[1]) > 0) ? intval($argv[1]) : $limit;
         }
     }
-} elseif (isset($_GET['action'])) { // script called by Web
-    $action = $_GET['action'];
+} else { // script called by Web
+    $action = isset($_GET['action']) ? $_GET['action'] : $action;
+    $limit  = isset($_GET['limit']) ? $_GET['limit'] : $limit;
 }
 
 // check action
