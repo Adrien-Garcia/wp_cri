@@ -45,6 +45,8 @@ $indexes = array(
     'DATE_REPONSE'      => 7,
     /* index Suite  */
     'SUITE'             => 9,
+    /* index notaire  */
+    'NOTAIRE'           => 13,
 );
 
 // LOG
@@ -109,6 +111,7 @@ function createOrUpdateCsvFile($i, $nbItems, $Iterator, $csv, $associatedSupport
 
                 $contents[] = intval($crxml->Index_Document[$indexes['SRENUM']]->VALEUR_NUMERIQUE->__toString()); // SRENUM
                 $contents[] = $crxml->Index_Document[$indexes['CRPCEN']]->VALEUR_TEXTE->__toString(); // CRPCEN
+                $contents[] = $crxml->Index_Document[$indexes['NOTAIRE']]->VALEUR_TEXTE->__toString(); // NOTAIRE
                 $contents[] = utf8_decode($crxml->Index_Document[$indexes['OBJET']]->VALEUR_TEXTE->__toString()); // Objet
                 $contents[] = isset($associatedMat[$shortLabel]) ? $associatedMat[$shortLabel] : $shortLabel; // Competence
                 $contents[] = utf8_decode($crxml->Index_Document[$indexes['JURISTE']]->VALEUR_TEXTE->__toString()); // Juriste
@@ -136,6 +139,7 @@ function createOrUpdateCsvFile($i, $nbItems, $Iterator, $csv, $associatedSupport
                 $csv->save($uploadDir['basedir'] . '/questions2006_2010.csv', $data, false, array(
                     'SRENUM',
                     'CRPCEN',
+                    'Notaire',
                     'Objet',
                     'Competence',
                     'Juriste',
