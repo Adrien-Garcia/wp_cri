@@ -58,13 +58,8 @@ $Directory  = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH
 $Iterator   = new RecursiveIteratorIterator($Directory);
 $documents  = new RegexIterator($Iterator, '/^.+\.xml$/i', RecursiveRegexIterator::GET_MATCH);
 
-// total of items (XMLs)
-$nbItems    = iterator_count($documents);
 // offset block
 $limit      = 1000;
-
-// init flag
-$i = 0;
 
 // wp default upload dir
 $uploadDir = wp_upload_dir();
@@ -76,8 +71,7 @@ $csv->delimiter = ";";
 /**
  * Create or update CSV
  *
- * @param int $i
- * @param int $nbItems
+ * @param Iterator $documents
  * @param mixed $Iterator
  * @param mixed $csv
  * @param mixed $associatedSupport
@@ -86,87 +80,85 @@ $csv->delimiter = ";";
  * @param mixed $errorDocList
  * @param int $limit
  */
-function createOrUpdateCsvFile($i, $nbItems, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList, $limit) {
+function createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList, $limit) {
     // init data
     $data = array();
 
-    // repeat action until limit max
-    if ($i <= $nbItems) {
+    foreach(new LimitIterator($documents, 0, $limit + 1) as $document) {
+        $contents = array();
+        try{
+            $crxml = simplexml_load_file($document[0]);
 
-        $documents  = new RegexIterator($Iterator, '/^.+\.xml$/i', RecursiveRegexIterator::GET_MATCH);
-        foreach(new LimitIterator($documents, 0, $limit + 1) as $document) {
-            $contents = array();
-            try{
-                $crxml = simplexml_load_file($document[0]);
-
-                // valid XML File
-                if(!method_exists($crxml->Index_Document[$indexes['SRENUM']]->VALEUR_NUMERIQUE, '__toString')
-                   || !method_exists($crxml->Index_Document[$indexes['SRENUM']]->ID_INDEX, '__toString')
-                   || !method_exists($crxml->Index[$indexes['SRENUM']]->ID_INDEX, '__toString')){
-                    throw new \ErrorException('Il y a une erreur dans le fichier '.pathinfo($document[0])['basename']. ' ('.$document[0].')');
-                }
-
-                $shortLabel = $crxml->Index_Document[$indexes['MATIERE']]->VALEUR_TEXTE->__toString();
-                $supportLabel = $crxml->Index_Document[$indexes['SUPPORT']]->VALEUR_TEXTE->__toString();
-
-                $contents[] = intval($crxml->Index_Document[$indexes['SRENUM']]->VALEUR_NUMERIQUE->__toString()); // SRENUM
-                $contents[] = $crxml->Index_Document[$indexes['CRPCEN']]->VALEUR_TEXTE->__toString(); // CRPCEN
-                $contents[] = utf8_decode($crxml->Index_Document[$indexes['NOTAIRE_PRENOM']]->VALEUR_TEXTE->__toString()); // NOTAIRE_PRENOM
-                $contents[] = utf8_decode($crxml->Index_Document[$indexes['NOTAIRE_NOM']]->VALEUR_TEXTE->__toString()); // NOTAIRE_NOM
-                $contents[] = !empty($crxml->Index_Document[$indexes['OBJET']]) ? utf8_decode($crxml->Index_Document[$indexes['OBJET']]->VALEUR_TEXTE->__toString()): ''; // Objet
-                $contents[] = isset($associatedMat[$shortLabel]) ? $associatedMat[$shortLabel] : $shortLabel; // Competence
-                $contents[] = utf8_decode($crxml->Index_Document[$indexes['JURISTE']]->VALEUR_TEXTE->__toString()); // Juriste
-                $contents[] = isset($associatedSupport[$supportLabel]) ? $associatedSupport[$supportLabel] : $supportLabel; // Support
-                $contents[] = 4; // Code affectation
-                $contents[] = date('Y-m-d', strtotime($crxml->Index_Document[$indexes['DATE_AFFECTATION']]->VALEUR_DATE->__toString())); // Date Creation
-                $contents[] = date('Y-m-d', strtotime($crxml->Index_Document[$indexes['DATE_AFFECTATION']]->VALEUR_DATE->__toString())); // Date affectation
-                $contents[] = date('Y-m-d', strtotime($crxml->Index_Document[$indexes['DATE_REPONSE']]->VALEUR_DATE->__toString())); // Date de reponse
-                $contents[] = $crxml->Document->NOM_DOC_SOURCE->__toString(); // PDF
-                $contents[] = $crxml->Index_Document[$indexes['SUITE']]->VALEUR_TEXTE->__toString(); // Suite
-
-                // data
-                $data[] = $contents;
-
-                // rename file to old
-                rename($document[0], str_replace(".xml", ".xml.old", $document[0]));
-            } catch(Exception $ex) {
-                // rename file to error
-                rename($document[0], str_replace(".xml", ".xml.error", $document[0]));
-                $errorDocList[] = $ex->getMessage();
+            // valid XML File
+            if(!method_exists($crxml->Index_Document[$indexes['SRENUM']]->VALEUR_NUMERIQUE, '__toString')
+               || !method_exists($crxml->Index_Document[$indexes['SRENUM']]->ID_INDEX, '__toString')
+               || !method_exists($crxml->Index[$indexes['SRENUM']]->ID_INDEX, '__toString')){
+                throw new \ErrorException('Il y a une erreur dans le fichier '.pathinfo($document[0])['basename']. ' ('.$document[0].')');
             }
+
+            $shortLabel = $crxml->Index_Document[$indexes['MATIERE']]->VALEUR_TEXTE->__toString();
+            $supportLabel = $crxml->Index_Document[$indexes['SUPPORT']]->VALEUR_TEXTE->__toString();
+
+            $contents[] = intval($crxml->Index_Document[$indexes['SRENUM']]->VALEUR_NUMERIQUE->__toString()); // SRENUM
+            $contents[] = $crxml->Index_Document[$indexes['CRPCEN']]->VALEUR_TEXTE->__toString(); // CRPCEN
+            $contents[] = utf8_decode($crxml->Index_Document[$indexes['NOTAIRE_PRENOM']]->VALEUR_TEXTE->__toString()); // NOTAIRE_PRENOM
+            $contents[] = utf8_decode($crxml->Index_Document[$indexes['NOTAIRE_NOM']]->VALEUR_TEXTE->__toString()); // NOTAIRE_NOM
+            $contents[] = !empty($crxml->Index_Document[$indexes['OBJET']]) ? utf8_decode($crxml->Index_Document[$indexes['OBJET']]->VALEUR_TEXTE->__toString()): ''; // Objet
+            $contents[] = isset($associatedMat[$shortLabel]) ? $associatedMat[$shortLabel] : $shortLabel; // Competence
+            $contents[] = utf8_decode($crxml->Index_Document[$indexes['JURISTE']]->VALEUR_TEXTE->__toString()); // Juriste
+            $contents[] = isset($associatedSupport[$supportLabel]) ? $associatedSupport[$supportLabel] : $supportLabel; // Support
+            $contents[] = 4; // Code affectation
+            $contents[] = date('Y-m-d', strtotime($crxml->Index_Document[$indexes['DATE_AFFECTATION']]->VALEUR_DATE->__toString())); // Date Creation
+            $contents[] = date('Y-m-d', strtotime($crxml->Index_Document[$indexes['DATE_AFFECTATION']]->VALEUR_DATE->__toString())); // Date affectation
+            $contents[] = date('Y-m-d', strtotime($crxml->Index_Document[$indexes['DATE_REPONSE']]->VALEUR_DATE->__toString())); // Date de reponse
+            $contents[] = $crxml->Document->NOM_DOC_SOURCE->__toString(); // PDF
+            $contents[] = $crxml->Index_Document[$indexes['SUITE']]->VALEUR_TEXTE->__toString(); // Suite
+
+            // data
+            $data[] = $contents;
+
+            // rename file to old
+            rename($document[0], str_replace(".xml", ".xml.old", $document[0]));
+        } catch(Exception $ex) {
+            // rename file to error
+            rename($document[0], str_replace(".xml", ".xml.error", $document[0]));
+            $errorDocList[] = $ex->getMessage();
         }
+    }
 
-        if (count($data) > 0) {
-            if (!file_exists($uploadDir['basedir'] . '/questions2006_2010.csv')) {
-                // create new Csv file with data
-                $csv->save($uploadDir['basedir'] . '/questions2006_2010.csv', $data, false, array(
-                    'SRENUM',
-                    'CRPCEN',
-                    'Prenom Notaire',
-                    'Nom Notaire',
-                    'Objet',
-                    'Competence',
-                    'Juriste',
-                    'Support',
-                    'Code affectation',
-                    'Date Creation',
-                    'Date affectation',
-                    'Date de reponse',
-                    'PDF',
-                    'Suite'
-                ));
-            } else {
-                // update Csv file
-                $csv->save($uploadDir['basedir'] . '/questions2006_2010.csv', $data, true);
-            }
+    if (count($data) > 0) {
+        if (!file_exists($uploadDir['basedir'] . '/questions2006_2010.csv')) {
+            // create new Csv file with data
+            $csv->save($uploadDir['basedir'] . '/questions2006_2010.csv', $data, false, array(
+                'SRENUM',
+                'CRPCEN',
+                'Prenom Notaire',
+                'Nom Notaire',
+                'Objet',
+                'Competence',
+                'Juriste',
+                'Support',
+                'Code affectation',
+                'Date Creation',
+                'Date affectation',
+                'Date de reponse',
+                'PDF',
+                'Suite'
+            ));
+        } else {
+            // update Csv file
+            $csv->save($uploadDir['basedir'] . '/questions2006_2010.csv', $data, true);
         }
+    }
 
-        // increments flag
-        $i+=$limit;
-
+    $documents  = new RegexIterator($Iterator, '/^.+\.xml$/i', RecursiveRegexIterator::GET_MATCH);
+    //check if there's still items
+    $documents->next();
+    $doc = $documents->current();
+    if (!empty($doc)) {
         // call import action
-        createOrUpdateCsvFile($i, $nbItems, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList, $limit);
-
+        $documents->rewind();
+        createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList, $limit);
     }
 }
 
@@ -211,7 +203,7 @@ if ($action === 'restore') {
     echo "Restauration OK";
 } else {
     // create of update csv file
-    createOrUpdateCsvFile($i, $nbItems, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList, $limit);
+    createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList, $limit);
 
     // logs
     writeLog($errorDocList, 'import2006_2010.log');
