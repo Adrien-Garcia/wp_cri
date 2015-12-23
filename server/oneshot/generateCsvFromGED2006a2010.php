@@ -1,7 +1,7 @@
 <?php
 
 // set utf-8 encoding
-//header('Content-type: text/plain; charset=utf-8');
+header('Content-type: text/plain; charset=utf-8');
 
 // load WP Core
 require_once '../wp-load.php';
@@ -51,7 +51,7 @@ $indexes = array(
 $errorDocList = array();
 
 // documents
-$Directory  = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH.'BackupCourriersPDF2006'.DIRECTORY_SEPARATOR);
+$Directory  = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH);
 $Iterator   = new RecursiveIteratorIterator($Directory);
 $documents  = new RegexIterator($Iterator, '/^.+\.xml$/i', RecursiveRegexIterator::GET_MATCH);
 
@@ -180,14 +180,26 @@ function restoreRenamedFiles($Iterator, $uploadDir) {
     }
 }
 
-if (isset($_GET['action']) && $_GET['action'] == 'restore') {
+// action
+$action = '';
+if (PHP_SAPI === 'cli') { // script called by CLI
+    $action = (isset($argv[1])) ? $argv[1] : '';
+} elseif (isset($_GET['action'])) { // script called by Web
+    $action = $_GET['action'];
+}
+
+// check action
+if ($action === 'restore') {
     // restore renamed file
     restoreRenamedFiles($Iterator, $uploadDir);
+
+    echo "Restauration OK";
 } else {
     // create of update csv file
-    createOrUpdateCsvFile($i, $nbItems, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList,
-        $limit);
+    createOrUpdateCsvFile($i, $nbItems, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList, $limit);
 
     // logs
     writeLog($errorDocList, 'import2006_2010.log');
+
+    echo "Generation CSV OK";
 }
