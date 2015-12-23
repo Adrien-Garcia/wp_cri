@@ -113,7 +113,7 @@ function createOrUpdateCsvFile($i, $nbItems, $Iterator, $csv, $associatedSupport
                 $contents[] = $crxml->Index_Document[$indexes['CRPCEN']]->VALEUR_TEXTE->__toString(); // CRPCEN
                 $contents[] = utf8_decode($crxml->Index_Document[$indexes['NOTAIRE_PRENOM']]->VALEUR_TEXTE->__toString()); // NOTAIRE_PRENOM
                 $contents[] = utf8_decode($crxml->Index_Document[$indexes['NOTAIRE_NOM']]->VALEUR_TEXTE->__toString()); // NOTAIRE_NOM
-                $contents[] = utf8_decode($crxml->Index_Document[$indexes['OBJET']]->VALEUR_TEXTE->__toString()); // Objet
+                $contents[] = !empty($crxml->Index_Document[$indexes['OBJET']]) ? utf8_decode($crxml->Index_Document[$indexes['OBJET']]->VALEUR_TEXTE->__toString()): ''; // Objet
                 $contents[] = isset($associatedMat[$shortLabel]) ? $associatedMat[$shortLabel] : $shortLabel; // Competence
                 $contents[] = utf8_decode($crxml->Index_Document[$indexes['JURISTE']]->VALEUR_TEXTE->__toString()); // Juriste
                 $contents[] = isset($associatedSupport[$supportLabel]) ? $associatedSupport[$supportLabel] : $supportLabel; // Support
