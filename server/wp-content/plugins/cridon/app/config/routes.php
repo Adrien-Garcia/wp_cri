@@ -7,7 +7,7 @@
  */
 
 // Téléchargement des documents publics, toujours en dernier dans les routes pour éviter les problèmes des "/" dans les données cryptées
-MvcRouter::public_connect('telechargement/{:id:[a-zA-Z0-9=+\/_-]+}', array('controller' => 'documents', 'action' => 'publicDownload'));
+MvcRouter::public_connect('telechargement/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'documents', 'action' => 'publicDownload'));
 
 // rest
 MvcRouter::public_connect('rest/login', array( 'controller' =>'logins','action' => 'login'));
