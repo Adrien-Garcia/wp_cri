@@ -212,7 +212,20 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 </li>
             </ul>
             <ul class="suite-complement">
-                <?php foreach($question->documents as $document): ?>
+                <?php
+                $documents = $question->documents;
+                usort($documents, function($a, $b)
+                {
+                    if ($a->label == 'Suite' && $b->label == 'Complément') {
+                        return -1;
+                    } else if ($a->label == 'Complément' && $b->label == 'Suite') {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                });
+                ?>
+                <?php foreach($documents as $document): ?>
                     <?php if( ($document->label == 'Suite')|| ($document->label == 'Complément') ): ?>
                         <li class="pdf">
                             <?php
