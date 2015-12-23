@@ -1,7 +1,7 @@
 <?php
 
 // set utf-8 encoding
-header('Content-type: text/plain; charset=utf-8');
+header('Content-type: text/html; charset=utf-8');
 
 // load WP Core
 require_once '../wp-load.php';
@@ -111,7 +111,12 @@ function createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, 
             $contents[] = date('Y-m-d', strtotime($crxml->Index_Document[$indexes['DATE_AFFECTATION']]->VALEUR_DATE->__toString())); // Date Creation
             $contents[] = date('Y-m-d', strtotime($crxml->Index_Document[$indexes['DATE_AFFECTATION']]->VALEUR_DATE->__toString())); // Date affectation
             $contents[] = date('Y-m-d', strtotime($crxml->Index_Document[$indexes['DATE_REPONSE']]->VALEUR_DATE->__toString())); // Date de reponse
-            $contents[] = $crxml->Document->NOM_DOC_SOURCE->__toString(); // PDF
+            //Le chemin dans le XML ne correspond pas forcément au chemin sur le serveur
+            //On note comme chemin, le même dossier que celui dans lequel on se trouve
+            $dirname = dirname($document[0]);
+            $pdfs = glob($dirname.DIRECTORY_SEPARATOR.'*.[Pp][Dd][Ff]');
+            $filepath = reset($pdfs);
+            $contents[] = str_replace(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH, '', $filepath); // PDF
             $contents[] = $crxml->Index_Document[$indexes['SUITE']]->VALEUR_TEXTE->__toString(); // Suite
 
             // data
