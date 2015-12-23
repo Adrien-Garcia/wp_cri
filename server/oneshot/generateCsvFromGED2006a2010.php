@@ -130,6 +130,8 @@ function createOrUpdateCsvFile($i, $nbItems, $Iterator, $csv, $associatedSupport
                 // rename file to old
                 rename($document[0], str_replace(".xml", ".xml.old", $document[0]));
             } catch(Exception $ex) {
+                // rename file to error
+                rename($document[0], str_replace(".xml", ".xml.error", $document[0]));
                 $errorDocList[] = $ex->getMessage();
             }
         }
