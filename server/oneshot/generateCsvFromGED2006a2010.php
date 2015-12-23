@@ -94,8 +94,7 @@ function createOrUpdateCsvFile($i, $nbItems, $Iterator, $csv, $associatedSupport
     if ($i <= $nbItems) {
 
         $documents  = new RegexIterator($Iterator, '/^.+\.xml$/i', RecursiveRegexIterator::GET_MATCH);
-        $offset    = $limit + 1;
-        foreach(new LimitIterator($documents, 0, $offset) as $document) {
+        foreach(new LimitIterator($documents, 0, $limit + 1) as $document) {
             $contents = array();
             try{
                 $crxml = simplexml_load_file($document[0]);
