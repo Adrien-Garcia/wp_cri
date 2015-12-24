@@ -80,7 +80,7 @@ $csv->delimiter = ";";
  * @param mixed $errorDocList
  * @param int $limit
  */
-function createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList, $limit) {
+function createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, $associatedMat, $indexes, $uploadDir, $errorDocList, $limit) {
     // init data
     $data = array();
 
@@ -163,7 +163,7 @@ function createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, 
     if (!empty($doc)) {
         // call import action
         $documents->rewind();
-        createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList, $limit);
+        createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, $associatedMat, $indexes, $uploadDir, $errorDocList, $limit);
     }
 }
 
@@ -208,7 +208,7 @@ if ($action === 'restore') {
     echo "Restauration OK";
 } else {
     // create of update csv file
-    createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, $indexes, $uploadDir, $errorDocList, $limit);
+    createOrUpdateCsvFile($documents, $Iterator, $csv, $associatedSupport, $associatedMat, $indexes, $uploadDir, $errorDocList, $limit);
 
     // logs
     writeLog($errorDocList, 'import2006_2010.log');
