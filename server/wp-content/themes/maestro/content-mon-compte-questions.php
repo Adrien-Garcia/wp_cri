@@ -3,6 +3,7 @@
     $answered = $questions->getAnswered();
     $pending = $questions->getPending();
 ?>
+<?php $notaire = CriNotaireData(); ?>
 <div id="questions-attentes">
 	<h2><?php _e('Mes questions en attentes'); ?></h2>
 
@@ -118,7 +119,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 
 	<div class="filtres">
 		<ul>
-			<li> <a href="">Toutes mes questions</a></li>
+			<li> <a href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions">Toutes mes questions</a></li>
 			<li>
 				<span class="titre">Période :</span>
 				<p class="du">Du <input type="date" id="datefrom" class="datepicker"></p>
