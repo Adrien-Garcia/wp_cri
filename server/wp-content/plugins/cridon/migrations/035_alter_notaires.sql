@@ -1,0 +1,2 @@
+ALTER TABLE `cri_notaire` CHANGE `client_number` `client_number` VARCHAR(100) CHARSET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `cri_notaire` CHANGE `web_password` `web_password` VARCHAR(100) CHARSET utf8 COLLATE utf8_general_ci NOT NULL; 

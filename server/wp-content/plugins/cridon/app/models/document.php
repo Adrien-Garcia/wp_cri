@@ -315,6 +315,26 @@ class Document extends MvcModel {
         }
         return $output;
     }
+
+    /**
+     * Increment file name
+     *
+     * @param string $file_path
+     * @param string $filename
+     * @return string
+     */
+    public function incrementFileName($file_path,$filename){
+        $array = explode(".", $filename);
+        $file_ext = end($array);
+        $root_name = str_replace(('.'.$file_ext),"",$filename);
+        $file = $filename;
+        $i = 1;
+        while(file_exists($file_path.$file)){
+            $file = $root_name.'_'.$i.'.'.$file_ext;
+            $i++;
+        }
+        return $file;
+    }
     
     /**
      * Verification of the information in the import file

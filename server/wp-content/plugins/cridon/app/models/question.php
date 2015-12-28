@@ -70,6 +70,11 @@ class Question extends MvcModel
     protected $questListForDelete = array();
 
     /**
+     * @var bool : File import success flag
+     */
+    protected $importSuccess = false;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -224,7 +229,8 @@ class Question extends MvcModel
             }
 
         } elseif(isset($queryOptions['weekly']) && $queryOptions['weekly']) {
-            $sql .= " WHERE srenum IS NOT NULL ";
+            // except all questions not yet transmitted to ERP (new questions & 2006-2009)
+            $sql .= " WHERE srenum IS NOT NULL AND transmis_erp <> 0 ";
             $questions = $this->wpdb->get_results($sql);
             // fill list of existing question on site with unique key (client_number + srenum)
             foreach ($questions as $question) {
@@ -1253,5 +1259,254 @@ writeLog($query, 'query_export.log');
             // status code
             return CONST_STATUS_CODE_GONE;
         }
+    }
+
+
+    /**
+     * Action for importing data using CSV file
+     *
+     * @params array $indexes
+     * @return bool
+     */
+    public function importQuestion2006to2009($indexes)
+    {
+        // wp default upload dir
+        $uploadDir = wp_upload_dir();
+
+        // instance of csvPrser
+        $csvParser = new CridonCsvParser();
+
+        try {
+
+            // check if file exist
+            if (file_exists($uploadDir['basedir'] . '/questions2006_2010.csv')) {
+
+                $csvParser->enclosure = '';
+                $csvParser->encoding(null, 'UTF-8');
+                $csvParser->auto($uploadDir['basedir'] . '/questions2006_2010.csv');
+
+                // no error was found
+                if (property_exists($csvParser, 'data') && intval($csvParser->error) <= 0) {
+
+                    // prepare question data
+                    $this->manageQuestData($indexes, $csvParser->data);
+
+                    // do archive
+                    if ($this->importSuccess) {
+                        rename($uploadDir['basedir'] . '/questions2006_2010.csv', str_replace(".csv", ".csv." . date('YmdHi'), $uploadDir['basedir'] . '/questions2006_2010.csv'));
+                    }
+                } else { // file content error
+                    // write into logfile
+                    writeLog(sprintf(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Question (' . $uploadDir['basedir'] . '/questions2006_2010.csv)'), 'importQuest2006_2009.log');
+                }
+            } else { // file doesn't exist
+                // write into logfile
+                writeLog(sprintf(CONST_EMAIL_ERROR_CONTENT, 'Question (' . $uploadDir['basedir'] . '/questions2006_2010.csv)'), 'importQuest2006_2009.log');
+            }
+        } catch (Exception $e) {
+
+            // write write into logfile
+            writeLog($e, 'importQuest2006_2009.log');
+        }
+
+        return $this->importSuccess;
+    }
+
+    /**
+     * Import action
+     *
+     * @param array $indexes
+     * @param array $datas
+     * @throws Exception
+     */
+    public function manageQuestData($indexes = array(), $datas = array())
+    {
+        // init  logs var
+        $errorDocList = array();
+
+        foreach ($datas as $data) {
+            // question
+            $question = $this->getQuestionBy($data[$indexes['CRPCEN']], $data[$indexes['SRENUM']]);
+
+            if ($question->id) { // quest exist
+                if ($data[$indexes['PDF']]) { // Champ PDF non vide
+                    // doc label
+                    $label = ($data[$indexes['SUITE']]) ? 'Suite' : 'question/reponse';
+
+                    // Date réponse réelle dans la table cri_question
+                    $transDate = $question->real_date;
+                    $transDate = date('Ym', strtotime($transDate));
+
+                    $uploadDir = wp_upload_dir();
+                    $path      = $uploadDir['basedir'] . '/questions/' . $transDate . '/';
+                    if (!file_exists($path)) { // repertoire manquant
+                        // creation du nouveau repertoire
+                        wp_mkdir_p($path);
+                    }
+
+                    // ajout document dans Site
+                    $this->addQuestDoc($path, $transDate, $question->id, $label, $indexes, $data, $errorDocList);
+                }
+            } else { // sinon ajout nouvelle question, notaire, doc associés
+                $questData = array(
+                    'Question' => array(
+                        'srenum'           => $data[$indexes['SRENUM']],
+                        'crpcen'           => $data[$indexes['CRPCEN']],
+                        'resume'           => $data[$indexes['OBJET']],
+                        'id_competence_1'  => $data[$indexes['COMPETENCE']],
+                        'juriste'          => $data[$indexes['JURISTE']],
+                        'id_support'       => $data[$indexes['SUPPORT']],
+                        'id_affectation'   => $data[$indexes['CODE_AFFECTATION']],
+                        'creation_date'    => $data[$indexes['DATE_CREATION']],
+                        'affectation_date' => $data[$indexes['DATE_AFFECTATION']],
+                        'real_date'        => $data[$indexes['DATE_REPONSE']]
+                    )
+                );
+
+                // question id
+                $questionId = mvc_model('Question')->create($questData);
+
+                // ajout document
+                // doc label
+                $label = 'question/reponse';
+
+                // Date réponse réelle dans la table cri_question
+                $transDate = $data[$indexes['DATE_REPONSE']];
+                $transDate = date('Ym', strtotime($transDate));
+
+                $uploadDir = wp_upload_dir();
+                $path      = $uploadDir['basedir'] . '/questions/' . $transDate . '/';
+
+                // ajout document dans Site
+                $this->addQuestDoc($path, $transDate, $questionId, $label, $indexes, $data, $errorDocList);
+
+                // ajout notaire associe
+                $notaryData = array(
+                    'category'           => '-',
+                    'first_name'         => $data[$indexes['NOTAIRE_PRENOM']],
+                    'last_name'          => $data[$indexes['NOTAIRE_NOM']],
+                    'crpcen'             => $data[$indexes['CRPCEN']],
+                    'web_password'       => CONST_NOTARY_PWD,
+                    'tel_password'       => '-',
+                    'code_interlocuteur' => '-',
+                    'id_civilite'        => '-',
+                    'email_adress'       => '-',
+                    'id_fonction'        => '-',
+                    'tel'                => '-',
+                    'fax'                => '-',
+                    'tel_portable'       => '-',
+                    'date_modified'      => $data[$indexes['DATE_CREATION']],
+                    'id_wp_user'         => 0,
+                );
+
+                // notaire id
+                $notaryId = mvc_model('Notaire')->create($notaryData);
+
+                // creation wp_user associe
+                // utilisation de requette simple vs fonction native de wp pour insertion user afin d'eviter
+                // l'affection de role par defaut
+                $displayName = $data[$indexes['NOTAIRE_PRENOM']] . ' ' . $data[$indexes['NOTAIRE_NOM']];
+                $userData    = array(
+                    'user_login'      => $data[$indexes['CRPCEN']] . CONST_LOGIN_SEPARATOR . $notaryId,
+                    'user_pass'       => wp_hash_password(CONST_NOTARY_PWD),
+                    'user_nicename'   => sanitize_title($displayName),
+                    'user_email'      => ' - ',
+                    'user_registered' => $data[$indexes['DATE_CREATION']],
+                    'user_status'     => CONST_STATUS_ENABLED,
+                    'display_name'    => $displayName,
+                );
+
+                if ($this->wpdb->insert($this->wpdb->users, $userData)) {
+                    // maj Notaire.id_wp_user
+                    $notaryUpdData = array(
+                        'Notaire' => array(
+                            'id'         => $notaryId,
+                            'id_wp_user' => $this->wpdb->insert_id
+                        )
+                    );
+                    mvc_model('Notaire')->save($notaryUpdData);
+                }
+            }
+        }
+
+        // trace logs
+        if (count($errorDocList) > 0) {
+            writeLog($errorDocList, 'importQuest2006_2009.log');
+        }
+
+        // import terminé
+        $this->importSuccess = true;
+    }
+
+    /**
+     * Add Question associated docs
+     *
+     * @param string $path
+     * @param string $transDate
+     * @param int $questionId
+     * @param string $label
+     * @param mixed $errorDocList
+     * @throws Exception
+     */
+    protected function addQuestDoc($path, $transDate, $questionId, $label, $indexes, $data, $errorDocList)
+    {
+        // fichier pdf
+        $storedInfoFile = $data[$indexes['PDF']];
+        $docName = pathinfo($data[$indexes['PDF']])['basename'];//premier PDF
+
+        if (($iPos = strpos($docName, '_')) !== false) {
+            //a prefix can be mentionned in the file. Don't use it.
+            $docName = substr($docName, $iPos + 1);
+        }
+
+        // Incrémenter le nom de fichier s'il existe déjà dans le dossier le même nom de fichier
+        $filename = mvc_model('Document')->incrementFileName($path, $docName);
+
+        // preserve file as exists in metadata : fileExists might change it into FALSE if not found
+        $fileToImport   = fileExists($storedInfoFile, false);
+        if ($fileToImport && copy($fileToImport, $path . $filename)) {
+            // donnees document
+            $docData = array(
+                'Document' => array(
+                    'file_path'     => '/questions/' . $transDate . '/' . $filename,
+                    'download_url'  => '/documents/download/' . $questionId,
+                    'date_modified' => date('Y-m-d H:i:s'),
+                    'type'          => 'question',
+                    'id_externe'    => $questionId,
+                    'name'          => $filename,
+                    'label'         => $label
+                )
+            );
+
+            $documentId = mvc_model('Document')->create($docData);
+
+            // maj download_url
+            $docData = array(
+                'Document' => array(
+                    'id'           => $documentId,
+                    'download_url' => '/documents/download/' . $documentId
+                )
+            );
+            mvc_model('Document')->save($docData);
+        } else {
+            $errorDocList[] = '404 File : ' . $storedInfoFile;
+        }
+    }
+
+    /**
+     * get Question by crpcen and srenum
+     *
+     * @param string $crpcen
+     * @param string $srenum
+     * @return array|null|object|void
+     */
+    public function getQuestionBy($crpcen, $srenum)
+    {
+        $query = "SELECT id, real_date FROM {$this->table} as q
+                LEFT JOIN {$this->wpdb->prefix}notary as n on q.client_number = n.client_number
+                WHERE n.crpcen = '{$crpcen}' and q.srenum = '{$srenum}'
+                LIMIT 1";
+
+        return $this->wpdb->get_row($query);
     }
 }
