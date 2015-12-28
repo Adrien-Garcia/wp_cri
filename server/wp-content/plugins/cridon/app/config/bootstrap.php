@@ -40,8 +40,7 @@ function save_post_in_table( $post_ID, $post ){
             $aAdditionalFields['id_parent'] = $_POST['id_parent'];
         }
         updateRelatedContent( $model , $aAdditionalFields);
-
-        $model = mvc_model($modelConf['name'])->find_by_id($model->id);
+        
         //Only on insert and post status is publish
         if( $isInsert && ( $post->post_status == 'publish' ) && ( $post->post_type == 'post' ) ){
             sendNotificationForPostPublished($post, $model);
@@ -752,7 +751,10 @@ function sendNotificationForPostPublished( $post,$model ){
 
     $excerpt = wp_trim_words(strip_tags($post->post_excerpt), 30);
     $content = get_the_content();
-    $matiere = isset($model->matiere) ? $model->matiere : false;
+    //$model don't contain Matiere
+    //It's necessary to get it again
+    $current = mvc_model($model->__model_name)->find_one_by_id($model->id);
+    $matiere = (!empty($current) && !empty($current->matiere)) ? $current->matiere : false;
     $permalink = generateUrlByModel($model);
     $tags = get_the_tags( $post->ID );
     $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
@@ -795,7 +797,7 @@ function sendNotificationForPostPublished( $post,$model ){
         return false;//Don't send notification
     }
     $env = getenv('ENV');
-
+    
     if (empty($env)|| ($env !== 'PROD')) {
         $mail = wp_mail( Config::$notificationAddressPreprod , $subject, $message, $headers );
         writeLog("not Prod: " . $mail . "\n", "mailog.txt");
