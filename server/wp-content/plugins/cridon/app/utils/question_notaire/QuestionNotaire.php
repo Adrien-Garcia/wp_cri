@@ -258,18 +258,11 @@ class QuestionNotaire{
         //Requête utilisée pour le total des éléments pour la pagination
         $sqlCount ='
             SELECT COUNT(*) AS count 
-            FROM (SELECT Q.* 
-                    FROM '.$wpdb->prefix.'question AS Q
-                    JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
-                    JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
-                    WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" 
-                    ORDER BY Q.creation_date DESC 
-                 ) AS Question
-            LEFT JOIN '.$wpdb->prefix.'affectation AS Affectation ON Affectation.id = Question.id_affectation 
-            LEFT JOIN '.$wpdb->prefix.'support AS Support ON Support.id = Question.id_support 
-            LEFT JOIN '.$wpdb->prefix.'competence AS Competence ON Competence.id = Question.id_competence_1 
-            LEFT JOIN '.$wpdb->prefix.'matiere AS Matiere ON Matiere.code = Competence.code_matiere 
-            JOIN '.$wpdb->prefix.'notaire AS Notaire ON Notaire.client_number = Question.client_number
+            FROM '.$wpdb->prefix.'question AS Q
+            JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
+            JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
+            WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" 
+            ORDER BY Q.creation_date DESC 
                 '; 
         $options = array(
             'query' => $sql,
