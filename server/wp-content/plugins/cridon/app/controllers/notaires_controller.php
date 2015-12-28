@@ -291,7 +291,7 @@ class NotairesController extends BasePublicController
             wp_redirect( $publicUrl, 302 );
             exit;
         }
-        if (isset($_POST) && !empty($_POST) && isset($_POST['matieres'])) {
+        if (isset($_POST) && !empty($_POST)) {
             $notaire = $this->model->getUserConnectedData();
             if (!empty($notaire)) {
                 $options = array(
@@ -309,10 +309,13 @@ class NotairesController extends BasePublicController
                 }
                 $insert = array();
                 $insert['Notaire']['id'] = $notaire->id;
-                foreach ($data['matieres'] as $v) {
-                    //Check if current Matiere is valid
-                    if (in_array($v, $toCompare)) {
-                        $insert['Notaire']['Matiere']['ids'][] = $v;
+                $insert['Notaire']['Matiere']['ids'] = array();
+                if (isset($data['matieres'])) {
+                    foreach ($data['matieres'] as $v) {
+                        //Check if current Matiere is valid
+                        if (in_array($v, $toCompare)) {
+                            $insert['Notaire']['Matiere']['ids'][] = $v;
+                        }
                     }
                 }
                 //Put in DB
