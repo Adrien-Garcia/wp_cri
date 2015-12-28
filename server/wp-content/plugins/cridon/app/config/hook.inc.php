@@ -305,7 +305,7 @@ function add_new_post_url( $url, $path, $blog_id ) {
         $path = "post-new.php?cridon_type=" . $_GET['cridon_type'];
     }
 
-    return $path;
+    return ($path)?$path:$url;
 }
 add_filter( 'admin_url', 'add_new_post_url', 10, 3 );
 
