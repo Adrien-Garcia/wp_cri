@@ -57,7 +57,7 @@ class QuestionNotaire{
      */
     protected function getUrl(){
         $url = $_SERVER['REQUEST_URI'];
-        $regex = '/(\?[a-zA-Z=0-9-]+|&[a-zA-Z=0-9-]+)/';
+        $regex = '/(\?[a-zA-Z=0-9%]+|&[a-zA-Z=0-9%]+)/';
         return preg_replace($regex, '', $url);
     }
     /**
@@ -270,7 +270,7 @@ class QuestionNotaire{
             WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'  
             ORDER BY Q.creation_date DESC
         ) AS Q
-                '; 
+                ';
         $options = array(
             'query' => $sql,
             'query_count' => $sqlCount
@@ -310,7 +310,8 @@ class QuestionNotaire{
         return (empty($where)) ? '' : ' AND '.implode(' AND ',$where);
     }
     
-    protected function convertToDateSql($d,$format = 'd-m-Y'){
+    protected function convertToDateSql($d,$format = 'd/m/Y'){
+        $d = urldecode($d);
         $dt = DateTime::createFromFormat($format, $d);
         return ($dt) ? $dt->format('Y-m-d') : false;
     }
