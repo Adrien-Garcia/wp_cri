@@ -64,7 +64,7 @@
                 </li>
 				<li class="pdf"></li>
 				<li class="plusdedetails ">
-					<span class="js-account-questions-more-button">plus de détails</span>
+					<span class="js-account-questions-more-button"><span>plus de détails</span></span>
 					<div class="details js-account-questions-more">
 						<ul>
 							<li>

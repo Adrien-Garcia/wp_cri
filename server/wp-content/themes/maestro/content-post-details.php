@@ -23,10 +23,11 @@
 			<div class="matiere"><?php echo $object->matiere->label ?></div>
 		<?php endif; ?>
 			<h1 class="entry-title single-title"><?php the_title() ?></h1>
+		<?php if (!empty($post->post_excerpt)): ?>
 			<div class="chapeau">
 				<?php echo get_the_excerpt() ?>
 			</div>
-			
+		<?php endif; ?>
 		</div>
 		<div class="block_full">
 			

@@ -6,12 +6,12 @@
 
 		<div class="titre">
 			<span class="close_layer layer-posez-question_close"></span>
-			<span class="texte"><?php _e('Posez une question'); ?></span>
+			<span class="texte"><?php _e('Poser une question'); ?></span>
 		</div>
 		
 		<div class="onglets">
-			<h2 class="consultation open js-question-button-consultation"><?php _e('1. Type de consultation'); ?></h2>   				
-			<h2 class="question js-question-button-ma-question"><?php _e('2. Ma question'); ?></h2>
+			<h2 class="consultation open js-question-button-consultation"><span><?php _e('1. Type de consultation'); ?></span></h2>   				
+			<h2 class="question js-question-button-ma-question"><span><?php _e('2. Ma question'); ?></span></h2>
 		</div>
 		<div class="details">
 			<div class="consultation js-question-tab-consultation open">
@@ -78,9 +78,9 @@
                         <?php endfor; ?>
 
 						<div class="sep"></div>
-
+						<div id="msgBlockQuestionId" class="js-question-error"></div>
 						<input class="js-question-submit" type="submit" name="Envoyer ma question" value="Envoyer ma question">
-					    <div id="msgBlockQuestionId" class="js-question-error"></div>
+					    
                     </div>
 					
 				</div>
@@ -99,14 +99,14 @@
 					<?php _e('Poser'); ?>
 					<span><?php _e('une question par téléphone'); ?></span>
 				</h2>
-				<a href="/poser-une-question-par-telephone/">+</a>
+				<a href="/poser-une-question-par-telephone/" target="_blank">+</a>
 			</li>
-			<li class="js-question-documentation-button">
+			<li class="block demander js-question-documentation-button">
 				<h2>
 					<?php _e('Demander'); ?>
 					<span><?php _e('une documentation'); ?></span>
 				</h2>
-				<a>+</a>
+				<a href="#">+</a>
 			</li>
 			<li class="js-home-block-link">
 				<h2>
@@ -124,7 +124,7 @@
 						<?php _e('Poser'); ?>
 						<span><?php _e('une question par téléphone'); ?></span>
 					</h2>
-					<a href="/poser-une-question-par-telephone/">+</a>
+					<a href="/poser-une-question-par-telephone/" target="_blank">+</a>
 				</div>						
 			</div>
 

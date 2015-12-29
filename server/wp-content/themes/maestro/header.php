@@ -72,7 +72,7 @@
 						<?php _e('Contacter'); ?>
 					</a>
 					<a class="poser-question layer-posez-question_open js-question-open" href="#">
-						<?php _e('Posez une question'); ?>
+						<?php _e('Poser une question'); ?>
 					</a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
 						<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="#">
