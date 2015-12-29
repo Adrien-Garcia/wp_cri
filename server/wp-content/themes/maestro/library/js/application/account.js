@@ -106,6 +106,9 @@ App.Account = {
         this.debug('Account : Init Dashboard');
         this.$accountSoldeSVG           = $(this.accountSoldeSVGSelector);
         this.$accountSoldeData          = $(this.accountSoldeDataSelector);
+        if(App.Utils.device.ie9 || App.Utils.device.ie10 || App.Utils.device.ie11) {
+            $("#solde-circle-path").attr('d',$('#solde-circle-path').attr('die'));
+        }
         this.reloadSolde();
         this.addListenersDashboard();
 
