@@ -12,6 +12,7 @@
 			<g id="layer1" >
 			    <path style="stroke:url(#gradient);"
 			       	d="M 176,23 a163, 163,0,1,1,-1,0 l 1,0"
+                      die="M 163,10 a140, 140,0,1,1,-1,0 l 1,0"
 			       	id="solde-circle-path" ></path>
 			</g>
 		</svg>

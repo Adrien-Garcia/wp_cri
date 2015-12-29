@@ -2,6 +2,8 @@
 
 App.Utils = {
 
+    device                      : {},
+
     queryString                 : false,
 
     animationUtilsAjaxSelector  : '.js-utils-animation-ajax',
@@ -23,6 +25,10 @@ App.Utils = {
         }).bind("ajaxComplete", function(){
             self.closeAjaxAnimation();
         });
+
+        this.device.ie9 = /MSIE 9/i.test(navigator.userAgent);
+        this.device.ie10 = /MSIE 10/i.test(navigator.userAgent);
+        this.device.ie11 = /rv:11.0/i.test(navigator.userAgent);
 
         this.debug("Utils : init end");
 
