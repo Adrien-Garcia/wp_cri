@@ -10,15 +10,15 @@
 						<div id="inner-top-footer" class="wrap cf">
 							<ul id="">
 								<li class="formations js-home-block-link">
-									<?php _e('Le catalogue formations'); ?>
+									<span><?php _e('Le catalogue formations'); ?></span>
 									<a href="/catalogue-formation/" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 								<li class="cahier js-home-block-link">
-									<?php _e('Les cahiers du cridon'); ?>
+									<span><?php _e('Les cahiers du cridon'); ?></span>
 									<a href="<?php echo MvcRouter::public_url(array('controller' => 'cahier_cridons', 'action'     => 'index')) ?>" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 								<li class="services js-home-block-link"> 
-									<?php _e('Les services plus'); ?>
+									<span><?php _e('Les services plus'); ?></span>
 									<a href="/les-services-plus/" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 							</ul>

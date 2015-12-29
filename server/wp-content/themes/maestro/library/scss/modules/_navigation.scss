@@ -95,7 +95,7 @@ and more scalable.
 				color:$rouge;
 			}
 
-			color:$rouge;
+			color:$rouge !important;
 
 			&:before{
 				opacity: 1;
@@ -160,6 +160,11 @@ and more scalable.
 
 
 				}
+
+				&.current-menu-item{
+					border:solid 10px green !important;
+				}
+
 
 				&.menu-item-has-children{
 
@@ -694,10 +699,18 @@ nav#menu_mobile{
 				> a{
 
 					height: 60px;
-					color:$rouge;
+					color:$bleu;
 					font-size: 16px;
 
 					> span{ font-size: 20px;}
+
+					&:hover{
+
+						color:$rouge;
+						text-decoration: none;
+
+						> span{ color:$rouge;}
+					}
 
 				}
 
@@ -705,8 +718,15 @@ nav#menu_mobile{
 
 					&:after{
 
-					border-color: rgba(46, 72, 103, 1);
-					//background: rgba(46, 72, 103, 1);
+					border-color: rgba(46, 72, 103, 1);						
+					}
+
+					&:hover{
+					
+						&:after{
+							border-color: rgba(185, 0, 63, 1) !important;
+						}
+
 					}
 				}
 

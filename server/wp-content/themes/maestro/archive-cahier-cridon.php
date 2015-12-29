@@ -67,7 +67,7 @@
                                     foreach ($subcahiers as $subcahier) :
                                     ?>
                                         <?php criWpPost($subcahier); ?>
-									<li class="js-home-block-link">
+									<li class="">
 										<div class="img-cat">
 											<img class="" src="<?php echo $subcahier->matiere->picto ?>" alt="<?php echo $subcahier->matiere->label ?>" />
 										</div>

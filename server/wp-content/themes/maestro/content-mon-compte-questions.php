@@ -63,7 +63,7 @@
                 </li>
 				<li class="pdf"></li>
 				<li class="plusdedetails ">
-					<span class="js-account-questions-more-button">plus de détails</span>
+					<span class="js-account-questions-more-button"><span>plus de détails</span></span>
 					<div class="details js-account-questions-more">
 						<ul>
 							<li>
@@ -118,7 +118,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 
 	<div class="filtres">
 		<ul>
-			<li> <a href="">Toutes mes questions</a></li>
+			<li> <a href="#">Toutes mes questions</a></li>
 			<li>
 				<span class="titre">Période :</span>
 				<p class="du">Du <input type="date" id="datefrom" class="datepicker"></p>

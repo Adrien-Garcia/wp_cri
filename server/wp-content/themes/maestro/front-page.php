@@ -50,8 +50,8 @@
    			<div id="inner-content" class="wrap cf">
 
    				<div id="onglets">
-   					<h3 class="juridique open js-tab-veille-open"><?php _e('Veille juridique'); ?></h3>   				
-   					<h3 class="formations js-tab-formation-open"><?php _e('Formations'); ?></h3>
+   					<h3 class="juridique open js-tab-veille-open"><span><?php _e('Veille juridique'); ?></span></h3>   				
+   					<h3 class="formations js-tab-formation-open"><span><?php _e('Formations'); ?></span></h3>
    				</div>
    				<div class="details">
    					<div id="accordion-juridique" class="accordion js-tab-veille open">
@@ -230,7 +230,9 @@
 
 					<div class="content">
 						<h3><?php the_title() ?></h3>
-						<div class="chapeau"><?php the_excerpt() ?></div>
+						<?php if (!empty($post->post_excerpt)): ?>
+						<div class="chapeau"><?php echo get_the_excerpt(); ?></div>
+						<?php endif ?>
 						<div class="description">
 							<?php echo wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 40, "..." ) ?>
 						</div>

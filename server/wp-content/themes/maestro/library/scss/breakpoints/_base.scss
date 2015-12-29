@@ -38,7 +38,13 @@ LAYOUT & GRID STYLES
 	display:none;
 }
 
-a img{ text-decoration: none;}
+a img{
+	text-decoration: none !important;
+	
+	&:before, &:after{
+		text-decoration: none !important;
+	}
+}
 
 a.excerpt-read-more{display: none;}
 
@@ -430,7 +436,7 @@ HEADER STYLES
 				font-size: 20px;
 				line-height: 80px;
 				vertical-align: middle;
-				text-decoration: underline;
+				//text-decoration: underline;
 
 				border-bottom:solid 16px #FFF;
 
@@ -446,18 +452,30 @@ HEADER STYLES
 
 				cursor: pointer;
 
+				span{
+					border-bottom:solid 1px $bleu;
+				}
+
 				&:hover{
 					text-decoration: none;
 					border-bottom:solid 16px $vert;
+
+					span{
+						border-bottom:solid 1px #FFF;
+					}
 				}
 
 			}
 
 			h2.open{
 				color:$vert;
-				text-decoration: none;
+				//text-decoration: none;
 				border-bottom:solid 16px $vert;
 				width: 70%;
+
+				span{
+					border-bottom:solid 1px #FFF;
+				}
 			}
 		}
 
@@ -472,42 +490,21 @@ HEADER STYLES
 					width: 100%;
 					overflow: hidden;
 
+					.owl-stage-outer{
+						z-index: 1; /**/
+					}
+					.owl-controls{
+						z-index: 0; /**/
+					}
+
 					.owl-item{
 						height: 330px;
-						padding-top: 190px;
+						//padding-top: 190px;
 
 
-                        &:hover, &.selected{
+                        
 
-
-
-                            .label{
-                                background: $vert;
-
-                                &:before{
-                                  @include svgicon('icon-angle-bottom', 15px, 15px, $vert);
-                                }
-                            }
-
-                            .item{
-
-                                &:before{
-                                    top: -170px;
-                                    animation: bump 0.5s ease-in 0s infinite alternate;
-                                }
-
-                                //background: #e6e6e6;
-
-
-                            }
-
-                            &:last-child{
-                                .item:before{
-                                    top: -140px;
-                                }
-
-                            }
-                        }
+                        
 
 						label {
 							width: 100%;
@@ -555,6 +552,7 @@ HEADER STYLES
 
 						.item{
 							position: relative;
+							margin-top: 190px;
 
 							&:before{
 								
@@ -565,6 +563,39 @@ HEADER STYLES
 							}
 
 						}
+
+						&:hover, &.selected{
+
+
+
+                            .label{
+                                background: $vert;
+
+                                &:before{
+                                  @include svgicon('icon-angle-bottom', 15px, 15px, $vert);
+                                }
+                            }
+
+                            .item{
+                            	
+
+                                &:before{
+                                    top: -170px;
+                                    animation: bump 0.5s ease-in 0s infinite alternate;
+                                }
+
+                                //background: #e6e6e6;
+
+
+                            }
+
+                            &:last-child{
+                                .item:before{
+                                    top: -140px;
+                                }
+
+                            }
+                        }
 						
 
 						&:first-child{
@@ -621,6 +652,7 @@ HEADER STYLES
 						.owl-prev{
 							left: 20px;
 							@include rotate(-180);
+							z-index: 999;
 
 						}
 
@@ -628,6 +660,7 @@ HEADER STYLES
 							left: inherit;
 							float: right;
 							right: 20px;
+							z-index: 999;
 
 						}
 
@@ -653,7 +686,7 @@ HEADER STYLES
 							height: 35px;
 							background: #FFF;
 							border:solid 3px #e6e6e6;
-							line-height: 35px;
+							line-height: 20px;
 							color:$bleu;
 							text-transform: none;
 							padding-left: 10px;
@@ -716,6 +749,8 @@ HEADER STYLES
 
 						#msgBlockQuestionId{
 							color:$rouge;
+							font-size: 14px;
+							line-height: 18px;
                             .success {
                                 color: $vert;
                                 font-size: 150%;
@@ -797,12 +832,12 @@ HEADER STYLES
 
 							&:before{
 
-								@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
+								@include svgicon('ico-sep', 18px, 18px, #e6e6e6);
 								position: absolute;
 								top: 0;
 								background: #FFF;
 								left: 50%;
-								margin-left: -30px;
+								margin-left: -26px;
 
 								
 							}
@@ -1103,7 +1138,7 @@ body.page-template-front-page{
 							z-index: 2000;
 							@extend .do-sm;
 							color:#FFF;
-							font-size: 30px;
+							font-size: 32px;
 							line-height: 30px;
 							text-transform: uppercase;
 							text-align: center;
@@ -1268,7 +1303,7 @@ body.page-template-front-page{
 					font-size: 20px;
 					line-height: 60px;
 					vertical-align: middle;
-					text-decoration: underline;
+					/*text-decoration: underline;*/
 
 					border-bottom:solid 16px #FFF;
 
@@ -1282,17 +1317,29 @@ body.page-template-front-page{
 
 					cursor: pointer;
 
+					span{
+						border-bottom:solid 1px $bleu;
+					}
+
 					&:hover{
 						text-decoration: none;
 						border-bottom:solid 16px $vert;
+
+						span{
+							border-bottom:solid 1px #FFF;
+						}
 					}
 
 				}
 
 				h3.open{
 					color:$vert;
-					text-decoration: none;
+					//text-decoration: none;
 					border-bottom:solid 16px $vert;
+
+					span{
+						border-bottom:solid 1px #FFF;
+					}
 				}
 			}
 
@@ -1720,7 +1767,7 @@ body.page-template-front-page{
 
 			h2{
 				@extend .do-sm; 
-				font-size: 30px;
+				font-size: 32px;
 				line-height: 24px;
 				color:$bleu;
 				text-transform: uppercase; 
@@ -1819,6 +1866,8 @@ body.page-template-front-page{
 						width: 100%;
 						line-height: 20px;
 						margin-bottom: 10px;
+						max-height: 40px;
+						overflow: hidden;
 
 					} 
 
@@ -1828,7 +1877,7 @@ body.page-template-front-page{
 						width: 100%;
 						text-align: center;
 						line-height: 18px;
-						height: 90px;
+						max-height: 90px;
 						overflow: hidden;
 
 						s{
@@ -1999,8 +2048,8 @@ body.page-template-front-page{
 
 							h2{
 								@extend .do-me;
-								font-size: 20px;
-								line-height: 20px;
+								font-size: 22px;
+								line-height: 24px;
 								text-transform: uppercase;
 								color:$vert;
 								display: block;
@@ -2016,7 +2065,7 @@ body.page-template-front-page{
 							    width: 250px;
 							    overflow: hidden;
 							    line-height: 18px;
-							    margin-bottom: 10px;
+							    
 
 							    >a{ display: none;}
 							}
@@ -2027,6 +2076,7 @@ body.page-template-front-page{
 							    line-height: 18px;
 							    width: 250px;
 							    overflow: hidden;
+							    margin-top: 10px;
 							}
 
 							.mots_cles{
@@ -2088,10 +2138,11 @@ body.page-template-front-page{
 	
 }
 
-#content.archive-vie-cridon{
+#content.archive-vie-cridon, #content.archive-flash{
 	.block_right {width: 100% !important;}
 
 }
+
 
 #content.archive-cahier{
 
@@ -2102,6 +2153,7 @@ body.page-template-front-page{
 
 			.block_right{
 				width: 100%;
+
 
 				>h2{ margin-bottom: 5px;}
 
@@ -2133,11 +2185,13 @@ body.page-template-front-page{
 						padding: 0;
 
 						line-height: 30px;
-						height: 30px;
+						height: auto;
 
 						display: block;
 
-						> div, h3, a{
+
+
+						> div{
 							display: inline !important;
 						}
 
@@ -2156,6 +2210,7 @@ body.page-template-front-page{
 
 						.matiere{
 							top: 0;
+							display: inline-block;
 						}
 
 						> h3{
@@ -2164,20 +2219,25 @@ body.page-template-front-page{
 							font-size: 14px;
 							//text-transform: uppercase;
 							margin: 0 10px;
-							line-height: 30px;
+							line-height: 18px;
+							display: inline-block;
+							margin: 0 0 0 44px;
 						}
 
 						>a{
 						 	width: 16px;
 						 	height: 16px;
 						 	position: relative;
-						 	margin-left: 10px;
+						 	margin-left: 44px;
+						 	display: inline-block;
+						 	text-decoration: none !important;
 
 						 	&:before{
 						 		@include svgicon('icon-pdf', 16px, 16px, $rouge);
 						 		position: absolute;
 						 		top: 0;
 						 		left: 0;
+						 		text-decoration: none!important;
 						 	}
 
 						 	&:hover{
@@ -3005,6 +3065,40 @@ body.page-template-front-page{
 
 					}
 
+					&:first-child{
+						.bt{
+							background: $vj_01;
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_01);		
+							}
+
+						}
+					}
+					&:nth-child(2){
+						.bt{
+							background: $vj_05;
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_05);		
+							}
+						}
+					}
+					&:nth-child(3){
+						.bt{
+							background: $vj_04;
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_04);		
+							}
+						}
+					}
+					&:last-child{
+						.bt{
+							background: $vj_01;
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_01);		
+							}
+						}
+					}
+
 					div.pannel{
 						display: none;
 						padding: 25px 0;
@@ -3142,7 +3236,7 @@ body.page-template-front-page{
 									height: 50px;
 									line-height: 50px;
 									@include border-radius(50%);
-									background: $vert;
+									background: $vj_03;
 									color:#FFF; 
 									text-align: center;
 									float: left;
@@ -3542,7 +3636,11 @@ body.page-template-front-page{
 									padding-bottom: 15px;
 									border-bottom:solid 8px #e6e6e6;
 									cursor: pointer;
-									text-decoration: underline;
+									//text-decoration: underline;
+
+									> span{
+										border-bottom:solid 1px $rouge;
+									}
 
 									&:after{
 										content:'>';
@@ -3569,7 +3667,7 @@ body.page-template-front-page{
 											right:-20px;
 											top:-3px;
 											color:$rouge;
-											font-size: 30px;
+											font-size: 34px;
 											@include rotate(45);
 											@extend .do-el;
 										}
@@ -3818,20 +3916,23 @@ body.page-template-front-page{
 
 										.du{
 											display: inline-block;
+											margin: 7px 0;
 										}
 										.au{
-											margin-left: 76px;
+											
+											margin: 7px 0 7px 72px;
 										}
 
 										input{
-											width: 100px;
-											display: inline-block;
+											width: 130px;
+											display: inline;
 											height: 35px;
-											line-height: inherit;
+											line-height: 30px;
 											border:solid 3px #e6e6e6;
 											@include border-radius(0);
-                                            padding:5px 0;
+                                            padding:0;
                                             margin: 0 20px 0 10px;
+                                            vertical-align: middle;
                                         }
 
 										select{
@@ -4615,7 +4716,7 @@ a.logoJP:hover{opacity: 1;
 				height: 90px;
 				margin-bottom: 10px;
 				text-align: right;
-				padding: 25px 10px 10px;
+				padding: 10px 10px 10px 20px;
 				color: $white;
 				@extend .do-bo;
 				font-size: 18px;
@@ -4624,6 +4725,11 @@ a.logoJP:hover{opacity: 1;
 				transition: background $duration ease;
 				cursor: pointer;
 
+				> span{
+					margin-top: 10px;
+					display: block;
+				}
+
 				a {
 					@include lien-souligne(#FFF);
 					
@@ -4631,7 +4737,7 @@ a.logoJP:hover{opacity: 1;
 					font-weight: normal;
 					padding-right: 25px;
 					position: absolute;
-					bottom: 15px;
+					bottom: 10px;
 					right: 10px;
 
 					&:after{
@@ -4669,7 +4775,9 @@ a.logoJP:hover{opacity: 1;
 					content: "";
 					position: absolute;
 					display: block;
-					bottom: 10px;
+					//bottom: 10px;
+					top:50%;
+					margin-top: -30px;
 					font-weight: normal;
 				}
 
@@ -4909,6 +5017,19 @@ body.page-template-front-page #content .row_01 .block_03 .block .content::before
 	-moz-border-radius: 0 !important;
 }
 body.page-template-front-page #content .row_01 .block_03 .block .content::after {
+	border-radius: 0 !important;
+	-ms-border-radius: 0 !important;
+	-webkit-border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+}
+
+.nav > li > ul.sub-menu > li .block .content::before {
+	border-radius: 0 !important;
+	-ms-border-radius: 0 !important;
+	-webkit-border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+}
+.nav > li > ul.sub-menu > li .block .content::after {
 	border-radius: 0 !important;
 	-ms-border-radius: 0 !important;
 	-webkit-border-radius: 0 !important;

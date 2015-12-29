@@ -33,9 +33,11 @@ foreach ($objects as $key => $object) :
 			<div class="matiere"><?php echo $object->matiere->label ?></div>
 			<?php endif ?>
 			<h2><?php the_title() ?></h2>
+		<?php if (!empty($post->post_excerpt)): ?>	
 			<div class="chapeau">
 				<?php echo get_the_excerpt() ?>
 			</div>
+		<?php endif; ?>
 			<div class="extrait">
 				<?php echo wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 35, "..." ) ?>
 			</div>

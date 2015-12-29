@@ -1070,9 +1070,9 @@ body.page-template-front-page{
 					}
 
 					> a{						
-						margin: 0;
-						position: absolute;
-						bottom: 0px;
+						margin: 15px 0 0 0;
+						/*position: absolute;
+						bottom: 0px;*/
 					}
 
 				}
@@ -1291,45 +1291,60 @@ body.page-template-front-page{
 
 		.details{
 			/*width: 100%;*/
+			width: 1000px;
+			margin-right: 0;
 
 			.block_right{
-				width: 460px;
+				width: 1000px;
 
 				>a{
 					float: none;
 					clear: both;
 					position: static;
 					font-size: 22px;
+					width: 100%;
+					margin-top: 5px;
 				}
 
 				>h2{ 
 					margin-bottom: 0px;
 				}
 
-				> a{					
-					font-size: 16px;
-					width: 100%;
-					margin-top: 5px;
-				}
+				
 
 				> ul{					
 					padding: 0 0 0 20px;	
 
 					>li{
 
+						min-height: 90px;
+
+						div.img-cat{
+							width: 90px;
+							height: 90px;
+							float: left; 
+
+							img{
+								width: 90px;
+								height: 90px; 
+							}
+						}
+
 						> h3{
 							font-size: 18px;
+							line-height: 20px;
+							display: block;
 						}
 
 						> a{
 						 	width: 24px;
 						 	height: 24px;
-
-						 	display: inline-block;
+						 	margin-top: 10px;
+						 	margin-left: 0;
 
 						 	&:before{
 						 		@include svgicon('icon-pdf', 24px, 24px, $rouge);
-						 		top: -5px; 
+						 		top: 0px; 
 						 	}
 
 						 	&:hover{
