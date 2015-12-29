@@ -24,11 +24,35 @@ class VeillesController extends MvcPublicController {
         $this->params['conditions'] = array(
             'Post.post_status'=>'publish'            
         );
+        //All Matiere
+        $matieres = mvc_model('Matiere')->find();
+        //Filter by Matiere
+        if( isset($_GET['q']) && !empty($_GET['q']) ){
+            $q = esc_sql(strip_tags(urldecode($_GET['q'])));
+            $ids = explode(',',$q);
+            $this->clean($ids);//numeric,unique
+            $this->params['conditions'] = array(
+                'Post.post_status'=>'publish',
+                'Matiere.id'=> $ids         
+            );
+            foreach($matieres as $matiere){
+                if( in_array($matiere->id,$ids) ){
+                    $matiere->filtered = true;
+                }else{
+                    $matiere->filtered = false;
+                }
+            }
+        }else{
+            foreach($matieres as $matiere){
+                $matiere->filtered = false;
+            }
+        }
         //Order by date publish
         $this->params['order'] = 'Post.post_date DESC' ;
         $collection = $this->model->paginate($this->params);
         
         $this->set('objects', $collection['objects']);
+        $this->set('matieres',$matieres);//All matieres
         $this->set_pagination($collection);
     }
 
@@ -56,6 +80,19 @@ class VeillesController extends MvcPublicController {
         }
     }
     
+    /**
+     * Clean array
+     * 
+     * @param array $data
+     */
+    protected function clean(&$data){
+        $data = array_unique($data);
+        foreach ( $data as $k => $v ){
+            if( !is_numeric($v) ){
+                unset($data[$k]);
+            }
+        }
+    }
 }
 
 ?>
