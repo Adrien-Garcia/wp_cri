@@ -37,6 +37,12 @@ and more scalable.
 
 		}
 
+		&:hover{
+			> a{
+				color:$rouge;
+			}
+		}
+
 	} /* end .menu li */
 
 	/* highlight current page */
@@ -56,17 +62,12 @@ and more scalable.
 		> a{ /* Lien 1ere niveau*/
 			height: 120px;
 			display: block;
-
 			font-family: garamond;
 			font-size: 22px;
 			color:$bleu;
-
 			padding-top: 35px;
 			padding-right: 68px;
-
 			position: relative;
-
-
 			@include transition(color 0.3s);
 
 			span{
@@ -91,11 +92,13 @@ and more scalable.
 
 		&:hover, &.current-menu-parent > a {
 
+			color:$rouge !important;
+
 			span{
 				color:$rouge;
 			}
 
-			color:$rouge !important;
+			
 
 			&:before{
 				opacity: 1;
@@ -136,12 +139,12 @@ and more scalable.
 					height: 22px;
 					line-height: 22px;
 					border-bottom:0px !important;
-
 					display: block;
 				    width: 100%;
 				    padding-bottom: 0px;
 				    margin-bottom: 20px;
 				    height: 100%;
+				    
 
 					&:before{
 						@include svgicon('icon-menu-hover', 11px, 11px, $rouge);
@@ -162,13 +165,14 @@ and more scalable.
 				}
 
 				&.current-menu-item{
-					border:solid 10px green !important;
 				}
 
 
 				&.menu-item-has-children{
 
 					> a{
+
+						cursor: default;
 
 						&:hover{
 					    	&:before{
@@ -535,10 +539,10 @@ and more scalable.
 
 					h2:before{
 						display:block;
-						@include svgicon('iicon-veille-juridique', 42px, 42px, #FFFFFF);
+						@include svgicon('icon-veille-juridique', 42px, 42px, #FFFFFF);
 						position:absolute;
 						top: -55px;
-						left:calc( 50% - 15px);
+						left:calc( 50% - 38px);
 					}
 				}
 
@@ -604,10 +608,10 @@ and more scalable.
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-consulter', 28px, 28px, #FFFFFF);
+						@include svgicon('icon-consulter', 42px, 42px, #FFFFFF);
 						position:absolute;
-						top:-32px;
-						left:calc( 50% - 15px );
+						top:-54px;
+						left:calc( 50% - 24px );
 					}
 
 					.content{

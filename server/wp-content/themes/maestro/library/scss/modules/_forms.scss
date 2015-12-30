@@ -43,7 +43,7 @@ textarea,
   line-height: 40px;
   padding: 0 12px;
   margin-bottom: 14px;
-  font-size: 1em;
+  font-size: 14px;
   color: $text-color;
   //border-radius: 3px;
   vertical-align: middle;
@@ -52,7 +52,7 @@ textarea,
   width: 100%;
   max-width: 400px;
   @include transition(background-color 0.24s ease-in-out);
-
+  -webkit-appearance: none;
   font-family: $helvetica;
   font-size: 14px;
   color:#170910;
@@ -113,6 +113,7 @@ select {
 
     &::-ms-expand{
   	display:none;
+    margin-bottom: 10px;
   }
 }
 
@@ -127,7 +128,7 @@ input[type="submit"]{
     text-decoration: none;
     transition: all 0.3s;
     border: none;
-    @extend .do-sm;
+    @extend .do-re; 
 
     &:hover{
       opacity: 0.8;

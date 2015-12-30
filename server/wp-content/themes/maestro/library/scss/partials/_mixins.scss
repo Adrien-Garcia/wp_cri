@@ -213,7 +213,7 @@ BT style crayon
 
     @media only screen and (min-width: 760px) {
 
-      height: 18px;
+      /*height: 18px;
       width: 47px; 
       font-size: 13px;
       line-height: 18px;
@@ -226,10 +226,11 @@ BT style crayon
         position: absolute;
         top: 0;
         right: -9px;
-      }
+      }*/
     
 
     }
+    
     &:hover {
       background: transparent;
       color:$fond;

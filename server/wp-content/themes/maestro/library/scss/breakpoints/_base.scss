@@ -46,7 +46,15 @@ a img{
 	}
 }
 
+a:before, a:after{
+	text-decoration: none !important;
+}
+
 a.excerpt-read-more{display: none;}
+
+a:hover, a:active, a:focus{
+	outline: 0 !important;
+}
 
 /*********************
 HEADER STYLES
@@ -580,8 +588,9 @@ HEADER STYLES
                             	
 
                                 &:before{
-                                    top: -170px;
-                                    animation: bump 0.5s ease-in 0s infinite alternate;
+                                    //top: -150px;
+                                    animation: bump 0.5s ease-out 0s infinite alternate;
+
                                 }
 
                                 //background: #e6e6e6;
@@ -591,7 +600,7 @@ HEADER STYLES
 
                             &:last-child{
                                 .item:before{
-                                    top: -140px;
+                                    //top: -140px;
                                 }
 
                             }
@@ -832,7 +841,7 @@ HEADER STYLES
 
 							&:before{
 
-								@include svgicon('ico-sep', 18px, 18px, #e6e6e6);
+								@include svgicon('ico-sep', 16px, 16px, #e6e6e6);
 								position: absolute;
 								top: 0;
 								background: #FFF;
@@ -2081,7 +2090,7 @@ body.page-template-front-page{
 
 							.mots_cles{
 
-								margin:10px 0 0 0;
+								margin:20px 0 10px 0;
 								padding: 0;
 								height: 18px;
 
@@ -2160,7 +2169,7 @@ body.page-template-front-page{
 				> a{
 					color:$rouge;
 					background: none;
-					display: block;
+					display: inline-block;
 					width: auto;
 					text-transform: none;
 					font-size: 14px;
@@ -2169,8 +2178,16 @@ body.page-template-front-page{
 					margin: 0;
 					padding: 0;
 					text-align: left;
+					border-bottom:solid 1px $rouge;
+					height: auto;
+					line-height: 18px;
 
 					&:after{ display: none;}
+
+					&:hover{
+						border-bottom:solid 1px #FFF;
+						color:$rouge;
+					}
 				}
 
 				> ul{
@@ -2181,7 +2198,7 @@ body.page-template-front-page{
 					>li{
 						width: 100%;
 						clear: both;
-						margin: 15px 0;
+						//margin: 15px 0;
 						padding: 0;
 
 						line-height: 30px;
@@ -2220,8 +2237,13 @@ body.page-template-front-page{
 							//text-transform: uppercase;
 							margin: 0 10px;
 							line-height: 18px;
-							display: inline-block;
+							display: block;
 							margin: 0 0 0 44px;
+							text-transform: lowercase;
+
+							&:first-letter{
+								text-transform: uppercase;
+							}
 						}
 
 						>a{
@@ -2353,12 +2375,13 @@ body.page-template-front-page{
 
 			&:before{
 
-				@include svgicon('ico-sep', 18px, 18px, #e6e6e6);
+				@include svgicon('ico-sep', 17px, 17px, #e6e6e6);
 				position: absolute;
 				top: 0;
 				background: #FFF;
 				left: 50%;
 				margin-left: -30px;
+
 
 				
 			}
@@ -2568,7 +2591,7 @@ body.page-template-front-page{
 
 					.mots_cles{
 
-						margin:10px 0 0 0;
+						margin:20px 0 10px 0;
 						padding: 0;
 						height: 18px;
 
@@ -2891,6 +2914,12 @@ body.page-template-front-page{
 
 #content.page{
 
+	.gform_wrapper select, .gform_wrapper textarea{
+		font-size: 14px;
+		padding: 0px;
+    	line-height: initial;
+	}
+
 	.gform_wrapper{
 		padding: 0;
 		margin: 0;
@@ -2905,6 +2934,7 @@ body.page-template-front-page{
 					font-size: 14px;
 					color:$bleu;
 					margin: 5px 0;
+					@extend .do-sm;
 				}
 
 				.ginput_container{
@@ -2914,6 +2944,10 @@ body.page-template-front-page{
 					input{
 						min-width: 100%;
 						width: 100%;
+						margin-bottom: 10px;
+
+					}
+					select{
 						margin-bottom: 10px;
 					}
 				}
@@ -2959,7 +2993,7 @@ body.page-template-front-page{
 			    text-decoration: none;
 			    transition: all 0.3s;
 			    border: none;
-			    @extend .do-sm;
+			    @extend .do-re;
 
 			    &:hover{
 			    	opacity: 0.85;
@@ -3056,10 +3090,11 @@ body.page-template-front-page{
 						}
 
 						&:hover{
-							background: $vert;
+							background: $vert !important; 
 
 							&:before{
-								@include svgicon('icon-angle-bottom', 15px, 15px, $vert);	
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
+								color:$vert !important;	
 							}
 						}
 
@@ -3097,6 +3132,23 @@ body.page-template-front-page{
 								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_01);		
 							}
 						}
+					}
+
+					&.active{
+
+						.bt{
+							background: $vert !important;
+
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
+								color:$vert !important;
+							}
+						}
+
+						.pannel{
+							display: block;
+						}
+
 					}
 
 					div.pannel{
@@ -3498,12 +3550,14 @@ body.page-template-front-page{
 						 	height: 16px;
 						 	position: relative;
 						 	float: right;
+						 	text-decoration: none;
 
 						 	&:before{
 						 		@include svgicon('icon-pdf', 16px, 16px, $rouge);
 						 		position: absolute;
 						 		top: 0;
 						 		left: 0;
+						 		text-decoration: none;
 						 	}
 						 }
 
@@ -3640,6 +3694,7 @@ body.page-template-front-page{
 
 									> span{
 										border-bottom:solid 1px $rouge;
+										color:$rouge;
 									}
 
 									&:after{
@@ -4230,21 +4285,7 @@ body.page-template-front-page{
 					
 					}
 					
-					&.active{
 
-						.bt{
-							background: $vert;
-
-							&:before{
-								@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
-							}
-						}
-
-						.pannel{
-							display: block;
-						}
-
-					}
 				}
 
 			}
@@ -4285,7 +4326,7 @@ body.page-template-front-page{
 			article{
 
 				header{
-					height: 50px;
+					//height: 50px;
 				}
 
 				.entry-content{
@@ -4294,7 +4335,7 @@ body.page-template-front-page{
 						color:$rouge;
 						display: block;
 						width:80%;
-						margin:20px auto 0 auto;
+						margin:0 auto;
 						font-family: $garamond;
 						text-align:center;					
 					    font-size: 18px;
