@@ -19,13 +19,13 @@
 
 					<header class="article-header">
 
-						<h1 class="page-title h1" itemprop="headline">Contact</h1>
+						<h1 class="page-title h1" itemprop="headline"><?php _e('Contact'); ?></h1>
 
 					</header> <?php // end article header ?>
 
 					<section class="entry-content cf" itemprop="articleBody">
 
-						<p>L'équipe du CRIDON LYON est à votre disposition pour répondre à vos questions</p>
+						<p><?php _e('L\'équipe du CRIDON LYON est à votre disposition pour répondre à vos questions'); ?></p>
 						<img src="<?php echo get_template_directory_uri(); ?>/library/images/le-cridon-contact.jpg" alt="" />
 
 						<?php // the_content(); ?>
@@ -35,11 +35,11 @@
 					<footer class="article-footer cf">
 
 						<div class="form">
-							<h2>Nous envoyer un message</h2>
+							<h2><?php _e('Nous envoyer un message'); ?></h2>
 							<?php echo do_shortcode('[gravityform id=1 name=ContactUs title=false description=false]'); ?>
 						</div>
 						<div class="coordonnees">
-							<h2>Nous joindre</h2>
+							<h2><?php _e('Nous joindre'); ?></h2>
 							<table>
 								<tr>
 									<td>

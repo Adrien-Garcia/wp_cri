@@ -29,8 +29,10 @@
 							$_flash_url = get_permalink();
 						 ?>
 					<div class="content" id="sel-flash-present">
-						<div class="texte"><?php echo $_flash_title; ?></div>
-						<a id="sel-flash-link-present" href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
+						<div class="texte"><?php echo $_flash_title; ?>
+							<a id="sel-flash-link-present" href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
+						</div>
+						
 					</div>
 					<?php endif; ?>
 					<?php wp_reset_query(); ?>

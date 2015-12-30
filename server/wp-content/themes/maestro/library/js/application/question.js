@@ -125,7 +125,7 @@ App.Question = {
         this.$popupOverlay.popup({
             transition: 'all 0.3s',
             scrolllock: true,
-            opacity: 0.99,
+            opacity: 0.8,
             color: '#324968',
             offsettop: 10,
             vertical: top,

@@ -81,7 +81,7 @@ HEADER STYLES
 			width: 393px;
 			height: 40px;
 			line-height: 40px;
-			left: 368px;
+			left: 365px;
 			font-size: 16px;
 			padding-left: 50px;
 
@@ -97,7 +97,7 @@ HEADER STYLES
 			width: 200px;
 			height: 40px;
 			line-height: 40px;
-			left: 771px;
+			left: 768px;
 			font-size: 16px;
 			padding-left: 50px;
 
@@ -304,7 +304,7 @@ HEADER STYLES
 						&:nth-child(2){
 
 							.item{
-								margin:0 auto;
+								margin:190px auto 0 auto;
 							}
 						}
 
@@ -459,25 +459,7 @@ HEADER STYLES
 						}
 
 						.sep{
-							/*height: 4px;
-							background: #e6e6e6;
-							margin: 20px 0;
-							width: 100%;
-							clear: both;
-
-							position: relative;
-
-							&:before{
-
-								@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
-								position: absolute;
-								top: 0;
-								background: #FFF;
-								left: 50%;
-								margin-left: -30px;
-
-								
-							}*/
+							
 
 
 
@@ -504,6 +486,8 @@ HEADER STYLES
 		.block_03{
 
 			width: 100%;
+			padding-top: 0;
+			margin-top: 0;
 
 
 			.block {
@@ -650,8 +634,8 @@ body.page-template-front-page{
 					width: 1040px;
 					
 
-					.texte{
-						width: 740px;
+					.texte{ 
+						width: 860px;
 						height: 30px;
 						overflow: hidden;
 						padding-right: 20px;
@@ -667,8 +651,8 @@ body.page-template-front-page{
 						width: 37px;
 						font-size: 10px;
 						top: 0;
-						right: 200px;
-						margin-top: 8px;
+						//right: 200px;
+						//margin-top: 8px;
 
 						&:after{border-width: 7px 0 7px 9px;}
 
@@ -735,7 +719,7 @@ body.page-template-front-page{
 						}
 
 						> a{
-							font-size: 30px;
+							font-size: 48px;
 							line-height: 10px;							
 						}
 					}
@@ -1177,7 +1161,7 @@ body.page-template-front-page{
 							width: 1200px;
 
 							&:before{								
-								top: -1px;
+								//top: -1px;
 								
 							}
 						}
@@ -1243,12 +1227,12 @@ body.page-template-front-page{
 
 							.mots_cles{
 
-								margin:10px 0 0 0; 
+								margin:20px 0 0 0; 
 								padding: 0;
 								height: 18px;
 
 								>li{		
-								font-size: 15px;						
+								font-size: 13px;						
 									
 
 									&:before{
@@ -1302,12 +1286,15 @@ body.page-template-front-page{
 					clear: both;
 					position: static;
 					font-size: 22px;
-					width: 100%;
+					line-height: 28px;
 					margin-top: 5px;
+					margin-left: 20px;
+					width: auto;
 				}
 
 				>h2{ 
 					margin-bottom: 0px;
+					padding-left: 20px;
 				}
 
 				
@@ -1318,6 +1305,7 @@ body.page-template-front-page{
 					>li{
 
 						min-height: 90px;
+						margin-bottom: 10px;
 
 						div.img-cat{
 							width: 90px;
@@ -1331,7 +1319,7 @@ body.page-template-front-page{
 						}
 
 						> h3{
-							font-size: 18px;
+							font-size: 16px;
 							line-height: 20px;
 							display: block;
 						}
@@ -1397,6 +1385,7 @@ body.page-template-front-page{
 		article{
 
 			padding-top: 20px;
+			padding-bottom: 30px;
 			
 
 			.date{
@@ -1532,7 +1521,7 @@ body.page-template-front-page{
 					
 					.mots_cles{
 
-						margin:40px 0 0 0; 
+						margin:20px 0 0 0; 
 						padding: 0;
 						height: 18px;
 
@@ -1583,27 +1572,24 @@ body.page-template-front-page{
 
 		article{
 
-			font-size: 15px;
-			line-height: 18px;
+			section{
 
-			
+				font-size: 15px;
+				line-height: 18px;
 
-		    h2, h3{		    	
-		    	font-size: 20px;
-		    	line-height: 18px;
-		    	
+				
+
+			    h2, h3{		    	
+			    	font-size: 20px;
+			    	line-height: 20px;
+			    	
+			    }
+				
+				p{
+			    font-size: 15px;
+			    line-height: 18px;
+			    margin: 10px 0;}
 		    }
-			
-			p{
-		    font-size: 15px;
-		    line-height: 18px;
-		    margin: 10px 0;}
-
-		    
-
-		    
-
-		    
 
 		}
 		
@@ -2598,7 +2584,7 @@ body.page-template-front-page{
 					> p{					
 					    font-size: 30px;
 					    line-height: 30px;
-					    width: 60%;
+					    width: 660px;
 					    margin-top: 50px;
 					    margin-bottom: 50px;
 					}
@@ -2677,6 +2663,10 @@ body.page-template-front-page{
 				}
 			}
 		}
+	}
+
+	footer.article-footer{
+		padding: 100px 0 0 0;
 	}
 
 }
@@ -2844,27 +2834,34 @@ FOOTER STYLES
 				width: 380px;
 				height: 90px;
 				font-size: 20px;
-				padding: 20px 15px;							
+				padding: 0px 15px;		
+
+				span{
+					margin-top: 25px;
+				}					
 
 				a {
 					font-size: 20px;
 					bottom: 16px;
-					padding-right: 20px;
+					padding-right: 23px;
+					right: 15px;
 					
 
 					&:after{
-						font-size: 30px;
-						top: 4px;
+						font-size: 40px;
+						top: 1px;
 					}
 				}
 
 				&:after {					 
-					@include sprite($angle-before-links-footer-tablette);
+					//@include sprite($angle-before-links-footer-tablette);
+					@include svgiconafter('icon-angle-bottom', 15px, 15px, $bg-top-footer);
 					left: 90px;
 				}
 
 				&:before {
-					left: 30px;
+					left: 25px;
+					margin-top: -36px;
 				}
 
 

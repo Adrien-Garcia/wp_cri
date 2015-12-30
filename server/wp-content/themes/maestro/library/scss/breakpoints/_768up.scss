@@ -620,12 +620,13 @@ body.page-template-front-page{
 				.content{ 
 
 					.texte{
-						width: 520px;						
+						width: 570px;						
 					}
 
 					a{
-						margin-left: calc(100% - 100px);
+						margin: 0 0 0 15px;
 						margin-top: -17px;
+						display: inline-block;
 
 						&:after{ right:-9px;}
 
@@ -702,7 +703,7 @@ body.page-template-front-page{
 					&:hover {
 							.content {
 							&, &:before, &:after {
-								height: 210px;
+								height: 150px;
 								background-position: 0 100%;
 							}
 
@@ -1216,8 +1217,18 @@ body.page-template-front-page{
 						bottom: 0px;*/
 						margin-top: 10px;
 
+						height: 18px;
+					      width: 47px; 
+					      font-size: 13px;
+					      line-height: 18px;
+
 						&:after{
-							right: -10px;
+							border-width: 8px 0 10px 10px;
+					        border-color: transparent transparent transparent $rouge;
+					        border-style: dotted none dotted solid;
+					        position: absolute;
+					        top: 0;
+					        right: -10px;
 
 						}
 
@@ -1398,7 +1409,7 @@ body.page-template-front-page{
 
 							&:before{
 
-								@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
+								@include svgicon('ico-sep', 18px, 18px, #e6e6e6);
 								position: absolute;
 								top: 0px;
 								background: #FFF;
@@ -1465,7 +1476,7 @@ body.page-template-front-page{
 
 							.mots_cles{
 
-								margin:10px 0 0 0;
+								
 								padding: 0;
 								height: 18px;
 
@@ -1530,8 +1541,13 @@ body.page-template-front-page{
 
 				> a{					
 					font-size: 16px;
-					width: 100%;
+					width: auto;
 					margin-top: 5px;
+					line-height: 20px;
+					height: auto;
+					@include transition(all 0.3s);
+
+					
 
 				}
 
@@ -1847,21 +1863,29 @@ body.page-template-front-page{
 		
 		padding-top: 60px;
 
+		.h1{
+			
+			font-size: 50px;
+			line-height: 55px;
+			margin-bottom: 50px;
+		}
 
+		article{
+
+			section{			
+
+			    h2, h3{
+			    	
+			    	font-size: 18px;
+			    	line-height: 20px;
+
+			    	
+			    }
+		    }
+
+		}
 
 		
-
-		
-
-
-
-
-			.h1{
-				
-				font-size: 50px;
-				line-height: 55px;
-				margin-bottom: 50px;
-			}
 		
 	}
 
@@ -1920,11 +1944,50 @@ body.page-template-front-page{
 
 						&:before{}
 
+
+
 					}
+
+
+					&:first-child{
+						.bt{
+							background: $vj_03;
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);		
+							}
+
+						}
+					}
+					&:nth-child(2){
+						.bt{
+							background: $vj_03;
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);		
+							}
+						}
+					}
+					&:nth-child(3){
+						.bt{
+							background: $vj_03;
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);		
+							}
+						}
+					}
+					&:last-child{
+						.bt{
+							background: $vj_03;
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);		
+							}
+						}
+					}
+
+
 
 					div.pannel{
 						display: none;
-						padding: 30px 0;
+						padding: 40px 0;
 
 						h2{
 							
@@ -2283,7 +2346,7 @@ body.page-template-front-page{
 										input{
 											margin-left: 10px;
 											margin-right: 10px;
-											padding-top: 6px;
+											//padding-top: 6px;
 											width: 140px;
 											line-height: 28px;
 											padding-left: 6px;
@@ -2299,10 +2362,16 @@ body.page-template-front-page{
 
 										.du{
 											display: inline-block;
+											margin: 0;
+											line-height: 36px;
+											float: left;
 										}
 										.au{
 											margin-left: 0px;
 											display: inline-block;
+											margin: 0;
+											float: left;
+											line-height: 36px
 										}
 
 
@@ -2730,7 +2799,8 @@ FOOTER STYLES
 				float: left;
 				font-size: 13px;
 				line-height: 21px;
-				padding: 15px 10px; 				
+				padding: 0px 10px; 	
+				margin-bottom: 0;			
 
 				a {
 					
@@ -2745,16 +2815,15 @@ FOOTER STYLES
 					}
 				}
 
-				&:after {
-					
-					//@include sprite($angle-before-links-footer-tablette);
+				&:after {					
 					left: 40px;
 					font-size: 10px;
 					line-height: 10px;
 				}
 
 				&:before {
-					bottom: 7px;
+					//bottom: 7px;
+					margin-top: -26px;
 				}
 
 				&.formations {
