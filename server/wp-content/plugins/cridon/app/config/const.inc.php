@@ -559,3 +559,8 @@ if ( !defined( 'CONST_WS_MSG_ERROR_METHOD' ) ) {
 if ( !defined( 'CONST_ADMIN_NB_ITEM_PERPAGE' ) ) {
     define( 'CONST_ADMIN_NB_ITEM_PERPAGE', 20 );
 }
+
+// admin nb formations per page
+if ( !defined( 'CONST_ADMIN_NB_FORMATIONS_PERPAGE' ) ) {
+    define( 'CONST_ADMIN_NB_FORMATIONS_PERPAGE', 10 );
+}
