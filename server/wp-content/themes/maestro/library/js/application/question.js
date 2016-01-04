@@ -177,8 +177,7 @@ App.Question = {
         this.$submitQuestion.attr('disabled',false);
         this.$formQuestion.append(nonce);
         if (App.Utils.device.ios) {
-            this.$fileQuestion.remove();
-            alert('ios');
+            $('.fileUpload').remove();
         }
 
     },
@@ -206,13 +205,16 @@ App.Question = {
             // self.openTabQuestionMaQuestion($(this));
         });
 
-        this.$fileQuestion.on('change', function(e) {
-            self.eventFileChange($(this));
-        });
+        if (! App.Utils.device.ios) {
 
-        this.$fileQuestionReset.on('click', function(e) {
-            self.eventFileReset($(this),e);
-        });
+            this.$fileQuestion.on('change', function (e) {
+                self.eventFileChange($(this));
+            });
+
+            this.$fileQuestionReset.on('click', function (e) {
+                self.eventFileReset($(this), e);
+            });
+        }
 
 
         if ( bClass.indexOf("is_notaire") === -1) {
