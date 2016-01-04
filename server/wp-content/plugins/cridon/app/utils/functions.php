@@ -347,19 +347,6 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
     return $aFinal;
 }
 
-// Hook of the_permalink() and get_permalink()
-function append_custom_link( $url, $post ) {
-    if ( $post->post_type === 'post' ) {
-        $newUrl = criGetPostLink();//Get custom post link 
-        if( $newUrl ){
-            $url = $newUrl;
-        }
-    }
-    return $url;
-}
-add_filter( 'post_link', 'append_custom_link', 10, 2 );
-
-//End hook
 
 /**
  * Restore current data in loop while of WP ( object with their all attributes ( post, link, ... )
