@@ -38,7 +38,7 @@ class AdminPostHelper extends MvcHelper
             $encoded_object_name = $this->esc_attr($object_name);            
         }
         $links[]             = '<a href="' . admin_url('post.php?post=' . $object->post_id . '&action=edit&cridon_type=' . $this->trim($controller->name)) . '" title="'.Config::$actionsWpmvcTranslation['edit'].' ' . $encoded_object_name . '">'.Config::$actionsWpmvcTranslation['edit'].'</a>';
-        $links[]             = '<a href="' . MvcRouter::public_url(array('object' => $object)) . '" title="'.Config::$actionsWpmvcTranslation['view'].' ' . $encoded_object_name . '">'.Config::$actionsWpmvcTranslation['view'].'</a>';
+        $links[]             = '<a href="' . get_the_permalink($object->post_id) . '" title="'.Config::$actionsWpmvcTranslation['view'].' ' . $encoded_object_name . '">'.Config::$actionsWpmvcTranslation['view'].'</a>';
         $links[]             = '<a href="' . MvcRouter::admin_url(array(
                 'object' => $object,
                 'action' => 'delete'
