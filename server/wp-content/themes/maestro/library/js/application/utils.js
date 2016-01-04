@@ -29,6 +29,9 @@ App.Utils = {
         this.device.ie9 = /MSIE 9/i.test(navigator.userAgent);
         this.device.ie10 = /MSIE 10/i.test(navigator.userAgent);
         this.device.ie11 = /rv:11.0/i.test(navigator.userAgent);
+        this.device.ie = this.device.ie9 | this.device.ie10 | this.device.ie11;
+
+        this.device.ios = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
 
         this.debug("Utils : init end");
 
