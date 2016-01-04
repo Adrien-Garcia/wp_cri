@@ -197,7 +197,16 @@ Vous n'avez actuellement aucune question en attente de réponse.
 
 				</li>
                 <li class="pdf">
-                    <?php foreach($question->documents as $document): ?>
+                    <?php
+                        $documents = $question->documents;
+                        $ds = array() ;
+                        foreach($documents as $d) {
+                            if (!array_key_exists($d->id, $ds)) {
+                                $ds[$d->id] = $d;
+                            }
+                        }
+                    ?>
+                    <?php foreach($ds as $document): ?>
                         <?php if( !($document->label == 'Suite') && !($document->label == 'Complément') ): ?>
                             <?php
                             $options = array(
@@ -214,8 +223,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
             </ul>
             <ul class="suite-complement">
                 <?php
-                $documents = $question->documents;
-                usort($documents, function($a, $b)
+                usort($ds, function($a, $b)
                 {
                     if ($a->label == 'Suite' && $b->label == 'Complément') {
                         return -1;
@@ -226,7 +234,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
                     }
                 });
                 ?>
-                <?php foreach($documents as $document): ?>
+                <?php foreach($ds as $document): ?>
                     <?php if( ($document->label == 'Suite')|| ($document->label == 'Complément') ): ?>
                         <li class="pdf">
                             <?php
