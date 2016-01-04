@@ -1,4 +1,4 @@
-<h2>User Cridons</h2>
+<h2>User Cridon</h2>
 
 <?php foreach ($objects as $object): ?>
 

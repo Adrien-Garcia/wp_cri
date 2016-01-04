@@ -176,6 +176,11 @@ App.Question = {
         this.$formQuestion[0].reset();
         this.$submitQuestion.attr('disabled',false);
         this.$formQuestion.append(nonce);
+        if (App.Utils.device.ios) {
+            this.$fileQuestion.remove();
+            alert('ios');
+        }
+
     },
 
 

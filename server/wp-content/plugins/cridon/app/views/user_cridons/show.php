@@ -1,5 +1,5 @@
 <h2><?php echo $object->__name; ?></h2>
 
 <p>
-    <?php echo $this->html->link('&#8592; All User Cridons', array('controller' => 'user_cridons')); ?>
+    <?php echo $this->html->link('&#8592; All User Cridon', array('controller' => 'user_cridons')); ?>
 </p>
