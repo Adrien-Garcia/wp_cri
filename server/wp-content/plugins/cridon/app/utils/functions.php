@@ -780,7 +780,7 @@ function CriBreadcrumb() {
     $home->title = 'Accueil';
     $home->url   = home_url();
     $vars        = array(
-        'beadcrumb'         => array($home),
+        'breadcrumb'        => array($home),
         'separator'         => ' + ',
         'containerId'       => 'inner-content',
         'containerClass'    => 'wrap cf'
@@ -795,7 +795,7 @@ function CriBreadcrumb() {
             $archive->url   = mvc_public_url(array(
                 'controller' => $mvc_params['controller']
             ));
-            $vars['beadcrumb'][] = $archive;
+            $vars['breadcrumb'][] = $archive;
 
             // single model
             if (isset($mvc_params['id']) && $mvc_params['id']) {
@@ -807,7 +807,7 @@ function CriBreadcrumb() {
                     'action'     => $mvc_params['action'],
                     'id'         => $mvc_params['id'],
                 ));
-                $vars['beadcrumb'][] = $single;
+                $vars['breadcrumb'][] = $single;
                 $vars['containerId'] = '';
             }
         }
@@ -815,7 +815,7 @@ function CriBreadcrumb() {
         $single              = new stdClass();
         $single->title       = $post->post_title;
         $single->url         = get_the_permalink($post->ID);
-        $vars['beadcrumb'][] = $single;
+        $vars['breadcrumb'][] = $single;
     }
 
     // render view
