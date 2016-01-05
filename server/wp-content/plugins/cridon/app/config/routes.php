@@ -31,6 +31,10 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/contentprofil', array('controlle
 // regles de facturation
 MvcRouter::public_connect('notaires/{:id:[\d]+}/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
 
+//RSS feed
+MvcRouter::public_connect('feed/veilles', array( 'controller' =>'veilles','action' => 'feed'));
+MvcRouter::public_connect('feed/matieres/{:id:[\d]+}', array( 'controller' =>'veilles','action' => 'feedFilter'));
+
 
 // default
 MvcRouter::public_connect('{:controller}', array('action' => 'index'));
