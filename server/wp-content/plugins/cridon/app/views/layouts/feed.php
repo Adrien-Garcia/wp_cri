@@ -30,14 +30,19 @@
         <?php do_action('rss2_head'); ?>
         <?php 
         foreach ( $objects as $object ) : 
+            $post = $object->post;
             $matiere = $object->matiere;
             criWpPost($object); 
         ?>
             <item>
                 <title><?php the_title_rss(); ?></title>
                 <guid isPermaLink="false"><?php the_guid(); ?></guid>
-                <description><![CDATA[Matière: <?php echo $matiere->label.'<br/>'; ?>                    
-                    <?php the_excerpt_rss() ?>
+                <description><![CDATA[Matière: <?php echo $matiere->label.'<br/>'; ?> 
+                    <?php if (!empty($post->post_excerpt)): ?>
+                        <?php the_excerpt_rss() ?>
+                    <?php else: ?>
+                        <?php echo wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 85, "..." ) ?>
+                    <?php endif ?>
                     <ul class="mots_cles">
 			<?php 
                             $tags = get_the_tags();
@@ -49,7 +54,11 @@
                 ]]>
                 </description>
                 <content:encoded><![CDATA[Matière: <?php echo $matiere->label.'<br/>'; ?>                    
-                    <?php the_excerpt_rss() ?>
+                    <?php if (!empty($post->post_excerpt)): ?>
+                        <?php the_excerpt_rss() ?>
+                    <?php else: ?>
+                        <?php echo wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 85, "..." ) ?>
+                    <?php endif ?>
                     <ul class="mots_cles">
 			<?php 
                             $tags = get_the_tags();
