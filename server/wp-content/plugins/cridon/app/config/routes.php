@@ -32,8 +32,8 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/contentprofil', array('controlle
 MvcRouter::public_connect('notaires/{:id:[\d]+}/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
 
 //RSS feed
-MvcRouter::public_connect('feed/veilles', array( 'controller' =>'veilles','action' => 'feed'));
-MvcRouter::public_connect('feed/matieres/{:id:[\d]+}', array( 'controller' =>'veilles','action' => 'feedFilter'));
+MvcRouter::public_connect('medias/rss/actualites.xml', array( 'controller' =>'veilles','action' => 'feed'));
+MvcRouter::public_connect('medias/rss/{:id:[\d]+}', array( 'controller' =>'veilles','action' => 'feedFilter'));
 
 
 // default
