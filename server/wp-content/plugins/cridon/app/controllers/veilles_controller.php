@@ -56,6 +56,64 @@ class VeillesController extends MvcPublicController {
         }
     }
     
+    //RSS feed
+    public function feed(){
+        $options = array();
+        $options['joins'] = array(
+            'Post','Matiere'
+        );
+        //Set conditions
+        $options['conditions'] = array(
+            'Post.post_status'=>'publish'            
+        );
+        //Order by date publish
+        $$options['order'] = 'Post.post_date DESC' ;
+        $title = Config::$rss['title'];//Title of RSS
+        $objects = $this->model->find($options);
+        $this->set('title',$title);
+        $this->set('objects',$objects);
+        $this->set('description',Config::$rss['description']);
+        $this->render_view('feed', array('layout' => 'feed'));
+    }
+    
+    public function feedFilter(){
+        $matiere = mvc_model('Matiere')->find_one_by_id($this->params['id']);
+        if(!$matiere){//no matiere found
+            $this->generateError();
+        }
+        $options = array();
+        $options['joins'] = array(
+            'Post','Matiere'
+        );
+        //Set conditions
+        $options['conditions'] = array(
+            'Post.post_status'=>'publish',
+            'Matiere.id'=> $this->params['id']
+        );
+        //Order by date publish
+        $options['order'] = 'Post.post_date ASC' ;
+        $objects = $this->model->find($options);
+        $title = sprintf(Config::$rss['title_mat'], $matiere->label );//Title of RSS
+        $this->set('title',$title);
+        $this->set('objects',$objects);
+        $this->set('description',Config::$rss['description']);
+        $this->render_view('feed', array('layout' => 'feed'));
+    }
+    
+    /**
+     * Generate error
+     * 
+     * @global \WP_Query $wp_query
+     */
+    private function generateError(){
+        global $wp_query;
+        header("HTTP/1.0 404 Not Found - Archive Empty");
+        $wp_query->set_404();
+        if( file_exists(TEMPLATEPATH.'/404.php') ){
+            require TEMPLATEPATH.'/404.php';
+        }
+        exit;
+    }
 }
 
 ?>
