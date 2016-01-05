@@ -298,4 +298,12 @@ class Config {
         'flash','veille'//correspond au champ type de la table cri_document
     );
     //End access
+    
+    //RSS
+    public static $rss = array(
+        'title'         => 'Flux RSS des veilles',//all
+        'title_mat'     => '%s',//filtered
+        'description'   => ''
+    );
+    //End RSS
 }
