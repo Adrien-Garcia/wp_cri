@@ -72,7 +72,9 @@
 									<td itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
 										CRIDON LYON
 										<span>37 Bd des Brotteaux<br />
-										69455 LYON CEDEX 06</span>
+										69455 LYON CEDEX 06</span><br />
+
+										<i><?php _e('Des places de parking sont disponibles en sous-sol'); ?></i>
 									</td>
 									<td><b><?php // _e('Localisez vous !'); ?><b></td>
 								</tr>

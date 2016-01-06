@@ -53,7 +53,7 @@
 
    				<div id="onglets">
    					<h3 class="juridique open js-tab-veille-open"><span><?php _e('Veille juridique'); ?></span></h3>   				
-   					<h3 class="formations js-tab-formation-open"><span><?php _e('Formations'); ?></span></h3>
+   					<!--h3 class="formations js-tab-formation-open"><span><?php // _e('Formations'); ?></span></h3!-->
    				</div>
    				<div class="details">
    					<div id="accordion-juridique" class="accordion js-tab-veille open">

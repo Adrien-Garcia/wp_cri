@@ -19,6 +19,8 @@ body {
   	background: #FFF;
 }
 
+.breadcrumbs{display: none!important;}
+
 /*********************
 LAYOUT & GRID STYLES
 *********************/
@@ -3920,13 +3922,15 @@ body.page-template-front-page{
 								padding-bottom: 10px;
 								position: relative;
 
+								display: none; /* FILTRE DISPLAY NON*/
+
 
 
 								&:before{
 
 									@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
 									position: absolute;
-									bottom: -20px;
+									bottom: -19px;
 									background: #FFF;
 									left: 50%;
 									margin-left: -30px;
@@ -4418,6 +4422,11 @@ body.page-template-front-page{
 										text-decoration: underline;
 										font-weight: normal;
 										font-family: $garamond;
+									}
+
+									i{
+										font-style: inherit;
+										font-size: 14px;
 									}
 								}
 
