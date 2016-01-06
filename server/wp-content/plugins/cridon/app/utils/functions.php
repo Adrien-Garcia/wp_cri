@@ -788,27 +788,37 @@ function CriBreadcrumb() {
 
     if (is_mvc_page()) { // WPMVC page (single, archives,...)
         if (isset($mvc_params['action']) && $mvc_params['action']) {
-            // archive model
-            $archive        = new stdClass();
-            $archive->title = isset(Config::$breadcrumbModelParams[$mvc_params['controller']]) ?
-                Config::$breadcrumbModelParams[$mvc_params['controller']] : ucfirst($mvc_params['controller']);
-            $archive->url   = mvc_public_url(array(
-                'controller' => $mvc_params['controller']
-            ));
-            $vars['breadcrumb'][] = $archive;
-
-            // single model
-            if (isset($mvc_params['id']) && $mvc_params['id']) {
-                $singles             = mvc_model('QueryBuilder')->getPostByMVCParams();
-                $single              = new stdClass();
-                $single->title       = isset($singles->post_title) ? $singles->post_title : '';
-                $single->url         = mvc_public_url(array(
-                    'controller' => $mvc_params['controller'],
-                    'action'     => $mvc_params['action'],
-                    'id'         => $mvc_params['id'],
+            if ($mvc_params['controller'] == 'notaires') { // page notaire
+                // archive model
+                $archive              = new stdClass();
+                $archive->title       = 'Mon compte';
+                $archive->url         = mvc_public_url(array(
+                    'controller' => $mvc_params['controller']
                 ));
-                $vars['breadcrumb'][] = $single;
-                $vars['containerId'] = '';
+                $vars['breadcrumb'][] = $archive;
+            } else {
+                // archive model
+                $archive              = new stdClass();
+                $archive->title       = isset(Config::$breadcrumbModelParams[$mvc_params['controller']]) ?
+                    Config::$breadcrumbModelParams[$mvc_params['controller']] : ucfirst($mvc_params['controller']);
+                $archive->url         = mvc_public_url(array(
+                    'controller' => $mvc_params['controller']
+                ));
+                $vars['breadcrumb'][] = $archive;
+
+                // single model
+                if (isset($mvc_params['id']) && $mvc_params['id']) {
+                    $singles              = mvc_model('QueryBuilder')->getPostByMVCParams();
+                    $single               = new stdClass();
+                    $single->title        = isset($singles->post_title) ? $singles->post_title : '';
+                    $single->url          = mvc_public_url(array(
+                        'controller' => $mvc_params['controller'],
+                        'action'     => $mvc_params['action'],
+                        'id'         => $mvc_params['id'],
+                    ));
+                    $vars['breadcrumb'][] = $single;
+                    $vars['containerId']  = '';
+                }
             }
         }
     } elseif ((is_single() || is_page()) && !is_attachment()) { // page or post single
