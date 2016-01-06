@@ -422,6 +422,31 @@ and more scalable.
 						width: 270px;
 						float: left;
 
+						a{
+							    opacity: 0.5;
+    							cursor: default;
+
+    							&:hover{
+    								margin-left: 0;
+
+    								&:before{background: #FFF;}
+    							}
+						}
+
+						&.active{
+							a{
+								opacity: 1 !important;
+								cursor: pointer !important;
+
+								&:hover{
+    								margin-left: 10px;
+
+    								&:before{background: $rouge;}
+    							}
+
+							}
+						}
+
 					}
 				}
 			}

@@ -19,6 +19,8 @@ body {
   	background: #FFF;
 }
 
+.breadcrumbs{display: none!important;}
+
 /*********************
 LAYOUT & GRID STYLES
 *********************/
@@ -3920,13 +3922,15 @@ body.page-template-front-page{
 								padding-bottom: 10px;
 								position: relative;
 
+								display: none; /* FILTRE DISPLAY NON*/
+
 
 
 								&:before{
 
 									@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
 									position: absolute;
-									bottom: -20px;
+									bottom: -19px;
 									background: #FFF;
 									left: 50%;
 									margin-left: -30px;
@@ -4152,6 +4156,11 @@ body.page-template-front-page{
 										display: block;										
 										font-family: $helvetica;
 										font-weight: 100;
+
+										s{
+											text-decoration: none;
+											text-transform: capitalize;
+										}
 									}
 								}
 
@@ -4413,6 +4422,11 @@ body.page-template-front-page{
 										text-decoration: underline;
 										font-weight: normal;
 										font-family: $garamond;
+									}
+
+									i{
+										font-style: inherit;
+										font-size: 14px;
 									}
 								}
 
@@ -5050,32 +5064,58 @@ style a page via class
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
 
+	
+	body.page-template-front-page #content .row_01 .block_03 .block .content::before {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
+	body.page-template-front-page #content .row_01 .block_03 .block .content::after {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
 
-body.page-template-front-page #content .row_01 .block_03 .block .content::before {
-	border-radius: 0 !important;
-	-ms-border-radius: 0 !important;
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
-}
-body.page-template-front-page #content .row_01 .block_03 .block .content::after {
-	border-radius: 0 !important;
-	-ms-border-radius: 0 !important;
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
-}
 
-.nav > li > ul.sub-menu > li .block .content::before {
-	border-radius: 0 !important;
-	-ms-border-radius: 0 !important;
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
-}
-.nav > li > ul.sub-menu > li .block .content::after {
-	border-radius: 0 !important;
-	-ms-border-radius: 0 !important;
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
-}
+
+	.nav > li > ul.sub-menu > li .block .content::before {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
+	.nav > li > ul.sub-menu > li .block .content::after {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
+	
+
+
+	#layer-posez-question .block_03 .block .content::before {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
+
+	#layer-posez-question .block_03 .block .content::after {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
+
+
+	
+
+
+
+
+
 
 }
 

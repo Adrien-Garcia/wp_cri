@@ -38,7 +38,7 @@
 		</div>
 		<div class="notaire">
 			<div class="nom">
-				<span><?php echo $notaire->last_name ?> <?php echo $notaire->first_name ?></span>
+				<span><?php echo $notaire->last_name ?> <s><?php echo $notaire->first_name ?></s></span>
 			</div>
             <?php if (
                     !empty($notaire->adress_1) ||
@@ -86,7 +86,7 @@
 	<h2><?php _e('Mes centres d\'intérêts'); ?></h2>
 
 	<div class="description">
-		Epersped ulla con num quasint essimos dolut reium a ium aliquodis prestrum facepe pror modio.Nem se net faccum fugiant, tem estrum saniam nobissit, officia volut etum aut il mil et officid ut faccus seni aligent aut eosam ratquam nis.
+		Le notaire ou le collaborateur est invité à signaler la ou les thématiques juridiques pour lesquelles il souhaite disposer d'une veille ou information prioritaire. A défaut, il recevra l'information sur tous les domaines du droit.
 	</div>
 	<?php 
 		$matieres = getMatieresByNotaire();
