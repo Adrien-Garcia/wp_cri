@@ -4152,6 +4152,11 @@ body.page-template-front-page{
 										display: block;										
 										font-family: $helvetica;
 										font-weight: 100;
+
+										s{
+											text-decoration: none;
+											text-transform: capitalize;
+										}
 									}
 								}
 
@@ -5050,32 +5055,58 @@ style a page via class
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
 
+	
+	body.page-template-front-page #content .row_01 .block_03 .block .content::before {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
+	body.page-template-front-page #content .row_01 .block_03 .block .content::after {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
 
-body.page-template-front-page #content .row_01 .block_03 .block .content::before {
-	border-radius: 0 !important;
-	-ms-border-radius: 0 !important;
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
-}
-body.page-template-front-page #content .row_01 .block_03 .block .content::after {
-	border-radius: 0 !important;
-	-ms-border-radius: 0 !important;
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
-}
 
-.nav > li > ul.sub-menu > li .block .content::before {
-	border-radius: 0 !important;
-	-ms-border-radius: 0 !important;
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
-}
-.nav > li > ul.sub-menu > li .block .content::after {
-	border-radius: 0 !important;
-	-ms-border-radius: 0 !important;
-	-webkit-border-radius: 0 !important;
-	-moz-border-radius: 0 !important;
-}
+
+	.nav > li > ul.sub-menu > li .block .content::before {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
+	.nav > li > ul.sub-menu > li .block .content::after {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
+	
+
+
+	#layer-posez-question .block_03 .block .content::before {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
+
+	#layer-posez-question .block_03 .block .content::after {
+		border-radius: 0 !important;
+		-ms-border-radius: 0 !important;
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	}
+
+
+	
+
+
+
+
+
 
 }
 

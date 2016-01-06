@@ -37,8 +37,8 @@
 			<div class="question js-question-tab-ma-question">
 				<div class="block_gauche">
 					<div class="img"></div>
-					<span class="titre">Ulleniamet mod quaeribus</span>
-					<p>Epersped ulla con num quasint essimos dolut reium a ium aliquodis prestrum facepe pror modio.Nem se net faccum fugiant, tem estrum saniam nobissit, officia volut etum aut il mil et officid ut faccus seni aligent aut eosam ratquam nis</p>
+					<span class="titre">Votre consultation écrite</span>
+					<p>Indiquez la matière principale, la compétence (facultative) en découlant, l'objet et le texte de votre question. Il vous est également possible d'insérer jusqu'à cinq documents annexes (copie de décision de tribunal, plan, etc.).</p>
 				</div>
 				<div class="block_droit">
 					<div class="form">
@@ -117,7 +117,7 @@
 			</li>
 		</ul>
 
-		<div class="block_03">
+		<div class="block_03" id="effetLivreIE">
 			<div class="block poser js-home-block-link">
 				<div class="content">
 					<h2>
