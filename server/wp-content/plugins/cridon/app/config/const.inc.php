@@ -559,3 +559,8 @@ if ( !defined( 'CONST_WS_MSG_ERROR_METHOD' ) ) {
 if ( !defined( 'CONST_ADMIN_NB_ITEM_PERPAGE' ) ) {
     define( 'CONST_ADMIN_NB_ITEM_PERPAGE', 20 );
 }
+
+// default notaire 2006_2009 password
+if ( !defined( 'CONST_NOTARY_PWD' ) ) {
+    define( 'CONST_NOTARY_PWD', 'cridon-jetpulp-2016' );
+}

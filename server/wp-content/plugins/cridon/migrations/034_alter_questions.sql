@@ -1,0 +1,2 @@
+ALTER TABLE `cri_question` CHANGE `client_number` `client_number` VARCHAR(45) CHARSET utf8 COLLATE utf8_general_ci NULL;
+ALTER TABLE `cri_question` ADD COLUMN `crpcen` VARCHAR(100) NULL AFTER `confidential`;
