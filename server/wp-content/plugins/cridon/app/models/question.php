@@ -1093,17 +1093,14 @@ class Question extends MvcModel
                             // remplit la liste des questions
                             $qList[] = $question->id;
                             // competence et matiere principale associées
-                            $compId     = 0;
-                            $maitiereId = 0;
+                            $compCode    = 0;
+                            $matiereCode = 0;
                             if (isset($question->competence) && is_object($question->competence)) {
                                 if ($question->competence->id) {
-                                    $compId = $question->competence->id;
+                                    $compCode = $question->competence->id;
                                 }
                                 if ($question->competence->code_matiere) {
-                                    $matieres = mvc_model('Matiere')->find_one_by_code($question->competence->code_matiere);
-                                    if ($matieres->id) {
-                                        $maitiereId = $matieres->id;
-                                    }
+                                    $matiereCode = $question->competence->code_matiere;
                                 }
                             }
 
@@ -1115,11 +1112,7 @@ class Question extends MvcModel
                                     $paramComp  = 'zquest_zcomp_' . $key;
                                     $paramMat   = 'zquest_ymat_' . $key;
                                     $$paramComp = $comp->id;
-
-                                    $matSecond = mvc_model('Matiere')->find_one_by_code($comp->code_matiere);
-                                    if ($matSecond->id) {
-                                        $$paramMat = $matSecond->id;
-                                    }
+                                    $$paramMat = $comp->code_matiere;
                                 }
                             }
 
@@ -1131,13 +1124,13 @@ class Question extends MvcModel
                             $value .= "'" . $question->client_number . "', "; // ZQUEST_SREBPC_0
                             $value .= "'" . $question->sreccn . "', "; // ZQUEST_SRECCN_0
                             $value .= "'" . $question->id_support . "', "; // ZQUEST_YCODESUP_0
-                            $value .= "'" . $maitiereId . "', "; // ZQUEST_YMATIERE_0
+                            $value .= "'" . $matiereCode . "', "; // ZQUEST_YMATIERE_0
                             $value .= "'" . $zquest_ymat_0 . "', "; // ZQUEST_YMAT_0
                             $value .= "'" . $zquest_ymat_1 . "', "; // ZQUEST_YMAT_1
                             $value .= "'" . $zquest_ymat_2 . "', "; // ZQUEST_YMAT_2
                             $value .= "'" . $zquest_ymat_3 . "', "; // ZQUEST_YMAT_3
                             $value .= "'" . $zquest_ymat_4 . "', "; // ZQUEST_YMAT_4
-                            $value .= "'" . $compId . "', ";        // ZQUEST_ZCOMPETENC_0
+                            $value .= "'" . $compCode . "', ";       // ZQUEST_ZCOMPETENC_0
                             $value .= "'" . $zquest_zcomp_0 . "', "; // ZQUEST_ZCOMP_0
                             $value .= "'" . $zquest_zcomp_1 . "', "; // ZQUEST_ZCOMP_1
                             $value .= "'" . $zquest_zcomp_2 . "', "; // ZQUEST_ZCOMP_2
@@ -1169,17 +1162,14 @@ writeLog($query, 'query_export.log');
                             $qList[] = $question->id;
 
                             // competence et matiere principale associées
-                            $compId     = 0;
-                            $maitiereId = 0;
+                            $compCode     = 0;
+                            $matiereCode  = 0;
                             if (isset($question->competence) && is_object($question->competence)) {
                                 if ($question->competence->id) {
-                                    $compId = $question->competence->id;
+                                    $compCode = $question->competence->id;
                                 }
                                 if ($question->competence->code_matiere) {
-                                    $matieres = mvc_model('Matiere')->find_one_by_code($question->competence->code_matiere);
-                                    if ($matieres->id) {
-                                        $maitiereId = $matieres->id;
-                                    }
+                                    $matiereCode = $question->competence->code_matiere;
                                 }
                             }
 
@@ -1191,11 +1181,7 @@ writeLog($query, 'query_export.log');
                                     $paramComp  = 'zquest_zcomp_' . $key;
                                     $paramMat   = 'zquest_ymat_' . $key;
                                     $$paramComp = $comp->id;
-
-                                    $matSecond = mvc_model('Matiere')->find_one_by_code($comp->code_matiere);
-                                    if ($matSecond->id) {
-                                        $$paramMat = $matSecond->id;
-                                    }
+                                    $$paramMat = $comp->code_matiere;
                                 }
                             }
 
@@ -1206,13 +1192,13 @@ writeLog($query, 'query_export.log');
                             $value .= "'" . $question->client_number . "', "; // ZQUEST_SREBPC_0
                             $value .= "'" . $question->sreccn . "', "; // ZQUEST_SRECCN_0
                             $value .= "'" . $question->id_support . "', "; // ZQUEST_YCODESUP_0
-                            $value .= "'" . $maitiereId . "', "; // ZQUEST_YMATIERE_0
+                            $value .= "'" . $matiereCode . "', "; // ZQUEST_YMATIERE_0
                             $value .= "'" . $zquest_ymat_0 . "', "; // ZQUEST_YMAT_0
                             $value .= "'" . $zquest_ymat_1 . "', "; // ZQUEST_YMAT_1
                             $value .= "'" . $zquest_ymat_2 . "', "; // ZQUEST_YMAT_2
                             $value .= "'" . $zquest_ymat_3 . "', "; // ZQUEST_YMAT_3
                             $value .= "'" . $zquest_ymat_4 . "', "; // ZQUEST_YMAT_4
-                            $value .= "'" . $compId . "', ";        // ZQUEST_ZCOMPETENC_0
+                            $value .= "'" . $compCode . "', ";        // ZQUEST_ZCOMPETENC_0
                             $value .= "'" . $zquest_zcomp_0 . "', "; // ZQUEST_ZCOMP_0
                             $value .= "'" . $zquest_zcomp_1 . "', "; // ZQUEST_ZCOMP_1
                             $value .= "'" . $zquest_zcomp_2 . "', "; // ZQUEST_ZCOMP_2
