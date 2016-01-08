@@ -247,8 +247,11 @@ Vous n'avez actuellement aucune question en attente de réponse.
                                 'id'         => $document->id
                             );
                             $publicUrl  = MvcRouter::public_url($options);
+                            $code = $document->name;
+                            $code = preg_replace("/[\d]+_([^\.]+)\.pdf/i", "$1", $code);
                             ?>
-                            <a href="<?php echo $publicUrl ?>" class="pdf" title="Télécharger le document de <?php echo $document->label ?>"><b><?php echo $document->label ?></b> <?php echo $document->name ?></a>
+                            <a href="<?php echo $publicUrl ?>" class="pdf" title="Télécharger le document de <?php echo $document->label ?>"><b><?php echo $document->label ?></b> <?php echo $code ?></a>
+
                         </li>
                     <?php endif ?>
                 <?php endforeach ?>
