@@ -446,6 +446,8 @@ App.Question = {
                 this.$submitQuestion.attr('disabled',false);
                 this.$popupOverlay.popup('hide');
                 this.$formQuestion[0].reset();
+                this.$zoneQuestionSupport.removeClass(this.selectedClass);
+                this.openTabQuestionConsultation();
             }).bind(this), 1500);
 
         }
