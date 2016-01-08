@@ -413,7 +413,7 @@ class Question extends MvcModel
                 && isset($post[CONST_QUESTION_OBJECT_FIELD]) && $post[CONST_QUESTION_OBJECT_FIELD] != ''
                 && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && $post[CONST_QUESTION_SUPPORT_FIELD] != ''
                 && isset($post[CONST_QUESTION_MATIERE_FIELD]) && intval($post[CONST_QUESTION_MATIERE_FIELD]) > 0
-                && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && intval($post[CONST_QUESTION_COMPETENCE_FIELD]) > 0
+                && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && $post[CONST_QUESTION_COMPETENCE_FIELD] != ''
                 && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
             ) {
                 // prepare data
@@ -500,7 +500,7 @@ class Question extends MvcModel
                 if (!isset($post[CONST_QUESTION_MATIERE_FIELD]) || intval($post[CONST_QUESTION_MATIERE_FIELD] <= 0)) {
                     $response['error'][] = CONST_EMPTY_MATIERE_ERROR_MSG;
                 }
-                if (!isset($post[CONST_QUESTION_COMPETENCE_FIELD]) || intval($post[CONST_QUESTION_COMPETENCE_FIELD] <= 0)) {
+                if (!isset($post[CONST_QUESTION_COMPETENCE_FIELD]) || $post[CONST_QUESTION_COMPETENCE_FIELD] == '') {
                     $response['error'][] = CONST_EMPTY_COMPETENCE_ERROR_MSG;
                 }
                 return $response;

@@ -494,7 +494,7 @@ function CriListMatieres()
 
     // query optoins
     $options = array(
-        'selects' => array('Matiere.id', 'Matiere.label'),
+        'selects' => array('Matiere.id', 'Matiere.label', 'Matiere.code'),
         'conditions' => array(
             'Matiere.displayed' => 1
         ),
@@ -505,7 +505,8 @@ function CriListMatieres()
     // format output
     if (is_array($items) && count($items) > 0) {
         foreach ($items as $item) {
-            $matieres[$item->id] = $item->label;
+            $matieres[$item->id]['label'] = $item->label;
+            $matieres[$item->id]['code'] = $item->code;
         }
     }
 
