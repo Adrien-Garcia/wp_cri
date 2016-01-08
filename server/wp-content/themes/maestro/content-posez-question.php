@@ -47,20 +47,28 @@
 						 ?>
 						<select name="question_matiere" id="question_matiere" class="js-question-select-matiere" >
                             <option selected value="">Choisir une matière</option>
-                            <?php foreach($matieres as $id => $label): ?>
+                            <?php foreach($matieres as $id => $data): ?>
+                                <?php
+                                $label = $data['label'];
+                                $code = $data['code'];
+                                ?>
                                 <option value="<?php echo $id ?>"><?php echo $label ?></option>
                             <?php endforeach; ?>
 						</select>
 						<?php $icomp = 0; ?>
-						<?php foreach($matieres as $id => $label): ?>
+						<?php foreach($matieres as $id => $data): ?>
 							<?php
+                                $label = $data['label'];
+                                $code = $data['code'];
 								$competences = CriCompetenceByMatiere($id);
 							 ?>
 							<select class="js-question-select-competence <?php echo ($icomp == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>" data-name="question_competence"  name="<?php echo ($icomp == 0) ? "question_competence" : "" ?>" id="question_competence_<?php echo $id ?>" >
-                                <option selected value="">Choisir une compétence</option>
+                                <option selected value="<?php echo $code; ?>">Choisir une compétence</option>
                                 <?php foreach ($competences as $cid => $clabel): ?>
-									<option value="<?php echo $cid ?>"><?php echo $clabel ?></option>							
-								<?php endforeach ?>
+                                    <?php if ($cid != $code) : ?>
+									<option value="<?php echo $cid ?>"><?php echo $clabel ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach ?>
 							</select>
 							<?php $icomp++; ?>
 						<?php endforeach; ?>

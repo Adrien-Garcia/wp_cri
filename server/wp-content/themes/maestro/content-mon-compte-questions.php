@@ -132,7 +132,10 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 ?>
 				<select name="">
 					<option value="">Selectionnez une matière</option>
-                    <?php foreach($matieres as $id => $label): ?>
+                    <?php foreach($matieres as $id => $data): ?>
+                        <?php
+                        $label = $data['label'];
+                        ?>
                         <option <?php echo ($imatieres == 0) ? "selected" : "" ?> value="<?php echo $id ?>"><?php echo $label ?></option>
                         <?php $imatieres++; ?>
                     <?php endforeach; ?>
