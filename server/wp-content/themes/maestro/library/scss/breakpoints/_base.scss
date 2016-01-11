@@ -439,7 +439,7 @@ HEADER STYLES
 			border-bottom:solid 4px $vert;
 			margin-bottom: 10px;
 
-			h2{
+			.h2{
 				@extend .do-sm;
 				text-transform: uppercase;
 				color:$bleu;
@@ -477,7 +477,7 @@ HEADER STYLES
 
 			}
 
-			h2.open{
+			.h2.open{
 				color:$vert;
 				//text-decoration: none;
 				border-bottom:solid 16px $vert;
@@ -935,7 +935,7 @@ HEADER STYLES
 
 				}
 
-				h2{ 
+				.h2{ 
 					position: relative;
 					z-index: 2000;
 					@extend .do-sm;
