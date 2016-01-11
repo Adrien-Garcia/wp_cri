@@ -91,7 +91,7 @@
 
 					<?php if( is_front_page() ) : ?>
 						<h1>
-							<a href="/" class="lienhome" rel="nofollow"></a> 
+							<a href="/" class="lienhome" rel="nofollow" title="CRIDON Lyon : aide juridique pour les notaires"></a> 
 						</h1>
 						<?php else :?>
 						<p id="logo" class="h1">

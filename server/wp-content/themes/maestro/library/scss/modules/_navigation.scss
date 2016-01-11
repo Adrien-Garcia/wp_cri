@@ -321,7 +321,7 @@ and more scalable.
 
 
 
-						h2{
+						.h2{
 							position: relative;
 							z-index: 2000;
 							@extend .do-sm;
@@ -471,7 +471,7 @@ and more scalable.
 						}
 					}
 
-					h2:before{
+					.h2:before{
 						display:block;
 						@include svgicon('icon-rechercher', 42px, 42px, #FFFFFF);
 						position:absolute;
@@ -562,7 +562,7 @@ and more scalable.
 						}
 					}
 
-					h2:before{
+					.h2:before{
 						display:block;
 						@include svgicon('icon-veille-juridique', 42px, 42px, #FFFFFF);
 						position:absolute;
@@ -631,7 +631,7 @@ and more scalable.
 					background: url(../images/origin/bg-consulter-mobile_02.png);
 					background-size: cover;
 
-					h2:before{
+					.h2:before{
 						display:block;
 						@include svgicon('icon-consulter', 42px, 42px, #FFFFFF);
 						position:absolute;

@@ -285,7 +285,7 @@ HEADER STYLES
 			margin-left:10px;
 
 
-			h2{
+			.h2{
 				width: 50%;				
 
 				&:hover{
@@ -294,7 +294,7 @@ HEADER STYLES
 
 			}
 
-			h2.open{				
+			.h2.open{				
 				width: 50%;
 			}
 		}
@@ -489,7 +489,7 @@ HEADER STYLES
 					}
 
 										
-					h2{ 
+					.h2{ 
 						position: relative;
 						z-index: 2000;
 						@extend .do-sm;
