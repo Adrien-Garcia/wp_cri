@@ -1305,7 +1305,7 @@ class Notaire extends MvcModel
      */
     public function resetSolde()
     {
-        $this->wpdb->query("DELETE FROM `{$this->wpdb->prefix}solde` where `type_support` != 0 END");
+        $this->wpdb->query("DELETE FROM `{$this->wpdb->prefix}solde` where `type_support` != 0 ");
         return $this->logs;
     }
     /**
