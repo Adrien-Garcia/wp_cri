@@ -1297,6 +1297,17 @@ class Notaire extends MvcModel
         return $object;
     }
 
+
+    /**
+     * Action for reset notaire data into wp_users
+     * Remove all entries corresponding to points consuming
+     * Keep lines corresping to initial status
+     */
+    public function resetSolde()
+    {
+        $this->wpdb->query("DELETE FROM `{$this->wpdb->prefix}solde` where `type_support` != 0 END");
+        return $this->logs;
+    }
     /**
      * Action for importing notaire data into wp_users
      */
