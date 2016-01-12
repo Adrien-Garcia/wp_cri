@@ -23,12 +23,18 @@ class Matiere extends MvcModel
         if( $path ){
             $data['Matiere']['picto'] = $path;
         }
+        if(!empty($data['Matiere']['label'])){
+            $data['Matiere']['virtual_name'] = sanitize_title($data['Matiere']['label']);
+        }
         return parent::create($data);
     }
     public function save($data) {
         $path = $this->upload( $data );
         if( $path ){
             $data['Matiere']['picto'] = $path;
+        }
+        if(!empty($data['Matiere']['label'])){
+            $data['Matiere']['virtual_name'] = sanitize_title($data['Matiere']['label']);
         }
         return parent::save($data);
     }
