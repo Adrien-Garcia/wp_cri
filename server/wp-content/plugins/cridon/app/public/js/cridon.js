@@ -14,14 +14,14 @@
             while (m = re.exec(queryString)) {
                 queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
             }
-            if( queryParameters.q ){
-                var s = queryParameters.q.split(',');                
+            if( queryParameters.matiere ){
+                var s = queryParameters.matiere.split(',');                
             }else{
                 var s = [];
             }
             if( $(this).prop('checked')){
                 var r = s.concat([$(this).val()]); 
-                queryParameters.q = r.join(',');
+                queryParameters.matiere = r.join(',');
                 location.search = $.param(queryParameters);
             }else{
                 var n = [];
@@ -31,10 +31,10 @@
                     }
                 }
                 if( n.length > 0 ){
-                    queryParameters.q = n.join(',');                    
+                    queryParameters.matiere = n.join(',');                   
                 }else{
-                    if(queryParameters.q){
-                        delete queryParameters.q;//unset property
+                    if(queryParameters.matiere){
+                        delete queryParameters.matiere;//unset property
                     }
                 }
                 location.search = $.param(queryParameters);
@@ -52,7 +52,7 @@
             $('.js-filter-veille-matiere').each(function(){
                 c.push($(this).val());
             });
-            queryParameters.q = c.join(',');
+            queryParameters.matiere = c.join(',');
             location.search = $.param(queryParameters);
         });
         //End Filter Veille
