@@ -68,7 +68,29 @@
 			<?php endforeach; endif; ?>
                     </ul>]]>
                 </content:encoded>
-                <?php rss_enclosure(); ?>
+                <?php 
+                $class = $object->__model_name;
+                if (property_exists($object,'documents') || method_exists($class, "getDocuments")) : 
+                    $model = mvc_model('Document');
+                    if(property_exists($object,'documents')){
+                        $documents = $object->documents;
+                    }else{
+                        $documents = $class::getDocuments($object->id);
+                    }
+                    foreach($documents as $document):
+                        $url = home_url().$model->generatePublicUrl($document->id);
+                        $uploadDir = wp_upload_dir();
+                        $file = $uploadDir['basedir'].$document->file_path;
+                        $size = 0;
+                        if(file_exists($file)){
+                            $size = filesize($file);
+                        }
+                ?>
+                <enclosure url="<?php echo $url?>" length="<?php echo $size?>" type="application/pdf" />
+                <?php 
+                    endforeach;
+                endif 
+                ?>
                 <?php do_action('rss2_item'); ?>
             </item>
         <?php endforeach; ?>
