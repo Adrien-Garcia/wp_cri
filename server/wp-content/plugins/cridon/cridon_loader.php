@@ -103,6 +103,14 @@ class CridonLoader extends MvcPluginLoader
                                     }
                                 }
                             }
+                        } elseif ( preg_match_all( "|DROP ([a-zA-Z0-9`_\s]*)|", $sql, $matches ) ) { // drop
+                            if( !empty( $matches[0] ) ){
+                                foreach( $matches[0] as $query ){
+                                    if ($query)  {
+                                        $wpdb->query( $query );
+                                    }
+                                }
+                            }
                         }else{
                             //TODO surround with try/catch
                             // Use dbDelta() to create the tables for the app here
@@ -139,10 +147,10 @@ class CridonLoader extends MvcPluginLoader
         remove_role( CONST_CLIENTDIVERS_ROLE );
 
         // disable admin bar for existing notaire
-        CriDisableAdminBarForExistingNotaire();
+//        CriDisableAdminBarForExistingNotaire();
         
         // update download_url field in cri_document when it's empty
-        updateEmptyDownloadUrlFieldsDocument();
+//        updateEmptyDownloadUrlFieldsDocument();
     }
 
     public function deactivate()
