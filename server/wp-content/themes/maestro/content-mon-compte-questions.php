@@ -5,7 +5,7 @@
 ?>
 <?php $notaire = CriNotaireData(); ?>
 <div id="questions-attentes">
-	<h2><?php _e('Mes questions en attentes'); ?></h2>
+	<h2><?php _e('Mes questions en attente'); ?></h2>
 
 	<?php if(count($pending) != 0): ?>
 	
@@ -115,7 +115,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 </div>
 
 <div id="historique-questions">
-	<h2><?php _e('Historiques de mes questions'); ?></h2>
+	<h2><?php _e('Historique de mes questions'); ?></h2>
 
 	<div class="filtres">
 		<ul>

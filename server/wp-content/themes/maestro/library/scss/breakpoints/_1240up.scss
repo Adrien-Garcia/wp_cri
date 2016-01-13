@@ -1509,8 +1509,8 @@ body.page-template-front-page{
 						line-height: 18px;
 
 					    h2, h3{
-					    	font-size: 20px;
-					    	line-height: 20px;	}
+					    	font-size: 20px !important;
+					    	line-height: 25px;	}
 					    
 				    	h3{margin-left: 40px;}					    
 
@@ -1546,12 +1546,23 @@ body.page-template-front-page{
 	
 }
 
+#regles-facturation{
+	h2{
+		font-size: 20px !important;
+	}
+}
 
 
 
 
 
-#content.page, #content.archive, #content.single{
+
+#content.page,
+#content.archive,
+#content.single,
+body.page #content,
+body.single #content
+{
 	padding-top: 180px;
 
 	.breadcrumbs{
@@ -1581,9 +1592,11 @@ body.page-template-front-page{
 
 			    h2, h3{		    	
 			    	font-size: 20px;
-			    	line-height: 20px;
+			    	line-height: 24px;
 			    	
 			    }
+
+			    h4{font-size: 18px;}
 				
 				p{
 			    font-size: 15px;
