@@ -314,3 +314,39 @@ add_filter( 'admin_url', 'add_new_post_url', 10, 3 );
  * Hook for  admin navigation menu
  */
 add_action( 'admin_init', array( 'CriAdminNavMenu', 'init' ) );
+
+// Match wp_posts and WP_MVC show action
+if( !is_admin() ){
+    /**
+     * @see https://codex.wordpress.org/Plugin_API/Action_Reference/wp
+     */
+    add_action( 'wp', 'join_wp_post_and_wpmvc' );
+    function join_wp_post_and_wpmvc($wp)
+    {
+        global $wpdb;
+        //only for WP_Posts
+        if( !empty($wp->query_vars) && !isset($wp->query_vars['mvc_controller']) && ('post' === get_post_type()) ){
+            $post_ID = get_the_ID();
+            foreach( Config::$data as $v ){
+                $table = $v[ 'name' ];
+                //Simple query using WP_query to get mvc_model (id)
+                $mvc = $wpdb->get_row(
+                        'SELECT id FROM '.$wpdb->prefix.$table
+                        .' WHERE post_id = '.$post_ID
+                );
+                //when model founded
+                if($mvc){ 
+                    $options=array(
+                        'controller' => $v['controller'],
+                        'action'     => 'show',
+                        'id'         => $mvc->id
+                    );
+                    //use dispatcher
+                    MvcDispatcher::dispatch($options);
+                    die;//stop to print post using WP (single template)        
+                }
+            }
+        }
+    }    
+}
+//End Match wp_posts and WP_MVC show action
