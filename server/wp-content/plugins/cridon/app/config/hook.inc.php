@@ -325,8 +325,9 @@ if( !is_admin() ){
     {
         global $wpdb;
         //only for WP_Posts
-        if( !empty($wp->query_vars) && !isset($wp->query_vars['mvc_controller']) && ('post' === get_post_type()) ){
+        if( !is_feed() && !empty($wp->query_vars) && !isset($wp->query_vars['mvc_controller']) && ('post' === get_post_type()) ){
             $post_ID = get_the_ID();
+            $post = get_post();
             foreach( Config::$data as $v ){
                 $table = $v[ 'name' ];
                 //Simple query using WP_query to get mvc_model (id)
@@ -339,11 +340,12 @@ if( !is_admin() ){
                     $options=array(
                         'controller' => $v['controller'],
                         'action'     => 'show',
-                        'id'         => $mvc->id
+                        'id'         => $post->post_name
                     );
-                    //use dispatcher
-                    MvcDispatcher::dispatch($options);
-                    die;//stop to print post using WP (single template)        
+                    $url  = MvcRouter::public_url($options);
+                    //redirect to correct url
+                    wp_redirect( $url, 301 );
+                    exit;
                 }
             }
         }

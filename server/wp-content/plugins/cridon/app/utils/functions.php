@@ -77,7 +77,7 @@ function criGetLatestPost( $model ){
         $latest = new stdClass();
         $latest->title   = $result->post_title;
         $latest->content = $result->post_content;
-        $latest->link = CridonPostUrl::generatePostUrl( $model, $result->join_id );
+        $latest->link = CridonPostUrl::generatePostUrl( $model, $result->post_name );
         $latest->post = $tools->createPost( $result ); // Create Object WP_Post
         return $latest;
     }
@@ -329,7 +329,7 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
     if( !is_array( $results ) ){
         $std = new stdClass();
         $std->matiere = CridonObjectFactory::create( $results, 'matiere', $fields);
-        $std->link = CridonPostUrl::generatePostUrl( $model, $results->join_id );
+        $std->link = CridonPostUrl::generatePostUrl( $model, $results->post_name );
         $std->post = $tools->createPost( $results ); // Create Object WP_Post
         return $std;
     }
@@ -819,3 +819,15 @@ function CriBreadcrumb() {
     // render view
     CriRenderView('breadcrumb', $vars);
 }
+
+// Hook of the_permalink() and get_permalink()
+function append_custom_link( $url, $post ) {
+    if ( $post->post_type === 'post' ) {
+        $newUrl = criGetPostLink();//Get custom post link 
+        if( $newUrl ){
+            $url = $newUrl;
+        }
+    }
+    return $url;
+}
+add_filter( 'post_link', 'append_custom_link', 10, 2 );
