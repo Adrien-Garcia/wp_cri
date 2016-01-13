@@ -888,7 +888,7 @@ function formation_post_date_meta_box(){
     }
 }
 /**
- * Init metabox if it'a model Veille
+ * Init metabox
  *
  * @param \WP_Post $post
  */
