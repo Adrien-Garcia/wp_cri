@@ -298,4 +298,14 @@ class Config {
         'flash','veille'//correspond au champ type de la table cri_document
     );
     //End access
+
+    // breadcrumb wpmvc model title
+    // key must be match with controller params name
+    public static $breadcrumbModelParams = array(
+        'veilles'           => 'Veille juridique',
+        'flashes'           => 'Flash infos',
+        'cahier_cridons'    => 'Les cahiers du CRIDON',
+        'formations'        => 'Formation',
+        'vie_cridons'       => 'Vie du CRIDON',
+    );
 }

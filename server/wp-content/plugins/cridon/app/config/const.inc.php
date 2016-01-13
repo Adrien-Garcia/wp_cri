@@ -564,3 +564,8 @@ if ( !defined( 'CONST_ADMIN_NB_ITEM_PERPAGE' ) ) {
 if ( !defined( 'CONST_NOTARY_PWD' ) ) {
     define( 'CONST_NOTARY_PWD', 'cridon-jetpulp-2016' );
 }
+
+// admin nb formations per page
+if ( !defined( 'CONST_ADMIN_NB_FORMATIONS_PERPAGE' ) ) {
+    define( 'CONST_ADMIN_NB_FORMATIONS_PERPAGE', 10 );
+}
