@@ -231,6 +231,8 @@ App.Question = {
             });
         } else {
             this.$buttonQuestionDocumentation.on('click', function(e) {
+                self.$popupOverlay.popup('show');
+                self.openTabQuestionMaQuestion(false);
                 self.eventButtonDocumentationClick($(this));
             });
 

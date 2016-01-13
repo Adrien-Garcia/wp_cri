@@ -241,7 +241,7 @@ class QuestionNotaire{
         //[LIMIT] sert à inserer le limit si nous avons une pagination sinon il sera remplacer par un vide('')
         $sql = '
             SELECT Document,Question,Support,Matiere,Competence,Notaire
-            FROM (SELECT Q.* 
+            FROM (SELECT DISTINCT Q.* 
                     FROM '.$wpdb->prefix.'question AS Q
                     JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
                     JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
