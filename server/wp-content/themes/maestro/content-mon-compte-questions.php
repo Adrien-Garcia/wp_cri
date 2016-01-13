@@ -5,7 +5,7 @@
 ?>
 <?php $notaire = CriNotaireData(); ?>
 <div id="questions-attentes">
-	<h2><?php _e('Mes questions en attentes'); ?></h2>
+	<h2><?php _e('Mes questions en attente'); ?></h2>
 
 	<?php if(count($pending) != 0): ?>
 	
@@ -36,12 +36,12 @@
 					<span class="matiere"><?php echo $matiere->label ; ?></span>
                     <?php
                         if ( !empty($question->question->content) ) {
-                            $resume = wp_trim_words($question->question->content, 18 );
+                            $resume = stripslashes(wp_trim_words($question->question->content, 18 ));
                         } else {
-                            $resume = wp_trim_words($question->question->resume, 18 );
+                            $resume = stripslashes(wp_trim_words($question->question->resume, 18 ));
                         }
                     ?>
-					<p><?php echo $resume ; ?></p>
+					<p><?php echo stripslashes( $resume ) ; ?></p>
 				</li>
 				<li>
                     <?php
@@ -70,7 +70,7 @@
 							<li>
 								<span><?php echo $matiere->label ; ?></span>
 								<span><?php echo $question->competence->label ; ?></span>
-								<span><?php echo $question->question->resume ; ?></span>
+								<span><?php echo stripslashes( $question->question->resume ) ; ?></span>
 								<ul>
                                 <?php
                                     foreach($question->documents as $document):
@@ -96,7 +96,7 @@
                             <?php if ( !empty($question->question->content) ) : ?>
                                 <li>
                                     <span>Votre question</span>
-                                    <?php echo $question->question->content ; ?>
+                                    <?php echo stripslashes( $question->question->content ) ; ?>
                                 </li>
                             <?php endif; ?>
 						</ul>
@@ -115,7 +115,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 </div>
 
 <div id="historique-questions">
-	<h2><?php _e('Historiques de mes questions'); ?></h2>
+	<h2><?php _e('Historique de mes questions'); ?></h2>
 
 	<div class="filtres">
 		<ul>
@@ -173,9 +173,9 @@ Vous n'avez actuellement aucune question en attente de réponse.
                     <span class="matiere"><?php echo $matiere->label ; ?></span>
                     <?php
                     if ( !empty($question->question->content) ) {
-                        $resume = wp_trim_words($question->question->content, 18 );
+                        $resume = stripslashes(wp_trim_words($question->question->content, 18 ));
                     } else {
-                        $resume = wp_trim_words($question->question->resume, 18 );
+                        $resume = stripslashes(wp_trim_words($question->question->resume, 18 ));
                     }
                     ?>
                     <p><?php echo $resume ; ?></p>

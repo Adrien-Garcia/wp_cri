@@ -315,6 +315,20 @@ add_filter( 'admin_url', 'add_new_post_url', 10, 3 );
  */
 add_action( 'admin_init', array( 'CriAdminNavMenu', 'init' ) );
 
+/**
+ * @see MvcAdminLoader Class at line 52 (wp-mvc\core\loaders\mvc_admin_loader.php)
+ */
+add_filter( 'mvc_admin_title', 'custom_mvc_title_page', 10, 1 );
+function custom_mvc_title_page( $title ){
+    if( preg_match('/(\bCridons\b)/',$title) ){
+        //without 's' in 'Cridon'
+        $title = MvcInflector::singularize($title);
+        //translate 'User'
+        $title = preg_replace('/(\bUser\b)/', 'Utilisateur', $title);
+    }
+    return $title ;
+}
+
 // Match wp_posts and WP_MVC show action
 if( !is_admin() ){
     /**
@@ -336,7 +350,7 @@ if( !is_admin() ){
                         .' WHERE post_id = '.$post_ID
                 );
                 //when model founded
-                if($mvc){ 
+                if($mvc){
                     $options=array(
                         'controller' => $v['controller'],
                         'action'     => 'show',
@@ -349,6 +363,6 @@ if( !is_admin() ){
                 }
             }
         }
-    }    
+    }
 }
 //End Match wp_posts and WP_MVC show action

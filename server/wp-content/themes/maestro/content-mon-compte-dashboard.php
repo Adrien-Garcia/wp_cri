@@ -19,7 +19,7 @@
 
 		<div class="point sel-solde-data" id="js-solde-data" data-solde="<?php echo ($notaire->solde >= 0) ? $notaire->solde : "0"; ?>" data-solde-max="<?php echo $notaire->quota ?>">
 			<div class="pts" >
-                <?php echo $notaire->solde ?> <span>pt<?php echo ($notaire->solde < 2 && $notaire->solde > -2) ? "" : "s" ?></span>
+                <?php echo $notaire->solde >= 0 ? $notaire->solde : 0; ?> <span>pt<?php echo ($notaire->solde < 2 && $notaire->solde > -2) ? "" : "s" ?></span>
 			</div>
 			<span>quota <?php echo $notaire->quota ?></span>
 		</div>									
