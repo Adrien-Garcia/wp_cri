@@ -17,7 +17,7 @@ class AdminUserCridonsController extends BaseAdminController {
     );
     var $default_columns = array('id_erp', 'profil',
         'user' => array( 'label'=>'Utilisateur','value_method' => 'show_user'),
-        'last_connection' => array( 'value_method' => 'show_last_connection'),
+        'last_connection' => array( 'label' => 'Dernière connexion','value_method' => 'show_last_connection'),
     );
     public function index() {
         parent::index();
