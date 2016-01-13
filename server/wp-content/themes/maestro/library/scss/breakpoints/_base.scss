@@ -1500,11 +1500,12 @@ body.page-template-front-page{
 
 									h4{
 										font-size: 20px;
+										line-height: 24px;
 										color:$bleu;
 										text-transform: uppercase;
 										text-align: center;
 										@extend .do-re;
-										margin: 0;
+										margin: 0 0 5px 0;
 										padding: 0;
 									}
 
@@ -1516,6 +1517,14 @@ body.page-template-front-page{
 										line-height: 18px;
 										overflow: 	hidden;
 
+									}
+
+									.adresse{
+										font-family: $helvetica-bold;
+										font-size: 12px;
+										color:$bleu;
+										margin: 10px 0 20px 0;
+										line-height: 14px;
 									}
 
 									>a {
@@ -1962,8 +1971,189 @@ body.page-template-front-page{
 
 				width: 100%;
 				border-bottom:solid 5px $bg-top-footer;
-				height: 20px;
+				height: auto; 
+				cursor: pointer;
 				//margin-bottom: 20px;
+
+				#tri_matiere{
+					position: relative;
+					line-height: 30px;
+					height: 30px;
+					margin-bottom: 20px;
+
+					>label{
+						color: #b9003f;
+					    font-size: 16px;
+					    text-transform: uppercase;
+					    @extend .do-bo;
+					    line-height: 30px;
+					    vertical-align: middle;
+					}
+
+					span.open{						
+					    color: #2e4867;
+					    display:block;
+					    transform: rotate(90deg);
+					    font-size: 30px;
+					    position: absolute;
+					    right: 0;
+					    top: 0;
+					}
+					span.close{						
+					    color: #2e4867;
+					    display:block;
+					    transform: rotate(45deg) !important;
+					    font-size: 30px;
+					    position: absolute;
+					    right: 0;
+					    top: 0;
+
+					}
+
+					span{
+						visibility: hidden;
+
+						&.active{
+							visibility: visible;
+						}
+					}
+
+				}
+
+				.panel{
+
+					display: none;
+
+					>a {
+						color:$rouge;
+						font-family: $garamond;
+						font-size: 18px;
+						text-decoration: none;
+						border-bottom:solid 1px $rouge;
+						@include transition(all 0.3s);
+
+						&:hover{
+							border-bottom:solid 1px #FFF;
+						}
+					}
+
+					ul{
+						margin: 10px 0 20px 10px;
+						padding: 0;
+
+						>li{
+							margin: 10px 0;
+							padding: 0;
+
+							>label{
+								@extend .do-re;
+								color:$bleu;
+								font-size: 18px;
+
+								&:before{
+									content: '';
+								    width: 10px;
+								    height: 10px;
+								    border: solid 1px #b9003f;
+								    margin-right: 5px;
+								    position: absolute;
+								    display: inline-block;
+								    top: 50%;
+								    margin-top: -5px;
+								    cursor: pointer;
+								    z-index: 2;
+	    							background: transparent;
+	    							@include border-radius(50%);
+	    							@include transition(all 0.3s);
+
+								}
+
+								>input{
+									opacity: 0;
+								}
+
+								&.select{
+
+									&:before{
+										border: solid 1px #b9003f;
+										background: $rouge;
+									}
+
+								}
+							}
+						}
+					}
+					#bt_valider{
+						margin:0 0 20px 10px;
+					}
+
+
+				}
+
+				
+
+				#bt_valider{
+					margin:0 0 20px 10px;
+				}
+
+				
+
+			}
+
+			#filtres_formations{
+
+				width: 100%;
+				float: left;
+				//padding-bottom: 20px;
+				border-bottom:solid 4px $vert;
+				margin-bottom: 10px;
+
+				>div{
+					@extend .do-sm;
+					text-transform: uppercase;
+					color:$bleu;
+					font-size: 20px;
+					line-height: 60px;
+					vertical-align: middle;
+					/*text-decoration: underline;*/
+
+					border-bottom:solid 16px #FFF;
+
+					width: 50%;
+					float: left;
+					text-align: center;
+
+					margin: 0;
+					padding: 0;
+					transition: border $duration ease, color $duration ease;
+
+					cursor: pointer;
+
+					span{
+						border-bottom:solid 1px $bleu;
+					}
+
+					&:hover{
+						text-decoration: none;
+						border-bottom:solid 16px $vert;
+
+						span{
+							border-bottom:solid 1px #FFF;
+						}
+					}
+
+				}
+
+				>div.open{
+					color:$vert;
+					//text-decoration: none;
+					border-bottom:solid 16px $vert;
+
+					span{
+						border-bottom:solid 1px #FFF;
+					}
+				}
+
 
 			}
 
@@ -1973,7 +2163,7 @@ body.page-template-front-page{
 
 				article{
 
-					margin-bottom: 20px;
+					margin-bottom: 20px;  
 					//overflow: hidden;
 					
 
@@ -2088,6 +2278,15 @@ body.page-template-front-page{
 							    width: 250px;
 							    overflow: hidden;
 							    margin-top: 10px;
+							}
+
+							.adresse{
+								
+								font-family: $helvetica-bold;
+								font-size: 12px;
+								color:$bleu;
+								margin: 10px 0 10px 0;
+								line-height: 14px;
 							}
 
 							.mots_cles{
@@ -2279,6 +2478,20 @@ body.page-template-front-page{
 		}
 
 	}  
+}
+
+#content.archive-formations{
+	#main #inner-content .listing{
+		margin-top: 10px;
+
+		article:first-of-type .date .sep{
+			display: none;
+
+		}
+
+	}
+
+
 }
 
 .pagination{
@@ -2589,6 +2802,13 @@ body.page-template-front-page{
 
 					    	}
 					    }*/
+					}
+					.adresse{
+						font-family: $helvetica-bold;
+						font-size: 12px;
+						color:$bleu;
+						margin: 10px 0 10px 0;
+						line-height: 14px;
 					}
 
 					.mots_cles{
@@ -3193,6 +3413,16 @@ body.page-template-front-page{
                                         stroke-dashoffset: 0 !important;
                                     }
                                 }
+
+                                .point{
+
+                                	.pts{
+	                                	color:$rouge;
+	                                }
+
+                                }
+
+                                
                             }
 
 							svg{

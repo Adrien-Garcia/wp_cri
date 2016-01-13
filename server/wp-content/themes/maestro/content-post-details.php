@@ -64,6 +64,14 @@
 					nim ni coneste nes ellest aut inulpa dem. Minisciundae et, sunt pa nis sant ulluptius 
 					ditatendam eiusam quaeceatus.</p!-->
 			</div>
+			
+			<!-- <div class="adresse">
+				La Joliette<br />
+				20A Boulevard du Plomb<br />
+				13581 Marseille Cedex 20<br />
+				France
+			</div> -->
+
 			<ul class="mots_cles">
 			<?php 
 				$tags = get_the_tags();

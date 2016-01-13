@@ -852,10 +852,12 @@ body.page-template-front-page{
 
 										font-size: 15px;
 										line-height: 18px;
-										width: 450px;							
+										width: 450px;
+									}
 
-										
-
+									.adresse{
+										font-size: 12px;
+										line-height: 14px;
 									}
 
 									> a {		
@@ -879,6 +881,23 @@ body.page-template-front-page{
 						margin: 40px 0 50px 0;
 						
 					}
+				}
+
+				#accordion-formations{ /* specifique accordion formations*/
+					.panel .content > ul > li{
+
+						h4{
+							line-height: 30px;
+						}
+
+						.chapeau-categorie{
+							max-height: 56px;
+							height: auto;
+						}
+
+						
+
+					} 
 				}
 
 			}
@@ -1113,35 +1132,102 @@ body.page-template-front-page{
 		#inner-content{
 
 
-			h1{
-				
-				/*font-size: 50px;
-				line-height: 40px;*/ 
+			h1{	
 				margin: 0 0 70px 0; 
+			}
 
-				&:before{
-					/*display:block;
-					@include svgicon('icon-vieducridon', 10px, 10px,$rouge);	 				
-					position: absolute;
-				    bottom: -19px;
-				    left: 50%;
-				    margin-left: -27px;	*/			
+			#filtres_veilles{
+
+				
+				border-bottom: none;
+				height: 220px;				
+
+				#tri_matiere{					
+
+					display: none;
+
+					>label{}
+
+					span.open{}
+					span.close{}
+
+					span{}
+
+				}
+
+				.panel{
+
+					display: block;
+
+					form{
+						float: right;
+						width: 970px;
+					}
+
+					>a {
+						float: left;
+					}
+
+					ul{						
+						width: 970px;
+						float: right;
+						margin: 0;
+
+						>li{
+							
+							>label{	
+
+								>input{
+									margin-right: 10px;
+								} 
+								
+							}
+						}
+					}
+					#bt_valider{						
+						margin-bottom: 0;
+						margin-top: 20px;
+    					margin-left: 0;
+
+					}
+
+
+				}
+
+				
+
+				#bt_valider{
+					margin:0 0 20px 10px;
+				}
+
+			}
+
+			#filtres_formations{
+
+				>div{
+					line-height: 70px;
+					font-size: 30px;					
+
+					span{}
+
+					&:hover{
+
+						span{
+						}
+					}
+
+				}
+
+				>div.open{
+
+					span{}
 				}
 
 
 			}
 
-			#filtres_veilles{
-
-				/*width: 100%;
-				border-bottom:solid 5px $bg-top-footer;
-				height: 20px;
-				margin-bottom: 20px;*/
-				border-bottom: none;
-
-			}
-
 			.listing{
+				margin-top: 60px;
 
 				article{
 
@@ -1222,6 +1308,11 @@ body.page-template-front-page{
 							.extrait{
 								font-size: 15px;
 								 
+								
+							}
+
+							.adresse{
+								
 								
 							}
 
@@ -1349,7 +1440,13 @@ body.page-template-front-page{
 	}  
 }
 
+#content.archive-formations{
+	#main #inner-content .listing{
+		margin-top: 40px;
 
+	}
+
+}
 
 /***
 

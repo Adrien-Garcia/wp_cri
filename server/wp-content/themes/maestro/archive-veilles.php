@@ -14,7 +14,36 @@
 
 				<h1 class="h1">Veille juridique</h1>
 
-				<div id="filtres_veilles">					
+				<div id="filtres_veilles">
+
+					<div id="tri_matiere">
+						<label>Filtrer par matières</label>
+						<span class="close">+</span>
+						<span class="open active">></span>
+					</div>
+
+					<div class="panel">
+						<a href="">Toute la veille juridique</a>
+
+						<?php 
+							$matieres = CriListMatieres();
+						 ?>
+						<form method="post">
+							<ul>
+								<?php foreach($matieres as $key => $matiere): ?>
+								<li>
+									<!-- <label class="select"> -->
+									<label class="">
+										<input type="checkbox" id="" class="" name="matieres[]" value="<?php echo $key ?>" >
+										<?php echo $matiere['label'] ?>
+									</label>
+								</li>
+								<?php endforeach; ?>
+							</ul>
+							<input type="submit" name="Valider" value="Valider" id="bt_valider"/>
+						</form>
+					</div>	
+
 				</div>
 
 				<div class="listing veille" id="sel-veilles">
