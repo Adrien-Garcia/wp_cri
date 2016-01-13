@@ -25,10 +25,10 @@ gulp
 
 ### Pour quoi ?
 
-Le projet tient compte d'une variable d'environnement pour les appels à plusieurs fonctionnalités.
-Ces fonctionnalités sont :
-* l'envoi de mail de notification d'erreurs (destinataires différents)
-* la configuration de l'accès à la base Oracle (BD différentes)
+Le projet tient compte d'une variable d'environnement pour les appels Ã  plusieurs fonctionnalitÃ©s.
+Ces fonctionnalitÃ©s sont :
+* l'envoi de mail de notification d'erreurs (destinataires diffÃ©rents)
+* la configuration de l'accÃ¨s Ã  la base Oracle (BD diffÃ©rentes)
 
 ### Comment ?
 
@@ -38,14 +38,24 @@ DEV = serveur de test du cridon
 PREPROD = serveur de preprod du cridon
 PROD = serveur de prod du cridon
 
-Si l'environnement n'est pas précisé, un fallback est prévu pour simuler l'environnement de dev (sauf pour l'accès à la DB, qui est différent entre local et le serveur de DEV).
+Si l'environnement n'est pas prÃ©cisÃ©, un fallback est prï¿½vu pour simuler l'environnement de dev (sauf pour l'accÃ¨s Ã  la DB, qui est diffÃ©rent entre local et le serveur de DEV).
 
-Pour ce faire, deux possibilités :
+Pour ce faire, deux possibilitÃ©s :
 * Soit dans le fichier wp-config.php
 ```
 setenv("DEV=DEV");
 ```
-* Soit via la conf serveur, définir la variable serveur "ENV" :
+* Soit via la conf serveur, dÃ©finir la variable serveur "ENV" :
 ```
 $_SERVER('ENV');
 ```
+
+# Choix d'implÃ©mentation
+
+## Soldes des notaires
+
+Le choix a Ã©tÃ© fait de conserver le fonctionnement imposÃ© par le fichier de maj des soldes des notaires.
+Lorsque le type de support vaut 0, il s'agit du nombre de points initiaux d'une Ã©tude.
+
+Il doit donc y avoir autant de lignes avec support 0 que d'Ã©tude,
+alors qu'il n'y a pas de ligne avec un support autre tant qu'il n'y a pas eu de consommation de points.
