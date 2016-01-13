@@ -823,7 +823,7 @@ function CriBreadcrumb() {
 // Hook of the_permalink() and get_permalink()
 function append_custom_link( $url, $post ) {
     if ( $post->post_type === 'post' ) {
-        $newUrl = criGetPostLink();//Get custom post link 
+        $newUrl = criGetPostLink();//Get custom post link
         if( $newUrl ){
             $url = $newUrl;
         }
@@ -831,3 +831,13 @@ function append_custom_link( $url, $post ) {
     return $url;
 }
 add_filter( 'post_link', 'append_custom_link', 10, 2 );
+//get affectation label
+/**
+ * Obtenir l'étiquette d'une affectation
+ *
+ * @param integer $id
+ * @return string
+ */
+function getAffectation($id){
+    return isset(Config::$labelAffection[$id]) ? Config::$labelAffection[$id] : '';
+}

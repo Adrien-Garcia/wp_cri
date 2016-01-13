@@ -103,6 +103,14 @@ class CridonLoader extends MvcPluginLoader
                                     }
                                 }
                             }
+                        } elseif ( preg_match_all( "|DROP ([a-zA-Z0-9`_\s]*)|", $sql, $matches ) ) { // drop
+                            if( !empty( $matches[0] ) ){
+                                foreach( $matches[0] as $query ){
+                                    if ($query)  {
+                                        $wpdb->query( $query );
+                                    }
+                                }
+                            }
                         }else{
                             //TODO surround with try/catch
                             // Use dbDelta() to create the tables for the app here
