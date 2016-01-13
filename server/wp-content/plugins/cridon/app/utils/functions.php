@@ -72,7 +72,7 @@ function criGetLatestPost( $model ){
         'conditions' => 'p.post_status = "publish"',
         'order' => 'DESC'
     );
-    $result = criQueryPosts( $options );
+    $result = criQueryPosts( $options , "post_date");
     if( $result ){
         $latest = new stdClass();
         $latest->title   = $result->post_title;
