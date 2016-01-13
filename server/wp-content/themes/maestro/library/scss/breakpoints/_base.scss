@@ -814,9 +814,10 @@ HEADER STYLES
                             }
                             span.fileButtonFront {
                                 background: $bleu;
-                                float: right;
                                 color:#FFF;
-
+                                float: none;
+                                right: 33px;
+                                position: absolute;
                             }
 						}
 
@@ -830,6 +831,7 @@ HEADER STYLES
 						    cursor: pointer;
 						    opacity: 0;
 						    filter: alpha(opacity=0);
+                            z-index: 1;
 						}
 
 						.sep{
