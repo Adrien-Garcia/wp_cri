@@ -22,7 +22,7 @@ class QuestionNotaire{
      * @var array 
      */
     public $entities = array(
-        'Document','Affectation','Competence','Matiere','Notaire','Support','Question'
+        'Document','Competence','Matiere','Notaire','Support','Question'
     );
     
     public $user;
@@ -240,7 +240,7 @@ class QuestionNotaire{
         //Au niveau du SELECT nous avons les noms des modèles mais ils doivent être aussi utilisés comme alias aussi
         //[LIMIT] sert à inserer le limit si nous avons une pagination sinon il sera remplacer par un vide('')
         $sql = '
-            SELECT Document,Question,Support,Matiere,Competence,Affectation,Notaire
+            SELECT Document,Question,Support,Matiere,Competence,Notaire
             FROM (SELECT Q.* 
                     FROM '.$wpdb->prefix.'question AS Q
                     JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
@@ -252,7 +252,6 @@ class QuestionNotaire{
                     [LIMIT]
                  ) AS Question
             LEFT JOIN '.$wpdb->prefix.'document AS Document ON (Document.id_externe = Question.id AND Document.type = "question" ) 
-            LEFT JOIN '.$wpdb->prefix.'affectation AS Affectation ON Affectation.id = Question.id_affectation 
             LEFT JOIN '.$wpdb->prefix.'support AS Support ON Support.id = Question.id_support 
             LEFT JOIN '.$wpdb->prefix.'competence AS Competence ON Competence.id = Question.id_competence_1 
             LEFT JOIN '.$wpdb->prefix.'matiere AS Matiere ON Matiere.code = Competence.code_matiere

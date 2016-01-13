@@ -768,3 +768,14 @@ function updateEmptyDownloadUrlFieldsDocument() {
         $wpdb->query($queryStart . $query . $queryEnd);
     }
 }
+
+//get affectation label
+/**
+ * Obtenir l'étiquette d'une affectation
+ * 
+ * @param integer $id
+ * @return string
+ */
+function getAffectation($id){
+    return isset(Config::$labelAffection[$id]) ? Config::$labelAffection[$id] : '';
+}
