@@ -293,4 +293,13 @@ class Config {
         'flash','veille'//correspond au champ type de la table cri_document
     );
     //End access
+    
+    //Label des affectations sur les questions
+    public static $labelAffection = array(
+        1 => 'Question transmise',
+        2 => 'En cours de traitement',
+        3 => 'En attente de renseignements complémentaires',
+        4 => 'Question répondue'
+    );
+    //End label
 }
