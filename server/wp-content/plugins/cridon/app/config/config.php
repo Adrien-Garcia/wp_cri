@@ -298,4 +298,10 @@ class Config {
         'flash','veille'//correspond au champ type de la table cri_document
     );
     //End access
+
+    // Content qualified by a "Custom Date"
+    public static $contentWithCustomDate = array(
+        'formations',
+    );
+    public static $dateTitleMetabox = 'Date de formation';// Titre du metabox date de formation
 }
