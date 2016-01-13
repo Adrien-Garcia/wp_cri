@@ -33,6 +33,11 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/contentfacturation', array('cont
 // notaire compte
 MvcRouter::public_connect('notaires/{:id:[\d]+}', array('controller' => 'notaires','action' => 'show'));
 
+//RSS feed
+MvcRouter::public_connect('medias/rss/actualites.xml', array( 'controller' =>'veilles','action' => 'feed'));
+MvcRouter::public_connect('medias/rss/{:id:[\d]+}', array( 'controller' =>'veilles','action' => 'feedFilter'));
+
+
 // default
 MvcRouter::public_connect('{:controller}', array('action' => 'index'));
 MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');

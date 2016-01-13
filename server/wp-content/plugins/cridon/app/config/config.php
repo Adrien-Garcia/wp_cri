@@ -308,4 +308,12 @@ class Config {
         'formations'        => 'Formation',
         'vie_cridons'       => 'Vie du CRIDON',
     );
+
+    //RSS
+    public static $rss = array(
+        'title'         => 'Flux RSS des veilles',//all
+        'title_mat'     => '%s',//filtered
+        'description'   => ''
+    );
+    //End RSS
 }
