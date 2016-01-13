@@ -1832,7 +1832,12 @@ body.page-template-front-page{
 }
 
 
-#content.page, #content.archive, #content.single{
+#content.page,
+#content.archive,
+#content.single,
+body.page #content,
+body.single #content{
+
 	padding-top: 130px;
 
 	.breadcrumbs{		
