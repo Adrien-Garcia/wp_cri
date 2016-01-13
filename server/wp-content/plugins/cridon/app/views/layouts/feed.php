@@ -84,6 +84,8 @@
                         $size = 0;
                         if(file_exists($file)){
                             $size = filesize($file);
+                        } else {
+                            continue;
                         }
                 ?>
                 <enclosure url="<?php echo $url?>" length="<?php echo $size?>" type="application/pdf" />
