@@ -96,7 +96,6 @@ class Config {
     public static $capabitilies = array(
         //list
         'liste-vie_cridon-cridon',
-        'liste-affectation-cridon',
         'liste-cahier_cridon-cridon',
         'liste-competence-cridon',
         'liste-document-cridon',
@@ -219,7 +218,7 @@ class Config {
         )
     );
     public static $listOfControllersWpMvcOnSidebar = array(
-        'affectations','cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
+        'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
         'questions','soldes','supports','user_cridons','veilles','vie_cridons'
     );
     public static $listOfControllersWithNoActionAdd = array(
@@ -259,10 +258,6 @@ class Config {
         'solde' => array(
             'add'    => 'Ajout d\'un solde',
             'edit'   => 'Modification d\'un solde'
-        ),
-        'affectation' => array(
-            'add'    => 'Ajout d\'une affectation',
-            'edit'   => 'Modification d\'une affectation'
         ),
         'question' => array(
             'add'    => 'Ajout d\'une question',

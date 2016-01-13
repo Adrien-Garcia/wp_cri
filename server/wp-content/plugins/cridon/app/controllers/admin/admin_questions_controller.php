@@ -111,7 +111,6 @@ class AdminQuestionsController extends BaseAdminController {
     {
         $this->setCompetences();
         $this->setSupports();
-        $this->setAffectations();
         $this->create_or_save();
     }
 
@@ -120,7 +119,6 @@ class AdminQuestionsController extends BaseAdminController {
         $this->set_object();
         $this->setCompetences();
         $this->setSupports();
-        $this->setAffectations();
         $this->create_or_save();
     }
 
@@ -136,13 +134,7 @@ class AdminQuestionsController extends BaseAdminController {
         $aSupport = $this->Support->find(array('id','label'));
         $this->set('aSupport', $aSupport);
     }
-    private function setAffectations()
-    {
-        $this->load_model('Affectation');
-        $aAffectation = $this->Support->find(array('id','label'));
-        $this->set('aAffectation', $aAffectation);
-    }
-    
+        
     /**
      * Generate link of documents
      * 
