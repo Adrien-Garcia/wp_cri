@@ -134,7 +134,7 @@ class QuestionNotaire{
         if( empty( $this->user ) ){
             return null;
         }
-        $options = $this->generateOptionsQueries(array(0,1,2));
+        $options = $this->generateOptionsQueries(array(1,2,3,4));
         $options['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
         $options = array_merge($options, $this->params );
         $collection = $this->entityManager->paginate($options);
@@ -151,7 +151,7 @@ class QuestionNotaire{
         if( empty( $this->user ) ){
             return null;
         }
-        $options = $this->generateOptionsQueries( array(0,1) );
+        $options = $this->generateOptionsQueries( array(1,2,3) );
         $results = $this->entityManager->getResults($options);
         return $results;
     }
@@ -165,7 +165,7 @@ class QuestionNotaire{
         if( empty( $this->user ) ){
             return null;
         }
-        $options = $this->generateOptionsQueries(2);
+        $options = $this->generateOptionsQueries(4);
         $options['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
         $options = array_merge($options, $this->params );
         $collection = $this->entityManager->paginate($options);
@@ -234,7 +234,7 @@ class QuestionNotaire{
      */
     protected function generateOptionsQueries( $treated ){
         global $wpdb;
-        $condTreated = (!is_array($treated)) ? 'Q.treated = '.$treated : 'Q.treated IN ('.implode(',',$treated).')';
+        $condTreated = (!is_array($treated)) ? 'Q.id_affectation = '.$treated : 'Q.id_affectation IN ('.implode(',',$treated).')';
         $where = $this->getFilters();//Ajout des filtres
         //Requête principale
         //Au niveau du SELECT nous avons les noms des modèles mais ils doivent être aussi utilisés comme alias aussi

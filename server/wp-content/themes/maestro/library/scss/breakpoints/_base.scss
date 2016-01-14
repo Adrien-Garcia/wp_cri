@@ -466,14 +466,14 @@ HEADER STYLES
 					border-bottom:solid 1px $bleu;
 				}
 
-				&:hover{
+				/*&:hover{
 					text-decoration: none;
 					border-bottom:solid 16px $vert;
 
 					span{
 						border-bottom:solid 1px #FFF;
 					}
-				}
+				}*/
 
 			}
 
@@ -4332,7 +4332,7 @@ body.single #content {
 #content.page-iframe{
 
 	iframe{
-		margin: 30px 0;
+		margin: 10px 0 30px 0;
 		border:none;
 	}
 }
