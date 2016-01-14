@@ -91,4 +91,15 @@ class Matiere extends MvcModel
         return ( ( Config::$maxWidthHeight['width'] < $width ) || ( Config::$maxWidthHeight['height'] < $height ) ) ? false : true;
     }
     
+    
+    public function getMatiereByModelPost($model){
+        global $wpdb;
+        $sql = "
+            SELECT * FROM {$wpdb->prefix}matiere m
+            LEFT JOIN {$model->table} j ON m.id = j.id_matiere
+            WHERE j.id IS NOT NULL
+            GROUP BY m.id
+        ";
+        return $wpdb->get_results($sql);
+    }
 }
