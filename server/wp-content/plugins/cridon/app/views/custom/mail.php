@@ -91,15 +91,27 @@
                 <span class="newsletter_date" style="text-transform: uppercase;"><?php echo sprintf(Config::$mailBodyNotification['date'],  $date ); ?></span>
                 <br/><br/>
                 <?php if (! empty($matiere)) : ?>
-                    <img src="<?php echo $matiere->picto ?>" alt="icon" width="90" height="90" style="width:90px;height:90px;" /><br/>
-                    <span class="section"><?php echo sprintf(Config::$mailBodyNotification['matiere'],  $matiere->label ); ?></span>
-
+                    <table>
+                        <tr>
+                            <td width="90" style="width:90px;height:90px;">
+                                <img src="<?php echo $matiere->picto ?>" alt="icon" width="90" height="90" style="width:90px;height:90px;" /><br/>
+                                <span class="section"><?php echo sprintf(Config::$mailBodyNotification['matiere'],  $matiere->label ); ?></span>
+                            </td>
+                            <td style="width:400px;" width="400">
+                                <h1><?php echo  sprintf(Config::$mailBodyNotification['title'],  $title );?></h1>
+                            </td>
+                        </tr>
+                    </table>
+                <?php else : ?>
+                    <h1><?php echo sprintf(Config::$mailBodyNotification['title'],  $title );?></h1>
                 <?php endif; ?>
-                <h1><?php echo  sprintf(Config::$mailBodyNotification['title'],  $title );?></h1>
+
                 <span class="introduction"><?php echo !empty($excerpt) ? sprintf(Config::$mailBodyNotification['excerpt'],  $excerpt ) : "" ?></span><br/>
 
                 <?php echo sprintf(Config::$mailBodyNotification['content'],  $content ); ?>
-
+                <br/>
+                <br/>
+                <?php echo sprintf(Config::$mailBodyNotification['permalink'], get_permalink($post), "Lire sur site"); ?>
                 <p style="margin-top:25px;">
 
                     <?php
