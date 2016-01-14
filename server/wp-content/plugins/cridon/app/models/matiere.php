@@ -26,7 +26,21 @@ class Matiere extends MvcModel
         if(!empty($data['Matiere']['label'])){
             $data['Matiere']['virtual_name'] = sanitize_title($data['Matiere']['label']);
         }
-        return parent::create($data);
+        $id = parent::create($data);
+        if( $id && (intval($data['Matiere']['question']) === 1) ){
+            $matiere = $this->find_one_by_id($id);
+            $competence = mvc_model('Competence');
+            $opt = array(
+                'Competence' => array(
+                    'id'            => $matiere->code,
+                    'label'         => $matiere->label,
+                    'short_label'   => $matiere->short_label,
+                    'code_matiere'  => $matiere->code
+                )
+            );
+            $competence->create($opt);
+        }
+        return $id;
     }
     public function save($data) {
         $path = $this->upload( $data );
