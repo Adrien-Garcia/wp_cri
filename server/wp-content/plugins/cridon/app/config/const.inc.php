@@ -172,13 +172,13 @@ if ( !defined( 'CONST_STATUS_DISABLED' ) ) {
 
 // default role by notaire group
 if ( !defined( 'CONST_OFFICES_ROLE' ) ) {
-    define( 'CONST_OFFICES_ROLE', 'off' );
+    define( 'CONST_OFFICES_ROLE', 'OFF' );
 }
 if ( !defined( 'CONST_ORGANISMES_ROLE' ) ) {
-    define( 'CONST_ORGANISMES_ROLE', 'org' );
+    define( 'CONST_ORGANISMES_ROLE', 'ORG' );
 }
 if ( !defined( 'CONST_CLIENTDIVERS_ROLE' ) ) {
-    define( 'CONST_CLIENTDIVERS_ROLE', 'div' );
+    define( 'CONST_CLIENTDIVERS_ROLE', 'DIV' );
 }
 
 // import option to be used (csv, odbc, oci)
@@ -307,6 +307,9 @@ if ( !defined( 'CONST_SUPPORT_MES_DIANE' ) ) {
 }
 
 // Notaire fonctions id (used for filtering capability)
+if ( !defined( 'CONST_NOTAIRE_FONCTION' ) ) {
+    define( 'CONST_NOTAIRE_FONCTION', 1 );
+}
 if ( !defined( 'CONST_NOTAIRE_ASSOCIE' ) ) {
     define( 'CONST_NOTAIRE_ASSOCIE', 2 );
 }
@@ -330,6 +333,9 @@ if ( !defined( 'CONST_NOTAIRE_SUPLEANT' ) ) {
 }
 if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
     define( 'CONST_NOTAIRE_SUPLEANTE', 9 );
+}
+if ( !defined( 'CONST_NOTAIRE_ADMIN' ) ) {
+    define( 'CONST_NOTAIRE_ADMIN', 10 );
 }
 
 // Add Question Form
