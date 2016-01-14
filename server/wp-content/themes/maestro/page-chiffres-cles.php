@@ -31,13 +31,9 @@
 
 					<section class="entry-content cf" itemprop="articleBody">
 
-						<?php // the_content(); ?>
+						<?php the_content(); ?>
 
-						<h2>Le nombre des consultations traitées depuis l'origine</h2>
-						&nbsp;
-						<h2>Répartition par support pour l'année 2015</h2>
-						&nbsp;
-						<h2>Les matières pour l'année 2015</h2>
+						
 
 					</section> <?php // end article section ?>
 
