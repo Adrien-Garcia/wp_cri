@@ -10,8 +10,8 @@
 		</div>
 		
 		<div class="onglets">
-			<h2 class="consultation open js-question-button-consultation"><span><?php _e('1. Type de consultation'); ?></span></h2>   				
-			<h2 class="question js-question-button-ma-question"><span><?php _e('2. Ma question'); ?></span></h2>
+			<div class="h2 consultation open js-question-button-consultation"><span><?php _e('1. Type de consultation'); ?></span></div>   				
+			<div class="h2 question js-question-button-ma-question"><span><?php _e('2. Ma question'); ?></span></div>
 		</div>
 		<div class="details">
 			<div class="consultation js-question-tab-consultation open">
@@ -47,20 +47,28 @@
 						 ?>
 						<select name="question_matiere" id="question_matiere" class="js-question-select-matiere" >
                             <option selected value="">Choisir une matière</option>
-                            <?php foreach($matieres as $id => $label): ?>
+                            <?php foreach($matieres as $id => $data): ?>
+                                <?php
+                                $label = $data['label'];
+                                $code = $data['code'];
+                                ?>
                                 <option value="<?php echo $id ?>"><?php echo $label ?></option>
                             <?php endforeach; ?>
 						</select>
 						<?php $icomp = 0; ?>
-						<?php foreach($matieres as $id => $label): ?>
+						<?php foreach($matieres as $id => $data): ?>
 							<?php
+                                $label = $data['label'];
+                                $code = $data['code'];
 								$competences = CriCompetenceByMatiere($id);
 							 ?>
 							<select class="js-question-select-competence <?php echo ($icomp == 0) ? "" : "hidden" ?>" data-matiere-id="<?php echo $id ?>" data-name="question_competence"  name="<?php echo ($icomp == 0) ? "question_competence" : "" ?>" id="question_competence_<?php echo $id ?>" >
-                                <option selected value="">Choisir une compétence</option>
+                                <option selected value="<?php echo $code; ?>">Choisir une compétence</option>
                                 <?php foreach ($competences as $cid => $clabel): ?>
-									<option value="<?php echo $cid ?>"><?php echo $clabel ?></option>							
-								<?php endforeach ?>
+                                    <?php if ($cid != $code) : ?>
+									<option value="<?php echo $cid ?>"><?php echo $clabel ?></option>
+                                    <?php endif; ?>
+                                <?php endforeach ?>
 							</select>
 							<?php $icomp++; ?>
 						<?php endforeach; ?>
@@ -95,24 +103,24 @@
 
 		<ul class="block_3_mobile">
 			<li class="js-home-block-link">
-				<h2>
+				<div class="h2">
 					<?php _e('Poser'); ?>
 					<span><?php _e('une question par téléphone'); ?></span>
-				</h2>
+				</div>
 				<a href="/poser-une-question-par-telephone/" target="_blank">+</a>
 			</li>
 			<li class="block demander js-question-documentation-button">
-				<h2>
+				<div class="h2">
 					<?php _e('Demander'); ?>
 					<span><?php _e('une documentation'); ?></span>
-				</h2>
+				</div>
 				<a href="#">+</a>
 			</li>
 			<li class="js-home-block-link">
-				<h2>
+				<div class="h2">
 					<?php _e('Prendre'); ?>
 					<span><?php _e('un rendez-vous'); ?></span>
-				</h2>
+				</div>
 				<a href="mailto:visite@cridon-lyon.fr">+</a>
 			</li>
 		</ul>
@@ -120,30 +128,30 @@
 		<div class="block_03" id="effetLivreIE">
 			<div class="block poser js-home-block-link">
 				<div class="content">
-					<h2>
+					<div class="h2">
 						<?php _e('Poser'); ?>
 						<span><?php _e('une question par téléphone'); ?></span>
-					</h2>
+					</div>
 					<a href="/poser-une-question-par-telephone/" target="_blank">+</a>
 				</div>						
 			</div>
 
 			<div class="block demander js-question-documentation-button">
 				<div class="content">
-					<h2>
+					<div class="h2">
 						<?php _e('Demander'); ?>
 						<span><?php _e('une documentation'); ?></span>
-					</h2>
+					</div>
 					<a href="#">+</a>
 				</div>						
 			</div>
 
 			<div class="block prendre js-home-block-link">
 				<div class="content">
-					<h2>
+					<div class="h2">
 						<?php _e('Prendre'); ?>
 						<span><?php _e('un rendez-vous'); ?></span>
-					</h2>
+					</div>
 					<a href="mailto:visite@cridon-lyon.fr">+</a>
 				</div>						
 			</div>

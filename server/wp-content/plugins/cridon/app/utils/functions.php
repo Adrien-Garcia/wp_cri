@@ -72,7 +72,7 @@ function criGetLatestPost( $model ){
         'conditions' => 'p.post_status = "publish"',
         'order' => 'DESC'
     );
-    $result = criQueryPosts( $options );
+    $result = criQueryPosts( $options , "post_date");
     if( $result ){
         $latest = new stdClass();
         $latest->title   = $result->post_title;
@@ -494,7 +494,7 @@ function CriListMatieres()
 
     // query optoins
     $options = array(
-        'selects' => array('Matiere.id', 'Matiere.label'),
+        'selects' => array('Matiere.id', 'Matiere.label', 'Matiere.code'),
         'conditions' => array(
             'Matiere.displayed' => 1
         ),
@@ -505,7 +505,8 @@ function CriListMatieres()
     // format output
     if (is_array($items) && count($items) > 0) {
         foreach ($items as $item) {
-            $matieres[$item->id] = $item->label;
+            $matieres[$item->id]['label'] = $item->label;
+            $matieres[$item->id]['code'] = $item->code;
         }
     }
 
@@ -766,4 +767,15 @@ function updateEmptyDownloadUrlFieldsDocument() {
         $query .= ' ELSE `download_url` ';
         $wpdb->query($queryStart . $query . $queryEnd);
     }
+}
+
+//get affectation label
+/**
+ * Obtenir l'étiquette d'une affectation
+ * 
+ * @param integer $id
+ * @return string
+ */
+function getAffectation($id){
+    return isset(Config::$labelAffection[$id]) ? Config::$labelAffection[$id] : '';
 }

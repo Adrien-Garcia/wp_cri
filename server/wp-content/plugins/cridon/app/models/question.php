@@ -18,11 +18,9 @@ class Question extends MvcModel
 
     var $display_field = 'srenum';
     var $table         = '{prefix}question';
-    var $includes      = array('Competence','Competences','Affectation','Support', 'Notaire');
+    var $includes      = array('Competence','Competences','Support', 'Notaire');
     var $belongs_to    = array(
         'Competence' => array('foreign_key' => 'id_competence_1'),
-        //'Competence_2' => array('foreign_key' => 'id_competence_2'),
-        'Affectation' => array('foreign_key' => 'id_affectation'),
         'Support' => array('foreign_key' => 'id_support')
     );
     var $has_and_belongs_to_many = array(
@@ -413,7 +411,7 @@ class Question extends MvcModel
                 && isset($post[CONST_QUESTION_OBJECT_FIELD]) && $post[CONST_QUESTION_OBJECT_FIELD] != ''
                 && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && $post[CONST_QUESTION_SUPPORT_FIELD] != ''
                 && isset($post[CONST_QUESTION_MATIERE_FIELD]) && intval($post[CONST_QUESTION_MATIERE_FIELD]) > 0
-                && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && intval($post[CONST_QUESTION_COMPETENCE_FIELD]) > 0
+                && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && $post[CONST_QUESTION_COMPETENCE_FIELD] != ''
                 && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
             ) {
                 // prepare data
@@ -500,7 +498,7 @@ class Question extends MvcModel
                 if (!isset($post[CONST_QUESTION_MATIERE_FIELD]) || intval($post[CONST_QUESTION_MATIERE_FIELD] <= 0)) {
                     $response['error'][] = CONST_EMPTY_MATIERE_ERROR_MSG;
                 }
-                if (!isset($post[CONST_QUESTION_COMPETENCE_FIELD]) || intval($post[CONST_QUESTION_COMPETENCE_FIELD] <= 0)) {
+                if (!isset($post[CONST_QUESTION_COMPETENCE_FIELD]) || $post[CONST_QUESTION_COMPETENCE_FIELD] == '') {
                     $response['error'][] = CONST_EMPTY_COMPETENCE_ERROR_MSG;
                 }
                 return $response;

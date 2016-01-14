@@ -439,7 +439,7 @@ HEADER STYLES
 			border-bottom:solid 4px $vert;
 			margin-bottom: 10px;
 
-			h2{
+			.h2{
 				@extend .do-sm;
 				text-transform: uppercase;
 				color:$bleu;
@@ -477,7 +477,7 @@ HEADER STYLES
 
 			}
 
-			h2.open{
+			.h2.open{
 				color:$vert;
 				//text-decoration: none;
 				border-bottom:solid 16px $vert;
@@ -814,9 +814,10 @@ HEADER STYLES
                             }
                             span.fileButtonFront {
                                 background: $bleu;
-                                float: right;
                                 color:#FFF;
-
+                                float: none;
+                                right: 33px;
+                                position: absolute;
                             }
 						}
 
@@ -830,6 +831,7 @@ HEADER STYLES
 						    cursor: pointer;
 						    opacity: 0;
 						    filter: alpha(opacity=0);
+                            z-index: 1;
 						}
 
 						.sep{
@@ -935,7 +937,7 @@ HEADER STYLES
 
 				}
 
-				h2{ 
+				.h2{ 
 					position: relative;
 					z-index: 2000;
 					@extend .do-sm;
@@ -2149,9 +2151,8 @@ body.page-template-front-page{
 	
 }
 
-#content.archive-vie-cridon, #content.archive-flash{
+#content.archive-vie-cridon{
 	.block_right {width: 100% !important;}
-
 }
 
 
@@ -2354,7 +2355,7 @@ body.page-template-front-page{
 */
 
 
-#content.single{
+body.single, #content.single {
 
 	
 	#inner-content{
@@ -2698,7 +2699,6 @@ body.page-template-front-page{
 }
 
 #content.single-vie-cridon{
-
 	
 	#inner-content article .details .block_full, #inner-content article .details .block_right {width: 100%;}
 	
@@ -2707,12 +2707,15 @@ body.page-template-front-page{
 
 
 
-#content.page, #content.archive, #content.single {
+#content.page,
+#content.archive,
+#content.single,
+body.page #content,
+body.single #content {
 
 	padding: 60px 0 0 0;
 	background: #FFF;
-
-
+	
 
 	.breadcrumbs{
 		width: 100%;
@@ -2852,7 +2855,7 @@ body.page-template-front-page{
 
 			    h3 + p {
 			    	color:$vert;
-		            margin: 0 0 0 20px;
+		            margin: 0 0 10px 20px;
 		        }
 
 			    ul, ol{
@@ -4292,6 +4295,26 @@ body.page-template-front-page{
 							}
 						}
 					
+					}
+
+					div#regles-facturation{
+
+						h2{
+						    font-size: inherit; 
+						    text-transform: uppercase;
+						    padding: inherit;
+						    line-height: inherit;
+
+						    color:$bleu;
+						    @extend .do-bo;
+						    padding: 10px 0;
+						}
+
+						h3{
+							color:$vert;
+    						@extend .do-me;
+						}
+
 					}
 					
 

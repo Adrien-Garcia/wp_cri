@@ -22,7 +22,7 @@ class QuestionNotaire{
      * @var array 
      */
     public $entities = array(
-        'Document','Affectation','Competence','Matiere','Notaire','Support','Question'
+        'Document','Competence','Matiere','Notaire','Support','Question'
     );
     
     public $user;
@@ -57,7 +57,7 @@ class QuestionNotaire{
      */
     protected function getUrl(){
         $url = $_SERVER['REQUEST_URI'];
-        $regex = '/(\?[a-zA-Z=0-9]+|&[a-zA-Z=0-9]+)/';
+        $regex = '/(\?[a-zA-Z=0-9%]+|&[a-zA-Z=0-9%]+)/';
         return preg_replace($regex, '', $url);
     }
     /**
@@ -235,46 +235,83 @@ class QuestionNotaire{
     protected function generateOptionsQueries( $treated ){
         global $wpdb;
         $condTreated = (!is_array($treated)) ? 'Q.treated = '.$treated : 'Q.treated IN ('.implode(',',$treated).')';
+        $where = $this->getFilters();//Ajout des filtres
         //Requête principale
         //Au niveau du SELECT nous avons les noms des modèles mais ils doivent être aussi utilisés comme alias aussi
         //[LIMIT] sert à inserer le limit si nous avons une pagination sinon il sera remplacer par un vide('')
         $sql = '
-            SELECT Document,Question,Support,Matiere,Competence,Affectation,Notaire
-            FROM (SELECT Q.* 
+            SELECT Document,Question,Support,Matiere,Competence,Notaire
+            FROM (SELECT DISTINCT Q.* 
                     FROM '.$wpdb->prefix.'question AS Q
                     JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
                     JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
-                    WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" 
+                    LEFT JOIN cri_competence AS C ON  Q.id_competence_1 = C.id
+                    JOIN cri_matiere AS M ON M.code = C.code_matiere 
+                    WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'                    
                     ORDER BY Q.creation_date DESC 
                     [LIMIT]
                  ) AS Question
             LEFT JOIN '.$wpdb->prefix.'document AS Document ON (Document.id_externe = Question.id AND Document.type = "question" ) 
-            LEFT JOIN '.$wpdb->prefix.'affectation AS Affectation ON Affectation.id = Question.id_affectation 
             LEFT JOIN '.$wpdb->prefix.'support AS Support ON Support.id = Question.id_support 
             LEFT JOIN '.$wpdb->prefix.'competence AS Competence ON Competence.id = Question.id_competence_1 
             LEFT JOIN '.$wpdb->prefix.'matiere AS Matiere ON Matiere.code = Competence.code_matiere
             JOIN '.$wpdb->prefix.'notaire AS Notaire ON Notaire.client_number = Question.client_number
-                ';
+                 ' ;
         //Requête utilisée pour le total des éléments pour la pagination
         $sqlCount ='
-            SELECT COUNT(*) AS count 
-            FROM (SELECT Q.* 
-                    FROM '.$wpdb->prefix.'question AS Q
-                    JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
-                    JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
-                    WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" 
-                    ORDER BY Q.creation_date DESC 
-                 ) AS Question
-            LEFT JOIN '.$wpdb->prefix.'affectation AS Affectation ON Affectation.id = Question.id_affectation 
-            LEFT JOIN '.$wpdb->prefix.'support AS Support ON Support.id = Question.id_support 
-            LEFT JOIN '.$wpdb->prefix.'competence AS Competence ON Competence.id = Question.id_competence_1 
-            LEFT JOIN '.$wpdb->prefix.'matiere AS Matiere ON Matiere.code = Competence.code_matiere 
-            JOIN '.$wpdb->prefix.'notaire AS Notaire ON Notaire.client_number = Question.client_number
-                '; 
+        SELECT COUNT(Q.id) AS COUNT FROM (
+            SELECT DISTINCT Q.id 
+            FROM '.$wpdb->prefix.'question AS Q
+            JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
+            JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
+            LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1 
+            JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
+            WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'  
+            ORDER BY Q.creation_date DESC
+        ) AS Q
+                ';
         $options = array(
             'query' => $sql,
             'query_count' => $sqlCount
         );
         return $options;
+    }
+    
+    protected function getFilters(){
+        $where = array();
+        foreach ( $this->params as $k => $v ){
+            $v = esc_sql(strip_tags($v));
+            //Filtre par matière (id)
+            if( $k == 'm' && !empty($v) && is_numeric($v)){
+                $where[] = ' M.id = "'.$v.'"';continue;
+            }
+            
+            //Filtre par date de création
+            if( in_array($k,array('d1','d2'))&& !empty($v)){
+                $d = $this->convertToDateSql($v);
+                
+                if( !$d ) continue;
+                
+                if( $k == 'd1' ){
+                    $date = " Q.creation_date >= '{$d}'";
+                }else{
+                    $date = " Q.creation_date <= '{$d}'";                    
+                }
+                $where[] = $date;continue;
+            }
+            
+            //Filtre par nom de notaire           
+            if( $k == 'n' && !empty($v)){
+                $v = urldecode($v);    
+                $where[] = " CONCAT(N.first_name,N.last_name) LIKE '%{$v}%'";
+            }
+        }
+        return (empty($where)) ? '' : ' AND '.implode(' AND ',$where);
+    }
+    
+    protected function convertToDateSql($d,$format = 'd/m/Y'){
+        $d = urldecode($d);
+        $dt = DateTime::createFromFormat($format, $d);
+        return ($dt) ? $dt->format('Y-m-d') : false;
     }
 }

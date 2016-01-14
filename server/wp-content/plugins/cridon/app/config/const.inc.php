@@ -284,7 +284,7 @@ if ( !defined( 'CONST_EMAIL_ERROR_CORRUPTED_FILE' ) ) {
 
 // Error reporting for Exception
 if ( !defined( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION' ) ) {
-    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exeption a été levée avec le message d\'erreur suivante : "%s"' );
+    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exception a été levée avec le message d\'erreur suivante : "%s"' );
 }
 // Appel && Courrier support id
 if ( !defined( 'CONST_SUPPORT_APPEL_ID' ) ) {
@@ -334,7 +334,7 @@ if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
 
 // Add Question Form
 if ( !defined( 'CONST_QUESTION_MATIERE_DOCUMENTATION_ID' ) ) {
-    define('CONST_QUESTION_MATIERE_DOCUMENTATION_ID', 1);
+    define('CONST_QUESTION_MATIERE_DOCUMENTATION_ID', 9);
 }
 if ( !defined( 'CONST_QUESTION_SUPPORT_FIELD' ) ) {
     define( 'CONST_QUESTION_SUPPORT_FIELD', 'question_support' );

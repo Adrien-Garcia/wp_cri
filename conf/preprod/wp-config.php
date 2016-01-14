@@ -104,5 +104,11 @@ if ( !defined('COOKIE_DOMAIN') )
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
 
+
+$env = getenv('ENV');
+if (empty($env)) {
+	putenv('ENV=PREPROD');
+}
+
 /** Réglage des variables de WordPress et de ses fichiers inclus. */
 require_once(ABSPATH . 'wp-settings.php');

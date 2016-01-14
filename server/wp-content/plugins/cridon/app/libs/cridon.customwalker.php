@@ -108,10 +108,10 @@ class CriCustomWalker extends Walker_Nav_Menu
                     $output .= '<li>
                                     <div class="block rechercher js-home-block-link">
                                         <div class="content">
-                                            <h2>
+                                            <div class="h2">
                                                 ' . $this->rechercherBlocTitle . '
                                                 <span>' . $this->rechercherBlocSubTitle . '</span>
-                                            </h2>
+                                            </div>
                                             <a href="' . $this->rechercherAssocPagelink . '">+</a>
                                         </div>
                                     </div>
@@ -121,10 +121,10 @@ class CriCustomWalker extends Walker_Nav_Menu
                     $output .= '<li>
                                     <div class="block acceder js-home-block-link">
                                         <div class="content">
-                                            <h2>
+                                            <div class="h2">
                                                 ' . $this->accederBlocTitle . '
                                                 <span>' . $this->accederBlocSubTitle . '</span>
-                                            </h2>
+                                            </div>
                                             <a href="' . $this->accederAssocPagelink . '">+</a>
                                         </div>
                                     </div>
@@ -134,10 +134,10 @@ class CriCustomWalker extends Walker_Nav_Menu
                     $output .= '<li>
                                     <div class="block consulter layer-posez-question_open js-question-open" >
                                         <div class="content">
-                                            <h2>
+                                            <div class="h2">
                                                 ' . $this->consulterBlocTitle . '
                                                 <span>' . $this->consulterBlocSubTitle . '</span>
-                                            </h2>
+                                            </div>
                                             <a href="' . $this->consulterAssocPagelink . '">+</a>
                                         </div>
                                     </div>

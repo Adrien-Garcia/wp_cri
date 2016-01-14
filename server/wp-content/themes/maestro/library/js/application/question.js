@@ -231,6 +231,8 @@ App.Question = {
             });
         } else {
             this.$buttonQuestionDocumentation.on('click', function(e) {
+                self.$popupOverlay.popup('show');
+                self.openTabQuestionMaQuestion(false);
                 self.eventButtonDocumentationClick($(this));
             });
 
@@ -446,6 +448,8 @@ App.Question = {
                 this.$submitQuestion.attr('disabled',false);
                 this.$popupOverlay.popup('hide');
                 this.$formQuestion[0].reset();
+                this.$zoneQuestionSupport.removeClass(this.selectedClass);
+                this.openTabQuestionConsultation();
             }).bind(this), 1500);
 
         }
