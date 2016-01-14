@@ -128,7 +128,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 			<li>
 				<span class="titre">Matière :</span>
                 <?php
-                $matieres = CriListMatieres();
+                $matieres = getMatieresByQuestionNotaire();
                 ?>
 				<select name="">
 					<option value="">Selectionnez une matière</option>
