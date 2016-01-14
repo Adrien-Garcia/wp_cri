@@ -841,3 +841,7 @@ add_filter( 'post_link', 'append_custom_link', 10, 2 );
 function getAffectation($id){
     return isset(Config::$labelAffection[$id]) ? Config::$labelAffection[$id] : '';
 }
+
+function getMatieresByQuestionNotaire(){
+    return mvc_model('Matiere')->getMatieresByNotaireQuestion();
+}

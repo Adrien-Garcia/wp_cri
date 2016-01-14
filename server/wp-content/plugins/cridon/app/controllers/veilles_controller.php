@@ -25,7 +25,7 @@ class VeillesController extends MvcPublicController {
             'Post.post_status'=>'publish'            
         );
         //All Matiere
-        $matieres = mvc_model('Matiere')->getMatiereByModelPost($this->model);
+        $matieres = mvc_model('Matiere')->getMatieresByModelPost($this->model);
         //Filter by Matiere
         if( isset($_GET['matiere']) && !empty($_GET['matiere']) ){
             $q = esc_sql(strip_tags(urldecode($_GET['matiere'])));
