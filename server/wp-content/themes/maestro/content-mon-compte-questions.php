@@ -10,6 +10,7 @@
 	<?php if(count($pending) != 0): ?>
 	
 	<ul>
+        <?php $juristes = QuestionEntity::getJuristeAndAssistantFromQuestions($pending) ?>
         <?php foreach ($pending as $index => $question) : ?>
 		<li>
             <?php
@@ -45,9 +46,30 @@
 				</li>
 				<li>
                     <?php
-                        $status = "En cours de traitement";
+                        $status = "Status indisponible";
+                        switch ($question->question->id_affectation) {
+                            case "1" :
+                                $status = "Question transmise";
+                                break;
+                            case "2" :
+                                $status = "En cours de traitement";
+                                break;
+                            case "3" :
+                                $status = "En attente de renseignements complémentaires";
+                                break;
+                            case "4" :
+                                $status = "Question répondue";
+                                break;
+                        }
+                    if ( ($question->question->id_affectation == 2 || $question->question->id_affectation == 4)
+                        && $juristes[$question->question->id]->juriste_code != null
+                    ) {
+                        $status .= '<span class="person">par ' . ($juristes[$question->question->id]->juriste_name != null ? $juristes[$question->question->id]->juriste_name : $juristes[$question->question->id]->juriste_code) . '</span>';
+                    }
                     ?>
-					<span class="status"><?php echo $status ; ?></span>
+
+
+                    <span class="status"><?php echo $status ; ?></span>
 				</li>
 				<li>
 					<span class="delai"><?php echo $question->support->label; ?></span>
