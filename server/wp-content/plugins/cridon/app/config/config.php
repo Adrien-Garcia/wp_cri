@@ -162,7 +162,7 @@ class Config {
     public static $notificationForSubscribersNotaries = array( 'veille' );
     public static $mailBodyNotification  = array(
         'subject'   => 'Publication: %s',
-        'title'     => '<h1>%s</h1>',
+        'title'     => '%s',
         'date'      => '%s',
         'excerpt'   => '%s',
         'content'   => '%s',
