@@ -419,6 +419,10 @@ if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
     define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
 }
 
+if ( !defined( 'CONST_QUEST_ANSWERED' ) ) {
+    define( 'CONST_QUEST_ANSWERED', 4 );
+}
+
 // import GED
 if ( !defined( 'CONST_IMPORT_DOCUMENT_ORIGINAL_PATH' ) ) {
     $uploadDir = wp_upload_dir();
