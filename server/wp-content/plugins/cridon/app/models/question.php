@@ -257,7 +257,7 @@ class Question extends MvcModel
         $options               = array();
         $options['table']      = 'question';
         $options['attributes'] = 'srenum, client_number, sreccn, id_support, id_competence_1, `resume`, id_affectation, juriste, ';
-        $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, treated, creation_date, date_modif, ';
+        $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, creation_date, date_modif, ';
         $options['attributes'] .= 'hour_modif, transmis_erp, confidential, content';
 
         while ($data = $adapter->fetchData()) {
@@ -592,7 +592,6 @@ class Question extends MvcModel
         $value .= empty($wishDate) ? 'NULL, ' : "'" . $wishDate . "', "; // wish_date
         $value .= empty($realDate) ? 'NULL, ' : "'" . $realDate . "', "; // real_date
         $value .= "'" . (isset($data[$adapter::QUEST_YUSER]) ? esc_sql($data[$adapter::QUEST_YUSER]) : '') . "', "; // yuser
-        $value .= "'" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
         $value .= "'" . (($updatedDate != '') ? $updatedDate : date('Y-m-d')) . "', "; // creation_date
         $value .= empty($updatedDate) ? 'NULL, ' : "'" . $updatedDate . "', "; // date_modif
         $value .= empty($updatedHour) ? 'NULL, ' : "'" . $updatedHour . "', "; // hour_modif
@@ -800,8 +799,6 @@ class Question extends MvcModel
                         if (isset($data[$adapter::QUEST_YUSER])) {
                             $query .= " yuser = '" . esc_sql($data[$adapter::QUEST_YUSER]) . "', ";
                         }
-
-                        $query .= " treated = '" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
 
                         $query .= " date_modif = " . (empty($updatedDate) ? "NULL," : "'".$updatedDate."'") . ", ";
                         $query .= " hour_modif = " . (empty($updatedHour) ? "NULL," : "'".$updatedHour."'") . ", ";

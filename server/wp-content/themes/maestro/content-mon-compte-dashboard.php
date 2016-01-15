@@ -55,7 +55,7 @@
     <ul>
         <?php foreach($q as $question) : ?>
             <?php if ( $i >= 3 ) { break; } ?>
-        <?php $state = ($question->question->treated == 0 || $question->question->treated == 1) ? 'p' : 'a'; ?>
+        <?php $pending = ($question->question->id_affectation < CONST_QUEST_ANSWERED); ?>
             <li class="js-home-block-link js-account-questions-button">
                 <?php
                 $date = date_create_from_format('Y-m-d', $question->question->creation_date);
@@ -85,12 +85,7 @@
                         <p><?php echo $resume ; ?></p>
                     </li>
                     <li>
-                        <?php if ($state == 'p') : ?>
-                            <span class="en-cours">en cours</span>
-                        <?php else: ?>
-                            <span class="repondu">répondu</span>
-                        <?php endif; ?>
-
+                        <span class="<?php echo $pending ? 'en-cours' : 'repondu' ?>"><?php echo Config::$labelAffection[$question->question->id_affectation] ?></span>
                     </li>
                 </ul>
             </li>
