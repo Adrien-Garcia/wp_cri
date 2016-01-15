@@ -16,3 +16,6 @@
 
 <meta name="title" content="<?php echo $meta_title?>" />
 <meta name="description" content="<?php echo $meta_description?>" />
+<?php if( !empty($canonical) ) : ?>
+<link rel="canonical" href="<?php echo $canonical ?>" />
+<?php endif; ?>

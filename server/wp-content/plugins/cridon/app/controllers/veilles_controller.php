@@ -34,20 +34,22 @@ class VeillesController extends MvcPublicController {
     }
 
     public  function addMetaHeader() {
-        $meta_title = $meta_description = '';
+        $meta_title = $meta_description = $canonical = '';
         if( isset($_GET['matiere']) && !empty($_GET['matiere']) && is_array($_GET['matiere']) ){
             if(count($_GET['matiere']) === 1){
                 $matiere = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($_GET['matiere'][0])));
                 if($matiere){
                     $meta_title = $matiere->meta_title;
                     $meta_description = $matiere->meta_description;
+                    $canonical = mvc_public_url(array('controller' => MvcInflector::tableize($matiere->__model_name),'id' => $matiere->virtual_name));
                 }
             }
         }
         $options = array(
             'locals' => array(
                 'meta_title'        => $meta_title,
-                'meta_description'  => $meta_description                
+                'meta_description'  => $meta_description,
+                'canonical'         => $canonical
             )
         );
         $this->render_view_with_view_vars('veilles/meta', $options);
