@@ -46,22 +46,8 @@
 				</li>
 				<li>
                     <?php
-                        $status = "Status indisponible";
-                        switch ($question->question->id_affectation) {
-                            case "1" :
-                                $status = "Question transmise";
-                                break;
-                            case "2" :
-                                $status = "En cours de traitement";
-                                break;
-                            case "3" :
-                                $status = "En attente de renseignements complémentaires";
-                                break;
-                            case "4" :
-                                $status = "Question répondue";
-                                break;
-                        }
-                    if ( ($question->question->id_affectation == 2 || $question->question->id_affectation == 4)
+                        $status = isset(Config::$labelAffection[$question->question->id_affectation]) ? Config::$labelAffection[$question->question->id_affectation] : "Status indisponible";
+                    if ( ($question->question->id_affectation == 2 || $question->question->id_affectation == CONST_QUEST_ANSWERED)
                         && $juristes[$question->question->id]->juriste_code != null
                     ) {
                         $status .= '<span class="person">par ' . ($juristes[$question->question->id]->juriste_name != null ? $juristes[$question->question->id]->juriste_name : $juristes[$question->question->id]->juriste_code) . '</span>';
@@ -205,7 +191,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 				<li>
 					<!--span class="answer">répondu</span!-->
                     <?php if (! empty($sAdate)) : ?>
-					<span class="status">répondu le <?php echo $sAdate ; ?></span>
+					<span class="status"><?php echo Config::$labelAffection[CONST_QUEST_ANSWERED] ?> le <?php echo $sAdate ; ?></span>
                     <?php endif; ?>
                     <span class="person">par <?php echo $juristes[$question->question->id]->juriste_name != null ? $juristes[$question->question->id]->juriste_name : $juristes[$question->question->id]->juriste_code ?></span>
 				</li>

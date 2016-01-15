@@ -229,12 +229,12 @@ class QuestionNotaire{
     /**
      * Gérer les options pour la requête
      * 
-     * @param type $treated
+     * @param type $status
      * @return array
      */
-    protected function generateOptionsQueries( $treated ){
+    protected function generateOptionsQueries( $status ){
         global $wpdb;
-        $condTreated = (!is_array($treated)) ? 'Q.id_affectation = '.$treated : 'Q.id_affectation IN ('.implode(',',$treated).')';
+        $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
         $where = $this->getFilters();//Ajout des filtres
         //Requête principale
         //Au niveau du SELECT nous avons les noms des modèles mais ils doivent être aussi utilisés comme alias aussi
@@ -247,7 +247,7 @@ class QuestionNotaire{
                     JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
                     LEFT JOIN cri_competence AS C ON  Q.id_competence_1 = C.id
                     JOIN cri_matiere AS M ON M.code = C.code_matiere 
-                    WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'                    
+                    WHERE '.$condAffectation.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'
                     ORDER BY Q.creation_date DESC 
                     [LIMIT]
                  ) AS Question
@@ -266,7 +266,7 @@ class QuestionNotaire{
             JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
             LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1 
             JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
-            WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'  
+            WHERE '.$condAffectation.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'
             ORDER BY Q.creation_date DESC
         ) AS Q
                 ';
