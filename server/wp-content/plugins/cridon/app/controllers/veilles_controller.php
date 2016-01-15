@@ -15,19 +15,8 @@
 class VeillesController extends MvcPublicController {
     
     public function index() {
-        $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
-        //Set explicit join
-        $this->params['joins'] = array(
-            'Post','Matiere'
-        );
-        //Set conditions
-        $this->params['conditions'] = array(
-            'Post.post_status'=>'publish'            
-        );
-        //Order by date publish
-        $this->params['order'] = 'Post.post_date DESC' ;
-        $collection = $this->model->paginate($this->params);
-        
+        $collection = $this->model->getList($this->params);
+
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
     }

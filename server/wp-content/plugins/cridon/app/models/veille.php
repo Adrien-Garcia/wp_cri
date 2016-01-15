@@ -37,6 +37,28 @@ class Veille extends MvcModel {
         );
         return mvc_model('Document')->find($options);
     }
+
+    public function getList($params){
+        $params['per_page'] = !empty($params['per_page']) ? $params['per_page'] : DEFAULT_POST_PER_PAGE;
+        //Set explicit join
+        $params['joins'] = array(
+            'Post','Matiere'
+        );
+        //Set conditions
+        if (isset($params['conditions'])) {
+            $params['conditions'] = array_merge($params['conditions'], array(
+                'Post.post_status' => 'publish'
+            ));
+        } else {
+            $params['conditions'] = array(
+                'Post.post_status' => 'publish'
+            );
+        }
+        //Order by date publish
+        $params['order'] = 'Post.post_date DESC' ;
+        /** @var $this->model veille  */
+        return Veille::paginate($params);
+    }
 }
 
 ?>
