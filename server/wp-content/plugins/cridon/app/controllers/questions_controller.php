@@ -13,7 +13,9 @@ class QuestionsController extends MvcPublicController
             $ret = $resp;
            // $ret
         } elseif(!$resp) {
-            $ret['error'][] = CONST_QUESTION_ACTION_ERROR;
+            $ret = array(
+                'error' => array( CONST_QUESTION_ACTION_ERROR )
+            );
         }
 
         echo json_encode($ret);
