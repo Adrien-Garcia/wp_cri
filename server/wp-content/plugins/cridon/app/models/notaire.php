@@ -1620,9 +1620,9 @@ class Notaire extends MvcModel
         $object = $this->getUserConnectedData();
 
         return (isset($object->category)
-                && strtolower($object->category) === CONST_OFFICES_ROLE
-                && isset($object->fonction->id)
-                && !in_array($object->fonction->id, Config::$cannotAccessFinance)
+                && (strcasecmp($object->category, CONST_OFFICES_ROLE) === 0)
+                && isset($object->id_fonction)
+                && in_array($object->id_fonction, Config::$canAccessFinance)
         ) ? true : false;
     }
 

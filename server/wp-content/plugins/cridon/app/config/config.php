@@ -135,11 +135,15 @@ class Config {
     );
 
     // list of notaire functions cannot access finances
-    public static $cannotAccessFinance = array(
+    public static $canAccessFinance = array(
+        CONST_NOTAIRE_FONCTION,
         CONST_NOTAIRE_ASSOCIE,
         CONST_NOTAIRE_ASSOCIEE,
-        CONST_NOTAIRE_SALARIE,
-        CONST_NOTAIRE_SALARIEE
+        CONST_NOTAIRE_GERANT,
+        CONST_NOTAIRE_GERANTE,
+        CONST_NOTAIRE_SUPLEANT,
+        CONST_NOTAIRE_SUPLEANTE,
+        CONST_NOTAIRE_ADMIN,
     );
 
     public static $titleMetaboxDocument = 'Associer des documents';// Titre du metabox pour l'ajout de document

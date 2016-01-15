@@ -43,15 +43,15 @@
     }
 ?>
 <body <?php body_class($bodyClass); ?>>
+<?php
+/*
+ * Google Analytics
+ * Ne pas déplacer cette ligne.
+ * Ne rien mettre avant
+ */
+echo get_template_part("content","ga");
+?>
 
-	<?php
-	/*
-	 * Google Analytics
-	 * Ne pas déplacer cette ligne.
-	 * Ne rien mettre avant
-	 */
-	echo get_template_part("content","ga");
-	?>
 
 	<div id="container">
 		<div id="posez-questions">
