@@ -27,7 +27,7 @@
             font-size:12px;
         }
 
-        h1 {color:#009999; font-weight:normal; font-size:28px; text-transform:uppercase; line-height:20px; margin:15px 0px 5px 0px; padding:0px; font-family:'Dosis', Arial, Helvetica, sans-serif;}
+        h1 {color:#009999; font-weight:normal; font-size:28px; text-transform:uppercase; line-height:25px; margin:15px 0px 5px 0px; padding:0px; font-family:'Dosis', Arial, Helvetica, sans-serif;}
         h2 {font-size: 20px; line-height: 18px; text-transform: uppercase;  margin:10px 0px; color:#2e4867; font-weight:normal; padding:0px; font-family:'Dosis', Arial, Helvetica, sans-serif;}
         h3 {font-size: 20px; line-height: 18px; text-transform: uppercase; margin:10px 0px 2px 20px; color:#009999; font-weight:normal; padding:0px; font-family: 'Dosis', Arial, Helvetica, sans-serif;}
 
