@@ -366,3 +366,26 @@ if( !is_admin() ){
     }
 }
 //End Match wp_posts and WP_MVC show action
+
+/**
+ * @param array $caps
+ * @param string $cap
+ * @param int $user_id
+ * @param mixed $args
+ * @return null|array
+ */
+function custom_map_meta_cap( $caps, $cap, $user_id, $args ) {
+    global $current_user;
+
+    if (is_user_logged_in() // user is connected
+        && is_array($current_user->roles) // roles must be an array
+        && count($current_user->roles) == 0 // no roles for notary by default
+    ) {
+        if (isset($caps[0]) && in_array($caps[0], Config::$authorizedCapsForNotary)) {
+            return;
+        }
+    }
+
+    return $caps;
+}
+add_filter( 'map_meta_cap', 'custom_map_meta_cap', 10, 4 );
