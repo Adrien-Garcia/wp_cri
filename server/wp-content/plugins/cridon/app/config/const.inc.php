@@ -574,3 +574,8 @@ if ( !defined( 'CONST_ADMIN_NB_ITEM_PERPAGE' ) ) {
 if ( !defined( 'CONST_NOTARY_PWD' ) ) {
     define( 'CONST_NOTARY_PWD', 'cridon-jetpulp-2016' );
 }
+
+// admins Cridon role
+if ( !defined( 'CONST_ADMINCRIDON_ROLE' ) ) {
+    define( 'CONST_ADMINCRIDON_ROLE', 'admincridon' );
+}

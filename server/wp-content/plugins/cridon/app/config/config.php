@@ -306,4 +306,10 @@ class Config {
         4 => 'Question répondue'
     );
     //End label
+
+    // admins Cridon custom capabilities
+    public static $authorizedCapsForAdminsCridon = array(
+        'read_private_posts',
+        'read_private_pages',
+    );
 }
