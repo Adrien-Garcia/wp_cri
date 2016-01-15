@@ -245,8 +245,8 @@ class QuestionNotaire{
                     FROM '.$wpdb->prefix.'question AS Q
                     JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
                     JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
-                    LEFT JOIN cri_competence AS C ON  Q.id_competence_1 = C.id
-                    JOIN cri_matiere AS M ON M.code = C.code_matiere 
+                    LEFT JOIN '.$wpdb->prefix.'competence AS C ON  Q.id_competence_1 = C.id
+                    JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
                     WHERE '.$condAffectation.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'
                     ORDER BY Q.creation_date DESC 
                     [LIMIT]
@@ -263,8 +263,8 @@ class QuestionNotaire{
             SELECT DISTINCT Q.id 
             FROM '.$wpdb->prefix.'question AS Q
             JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
-            JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
-            LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1 
+            JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
+            LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1
             JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
             WHERE '.$condAffectation.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'
             ORDER BY Q.creation_date DESC
