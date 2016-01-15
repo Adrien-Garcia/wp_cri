@@ -34,7 +34,8 @@ class VeillesController extends MvcPublicController {
     }
 
     public  function addMetaHeader() {
-        $meta_title = $meta_description = $canonical = '';
+        $meta_title = $meta_description = '';
+        $canonical = mvc_public_url(array('controller' => MvcInflector::tableize($this->model->name)));
         if( isset($_GET['matiere']) && !empty($_GET['matiere']) && is_array($_GET['matiere']) ){
             if(count($_GET['matiere']) === 1){
                 $matiere = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($_GET['matiere'][0])));
