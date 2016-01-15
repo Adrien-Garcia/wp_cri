@@ -400,7 +400,8 @@ class Question extends MvcModel
 
         //Not access form, only for Notaire connected
         if( !is_user_logged_in() || !CriIsNotaire() ){
-            return false;
+            $response['error'][] = is_user_logged_in() ? 'Vous n\'êtes pas autorisé à effectuer cette action' : 'Veuillez vous re-connecter';
+            return $response;
         }
         try {
             // notaire data
@@ -482,7 +483,7 @@ class Question extends MvcModel
                         $response['error'][] = sprintf(CONST_QUESTION_FILE_SIZE_ERROR,
                                            (CONST_QUESTION_MAX_FILE_SIZE / 1000000) . 'M');
 
-                        return $response['error'];
+                        return $response;
                     }
                 }
             }else{
