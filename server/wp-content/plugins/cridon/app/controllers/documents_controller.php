@@ -4,7 +4,7 @@ class DocumentsController extends MvcPublicController {
     public function download(){
         $document = $this->model->find_one_by_id( $this->params['id'] );
         if( empty( $document ) ){
-            $this->generateError();
+            $this->redirectTo404();
         }
         //Check if it's a Notaire and connected
         if( is_user_logged_in() && CriIsNotaire() ){
@@ -15,7 +15,7 @@ class DocumentsController extends MvcPublicController {
         $model = mvc_model( $document->type );
         //No model check
         if( empty( $model ) ){
-            $this->generateError();
+            $this->redirectTo404();
         }
         if( ($model->name == 'Question') || in_array($document->type,Config::$accessDowloadDocument) ){
             $object = $model->find_one_by_id( $document->id_externe );
@@ -30,22 +30,7 @@ class DocumentsController extends MvcPublicController {
         $filename = $tmp[ count( $tmp ) - 1 ];
         $this->output_file($file, $filename);
     }
-    
-    /**
-     * Generate error
-     * 
-     * @global \WP_Query $wp_query
-     */
-    private function generateError(){
-        global $wp_query;
-        header("HTTP/1.0 404 Not Found - Archive Empty");
-        $wp_query->set_404();
-        if( file_exists(TEMPLATEPATH.'/404.php') ){
-            require TEMPLATEPATH.'/404.php';
-        }
-        exit;
-    }
-    
+
     /*
      * Downloading file
      * 
@@ -154,15 +139,15 @@ class DocumentsController extends MvcPublicController {
         if( in_array($document->type,Config::$accessDowloadDocument) && !empty( $notaire ) ){
             return true;
         }elseif(in_array($document->type,Config::$accessDowloadDocument)){
-            $this->generateError();
+            redirectTo404();
         //Check if question exist, document file path is valid
         }elseif( empty( $notaire ) || empty( $object ) || empty( $document->file_path ) ){
-            $this->generateError();
+            redirectTo404();
         }        
         //Check if question is created by current user
         //$objet = Question MvcModelObject
         if( $object->client_number != $notaire->client_number ){
-            $this->generateError();
+            redirectTo404();
         }
         return true;
     }
@@ -173,7 +158,7 @@ class DocumentsController extends MvcPublicController {
         if(preg_match(Config::$confPublicDownloadURL['pattern'], $decrypted,$matches)){
             $document = $this->model->find_one_by_id($matches[1]);
             if( !$document && !empty($document->file_path) ){
-                $this->generateError();
+                redirectTo404();
             }
             //Let's begin download
             $uploadDir = wp_upload_dir();
@@ -184,7 +169,7 @@ class DocumentsController extends MvcPublicController {
             //download
             $this->output_file($file, $filename);
         }else{
-            $this->generateError();
+            redirectTo404();
         }
     }
 }
