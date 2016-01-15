@@ -81,6 +81,7 @@
                         } else {
                             $resume = wp_trim_words($question->question->resume, 18 );
                         }
+                        $resume = stripslashes($resume);
                         ?>
                         <p><?php echo $resume ; ?></p>
                     </li>
