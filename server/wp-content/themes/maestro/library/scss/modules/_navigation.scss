@@ -90,7 +90,7 @@ and more scalable.
 
 		}
 
-		&:hover, &.current-menu-parent > a {
+		&:hover, &.current-menu-parent > a, &.current-menu-ancestor > a {
 
 			color:$rouge !important;
 
@@ -428,6 +428,7 @@ and more scalable.
 
     							&:hover{
     								margin-left: 0;
+    								color:$bleu !important;
 
     								&:before{background: #FFF;}
     							}
