@@ -30,9 +30,28 @@ class VeillesController extends MvcPublicController {
         
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
+        add_action('wp_head', array($this, 'addMetaHeader') );//hook 
     }
 
-
+    public  function addMetaHeader() {
+        $meta_title = $meta_description = '';
+        if( isset($_GET['matiere']) && !empty($_GET['matiere']) && is_array($_GET['matiere']) ){
+            if(count($_GET['matiere']) === 1){
+                $matiere = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($_GET['matiere'][0])));
+                if($matiere){
+                    $meta_title = $matiere->meta_title;
+                    $meta_description = $matiere->meta_description;
+                }
+            }
+        }
+        $options = array(
+            'locals' => array(
+                'meta_title'        => $meta_title,
+                'meta_description'  => $meta_description                
+            )
+        );
+        $this->render_view_with_view_vars('veilles/meta', $options);
+    }
     public function show() {
         if ( !CriIsNotaire() ) {
             CriRefuseAccess();
