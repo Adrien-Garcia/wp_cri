@@ -306,4 +306,8 @@ class Config {
         4 => 'Question répondue'
     );
     //End label
+    
+    //Listing veille
+    public static $titleH1ListingVeille = 'Veille juridique';
+    //End listing
 }

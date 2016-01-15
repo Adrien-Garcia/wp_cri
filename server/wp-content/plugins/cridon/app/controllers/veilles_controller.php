@@ -39,6 +39,11 @@ class VeillesController extends MvcPublicController {
                 }
             }
         }
+        if($matiere){
+            $this->set('h1', $matiere->label);
+        } else {
+            $this->set('h1', Config::$titleH1ListingVeille);
+        }
         //selected matiere
         $this->set('matiere', $matiere);
         $this->set('objects', $collection['objects']);
