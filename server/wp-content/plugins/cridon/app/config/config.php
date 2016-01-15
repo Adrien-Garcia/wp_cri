@@ -308,6 +308,10 @@ class Config {
     //End label
     
     //Listing veille
-    public static $titleH1ListingVeille = 'Veille juridique';
+    public static $listingVeille = array(
+        'h1'                => 'Veille juridique',
+        'meta_title'        => 'Veille juridique',
+        'meta_description'  => 'Veille juridique'
+    );
     //End listing
 }

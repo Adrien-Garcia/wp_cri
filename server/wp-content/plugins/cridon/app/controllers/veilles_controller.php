@@ -42,7 +42,7 @@ class VeillesController extends MvcPublicController {
         if($matiere){
             $this->set('h1', $matiere->label);
         } else {
-            $this->set('h1', Config::$titleH1ListingVeille);
+            $this->set('h1', Config::$listingVeille['h1']);
         }
         //selected matiere
         $this->set('matiere', $matiere);
@@ -52,7 +52,8 @@ class VeillesController extends MvcPublicController {
     }
 
     public  function addMetaHeader() {
-        $meta_title = $meta_description = '';//initialize
+        $meta_title = Config::$listingVeille['meta_title'];
+        $meta_description = Config::$listingVeille['meta_description'];
         $canonical = mvc_public_url(array('controller' => MvcInflector::tableize($this->model->name)));
         //unique matiere
         if( self::$currentMatiereSelected !== null ){
