@@ -55,7 +55,7 @@ function save_post_in_table( $post_ID, $post ){
  * @return mixed conf array or false if not found
  */
 function getRelatedContentConfInReferer($post_ID) {
-    if( $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ) {
+    if( isset($_POST[ 'post_type' ]) && $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ) {
         if (isset($_POST['_wp_http_referer'])) {
             $http = explode('cridon_type=', $_POST['_wp_http_referer']);
             if (count($http) == 2) {
@@ -645,15 +645,17 @@ function init_ui_meta_boxes( $post ){
     if( !empty( $current ) && !empty( $post ) ){
         $obj = findBy( $current[ 'name' ], $post->ID );
         $container->setModel($current[ 'model' ]);
-        $cls = new stdClass();
-        $cls->id = $obj->id;
-        $container->setObject($cls);
+        if( $obj ){
+            $cls = new stdClass();
+            $cls->id = $obj->id;
+            $container->setObject($cls);            
+        }
     }
     $container->create();
 }
 
 function after_save_post_for_ui( $post_ID ){ 
-    if( $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ){
+    if( isset($_POST[ 'post_type' ]) && $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ){
         if( isset( $_POST[ '_wp_http_referer' ] ) ){
             $http = explode( 'cridon_type=', $_POST[ '_wp_http_referer' ] );
             if( count( $http ) == 2 ){
