@@ -327,7 +327,7 @@ class Notaire extends MvcModel
             // prepare data
             while ($data = $adapter->fetchData()) {
                 if (isset( $data[$adapter::NOTAIRE_CRPCEN] )) {
-                    $data = trim($data[$adapter::NOTAIRE_CRPCEN]);
+                    $data[$adapter::NOTAIRE_CRPCEN] = trim($data[$adapter::NOTAIRE_CRPCEN]);
                     if (!empty($data[$adapter::NOTAIRE_CRPCEN])) {
                         // the only unique key available is the "crpcen + web_password"
                         $uniqueKey = $data[$adapter::NOTAIRE_CRPCEN] . $data[$adapter::NOTAIRE_PWDWEB];
