@@ -402,7 +402,7 @@ function CriIsNotaire() {
     $notaireData = mvc_model('notaire')->find_one_by_id_wp_user($current_user->ID);
 
     // user logged in is notaire
-    if (is_user_logged_in() && $notaireData->id) {
+    if (is_user_logged_in() && $notaireData && $notaireData->id) {
         return true;
     }
 
