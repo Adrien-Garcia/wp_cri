@@ -268,6 +268,7 @@ if ( is_admin() ) {//only in admin
     checkUserAuthorization();
 }
 function checkUserAuthorization(){
+    require_once ABSPATH . WPINC . '/pluggable.php';
     $user = wp_get_current_user();
     $capabilities = $user->get_role_caps();//Get user capability
     $aIndex = $aEdit = $aAdd = $aDelete = array();
