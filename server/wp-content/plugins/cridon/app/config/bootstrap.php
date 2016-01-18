@@ -40,12 +40,7 @@ function save_post_in_table( $post_ID, $post ){
             $aAdditionalFields['id_parent'] = $_POST['id_parent'];
         }
         if (isset($_POST['custom_post_date'])) {
-            $aAdditionalFields['custom_post_date'] = '';
-            // convert date to mysql format
-            if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $_POST['custom_post_date'])) {
-                $dateTime                  = date_create_from_format('d/m/Y', $_POST['custom_post_date']);
-                $aAdditionalFields['custom_post_date'] = $dateTime->format('Y-m-d');
-            }
+            $aAdditionalFields['custom_post_date'] = $_POST['custom_post_date'];
         }
         updateRelatedContent( $model , $aAdditionalFields);
         
