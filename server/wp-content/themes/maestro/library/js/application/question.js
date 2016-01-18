@@ -214,6 +214,8 @@ App.Question = {
 
             this.$fileQuestionReset.on('click', function (e) {
                 self.eventFileReset($(this), e);
+                e.preventDefault();
+                return false;
             });
         }
 
@@ -283,17 +285,20 @@ App.Question = {
         var self = this;
         if (reset != undefined) {
             var file = reset.siblings(this.fileQuestionSelector);
+            file.replaceWith(file = file.clone(true));
             file.wrap('<form>').closest('form').get(0).reset();
             file.unwrap();
             this.eventFileChange(file);
         } else {
             this.$fileQuestion.each(function(i,c) {
                 var file = $(c);
+                file.replaceWith(file = file.clone(true));
                 file.wrap('<form>').closest('form').get(0).reset();
                 file.unwrap();
                 self.eventFileChange(file);
             });
         }
+        this.$fileQuestion = $(this.fileQuestionSelector);
     },
 
     eventFileChange: function (fileInput) {
