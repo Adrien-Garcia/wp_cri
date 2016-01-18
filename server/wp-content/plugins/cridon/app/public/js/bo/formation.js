@@ -23,7 +23,9 @@
         }
 
         if ($('#custom_post_date').length > 0) {
-            $('#custom_post_date').datepicker();
+            $('#custom_post_date').datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
         }
     }
 
