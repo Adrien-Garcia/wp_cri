@@ -124,7 +124,7 @@ class Document extends MvcModel {
             $Directory = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH);
             $Iterator = new RecursiveIteratorIterator($Directory);
             //remove the ending symbol $ as a txt file contains a '0' behind the extension...
-            $documents = new RegexIterator($Iterator, '/^.+\.'.CONST_IMPORT_FILE_TYPE.'/i', RecursiveRegexIterator::GET_MATCH);
+            $documents = new RegexIterator($Iterator, '/^.+\.'.CONST_IMPORT_FILE_TYPE.'$/i', RecursiveRegexIterator::GET_MATCH);
     
             // parse la liste des fichiers
             foreach ($documents as $document) {
