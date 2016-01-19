@@ -129,7 +129,7 @@ class Matiere extends MvcModel
             LEFT JOIN {$wpdb->prefix}question q ON q.id_competence_1 = c.id
             LEFT JOIN {$wpdb->prefix}notaire AS n ON q.client_number = n.client_number
             LEFT JOIN {$wpdb->prefix}etude AS e ON e.crpcen = n.crpcen 
-            WHERE (e.crpcen = \"{$notaire->crpcen}\" OR m.question = 1)
+            WHERE e.crpcen = \"{$notaire->crpcen}\" 
             AND m.displayed = 1
             GROUP BY m.id
         ";
