@@ -123,7 +123,7 @@ function append_js_files()
         );
     }
 }
-add_action('wp_enqueue_scripts', append_js_files(), 99);
+add_action('wp_enqueue_scripts', 'append_js_files', 99);
 
 /**
  * hook for connection
@@ -300,12 +300,13 @@ add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
  * @return string
  */
 function add_new_post_url( $url, $path, $blog_id ) {
-
+    $isCustom = false;
     if ( $path == "post-new.php" && isset($_GET['cridon_type']) ) {
         $path = "post-new.php?cridon_type=" . $_GET['cridon_type'];
+        $isCustom = true;
     }
 
-    return ($path)?$path:$url;
+    return ($isCustom)?$path:$url;
 }
 add_filter( 'admin_url', 'add_new_post_url', 10, 3 );
 
