@@ -4,7 +4,7 @@ class DocumentsController extends MvcPublicController {
     public function download(){
         $document = $this->model->find_one_by_id( $this->params['id'] );
         if( empty( $document ) ){
-            $this->redirectTo404();
+            redirectTo404();
         }
         //Check if it's a Notaire and connected
         if( is_user_logged_in() && CriIsNotaire() ){
@@ -15,7 +15,7 @@ class DocumentsController extends MvcPublicController {
         $model = mvc_model( $document->type );
         //No model check
         if( empty( $model ) ){
-            $this->redirectTo404();
+            redirectTo404();
         }
         if( ($model->name == 'Question') || in_array($document->type,Config::$accessDowloadDocument) ){
             $object = $model->find_one_by_id( $document->id_externe );

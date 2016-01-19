@@ -45,7 +45,7 @@ class Veille extends MvcModel {
             'Post','Matiere'
         );
         //Set conditions
-        if (isset($params['conditions'])) {
+        if (isset($params['conditions']) && is_array($params['conditions'])) {
             $params['conditions'] = array_merge($params['conditions'], array(
                 'Post.post_status' => 'publish'
             ));
