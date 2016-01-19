@@ -410,8 +410,8 @@ class Question extends MvcModel
             // notaire exist
             if ($notaire->client_number
                 && isset($post[CONST_QUESTION_OBJECT_FIELD]) && $post[CONST_QUESTION_OBJECT_FIELD] != ''
-                && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && $post[CONST_QUESTION_SUPPORT_FIELD] != ''
-                && isset($post[CONST_QUESTION_MATIERE_FIELD]) && ctype_digit($post[CONST_QUESTION_MATIERE_FIELD]) && ((int) $post[CONST_QUESTION_MATIERE_FIELD] > 0)
+                && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && ctype_digit($post[CONST_QUESTION_SUPPORT_FIELD])  && ((int) $post[CONST_QUESTION_SUPPORT_FIELD] > 0)
+                && isset($post[CONST_QUESTION_MATIERE_FIELD]) && !empty($post[CONST_QUESTION_MATIERE_FIELD])
                 && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && $post[CONST_QUESTION_COMPETENCE_FIELD] != ''
                 && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
             ) {
@@ -493,7 +493,7 @@ class Question extends MvcModel
                 if (!isset($post[CONST_QUESTION_MESSAGE_FIELD]) || $post[CONST_QUESTION_MESSAGE_FIELD] == '') {
                     $response['error'][] = CONST_EMPTY_MESSAGE_ERROR_MSG;
                 }
-                if (!isset($post[CONST_QUESTION_SUPPORT_FIELD]) || intval($post[CONST_QUESTION_SUPPORT_FIELD] <= 0)) {
+                if (!isset($post[CONST_QUESTION_SUPPORT_FIELD]) || !ctype_digit($post[CONST_QUESTION_SUPPORT_FIELD]) || intval($post[CONST_QUESTION_SUPPORT_FIELD] <= 0)) {
                     $response['error'][] = CONST_EMPTY_SUPPORT_ERROR_MSG;
                 }
                 if (!isset($post[CONST_QUESTION_MATIERE_FIELD]) || intval($post[CONST_QUESTION_MATIERE_FIELD] <= 0)) {
