@@ -33,6 +33,10 @@ App.Utils = {
 
         this.device.ios = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
 
+        if(location.hash) {
+            App.Utils.scrollTop(700, location.hash)
+        }
+
         this.debug("Utils : init end");
 
     },
