@@ -27,15 +27,14 @@ class Matiere extends MvcModel
             $data['Matiere']['virtual_name'] = sanitize_title($data['Matiere']['label']);
         }
         $id = parent::create($data);
-        if( $id && (intval($data['Matiere']['question']) === 1) ){
-            $matiere = $this->find_one_by_id($id);
+        if( $id && (intval($data['Matiere']['question']) === 1) ){            
             $competence = mvc_model('Competence');
             $opt = array(
                 'Competence' => array(
-                    'id'            => $matiere->code,
-                    'label'         => $matiere->label,
-                    'short_label'   => $matiere->short_label,
-                    'code_matiere'  => $matiere->code
+                    'id'            => $data['Matiere']['code'],
+                    'label'         => $data['Matiere']['label'],
+                    'short_label'   => $data['Matiere']['short_label'],
+                    'code_matiere'  => $data['Matiere']['code']
                 )
             );
             $competence->create($opt);
