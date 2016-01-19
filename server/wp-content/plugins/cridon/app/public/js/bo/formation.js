@@ -21,6 +21,12 @@
                 window.location.href = $('#baseUrl').val() + '&option=' + $(this).val();
             });
         }
+
+        if ($('#custom_post_date').length > 0) {
+            $('#custom_post_date').datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        }
     }
 
 })(jQuery);

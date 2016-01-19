@@ -298,6 +298,12 @@ class Config {
     );
     //End access
 
+    // Content qualified by a "Custom Date"
+    public static $contentWithCustomDate = array(
+        'formations',
+    );
+    public static $dateTitleMetabox = 'Date de formation';// Titre du metabox date de formation
+
     //Label des affectations sur les questions
     public static $labelAffection = array(
         1 => 'Question transmise',
