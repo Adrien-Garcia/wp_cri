@@ -841,3 +841,21 @@ add_filter( 'post_link', 'append_custom_link', 10, 2 );
 function getAffectation($id){
     return isset(Config::$labelAffection[$id]) ? Config::$labelAffection[$id] : '';
 }
+
+/**
+ * Add custom capabilities to admins Cridon user
+ */
+function CriSetAdminCridonCaps() {
+    $role = get_role(CONST_ADMINCRIDON_ROLE);
+    if ($role instanceof WP_Role) { // role already defined in WP Core
+        if (is_array(Config::$authorizedCapsForAdminsCridon)
+            && count(Config::$authorizedCapsForAdminsCridon) > 0
+        ) { // custom capabilities defined
+            foreach (Config::$authorizedCapsForAdminsCridon as $cap) {
+                if (!array_key_exists($cap, $role->capabilities)) { // check if capability not yet in list
+                    $role->add_cap($cap);
+                }
+            }
+        }
+    }
+}

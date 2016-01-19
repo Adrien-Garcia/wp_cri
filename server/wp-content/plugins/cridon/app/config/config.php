@@ -313,6 +313,12 @@ class Config {
     );
     //End label
 
+    // admins Cridon custom capabilities
+    public static $authorizedCapsForAdminsCridon = array(
+        'read_private_posts',
+        'read_private_pages',
+    );
+
     // breadcrumb wpmvc model title
     // key must be match with controller params name
     public static $breadcrumbModelParams = array(

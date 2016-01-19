@@ -400,7 +400,8 @@ class Question extends MvcModel
 
         //Not access form, only for Notaire connected
         if( !is_user_logged_in() || !CriIsNotaire() ){
-            return false;
+            $response['error'][] = is_user_logged_in() ? 'Vous n\'êtes pas autorisé à effectuer cette action' : 'Veuillez vous re-connecter';
+            return $response;
         }
         try {
             // notaire data
@@ -482,7 +483,7 @@ class Question extends MvcModel
                         $response['error'][] = sprintf(CONST_QUESTION_FILE_SIZE_ERROR,
                                            (CONST_QUESTION_MAX_FILE_SIZE / 1000000) . 'M');
 
-                        return $response['error'];
+                        return $response;
                     }
                 }
             }else{
@@ -1131,7 +1132,7 @@ class Question extends MvcModel
                             $value .= "'" . $zquest_zcomp_2 . "', "; // ZQUEST_ZCOMP_2
                             $value .= "'" . $zquest_zcomp_3 . "', "; // ZQUEST_ZCOMP_3
                             $value .= "'" . $zquest_zcomp_4 . "', "; // ZQUEST_ZCOMP_4
-                            $value .= "'" . ( empty($question->resume) ? ' ' : html_entity_decode($question->resume) ) . "', "; // ZQUEST_YRESUME_0
+                            $value .= "'" . ( empty($question->resume) ? ' ' : str_replace('\\\'', '\'\'', html_entity_decode($question->resume)) ) . "', "; // ZQUEST_YRESUME_0
                             $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
                             $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy'), "; // ZQUEST_CREDAT_0
                             $value .= "'000000',"; // ZQUEST_SRENUM_0

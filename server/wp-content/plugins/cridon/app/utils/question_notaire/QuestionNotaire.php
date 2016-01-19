@@ -165,7 +165,7 @@ class QuestionNotaire{
         if( empty( $this->user ) ){
             return null;
         }
-        $options = $this->generateOptionsQueries(4);
+        $options = $this->generateOptionsQueries(4 ,true);
         $options['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
         $options = array_merge($options, $this->params );
         $collection = $this->entityManager->paginate($options);
@@ -232,10 +232,13 @@ class QuestionNotaire{
      * @param type $status
      * @return array
      */
-    protected function generateOptionsQueries( $status ){
+    protected function generateOptionsQueries( $status, $filtered = false ){
         global $wpdb;
         $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
-        $where = $this->getFilters();//Ajout des filtres
+        $where = "";
+        if($filtered) {
+            $where = $this->getFilters();//Ajout des filtres
+        }
         //Requête principale
         //Au niveau du SELECT nous avons les noms des modèles mais ils doivent être aussi utilisés comme alias aussi
         //[LIMIT] sert à inserer le limit si nous avons une pagination sinon il sera remplacer par un vide('')
