@@ -27,9 +27,11 @@ class VeillesController extends MvcPublicController {
         //All Matiere
         $matieres = mvc_model('Matiere')->find();
         //Filter by Matiere
-        if( isset($_GET['matiere']) && !empty($_GET['matiere']) ){
-            $q = esc_sql(strip_tags(urldecode($_GET['matiere'])));
-            $virtual_names = explode(',',$q);
+        if( isset($_GET['matiere']) && !empty($_GET['matiere']) && is_array($_GET['matiere']) ){
+            $virtual_names = array();
+            foreach ($_GET['matiere'] as $mat){
+                $virtual_names[] = esc_sql(strip_tags($mat));
+            }
             $this->params['conditions'] = array(
                 'Post.post_status'=>'publish',
                 'Matiere.virtual_name'=> $virtual_names
