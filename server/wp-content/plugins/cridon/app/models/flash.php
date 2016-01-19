@@ -2,7 +2,7 @@
 
 class Flash extends MvcModel {
     var $table     = "{prefix}flash";
-    var $includes       = array('Post');
+    var $includes       = array('Post', 'Matiere');
     var $belongs_to     = array(
         'Post' => array('foreign_key' => 'post_id'),
         'Matiere' => array('foreign_key' => 'id_matiere')

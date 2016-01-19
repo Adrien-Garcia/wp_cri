@@ -96,7 +96,6 @@ class Config {
     public static $capabitilies = array(
         //list
         'liste-vie_cridon-cridon',
-        'liste-affectation-cridon',
         'liste-cahier_cridon-cridon',
         'liste-competence-cridon',
         'liste-document-cridon',
@@ -136,11 +135,15 @@ class Config {
     );
 
     // list of notaire functions cannot access finances
-    public static $cannotAccessFinance = array(
+    public static $canAccessFinance = array(
+        CONST_NOTAIRE_FONCTION,
         CONST_NOTAIRE_ASSOCIE,
         CONST_NOTAIRE_ASSOCIEE,
-        CONST_NOTAIRE_SALARIE,
-        CONST_NOTAIRE_SALARIEE
+        CONST_NOTAIRE_GERANT,
+        CONST_NOTAIRE_GERANTE,
+        CONST_NOTAIRE_SUPLEANT,
+        CONST_NOTAIRE_SUPLEANTE,
+        CONST_NOTAIRE_ADMIN,
     );
 
     public static $titleMetaboxDocument = 'Associer des documents';// Titre du metabox pour l'ajout de document
@@ -159,7 +162,7 @@ class Config {
     public static $notificationForSubscribersNotaries = array( 'veille' );
     public static $mailBodyNotification  = array(
         'subject'   => 'Publication: %s',
-        'title'     => '<h1>%s</h1>',
+        'title'     => '%s',
         'date'      => '%s',
         'excerpt'   => '%s',
         'content'   => '%s',
@@ -219,7 +222,7 @@ class Config {
         )
     );
     public static $listOfControllersWpMvcOnSidebar = array(
-        'affectations','cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
+        'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
         'questions','soldes','supports','user_cridons','veilles','vie_cridons'
     );
     public static $listOfControllersWithNoActionAdd = array(
@@ -259,10 +262,6 @@ class Config {
         'solde' => array(
             'add'    => 'Ajout d\'un solde',
             'edit'   => 'Modification d\'un solde'
-        ),
-        'affectation' => array(
-            'add'    => 'Ajout d\'une affectation',
-            'edit'   => 'Modification d\'une affectation'
         ),
         'question' => array(
             'add'    => 'Ajout d\'une question',
@@ -304,4 +303,31 @@ class Config {
         'formations',
     );
     public static $dateTitleMetabox = 'Date de formation';// Titre du metabox date de formation
+
+    //Label des affectations sur les questions
+    public static $labelAffection = array(
+        1 => 'Question transmise',
+        2 => 'En cours de traitement',
+        3 => 'En attente de renseignements complémentaires',
+        4 => 'Question répondue'
+    );
+    //End label
+
+    // breadcrumb wpmvc model title
+    // key must be match with controller params name
+    public static $breadcrumbModelParams = array(
+        'veilles'           => 'Veille juridique',
+        'flashes'           => 'Flash infos',
+        'cahier_cridons'    => 'Les cahiers du CRIDON',
+        'formations'        => 'Formation',
+        'vie_cridons'       => 'Vie du CRIDON',
+    );
+
+    //RSS
+    public static $rss = array(
+        'title'         => 'Flux RSS des veilles',//all
+        'title_mat'     => '%s',//filtered
+        'description'   => ''
+    );
+    //End RSS
 }

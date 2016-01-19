@@ -5,11 +5,12 @@
 ?>
 <?php $notaire = CriNotaireData(); ?>
 <div id="questions-attentes">
-	<h2><?php _e('Mes questions en attentes'); ?></h2>
+	<h2><?php _e('Mes questions en attente'); ?></h2>
 
 	<?php if(count($pending) != 0): ?>
 	
 	<ul>
+        <?php $juristes = QuestionEntity::getJuristeAndAssistantFromQuestions($pending) ?>
         <?php foreach ($pending as $index => $question) : ?>
 		<li>
             <?php
@@ -36,18 +37,25 @@
 					<span class="matiere"><?php echo $matiere->label ; ?></span>
                     <?php
                         if ( !empty($question->question->content) ) {
-                            $resume = wp_trim_words($question->question->content, 18 );
+                            $resume = stripslashes(wp_trim_words($question->question->content, 18 ));
                         } else {
-                            $resume = wp_trim_words($question->question->resume, 18 );
+                            $resume = stripslashes(wp_trim_words($question->question->resume, 18 ));
                         }
                     ?>
-					<p><?php echo $resume ; ?></p>
+					<p><?php echo stripslashes( $resume ) ; ?></p>
 				</li>
 				<li>
                     <?php
-                        $status = "En cours de traitement";
+                        $status = isset(Config::$labelAffection[$question->question->id_affectation]) ? Config::$labelAffection[$question->question->id_affectation] : "Status indisponible";
+                    if ( ($question->question->id_affectation == 2 || $question->question->id_affectation == CONST_QUEST_ANSWERED)
+                        && $juristes[$question->question->id]->juriste_code != null
+                    ) {
+                        $status .= '<span class="person">par ' . ($juristes[$question->question->id]->juriste_name != null ? $juristes[$question->question->id]->juriste_name : $juristes[$question->question->id]->juriste_code) . '</span>';
+                    }
                     ?>
-					<span class="status"><?php echo $status ; ?></span>
+
+
+                    <span class="status"><?php echo $status ; ?></span>
 				</li>
 				<li>
 					<span class="delai"><?php echo $question->support->label; ?></span>
@@ -70,7 +78,7 @@
 							<li>
 								<span><?php echo $matiere->label ; ?></span>
 								<span><?php echo $question->competence->label ; ?></span>
-								<span><?php echo $question->question->resume ; ?></span>
+								<span><?php echo stripslashes( $question->question->resume ) ; ?></span>
 								<ul>
                                 <?php
                                     foreach($question->documents as $document):
@@ -96,7 +104,7 @@
                             <?php if ( !empty($question->question->content) ) : ?>
                                 <li>
                                     <span>Votre question</span>
-                                    <?php echo $question->question->content ; ?>
+                                    <?php echo stripslashes( $question->question->content ) ; ?>
                                 </li>
                             <?php endif; ?>
 						</ul>
@@ -115,7 +123,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 </div>
 
 <div id="historique-questions">
-	<h2><?php _e('Historiques de mes questions'); ?></h2>
+	<h2><?php _e('Historique de mes questions'); ?></h2>
 
 	<div class="filtres">
 		<ul>
@@ -173,9 +181,9 @@ Vous n'avez actuellement aucune question en attente de réponse.
                     <span class="matiere"><?php echo $matiere->label ; ?></span>
                     <?php
                     if ( !empty($question->question->content) ) {
-                        $resume = wp_trim_words($question->question->content, 18 );
+                        $resume = stripslashes(wp_trim_words($question->question->content, 18 ));
                     } else {
-                        $resume = wp_trim_words($question->question->resume, 18 );
+                        $resume = stripslashes(wp_trim_words($question->question->resume, 18 ));
                     }
                     ?>
                     <p><?php echo $resume ; ?></p>
@@ -183,7 +191,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 				<li>
 					<!--span class="answer">répondu</span!-->
                     <?php if (! empty($sAdate)) : ?>
-					<span class="status">répondu le <?php echo $sAdate ; ?></span>
+					<span class="status"><?php echo Config::$labelAffection[CONST_QUEST_ANSWERED] ?> le <?php echo $sAdate ; ?></span>
                     <?php endif; ?>
                     <span class="person">par <?php echo $juristes[$question->question->id]->juriste_name != null ? $juristes[$question->question->id]->juriste_name : $juristes[$question->question->id]->juriste_code ?></span>
 				</li>

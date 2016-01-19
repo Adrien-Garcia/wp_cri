@@ -44,14 +44,14 @@
 								<tr>
 									<td>
 										<?php _e('Consultation téléphonique'); ?>
-										<span><?php _e('de 14h00 à 17h30 de Lundi au Vendredi'); ?></span>
+										<span><?php _e('de 14h00 à 17h30 du Lundi au Vendredi'); ?></span>
 									</td>
 									<td>04 37 24 79 24</td>
 								</tr>
 								<tr>
 									<td>
-										<?php _e('Question administrative'); ?>
-										<span><?php _e('N° vert'); ?></span>
+										<?php _e('Cridon Info Service réservé au Notaires du ressort du CRIDON LYON (Question administrative)'); ?>
+										<span><?php _e('de 10H à 12H et de 14H à 17H du Lundi au Vendredi'); ?></span>
 									</td>
 									<td>0 800 008 206</td>
 								</tr>

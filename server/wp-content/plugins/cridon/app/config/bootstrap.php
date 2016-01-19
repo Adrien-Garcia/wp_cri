@@ -778,7 +778,7 @@ function sendNotificationForPostPublished( $post,$model ){
         "post" => $post,
     );
 
-    writeLog($vars, "mailog.txt");
+    //writeLog($vars, "mailog.txt");
 
 
 

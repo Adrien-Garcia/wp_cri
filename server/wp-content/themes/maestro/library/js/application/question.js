@@ -175,6 +175,7 @@ App.Question = {
         this.eventFileReset();
         this.$formQuestion[0].reset();
         this.$submitQuestion.attr('disabled',false);
+        this.$blockQuestionError.html('');
         this.$formQuestion.append(nonce);
         if (App.Utils.device.ios) {
             $('.fileUpload').remove();
@@ -231,6 +232,10 @@ App.Question = {
             });
         } else {
             this.$buttonQuestionDocumentation.on('click', function(e) {
+                self.$formQuestion[0].reset();
+                self.$zoneQuestionSupport.removeClass(this.selectedClass);
+                self.$popupOverlay.popup('show');
+                self.openTabQuestionMaQuestion(false);
                 self.eventButtonDocumentationClick($(this));
             });
 
@@ -448,6 +453,7 @@ App.Question = {
                 this.$formQuestion[0].reset();
                 this.$zoneQuestionSupport.removeClass(this.selectedClass);
                 this.openTabQuestionConsultation();
+                this.$blockQuestionError.html('');
             }).bind(this), 1500);
 
         }
