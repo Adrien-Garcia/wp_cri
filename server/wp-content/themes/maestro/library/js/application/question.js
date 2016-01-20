@@ -393,13 +393,6 @@ App.Question = {
 
         var formdata = new FormData();
         var nbFiles = 0;
-        if (this.$objectQuestionField.first().val() == '') {
-            this.$blockQuestionError.text('Merci de bien remplir le champ "Objet de la question"');
-            this.$objectQuestionField.focus();
-
-            // stop action
-            return false;
-        }
         nbFiles = this.$fileQuestion.length;
         if (nbFiles > 0) {
             this.$fileQuestion.each(function () {
@@ -411,12 +404,40 @@ App.Question = {
                 }
             });
         }
+
+        var d = {
+            support : $(this.radioQuestionSupportSelector + ':checked').first().val(),
+            matiere : this.$selectQuestionMatiere.first().val(),
+            competence : $('*[name="' + competenceFieldId + '"]').first().val(),
+            object : this.$objectQuestionField.first().val(),
+            message : this.$messageQuestionField.first().val()
+        };
+
+        if(!d.support) {
+            this.$blockQuestionError.text('Merci de sélectionner un support/délai');
+            this.openTabQuestionConsultation();
+            return false;
+        }
+        if(!d.matiere) {
+            this.$blockQuestionError.text('Merci de sélectionner une matière');
+            this.openTabQuestionMaQuestion();
+            return false;
+        }
+        if(!d.object) {
+            this.$blockQuestionError.text('Merci de bien remplir le champ "Objet de la question"');
+            this.openTabQuestionMaQuestion();
+            this.$objectQuestionField.focus();
+
+            // stop action
+            return false;
+        }
+
         formdata.append("action", 'add_question');
-        formdata.append(supportFieldId, $(this.radioQuestionSupportSelector + ':checked').first().val() );
-        formdata.append(matiereFieldId, this.$selectQuestionMatiere.first().val() );
-        formdata.append(competenceFieldId, $('*[name="' + competenceFieldId + '"]').first().val() );
-        formdata.append(objectFieldId, this.$objectQuestionField.first().val() );
-        formdata.append(messageFieldId, this.$messageQuestionField.first().val() );
+        formdata.append(supportFieldId, d.support );
+        formdata.append(matiereFieldId, d.matiere );
+        formdata.append(competenceFieldId, d.competence );
+        formdata.append(objectFieldId, d.object );
+        formdata.append(messageFieldId, d.message );
         this.$messageQuestionField.html('');
 
         if (parseInt(nbFiles) > parseInt(jsvar.question_nb_file)) {
