@@ -575,7 +575,7 @@ function CriRenderView($path, $view_vars, $folder = "custom", $echo = true) {
  * Send email for error reporting
  *
  * @param string $message the default message in which we want to add the error
- * @param string $error the error to introduce in the message
+ * @param string $object the error to introduce in the message
  */
 function reportError($message, $object) {
     $to = arrayGet(Config::$emailNotificationError, 'to', CONST_EMAIL_ERROR_CONTACT);
@@ -734,12 +734,6 @@ function sendNotificationForPostPublished( $post,$model ){
     global $pages,$page ;
     $pages = array($post->post_content);
     $page = 1;
-    $options = array(
-        'conditions' => array(
-            'type'       => strtolower( $model->__model_name ),
-            'id_externe' => $model->id
-        )
-    );
     $documentModel = mvc_model('Document');
     $documents = false;
     $class = $model->__model_name;
