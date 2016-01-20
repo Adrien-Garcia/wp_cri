@@ -111,7 +111,14 @@
                 <?php echo sprintf(Config::$mailBodyNotification['content'],  $content ); ?>
                 <br/>
                 <br/>
-                <?php echo sprintf(Config::$mailBodyNotification['permalink'], get_permalink($post), "Lire sur site"); ?>
+                <?php
+                    $options = array(
+                        'controller' => MvcInflector::pluralize(strtolower($model)),
+                        'action'     => ( !isset( $model->id ) ) ? 'index' : 'show'
+                    );
+                    $url = MvcRouter::public_url($options);
+                ?>
+                <?php echo sprintf(Config::$mailBodyNotification['permalink'], $permalink, "Lire sur site"); ?>
                 <p style="margin-top:25px;">
 
                     <?php
