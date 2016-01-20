@@ -42,7 +42,7 @@
                             $resume = stripslashes(wp_trim_words($question->question->resume, 18 ));
                         }
                     ?>
-					<p><?php echo stripslashes( $resume ) ; ?></p>
+					<p><?php echo html_entity_decode(stripslashes( $resume )) ; ?></p>
 				</li>
 				<li>
                     <?php
@@ -78,7 +78,7 @@
 							<li>
 								<span><?php echo $matiere->label ; ?></span>
 								<span><?php echo $question->competence->label ; ?></span>
-								<span><?php echo stripslashes( $question->question->resume ) ; ?></span>
+								<span><?php echo html_entity_decode(stripslashes( $question->question->resume )) ; ?></span>
 								<ul>
                                 <?php
                                     $docs = array();
@@ -94,7 +94,7 @@
                                     );
                                     $publicUrl  = MvcRouter::public_url($options);
                                     ?>
-									<li><a href="<?php echo $publicUrl ?>" target="_blank"><?php echo $document->name ?></a></li>
+									<li><a href="<?php echo $publicUrl ?>" target="_blank"><?php echo html_entity_decode($document->name) ?></a></li>
                                                                     
                                 <?php
                                         endif;
@@ -106,7 +106,7 @@
                             <?php if ( !empty($question->question->content) ) : ?>
                                 <li>
                                     <span>Votre question</span>
-                                    <?php echo stripslashes( $question->question->content ) ; ?>
+                                    <?php echo html_entity_decode(stripslashes( $question->question->content )) ; ?>
                                 </li>
                             <?php endif; ?>
 						</ul>
@@ -189,7 +189,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
                         $resume = stripslashes(wp_trim_words($question->question->resume, 18 ));
                     }
                     ?>
-                    <p><?php echo $resume ; ?></p>
+                    <p><?php echo html_entity_decode($resume) ; ?></p>
                 </li>
 				<li>
 					<!--span class="answer">répondu</span!-->
@@ -261,7 +261,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
                             $code = $document->name;
                             $code = preg_replace("/[\d]+_([^\.]+)\.pdf/i", "$1", $code);
                             ?>
-                            <a href="<?php echo $publicUrl ?>" class="pdf" title="Télécharger le document de <?php echo $document->label ?>"><b><?php echo $document->label ?></b> <?php echo $code ?></a>
+                            <a href="<?php echo $publicUrl ?>" class="pdf" title="Télécharger le document de <?php echo html_entity_decode($document->label) ?>"><b><?php echo html_entity_decode($document->label) ?></b> <?php echo $code ?></a>
 
                         </li>
                     <?php endif ?>
