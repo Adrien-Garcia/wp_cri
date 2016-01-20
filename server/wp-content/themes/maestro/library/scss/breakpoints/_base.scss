@@ -3639,6 +3639,7 @@ body.single #content {
 	    								line-height: 18px;
 	    								@extend .do-sm;
 	    								color:$bleu;
+	    								display: block; 
 
 
 									}
@@ -3699,7 +3700,7 @@ body.single #content {
 									.en-cours{								
 										
 										position: relative;
-										padding-left: 20px;
+										padding-left: 23px;
 
 										&:before{
 											@include svgicon('icon-clock', 16px, 16px, $bleu);

@@ -23,7 +23,7 @@
 			<span class="date">Question du <?php echo $sDate ; ?></span>
             <?php endif; ?>
             <?php if (! empty($sWdate)) : ?>
-            <span class="reponse">Réponse souhaitées le <?php echo $sWdate ; ?></span>
+            <span class="reponse">Réponse souhaitée le <?php echo $sWdate ; ?></span>
             <?php endif; ?>
 
             <ul>
@@ -81,8 +81,10 @@
 								<span><?php echo stripslashes( $question->question->resume ) ; ?></span>
 								<ul>
                                 <?php
+                                    $docs = array();
                                     foreach($question->documents as $document):
-                                        if( ($document->label != 'Suite') &&  ($document->label != 'Complément') ):
+                                        if( ($document->label != 'Suite') &&  ($document->label != 'Complément') && !in_array($document->id, $docs)):
+                                            $docs[] = $document->id;
                                 ?>
                                     <?php
                                     $options = array(

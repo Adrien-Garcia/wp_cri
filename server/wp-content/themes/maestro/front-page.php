@@ -29,7 +29,9 @@
 							$_flash_url = get_permalink();
 						 ?>
 					<div class="content" id="sel-flash-present">
-						<div class="texte"><?php echo $_flash_title; ?>
+						<div class="texte">
+							<?php //echo $_flash_title; ?>
+							<?php echo truncate($_flash_title,110, '...'); ?>
 							<a id="sel-flash-link-present" href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
 						</div>
 						
