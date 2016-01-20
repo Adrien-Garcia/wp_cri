@@ -34,7 +34,7 @@
 								<li>
 									<!-- <label class="select"> -->
 									<label class="">
-										<input type="checkbox" id="" class="" name="matieres[]" value="<?php echo $key ?>" >
+										<input type="checkbox" id="" class="" name="matieres[]" value="<?php echo $matiere['label'] ?>" >
 										<?php echo $matiere['label'] ?>
 									</label>
 								</li>

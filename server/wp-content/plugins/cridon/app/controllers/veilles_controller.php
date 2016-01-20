@@ -15,47 +15,33 @@
 class VeillesController extends MvcPublicController {
     
     public function index() {
-        /*$this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
-        //Set explicit join
-        $this->params['joins'] = array(
-            'Post','Matiere'
-        );
-        //Set conditions
-        $this->params['conditions'] = array(
-            'Post.post_status'=>'publish'
-        );
         //All Matiere
         $matieres = mvc_model('Matiere')->find();
-        //Filter by Matiere
-        if( isset($_GET['matiere']) && !empty($_GET['matiere']) && is_array($_GET['matiere']) ){
+
+        if ( isset($_POST['matieres']) && !empty($_POST['matieres']) && is_array($_POST['matieres']) ){
             $virtual_names = array();
-            foreach ($_GET['matiere'] as $mat){
+            foreach ($_POST['matieres'] as $mat){
                 $virtual_names[] = esc_sql(strip_tags($mat));
             }
-            $this->params['conditions'] = array(
-                'Post.post_status'=>'publish',
-                'Matiere.virtual_name'=> $virtual_names
-            );
             foreach($matieres as $matiere){
-                if( in_array($matiere->virtual_name,$virtual_names) ){
+                if( in_array($matiere->label,$virtual_names) ){
                     $matiere->filtered = true;
                 }else{
                     $matiere->filtered = false;
                 }
             }
-        }else{
+            $this->params['conditions'] = array(
+                'Matiere.label'=> str_replace('-',' ',$virtual_names)
+            );
+        } else {
             foreach($matieres as $matiere){
                 $matiere->filtered = false;
             }
         }
-        //Order by date publish
-        $this->params['order'] = 'Post.post_date DESC' ;
-        $collection = $this->model->paginate($this->params);*/
-
         $collection = $this->model->getList($this->params);
 
         $this->set('objects', $collection['objects']);
-        $this->set('matieres',$matieres);//All matieres
+        $this->set('matieres',$collection['matieres']);
         $this->set_pagination($collection);
     }
 
@@ -119,7 +105,7 @@ class VeillesController extends MvcPublicController {
     public function feedFilter(){
         $matiere = mvc_model('Matiere')->find_one_by_id($this->params['id']);
         if(!$matiere){//no matiere found
-            $this->generateError();
+            redirectTo404();
         }
         $options = array();
         $options['joins'] = array(
@@ -138,21 +124,6 @@ class VeillesController extends MvcPublicController {
         $this->set('objects',$objects);
         $this->set('description',Config::$rss['description']);
         $this->render_view('feed', array('layout' => 'feed'));
-    }
-
-    /**
-     * Generate error
-     *
-     * @global \WP_Query $wp_query
-     */
-    private function generateError(){
-        global $wp_query;
-        header("HTTP/1.0 404 Not Found - Archive Empty");
-        $wp_query->set_404();
-        if( file_exists(TEMPLATEPATH.'/404.php') ){
-            require TEMPLATEPATH.'/404.php';
-        }
-        exit;
     }
 
     /**

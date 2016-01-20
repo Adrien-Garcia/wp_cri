@@ -15,23 +15,21 @@ require_once 'base_public_controller.php';
 class MatieresController extends BasePublicController
 {
     function show(){
-        //Récupération de l'id dans l'url
-        $id = $this->params['id'];
-        if (!empty($id)) {
-            //appel au controlleur des veilles en lui indiquant la matiere courante
+        $matiere = $this->params['id'];
+        if (!empty($matiere)) {
+            $virtual_name = array(str_replace('-',' ',esc_sql(strip_tags($matiere))));
             $this->params['conditions'] = array(
-                    'Veille.id_matiere' => $id
+                'Matiere.label'=> $virtual_name
             );
-            $veille = new Veille;
-            $collection = $veille->getList($this->params);
-            if (!$collection['objects']){
-                redirectTo404();
-            } else {
-                $this->set('objects', $collection['objects']);
-                $this->set_pagination($collection);
-            }
-        } else {
+        }
+
+        $veille = new Veille;
+        $collection = $veille->getList($this->params);
+        if (!$collection['objects']){
             redirectTo404();
+        } else {
+            $this->set('objects', $collection['objects']);
+            $this->set_pagination($collection);
         }
     }
 
