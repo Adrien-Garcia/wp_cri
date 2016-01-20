@@ -123,7 +123,7 @@
                     jsvar.newsletter_success_msg = "Désinscription terminée avec succès.";
                     //]]>
                 </script>
-            <?php _e('Vous êtes inscrit à notre newsletter selon vos centres d\'interets.'); ?>
+            <?php _e('Vous êtes inscrit à notre newsletter selon vos centres d\'intérêts.'); ?>
             <?php endif; ?>
         </div>
         <form action="/notaires/<?php echo $notaire->id ?>/profil" method="post" accept-charset="utf-8" id="newsletterFormId1" class="form-newsletter js-account-profil-newsletter-form">
