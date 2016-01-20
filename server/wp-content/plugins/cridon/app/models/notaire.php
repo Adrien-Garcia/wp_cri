@@ -1297,6 +1297,17 @@ class Notaire extends MvcModel
         return $object;
     }
 
+
+    /**
+     * Action for reset notaire data into wp_users
+     * Remove all entries corresponding to points consuming
+     * Keep lines corresping to initial status
+     */
+    public function resetSolde()
+    {
+        $this->wpdb->query("DELETE FROM `{$this->wpdb->prefix}solde` where `type_support` != 0 ");
+        return $this->logs;
+    }
     /**
      * Action for importing notaire data into wp_users
      */
@@ -1609,9 +1620,9 @@ class Notaire extends MvcModel
         $object = $this->getUserConnectedData();
 
         return (isset($object->category)
-                && strtolower($object->category) === CONST_OFFICES_ROLE
-                && isset($object->fonction->id)
-                && !in_array($object->fonction->id, Config::$cannotAccessFinance)
+                && (strcasecmp($object->category, CONST_OFFICES_ROLE) === 0)
+                && isset($object->id_fonction)
+                && in_array($object->id_fonction, Config::$canAccessFinance)
         ) ? true : false;
     }
 

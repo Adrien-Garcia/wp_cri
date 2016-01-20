@@ -43,15 +43,15 @@
     }
 ?>
 <body <?php body_class($bodyClass); ?>>
+<?php
+/*
+ * Google Analytics
+ * Ne pas déplacer cette ligne.
+ * Ne rien mettre avant
+ */
+echo get_template_part("content","ga");
+?>
 
-	<?php
-	/*
-	 * Google Analytics
-	 * Ne pas déplacer cette ligne.
-	 * Ne rien mettre avant
-	 */
-	echo get_template_part("content","ga");
-	?>
 
 	<div id="container">
 		<div id="posez-questions">
@@ -91,7 +91,7 @@
 
 					<?php if( is_front_page() ) : ?>
 						<h1>
-							<a href="/" class="lienhome" rel="nofollow"></a> 
+							<a href="/" class="lienhome" rel="nofollow" title="CRIDON Lyon : aide juridique pour les notaires"></a> 
 						</h1>
 						<?php else :?>
 						<p id="logo" class="h1">

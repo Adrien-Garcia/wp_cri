@@ -314,3 +314,55 @@ add_filter( 'admin_url', 'add_new_post_url', 10, 3 );
  * Hook for  admin navigation menu
  */
 add_action( 'admin_init', array( 'CriAdminNavMenu', 'init' ) );
+
+/**
+ * @see MvcAdminLoader Class at line 52 (wp-mvc\core\loaders\mvc_admin_loader.php)
+ */
+add_filter( 'mvc_admin_title', 'custom_mvc_title_page', 10, 1 );
+function custom_mvc_title_page( $title ){
+    if( preg_match('/(\bCridons\b)/',$title) ){
+        //without 's' in 'Cridon'
+        $title = MvcInflector::singularize($title);
+        //translate 'User'
+        $title = preg_replace('/(\bUser\b)/', 'Utilisateur', $title);
+    }
+    return $title ;
+}
+
+// Match wp_posts and WP_MVC show action
+if( !is_admin() ){
+    /**
+     * @see https://codex.wordpress.org/Plugin_API/Action_Reference/wp
+     */
+    add_action( 'wp', 'join_wp_post_and_wpmvc' );
+    function join_wp_post_and_wpmvc($wp)
+    {
+        global $wpdb;
+        //only for WP_Posts
+        if( !is_feed() && !empty($wp->query_vars) && !isset($wp->query_vars['mvc_controller']) && ('post' === get_post_type()) ){
+            $post_ID = get_the_ID();
+            $post = get_post();
+            foreach( Config::$data as $v ){
+                $table = $v[ 'name' ];
+                //Simple query using WP_query to get mvc_model (id)
+                $mvc = $wpdb->get_row(
+                        'SELECT id FROM '.$wpdb->prefix.$table
+                        .' WHERE post_id = '.$post_ID
+                );
+                //when model founded
+                if($mvc){
+                    $options=array(
+                        'controller' => $v['controller'],
+                        'action'     => 'show',
+                        'id'         => $post->post_name
+                    );
+                    $url  = MvcRouter::public_url($options);
+                    //redirect to correct url
+                    wp_redirect( $url, 301 );
+                    exit;
+                }
+            }
+        }
+    }
+}
+//End Match wp_posts and WP_MVC show action

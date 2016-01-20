@@ -1,0 +1,2 @@
+ALTER TABLE `cri_fonction`
+CHANGE COLUMN `label` `label` VARCHAR(50) CHARACTER SET 'utf8' NOT NULL ;
