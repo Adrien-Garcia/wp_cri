@@ -734,12 +734,6 @@ function sendNotificationForPostPublished( $post,$model ){
     global $pages,$page ;
     $pages = array($post->post_content);
     $page = 1;
-    $documentModel = mvc_model('Document');
-    $documents = false;
-    $class = $model->__model_name;
-    if (method_exists($class, "getDocuments")) {
-        $documents = $class::getDocuments($model->id);
-    }
     $title = $post->post_title;
     $date  = get_the_date('d M Y',$post->ID);
 
@@ -748,6 +742,16 @@ function sendNotificationForPostPublished( $post,$model ){
     //$model don't contain Matiere
     //It's necessary to get it again
     $current = mvc_model($model->__model_name)->find_one_by_id($model->id);
+    $documentModel = mvc_model('Document');
+    $documents = false;
+    $class = $model->__model_name;
+    if (property_exists($current, 'documents') || method_exists($class, "getDocuments")) {
+        if (property_exists($current, 'documents')){
+            $documents = $current->documents;
+        } else {
+            $documents = $class::getDocuments($model->id);
+        }
+    }
     $matiere = (!empty($current) && !empty($current->matiere)) ? $current->matiere : false;
     $permalink = generateUrlByModel($model);
     $tags = get_the_tags( $post->ID );
