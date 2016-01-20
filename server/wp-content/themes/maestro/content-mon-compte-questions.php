@@ -81,8 +81,10 @@
 								<span><?php echo stripslashes( $question->question->resume ) ; ?></span>
 								<ul>
                                 <?php
+                                    $docs = array();
                                     foreach($question->documents as $document):
-                                        if( ($document->label != 'Suite') &&  ($document->label != 'Complément') ):
+                                        if( ($document->label != 'Suite') &&  ($document->label != 'Complément') && !in_array($document->id, $docs)):
+                                            $docs[] = $document->id;
                                 ?>
                                     <?php
                                     $options = array(
