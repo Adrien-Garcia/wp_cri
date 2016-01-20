@@ -1243,21 +1243,18 @@ class Notaire extends MvcModel
      */
     public function findByLoginAndPassword($login, $pwd)
     {
-        $objects = $this->find_one(array(
-                'selects' => array(
-                    'Notaire.id',
-                    'Notaire.crpcen',
-                    'Notaire.id_civilite',
-                    'Notaire.id_fonction'
-                ),
-                'conditions' => array(
-                    'crpcen'       => $login,
-                    'web_password' => $pwd
-                )
-            )
-        );
+        // base query
+        $query = " SELECT `n`.`id` FROM {$this->table} n ";
+        $query .= " INNER JOIN `{$this->wpdb->users}` u ON u.`ID` = n.`id_wp_user` ";
+        $query .= " WHERE `crpcen` = %s
+                    AND `web_password` = %s
+                    AND `user_status` = " . CONST_STATUS_ENABLED;
 
-        return $objects;
+        // prepare query
+        $query = $this->wpdb->prepare($query, $login, $pwd);
+
+        // exec query and return result
+        return $this->wpdb->get_row($query);
     }
 
     /**
