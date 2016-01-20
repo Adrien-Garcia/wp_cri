@@ -3,8 +3,6 @@
 <p>
     <?php echo $this->html->link('&#8592; All Formations', array('controller' => 'formations')); ?>
 </p>
-<?php query_posts('order=DESC'); ?>
-<?php 
-    resetGlobalVars();
+<?php
     include TEMPLATEPATH.'/single.php';
 ?>
