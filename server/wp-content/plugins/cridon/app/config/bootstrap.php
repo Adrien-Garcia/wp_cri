@@ -485,8 +485,8 @@ add_action( 'deleted_user', 'custom_delete_user' );
 /**
  * Get a value associated with a key in array if exists, default value otherwise
  * Avoid warning and easily allow fallback
- * @param mixed $key searched key
  * @param array $array in which the key should be
+ * @param mixed $key searched key
  * @param mixed $default value to retrieve if key is not in array
  * @return mixed $value corresponding to $key if exists, $defaults otherwise
  */
@@ -813,7 +813,7 @@ function generateUrlByModel( $model ){
         return '';
     }
     $options = array(
-        'controller' => MvcInflector::pluralize(strtolower($model->__model_name)),
+        'controller' => MvcInflector::tableize(strtolower($model->__model_name)),
         'action'     => ( !isset( $model->id ) ) ? 'index' : 'show'        
     );
     if( isset( $model->id ) ){
