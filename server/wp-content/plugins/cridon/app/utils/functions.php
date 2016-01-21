@@ -435,7 +435,7 @@ function getMatieresByNotaire(){
         );
         $aSubscribed = array();
         $matieres = mvc_model('matiere')->find( $options );
-        if( isset( $notaire->matieres ) && !empty( $notaire->matieres ) ){
+        if( is_array( $notaire->matieres ) ){
             //Matiere subscribed by Notaire
             foreach( $notaire->matieres as $mat ){
                 $aSubscribed[] = $mat->id;
