@@ -336,4 +336,7 @@ class Config {
         'description'   => ''
     );
     //End RSS
+
+    // question pending status
+    public static $questionPendingStatus = array(1,2,3);
 }
