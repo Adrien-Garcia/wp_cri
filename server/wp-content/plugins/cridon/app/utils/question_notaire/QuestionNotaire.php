@@ -183,7 +183,7 @@ class QuestionNotaire{
         $newData = array();
         foreach( $data as $v ){
             $documents = $this->getDocuments($v->question->id,'');
-            $v->{documents} = $documents;
+            $v->documents = $documents;
             $newData[] = $v;
         }
         return $newData;

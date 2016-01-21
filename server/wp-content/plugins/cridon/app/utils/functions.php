@@ -112,7 +112,7 @@ if (!function_exists('criSetLoginFormOptions')) {
             $cri_container->setPasswordFieldId($passwdAttributeId);
             $cri_container->setErrorBlocId($errorBlocAttributeId);
 
-            add_action('wp_enqueue_scripts', append_js_var());
+            add_action('wp_enqueue_scripts', 'append_js_var');
         }
     }
 
@@ -165,7 +165,7 @@ if (!function_exists('criSetLostPwdOptions')) {
             $cri_container->setCrpcenFieldId($crpcenAttributeId);
             $cri_container->setMsgBlocId($msgBlocAttributeId);
 
-            add_action('wp_enqueue_scripts', append_js_lostpwd_var());
+            add_action('wp_enqueue_scripts', 'append_js_lostpwd_var');
         }
     }
 
@@ -389,7 +389,7 @@ function CriIsNotaire() {
     $notaireData = mvc_model('notaire')->find_one_by_id_wp_user($current_user->ID);
 
     // user logged in is notaire
-    if (is_user_logged_in() && $notaireData->id) {
+    if (is_user_logged_in() && $notaireData && $notaireData->id) {
         return true;
     }
 
