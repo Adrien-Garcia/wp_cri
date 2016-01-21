@@ -58,7 +58,9 @@ class QueryConstructorModel {
         //step 2: Get all joins and put theirs in query
         $this->prepareJoin();
         //step 3: Put in WHERE all conditions if exist
-        $this->prepareWhere($this->options['conditions']);
+        if(isset($this->options['conditions']) ){
+            $this->prepareWhere($this->options['conditions']);            
+        }
         //step 4: Put GROUP
         $this->prepareGroup();
         //step 5: ORDER clause

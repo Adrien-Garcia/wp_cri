@@ -140,7 +140,7 @@ class CahierCridon extends \App\Override\Model\CridonMvcModel
      * @param array $options
      * @return array
      */
-    public function paginate($options){
+    public function paginate($options=array()){
         $options['page'] = empty($options['page']) ? 1 : intval($options['page']);
         $options['per_page'] = empty($options['per_page']) ? $this->per_page : intval($options['per_page']);
         $limit = '';

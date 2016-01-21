@@ -1760,7 +1760,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     //FRONT
     
     //Override function of pagination
-    public function paginate($options){
+    public function paginate($options = array()){
         global $wpdb;
         $options['page'] = empty($options['page']) ? 1 : intval($options['page']);//for limit
         $limit = $this->db_adapter->get_limit_sql($options);      

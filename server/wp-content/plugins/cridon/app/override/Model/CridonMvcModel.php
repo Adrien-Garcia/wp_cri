@@ -219,7 +219,7 @@ class CridonMvcModel extends \MvcModel{
         return $objects;
     }
     
-    public function paginate($options){
+    public function paginate($options = array()){
         $options['page'] = empty($options['page']) ? 1 : intval($options['page']);
         $options['per_page'] = empty($options['per_page']) ? $this->per_page : intval($options['per_page']);
         $q =  new \App\Override\Model\QueryConstructorModel($this,$options);
@@ -233,7 +233,7 @@ class CridonMvcModel extends \MvcModel{
         return $response;
     }
     
-    public function find($options){
+    public function find($options = array()){
         $q =  new \App\Override\Model\QueryConstructorModel($this,$options);
         $objects =  $q->getResults();
         $objects = $this->splitArray($objects,$this->primary_key);
