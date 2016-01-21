@@ -1,28 +1,4 @@
 <?php
-//Retrieve post data using custom table join
-function custom_posts_join ($join) {
-    global $custom_global_join;
-    if ( $custom_global_join ){
-        $join .= " $custom_global_join";
-    }
-    return $join;
-}
-function custom_posts_where ($where) {
-    global $custom_global_where;
-    if ( $custom_global_where ) {
-        $where .= " $custom_global_where";
-    }
-    return $where;
-}
-add_filter('posts_join','custom_posts_join');
-add_filter('posts_where','custom_posts_where');
-function resetGlobalVars(){
-    global $custom_global_join;
-    global $custom_global_where;
-    $custom_global_join = $custom_global_where = '';
-}
-// End retrieve post
-
 // After save into post table, save in others tables 
 function save_post_in_table( $post_ID, $post ){
     $modelConf = getRelatedContentConfInReferer($post_ID);
