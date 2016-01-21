@@ -25,17 +25,14 @@
 					<div class="panel">
 						<a href="">Toute la veille juridique</a>
 
-						<?php 
-							$matieres = CriListMatieres();
-						 ?>
-						<form method="post">
+						<form action="<?php echo MvcRouter::public_url(['controller' => 'veilles']); ?>" method="get">
 							<ul>
 								<?php foreach($matieres as $key => $matiere): ?>
 								<li>
 									<!-- <label class="select"> -->
 									<label class="">
-										<input type="checkbox" id="" class="" name="matieres[]" value="<?php echo $key ?>" >
-										<?php echo $matiere['label'] ?>
+										<input type="checkbox" id="" class="" name="matieres[]" value="<?php echo $matiere->virtual_name ?>" <?php if($matiere->filtered){echo 'checked';} ?> >
+										<?php echo $matiere->label ?>
 									</label>
 								</li>
 								<?php endforeach; ?>

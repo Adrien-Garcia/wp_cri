@@ -279,7 +279,8 @@ class Config {
         'client_number' => 'Numéro client',
         'quota'         => 'Quota',
         'type_support'  => 'Type du support',
-        'date_arret'    => 'Date d\'arrêt'
+        'date_arret'    => 'Date d\'arrêt',
+        'question'      => 'Sur les questions ?'
     );
     //End translation
     

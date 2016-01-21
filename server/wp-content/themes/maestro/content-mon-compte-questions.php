@@ -139,7 +139,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 <li>
                     <span class="titre">Matière :</span>
                     <?php
-                    $matieres = CriListMatieres();
+                    $matieres = getMatieresByQuestionNotaire();
                     ?>
                     <select name="m" class="js-account-matiere-filter">
                         <option value="" <?php echo empty($_GET['m']) ? "selected" : ""; ?>>Selectionnez une matière</option>

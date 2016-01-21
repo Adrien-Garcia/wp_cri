@@ -479,7 +479,7 @@ function CriListMatieres()
     // init
     $matieres = array();
 
-    // query optoins
+    // query options
     $options = array(
         'selects' => array('Matiere.id', 'Matiere.label', 'Matiere.code'),
         'conditions' => array(
@@ -840,6 +840,24 @@ add_filter( 'post_link', 'append_custom_link', 10, 2 );
  */
 function getAffectation($id){
     return isset(Config::$labelAffection[$id]) ? Config::$labelAffection[$id] : '';
+}
+
+function getMatieresByQuestionNotaire(){
+    return mvc_model('Matiere')->getMatieresByNotaireQuestion();
+}
+/**
+ * Redirect to 404
+ *
+ * @global \WP_Query $wp_query
+ */
+function redirectTo404(){
+    global $wp_query;
+    header("HTTP/1.0 404 Not Found");
+    $wp_query->set_404();
+    if( file_exists(TEMPLATEPATH.'/404.php') ){
+        require TEMPLATEPATH.'/404.php';
+    }
+    exit;
 }
 
 /**
