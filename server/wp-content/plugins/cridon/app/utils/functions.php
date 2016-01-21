@@ -842,6 +842,9 @@ function getAffectation($id){
     return isset(Config::$labelAffection[$id]) ? Config::$labelAffection[$id] : '';
 }
 
+function getMatieresByQuestionNotaire(){
+    return mvc_model('Matiere')->getMatieresByNotaireQuestion();
+}
 /**
  * Redirect to 404
  *

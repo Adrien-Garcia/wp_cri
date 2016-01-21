@@ -26,7 +26,20 @@ class Matiere extends MvcModel
         if(!empty($data['Matiere']['label'])){
             $data['Matiere']['virtual_name'] = sanitize_title($data['Matiere']['label']);
         }
-        return parent::create($data);
+        $id = parent::create($data);
+        if( $id && (intval($data['Matiere']['question']) === 1) ){            
+            $competence = mvc_model('Competence');
+            $opt = array(
+                'Competence' => array(
+                    'id'            => $data['Matiere']['code'],
+                    'label'         => $data['Matiere']['label'],
+                    'short_label'   => $data['Matiere']['short_label'],
+                    'code_matiere'  => $data['Matiere']['code']
+                )
+            );
+            $competence->create($opt);
+        }
+        return $id;
     }
     public function save($data) {
         $path = $this->upload( $data );
@@ -91,4 +104,44 @@ class Matiere extends MvcModel
         return ( ( Config::$maxWidthHeight['width'] < $width ) || ( Config::$maxWidthHeight['height'] < $height ) ) ? false : true;
     }
     
+    
+    public function getMatieresByModelPost($model){
+        global $wpdb;
+        $sql = "
+            SELECT m.* FROM {$wpdb->prefix}matiere m
+            LEFT JOIN {$model->table} j ON m.id = j.id_matiere
+            WHERE j.id IS NOT NULL
+            GROUP BY m.id
+        ";
+        return $wpdb->get_results($sql);
+    }
+    
+    public function getMatieresByNotaireQuestion(){
+        global $wpdb;
+        $notaire = CriNotaireData();
+        $matieres = array();
+        if(!$notaire){
+            return $matieres;
+        }
+        $sql = "
+            SELECT m.id,m.code,m.label,m.virtual_name FROM {$wpdb->prefix}matiere m
+            JOIN {$wpdb->prefix}competence c ON m.code = c.code_matiere
+            LEFT JOIN {$wpdb->prefix}question q ON q.id_competence_1 = c.id
+            LEFT JOIN {$wpdb->prefix}notaire AS n ON q.client_number = n.client_number
+            LEFT JOIN {$wpdb->prefix}etude AS e ON e.crpcen = n.crpcen 
+            WHERE e.crpcen = \"{$notaire->crpcen}\" 
+            AND m.displayed = 1
+            GROUP BY m.id
+        ";
+        $items = $wpdb->get_results($sql);
+        // format output
+        if (is_array($items) && count($items) > 0) {
+            foreach ($items as $item) {
+                $matieres[$item->id]['label'] = $item->label;
+                $matieres[$item->id]['code'] = $item->code;
+                $matieres[$item->id]['virtual_name'] = $item->virtual_name;
+            }
+        }
+        return $matieres;
+    }
 }
