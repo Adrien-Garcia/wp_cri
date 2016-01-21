@@ -30,8 +30,8 @@
 								<?php foreach($matieres as $key => $matiere): ?>
 								<li>
 									<!-- <label class="select"> -->
-									<label class="">
-										<input type="checkbox" id="" class="" name="matieres[]" value="<?php echo $matiere->virtual_name ?>" <?php if($matiere->filtered){echo 'checked';} ?> >
+									<label class="<?php if($matiere->filtered){echo 'select';} ?>">
+										<input type="checkbox" id="" class="js-veille-matiere-filter" name="matieres[]" value="<?php echo $matiere->virtual_name ?>" <?php if($matiere->filtered){echo 'checked';} ?> >
 										<?php echo $matiere->label ?>
 									</label>
 								</li>

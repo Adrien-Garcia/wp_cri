@@ -219,7 +219,14 @@ jQuery(document).ready(function($) {
     });
 
 
+    $(".js-veille-matiere-filter").on('change', function(e) {
+        if (this.checked ){
+            $(this).parents("label").first().addClass('select');
+        } else {
+            $(this).parents("label").first().removeClass('select');
 
+        }
+    });
 
 
 
