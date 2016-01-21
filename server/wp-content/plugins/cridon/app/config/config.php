@@ -331,4 +331,12 @@ class Config {
         'description'   => ''
     );
     //End RSS
+
+    //Listing veille
+    public static $listingVeille = array(
+        'h1'                => 'Veille juridique',
+        'meta_title'        => 'Veille juridique',
+        'meta_description'  => 'Veille juridique'
+    );
+    //End listing
 }
