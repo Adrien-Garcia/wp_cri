@@ -1,5 +1,3 @@
-<?php query_posts('order=DESC'); ?>
-<?php 
-    resetGlobalVars();
+<?php     
     include TEMPLATEPATH.'/single-vie-cridon.php';
 ?>
