@@ -17,18 +17,23 @@ class MatieresController extends BasePublicController
     function show(){
         $matiere = $this->params['id'];
         if (!empty($matiere)) {
-            $virtual_name = array(str_replace('-',' ',esc_sql(strip_tags($matiere))));
+            $virtual_name = array(esc_sql(strip_tags($matiere)));
             $this->params['conditions'] = array(
-                'Matiere.label'=> $virtual_name
+                'Matiere.virtual_name'=> $virtual_name
             );
         }
-
         $veille = new Veille;
-        $collection = $veille->getList($this->params);
-        if (!$collection['objects']){
+        $collection = $veille->getVeilleFiltered($this->params);
+        $matieres = $collection[1];
+        foreach($matieres as $mat){
+            if($mat->virtual_name == $matiere){
+                $mat->filtered = true;
+            }
+        }
+        if (!$collection[0]['objects']){
             redirectTo404();
         } else {
-            $this->set('objects', $collection['objects']);
+            $this->set('objects', $collection[0]['objects']);
             $this->set('matieres',$matieres);
             $this->set_pagination($collection);
         }
