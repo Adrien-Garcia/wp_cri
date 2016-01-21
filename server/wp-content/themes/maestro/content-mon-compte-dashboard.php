@@ -85,7 +85,7 @@
                         <p><?php echo $resume ; ?></p>
                     </li>
                     <li>
-                        <span class="<?php echo $pending ? 'en-cours' : 'repondu' ?>"><?php echo Config::$labelAffection[$question->question->id_affectation] ?></span>
+                        <span class="<?php echo $pending ? 'en-cours' : 'repondu' ?>"><?php echo Config::$labelAffection[$question->id_affectation] ?></span>
                     </li>
                 </ul>
             </li>
