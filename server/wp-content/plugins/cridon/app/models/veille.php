@@ -1,6 +1,7 @@
 <?php
 
-class Veille extends MvcModel {
+class Veille extends \App\Override\Model\CridonMvcModel {
+    
     var $table          = "{prefix}veille";
     var $includes       = array('Post','Matiere');
     var $belongs_to     = array(
@@ -36,7 +37,7 @@ class Veille extends MvcModel {
             )
         );
         return mvc_model('Document')->find($options);
-    }
+    } 
 }
 
 ?>

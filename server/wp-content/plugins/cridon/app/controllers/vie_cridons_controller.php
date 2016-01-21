@@ -37,6 +37,27 @@ class VieCridonsController extends MvcPublicController {
         $this->set_pagination($collection);
 
     }
+    /**
+     * @override
+     */
+    public function set_object() {
+        if (!empty($this->model->invalid_data)) {
+            if (!empty($this->params['id']) && empty($this->model->invalid_data[$this->model->primary_key])) {
+                $this->model->invalid_data[$this->model->primary_key] = $this->params['id'];
+            }
+            $object = $this->model->new_object($this->model->invalid_data);
+        } else if (!empty($this->params['id'])) {
+            //optimized query
+            $object = $this->model->associatePostWithDocumentById($this->params['id']);
+        }
+        if (!empty($object)) {
+            $this->set('object', $object);
+            MvcObjectRegistry::add_object($this->model->name, $this->object);
+            return true;
+        }
+        MvcError::warning('Object not found.');
+        return false;
+    }
 }
 
 ?>

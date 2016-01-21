@@ -396,13 +396,19 @@ function get_the_matiere() {
  * @return bool
  */
 function CriIsNotaire() {
-    global $current_user;
+    global $current_user,$lastQueryFindNotaire,$lastQueryFindNotaireData;
 
-    // get notaire by id_wp_user
-    $notaireData = mvc_model('notaire')->find_one_by_id_wp_user($current_user->ID);
-
+    if( $lastQueryFindNotaire === true ){
+        //No duplicate query for current user
+        $notaireData = $lastQueryFindNotaireData;
+    } else {
+        // get notaire by id_wp_user
+        $lastQueryFindNotaireData = $notaireData = mvc_model('notaire')->find_one_by_id_wp_user($current_user->ID);
+        $lastQueryFindNotaire = true;
+    }
+    
     // user logged in is notaire
-    if (is_user_logged_in() && $notaireData->id) {
+    if (is_user_logged_in() && !is_null($notaireData) && $notaireData->id) {
         return true;
     }
 
@@ -630,16 +636,6 @@ function CriListSupport()
 
     return $supports;
 
-}
-
-/**
- * Restore the questions asked by the notary
- * 
- * @return array
- */
-function criRestoreQuestions(){
-    $question = new QuestionNotaire();
-    return $question;
 }
 
 /*

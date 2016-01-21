@@ -48,17 +48,16 @@
 	<h2><?php _e('Mes dernières questions'); ?></h2>
 
     <?php
-    $questions = criRestoreQuestions();
-    $q = $questions->getQuestions();
+    $q = $controller->getQuestions();
     $i = 0;
     ?>
     <ul>
         <?php foreach($q as $question) : ?>
             <?php if ( $i >= 3 ) { break; } ?>
-        <?php $pending = ($question->question->id_affectation < CONST_QUEST_ANSWERED); ?>
+        <?php $pending = ($question->id_affectation < CONST_QUEST_ANSWERED); ?>
             <li class="js-home-block-link js-account-questions-button">
                 <?php
-                $date = date_create_from_format('Y-m-d', $question->question->creation_date);
+                $date = date_create_from_format('Y-m-d', $question->creation_date);
                 $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "";
                 ?>
                 <a href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions">
@@ -76,10 +75,10 @@
                     <li>
                         <span class="matiere"><?php echo $matiere->label ; ?></span>
                         <?php
-                        if ( !empty($question->question->content) ) {
-                            $resume = wp_trim_words($question->question->content, 18 );
+                        if ( !empty($question->content) ) {
+                            $resume = wp_trim_words($question->content, 18 );
                         } else {
-                            $resume = wp_trim_words($question->question->resume, 18 );
+                            $resume = wp_trim_words($question->resume, 18 );
                         }
                         $resume = stripslashes($resume);
                         ?>

@@ -1,6 +1,6 @@
 <?php
 
-class Formation extends MvcModel {
+class Formation extends \App\Override\Model\CridonMvcModel {
     var $table          = "{prefix}formation";
     var $includes       = array('Post');
     var $belongs_to     = array(

@@ -4,7 +4,8 @@
  * Class CahierCridon
  */
 
-class CahierCridon extends MvcModel
+
+class CahierCridon extends \App\Override\Model\CridonMvcModel
 {
     var $table = "{prefix}cahier_cridon";
     var $includes = array('Post', 'CahierCridon');
@@ -15,7 +16,7 @@ class CahierCridon extends MvcModel
     );
     var $has_many = array(
         'CahierCridon' => array(
-            'foreign_key' => 'id_parent'
+            'foreign_key' => 'id'
         )
     );
     var $display_field = 'post_id';
@@ -131,5 +132,184 @@ class CahierCridon extends MvcModel
             )
         );
         return mvc_model('Document')->find($options);
+    }
+
+    /**
+     * Overrice MvcModel::paginate
+     *
+     * @param array $options
+     * @return array
+     */
+    public function paginate($options){
+        $options['page'] = empty($options['page']) ? 1 : intval($options['page']);
+        $options['per_page'] = empty($options['per_page']) ? $this->per_page : intval($options['per_page']);
+        $limit = '';
+        if( $options['per_page'] ){
+            //put in query the limit
+            $limit = $this->db_adapter->get_limit_sql($options);
+        }
+
+        // default query
+        $query = 'SELECT c, ca, p, pca FROM
+                    (
+                        SELECT `c`.* FROM ' . $this->name . ' c
+                        LEFT JOIN Post cp ON c.`post_id` = `cp`.`ID`
+                        WHERE c.`id_parent` IS NULL
+                        ' . $limit . '
+                    ) [' . $this->name . '] c
+                    LEFT JOIN Post p ON c.`post_id` = `p`.`ID`
+                    LEFT JOIN ' . $this->name . ' ca ON ca.`id_parent` = c.id
+                    LEFT JOIN Post pca ON ca.`post_id` = `pca`.`ID`';
+
+        if (is_admin()) {
+            $query = 'SELECT c, ca, p FROM
+                    (
+                        SELECT `c`.* FROM ' . $this->name . ' c
+                        LEFT JOIN Post cp ON c.`post_id` = `cp`.`ID`
+                        ' . $limit . '
+                    ) [' . $this->name . '] c
+                    LEFT JOIN Post p ON c.`post_id` = `p`.`ID`
+                    LEFT JOIN ' . $this->name . ' ca ON ca.`id_parent` = c.id';
+        }
+
+        $q =  new \App\Override\Model\QueryStringModel($query);
+        $total_count = $q->count();
+
+        // custom options
+        $opt = array(
+            'CahierCridon' => array(
+                'foreign_key' => 'id_parent'
+            )
+        );
+        $objects = $this->getResults($q);
+        $objects = $q->processAppendChild($objects, $opt);
+        $response = array(
+            'objects' => $objects,
+            'total_objects' => $total_count,
+            'total_pages' => ceil($total_count/$options['per_page']),
+            'page' => $options['page']
+        );
+        return $response;
+    }
+
+    /**
+     * Get results
+     *
+     * @param mixed $q
+     * @return array
+     */
+    protected function getResults($q)
+    {
+        global $wpdb;
+
+        $datas = $wpdb->get_results( $q->getQueryParser()->getQuery() );
+        $results = $this->processDatas($q, $datas);
+        return $results;
+    }
+
+    /**
+     * Process data
+     *
+     * @param mixed $q
+     * @param mixed $datas
+     * @return array
+     */
+    protected function processDatas($q, $datas)
+    {
+        $new_datas = array();
+
+        //browse result
+        foreach( $datas as $data ){
+            $new_datas[] = $this->newObject($q, $data);
+        }
+        return $new_datas;
+    }
+
+    /**
+     * Fetching data in array
+     *
+     * @param mixed $q
+     * @param mixed $data
+     * @return MvcModelObject
+     */
+    protected function newObject($q, $data){
+        $from = $q->getQueryParser()->getQueryFrom();
+        $pObj = new \MvcModelObject( $from );//Model in FROM
+        $pObj->mvc_model = clone $from;//clone to get exactly same object
+        //get selected model query
+        $models = $q->getQueryParser()->getSelectedModel();
+        //Browse
+        foreach( $models as $model ) {
+            $iterator = 0;//iterator for alias
+
+            $cObj            = new \MvcModelObject($model['model']);//construct model object
+            $cObj->mvc_model = clone $model['model'];//clone to get exactly same object
+
+            //retreive from $data field of the table (model)
+            foreach ($model['model']->schema as $field => $val) {
+                //only for current model
+                if ($from->name === $model['model']->name) {
+                    //Put in parent object (in FROM) his field
+                    if (property_exists($pObj, $field)) {
+                        $cObj->$field = isset($data->{$model['alias'] . $iterator}) ? $data->{$model['alias'] . $iterator} : null;
+                        if( $field === $model['model']->primary_key){
+                            $cObj->__id = $data->{$model['alias'].$iterator};
+                        }
+                        if( $field === $model['model']->display_field){
+                            $cObj->__name = $data->{$model['alias'].$iterator};
+                        }
+                        $cObj->mvc_model->$field = isset($data->{$model['alias'] . $iterator}) ? $data->{$model['alias'] . $iterator} : null;
+                    } else {
+                        $pObj->$field            = isset($data->{$model['alias'] . $iterator}) ? $data->{$model['alias'] . $iterator} : null;
+
+                        if( $field === $model['model']->primary_key){
+                            $pObj->__id = $data->{$model['alias'].$iterator};
+                        }
+                        if( $field === $model['model']->display_field){
+                            $pObj->__name = $data->{$model['alias'].$iterator};
+                        }
+                        $pObj->mvc_model->$field = isset($data->{$model['alias'] . $iterator}) ? $data->{$model['alias'] . $iterator} : null;
+                    }
+                } else {
+                    $cObj->mvc_model->$field = isset($data->{$model['alias'] . $iterator}) ? $data->{$model['alias'] . $iterator} : null;
+                    $cObj->$field            = isset($data->{$model['alias'] . $iterator}) ? $data->{$model['alias'] . $iterator} : null;
+                    $cObj->__model_alias     = $model['alias'];
+
+                    if( $field === $model['model']->primary_key){
+                        $cObj->__id = $data->{$model['alias'].$iterator};
+                    }
+                    if( $field === $model['model']->display_field){
+                        $cObj->__name = $data->{$model['alias'].$iterator};
+                    }
+                }
+                $iterator++;
+            }
+            if ($from->name !== $model['model']->name) { // normal join
+                //name used for attribute
+                $name = strtolower($model['model']->name);
+                if ($model['alias'] == 'p') {
+                    $pObj->$name = $cObj;
+                }
+            } else { // self join
+                $name = \MvcInflector::tableize($model['model']->name);
+
+                $pObj->$name = array($cObj);
+            }
+        }
+
+        // check if child exist and append associated post model
+        if (property_exists($pObj, 'cahier_cridons')) {
+            $tItems = $pObj->cahier_cridons;
+            if (property_exists($cObj, '__model_alias')
+                && $cObj->__model_alias == 'pca' // post cahier_cridons
+                && is_array($tItems)
+                && isset($tItems[0])
+                && $tItems[0]->post_id == $cObj->ID
+            ) {
+                $tItems[0]->post = $cObj;
+            }
+        }
+
+        return $pObj;
     }
 }

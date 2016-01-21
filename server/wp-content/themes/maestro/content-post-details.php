@@ -46,9 +46,13 @@
             <?php
             $class = $object->__model_name;
             ?>
-            <?php if (method_exists($class, "getDocuments")) : ?>
+            <?php if (property_exists($object, 'documents') || method_exists($class, "getDocuments")) : ?>
             <?php
-            $documents = $class::getDocuments($object->id);
+            if (property_exists($object, 'documents')){
+                $documents = $object->documents;
+            }else{
+                $documents = $class::getDocuments($object->id);                
+            }
                 if (! empty($documents)) :
             ?>
 			<div class="documents-liees">
