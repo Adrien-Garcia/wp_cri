@@ -45,11 +45,11 @@
 				</li>
 				<li>
                     <?php
-                        $status = isset(Config::$labelAffection[$question->id_affectation]) ? Config::$labelAffection[$question->question->id_affectation] : "Status indisponible";
+                        $status = isset(Config::$labelAffection[$question->id_affectation]) ? Config::$labelAffection[$question->id_affectation] : "Status indisponible";
                     if ( ($question->id_affectation == 2 || $question->id_affectation == CONST_QUEST_ANSWERED)
                         && $juristes[$question->id]->juriste_code != null
                     ) {
-                        $status .= '<span class="person">par ' . ($juristes[$question->id]->juriste_name != null ? $juristes[$question->question->id]->juriste_name : $juristes[$question->question->id]->juriste_code) . '</span>';
+                        $status .= '<span class="person">par ' . ($juristes[$question->id]->juriste_name != null ? $juristes[$question->id]->juriste_name : $juristes[$question->id]->juriste_code) . '</span>';
                     }
                     ?>
 

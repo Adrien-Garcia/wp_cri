@@ -1894,7 +1894,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $user = CriNotaireData();//get Notaire        
         $condTreated = (!is_array($treated)) ? 'Q.treated = '.$treated : 'Q.treated IN ('.implode(',',$treated).')';
         $query = '
-            SELECT d,q,s,m,c,a,n
+            SELECT d,q,s,m,c,n
             FROM (SELECT Q.* 
                     FROM Question AS Q
                     JOIN Notaire AS N ON Q.client_number = N.client_number
@@ -1906,8 +1906,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     '.$limit.'
                  ) [Question] q
             LEFT JOIN Document d ON (d.id_externe = q.id AND d.type = "question" ) 
-            LEFT JOIN Affectation a ON a.id = q.id_affectation 
-            LEFT JOIN Support s ON s.id = q.id_support 
+            LEFT JOIN Support s ON s.id = q.id_support
             LEFT JOIN Competence c ON c.id = q.id_competence_1 
             LEFT JOIN Matiere m ON m.code = c.code_matiere
             JOIN Notaire n ON n.client_number = q.client_number
