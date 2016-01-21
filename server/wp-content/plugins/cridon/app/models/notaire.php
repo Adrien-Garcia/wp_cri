@@ -1767,7 +1767,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if(!is_admin()){
             $user = CriNotaireData();//get Notaire
             $where = $this->getFilters($options);//Filter
-            $query = $this->prepareQueryForFront($options['treated'],$where, $limit);
+            $query = $this->prepareQueryForFront($options['status'],$where, $limit);
             //Total query for pagination
             $query_count ='
                 SELECT COUNT(*) AS count 
@@ -1874,12 +1874,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * 
      * @return mixed
      */
-    public function getPending($treated,$options){
+    public function getPending($status,$options){
         $where = $this->getFilters($options);//Filter
-        $query = $this->prepareQueryForFront( $treated,$where );
+        $query = $this->prepareQueryForFront( $status,$where );
         //convert pseudo query to sql
         $qs = new \App\Override\Model\QueryStringModel($query);
-        return $qs->getResults();
+        $objects = $qs->getResults();
+        $objects = $this->processAppendDocuments($objects);
+        return $objects;
     }
     
     /**
@@ -1890,9 +1892,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * @param string $limit
      * @return string
      */
-    protected function prepareQueryForFront($treated,$where,$limit = ''){
-        $user = CriNotaireData();//get Notaire        
-        $condTreated = (!is_array($treated)) ? 'Q.treated = '.$treated : 'Q.treated IN ('.implode(',',$treated).')';
+    protected function prepareQueryForFront($status,$where,$limit = ''){
+        $user = CriNotaireData();//get Notaire   
+        $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
         $query = '
             SELECT d,q,s,m,c,n
             FROM (SELECT Q.* 
@@ -1901,7 +1903,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     JOIN Etude AS E ON E.crpcen = N.crpcen 
                     LEFT JOIN Competence AS C ON Q.id_competence_1 = C.id
                     LEFT JOIN Matiere AS M ON M.code = C.code_matiere
-                    WHERE '.$condTreated.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
+                    WHERE '.$condAffectation.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
                     ORDER BY Q.creation_date DESC 
                     '.$limit.'
                  ) [Question] q
