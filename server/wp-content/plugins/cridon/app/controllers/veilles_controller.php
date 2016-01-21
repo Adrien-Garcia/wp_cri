@@ -15,8 +15,9 @@
 class VeillesController extends MvcPublicController {
     
     public function index() {
-        //All Matiere
+        //All Matiere in Veilles
         $matieres = mvc_model('Matiere')->find();
+        //$matieres = CriAdminNavMenu::getListMat();
 
         if ( isset($_POST['matieres']) && !empty($_POST['matieres']) && is_array($_POST['matieres']) ){
             $virtual_names = array();
@@ -41,7 +42,7 @@ class VeillesController extends MvcPublicController {
         $collection = $this->model->getList($this->params);
 
         $this->set('objects', $collection['objects']);
-        $this->set('matieres',$collection['matieres']);
+        $this->set('matieres',$matieres);
         $this->set_pagination($collection);
     }
 

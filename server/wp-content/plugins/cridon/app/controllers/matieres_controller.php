@@ -29,6 +29,7 @@ class MatieresController extends BasePublicController
             redirectTo404();
         } else {
             $this->set('objects', $collection['objects']);
+            $this->set('matieres',$matieres);
             $this->set_pagination($collection);
         }
     }

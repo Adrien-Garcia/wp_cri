@@ -479,7 +479,7 @@ function CriListMatieres()
     // init
     $matieres = array();
 
-    // query optoins
+    // query options
     $options = array(
         'selects' => array('Matiere.id', 'Matiere.label', 'Matiere.code'),
         'conditions' => array(

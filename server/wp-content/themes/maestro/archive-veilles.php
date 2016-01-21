@@ -25,10 +25,7 @@
 					<div class="panel">
 						<a href="">Toute la veille juridique</a>
 
-						<?php 
-							$matieres = CriListMatieres();
-						 ?>
-						<form method="post">
+						<form action= "<?php MvcRouter::public_url(['controller' => 'veilles']); ?>", method="get">
 							<ul>
 								<?php foreach($matieres as $key => $matiere): ?>
 								<li>
