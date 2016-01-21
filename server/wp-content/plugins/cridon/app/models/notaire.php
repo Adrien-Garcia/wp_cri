@@ -1879,7 +1879,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $query = $this->prepareQueryForFront( $treated,$where );
         //convert pseudo query to sql
         $qs = new \App\Override\Model\QueryStringModel($query);
-        return $qs->getResults();
+        $objects = $qs->getResults();
+        $objects = $this->processAppendDocuments($objects);
+        return $objects;
     }
     
     /**
