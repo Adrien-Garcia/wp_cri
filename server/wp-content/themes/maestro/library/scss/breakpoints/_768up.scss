@@ -910,7 +910,7 @@ body.page-template-front-page{
 										text-align: left;
 										float: left;
 										width: calc(100% - 40px);
-										line-height: 18px;
+										//line-height: 24px;
 										margin-bottom: 5px;
 									}
 
@@ -922,6 +922,14 @@ body.page-template-front-page{
 										height: 36px;
 										overflow: hidden;
 
+									}
+
+									.adresse{
+										width: calc(100% - 40px);
+										text-align:left;
+										margin-left: 40px;
+										margin-top: 20px;
+										float: left;
 									}
 
 									> a {									
@@ -964,6 +972,14 @@ body.page-template-front-page{
 					}
 
 				}
+				
+				#accordion-formations{ /* specifique accordion formations*/
+					.panel .content > ul > li .chapeau-categorie{
+						max-height: 56px;
+						height: auto;
+					}
+				}
+				
 
 				div.panel.closed{
 
@@ -1307,16 +1323,7 @@ body.page-template-front-page{
 		
 		padding-top: 60px;
 
-		&:before{
-
-			/*@include sprite ($before-bg-bandeau);
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 50%;
-			margin-left: -43px;*/
-
-		}
+		&:before{}
 
 		#inner-content{
 
@@ -1336,11 +1343,74 @@ body.page-template-front-page{
 				border-bottom: none;
 				height: inherit;
 
+				#tri_matiere{
+
+					>label{}
+
+					span.open{}
+					span.close{}
+
+					span{}
+
+				}
+
+				.panel{					
+
+					>a {}
+
+					ul{
+						width: 100%;
+						float: left;
+
+						>li{
+
+							width: 33%;
+							float: left;
+							margin: 3px 0;
+
+							>label{								
+
+								&:before{}
+
+								>input{}
+
+								&.select{
+
+									&:before{}
+
+								}
+
+								cursor: pointer;
+
+							    &:hover{
+
+							    	&:before{
+							    		background: $rouge;
+							    	}
+							    }
+							}
+						}
+					}
+					#bt_valider{
+						/*margin:0 0 20px 10px;*/
+						margin-bottom: 0;
+
+					}
+
+
+				}
+
+				
+
+				#bt_valider{
+					margin:0 0 20px 10px;
+				}
+
 			}
 
 			.listing{
 
-			margin-top: 80px;
+			margin-top: 50px; 
 
 				article{
 
@@ -1560,6 +1630,14 @@ body.page-template-front-page{
 		}
 
 	}  
+}
+
+#content.archive-formations{
+	#main #inner-content .listing{
+		margin-top: 20px;
+
+	}
+
 }
 
 
@@ -1832,7 +1910,12 @@ body.page-template-front-page{
 }
 
 
-#content.page, #content.archive, #content.single{
+#content.page,
+#content.archive,
+#content.single,
+body.page #content,
+body.single #content{
+
 	padding-top: 130px;
 
 	.breadcrumbs{		

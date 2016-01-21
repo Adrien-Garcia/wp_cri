@@ -47,6 +47,13 @@ class AdminFormationsController extends BaseAdminController
         )
     );
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->model->per_page = CONST_ADMIN_NB_FORMATIONS_PERPAGE;
+    }
+
     public function index()
     {
         $this->init_default_columns();

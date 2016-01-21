@@ -172,13 +172,13 @@ if ( !defined( 'CONST_STATUS_DISABLED' ) ) {
 
 // default role by notaire group
 if ( !defined( 'CONST_OFFICES_ROLE' ) ) {
-    define( 'CONST_OFFICES_ROLE', 'off' );
+    define( 'CONST_OFFICES_ROLE', 'OFF' );
 }
 if ( !defined( 'CONST_ORGANISMES_ROLE' ) ) {
-    define( 'CONST_ORGANISMES_ROLE', 'org' );
+    define( 'CONST_ORGANISMES_ROLE', 'ORG' );
 }
 if ( !defined( 'CONST_CLIENTDIVERS_ROLE' ) ) {
-    define( 'CONST_CLIENTDIVERS_ROLE', 'div' );
+    define( 'CONST_CLIENTDIVERS_ROLE', 'DIV' );
 }
 
 // import option to be used (csv, odbc, oci)
@@ -284,7 +284,7 @@ if ( !defined( 'CONST_EMAIL_ERROR_CORRUPTED_FILE' ) ) {
 
 // Error reporting for Exception
 if ( !defined( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION' ) ) {
-    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exeption a été levée avec le message d\'erreur suivante : "%s"' );
+    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exception a été levée avec le message d\'erreur suivante : "%s"' );
 }
 // Appel && Courrier support id
 if ( !defined( 'CONST_SUPPORT_APPEL_ID' ) ) {
@@ -307,6 +307,9 @@ if ( !defined( 'CONST_SUPPORT_MES_DIANE' ) ) {
 }
 
 // Notaire fonctions id (used for filtering capability)
+if ( !defined( 'CONST_NOTAIRE_FONCTION' ) ) {
+    define( 'CONST_NOTAIRE_FONCTION', 1 );
+}
 if ( !defined( 'CONST_NOTAIRE_ASSOCIE' ) ) {
     define( 'CONST_NOTAIRE_ASSOCIE', 2 );
 }
@@ -330,6 +333,9 @@ if ( !defined( 'CONST_NOTAIRE_SUPLEANT' ) ) {
 }
 if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
     define( 'CONST_NOTAIRE_SUPLEANTE', 9 );
+}
+if ( !defined( 'CONST_NOTAIRE_ADMIN' ) ) {
+    define( 'CONST_NOTAIRE_ADMIN', 10 );
 }
 
 // Add Question Form
@@ -411,6 +417,10 @@ if ( !defined( 'CONST_QUEST_UPDATED_IN_X3' ) ) {
 }
 if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
     define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
+}
+
+if ( !defined( 'CONST_QUEST_ANSWERED' ) ) {
+    define( 'CONST_QUEST_ANSWERED', 4 );
 }
 
 // import GED
@@ -563,4 +573,14 @@ if ( !defined( 'CONST_ADMIN_NB_ITEM_PERPAGE' ) ) {
 // default notaire 2006_2009 password
 if ( !defined( 'CONST_NOTARY_PWD' ) ) {
     define( 'CONST_NOTARY_PWD', 'cridon-jetpulp-2016' );
+}
+
+// admin nb formations per page
+if ( !defined( 'CONST_ADMIN_NB_FORMATIONS_PERPAGE' ) ) {
+    define( 'CONST_ADMIN_NB_FORMATIONS_PERPAGE', 10 );
+}
+
+// admins Cridon role
+if ( !defined( 'CONST_ADMINCRIDON_ROLE' ) ) {
+    define( 'CONST_ADMINCRIDON_ROLE', 'admincridon' );
 }

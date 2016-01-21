@@ -19,7 +19,7 @@
 
 		<div class="point sel-solde-data" id="js-solde-data" data-solde="<?php echo ($notaire->solde >= 0) ? $notaire->solde : "0"; ?>" data-solde-max="<?php echo $notaire->quota ?>">
 			<div class="pts" >
-                <?php echo $notaire->solde ?> <span>pt<?php echo ($notaire->solde < 2 && $notaire->solde > -2) ? "" : "s" ?></span>
+                <?php echo $notaire->solde >= 0 ? $notaire->solde : 0; ?> <span>pt<?php echo ($notaire->solde < 2 && $notaire->solde > -2) ? "" : "s" ?></span>
 			</div>
 			<span>quota <?php echo $notaire->quota ?></span>
 		</div>									
@@ -55,7 +55,7 @@
     <ul>
         <?php foreach($q as $question) : ?>
             <?php if ( $i >= 3 ) { break; } ?>
-        <?php $state = ($question->question->treated == 0 || $question->question->treated == 1) ? 'p' : 'a'; ?>
+        <?php $pending = ($question->question->id_affectation < CONST_QUEST_ANSWERED); ?>
             <li class="js-home-block-link js-account-questions-button">
                 <?php
                 $date = date_create_from_format('Y-m-d', $question->question->creation_date);
@@ -81,16 +81,12 @@
                         } else {
                             $resume = wp_trim_words($question->question->resume, 18 );
                         }
+                        $resume = stripslashes($resume);
                         ?>
                         <p><?php echo $resume ; ?></p>
                     </li>
                     <li>
-                        <?php if ($state == 'p') : ?>
-                            <span class="en-cours">en cours</span>
-                        <?php else: ?>
-                            <span class="repondu">répondu</span>
-                        <?php endif; ?>
-
+                        <span class="<?php echo $pending ? 'en-cours' : 'repondu' ?>"><?php echo Config::$labelAffection[$question->question->id_affectation] ?></span>
                     </li>
                 </ul>
             </li>

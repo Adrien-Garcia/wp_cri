@@ -14,7 +14,6 @@
 
 require_once 'EntityInterface.php';
 require_once 'Entity.php';
-require_once 'entity/AffectationEntity.php';
 require_once 'entity/CompetenceEntity.php';
 require_once 'entity/DocumentEntity.php';
 require_once 'entity/MatiereEntity.php';

@@ -29,7 +29,9 @@
 							$_flash_url = get_permalink();
 						 ?>
 					<div class="content" id="sel-flash-present">
-						<div class="texte"><?php echo $_flash_title; ?>
+						<div class="texte">
+							<?php //echo $_flash_title; ?>
+							<?php echo truncate($_flash_title,110, '...'); ?>
 							<a id="sel-flash-link-present" href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
 						</div>
 						
@@ -53,7 +55,7 @@
 
    				<div id="onglets">
    					<h3 class="juridique open js-tab-veille-open"><span><?php _e('Veille juridique'); ?></span></h3>   				
-   					<!--h3 class="formations js-tab-formation-open"><span><?php // _e('Formations'); ?></span></h3!-->
+   					<h3 class="formations js-tab-formation-open"><span><?php _e('Formations'); ?></span></h3>
    				</div>
    				<div class="details">
    					<div id="accordion-juridique" class="accordion js-tab-veille open">
@@ -141,6 +143,13 @@
 									<img src="" alt="" />
 									<h4><?php echo $_title; ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
+									<div class="adresse">
+										La Joliette<br />
+										20A Boulevard du Plomb<br />
+										13581 Marseille Cedex 20<br />
+										France
+										
+									</div>
 									<a href="<?php echo $_link ?>"><?php _e('Lire'); ?></a>
 								</li>
 								<?php endforeach; ?>
@@ -154,7 +163,7 @@
 
 					    <div class="blockEnd"></div>
 
-					    <a href="#" title=""><span><?php _e('Toutes les formations'); ?></span></a>
+					    <a href="<?php echo MvcRouter::public_url(array('controller' => 'formations', 'action'     => 'index')) ?>" title=""><span><?php _e('Toutes les formations'); ?></span></a>
    						
    					</div>
    				</div>

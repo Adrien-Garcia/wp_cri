@@ -18,11 +18,9 @@ class Question extends MvcModel
 
     var $display_field = 'srenum';
     var $table         = '{prefix}question';
-    var $includes      = array('Competence','Competences','Affectation','Support', 'Notaire');
+    var $includes      = array('Competence','Competences','Support', 'Notaire');
     var $belongs_to    = array(
         'Competence' => array('foreign_key' => 'id_competence_1'),
-        //'Competence_2' => array('foreign_key' => 'id_competence_2'),
-        'Affectation' => array('foreign_key' => 'id_affectation'),
         'Support' => array('foreign_key' => 'id_support')
     );
     var $has_and_belongs_to_many = array(
@@ -259,7 +257,7 @@ class Question extends MvcModel
         $options               = array();
         $options['table']      = 'question';
         $options['attributes'] = 'srenum, client_number, sreccn, id_support, id_competence_1, `resume`, id_affectation, juriste, ';
-        $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, treated, creation_date, date_modif, ';
+        $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, creation_date, date_modif, ';
         $options['attributes'] .= 'hour_modif, transmis_erp, confidential, content';
 
         while ($data = $adapter->fetchData()) {
@@ -402,7 +400,8 @@ class Question extends MvcModel
 
         //Not access form, only for Notaire connected
         if( !is_user_logged_in() || !CriIsNotaire() ){
-            return false;
+            $response['error'][] = is_user_logged_in() ? 'Vous n\'êtes pas autorisé à effectuer cette action' : 'Veuillez vous re-connecter';
+            return $response;
         }
         try {
             // notaire data
@@ -411,8 +410,8 @@ class Question extends MvcModel
             // notaire exist
             if ($notaire->client_number
                 && isset($post[CONST_QUESTION_OBJECT_FIELD]) && $post[CONST_QUESTION_OBJECT_FIELD] != ''
-                && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && $post[CONST_QUESTION_SUPPORT_FIELD] != ''
-                && isset($post[CONST_QUESTION_MATIERE_FIELD]) && intval($post[CONST_QUESTION_MATIERE_FIELD]) > 0
+                && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && ctype_digit($post[CONST_QUESTION_SUPPORT_FIELD])  && ((int) $post[CONST_QUESTION_SUPPORT_FIELD] > 0)
+                && isset($post[CONST_QUESTION_MATIERE_FIELD]) && !empty($post[CONST_QUESTION_MATIERE_FIELD])
                 && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && $post[CONST_QUESTION_COMPETENCE_FIELD] != ''
                 && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
             ) {
@@ -484,7 +483,7 @@ class Question extends MvcModel
                         $response['error'][] = sprintf(CONST_QUESTION_FILE_SIZE_ERROR,
                                            (CONST_QUESTION_MAX_FILE_SIZE / 1000000) . 'M');
 
-                        return $response['error'];
+                        return $response;
                     }
                 }
             }else{
@@ -494,7 +493,7 @@ class Question extends MvcModel
                 if (!isset($post[CONST_QUESTION_MESSAGE_FIELD]) || $post[CONST_QUESTION_MESSAGE_FIELD] == '') {
                     $response['error'][] = CONST_EMPTY_MESSAGE_ERROR_MSG;
                 }
-                if (!isset($post[CONST_QUESTION_SUPPORT_FIELD]) || intval($post[CONST_QUESTION_SUPPORT_FIELD] <= 0)) {
+                if (!isset($post[CONST_QUESTION_SUPPORT_FIELD]) || !ctype_digit($post[CONST_QUESTION_SUPPORT_FIELD]) || intval($post[CONST_QUESTION_SUPPORT_FIELD] <= 0)) {
                     $response['error'][] = CONST_EMPTY_SUPPORT_ERROR_MSG;
                 }
                 if (!isset($post[CONST_QUESTION_MATIERE_FIELD]) || intval($post[CONST_QUESTION_MATIERE_FIELD] <= 0)) {
@@ -594,7 +593,6 @@ class Question extends MvcModel
         $value .= empty($wishDate) ? 'NULL, ' : "'" . $wishDate . "', "; // wish_date
         $value .= empty($realDate) ? 'NULL, ' : "'" . $realDate . "', "; // real_date
         $value .= "'" . (isset($data[$adapter::QUEST_YUSER]) ? esc_sql($data[$adapter::QUEST_YUSER]) : '') . "', "; // yuser
-        $value .= "'" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
         $value .= "'" . (($updatedDate != '') ? $updatedDate : date('Y-m-d')) . "', "; // creation_date
         $value .= empty($updatedDate) ? 'NULL, ' : "'" . $updatedDate . "', "; // date_modif
         $value .= empty($updatedHour) ? 'NULL, ' : "'" . $updatedHour . "', "; // hour_modif
@@ -802,8 +800,6 @@ class Question extends MvcModel
                         if (isset($data[$adapter::QUEST_YUSER])) {
                             $query .= " yuser = '" . esc_sql($data[$adapter::QUEST_YUSER]) . "', ";
                         }
-
-                        $query .= " treated = '" . CONST_QUEST_UPDATED_IN_X3 . "', "; // treated
 
                         $query .= " date_modif = " . (empty($updatedDate) ? "NULL," : "'".$updatedDate."'") . ", ";
                         $query .= " hour_modif = " . (empty($updatedHour) ? "NULL," : "'".$updatedHour."'") . ", ";
@@ -1136,7 +1132,7 @@ class Question extends MvcModel
                             $value .= "'" . $zquest_zcomp_2 . "', "; // ZQUEST_ZCOMP_2
                             $value .= "'" . $zquest_zcomp_3 . "', "; // ZQUEST_ZCOMP_3
                             $value .= "'" . $zquest_zcomp_4 . "', "; // ZQUEST_ZCOMP_4
-                            $value .= "'" . ( empty($question->resume) ? ' ' : html_entity_decode($question->resume) ) . "', "; // ZQUEST_YRESUME_0
+                            $value .= "'" . ( empty($question->resume) ? ' ' : str_replace('\\\'', '\'\'', html_entity_decode($question->resume)) ) . "', "; // ZQUEST_YRESUME_0
                             $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
                             $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy'), "; // ZQUEST_CREDAT_0
                             $value .= "'000000',"; // ZQUEST_SRENUM_0

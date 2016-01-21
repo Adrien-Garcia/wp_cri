@@ -115,19 +115,21 @@ if (isset ($_GET['hook'])) {
     		}
     		
 		}*/
-		
+
 		// simply use the ln command to symlink the node_modules directory
-		$cmd = "";		
+		/*$cmd = "";
+		// change to gulp local directory before executing "npm link pck1 pck2..." command
+		chdir(dirname(__FILE__) . DS . "gulp");
+
 		if( file_exists( dirname(__FILE__) . DS . "gulp/node_modules" ) ) {
 		    $cmd .= "rm -rf node_modules && ";
 		}
-            
+
 	    $cmd .= "ln -s /usr/local/lib/node_modules";
         $cmd .= " 2>&1";
-		
-		// change to gulp local directory before executing "npm link pck1 pck2..." command
-		chdir(dirname(__FILE__) . DS . "gulp");
-		
+
+
+
 		$output = array();
 		$output[] = "exec >> ".$cmd;
 		$result;
@@ -137,10 +139,10 @@ if (isset ($_GET['hook'])) {
 		    _log($output, true);
 		    die();
 		}
-		
-		
+
+
 		// execute gulp task
-		$cmd = "gulp prod 2>&1";
+		$cmd = "gulp build 2>&1";
 		$output = array();
 		$output[] = "exec >> ".$cmd;
 		exec($cmd, $output, $result);
@@ -148,8 +150,8 @@ if (isset ($_GET['hook'])) {
 		    $output[]="<h2>Error while executing gulp tasks :</h2><br/>$result";
 		    _log($output, true);
 		    die();
-		}
-		
+		}*/
+
 		//On baisse le flag maintenance
 		unlink (dirname(__FILE__).DS.'.maintenance');
 		

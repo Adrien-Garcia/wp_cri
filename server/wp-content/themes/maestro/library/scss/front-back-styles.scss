@@ -46,7 +46,7 @@ h3, .h3 {
 h4, .h4 {
   font-size: 1.1em;
   font-weight: 700;
-  color:$h4-color;
+  color:$vert;
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4{
@@ -71,7 +71,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4{
 
 }
 
-#tinymce, .single article .content{
+#tinymce, .single article .content, body.page article .entry-content, #regles-facturation{
 
   color:$bleu;
 
@@ -94,11 +94,9 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4{
     
     font-size: 15px;
     line-height: 18px;                
-    text-transform: uppercase;
-    
+    text-transform: uppercase;    
     margin: 0;
     position: relative;
-
     
   }
 
@@ -108,12 +106,12 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4{
     padding: 10px 0;
     &:after{
       content:'';
-    width: 40px;
-    height: 1px;
-    background: $bleu;
-    position: absolute;
-    left: 0;
-    bottom: 0;
+      width: 40px;
+      height: 1px;
+      background: $bleu;
+      position: absolute;
+      left: 0;
+      bottom: 0;
     }
   }
 
@@ -123,25 +121,35 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4{
     margin-left: 20px;
   }
 
-  >p{
-    margin: 15px 0;
+  h4{
+     color:$bleu;
+    @extend .do-me;
+    line-height: 18px;                
+    text-transform: uppercase;    
+    margin: 0;
+    position: relative;
+    margin: 10px 0 5px
+  }
+
+  p{
+    margin: 10px 0;
   }
 
   h3 + p {
     color:$vert;
-                margin: 0 0 0 20px;
+     margin: 0 0 10px 20px;
             }
 
   ul, ol{
 
-    margin: 0;
+    margin: 10px 0;
     padding: 0;
 
     li{
       position: relative;
       display: block;
       vertical-align: middle;
-      line-height: 14px;
+      line-height: 20px;
 
       padding: 3px 0 0 20px;
       margin: 0 0 5px 0;

@@ -4,9 +4,9 @@ backup_path: wp_cridon_*.sql
 backup_local: true
 update: |
   UPDATE cri_options set option_value = "http://wp-cridon.username.jetpulp.dev" where option_name in("siteurl", "home");
-  UPDATE cri_posts SET guid = replace(guid, 'http://cridon.preprod.addonline.biz','http://wp-cridon.username.jetpulp.dev');
-  UPDATE cri_posts SET post_content = replace(post_content, 'http://cridon.preprod.addonline.biz', 'http://wp-cridon.username.jetpulp.dev');
-  UPDATE cri_postmeta SET meta_value = replace(meta_value, 'http://cridon.preprod.addonline.biz', 'http://wp-cridon.username.jetpulp.dev');
+  UPDATE cri_posts SET guid = replace(guid, '://www.cridon-lyon.fr','://wp-cridon.username.jetpulp.dev');
+  UPDATE cri_posts SET post_content = replace(post_content, '://www.cridon-lyon.fr', '://wp-cridon.username.jetpulp.dev');
+  UPDATE cri_postmeta SET meta_value = replace(meta_value, '://www.cridon-lyon.fr', '://wp-cridon.username.jetpulp.dev');
   UPDATE cri_options set option_value = "http://images.wp-cridon.username.jetpulp.dev/wp-content/uploads" where option_name = "upload_url_path";
-  UPDATE cri_posts SET post_content = REPLACE(post_content,'http://images.cridon.preprod.addonline.biz/wp-content/uploads','http://images.wp-cridon.username.jetpulp.dev/wp-content/uploads')
-  UPDATE cri_posts SET guid = REPLACE(guid,'http://images.cridon.preprod.addonline.biz/wp-content/uploads','http://images.wp-cridon.username.jetpulp.dev/wp-content/uploads')
+  UPDATE cri_posts SET post_content = REPLACE(post_content,'://images.cridon-lyon.fr/wp-content/uploads','://images.wp-cridon.username.jetpulp.dev/wp-content/uploads')
+  UPDATE cri_posts SET guid = REPLACE(guid,'://images.cridon-lyon.fr/wp-content/uploads','://images.wp-cridon.username.jetpulp.dev/wp-content/uploads')

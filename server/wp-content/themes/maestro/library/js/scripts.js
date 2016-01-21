@@ -194,6 +194,41 @@ jQuery(document).ready(function($) {
 
 
 
+    /* FILTRE LISTE VEILLES */
+
+    $("#tri_matiere").click(function(){
+
+    	$("#tri_matiere > span").toggleClass("active"); 
+
+    	$("#tri_matiere + .panel").toggle('slow');
+
+    });
+
+    
+
+    /* ARCHIVE FORMATIONS */
+
+    $("#filtres_formations .futures").click(function(){
+    	$(this).addClass("open");
+    	$("#filtres_formations .passees").removeClass("open");
+    });
+
+    $("#filtres_formations .passees").click(function(){
+    	$(this).addClass("open");
+    	$("#filtres_formations .futures").removeClass("open");
+    });
+
+
+    $(".js-veille-matiere-filter").on('change', function(e) {
+        if (this.checked ){
+            $(this).parents("label").first().addClass('select');
+        } else {
+            $(this).parents("label").first().removeClass('select');
+
+        }
+    });
+
+
 
 
 

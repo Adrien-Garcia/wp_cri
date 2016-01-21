@@ -326,19 +326,22 @@ class Notaire extends MvcModel
 
             // prepare data
             while ($data = $adapter->fetchData()) {
-                if (isset( $data[$adapter::NOTAIRE_CRPCEN] ) && intval($data[$adapter::NOTAIRE_CRPCEN]) > 0) { // valid login
-                    // the only unique key available is the "crpcen + web_password"
-                    $uniqueKey = $data[$adapter::NOTAIRE_CRPCEN] . $data[$adapter::NOTAIRE_PWDWEB];
-                    array_push($this->erpNotaireList, $uniqueKey);
+                if (isset( $data[$adapter::NOTAIRE_CRPCEN] )) {
+                    $data[$adapter::NOTAIRE_CRPCEN] = trim($data[$adapter::NOTAIRE_CRPCEN]);
+                    if (!empty($data[$adapter::NOTAIRE_CRPCEN])) {
+                        // the only unique key available is the "crpcen + web_password"
+                        $uniqueKey = $data[$adapter::NOTAIRE_CRPCEN] . $data[$adapter::NOTAIRE_PWDWEB];
+                        array_push($this->erpNotaireList, $uniqueKey);
 
-                    // notaire data filter
-                    $this->erpNotaireData[$uniqueKey] = $data;
+                        // notaire data filter
+                        $this->erpNotaireData[$uniqueKey] = $data;
 
-                    // Fill list of ERP Etude
-                    array_push($this->erpEtudeList, $data[$adapter::NOTAIRE_CRPCEN]);
+                        // Fill list of ERP Etude
+                        array_push($this->erpEtudeList, $data[$adapter::NOTAIRE_CRPCEN]);
 
-                    // Etude data filter
-                    $this->erpEtudeData[$data[$adapter::NOTAIRE_CRPCEN]] = $data;
+                        // Etude data filter
+                        $this->erpEtudeData[$data[$adapter::NOTAIRE_CRPCEN]] = $data;
+                    }
                 }
             }
 
@@ -1620,9 +1623,9 @@ class Notaire extends MvcModel
         $object = $this->getUserConnectedData();
 
         return (isset($object->category)
-                && strtolower($object->category) === CONST_OFFICES_ROLE
-                && isset($object->fonction->id)
-                && !in_array($object->fonction->id, Config::$cannotAccessFinance)
+                && (strcasecmp($object->category, CONST_OFFICES_ROLE) === 0)
+                && isset($object->id_fonction)
+                && in_array($object->id_fonction, Config::$canAccessFinance)
         ) ? true : false;
     }
 

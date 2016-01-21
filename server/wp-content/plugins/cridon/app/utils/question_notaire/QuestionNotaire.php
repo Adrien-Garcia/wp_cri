@@ -22,7 +22,7 @@ class QuestionNotaire{
      * @var array 
      */
     public $entities = array(
-        'Document','Affectation','Competence','Matiere','Notaire','Support','Question'
+        'Document','Competence','Matiere','Notaire','Support','Question'
     );
     
     public $user;
@@ -134,7 +134,7 @@ class QuestionNotaire{
         if( empty( $this->user ) ){
             return null;
         }
-        $options = $this->generateOptionsQueries(array(0,1,2));
+        $options = $this->generateOptionsQueries(array(1,2,3,4));
         $options['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
         $options = array_merge($options, $this->params );
         $collection = $this->entityManager->paginate($options);
@@ -151,7 +151,7 @@ class QuestionNotaire{
         if( empty( $this->user ) ){
             return null;
         }
-        $options = $this->generateOptionsQueries( array(0,1) );
+        $options = $this->generateOptionsQueries( array(1,2,3) );
         $results = $this->entityManager->getResults($options);
         return $results;
     }
@@ -165,7 +165,7 @@ class QuestionNotaire{
         if( empty( $this->user ) ){
             return null;
         }
-        $options = $this->generateOptionsQueries(2);
+        $options = $this->generateOptionsQueries(4 ,true);
         $options['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
         $options = array_merge($options, $this->params );
         $collection = $this->entityManager->paginate($options);
@@ -183,7 +183,7 @@ class QuestionNotaire{
         $newData = array();
         foreach( $data as $v ){
             $documents = $this->getDocuments($v->question->id,'');
-            $v->{documents} = $documents;
+            $v->documents = $documents;
             $newData[] = $v;
         }
         return $newData;
@@ -229,30 +229,32 @@ class QuestionNotaire{
     /**
      * Gérer les options pour la requête
      * 
-     * @param type $treated
+     * @param type $status
      * @return array
      */
-    protected function generateOptionsQueries( $treated ){
+    protected function generateOptionsQueries( $status, $filtered = false ){
         global $wpdb;
-        $condTreated = (!is_array($treated)) ? 'Q.treated = '.$treated : 'Q.treated IN ('.implode(',',$treated).')';
-        $where = $this->getFilters();//Ajout des filtres
+        $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
+        $where = "";
+        if($filtered) {
+            $where = $this->getFilters();//Ajout des filtres
+        }
         //Requête principale
         //Au niveau du SELECT nous avons les noms des modèles mais ils doivent être aussi utilisés comme alias aussi
         //[LIMIT] sert à inserer le limit si nous avons une pagination sinon il sera remplacer par un vide('')
         $sql = '
-            SELECT Document,Question,Support,Matiere,Competence,Affectation,Notaire
-            FROM (SELECT Q.* 
+            SELECT Document,Question,Support,Matiere,Competence,Notaire
+            FROM (SELECT DISTINCT Q.* 
                     FROM '.$wpdb->prefix.'question AS Q
                     JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
                     JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
-                    LEFT JOIN cri_competence AS C ON  Q.id_competence_1 = C.id
-                    JOIN cri_matiere AS M ON M.code = C.code_matiere 
-                    WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'                    
+                    LEFT JOIN '.$wpdb->prefix.'competence AS C ON  Q.id_competence_1 = C.id
+                    JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
+                    WHERE '.$condAffectation.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'
                     ORDER BY Q.creation_date DESC 
                     [LIMIT]
                  ) AS Question
             LEFT JOIN '.$wpdb->prefix.'document AS Document ON (Document.id_externe = Question.id AND Document.type = "question" ) 
-            LEFT JOIN '.$wpdb->prefix.'affectation AS Affectation ON Affectation.id = Question.id_affectation 
             LEFT JOIN '.$wpdb->prefix.'support AS Support ON Support.id = Question.id_support 
             LEFT JOIN '.$wpdb->prefix.'competence AS Competence ON Competence.id = Question.id_competence_1 
             LEFT JOIN '.$wpdb->prefix.'matiere AS Matiere ON Matiere.code = Competence.code_matiere
@@ -264,10 +266,10 @@ class QuestionNotaire{
             SELECT DISTINCT Q.id 
             FROM '.$wpdb->prefix.'question AS Q
             JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
-            JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
-            LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1 
+            JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
+            LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1
             JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
-            WHERE '.$condTreated.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'  
+            WHERE '.$condAffectation.' AND E.crpcen = "'.$this->user->crpcen.'" '.$where.'
             ORDER BY Q.creation_date DESC
         ) AS Q
                 ';

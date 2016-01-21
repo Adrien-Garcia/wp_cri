@@ -77,7 +77,7 @@ function criGetLatestPost( $model ){
         $latest = new stdClass();
         $latest->title   = $result->post_title;
         $latest->content = $result->post_content;
-        $latest->link = CridonPostUrl::generatePostUrl( $model, $result->join_id );
+        $latest->link = CridonPostUrl::generatePostUrl( $model, $result->post_name );
         $latest->post = $tools->createPost( $result ); // Create Object WP_Post
         return $latest;
     }
@@ -112,7 +112,7 @@ if (!function_exists('criSetLoginFormOptions')) {
             $cri_container->setPasswordFieldId($passwdAttributeId);
             $cri_container->setErrorBlocId($errorBlocAttributeId);
 
-            add_action('wp_enqueue_scripts', append_js_var());
+            add_action('wp_enqueue_scripts', 'append_js_var');
         }
     }
 
@@ -165,7 +165,7 @@ if (!function_exists('criSetLostPwdOptions')) {
             $cri_container->setCrpcenFieldId($crpcenAttributeId);
             $cri_container->setMsgBlocId($msgBlocAttributeId);
 
-            add_action('wp_enqueue_scripts', append_js_lostpwd_var());
+            add_action('wp_enqueue_scripts', 'append_js_lostpwd_var');
         }
     }
 
@@ -329,7 +329,7 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
     if( !is_array( $results ) ){
         $std = new stdClass();
         $std->matiere = CridonObjectFactory::create( $results, 'matiere', $fields);
-        $std->link = CridonPostUrl::generatePostUrl( $model, $results->join_id );
+        $std->link = CridonPostUrl::generatePostUrl( $model, $results->post_name );
         $std->post = $tools->createPost( $results ); // Create Object WP_Post
         return $std;
     }
@@ -347,19 +347,6 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
     return $aFinal;
 }
 
-// Hook of the_permalink() and get_permalink()
-function append_custom_link( $url, $post ) {
-    if ( $post->post_type === 'post' ) {
-        $newUrl = criGetPostLink();//Get custom post link 
-        if( $newUrl ){
-            $url = $newUrl;
-        }
-    }
-    return $url;
-}
-add_filter( 'post_link', 'append_custom_link', 10, 2 );
-
-//End hook
 
 /**
  * Restore current data in loop while of WP ( object with their all attributes ( post, link, ... )
@@ -402,7 +389,7 @@ function CriIsNotaire() {
     $notaireData = mvc_model('notaire')->find_one_by_id_wp_user($current_user->ID);
 
     // user logged in is notaire
-    if (is_user_logged_in() && $notaireData->id) {
+    if (is_user_logged_in() && $notaireData && $notaireData->id) {
         return true;
     }
 
@@ -492,7 +479,7 @@ function CriListMatieres()
     // init
     $matieres = array();
 
-    // query optoins
+    // query options
     $options = array(
         'selects' => array('Matiere.id', 'Matiere.label', 'Matiere.code'),
         'conditions' => array(
@@ -766,5 +753,127 @@ function updateEmptyDownloadUrlFieldsDocument() {
         $query .= ' WHEN ' . implode(' WHEN ', $updateValues);
         $query .= ' ELSE `download_url` ';
         $wpdb->query($queryStart . $query . $queryEnd);
+    }
+}
+
+/**
+ * Custom breadcrumbs
+ */
+function CriBreadcrumb() {
+    global $post,
+           $mvc_params;
+
+    // prepare vars
+    $home        = new stdClass();
+    $home->title = 'Accueil';
+    $home->url   = home_url();
+    $vars        = array(
+        'breadcrumb'        => array($home),
+        'separator'         => ' + ',
+        'containerId'       => 'inner-content',
+        'containerClass'    => 'wrap cf'
+    );
+
+    if (is_mvc_page()) { // WPMVC page (single, archives,...)
+        if (isset($mvc_params['action']) && $mvc_params['action']) {
+            if ($mvc_params['controller'] == 'notaires') { // page notaire
+                // archive model
+                $archive              = new stdClass();
+                $archive->title       = 'Mon compte';
+                $archive->url         = mvc_public_url(array(
+                    'controller' => $mvc_params['controller']
+                ));
+                $vars['breadcrumb'][] = $archive;
+            } else {
+                // archive model
+                $archive              = new stdClass();
+                $archive->title       = isset(Config::$breadcrumbModelParams[$mvc_params['controller']]) ?
+                    Config::$breadcrumbModelParams[$mvc_params['controller']] : ucfirst($mvc_params['controller']);
+                $archive->url         = mvc_public_url(array(
+                    'controller' => $mvc_params['controller']
+                ));
+                $vars['breadcrumb'][] = $archive;
+
+                // single model
+                if (isset($mvc_params['id']) && $mvc_params['id']) {
+                    $singles              = mvc_model('QueryBuilder')->getPostByMVCParams();
+                    $single               = new stdClass();
+                    $single->title        = isset($singles->post_title) ? $singles->post_title : '';
+                    $single->url          = mvc_public_url(array(
+                        'controller' => $mvc_params['controller'],
+                        'action'     => $mvc_params['action'],
+                        'id'         => $mvc_params['id'],
+                    ));
+                    $vars['breadcrumb'][] = $single;
+                    $vars['containerId']  = '';
+                }
+            }
+        }
+    } elseif ((is_single() || is_page()) && !is_attachment()) { // page or post single
+        $single              = new stdClass();
+        $single->title       = $post->post_title;
+        $single->url         = get_the_permalink($post->ID);
+        $vars['breadcrumb'][] = $single;
+    }
+
+    // render view
+    CriRenderView('breadcrumb', $vars);
+}
+
+// Hook of the_permalink() and get_permalink()
+function append_custom_link( $url, $post ) {
+    if ( $post->post_type === 'post' ) {
+        $newUrl = criGetPostLink();//Get custom post link
+        if( $newUrl ){
+            $url = $newUrl;
+        }
+    }
+    return $url;
+}
+add_filter( 'post_link', 'append_custom_link', 10, 2 );
+//get affectation label
+/**
+ * Obtenir l'étiquette d'une affectation
+ *
+ * @param integer $id
+ * @return string
+ */
+function getAffectation($id){
+    return isset(Config::$labelAffection[$id]) ? Config::$labelAffection[$id] : '';
+}
+
+function getMatieresByQuestionNotaire(){
+    return mvc_model('Matiere')->getMatieresByNotaireQuestion();
+}
+/**
+ * Redirect to 404
+ *
+ * @global \WP_Query $wp_query
+ */
+function redirectTo404(){
+    global $wp_query;
+    header("HTTP/1.0 404 Not Found");
+    $wp_query->set_404();
+    if( file_exists(TEMPLATEPATH.'/404.php') ){
+        require TEMPLATEPATH.'/404.php';
+    }
+    exit;
+}
+
+/**
+ * Add custom capabilities to admins Cridon user
+ */
+function CriSetAdminCridonCaps() {
+    $role = get_role(CONST_ADMINCRIDON_ROLE);
+    if ($role instanceof WP_Role) { // role already defined in WP Core
+        if (is_array(Config::$authorizedCapsForAdminsCridon)
+            && count(Config::$authorizedCapsForAdminsCridon) > 0
+        ) { // custom capabilities defined
+            foreach (Config::$authorizedCapsForAdminsCridon as $cap) {
+                if (!array_key_exists($cap, $role->capabilities)) { // check if capability not yet in list
+                    $role->add_cap($cap);
+                }
+            }
+        }
     }
 }
