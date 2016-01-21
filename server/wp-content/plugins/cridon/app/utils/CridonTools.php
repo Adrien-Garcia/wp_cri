@@ -104,12 +104,9 @@ class CridonTools {
                             }
                         }                        
                     }
-                    $cls->link = CridonPostUrl::generatePostUrl( $model, $v1->join_id );//Obtenir le lien de l'article
-                    $option['id'] = $v1->join_id;
+                    $cls->link = CridonPostUrl::generatePostUrl( $model, $v1->post_name );//Obtenir le lien de l'article
                     /* object WP_Post*/
                     $cls->post = $this->postFactory->create( $v1 );
-                    /**/
-                    $cls->link = MvcRouter::public_url($option);
                     $tmpNews[] = $cls;
                     if( count( $val ) - 1 === $k1 ){// Si nous sommes déjà à la fin faire un push dans le tableau final
                         $tmpRes[$index] = $tmpNews;

@@ -125,34 +125,35 @@ Vous n'avez actuellement aucune question en attente de réponse.
 
 <div id="historique-questions">
 	<h2><?php _e('Historique de mes questions'); ?></h2>
+    <form class="js-account-form-filter" action="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions#historique-questions">
 
-	<div class="filtres">
-		<ul>
-			<li> <a href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions">Toutes mes questions</a></li>
-			<li>
-				<span class="titre">Période :</span>
-				<p class="du">Du <input type="date" id="datefrom" class="datepicker"></p>
-				<p class="au">Au <input type="date" id="dateto" class="datepicker"></p>
-			</li>
-			<li>
-				<span class="titre">Matière :</span>
-                <?php
-                $matieres = CriListMatieres();
-                ?>
-				<select name="">
-					<option value="">Selectionnez une matière</option>
-                    <?php foreach($matieres as $id => $data): ?>
-                        <?php
-                        $label = $data['label'];
-                        ?>
-                        <option <?php echo ($imatieres == 0) ? "selected" : "" ?> value="<?php echo $id ?>"><?php echo $label ?></option>
-                        <?php $imatieres++; ?>
-                    <?php endforeach; ?>
-				</select>
-			</li>
-		</ul>
+        <div class="filtres">
+            <ul>
+                <li> <a href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions/#historique-questions">Toutes mes questions</a></li>
+                <li>
+                    <span class="titre">Période :</span>
+                    <p class="du">Du <input name="d1" type="date" id="datefrom" class="datepicker js-account-du-filter" value="<?php echo $_GET['d1'] ; ?>" /></p>
+                    <p class="au">Au <input name="d2" type="date" id="dateto" class="datepicker js-account-au-filter" value="<?php echo $_GET['d2'] ; ?>" /></p>
+                </li>
+                <li>
+                    <span class="titre">Matière :</span>
+                    <?php
+                    $matieres = CriListMatieres();
+                    ?>
+                    <select name="m" class="js-account-matiere-filter">
+                        <option value="" <?php echo empty($_GET['m']) ? "selected" : ""; ?>>Selectionnez une matière</option>
+                        <?php foreach($matieres as $id => $data): ?>
+                            <?php
+                            $label = $data['label'];
+                            ?>
+                            <option value="<?php echo $id ?>" <?php echo (!empty($_GET['m']) && $_GET['m'] == $id) ? "selected" : ""; ?>><?php echo $label ?></option>
 
-	</div>
+                        <?php endforeach; ?>
+                    </select>
+                </li>
+            </ul>
+        </div>
+    </form>
 
 	<?php if(count($answered) != 0): ?>
 
@@ -269,7 +270,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 		<?php endforeach; ?>
 	</ul>
 	<?php else:  ?>
-	Vous n'avez pas encore posé de questions 
+	Votre recherche n'as pas produit de résultats ou vous n'avez pas encore posé de questions
 	<?php endif; ?>
 	<div style="clear:both;"></div>
     <div class="pagination <?php echo (isset($is_ajax) && is_ajax == true) ? "js-account-ajax-pagination" : ""; ?>">

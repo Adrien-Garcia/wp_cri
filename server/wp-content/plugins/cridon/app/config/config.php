@@ -297,7 +297,13 @@ class Config {
         'flash','veille'//correspond au champ type de la table cri_document
     );
     //End access
-    
+
+    // Content qualified by a "Custom Date"
+    public static $contentWithCustomDate = array(
+        'formations',
+    );
+    public static $dateTitleMetabox = 'Date de formation';// Titre du metabox date de formation
+
     //Label des affectations sur les questions
     public static $labelAffection = array(
         1 => 'Question transmise',
@@ -312,4 +318,22 @@ class Config {
         'read_private_posts',
         'read_private_pages',
     );
+
+    // breadcrumb wpmvc model title
+    // key must be match with controller params name
+    public static $breadcrumbModelParams = array(
+        'veilles'           => 'Veille juridique',
+        'flashes'           => 'Flash infos',
+        'cahier_cridons'    => 'Les cahiers du CRIDON',
+        'formations'        => 'Formation',
+        'vie_cridons'       => 'Vie du CRIDON',
+    );
+
+    //RSS
+    public static $rss = array(
+        'title'         => 'Flux RSS des veilles',//all
+        'title_mat'     => '%s',//filtered
+        'description'   => ''
+    );
+    //End RSS
 }

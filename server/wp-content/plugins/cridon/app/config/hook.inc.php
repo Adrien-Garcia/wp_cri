@@ -327,4 +327,42 @@ function custom_mvc_title_page( $title ){
         $title = preg_replace('/(\bUser\b)/', 'Utilisateur', $title);
     }
     return $title ;
-} 
+}
+
+// Match wp_posts and WP_MVC show action
+if( !is_admin() ){
+    /**
+     * @see https://codex.wordpress.org/Plugin_API/Action_Reference/wp
+     */
+    add_action( 'wp', 'join_wp_post_and_wpmvc' );
+    function join_wp_post_and_wpmvc($wp)
+    {
+        global $wpdb;
+        //only for WP_Posts
+        if( !is_feed() && !empty($wp->query_vars) && !isset($wp->query_vars['mvc_controller']) && ('post' === get_post_type()) ){
+            $post_ID = get_the_ID();
+            $post = get_post();
+            foreach( Config::$data as $v ){
+                $table = $v[ 'name' ];
+                //Simple query using WP_query to get mvc_model (id)
+                $mvc = $wpdb->get_row(
+                        'SELECT id FROM '.$wpdb->prefix.$table
+                        .' WHERE post_id = '.$post_ID
+                );
+                //when model founded
+                if($mvc){
+                    $options=array(
+                        'controller' => $v['controller'],
+                        'action'     => 'show',
+                        'id'         => $post->post_name
+                    );
+                    $url  = MvcRouter::public_url($options);
+                    //redirect to correct url
+                    wp_redirect( $url, 301 );
+                    exit;
+                }
+            }
+        }
+    }
+}
+//End Match wp_posts and WP_MVC show action

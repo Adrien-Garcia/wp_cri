@@ -37,6 +37,7 @@ class VieCridonsController extends MvcPublicController {
         $this->set_pagination($collection);
 
     }
+
     /**
      * @override
      */
