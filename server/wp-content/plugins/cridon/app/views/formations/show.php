@@ -1,6 +1,6 @@
 
 <?php query_posts('order=DESC'); ?>
-<?php 
+<?php
     resetGlobalVars();
     include TEMPLATEPATH.'/single-formations.php';
 ?>

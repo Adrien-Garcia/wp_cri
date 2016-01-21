@@ -1,30 +1,39 @@
 <?php
 
-class FormationsController extends MvcPublicController {
-    /*
-     * We use the standard function for wordpress for queries ( query_posts() ) in views
-     */
-    public function show() {
-        parent::show();
-    }
-    public function index() {
-        $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
-        //Set explicit join
-        $this->params['joins'] = array(
-            'Post'
-        );
-        //Set conditions
-        $this->params['conditions'] = array(
-            'Post.post_status'=>'publish'            
-        );
-        //Order by date publish
-        $this->params['order'] = 'Post.post_date DESC' ;
-        $collection = $this->model->paginate($this->params);
+/**
+ * Class FormationsController
+ */
+class FormationsController extends MvcPublicController
+{
 
+    /**
+     * Action Archive
+     */
+    public function index()
+    {
+        $this->process_params_for_search();
+
+        // params
+        $params = $this->params;
+
+        if (isset($_GET['option']) && $_GET['option'] != 'all') {
+            if ($_GET['option'] == 'old') { // Formations passées : triées de la plus récente à la plus ancienne
+                $params['order']      = 'custom_post_date DESC';
+                $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
+            } elseif ($_GET['option'] == 'new') { // Formations a venir : triées de la plus proche à la plus éloignée
+                $params['order']      = 'custom_post_date ASC';
+                $params['conditions'] = array('custom_post_date >= ' => date('Y-m-d'));
+            }
+        }
+
+        // get collection
+        $collection = $this->model->paginate($params);
+
+        // set object to template
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
     }
-    
+
     /**
      * @override
      * @return boolean
@@ -37,12 +46,12 @@ class FormationsController extends MvcPublicController {
             $object = $this->model->new_object($this->model->invalid_data);
         } else if (!empty($this->params['id'])) {
             $aObject = $this->model->find(
-               array(
-                   'joins' => array('Post'),
-                   'conditions' => array(
-                       'Post.post_name' => $this->params['id']
-                   )
-               )
+                array(
+                    'joins' => array('Post'),
+                    'conditions' => array(
+                        'Post.post_name' => $this->params['id']
+                    )
+                )
             );
             if(!empty($aObject)){
                 $object = $aObject[0];
@@ -59,5 +68,3 @@ class FormationsController extends MvcPublicController {
         return false;
     }
 }
-
-?>

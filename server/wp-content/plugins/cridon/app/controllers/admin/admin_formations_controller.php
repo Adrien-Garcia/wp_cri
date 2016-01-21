@@ -16,7 +16,6 @@ require_once 'base_admin_controller.php';
 
 class AdminFormationsController extends BaseAdminController
 {
-
     /**
      * Search join
      * @var array
@@ -64,15 +63,12 @@ class AdminFormationsController extends BaseAdminController
         $params = $this->params;
 
         if (isset($_GET['option']) && $_GET['option'] != 'all') {
-            $params['joins'] = array('Post');
-
-            // Formations passées : triées de la plus récente à la plus ancienne
-            if ($_GET['option'] == 'old') {
-                $params['order'] = 'Post.post_date DESC';
-                $params['conditions'] = array('Post.post_date < ' => date('Y-m-d'));
-            } elseif($_GET['option'] == 'new') { // Formations a venir : triées de la plus proche à la plus éloignée
-                $params['order'] = 'Post.post_date ASC';
-                $params['conditions'] = array('Post.post_date >= ' => date('Y-m-d'));
+            if ($_GET['option'] == 'old') { // Formations passées : triées de la plus récente à la plus ancienne
+                $params['order']      = 'custom_post_date DESC';
+                $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
+            } elseif ($_GET['option'] == 'new') { // Formations a venir : triées de la plus proche à la plus éloignée
+                $params['order']      = 'custom_post_date ASC';
+                $params['conditions'] = array('custom_post_date >= ' => date('Y-m-d'));
             }
         }
 
@@ -115,7 +111,11 @@ class AdminFormationsController extends BaseAdminController
 
     public function post_date($object)
     {
-        return date('d/m/Y', strtotime($object->post->post_date));
+        $custom_date = '';
+        if (property_exists($object, 'custom_post_date') && $object->custom_post_date && $object->custom_post_date != '0000-00-00') {
+            $custom_date = date('d/m/Y', strtotime($object->custom_post_date));
+        }
+        return $custom_date;
     }
 
     private function trim($str)
@@ -153,11 +153,10 @@ class AdminFormationsController extends BaseAdminController
      */
     protected function loadScripts()
     {
-        wp_register_style( 'ui-component-css', plugins_url('cridon/app/public/css/style.css'), false );
-        wp_enqueue_style( 'ui-component-css' );
+        wp_register_style('ui-component-css', plugins_url('cridon/app/public/css/style.css'), false);
+        wp_enqueue_style('ui-component-css');
 
-        wp_register_script( 'formation-js', plugins_url('cridon/app/public/js/bo/formation.js'), array('jquery') );
+        wp_register_script('formation-js', plugins_url('cridon/app/public/js/bo/formation.js'), array('jquery'));
         wp_enqueue_script('formation-js');
     }
-
 }
