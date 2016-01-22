@@ -38,32 +38,6 @@ class Veille extends MvcModel {
         return mvc_model('Document')->find($options);
     }
 
-    public function getVeilleFiltered($params){
-        $matieres = Matiere::getMatieresByModelPost($this);
-        if ( isset($_GET['matieres']) && !empty($_GET['matieres']) && is_array($_GET['matieres']) ){
-            $virtual_names = array();
-            foreach ($_GET['matieres'] as $mat){
-                $virtual_names[] = esc_sql(strip_tags($mat));
-            }
-            foreach($matieres as $matiere){
-                if( in_array($matiere->virtual_name,$virtual_names) ){
-                    $matiere->filtered = true;
-                }else{
-                    $matiere->filtered = false;
-                }
-            }
-            $params['conditions'] = array(
-                'Matiere.virtual_name'=> $virtual_names
-            );
-        } else {
-            foreach($matieres as $matiere){
-                $matiere->filtered = false;
-            }
-        }
-        return [$this->getList($params),$matieres];
-    }
-
-
     public function getList($params){
         $params['per_page'] = !empty($params['per_page']) ? $params['per_page'] : DEFAULT_POST_PER_PAGE;
         //Set explicit join

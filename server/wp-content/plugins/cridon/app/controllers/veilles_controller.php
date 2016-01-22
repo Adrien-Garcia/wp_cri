@@ -17,40 +17,43 @@ class VeillesController extends MvcPublicController {
     protected static $currentMatiereSelected = null;
 
     public function index() {
-        $collection = $this->model->getVeilleFiltered($this->params);
-        $matieres = $collection[1];
-
-        $this->set('objects', $collection[0]['objects']);
-        $this->set('matieres',$matieres);
-        $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
-        //Set explicit join
-        $this->params['joins'] = array(
-            'Post','Matiere'
-        );
-        //Set conditions
-        $this->params['conditions'] = array(
-            'Post.post_status'=>'publish'
-        );
-        //Order by date publish
-        $this->params['order'] = 'Post.post_date DESC' ;
-        $collection = $this->model->paginate($this->params);
-        $matiere = null;
-        if( isset($_GET['matiere']) && !empty($_GET['matiere']) && is_array($_GET['matiere']) ){
-            //unique matiere
-            if(count($_GET['matiere']) === 1){
-                $matiere = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($_GET['matiere'][0])));
-                if($matiere){
+        $veille = new Veille;
+        $matieres = Matiere::getMatieresByModelPost($veille);
+        if ( isset($_GET['matieres']) && !empty($_GET['matieres']) && is_array($_GET['matieres']) ) {
+            if (count($_GET['matieres']) === 1) {
+                $matiere = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($_GET['matieres'][0])));
+                if ($matiere) {
                     self::$currentMatiereSelected = $matiere;
                 }
             }
+            $virtual_names = array();
+            foreach ($_GET['matieres'] as $mat){
+                $virtual_names[] = esc_sql(strip_tags($mat));
+            }
+            foreach($matieres as $mat){
+                if( in_array($mat->virtual_name,$virtual_names) ){
+                    $mat->filtered = true;
+                }else{
+                    $mat->filtered = false;
+                }
+            }
+            $this->params['conditions'] = array(
+                'Matiere.virtual_name'=> $virtual_names
+            );
+        } else {
+            foreach($matieres as $mat){
+                $mat->filtered = false;
+            }
         }
-        if($matiere){
+        if ($matiere) {
+            self::$currentMatiereSelected = $matiere;
             $this->set('h1', $matiere->label);
         } else {
             $this->set('h1', Config::$listingVeille['h1']);
         }
+        $collection = $this->model->getList($this->params);
         //selected matiere
-        $this->set('matiere', $matiere);
+        $this->set('matieres', $matieres);
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
         add_action('wp_head', array($this, 'addMetaHeader') );//hook WP to append in header
@@ -79,6 +82,7 @@ class VeillesController extends MvcPublicController {
         //render view meta
         $this->render_view_with_view_vars('veilles/meta', $options);
     }
+
     public function show() {
         if ( !CriIsNotaire() ) {
             CriRefuseAccess();
