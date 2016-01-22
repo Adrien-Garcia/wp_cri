@@ -386,11 +386,7 @@ function CriIsNotaire() {
     global $cri_container;
 
     // user logged in is notaire
-    if ($cri_container->get('tools')->isNotary()) {
-        return true;
-    }
-
-    return false;
+    return $cri_container->get('tools')->isNotary();
 }
 
 /**
