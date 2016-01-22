@@ -226,5 +226,27 @@ class CridonTools {
         // send email
         wp_mail($to, CONST_EMAIL_ERROR_SUBJECT, $message, $headers);
     }
+
+    /**
+     * Check if user connected is notary
+     *
+     * @return bool
+     */
+    public function isNotary()
+    {
+        global $current_user, $wpdb;
+
+        if (is_object($current_user) && property_exists($current_user, 'ID')) {
+            $query = " SELECT id FROM {$wpdb->prefix}notaire WHERE id_wp_user = {$current_user->ID} LIMIT 1 ";
+
+            $notary = $wpdb->get_row($query);
+
+            if (is_object($notary) && $notary->id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
