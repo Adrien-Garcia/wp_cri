@@ -141,6 +141,8 @@ class CahierCridon extends \App\Override\Model\CridonMvcModel
      * @return array
      */
     public function paginate($options=array()){
+        global $wpdb;
+
         $options['page'] = empty($options['page']) ? 1 : intval($options['page']);
         $options['per_page'] = empty($options['per_page']) ? $this->per_page : intval($options['per_page']);
         $limit = '';
@@ -161,19 +163,35 @@ class CahierCridon extends \App\Override\Model\CridonMvcModel
                     LEFT JOIN ' . $this->name . ' ca ON ca.`id_parent` = c.id
                     LEFT JOIN Post pca ON ca.`post_id` = `pca`.`ID`';
 
-        if (is_admin()) {
-            $query = 'SELECT c, ca, p FROM
-                    (
-                        SELECT `c`.* FROM ' . $this->name . ' c
-                        LEFT JOIN Post cp ON c.`post_id` = `cp`.`ID`
-                        ' . $limit . '
-                    ) [' . $this->name . '] c
-                    LEFT JOIN Post p ON c.`post_id` = `p`.`ID`
-                    LEFT JOIN ' . $this->name . ' ca ON ca.`id_parent` = c.id';
-        }
-
         $q =  new \App\Override\Model\QueryStringModel($query);
         $total_count = $q->count();
+
+        // admin query
+        if (is_admin()) {
+            $where = '';
+            if(isset($options['conditions'])){
+                $where = $this->getWhere($options);
+            }
+            $query = 'SELECT c, ca, cp FROM
+                    (
+                        SELECT `c`.* FROM ' . $this->name . ' c
+                        LEFT JOIN Post p ON c.`post_id` = `p`.`ID`
+                        LEFT JOIN Matiere m ON m.`id` = `c`.`id_matiere`
+                        ' . $where . '
+                        ' . $limit . '
+                    ) [' . $this->name . '] c
+                    LEFT JOIN Post cp ON c.`post_id` = `cp`.`ID`
+                    LEFT JOIN ' . $this->name . ' ca ON ca.`id_parent` = c.id';
+
+            // Total query for pagination
+            $query_count ='
+                SELECT COUNT(*) AS count  FROM ' . $this->table . ' c
+                        LEFT JOIN ' . $wpdb->posts . ' p ON c.`post_id` = `p`.`ID`
+                        LEFT JOIN ' . $wpdb->prefix . 'matiere m ON m.`id` = `c`.`id_matiere`
+                        ' . $where ;
+            $q =  new \App\Override\Model\QueryStringModel($query);
+            $total_count = $wpdb->get_var($query_count);
+        }
 
         // custom options
         $opt = array(

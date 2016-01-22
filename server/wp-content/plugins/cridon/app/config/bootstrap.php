@@ -160,7 +160,7 @@ function init_parent_meta_boxes( $post, $args ){
     $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
     $oParent = mvc_model( $config['model'] );//load model Matiere to use functions
     $aQueryOptions = array(
-        'selects' => array('Post.post_title as label', $config['model'].'.*'),
+        'selects' => array('Post.post_title', $config['model'].'.*'),
         'order' => 'Post.post_title ASC',
         'conditions' => array(
             $config['model'].'.id_parent' => null

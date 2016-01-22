@@ -235,8 +235,6 @@ class CridonMvcModel extends \MvcModel{
     
     public function find($options = array()){
         $q =  new \App\Override\Model\QueryConstructorModel($this,$options);
-        $objects =  $q->getResults();
-        $objects = $this->splitArray($objects,$this->primary_key);
         return $q->getResults();
     }
     
