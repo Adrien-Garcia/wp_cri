@@ -23,7 +23,7 @@
 					</div>
 
 					<div class="panel">
-						<a href="">Toute la veille juridique</a>
+						<a href="<?php echo MvcRouter::public_url(['controller' => 'veilles']); ?>">Toute la veille juridique</a>
 
 						<form action="<?php echo MvcRouter::public_url(['controller' => 'veilles']); ?>" method="get">
 							<ul>
