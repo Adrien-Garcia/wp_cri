@@ -66,8 +66,8 @@ class VeillesController extends MvcPublicController {
         //unique matiere
         if( self::$currentMatiereSelected !== null ){
             $matiere = self::$currentMatiereSelected;
-            $meta_title = $matiere->meta_title;
-            $meta_description = $matiere->meta_description;
+            $meta_title = !empty($matiere->meta_title) ? $matiere->meta_title : $meta_title;
+            $meta_description = !empty($matiere->meta_description) ? $matiere->meta_description : $meta_description;
             //generate url
             $canonical = mvc_public_url(array('controller' => MvcInflector::tableize($matiere->__model_name),'id' => $matiere->virtual_name));
         }

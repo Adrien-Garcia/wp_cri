@@ -341,8 +341,8 @@ class Config {
     //Listing veille
     public static $listingVeille = array(
         'h1'                => 'Veille juridique',
-        'meta_title'        => 'Veille juridique',
-        'meta_description'  => 'Veille juridique'
+        'meta_title'        => 'CRIDON Lyon: la veille juridique et l\'actualité des notaires',
+        'meta_description'  => 'CRIDON Lyon vous accompagne au coeur de l’actualité juridique : droit international, fiscalité, droit social, droit de la famille...'
     );
     //End listing
 
