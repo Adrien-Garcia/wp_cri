@@ -801,10 +801,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $updateEmail3Values[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL3]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_FAX]))
-                            $updateTelValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
+                            $updateFaxValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
-                            $updateFaxValues[]      = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
+                            $updateTelValues[]      = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
                     }
                     // end optimisation
                 }
@@ -1249,21 +1249,18 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function findByLoginAndPassword($login, $pwd)
     {
-        $objects = $this->find_one(array(
-                'selects' => array(
-                    'Notaire.id',
-                    'Notaire.crpcen',
-                    'Notaire.id_civilite',
-                    'Notaire.id_fonction'
-                ),
-                'conditions' => array(
-                    'crpcen'       => $login,
-                    'web_password' => $pwd
-                )
-            )
-        );
+        // base query
+        $query = " SELECT `n`.`id` FROM {$this->table} n ";
+        $query .= " INNER JOIN `{$this->wpdb->users}` u ON u.`ID` = n.`id_wp_user` ";
+        $query .= " WHERE `crpcen` = %s
+                    AND `web_password` = %s
+                    AND `user_status` = " . CONST_STATUS_ENABLED;
 
-        return $objects;
+        // prepare query
+        $query = $this->wpdb->prepare($query, $login, $pwd);
+
+        // exec query and return result
+        return $this->wpdb->get_row($query);
     }
 
     /**

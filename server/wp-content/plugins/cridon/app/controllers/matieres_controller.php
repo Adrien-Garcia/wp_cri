@@ -14,31 +14,61 @@ require_once 'base_public_controller.php';
 
 class MatieresController extends BasePublicController
 {
+    //unique matiere selected, default null
+    protected static $currentMatiereSelected = null;
+
     function show(){
         $matiere = $this->params['id'];
         if (!empty($matiere)) {
-            $virtual_name = array(esc_sql(strip_tags($matiere)));
-            $this->params['conditions'] = array(
-                'Matiere.virtual_name'=> $virtual_name
-            );
-        }
-        $veille = new Veille;
-        $collection = $veille->getVeilleFiltered($this->params);
-        $matieres = $collection[1];
-        foreach($matieres as $mat){
-            if($mat->virtual_name == $matiere){
-                $mat->filtered = true;
+            //$virtual_name = array(esc_sql(strip_tags($matiere)));
+            $matiere = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($matiere)));
+            if ($matiere){
+                self::$currentMatiereSelected = $matiere;
             }
-        }
-        if (!$collection[0]['objects']){
-            redirectTo404();
+            $this->params['conditions'] = array(
+                'Matiere.virtual_name'=> $matiere->virtual_name
+            );
+            $veille = new Veille;
+            $collection = $veille->getList($this->params);
+            $matieres = Matiere::getMatieresByModelPost($veille);
+            foreach($matieres as $mat){
+                if($mat->virtual_name == $matiere->virtual_name){
+                    $mat->filtered = true;
+                } else {
+                    $mat->filtered = false;
+                }
+            }
+            if (!$collection['objects']){
+                redirectTo404();
+            } else {
+                $this->set('h1', $matiere->label);
+                $this->set('objects', $collection['objects']);
+                $this->set('matieres',$matieres);
+                $this->set_pagination($collection);
+                add_action('wp_head', array($this, 'addMetaHeader') );//hook WP to append in header
+            };
         } else {
-            $this->set('objects', $collection[0]['objects']);
-            $this->set('matieres',$matieres);
-            $this->set_pagination($collection);
+            redirectTo404();
         }
     }
 
+    public  function addMetaHeader() {
+        $matiere = self::$currentMatiereSelected;
+        $meta_title = !empty($matiere->meta_title) ? $matiere->meta_title : Config::$listingVeille['meta_title'];
+        $meta_description = !empty($matiere->meta_description) ? $matiere->meta_description : Config::$listingVeille['meta_description'];
+        //generate url
+        $canonical = mvc_public_url(array('controller' => MvcInflector::tableize($matiere->__model_name),'id' => $matiere->virtual_name));
+        //variable to output in view
+        $options = array(
+            'locals' => array(
+                'meta_title'        => $meta_title,
+                'meta_description'  => $meta_description,
+                'canonical'         => $canonical
+            )
+        );
+        //render view meta
+        $this->render_view_with_view_vars('veilles/meta', $options);
+    }
     /**
      * @override
      */
