@@ -337,4 +337,10 @@ class Config {
         'description'   => ''
     );
     //End RSS
+
+    // manually set list of authorized capabilities for notary (no roles were associated to notary by default)
+    public static $authorizedCapsForNotary = array(
+        'read_private_posts',
+        'read_private_pages',
+    );
 }

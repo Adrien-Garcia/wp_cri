@@ -367,3 +367,29 @@ if( !is_admin() ){
     }
 }
 //End Match wp_posts and WP_MVC show action
+
+/**
+ * Filter a notary capabilities depending on config
+ * This would be secure because only executed on user notary connected
+ *
+ * @param array $caps : A list of required capabilities to access the page or doing some actions
+ * @param string $cap : The capability being checked
+ * @param int $user_id : The current user ID
+ * @param mixed $args : A numerically indexed array of additional arguments dependent on the meta cap being used
+ * @return null|array
+ */
+function custom_map_meta_cap( $caps, $cap, $user_id, $args ) {
+    // bypass unauthorized capabilities
+    // by returning an empty value (or empty array)
+    // if the capabalities was found on the list of config values
+    if ( CriIsNotaire() ) { // Check if user is notary
+        if (is_array($caps)
+            && count(array_intersect($caps, Config::$authorizedCapsForNotary)) > 0
+        ) {
+            return;
+        }
+    }
+
+    return $caps;
+}
+add_filter( 'map_meta_cap', 'custom_map_meta_cap', 10, 4 );
