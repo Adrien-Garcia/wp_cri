@@ -131,8 +131,10 @@ class NotairesController extends BasePublicController
     public function contentdashboard()
     {
         $this->prepareDashboard();
-        $is_ajax = true;
-        CriRenderView('contentdashboard', get_defined_vars(),'notaires');
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentdashboard', $vars,'notaires');
         die();
     }
 
@@ -156,8 +158,11 @@ class NotairesController extends BasePublicController
     public function contentquestions()
     {
         $this->prepareSecureAccess();
-        $is_ajax = true;
-        CriRenderView('contentquestions', get_defined_vars(),'notaires');
+        $this->questions();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentquestions', $vars,'notaires');
         die();
     }
 
@@ -186,8 +191,10 @@ class NotairesController extends BasePublicController
     public function contentprofil()
     {
         $this->prepareProfil();
-        $is_ajax = true;
-        CriRenderView('contentprofil', get_defined_vars(),'notaires');
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentprofil', $vars,'notaires');
         die();
     }
 
@@ -212,8 +219,10 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->prepareSecureAccess();
-        $is_ajax = true;
-        CriRenderView('contentfacturation', get_defined_vars(),'notaires');
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentfacturation', $vars,'notaires');
         die();
     }
     /**
