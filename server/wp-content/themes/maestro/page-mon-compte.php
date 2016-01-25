@@ -22,7 +22,7 @@
 						<a href="<?php get_home_url() ?>/notaires/<?php echo $id ; ?>/" class="bt js-account-dashboard-button">Tableaux de bord</a>
 						<div id="tableau-de-bord" class="pannel js-account-ajax">
                             <?php if (!isset($onglet) || $onglet == 1) : ?>
-                                <?php CriRenderView('contentdashboard', array(), 'notaires') ?>
+                                <?php CriRenderView('contentdashboard', array('controller' => $this), 'notaires') ?>
                             <?php endif; ?>
 						</div>
 
@@ -31,7 +31,7 @@
 						<a href="<?php get_home_url() ?>/notaires/<?php echo $id ; ?>/questions" class="bt js-account-questions-button">Mes Questions</a>
 						<div id="mes-questions" class="pannel js-account-ajax">
                             <?php if ($onglet == 2) : ?>
-                                <?php CriRenderView('contentquestions', array(), 'notaires') ?>
+                                <?php CriRenderView('contentquestions', array('objects' => $objects,'controller' => $this), 'notaires') ?>
                             <?php endif; ?>
 						</div>
 					</li>

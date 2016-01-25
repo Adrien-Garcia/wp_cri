@@ -170,7 +170,11 @@ class NotairesController extends BasePublicController
     public function questions()
     {
         $this->prepareSecureAccess();
-
+        $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_QUESTION_PER_PAGE;        
+        $this->params['status']  = CONST_QUEST_ANSWERED;//question answered: affectation = 4
+        $collection = $this->model->paginate($this->params);//Get questions answered        
+        $this->set('objects', $collection['objects']);
+        $this->set_pagination($collection);
     }
 
     /**
@@ -347,4 +351,59 @@ class NotairesController extends BasePublicController
         $vars = $this->get_object();
         $this->set_vars($vars);
     }
+    
+    /**
+     * Get questions pending
+     * 
+     * @return mixed
+     */
+    public function getPending(){ 
+        return $this->model->getPending(Config::$questionPendingStatus,$this->params);
+    }
+    
+    /**
+     * Get questions
+     *
+     * @return mixed
+     */
+    public function getQuestions(){
+        $allStatus = Config::$questionPendingStatus;
+        $allStatus[] = CONST_QUEST_ANSWERED;
+        $this->params['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
+        $this->params['status']  = $allStatus;//all questions
+        $collection = $this->model->paginate($this->params);//Get questions
+        return $collection['objects'];
+    }
+    
+    /**
+     * Override
+     * 
+     * @param array $collection
+     */
+    public function set_pagination($collection) {
+        if( !is_admin() ){
+            $params = $this->params;
+            unset($params['page']);
+            unset($params['conditions']);
+            $url = MvcRouter::public_url(
+                    array(
+                        'controller' => $this->name, 'action' => $this->action,
+                        'id' => $this->params['id']
+                    )
+             );
+            $this->pagination = array(
+                'base' => $url.'%_%',
+                'format' => '?page=%#%',
+                'total' => $collection['total_pages'],
+                'current' => $collection['page'],
+                'add_args' => $params
+            );
+
+            unset($collection['objects']);
+            $this->pagination = array_merge($collection, $this->pagination);            
+        }else{
+            parent::set_pagination($collection);
+        }
+    }   
+    
 }

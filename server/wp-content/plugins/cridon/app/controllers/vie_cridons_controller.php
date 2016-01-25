@@ -37,10 +37,9 @@ class VieCridonsController extends MvcPublicController {
         $this->set_pagination($collection);
 
     }
-    
+
     /**
      * @override
-     * @return boolean
      */
     public function set_object() {
         if (!empty($this->model->invalid_data)) {
@@ -49,19 +48,8 @@ class VieCridonsController extends MvcPublicController {
             }
             $object = $this->model->new_object($this->model->invalid_data);
         } else if (!empty($this->params['id'])) {
-            $aObject = $this->model->find(
-               array(
-                   'joins' => array('Post'),
-                   'conditions' => array(
-                       'Post.post_name' => $this->params['id']
-                   )
-               )
-            );
-            if(!empty($aObject)){
-                $object = $aObject[0];
-            }else{
-                $object = null;
-            }
+            //optimized query
+            $object = $this->model->associatePostWithDocumentById($this->params['id']);
         }
         if (!empty($object)) {
             $this->set('object', $object);

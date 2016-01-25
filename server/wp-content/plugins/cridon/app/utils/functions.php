@@ -386,7 +386,9 @@ function CriIsNotaire() {
     global $cri_container;
 
     // user logged in is notaire
-    return $cri_container->get('tools')->isNotary();
+    /** @var $tool CridonTools*/
+    $tool = $cri_container->get('tools');
+    return $tool->isNotary();
 }
 
 /**
@@ -610,16 +612,6 @@ function CriListSupport()
 
     return $supports;
 
-}
-
-/**
- * Restore the questions asked by the notary
- * 
- * @return array
- */
-function criRestoreQuestions(){
-    $question = new QuestionNotaire();
-    return $question;
 }
 
 /*

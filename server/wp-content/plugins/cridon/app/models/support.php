@@ -1,12 +1,12 @@
 <?php
 
-class Support extends MvcModel {
+class Support extends \App\Override\Model\CridonMvcModel {
 
     var $display_field = 'label';
     var $table         = '{prefix}support';
     var $has_many       = array(
         'Question' => array(
-            'foreign_key' => 'id_support'
+            'foreign_key' => 'id'
         )
     );
 }
