@@ -12,7 +12,7 @@
 		<div id="main" class="cf" role="main">
 			<div id="inner-content" class="wrap cf">
 
-				<h1 class="h1">Veille juridique</h1>
+				<h1 class="h1"><?php echo $h1 ?></h1>
 
 				<div id="filtres_veilles">
 
@@ -23,15 +23,15 @@
 					</div>
 
 					<div class="panel">
-						<a href="">Toute la veille juridique</a>
+						<a href="<?php echo MvcRouter::public_url(['controller' => 'veilles']); ?>">Toute la veille juridique</a>
 
 						<form action="<?php echo MvcRouter::public_url(['controller' => 'veilles']); ?>" method="get">
 							<ul>
 								<?php foreach($matieres as $key => $matiere): ?>
 								<li>
 									<!-- <label class="select"> -->
-									<label class="<?php if($matiere->filtered){echo 'select';} ?>">
-										<input type="checkbox" id="" class="js-veille-matiere-filter" name="matieres[]" value="<?php echo $matiere->virtual_name ?>" <?php if($matiere->filtered){echo 'checked';} ?> >
+									<label class="<?php if($matiere->filtered){echo 'select';} ?> js-utils-checkbox-style">
+										<input type="checkbox" id="" class="js-utils-checkbox" name="matieres[]" value="<?php echo $matiere->virtual_name ?>" <?php if($matiere->filtered){echo 'checked';} ?> >
 										<?php echo $matiere->label ?>
 									</label>
 								</li>

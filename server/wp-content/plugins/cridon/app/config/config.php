@@ -338,6 +338,14 @@ class Config {
     );
     //End RSS
 
+    //Listing veille
+    public static $listingVeille = array(
+        'h1'                => 'Veille juridique',
+        'meta_title'        => 'Veille juridique',
+        'meta_description'  => 'Veille juridique'
+    );
+    //End listing
+
     // manually set list of authorized capabilities for notary (no roles were associated to notary by default)
     public static $authorizedCapsForNotary = array(
         'read_private_posts',

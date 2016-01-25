@@ -8,8 +8,14 @@ App.Utils = {
 
     animationUtilsAjaxSelector  : '.js-utils-animation-ajax',
 
+    checkboxSelector            : '.js-utils-checkbox',
+    checkboxStyleSelector       : '.js-utils-checkbox-style',
+    checkboxCheckedClass        : 'select',
+
     $animationUtilsAjax         : null,
 
+    $checkbox                   : null,
+    $checkboxStyle              : null,
 
     init: function() {
         this.debug("Utils : init start");
@@ -20,10 +26,10 @@ App.Utils = {
 
         this.$animationUtilsAjax        = $(this.animationUtilsAjaxSelector);
 
-        $(document).bind("ajaxSend", function(){
-            self.openAjaxAnimation();
-        }).bind("ajaxComplete", function(){
-            self.closeAjaxAnimation();
+        this.$checkbox                  = $(this.checkboxSelector);
+        this.$checkbox.each(function() {
+            var $this = $(this);
+            this.checkedStyle  = $this.closest(self.checkboxStyleSelector);
         });
 
         this.device.ie9 = /MSIE 9/i.test(navigator.userAgent);
@@ -38,7 +44,34 @@ App.Utils = {
         }
 
         this.debug("Utils : init end");
+        this.addListeners();
 
+    },
+
+    addListeners: function() {
+        this.debug("Utils : addListeners start");
+        var self = this;
+
+        $(document).bind("ajaxSend", function(){
+            self.openAjaxAnimation();
+        }).bind("ajaxComplete", function(){
+            self.closeAjaxAnimation();
+        });
+
+        this.$checkbox.on('change', function(e) {
+            self.checkboxToggle($(this));
+        });
+
+        this.debug("Utils : addListeners end");
+
+    },
+
+    checkboxToggle: function( checkbox ) {
+        if (checkbox[0].checked) {
+            checkbox[0].checkedStyle.addClass(this.checkboxCheckedClass);
+        } else {
+            checkbox[0].checkedStyle.removeClass(this.checkboxCheckedClass);
+        }
     },
 
 

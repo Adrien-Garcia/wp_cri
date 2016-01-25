@@ -110,7 +110,9 @@ class Matiere extends MvcModel
         $sql = "
             SELECT m.* FROM {$wpdb->prefix}matiere m
             LEFT JOIN {$model->table} j ON m.id = j.id_matiere
+            LEFT JOIN {$wpdb->prefix}posts p ON p.id = j.post_id
             WHERE j.id IS NOT NULL
+            AND p.post_status = 'publish'
             GROUP BY m.id
         ";
         return $wpdb->get_results($sql);
