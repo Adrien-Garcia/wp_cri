@@ -23,7 +23,7 @@
 			<span class="date">Question du <?php echo $sDate ; ?></span>
             <?php endif; ?>
             <?php if (! empty($sWdate)) : ?>
-            <span class="reponse">Réponse souhaitée le <?php echo $sWdate ; ?></span>
+            <span class="reponse">Réponse estimée le <?php echo $sWdate ; ?></span>
             <?php endif; ?>
 
             <ul>
