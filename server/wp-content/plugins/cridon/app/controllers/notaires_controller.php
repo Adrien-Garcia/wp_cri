@@ -209,6 +209,8 @@ class NotairesController extends BasePublicController
         // access secured
         $this->prepareSecureAccess();
         $is_ajax = true;
+        $content = get_post(1515)->post_content;
+        $this->set('content', $content);
         CriRenderView('contentfacturation', get_defined_vars(),'notaires');
         die();
     }
