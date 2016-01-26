@@ -579,3 +579,8 @@ if ( !defined( 'CONST_NOTARY_PWD' ) ) {
 if ( !defined( 'CONST_ADMINCRIDON_ROLE' ) ) {
     define( 'CONST_ADMINCRIDON_ROLE', 'admincridon' );
 }
+
+// token name var used in WS
+if ( !defined( 'CONST_TOKEN_NAME_VAR' ) ) {
+    define( 'CONST_TOKEN_NAME_VAR', 'token' );
+}

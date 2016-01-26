@@ -8,6 +8,28 @@
  */
 abstract class BasePublicController extends MvcPublicController
 {
+
+    /**
+     * @var mixed
+     */
+    protected $data;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->data = json_decode(file_get_contents('php://input'));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+
     /**
      * Action switcher for creating | listing data
      */
