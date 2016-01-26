@@ -183,6 +183,10 @@ class NotairesController extends BasePublicController
     {
         $this->prepareProfil();
         $is_ajax = true;
+        $notaire = CriNotaireData();
+        $matieres = getMatieresByNotaire();
+        $this->set('notaire',$notaire);
+        $this->set('matieres',$matieres);
         CriRenderView('contentprofil', get_defined_vars(),'notaires');
         die();
     }
