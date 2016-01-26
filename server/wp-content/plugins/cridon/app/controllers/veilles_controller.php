@@ -13,16 +13,75 @@
  */
 
 class VeillesController extends MvcPublicController {
-    
-    public function index() {
-        $collection = $this->model->getVeilleFiltered($this->params);
-        $matieres = $collection[1];
+    //unique matiere selected, default null
+    protected static $currentMatiereSelected = null;
 
-        $this->set('objects', $collection[0]['objects']);
-        $this->set('matieres',$matieres);
+    public function index() {
+        $veille = new Veille;
+        $matieres = Matiere::getMatieresByModelPost($veille);
+        if ( isset($_GET['matieres']) && !empty($_GET['matieres']) && is_array($_GET['matieres']) ) {
+            if (count($_GET['matieres']) === 1) {
+                $matiere = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($_GET['matieres'][0])));
+                if ($matiere) {
+                    self::$currentMatiereSelected = $matiere;
+                }
+            }
+            $virtual_names = array();
+            foreach ($_GET['matieres'] as $mat){
+                $virtual_names[] = esc_sql(strip_tags($mat));
+            }
+            foreach($matieres as $mat){
+                if( in_array($mat->virtual_name,$virtual_names) ){
+                    $mat->filtered = true;
+                }else{
+                    $mat->filtered = false;
+                }
+            }
+            $this->params['conditions'] = array(
+                'Matiere.virtual_name'=> $virtual_names
+            );
+        } else {
+            foreach($matieres as $mat){
+                $mat->filtered = false;
+            }
+        }
+        if ($matiere) {
+            self::$currentMatiereSelected = $matiere;
+            $this->set('h1', $matiere->label);
+        } else {
+            $this->set('h1', Config::$listingVeille['h1']);
+        }
+        $collection = $this->model->getList($this->params);
+        //selected matiere
+        $this->set('matieres', $matieres);
+        $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
+        add_action('wp_head', array($this, 'addMetaHeader') );//hook WP to append in header
     }
 
+    public  function addMetaHeader() {
+        $meta_title = Config::$listingVeille['meta_title'];
+        $meta_description = Config::$listingVeille['meta_description'];
+        $canonical = mvc_public_url(array('controller' => MvcInflector::tableize($this->model->name)));
+        //unique matiere
+        if( self::$currentMatiereSelected !== null ){
+            $matiere = self::$currentMatiereSelected;
+            $meta_title = !empty($matiere->meta_title) ? $matiere->meta_title : $meta_title;
+            $meta_description = !empty($matiere->meta_description) ? $matiere->meta_description : $meta_description;
+            //generate url
+            $canonical = mvc_public_url(array('controller' => MvcInflector::tableize($matiere->__model_name),'id' => $matiere->virtual_name));
+        }
+        //variable to output in view
+        $options = array(
+            'locals' => array(
+                'meta_title'        => $meta_title,
+                'meta_description'  => $meta_description,
+                'canonical'         => $canonical
+            )
+        );
+        //render view meta
+        $this->render_view_with_view_vars('veilles/meta', $options);
+    }
 
     public function show() {
         if ( !CriIsNotaire() ) {
