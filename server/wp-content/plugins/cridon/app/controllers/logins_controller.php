@@ -105,20 +105,18 @@ class LoginsController extends MvcPublicController
     public function login(){
         global $cri_container;
         $request = $cri_container->get('request');
-        $success = true;
-        $message = CONST_WS_MSG_SUCCESS;
+        $success = false;
+        $message = CONST_LOGIN_ERROR_MSG;
         $token   = false;
         //N'accepter que les requêtes POST
         if( !$request->isMethod( 'POST' ) ){  
             $message = CONST_WS_MSG_ERROR_METHOD;
-            $success = false;
         }else{
-            $method = $request->getMethod();
-            $token = $this->generateToken( $request->get( $method, 'login' ),$request->get( $method, 'password' ) );
+            $token = $this->generateToken( $request->getParam( 'login' ), $request->getParam( 'password' ) );
             //No token generated
-            if( !$token ){
-                $success = false;
-                $message = CONST_LOGIN_ERROR_MSG;
+            if( $token ){
+                $success = true;
+                $message = CONST_WS_MSG_SUCCESS;
             }            
         }
         //output token

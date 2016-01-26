@@ -13,14 +13,6 @@ abstract class BasePublicController extends MvcPublicController
      */
     public function index_json()
     {
-        $rest = new RestServer();
-        $rest->start();//Check security
-        $user = $rest->getUser();//Current user logged
-        $request = $rest->getRequest();
-        $security = $rest->getSecurity();
-        /**
-         * @todo Make sure the specified controller must be executed for rest server. Execute action. 
-         */
         $errors = new WP_Error();
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'POST':
@@ -182,7 +174,7 @@ abstract class BasePublicController extends MvcPublicController
      * @param \CridonRequest $request
      * @return boolean
      */
-    public function checkToken( $request ){
+    public function checkToken( $request ) {
         $token = null;
         if( isset( $request->query['token'] ) ){
             $token = $request->query['token'];
