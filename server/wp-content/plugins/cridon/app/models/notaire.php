@@ -1776,7 +1776,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
                 LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1 
                 LEFT JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
-                WHERE Q.treated  = 2 AND E.crpcen = "'.$user->crpcen.'" '.$where.'
+                WHERE E.crpcen = "'.$user->crpcen.'" '.$where.'
                 ORDER BY Q.creation_date DESC 
                 '; 
             //convert pseudo query to sql
