@@ -117,7 +117,8 @@ class LoginsController extends MvcPublicController
         } else {
             $model = mvc_model('notaire');//load model notaire
             // Check if Notaire exist with this login and password
-            $notaire = $model->findByLoginAndPassword($request->getParam('login'), $request->getParam('password'));
+            $method = $request->getMethod();
+            $notaire = $model->findByLoginAndPassword($request->get( $method, 'login' ), $request->get( $method, 'password' ) );
 
             $token = $this->generateToken($model, $notaire);
             //No token generated
@@ -153,7 +154,7 @@ class LoginsController extends MvcPublicController
     protected function generateToken( $model, $notaire ){
         if( empty( $notaire ) ){ 
             return false;
-        }        
+        }
         return $model->generateToken( $notaire->id, $notaire->crpcen, $notaire->web_password );
     }
         

@@ -1244,7 +1244,8 @@ class Notaire extends MvcModel
     public function findByLoginAndPassword($login, $pwd)
     {
         // base query
-        $query = " SELECT `n`.`id`, `n`.`first_name` AS prenom, `n`.`last_name` AS nom, `c`.`label` AS civilite FROM {$this->table} n ";
+        $query = " SELECT `n`.`id`, `n`.`code_interlocuteur`, `n`.`crpcen`, `n`.`client_number`, `n`.`web_password`, `n`.`first_name` AS prenom,
+                    `n`.`last_name` AS nom, `c`.`label` AS civilite FROM {$this->table} n ";
         $query .= " INNER JOIN `{$this->wpdb->users}` u ON u.`ID` = n.`id_wp_user`
                     LEFT JOIN `{$this->wpdb->prefix}civilite` c ON `c`.`id` = `n`.`id_civilite` ";
         $query .= " WHERE `crpcen` = %s
@@ -1659,7 +1660,7 @@ class Notaire extends MvcModel
         if( !$notaire ){
             return false;
         }
-        return true;
+        return $notaire;
     }
 
     /**

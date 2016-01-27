@@ -11,9 +11,7 @@ MvcRouter::public_connect('telechargement/{:id:[a-zA-Z0-9=+~_-]+}', array('contr
 
 // rest
 MvcRouter::public_connect('rest/login', array( 'controller' =>'logins','action' => 'login'));
-MvcRouter::public_connect('rest/{:controller}', array('action' => 'index_json', 'layouts' => 'json'));
-MvcRouter::public_connect('rest/{:controller}/{:id:[\d]+}', array('action' => 'show_json', 'layout' => 'json'));
-MvcRouter::public_connect('rest/{:controller}/{:action:[^\d]+}', array('layout' => 'json'));
+MvcRouter::public_connect('rest/askquestion', array( 'controller' =>'questions','action' => 'add_json'));
 
 // mes questions
 MvcRouter::public_connect('notaires/{:id:[\d]+}/questions', array('controller' => 'notaires', 'action' => 'questions'));

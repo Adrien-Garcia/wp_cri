@@ -580,7 +580,16 @@ if ( !defined( 'CONST_ADMINCRIDON_ROLE' ) ) {
     define( 'CONST_ADMINCRIDON_ROLE', 'admincridon' );
 }
 
+// Start of Block for mobile
 // token name var used in WS
 if ( !defined( 'CONST_TOKEN_NAME_VAR' ) ) {
     define( 'CONST_TOKEN_NAME_VAR', 'token' );
 }
+
+if ( !defined( 'CONST_EMPTY_ACTIVITY_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_ACTIVITY_ERROR_MSG', 'Veuillez renseigner votre domaine d\'activité' );
+}
+if ( !defined( 'CONST_EMPTY_SUBACTIVITY_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_SUBACTIVITY_ERROR_MSG', 'Veuillez renseigner votre sous domaine d\'activité' );
+}
+// End of block for mobile
