@@ -130,7 +130,7 @@ class NotairesController extends BasePublicController
      */
     public function contentdashboard()
     {
-        $this->prepareDashboard();
+        $this->show();
         $vars = $this->view_vars;
         $vars['is_ajax'] = true;
         $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
@@ -147,6 +147,10 @@ class NotairesController extends BasePublicController
     public function show()
     {
         $this->prepareDashboard();
+        $questions = $this->getQuestions();
+        $this->set('questions', $questions);
+        $notaire = CriNotaireData();
+        $this->set('notaire', $notaire);
     }
 
     /**
@@ -157,7 +161,7 @@ class NotairesController extends BasePublicController
      */
     public function contentquestions()
     {
-        $this->prepareSecureAccess();
+        //$this->prepareSecureAccess();
         $this->questions();
         $vars = $this->view_vars;
         $vars['is_ajax'] = true;
@@ -176,9 +180,21 @@ class NotairesController extends BasePublicController
     {
         $this->prepareSecureAccess();
         $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_QUESTION_PER_PAGE;
-        $this->params['status']  = CONST_QUEST_ANSWERED;//question answered: affectation = 4
-        $collection = $this->model->paginate($this->params);//Get questions answered
-        $this->set('objects', $collection['objects']);
+        $collection = $this->model->paginate($this->params, CONST_QUEST_ANSWERED);//Get questions answered
+        $answered = $collection['objects'];
+        $this->set('answered', $answered);
+        $this->params['m']=''; //Get All pending questions
+        $pending = $this->getPending();
+        $this->set('pending', $pending);
+        $juristesPending = Question::getJuristeAndAssistantFromQuestions($pending);
+        $this->set('juristesPending',$juristesPending);
+        $juristesAnswered = Question::getJuristeAndAssistantFromQuestions($answered);
+        $this->set('juristesAnswered',$juristesAnswered);
+        $matieres = getMatieresByQuestionNotaire();
+        $this->set('matieres',$matieres);
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
+
         $this->set_pagination($collection);
     }
 
@@ -190,17 +206,11 @@ class NotairesController extends BasePublicController
      */
     public function contentprofil()
     {
-        $this->prepareProfil();
+        $this->profil();
         $vars = $this->view_vars;
         $vars['is_ajax'] = true;
         $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
         CriRenderView('contentprofil', $vars,'notaires');
-        $is_ajax = true;
-        $notaire = CriNotaireData();
-        $matieres = getMatieresByNotaire();
-        $this->set('notaire',$notaire);
-        $this->set('matieres',$matieres);
-        CriRenderView('contentprofil', get_defined_vars(),'notaires');
         die();
     }
 
@@ -213,6 +223,8 @@ class NotairesController extends BasePublicController
     public function profil()
     {
         $this->prepareProfil();
+        $this->set('notaire', CriNotaireData());
+        $this->set('matieres', getMatieresByNotaire());
     }
 
     /**
@@ -224,15 +236,11 @@ class NotairesController extends BasePublicController
     public function contentfacturation()
     {
         // access secured
-        $this->prepareSecureAccess();
+        $this->facturation();
         $vars = $this->view_vars;
         $vars['is_ajax'] = true;
         $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
         CriRenderView('contentfacturation', $vars,'notaires');
-        $is_ajax = true;
-        $content = get_post(1515)->post_content;
-        $this->set('content', $content);
-        CriRenderView('contentfacturation', get_defined_vars(),'notaires');
         die();
     }
     /**
@@ -244,6 +252,10 @@ class NotairesController extends BasePublicController
     public function facturation()
     {
         $this->prepareSecureAccess();
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
+        $content = get_post(1515)->post_content;
+        $this->set('content',$content);
     }
 
     /**
@@ -377,7 +389,7 @@ class NotairesController extends BasePublicController
      * @return mixed
      */
     public function getPending(){
-        return $this->model->getPending(Config::$questionPendingStatus,$this->params);
+        return $this->model->getPending($this->params,Config::$questionPendingStatus);
     }
 
     /**
@@ -389,8 +401,7 @@ class NotairesController extends BasePublicController
         $allStatus = Config::$questionPendingStatus;
         $allStatus[] = CONST_QUEST_ANSWERED;
         $this->params['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
-        $this->params['status']  = $allStatus;//all questions
-        $collection = $this->model->paginate($this->params);//Get questions
+        $collection = $this->model->paginate($this->params,$allStatus);//Get questions
         return $collection['objects'];
     }
 
