@@ -184,7 +184,6 @@ class NotairesController extends BasePublicController
         $collection = $this->model->paginate($this->params);//Get questions answered
         $answered = $collection['objects'];
         $this->set('answered', $answered);
-        $this->params['m']=''; //Get All pending questions
         $pending = $this->getPending();
         $this->set('pending', $pending);
         $juristesPending = Question::getJuristeAndAssistantFromQuestions($pending);
@@ -390,7 +389,7 @@ class NotairesController extends BasePublicController
      * @return mixed
      */
     public function getPending(){
-        return $this->model->getPending($this->params,Config::$questionPendingStatus);
+        return $this->model->getPending(Config::$questionPendingStatus);
     }
 
     /**

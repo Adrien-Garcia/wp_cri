@@ -1878,9 +1878,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      *
      * @return mixed
      */
-    public function getPending($options,$status){
-        $where = $this->getFilters($options);//Filter
-        $query = $this->prepareQueryForFront( $status,$where );
+    public function getPending($status){
+        $query = $this->prepareQueryForFront( $status, '' );
         //convert pseudo query to sql
         $qs = new \App\Override\Model\QueryStringModel($query);
         $objects = $qs->getResults();
