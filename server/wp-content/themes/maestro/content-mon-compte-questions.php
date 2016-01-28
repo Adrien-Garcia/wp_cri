@@ -1,15 +1,8 @@
-<?php
-    $answered = $objects;
-    $pending = $controller->getPending();
-?>
-<?php $notaire = CriNotaireData(); ?>
 <div id="questions-attentes">
 	<h2><?php _e('Mes questions en attente'); ?></h2>
 
-	<?php if(count($pending) != 0): ?>
-	
+	<?php if($pending): ?>
 	<ul>
-        <?php $juristes = Question::getJuristeAndAssistantFromQuestions($pending) ?>
         <?php foreach ($pending as $index => $question) : ?>
 		<li>
             <?php
@@ -47,9 +40,9 @@
                     <?php
                         $status = isset(Config::$labelAffection[$question->id_affectation]) ? Config::$labelAffection[$question->id_affectation] : "Status indisponible";
                     if ( ($question->id_affectation == 2 || $question->id_affectation == CONST_QUEST_ANSWERED)
-                        && $juristes[$question->id]->juriste_code != null
+                        && $juristesPending[$question->id]->juriste_code != null
                     ) {
-                        $status .= '<span class="person">par ' . ($juristes[$question->id]->juriste_name != null ? $juristes[$question->id]->juriste_name : $juristes[$question->id]->juriste_code) . '</span>';
+                        $status .= '<span class="person">par ' . ($juristesPending[$question->id]->juriste_name != null ? $juristesPending[$question->id]->juriste_name : $juristesPending[$question->id]->juriste_code) . '</span>';
                     }
                     ?>
 
@@ -137,9 +130,6 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 </li>
                 <li>
                     <span class="titre">Matière :</span>
-                    <?php
-                    $matieres = getMatieresByQuestionNotaire();
-                    ?>
                     <select name="m" class="js-account-matiere-filter">
                         <option value="" <?php echo empty($_GET['m']) ? "selected" : ""; ?>>Selectionnez une matière</option>
                         <?php foreach($matieres as $id => $data): ?>
@@ -155,10 +145,9 @@ Vous n'avez actuellement aucune question en attente de réponse.
         </div>
     </form>
 
-	<?php if(count($answered) != 0): ?>
+	<?php if($answered): ?>
 
 	<ul>
-        <?php $juristes = Question::getJuristeAndAssistantFromQuestions($answered) ?>
         <?php foreach ($answered as $index => $question) : ?>
 
             <?php
@@ -195,7 +184,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
                     <?php if (! empty($sAdate)) : ?>
 					<span class="status"><?php echo Config::$labelAffection[CONST_QUEST_ANSWERED] ?> le <?php echo $sAdate ; ?></span>
                     <?php endif; ?>
-                    <span class="person">par <?php echo $juristes[$question->id]->juriste_name != null ? $juristes[$question->id]->juriste_name : $juristes[$question->id]->juriste_code ?></span>
+                    <span class="person">par <?php echo $juristesAnswered[$question->id]->juriste_name != null ? $juristesAnswered[$question->id]->juriste_name : $juristesAnswered[$question->id]->juriste_code ?></span>
 				</li>
 				<li>
 					<span class="delai"><?php echo $question->support->label; ?></span>
@@ -273,7 +262,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 	Votre recherche n'as pas produit de résultats ou vous n'avez pas encore posé de questions
 	<?php endif; ?>
 	<div style="clear:both;"></div>
-    <div class="pagination <?php echo (isset($is_ajax) && is_ajax == true) ? "js-account-ajax-pagination" : ""; ?>">
+    <div class="pagination <?php echo (isset($is_ajax) && $is_ajax == true) ? "js-account-ajax-pagination" : ""; ?>">
         <?php // echo $questions->getPagination()
         echo $controller->pagination();
         ?>

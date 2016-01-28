@@ -1757,14 +1757,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     //FRONT
     
     //Override function of pagination
-    public function paginate($options = array()){
+    public function paginate($options = array(),$status){
         global $wpdb;
         $options['page'] = empty($options['page']) ? 1 : intval($options['page']);//for limit
         $limit = $this->db_adapter->get_limit_sql($options);      
         if(!is_admin()){
             $user = CriNotaireData();//get Notaire
             $where = $this->getFilters($options);//Filter
-            $query = $this->prepareQueryForFront($options['status'],$where, $limit);
+            $query = $this->prepareQueryForFront($status,$where, $limit);
             //Total query for pagination
             $query_count ='
                 SELECT COUNT(*) AS count 
@@ -1773,7 +1773,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
                 LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1 
                 LEFT JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
-                WHERE Q.treated  = 2 AND E.crpcen = "'.$user->crpcen.'" '.$where.'
+                WHERE E.crpcen = "'.$user->crpcen.'" '.$where.'
                 ORDER BY Q.creation_date DESC 
                 '; 
             //convert pseudo query to sql
@@ -1868,10 +1868,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     
     /**
      * Get questions pending
-     * 
+     *
+     * @param array $options
+     * @param array $status
+     *
      * @return mixed
      */
-    public function getPending($status,$options){
+    public function getPending($options,$status){
         $where = $this->getFilters($options);//Filter
         $query = $this->prepareQueryForFront( $status,$where );
         //convert pseudo query to sql
@@ -1884,7 +1887,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     /**
      * Query used in front for list of questions
      * 
-     * @param type $treated
+     * @param array $status
      * @param string $where
      * @param string $limit
      * @return string
