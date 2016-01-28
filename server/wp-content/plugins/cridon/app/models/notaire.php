@@ -1757,14 +1757,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     //FRONT
     
     //Override function of pagination
-    public function paginate($options = array(),$status){
+    public function paginate($options = array()){
         global $wpdb;
         $options['page'] = empty($options['page']) ? 1 : intval($options['page']);//for limit
         $limit = $this->db_adapter->get_limit_sql($options);      
         if(!is_admin()){
             $user = CriNotaireData();//get Notaire
             $where = $this->getFilters($options);//Filter
-            $query = $this->prepareQueryForFront($status,$where, $limit);
+            $query = $this->prepareQueryForFront($options['status'], $where, $limit);
             //Total query for pagination
             $query_count ='
                 SELECT COUNT(*) AS count 

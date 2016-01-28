@@ -180,7 +180,8 @@ class NotairesController extends BasePublicController
     {
         $this->prepareSecureAccess();
         $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_QUESTION_PER_PAGE;
-        $collection = $this->model->paginate($this->params, CONST_QUEST_ANSWERED);//Get questions answered
+        $this->params['status'] = CONST_QUEST_ANSWERED;
+        $collection = $this->model->paginate($this->params);//Get questions answered
         $answered = $collection['objects'];
         $this->set('answered', $answered);
         $this->params['m']=''; //Get All pending questions
@@ -401,7 +402,8 @@ class NotairesController extends BasePublicController
         $allStatus = Config::$questionPendingStatus;
         $allStatus[] = CONST_QUEST_ANSWERED;
         $this->params['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
-        $collection = $this->model->paginate($this->params,$allStatus);//Get questions
+        $this->params['status'] = $allStatus;
+        $collection = $this->model->paginate($this->params);//Get questions
         return $collection['objects'];
     }
 
