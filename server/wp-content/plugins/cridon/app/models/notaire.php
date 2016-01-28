@@ -1836,36 +1836,40 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * @return string
      */
     protected function getFilters($options){
+        global $wpdb;
         $where = array();
         foreach ( $options as $k => $v ){
-            $v = esc_sql(strip_tags($v));
-            //Filtre par matière (id)
-            if( $k == 'm' && !empty($v) && is_numeric($v)){
-                $where[] = ' M.id = "'.$v.'"';continue;
+            if (empty($v)) {
+                // Ne pas filtrer sur une valeur vide
+                continue;
             }
-            
-            //Filtre par date de création
-            if( in_array($k,array('d1','d2'))&& !empty($v)){
-                $d = $this->convertToDateSql($v);
-                if( !$d ) continue;
-
-                if( $k == 'd1' ){
-                    $date = " Q.creation_date >= '{$d}'";
-                }else{
-                    $date = " Q.creation_date <= '{$d}'";
-                }
-                $where[] = $date;continue;
-            }
-
-            //Filtre par nom de notaire
-            if( $k == 'n' && !empty($v)){
-                $v = urldecode($v);
-                $where[] = " CONCAT(N.first_name,N.last_name) LIKE '%{$v}%'";
+            switch ($k) {
+                case 'm':
+                    // Matieres
+                    $v = (array) esc_sql($v);
+                    $v = array_map(function($value) use ($wpdb) {
+                        return "'" . strip_tags($value) . "'";
+                    }, $v);
+                    $where[] = ' M.id = ('.implode(',', $v).')';
+                    break;
+                case 'd1':
+                case 'd2':
+                    // Dates (bornes)
+                    $d = $this->convertToDateSql($v);
+                    if ($d !== false) {
+                        $where[] = " Q.creation_date " . ($k == 'd1' ? ">=" : "<=") . " '" . $d . "'";
+                    }
+                    break;
+                case 'n':
+                    // Nom/Prénom du notaire
+                    $v = urldecode(esc_sql(strip_tags($v)));
+                    $where[] = " CONCAT(N.first_name,N.last_name) LIKE '%{$v}%'";
+                    break;
             }
         }
         return (empty($where)) ? '' : ' AND '.implode(' AND ',$where);
-    } 
-    
+    }
+
     /**
      * Get questions pending
      *
