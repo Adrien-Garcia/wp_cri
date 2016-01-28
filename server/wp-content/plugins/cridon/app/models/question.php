@@ -1520,7 +1520,8 @@ writeLog($query, 'query_export.log');
                     'creation_date' => date('Y-m-d H:i:s'),
                     'id_support' => $post[CONST_QUESTION_SUPPORT_FIELD],// Support
                     'id_competence_1' => $post[CONST_QUESTION_COMPETENCE_FIELD],// Competence
-                    'content' => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD])// Message
+                    'content' => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]), // Message
+                    'push_token' => ($post[CONST_QUESTION_PUSHTOKEN_FIELD])// push token
                 )
             );
             // insert question

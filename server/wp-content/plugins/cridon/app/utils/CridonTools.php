@@ -229,5 +229,81 @@ class CridonTools {
         // send email
         wp_mail($to, CONST_EMAIL_ERROR_SUBJECT, $message, $headers);
     }
+
+    /**
+     * Push notification
+     *
+     * @param string $type
+     * @param mixed $registrationIds
+     * @param string $message
+     * @return int
+     */
+    public function pushNotification($type, $registrationIds, $message)
+    {
+        try {
+            switch ($type) { // check device type
+                case 'ios':
+
+                    break;
+                case 'android':
+                    $msg              = array(
+                        'message'  => $message,
+                        'title'    => CONST_ANDROID_TITLE_MSG,
+                        'subtitle' => CONST_ANDROID_SUBTITLE_MSG,
+                        'vibrate'  => 1,
+                        'sound'    => 1
+                    );
+                    $registration_ids = array($registrationIds);
+
+                    $fields = array
+                    (
+                        'registration_ids' => $registration_ids,
+                        'data'             => $msg
+                    );
+
+                    $headers = array
+                    (
+                        'Authorization: key=' . CONST_GOOGLE_API_KEY,
+                        'Content-Type: application/json'
+                    );
+
+                    // init response
+                    $response = 0;
+
+                    if (is_array($registration_ids)) {
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, 'https://android.googleapis.com/gcm/send');
+                        curl_setopt($ch, CURLOPT_POST, true);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                        $result = curl_exec($ch);
+                        if ($result === false) {
+                            // error reporting
+                            $error = sprintf(CONST_NOTIFICATION_ERROR, curl_error($ch));
+                            reportError($error, 'Push Notification');
+                        } else {
+                            // no error was found
+                            $response = 1;
+                        }
+                        curl_close($ch);
+                    } else {
+                        $response = 0;
+                    }
+
+                    return $response;
+                    break;
+
+                default: // unrecognized device
+                    $error = sprintf(CONST_NOTIFICATION_ERROR, 'device inconnu');
+                    writeLog($error, 'pushnotification.log');
+                    break;
+            }
+        } catch(\Exception $e) {
+            // write into logfile
+            writeLog($e, 'pushnotification.log');
+        }
+    }
 }
 

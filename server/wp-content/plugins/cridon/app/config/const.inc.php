@@ -284,7 +284,7 @@ if ( !defined( 'CONST_EMAIL_ERROR_CORRUPTED_FILE' ) ) {
 
 // Error reporting for Exception
 if ( !defined( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION' ) ) {
-    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exception a été levée avec le message d\'erreur suivante : "%s"' );
+    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exception a été levée avec le message d\'erreur suivant : "%s"' );
 }
 // Appel && Courrier support id
 if ( !defined( 'CONST_SUPPORT_APPEL_ID' ) ) {
@@ -585,11 +585,33 @@ if ( !defined( 'CONST_ADMINCRIDON_ROLE' ) ) {
 if ( !defined( 'CONST_TOKEN_NAME_VAR' ) ) {
     define( 'CONST_TOKEN_NAME_VAR', 'token' );
 }
+if ( !defined( 'CONST_QUESTION_PUSHTOKEN_FIELD' ) ) {
+    define( 'CONST_QUESTION_PUSHTOKEN_FIELD', 'pushToken' );
+}
 
+// Activity & Sub domain activity error message
 if ( !defined( 'CONST_EMPTY_ACTIVITY_ERROR_MSG' ) ) {
-    define( 'CONST_EMPTY_ACTIVITY_ERROR_MSG', 'Veuillez renseigner votre domaine d\'activité' );
+    define( 'CONST_EMPTY_ACTIVITY_ERROR_MSG', 'Veuillez renseigner votre domaine d\'activité.' );
 }
 if ( !defined( 'CONST_EMPTY_SUBACTIVITY_ERROR_MSG' ) ) {
-    define( 'CONST_EMPTY_SUBACTIVITY_ERROR_MSG', 'Veuillez renseigner votre sous domaine d\'activité' );
+    define( 'CONST_EMPTY_SUBACTIVITY_ERROR_MSG', 'Veuillez renseigner votre sous-domaine d\'activité.' );
 }
+
+// Push Notification
+if ( !defined( 'CONST_GOOGLE_API_KEY' ) ) {
+    define( 'CONST_GOOGLE_API_KEY', 'AIzaSyDRCd-uQ6ajR27i_PVqDOLTaTiLncxpeoE' );
+}
+if ( !defined( 'CONST_NOTIFICATION_ERROR' ) ) {
+    define( 'CONST_NOTIFICATION_ERROR', 'Une erreur a été capturée avec le message suivant : "%s"' );
+}
+if ( !defined( 'CONST_ANDROID_TITLE_MSG' ) ) {
+    define( 'CONST_ANDROID_TITLE_MSG', 'Notification Question traitée' );
+}
+if ( !defined( 'CONST_ANDROID_SUBTITLE_MSG' ) ) {
+    define( 'CONST_ANDROID_SUBTITLE_MSG', 'Cridon Lyon' );
+}
+if ( !defined( 'CONST_NOTIFICATION_CONTENT_MSG' ) ) {
+    define( 'CONST_NOTIFICATION_CONTENT_MSG', 'Votre question ayant comme objet "%s" a été bien traitée.' );
+}
+
 // End of block for mobile
