@@ -794,11 +794,12 @@ class Notaire extends MvcModel
                         if (isset($newData[$adapter::NOTAIRE_MAIL3]))
                             $updateEmail3Values[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL3]) . "' ";
 
-                        if (isset($newData[$adapter::NOTAIRE_FAX]))
-                            $updateFaxValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
+                        if (isset($newData[$adapter::NOTAIRE_OFFICETEL]))
+                            $updateTelValues[]      = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICETEL]) . "' ";
 
-                        if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
-                            $updateTelValues[]      = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
+                        if (isset($newData[$adapter::NOTAIRE_OFFICEFAX]))
+                            $updateFaxValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
+
                     }
                     // end optimisation
                 }
