@@ -240,7 +240,7 @@ class CridonMvcModel extends \MvcModel{
     
     protected function convertToDateSql($d,$format = 'd/m/Y'){
         $d = urldecode($d);
-        $dt = DateTime::createFromFormat($format, $d);
+        $dt = \DateTime::createFromFormat($format, $d);
         return ($dt) ? $dt->format('Y-m-d') : false;
     }
     
