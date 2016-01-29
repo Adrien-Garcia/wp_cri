@@ -588,6 +588,9 @@ if ( !defined( 'CONST_TOKEN_NAME_VAR' ) ) {
 if ( !defined( 'CONST_QUESTION_PUSHTOKEN_FIELD' ) ) {
     define( 'CONST_QUESTION_PUSHTOKEN_FIELD', 'pushToken' );
 }
+if ( !defined( 'CONST_QUESTION_DEVICETYPE_FIELD' ) ) {
+    define( 'CONST_QUESTION_DEVICETYPE_FIELD', 'deviceType' );
+}
 
 // Activity & Sub domain activity error message
 if ( !defined( 'CONST_EMPTY_ACTIVITY_ERROR_MSG' ) ) {
@@ -612,6 +615,14 @@ if ( !defined( 'CONST_ANDROID_SUBTITLE_MSG' ) ) {
 }
 if ( !defined( 'CONST_NOTIFICATION_CONTENT_MSG' ) ) {
     define( 'CONST_NOTIFICATION_CONTENT_MSG', 'Votre question ayant comme objet "%s" a été bien traitée.' );
+}
+// APNS passphrase ( obtenu lors de la generation du Certificat )
+if ( !defined( 'CONST_APNS_PASSPHRASE' ) ) {
+    define( 'CONST_APNS_PASSPHRASE', 'mahery' );
+}
+// APNS port
+if ( !defined( 'CONST_APNS_PORT' ) ) {
+    define( 'CONST_APNS_PORT', 2195 );
 }
 
 // End of block for mobile

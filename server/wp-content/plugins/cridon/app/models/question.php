@@ -1506,7 +1506,7 @@ writeLog($query, 'query_export.log');
         // notaire exist
         if ($notaire->client_number
             && isset($post[CONST_QUESTION_OBJECT_FIELD]) && $post[CONST_QUESTION_OBJECT_FIELD] != ''
-            && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && ctype_digit($post[CONST_QUESTION_SUPPORT_FIELD])  && ((int) $post[CONST_QUESTION_SUPPORT_FIELD] > 0)
+            && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && ctype_digit($post[CONST_QUESTION_SUPPORT_FIELD]) && ((int)$post[CONST_QUESTION_SUPPORT_FIELD] > 0)
             && isset($post[CONST_QUESTION_MATIERE_FIELD]) && !empty($post[CONST_QUESTION_MATIERE_FIELD])
             && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && $post[CONST_QUESTION_COMPETENCE_FIELD] != ''
             && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
@@ -1514,14 +1514,15 @@ writeLog($query, 'query_export.log');
             // prepare data
             $question = array(
                 'Question' => array(
-                    'client_number' => $notaire->client_number,
-                    'sreccn' => intval($notaire->code_interlocuteur),
-                    'resume' => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
-                    'creation_date' => date('Y-m-d H:i:s'),
-                    'id_support' => $post[CONST_QUESTION_SUPPORT_FIELD],// Support
-                    'id_competence_1' => $post[CONST_QUESTION_COMPETENCE_FIELD],// Competence
-                    'content' => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]), // Message
-                    'push_token' => ($post[CONST_QUESTION_PUSHTOKEN_FIELD])// push token
+                    'client_number'      => $notaire->client_number,
+                    'sreccn'             => intval($notaire->code_interlocuteur),
+                    'resume'             => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
+                    'creation_date'      => date('Y-m-d H:i:s'),
+                    'id_support'         => $post[CONST_QUESTION_SUPPORT_FIELD], // Support
+                    'id_competence_1'    => $post[CONST_QUESTION_COMPETENCE_FIELD], // Competence
+                    'content'            => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]), // Message
+                    'mobile_push_token'  => ($post[CONST_QUESTION_PUSHTOKEN_FIELD]), // push token
+                    'mobile_device_type' => ($post[CONST_QUESTION_DEVICETYPE_FIELD]) // device type
                 )
             );
             // insert question
@@ -1596,7 +1597,7 @@ writeLog($query, 'query_export.log');
                     return $response;
                 }
             }
-        }else{
+        } else {
             if (!isset($post[CONST_QUESTION_OBJECT_FIELD]) || $post[CONST_QUESTION_OBJECT_FIELD] == '') {
                 $response['error'][] = CONST_EMPTY_OBJECT_ERROR_MSG;
             }

@@ -243,6 +243,82 @@ class CridonTools {
         try {
             switch ($type) { // check device type
                 case 'ios':
+                    // init response
+                    $response = 0;
+
+                    $registration_ids = '';
+                    // check registrationId type
+                    // to be converted in array if is a string (required by the API)
+                    if (is_array($registrationIds)) {
+                        $registration_ids = $registrationIds;
+                    } elseif ($registrationIds) {
+                        // @todo may be changed by pushToken validator if necessary
+                        $registration_ids = array(str_replace(' ', '', $registrationIds));
+                    }
+                    // APNS params
+                    $badge = 1 ;
+                    $sound = 'default';
+
+                    $payload = array();
+                    $payload['aps'] = array(
+                        'alert' => $message,
+                        'badge' => intval($badge),
+                        'sound' => $sound
+                    );
+                    $payload = json_encode($payload);
+
+                    // by default mode sandbox
+                    $apns_url = 'gateway.sandbox.push.apple.com';
+                    // APNS sandbox certificat
+                    $apns_cert = WP_PLUGIN_DIR . '/cridon/app/apns/ck.pem';
+
+                    // set server url by env
+                    $env = getenv('ENV');
+                    if ($env === 'PROD') {
+                        $apns_url  = 'gateway.push.apple.com';
+                        $apns_cert = WP_PLUGIN_DIR . '/cridon/app/apns/ckprod.pem';
+                    }
+
+                    if (!file_exists($apns_cert)) { // certificat introuvable
+                        $error = sprintf(CONST_NOTIFICATION_ERROR, 'certificat introuvable : ' . $apns_cert);
+                        writeLog($error, 'pushnotification.log');
+
+                        // stop process
+                        return $response;
+                    }
+
+                    if (is_array($registration_ids)) {
+                        $stream_context = stream_context_create();
+                        stream_context_set_option($stream_context, 'ssl', 'local_cert', $apns_cert);
+                        stream_context_set_option($stream_context, 'ssl', 'passphrase ', CONST_APNS_PASSPHRASE);
+
+                        $apns = stream_socket_client('ssl://' . $apns_url . ':' . CONST_APNS_PORT, $error, $error_string, 60, STREAM_CLIENT_CONNECT, $stream_context);
+                        if ($apns) {
+                            if ($badge > 0) { // verification badge
+                                foreach ($registration_ids as $device_token) {
+                                    $apns_message = chr(0) . chr(0) . chr(32) . pack('H*', str_replace(' ', '', $device_token)) . chr(0) . chr(strlen($payload)) . $payload;
+                                    fwrite($apns, $apns_message);
+                                }
+                                @socket_close($apns);
+                                @fclose($apns);
+
+                                // no error
+                                $response = 1;
+                            } else { // badge invalid
+                                $error = sprintf(CONST_NOTIFICATION_ERROR, 'badge invalid');
+                                writeLog($error, 'pushnotification.log');
+                            }
+
+                        } else { // APNS not found
+                            $error = sprintf(CONST_NOTIFICATION_ERROR, 'impossible de se connecter au serveur APNS');
+                            writeLog($error, 'pushnotification.log');
+                        }
+                    } else { // invalid pushToken
+                        $error = sprintf(CONST_NOTIFICATION_ERROR, 'invalid pushToken');
+                        writeLog($error, 'pushnotification.log');
+                    }
+
+                    return $response ;
 
                     break;
                 case 'android':
@@ -253,7 +329,15 @@ class CridonTools {
                         'vibrate'  => 1,
                         'sound'    => 1
                     );
-                    $registration_ids = array($registrationIds);
+                    $registration_ids = '';
+                    // check registrationId type
+                    // to be converted in array if is a string (required by the API)
+                    if (is_array($registrationIds)) {
+                        $registration_ids = $registrationIds;
+                    } elseif ($registrationIds) {
+                        // @todo may be changed by pushToken validator if necessary
+                        $registration_ids = array(str_replace(' ', '', $registrationIds));
+                    }
 
                     $fields = array
                     (
@@ -289,7 +373,8 @@ class CridonTools {
                         }
                         curl_close($ch);
                     } else {
-                        $response = 0;
+                        $error = sprintf(CONST_NOTIFICATION_ERROR, 'invalid pushToken');
+                        writeLog($error, 'pushnotification.log');
                     }
 
                     return $response;
