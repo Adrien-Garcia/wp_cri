@@ -233,15 +233,16 @@ class CridonTools {
     /**
      * Push notification
      *
-     * @param string $type
-     * @param mixed $registrationIds
-     * @param string $message
+     * @param string    $type
+     * @param mixed     $registrationIds
+     * @param string    $message
+     * @param int       $questionId
      * @return int
      */
-    public function pushNotification($type, $registrationIds, $message)
+    public function pushNotification($type, $registrationIds, $message, $questionId)
     {
         try {
-            switch ($type) { // check device type
+            switch (strtolower($type)) { // check device type
                 case 'ios':
                     // init response
                     $response = 0;
@@ -252,7 +253,7 @@ class CridonTools {
                     if (is_array($registrationIds)) {
                         $registration_ids = $registrationIds;
                     } elseif ($registrationIds) {
-                        // @todo may be changed by pushToken validator if necessary
+                        // @todo may be changed by pushToken validator if necessary (no doc for PHP at the moment)
                         $registration_ids = array(str_replace(' ', '', $registrationIds));
                     }
                     // APNS params
@@ -270,13 +271,13 @@ class CridonTools {
                     // by default mode sandbox
                     $apns_url = 'gateway.sandbox.push.apple.com';
                     // APNS sandbox certificat
-                    $apns_cert = WP_PLUGIN_DIR . '/cridon/app/apns/ck.pem';
+                    $apns_cert = CONST_APNS_SANDBOX_PEM;
 
-                    // set server url by env
+                    // set server by env
                     $env = getenv('ENV');
                     if ($env === 'PROD') {
                         $apns_url  = 'gateway.push.apple.com';
-                        $apns_cert = WP_PLUGIN_DIR . '/cridon/app/apns/ckprod.pem';
+                        $apns_cert = CONST_APNS_PROD_PEM;
                     }
 
                     if (!file_exists($apns_cert)) { // certificat introuvable
@@ -305,17 +306,18 @@ class CridonTools {
                                 // no error
                                 $response = 1;
                             } else { // badge invalid
-                                $error = sprintf(CONST_NOTIFICATION_ERROR, 'badge invalid');
-                                writeLog($error, 'pushnotification.log');
+                                $errorLog = sprintf(CONST_NOTIFICATION_ERROR, 'badge invalid');
+                                writeLog($errorLog, 'pushnotification.log');
                             }
 
                         } else { // APNS not found
-                            $error = sprintf(CONST_NOTIFICATION_ERROR, 'impossible de se connecter au serveur APNS');
-                            writeLog($error, 'pushnotification.log');
+
+                            $errorLog = sprintf(CONST_NOTIFICATION_ERROR, 'impossible de se connecter au serveur APNS pour la question avec id = ' . $questionId);
+                            writeLog($errorLog, 'pushnotification.log');
                         }
                     } else { // invalid pushToken
-                        $error = sprintf(CONST_NOTIFICATION_ERROR, 'invalid pushToken');
-                        writeLog($error, 'pushnotification.log');
+                        $errorLog = sprintf(CONST_NOTIFICATION_ERROR, 'invalid pushToken pour la question avec id = ' . $questionId);
+                        writeLog($errorLog, 'pushnotification.log');
                     }
 
                     return $response ;
@@ -327,7 +329,7 @@ class CridonTools {
                         'title'    => CONST_ANDROID_TITLE_MSG,
                         'subtitle' => CONST_ANDROID_SUBTITLE_MSG,
                         'vibrate'  => 1,
-                        'sound'    => 1
+                        'sound'    => 'default'
                     );
                     $registration_ids = '';
                     // check registrationId type
@@ -335,7 +337,7 @@ class CridonTools {
                     if (is_array($registrationIds)) {
                         $registration_ids = $registrationIds;
                     } elseif ($registrationIds) {
-                        // @todo may be changed by pushToken validator if necessary
+                        // @todo may be changed by pushToken validator if necessary (no doc for PHP at the moment)
                         $registration_ids = array(str_replace(' ', '', $registrationIds));
                     }
 
@@ -355,13 +357,23 @@ class CridonTools {
                     $response = 0;
 
                     if (is_array($registration_ids)) {
+                        // Open connection
                         $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, 'https://android.googleapis.com/gcm/send');
-                        curl_setopt($ch, CURLOPT_POST, true);
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+
+                        // Set the url, number of POST vars, POST data
+                        curl_setopt( $ch, CURLOPT_URL, CONST_GOOGLE_GCM_URL );
+
+                        curl_setopt( $ch, CURLOPT_POST, true );
+                        curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
+                        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+
+                        // Avoids problem with https certificate
+                        curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false);
+                        curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false);
+
+                        curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $fields ) );
+
+                        // Execute post
                         $result = curl_exec($ch);
                         if ($result === false) {
                             // error reporting
@@ -371,9 +383,10 @@ class CridonTools {
                             // no error was found
                             $response = 1;
                         }
+                        // Close connection
                         curl_close($ch);
                     } else {
-                        $error = sprintf(CONST_NOTIFICATION_ERROR, 'invalid pushToken');
+                        $error = sprintf(CONST_NOTIFICATION_ERROR, 'invalid pushToken pour la question avec id = ' . $questionId);
                         writeLog($error, 'pushnotification.log');
                     }
 
@@ -381,8 +394,8 @@ class CridonTools {
                     break;
 
                 default: // unrecognized device
-                    $error = sprintf(CONST_NOTIFICATION_ERROR, 'device inconnu');
-                    writeLog($error, 'pushnotification.log');
+                    $errorLog = sprintf(CONST_NOTIFICATION_ERROR, 'device inconnu pour la question avec id = ' . $questionId);
+                    writeLog($errorLog, 'pushnotification.log');
                     break;
             }
         } catch(\Exception $e) {

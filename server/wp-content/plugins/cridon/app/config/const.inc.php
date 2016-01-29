@@ -602,7 +602,11 @@ if ( !defined( 'CONST_EMPTY_SUBACTIVITY_ERROR_MSG' ) ) {
 
 // Push Notification
 if ( !defined( 'CONST_GOOGLE_API_KEY' ) ) {
-    define( 'CONST_GOOGLE_API_KEY', 'AIzaSyDRCd-uQ6ajR27i_PVqDOLTaTiLncxpeoE' );
+    define( 'CONST_GOOGLE_API_KEY', 'AIzaSyBh_fFDWcD41pxxbA4pHnYliP48K6BkBYw' );
+}
+if ( !defined( 'CONST_GOOGLE_GCM_URL' ) ) {
+    // alternative fournit par d'autre documentation : https://android.googleapis.com/gcm/send
+    define( 'CONST_GOOGLE_GCM_URL', 'https://gcm-http.googleapis.com/gcm/send' );
 }
 if ( !defined( 'CONST_NOTIFICATION_ERROR' ) ) {
     define( 'CONST_NOTIFICATION_ERROR', 'Une erreur a été capturée avec le message suivant : "%s"' );
@@ -623,6 +627,14 @@ if ( !defined( 'CONST_APNS_PASSPHRASE' ) ) {
 // APNS port
 if ( !defined( 'CONST_APNS_PORT' ) ) {
     define( 'CONST_APNS_PORT', 2195 );
+}
+// APNS Sandbox certificat path ( fichier à generer et emplacement à definir ici )
+if ( !defined( 'CONST_APNS_SANDBOX_PEM' ) ) {
+    define( 'CONST_APNS_SANDBOX_PEM', WP_PLUGIN_DIR . '/cridon/app/apns/ck.pem' );
+}
+// APNS Prod certificat path ( fichier à generer )
+if ( !defined( 'CONST_APNS_PROD_PEM' ) ) {
+    define( 'CONST_APNS_PROD_PEM', WP_PLUGIN_DIR . '/cridon/app/apns/ckprod.pem' );
 }
 
 // End of block for mobile

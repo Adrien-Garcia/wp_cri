@@ -855,6 +855,10 @@ class Question extends MvcModel
             // maj derniere date d'execution
             update_option('cronquestionupdate', $lastDateUpdate);
 
+            // notification client mobile si question traitee
+            // id_affectation = 4
+            $this->pushNotification();
+
             return CONST_STATUS_CODE_OK;
         } catch (\Exception $e) {
             writeLog($e, 'questioncronUpdate.log');
@@ -1631,5 +1635,62 @@ writeLog($query, 'query_export.log');
         $response['error'] = array();
 
         return $this->insertData($data['notary'], $data['post'], $response);
+    }
+
+    /**
+     * Get list of question need to be notified
+     *
+     * @return array|null|object
+     */
+    public function getQuestForNotification()
+    {
+        // init query
+        $query  = " SELECT `q`.`id`, `q`.`resume`, `q`.`mobile_device_type`, `q`.`mobile_push_token` FROM `{$this->table}` q ";
+        $query .= " WHERE `mobile_push_token` IS NOT NULL
+                    AND `mobile_device_type` IS NOT NULL
+                    AND `mobile_notification_status` = 0
+                    AND `id_affectation` = %d ";
+
+        // exec prepared query
+        return $this->wpdb->get_results($this->wpdb->prepare($query, CONST_QUEST_ANSWERED));
+    }
+
+    /**
+     * Update notification status
+     *
+     * @param int $questionId
+     */
+    public function updateQuestNotificationStatus($questionId)
+    {
+        $this->wpdb->query(" UPDATE {$this->table} SET mobile_notification_status = 1 WHERE id = {$questionId} ");
+    }
+
+    /**
+     * Push notification action
+     *
+     * @throws Exception
+     */
+    public function pushNotification()
+    {
+        global $cri_container;
+
+        // get instance of Cridon Tools
+        $tools = $cri_container->get('tools');
+
+        // get list of questions to be notified
+        $questions = $this->getQuestForNotification();
+
+        // only executed for valid $questions data
+        if (is_array($questions) && count($questions) > 0) {
+            foreach ($questions as $question) {
+                $message = sprintf(CONST_NOTIFICATION_CONTENT_MSG, $question->resume);
+                $resp    = $tools->pushNotification($question->mobile_device_type, $question->mobile_push_token, $message, $question->id);
+
+                // update question notification status
+                if ($resp) {
+                    $this->updateQuestNotificationStatus($question->id);
+                }
+            }
+        }
     }
 }
