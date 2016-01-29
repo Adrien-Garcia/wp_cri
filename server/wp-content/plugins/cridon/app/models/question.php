@@ -888,15 +888,15 @@ class Question extends MvcModel
             // site quest list
             $queryOptions['weekly'] = true;
             $this->setSiteQuestList($queryOptions);
-            // store question list into local var
-            $siteQuestList = $this->siteQuestList;
+            // store question list into dedicated var
+            $this->questListForDelete = $this->siteQuestList;
 
             // nb items
             $this->getNbItems();
 
             // list of question
             $i = 0;
-            $this->setQuestListForDelete($i, $siteQuestList);
+            $this->setQuestListForDelete($i);
 
             // delete action
             /**
@@ -910,7 +910,11 @@ class Question extends MvcModel
                           WHERE CONCAT(client_number, srenum) IN (" . $conditions . ")";
 
                 // execute query
-                mvc_model('QueryBuilder')->getInstanceMysqli()->query($query);
+                $queryBuilder = mvc_model('QueryBuilder')->getInstanceMysqli();
+                $queryBuilder->query($query);
+                if (!empty($queryBuilder->error)) {
+                    throw new Exception($queryBuilder->error);
+                }
             }
 
             return CONST_STATUS_CODE_OK;
@@ -927,7 +931,7 @@ class Question extends MvcModel
      * @param int $i
      * @param array $siteQuestList
      */
-    protected function setQuestListForDelete($i, $siteQuestList)
+    protected function setQuestListForDelete($i)
     {
         try {
             // instance of adapter
@@ -978,13 +982,12 @@ class Question extends MvcModel
                         // unique key "client_number + num question"
                         $uniqueKey = intval($data[$adapter::QUEST_SREBPC]) . $data[$adapter::QUEST_SRENUM];
 
-                        if (in_array($uniqueKey, $siteQuestList)) { // quest found on Site / ERP
+                        if (in_array($uniqueKey, $this->questListForDelete)) { // quest found on Site / ERP
 
                             // remove quest on list
-                            $key = array_search($uniqueKey, $siteQuestList);
+                            $key = array_search($uniqueKey, $this->questListForDelete);
                             if ($key !== false) {
-                                unset($siteQuestList[$key]);
-                                $this->questListForDelete = $siteQuestList;
+                                unset($this->questListForDelete[$key]);
                             }
                         }
                     }
@@ -994,7 +997,7 @@ class Question extends MvcModel
                 $i++;
 
                 // call import action
-                $this->setQuestListForDelete($i, $siteQuestList);
+                $this->setQuestListForDelete($i);
 
             } else {
                 // Close Connection
