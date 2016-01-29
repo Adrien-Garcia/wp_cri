@@ -579,12 +579,13 @@ function CriRenderView($path, $view_vars, $folder = "custom", $echo = true) {
  * Send email for error reporting
  *
  * @param string $message the default message in which we want to add the error
- * @param string $error the error to introduce in the message
+ * @param string $object the object to introduce in the message
+ * @param string $subject the subject of the sent mail
  */
-function reportError($message, $object) {
+function reportError($message, $object, $subject = CONST_EMAIL_ERROR_SUBJECT) {
     $to = arrayGet(Config::$emailNotificationError, 'to', CONST_EMAIL_ERROR_CONTACT);
     // send email
-    return sendMail($to,CONST_EMAIL_ERROR_SUBJECT,$message,$object,Config::$emailNotificationError['cc']);
+    return sendMail($to,$subject,$message,$object,Config::$emailNotificationError['cc']);
 }
 /**
  * Send email for reporting
