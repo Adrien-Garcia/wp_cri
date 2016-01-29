@@ -910,7 +910,11 @@ class Question extends MvcModel
                           WHERE CONCAT(client_number, srenum) IN (" . $conditions . ")";
 
                 // execute query
-                mvc_model('QueryBuilder')->getInstanceMysqli()->query($query);
+                $queryBuilder = mvc_model('QueryBuilder')->getInstanceMysqli();
+                $queryBuilder->query($query);
+                if (!empty($queryBuilder->error)) {
+                    throw new Exception($queryBuilder->error);
+                }
             }
 
             return CONST_STATUS_CODE_OK;
