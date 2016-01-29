@@ -363,14 +363,18 @@ class CridonTools {
                         // Set the url, number of POST vars, POST data
                         curl_setopt( $ch, CURLOPT_URL, CONST_GOOGLE_GCM_URL );
 
+                        // Set request method to POST
                         curl_setopt( $ch, CURLOPT_POST, true );
+                        // Set our custom headers
                         curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
+                        // Get the response back as string instead of printing it
                         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 
                         // Avoids problem with https certificate
                         curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false);
                         curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false);
 
+                        // Set JSON post data
                         curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $fields ) );
 
                         // Execute post
