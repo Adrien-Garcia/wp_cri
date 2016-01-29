@@ -584,61 +584,121 @@ class Notaire extends MvcModel
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateCategValues);
                     $notaireQuery .= ' ELSE `category` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateNumclientValues) > 0) {
                     // client_number
                     $notaireQuery = ' SET `client_number` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateNumclientValues);
                     $notaireQuery .= ' ELSE `client_number` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateFirstnameValues) > 0) {
                     // first_name
                     $notaireQuery = ' SET `first_name` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFirstnameValues);
                     $notaireQuery .= ' ELSE `first_name` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateLastnameValues) > 0) {
                     // last_name
                     $notaireQuery = ' SET `last_name` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateLastnameValues);
                     $notaireQuery .= ' ELSE `last_name` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updatePwdtelValues) > 0) {
                     // tel_password
                     $notaireQuery = ' SET `tel_password` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updatePwdtelValues);
                     $notaireQuery .= ' ELSE `tel_password` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateInterCodeValues) > 0) {
                     // code_interlocuteur
                     $notaireQuery = ' SET `code_interlocuteur` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateInterCodeValues);
                     $notaireQuery .= ' ELSE `code_interlocuteur` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateCivlitValues) > 0) {
                     // id_civilite
                     $notaireQuery = ' SET `id_civilite` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateCivlitValues);
                     $notaireQuery .= ' ELSE `id_civilite` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateEmailValues) > 0) {
                     // email_adress
                     $notaireQuery = ' SET `email_adress` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateEmailValues);
                     $notaireQuery .= ' ELSE `email_adress` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateFoncValues) > 0) {
                     // id_fonction
                     $notaireQuery = ' SET `id_fonction` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFoncValues);
                     $notaireQuery .= ' ELSE `id_fonction` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateTelValues) > 0) {
                     // tel
                     $notaireQuery = ' SET `tel` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateTelValues);
                     $notaireQuery .= ' ELSE `tel` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateFaxValues) > 0) {
                     // fax
                     $notaireQuery = ' SET `fax` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFaxValues);
                     $notaireQuery .= ' ELSE `fax` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateMobileValues) > 0) {
                     // tel_portable
                     $notaireQuery = ' SET `tel_portable` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateMobileValues);
                     $notaireQuery .= ' ELSE `tel_portable` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateDateModified) > 0) {
                     // date_modified
                     $notaireQuery = ' SET `date_modified` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateDateModified);
