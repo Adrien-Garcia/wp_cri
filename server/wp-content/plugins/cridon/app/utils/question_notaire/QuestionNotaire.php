@@ -240,7 +240,7 @@ class QuestionNotaire{
         //Au niveau du SELECT nous avons les noms des modèles mais ils doivent être aussi utilisés comme alias aussi
         //[LIMIT] sert à inserer le limit si nous avons une pagination sinon il sera remplacer par un vide('')
         $sql = '
-            SELECT Document,Question,Support,Matiere,Competence,Notaire
+            SELECT Document,Question,Support,Matiere,Competence
             FROM (SELECT DISTINCT Q.* 
                     FROM '.$wpdb->prefix.'question AS Q
                     JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
@@ -255,7 +255,6 @@ class QuestionNotaire{
             LEFT JOIN '.$wpdb->prefix.'support AS Support ON Support.id = Question.id_support 
             LEFT JOIN '.$wpdb->prefix.'competence AS Competence ON Competence.id = Question.id_competence_1 
             LEFT JOIN '.$wpdb->prefix.'matiere AS Matiere ON Matiere.code = Competence.code_matiere
-            JOIN '.$wpdb->prefix.'notaire AS Notaire ON Notaire.client_number = Question.client_number
                  ' ;
         //Requête utilisée pour le total des éléments pour la pagination
         $sqlCount ='
