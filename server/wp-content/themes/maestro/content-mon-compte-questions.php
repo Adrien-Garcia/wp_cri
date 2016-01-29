@@ -83,8 +83,7 @@
                                 <?php
                                     $docs = array();
                                     foreach($question->documents as $document):
-                                        if( ($document->label != 'Suite') &&  ($document->label != 'Complément') && !in_array($document->id, $docs)):
-                                            $docs[] = $document->id;
+                                        if( ($document->label != 'Suite') &&  ($document->label != 'Complément') ):
                                 ?>
                                     <?php
                                     $options = array(
@@ -95,7 +94,7 @@
                                     $publicUrl  = MvcRouter::public_url($options);
                                     ?>
 									<li><a href="<?php echo $publicUrl ?>" target="_blank"><?php echo html_entity_decode($document->name) ?></a></li>
-                                                                    
+
                                 <?php
                                         endif;
                                     endforeach;
@@ -120,7 +119,7 @@
 
 	</ul>
 <?php else:  ?>
-Vous n'avez actuellement aucune question en attente de réponse. 
+Vous n'avez actuellement aucune question en attente de réponse.
 <?php endif; ?>
 </div>
 
@@ -212,14 +211,8 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 <li class="pdf">
                     <?php
                         $documents = $question->documents;
-                        $ds = array() ;
-                        foreach($documents as $d) {
-                            if (!array_key_exists($d->id, $ds)) {
-                                $ds[$d->id] = $d;
-                            }
-                        }
                     ?>
-                    <?php foreach($ds as $document): ?>
+                    <?php foreach($documents as $document): ?>
                         <?php if( !($document->label == 'Suite') && !($document->label == 'Complément') ): ?>
                             <?php
                             $options = array(
@@ -236,7 +229,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
             </ul>
             <ul class="suite-complement">
                 <?php
-                usort($ds, function($a, $b)
+                usort($documents, function($a, $b)
                 {
                     if ($a->label == 'Suite' && $b->label == 'Complément') {
                         return -1;
@@ -247,7 +240,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
                     }
                 });
                 ?>
-                <?php foreach($ds as $document): ?>
+                <?php foreach($documents as $document): ?>
                     <?php if( ($document->label == 'Suite')|| ($document->label == 'Complément') ): ?>
                         <li class="pdf">
                             <?php
@@ -270,7 +263,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
 		<?php endforeach; ?>
 	</ul>
 	<?php else:  ?>
-	Vous n'avez pas encore posé de questions 
+	Vous n'avez pas encore posé de questions
 	<?php endif; ?>
 	<div style="clear:both;"></div>
     <div class="pagination <?php echo (isset($is_ajax) && is_ajax == true) ? "js-account-ajax-pagination" : ""; ?>">
