@@ -607,8 +607,12 @@ class Question extends MvcModel
 
     /**
      * Daily update
+     *
+     * @param $force bool : Force to update all questions ? (defaut false)
+     *
+     * @return int : code status
      */
-    public function cronUpdate()
+    public function cronUpdate($force = false)
     {
         try {
             // enable gbcollector
@@ -627,23 +631,8 @@ class Question extends MvcModel
                     break;
             }
 
-            // get last cron date if is set or server datetime
-            $lastDateUpdate          = get_option('cronquestionupdate');
-            if (empty($lastDateUpdate)) {
-                $lastUpQuestion = $this->find_one(array(
-                        'conditions' => array(
-                            'transmis_erp' => CONST_QUEST_TRANSMIS_ERP, //avoid considering those coming from website
-                        ),
-                        'order' => 'Question.date_modif DESC, Question.hour_modif DESC',
-                    )
-                );
-                $lastDateUpdate = $lastUpQuestion->date_modif . ' ' . $lastUpQuestion->hour_modif;
-            }
-            $date                  = new DateTime($lastDateUpdate);
             $queryOptions          = array();
             $queryOptions['daily'] = true;
-            $dateModif             = $date->format('Y-m-d');
-            $hourModif             = $date->format('H:i:s');
 
             $this->setSiteQuestList($queryOptions);
 
@@ -660,17 +649,35 @@ class Question extends MvcModel
             $updateValues = array();
 
             $mainQuery = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST . ' WHERE ';
-            switch (strtolower(CONST_IMPORT_OPTION)) {//wrong test, this does not depend on the connector but on the used DB type
-                case self::IMPORT_ODBC_OPTION:
-                    $mainQuery .= "TIMESTAMPDIFF(MINUTE, '{$dateModif} {$hourModif}', CONCAT_WS(' ', STR_TO_DATE(" . $adapter::QUEST_UPDDAT . ", '%d/%m/%Y'), " . $adapter::QUEST_ZUPDHOU . ")) > 0 AND ";
-                    $mainQuery .= " " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
+
+            if (!$force) {
+                // get last cron date if is set or server datetime
+                $lastDateUpdate          = get_option('cronquestionupdate');
+                if (empty($lastDateUpdate)) {
+                    $lastUpQuestion = $this->find_one(array(
+                            'conditions' => array(
+                                'transmis_erp' => CONST_QUEST_TRANSMIS_ERP, //avoid considering those coming from website
+                            ),
+                            'order' => 'Question.date_modif DESC, Question.hour_modif DESC',
+                        )
+                    );
+                    $lastDateUpdate = $lastUpQuestion->date_modif . ' ' . $lastUpQuestion->hour_modif;
+                }
+                $date                  = new DateTime($lastDateUpdate);
+                $dateModif             = $date->format('Y-m-d');
+                $hourModif             = $date->format('H:i:s');
+
+                switch (strtolower(CONST_IMPORT_OPTION)) {//wrong test, this does not depend on the connector but on the used DB type
+                    case self::IMPORT_ODBC_OPTION:
+                        $mainQuery .= "TIMESTAMPDIFF(MINUTE, '{$dateModif} {$hourModif}', CONCAT_WS(' ', STR_TO_DATE(" . $adapter::QUEST_UPDDAT . ", '%d/%m/%Y'), " . $adapter::QUEST_ZUPDHOU . ")) > 0 AND ";
+                        $mainQuery .= " " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
                         AND " . $adapter::QUEST_ZUPDHOU . " != '' ";
-                    break;
-                case self::IMPORT_OCI_OPTION:
-                default:
-                    $dateModif = explode('-', $dateModif);
-                    $dateModif = $dateModif[2].'/'.$dateModif[1].'/'.$dateModif[0];
-                    $mainQuery .= " (
+                        break;
+                    case self::IMPORT_OCI_OPTION:
+                    default:
+                        $dateModif = explode('-', $dateModif);
+                        $dateModif = $dateModif[2].'/'.$dateModif[1].'/'.$dateModif[0];
+                        $mainQuery .= " (
                     ( ". $adapter::QUEST_UPDDAT . " = TO_DATE('". $dateModif . "', 'DD/MM/YYYY')
                         AND (
                             ( " . $adapter::QUEST_ZUPDHOU . " <> ' '
@@ -681,11 +688,16 @@ class Question extends MvcModel
                     )
                     OR ". $adapter::QUEST_UPDDAT . " > TO_DATE('". $dateModif . "', 'DD/MM/YYYY')
                 )";
-                break;
+                        break;
+                }
+                if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
+                    $mainQuery .= ' AND ';
+                }
             }
+
             // filter by list of supports if necessary
             if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
-                $mainQuery .= ' AND ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',',
+                $mainQuery .= $adapter::QUEST_YCODESUP . ' IN(' . implode(',',
                         Config::$acceptedSupports) . ')
                     AND '.$adapter::QUEST_NOFAC_TEL. '!= 2';
             }
@@ -852,8 +864,10 @@ class Question extends MvcModel
                 writeLog(count($updateValues). ' questions maj', 'questioncronUpdate.log');
             }
 
-            // maj derniere date d'execution
-            update_option('cronquestionupdate', $lastDateUpdate);
+            if (!empty($lastDateUpdate)) {
+                // maj derniere date d'execution
+                update_option('cronquestionupdate', $lastDateUpdate);
+            }
 
             return CONST_STATUS_CODE_OK;
         } catch (\Exception $e) {
