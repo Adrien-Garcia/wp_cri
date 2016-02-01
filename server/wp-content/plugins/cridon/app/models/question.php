@@ -806,15 +806,15 @@ class Question extends MvcModel
                         }
 
                         $query .= " affectation_date = " . (empty($affectationDate) ? "NULL," : "'".$affectationDate."'") . ", ";
-                        $query .= " wish_date = " . (empty($wishDate) ? "NULL," : "'".$wishDate."'") . ", ";
-                        $query .= " real_date = " . (empty($realDate) ? "NULL," : "'".$realDate."'") . ", ";
+                        $query .= " wish_date = " . (empty($wishDate) ? "NULL" : "'".$wishDate."'") . ", ";
+                        $query .= " real_date = " . (empty($realDate) ? "NULL" : "'".$realDate."'") . ", ";
 
                         if (isset($data[$adapter::QUEST_YUSER])) {
                             $query .= " yuser = '" . esc_sql($data[$adapter::QUEST_YUSER]) . "', ";
                         }
 
-                        $query .= " date_modif = " . (empty($updatedDate) ? "NULL," : "'".$updatedDate."'") . ", ";
-                        $query .= " hour_modif = " . (empty($updatedHour) ? "NULL," : "'".$updatedHour."'") . ", ";
+                        $query .= " date_modif = " . (empty($updatedDate) ? "NULL" : "'".$updatedDate."'") . ", ";
+                        $query .= " hour_modif = " . (empty($updatedHour) ? "NULL" : "'".$updatedHour."'") . ", ";
 
 
                         $query .= " transmis_erp = '" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
