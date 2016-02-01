@@ -190,9 +190,11 @@ class Notaire extends MvcModel
     /**
      * Action for importing notaire data into wp_users
      *
+     * @param bool $force : Update all notaries ? (default false) Only available through DB update
+     *
      * @return mixed
      */
-    public function importIntoWpUsers()
+    public function importIntoWpUsers($force = false)
     {
         // log start of import
         if (CONST_TRACE_IMPORT_NOTAIRE) {
@@ -214,7 +216,7 @@ class Notaire extends MvcModel
                     $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
                 default :
                     //both OCI and ODBC will can this
-                    $this->importDataUsingDBconnect();
+                    $this->importDataUsingDBconnect($force);
                     break;
             }
 
@@ -311,11 +313,13 @@ class Notaire extends MvcModel
     /**
      * Import data with ODBC Link
      *
+     * @param bool $force : Update all notaries ? (default false)
+     *
      * @throws Exception
      *
      * @return void
      */
-    protected function importDataUsingDBconnect()
+    protected function importDataUsingDBconnect($force = false)
     {
         try {
             // query
@@ -349,7 +353,7 @@ class Notaire extends MvcModel
             $this->setSiteNotaireList();
 
             // insert or update data
-            $this->manageNotaireData();
+            $this->manageNotaireData($force);
 
             // set list of existing notaire
             $this->setSiteEtudeList();
@@ -480,9 +484,11 @@ class Notaire extends MvcModel
     /**
      * Manage Notaire data (insert, update)
      *
+     * @param bool $force : Update all notaries ? (default false)
+     *
      * @return void
      */
-    protected function manageNotaireData()
+    protected function manageNotaireData($force = false)
     {
         try {
             // instance of adapter
@@ -533,7 +539,7 @@ class Notaire extends MvcModel
                         $newDate = $newDate->format('Ymd');
                         $oldDate = new DateTime($currentData->date_modified);
                         $oldDate = $oldDate->format('Ymd');
-                        if ($newDate > $oldDate) {
+                        if ($force || ($newDate > $oldDate)) {
                             // prepare all update   query
                             if (isset($newData[$adapter::NOTAIRE_CATEG]))
                                 $updateCategValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CATEG]) . "' ";
