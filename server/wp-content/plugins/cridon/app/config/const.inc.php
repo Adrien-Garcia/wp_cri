@@ -605,8 +605,8 @@ if ( !defined( 'CONST_GOOGLE_API_KEY' ) ) {
     define( 'CONST_GOOGLE_API_KEY', 'AIzaSyBh_fFDWcD41pxxbA4pHnYliP48K6BkBYw' );
 }
 if ( !defined( 'CONST_GOOGLE_GCM_URL' ) ) {
-    // alternative fournit par d'autre documentation : https://android.googleapis.com/gcm/send
-    define( 'CONST_GOOGLE_GCM_URL', 'https://gcm-http.googleapis.com/gcm/send' );
+    // alternative fournit par d'autre documentation : https://gcm-http.googleapis.com/gcm/send
+    define( 'CONST_GOOGLE_GCM_URL', 'https://android.googleapis.com/gcm/send' );
 }
 if ( !defined( 'CONST_NOTIFICATION_ERROR' ) ) {
     define( 'CONST_NOTIFICATION_ERROR', 'Une erreur a été capturée avec le message suivant : "%s"' );
