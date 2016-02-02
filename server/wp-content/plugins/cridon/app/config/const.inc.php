@@ -636,5 +636,13 @@ if ( !defined( 'CONST_APNS_SANDBOX_PEM' ) ) {
 if ( !defined( 'CONST_APNS_PROD_PEM' ) ) {
     define( 'CONST_APNS_PROD_PEM', WP_PLUGIN_DIR . '/cridon/app/apns/ckprod.pem' );
 }
+// APNS Sandbox URL
+if ( !defined( 'CONST_APNS_SANDBOX_URL' ) ) {
+    define( 'CONST_APNS_SANDBOX_URL', 'gateway.sandbox.push.apple.com' );
+}
+// APNS Prod URL
+if ( !defined( 'CONST_APNS_PROD_URL' ) ) {
+    define( 'CONST_APNS_PROD_URL', 'gateway.push.apple.com' );
+}
 
 // End of block for mobile

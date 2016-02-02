@@ -270,14 +270,14 @@ class CridonTools {
                     $payload = json_encode($payload);
 
                     // by default mode sandbox
-                    $apns_url = 'gateway.sandbox.push.apple.com';
+                    $apns_url = CONST_APNS_SANDBOX_URL;
                     // APNS sandbox certificat
                     $apns_cert = CONST_APNS_SANDBOX_PEM;
 
                     // set server by env
                     $env = getenv('ENV');
                     if ($env === 'PROD') {
-                        $apns_url  = 'gateway.push.apple.com';
+                        $apns_url  = CONST_APNS_PROD_URL;
                         $apns_cert = CONST_APNS_PROD_PEM;
                     }
 
