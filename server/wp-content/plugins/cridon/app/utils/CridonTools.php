@@ -266,7 +266,7 @@ class CridonTools {
                         'badge' => intval($badge),
                         'sound' => $sound
                     );
-                    $payload['urlnotaire'] = $message['urlnotaire'];
+                    $payload['dest'] = $message['urlnotaire'];
                     $payload = json_encode($payload);
 
                     // by default mode sandbox
