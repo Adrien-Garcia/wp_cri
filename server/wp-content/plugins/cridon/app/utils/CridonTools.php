@@ -262,10 +262,11 @@ class CridonTools {
 
                     $payload = array();
                     $payload['aps'] = array(
-                        'alert' => $message,
+                        'alert' => $message['message'],
                         'badge' => intval($badge),
                         'sound' => $sound
                     );
+                    $payload['urlnotaire'] = $message['urlnotaire'];
                     $payload = json_encode($payload);
 
                     // by default mode sandbox
@@ -325,7 +326,7 @@ class CridonTools {
                     break;
                 case 'android':
                     $msg              = array(
-                        'message'  => $message,
+                        'message'  => json_encode($message),
                         'title'    => CONST_ANDROID_TITLE_MSG,
                         'subtitle' => CONST_ANDROID_SUBTITLE_MSG,
                         'vibrate'  => 1,
@@ -381,8 +382,9 @@ class CridonTools {
                         $result = curl_exec($ch);
                         if ($result === false) {
                             // error reporting
-                            $error = sprintf(CONST_NOTIFICATION_ERROR, curl_error($ch));
-                            reportError($error, 'Push Notification');
+                            $errorLog = sprintf(CONST_NOTIFICATION_ERROR, curl_error($ch));
+                            reportError($errorLog, 'Push Notification');
+                            writeLog($errorLog, 'pushnotification.log');
                         } else {
                             // no error was found
                             $response = 1;
@@ -390,8 +392,8 @@ class CridonTools {
                         // Close connection
                         curl_close($ch);
                     } else {
-                        $error = sprintf(CONST_NOTIFICATION_ERROR, 'invalid pushToken pour la question avec id = ' . $questionId);
-                        writeLog($error, 'pushnotification.log');
+                        $errorLog = sprintf(CONST_NOTIFICATION_ERROR, 'invalid pushToken pour la question avec id = ' . $questionId);
+                        writeLog($errorLog, 'pushnotification.log');
                     }
 
                     return $response;

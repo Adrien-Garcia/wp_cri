@@ -1645,7 +1645,8 @@ writeLog($query, 'query_export.log');
     public function getQuestForNotification()
     {
         // init query
-        $query  = " SELECT `q`.`id`, `q`.`resume`, `q`.`mobile_device_type`, `q`.`mobile_push_token` FROM `{$this->table}` q ";
+        $query  = " SELECT `q`.`id`, `q`.`resume`, `q`.`mobile_device_type`, `q`.`mobile_push_token`, `n`.`id` AS id_notaire FROM `{$this->table}` q ";
+        $query .= " LEFT JOIN `{$this->wpdb->prefix}notaire` n ON `n`.`client_number` = `q`.`client_number` ";
         $query .= " WHERE `mobile_push_token` IS NOT NULL
                     AND `mobile_device_type` IS NOT NULL
                     AND `mobile_notification_status` = 0
@@ -1683,8 +1684,12 @@ writeLog($query, 'query_export.log');
         // only executed for valid $questions data
         if (is_array($questions) && count($questions) > 0) {
             foreach ($questions as $question) {
-                $message = sprintf(CONST_NOTIFICATION_CONTENT_MSG, $question->resume);
-                $resp    = $tools->pushNotification($question->mobile_device_type, $question->mobile_push_token, $message, $question->id);
+                $messages = array(
+                    'message'      => sprintf(CONST_NOTIFICATION_CONTENT_MSG, $question->resume),
+                    'urlnotaire' => mvc_public_url(array('controller' => 'notaires', 'id' => $question->id_notaire))
+                );
+
+                $resp = $tools->pushNotification($question->mobile_device_type, $question->mobile_push_token, $messages, $question->id);
 
                 // update question notification status
                 if ($resp) {
