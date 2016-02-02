@@ -66,7 +66,7 @@
 									<td>
 										<?php _e('Fax'); ?>
 									</td>
-									<td>04 37 24 79 71</td>
+									<td>04 78 24 96 71</td>
 								</tr>
 								<tr itemtype="http://schema.org/Restaurant" >
 									<td itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
