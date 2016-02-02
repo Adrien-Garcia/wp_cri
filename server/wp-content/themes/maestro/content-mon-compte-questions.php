@@ -220,7 +220,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
                         }
                     ?>
                     <?php foreach($ds as $document): ?>
-                        <?php if( !($document->label == 'Suite') && !($document->label == 'Complément') ): ?>
+                        <?php if( !($document->label == 'Suite') && !($document->label == 'Complément') && !($document->label == 'Archive')): ?>
                             <?php
                             $options = array(
                                 'controller' => 'documents',

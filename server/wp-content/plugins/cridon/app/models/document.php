@@ -120,7 +120,7 @@ class Document extends MvcModel {
         // doc list pour log
         $logDocList = array();
         try{
-            
+
             $Directory = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH);
             $Iterator = new RecursiveIteratorIterator($Directory);
             //remove the ending symbol $ as a txt file contains a '0' behind the extension...
@@ -169,7 +169,7 @@ class Document extends MvcModel {
                         // document associé
                         $docs = $this->queryBuilder->find($options);
                         /*
-                         * Type d'action à effectué
+                         * Type d'action à effectuer
                          * 1 : insertion de nouveau document
                          * 2 : insertion de nouveau document suite/complément
                          * 3 : mise à jour du document
@@ -262,6 +262,9 @@ class Document extends MvcModel {
                             rename($document, $archivePath . $fileInfo['basename']);
                             // Mise de la date réelle de réponse de la question
                             $this->updateQuestion($question, $contents);
+                            $documentstoArchive = $this->getDocumentsToArchive($question);
+                            $this->updateDocuments($documentstoArchive);
+                            //$this->deleteDocuments($question);
                             $logDocList[] = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
                         } else { // invalide doc
                             // message par défaut
@@ -417,6 +420,59 @@ class Document extends MvcModel {
         }
 
         return $documentId;
+    }
+
+    /**
+     * Get documents to archive
+     * @param object $question
+     * @return object
+     */
+    public function getDocumentsToArchive($question){
+        if(!empty($question->id)){
+            // recuperation documents PJ pour la question
+            $options               = array();
+            $options['attributes'] = array('id');
+            $options['model']      = 'document';
+            $options['conditions'] = ' id_externe = ' . $question->id . ' AND type="question" AND label = "PJ"';
+
+            // documents associés
+            return $this->queryBuilder->find($options);
+        }
+    }
+
+    /**
+     * Change document type from PJ to Archive
+     * @param object $documents
+     */
+    public function updateDocuments($documents){
+        foreach ($documents as $document){
+            if(!empty ($document->id)){
+                $docData = array(
+                    'Document' => array(
+                        'id'        => $document->id,
+                        'label' => 'Archive'
+                    )
+                );
+                // mise de la date réelle de réponse
+                $this->save($docData);
+            }
+        }
+    }
+
+    /**
+     * Delete documents
+     * @param object $question
+     * @return bool|int
+     */
+    public function deleteDocuments($question){
+        if(!empty ($question)){
+            $qb = new QueryBuilder();
+            //Delete user cridon
+            $qb->delete( array( 'table' => 'document', 'conditions' => array(
+                    'id_externe ='.$question->id,
+                    'label = PJ'
+            )));
+        }
     }
 
     /**
