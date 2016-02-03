@@ -2,19 +2,27 @@
 
 App.Formation = {
 
-    formationFutureSelector         : '.js-tab-formation-future-open',
-    formationPaseesSelector         : '.js-tab-formation-passees-open',
+    tabFormationsFuturesSelector          : '.js-tab-formations-futures',
+    tabFormationsPasseesSelector          : '.js-tab-formations-passees',
 
-    $formationFuture                : null,
-    $formationPasees                : null,
+    eventTabFormationFuturesOpenSelector  : '.js-tab-formations-futures-open',
+    eventTabFormationPasseesOpenSelector  : '.js-tab-formations-passees-open',
+
+    $tabFormationsFuturesButton           : null,
+    $tabFormationsPaseesButton            : null,
+
+    $tabFormationsFutures                 : null,
+    $tabFormationsPassees                 : null,
 
 
     init: function() {
 
         this.debug("Formation : init start");
 
-        this.$formationFuture = $(this.formationFutureSelector);
-        this.$formationPasees = $(this.formationPaseesSelector);
+        this.$tabFormationsFutures          = $(this.tabFormationsFuturesSelector);
+        this.$tabFormationsFuturesButton    = $(this.eventTabFormationFuturesOpenSelector);
+        this.$tabFormationsPassees          = $(this.tabFormationsPasseesSelector);
+        this.$tabFormationsPasseesButton    = $(this.eventTabFormationPasseesOpenSelector);
 
         this.addListeners();
 
@@ -30,33 +38,38 @@ App.Formation = {
 
         this.debug("Formation : addListeners start");
 
-        this.$formationFuture.on("click", function(e) {
-            self.eventFormationFuture($(this));
+        this.$tabFormationsFuturesButton.on("click", function(e) {
+            self.eventTabFormationsFuturesOpen($(this));
         });
 
-        this.$formationPasees.on("click", function(e) {
-            self.eventFormationPassees($(this));
+        this.$tabFormationsPasseesButton.on("click", function(e) {
+            self.eventTabFormationsPasseesOpen($(this));
         });
 
         this.debug("Formation : addListeners end");
     },
 
+
     /*
-     * Event for opening Formation Futur tab
+     * Event for changing the tab on Formation page to formations futures
      */
 
-    eventFormationFuture: function() {
-        this.$formationFuture.addClass("open");
-        this.$formationPasees.removeClass("open");
+    eventTabFormationsFuturesOpen: function() {
+        this.$tabFormationsFutures.addClass('open');
+        this.$tabFormationsFuturesButton.addClass('open');
+        this.$tabFormationsPassees.removeClass('open');
+        this.$tabFormationsPasseesButton.removeClass('open');
     },
 
     /*
-     * Event for opening Formation Passees tab
+     * Event for changing the tab on Formation page to formations passées
      */
 
-    eventFormationPassees: function() {
-        this.$formationPasees.addClass("open");
-        this.$formationFuture.removeClass("open");
+    eventTabFormationsPasseesOpen: function() {
+        this.$tabFormationsPassees.addClass('open');
+        this.$tabFormationsPasseesButton.addClass('open');
+        this.$tabFormationsFutures.removeClass('open');
+        this.$tabFormationsFuturesButton.removeClass('open');
     },
 
     debug: function(t) {

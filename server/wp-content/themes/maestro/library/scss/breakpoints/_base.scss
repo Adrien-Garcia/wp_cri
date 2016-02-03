@@ -2490,6 +2490,13 @@ body.page-template-front-page{
 
 		}
 
+		&.tab {
+			display: none;
+			&.open {
+				display: block;
+			}
+		}
+
 	}
 
 
