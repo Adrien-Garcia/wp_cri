@@ -9,17 +9,21 @@ foreach ($objects as $key => $object) :
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
 
 	<!-- POUR LES FORMATIONS LA DATE CORRESPOND A CELLE DU JOUR DE LA FORMATION ET NON A CELLE DE LA CREATION DE LA FORMATION EN BDD -->
-	<?php 
-		if( $current_date != get_the_date('d-M-Y')) :
-			$current_date = get_the_date('d-M-Y');
+	<?php
+	    if ( !empty($object->__model_name) && $object->__model_name == 'Formation' && !empty($object->custom_post_date) ){
+            $current_date = $object->custom_post_date;
+        } else {
+            if ($current_date != get_the_date('d-M-Y')) {
+                $current_date = get_the_date('d-M-Y');
+            }
+        }
 	 ?>
 		<div class="date sel-object-date">
 			<div class="sep"></div>
-			<span class="jour"><?php echo get_the_date( 'd') ?></span>
-	      	<span class="mois"><?php echo get_the_date( 'M') ?></span>
-	      	<span class="annee"><?php echo get_the_date( 'Y') ?></span> 				
+			<span class="jour"><?php echo strftime('%d',strtotime($current_date)) ?></span>
+	      	<span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,3) ?></span>
+	      	<span class="annee"><?php echo strftime('%Y',strtotime($current_date)) ?></span>
 		</div>
-	<?php endif; ?>
 	<div class="details">
 		<?php if ( isset($object->matiere) ): ?>
 			
@@ -63,5 +67,3 @@ foreach ($objects as $key => $object) :
 </article>
 
 <?php endforeach; ?>
-
-                    

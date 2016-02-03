@@ -251,11 +251,13 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
                 'table' => 'matiere m',
                 'column' => 'm.id = '.$model[0].'.id_matiere'
             );
+        $sortDate = 'CAST(p.post_date AS DATE)';
     }
     if ($model === 'formation' ){
         $options['fields'] = $options['fields'].',CAST(f.custom_post_date AS DATE) AS formation_date';
+        $sortDate = 'CAST(f.custom_post_date AS DATE)';
     }
-    $results = criQueryPosts( $options,'CAST(p.post_date AS DATE)' );
+    $results = criQueryPosts( $options, $sortDate );
     //To have others attributes in array result. Default is object WP_Post
     //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
     if( $model === 'veille' ){// If model Veille, so associate model Matiere in result
