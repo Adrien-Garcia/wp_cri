@@ -59,8 +59,7 @@
    				</div>
    				<div class="details">
    					<div id="accordion-juridique" class="accordion js-tab-veille open">
-						<?php 
-							setlocale(LC_ALL, 'fr_FR');
+						<?php
 							$veilles = criFilterByDate('veille',3,3,'veille', 'd/m/Y');
 							// var_dump($veilles);
 						 ?>
@@ -139,7 +138,7 @@
 										$_link = get_permalink(); //$veille->link;
 										// var_dump($formation)
 									 ?>
-								<li>
+								<li class="js-home-block-link">
 									<img src="" alt="" />
 									<h4><?php echo $_title; ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
