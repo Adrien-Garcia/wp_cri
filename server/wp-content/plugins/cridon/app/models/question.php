@@ -853,13 +853,27 @@ class Question extends MvcModel
                 writeLog(count($insertValues). ' nouvelles questions','questioncronUpdate.log');
             }
             if (count($updateValues) > 0) {
-                $queryBulder = mvc_model('QueryBuilder');
                 // bulk update
+                $i = 0;
                 $updtateQuery = implode(' ', $updateValues);
+                /**
+                 * @var $mysqliBuilder mysqli
+                 */
+                $mysqliBuilder = mvc_model('QueryBuilder')->getInstanceMysqli();
+                if( $mysqliBuilder->multi_query($updtateQuery) )
+                {
+                    while( $mysqliBuilder->more_results() );
+                    {
+                        $mysqliBuilder->next_result();
+                        $i++;
+                    }
+                } else {
+                    writeLog('Une erreur inconnue est survenue', 'questioncronUpdate.log');
+                }
 
-                if (!$queryBulder->getInstanceMysqli()->multi_query($updtateQuery)) {
+                if (!empty($mysqliBuilder->error)) {
                     // write into logfile
-                    writeLog($queryBulder->getInstanceMysqli()->error, 'questioncronUpdate.log');
+                    writeLog($mysqliBuilder->error . ' IN : ' . $updtateQuery[$i], 'questioncronUpdate.log');
                 }
                 writeLog(count($updateValues). ' questions maj', 'questioncronUpdate.log');
             }
