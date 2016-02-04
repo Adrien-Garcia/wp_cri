@@ -45,7 +45,7 @@ class AdminQuestionsController extends BaseAdminController {
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
         //Load custom helper
-        $this->load_helper('AdminCustom');
+        $this->load_helper('AdminView');
     }
     
     /**
