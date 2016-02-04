@@ -207,9 +207,15 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
         return null;
     }
     global $cri_container;
+    //The formation date is used instead of the post date
+    if ($model === 'formation'){
+        $date = 'CAST(f.custom_post_date AS DATE)';
+    } else {
+        $date = 'CAST(p.post_date AS DATE)';
+    }
     $nestedOptions = array(
         'synonym' => 'p',
-        'fields' => 'CAST(p.post_date AS DATE) AS date',
+        'fields' => $date.' AS date',
         'join'  => array(
             $model => array(
                 'table' => $model.' '.$model[0],
@@ -225,7 +231,7 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
     $nested = $query_builder->buildQuery( 'posts',$nestedOptions,'p.ID' );// Nested query ( simple string )
     $tools = $cri_container->get( 'tools' );
     $options = array(
-        'fields' => $tools->getFieldPost().'CAST(p.post_date AS DATE) AS date,p.post_title,'.$model[0].'.id as join_id',
+        'fields' => $tools->getFieldPost().$date.' AS date,p.post_title,'.$model[0].'.id as join_id',
         'join'  => array(
             $model => array(
                 'table' => $model.' '.$model[0],
@@ -233,37 +239,39 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
             ),
             'nested' => array(
                 'table' => '('.$nested.') AS nested',
-                'column' => 'CAST(p.post_date AS DATE) = nested.date',
+                'column' => $date.' = nested.date',
                 'nested' => true
             )
         ),
         'conditions' => 'p.post_status = "publish"',
-        'order' => 'DESC'
+        'order' => 'DESC',
     );
-    if( $model === 'veille' ){
-        $fields = array('id','code','label','short_label','displayed','picto');
-        $mFields = '';// fields of model Matiere
-        foreach ( $fields as $v ){
-            $mFields .= ',m.'.$v;
-        }
-        $options['fields'] = $options['fields'].$mFields;
-        $options['join']['matiere'] = array(
-                'table' => 'matiere m',
-                'column' => 'm.id = '.$model[0].'.id_matiere'
-            );
-        $sortDate = 'CAST(p.post_date AS DATE)';
+
+    $fields = array('id','code','label','short_label','displayed','picto');
+    $mFields = '';// fields of model Matiere
+    foreach ( $fields as $v ){
+        $mFields .= ',m.'.$v;
     }
+
+    $options['fields'] = $options['fields'].$mFields;
+    $options['join']['matiere'] = array(
+            'table' => 'matiere m',
+            'column' => 'm.id = '.$model[0].'.id_matiere'
+    );
+
     if ($model === 'formation' ){
         $options['fields'] = $options['fields'].',CAST(f.custom_post_date AS DATE) AS formation_date';
         $sortDate = 'CAST(f.custom_post_date AS DATE)';
+    } else {
+        $sortDate = 'CAST(p.post_date AS DATE)';
     }
     $results = criQueryPosts( $options, $sortDate );
     //To have others attributes in array result. Default is object WP_Post
     //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
-    if( $model === 'veille' ){// If model Veille, so associate model Matiere in result
-        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );        
+    if( $model === 'formation' ){// If model Formation, sort by formation date instead of post published date
+        $res = $tools->buildSubArray( $model,$results, 'formation_date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
     }else{
-        $res = $tools->buildSubArray( $model,$results, 'formation_date', $nb_per_date,$index,$format_date );
+        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
     }
     return $res;
 }

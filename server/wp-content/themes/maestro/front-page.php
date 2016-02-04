@@ -131,15 +131,14 @@
 									<?php 
 										criWpPost($formation);
 
-										// $_matiere = $formation->getMatiere() != null ? $formation->getMatiere() : 'Expertise générale';
-										$_matiere = false != false ? false : 'Expertise générale';
 										$_title = get_the_title();
 										$_chapo = get_the_excerpt();//$veille->excerpt;
 										$_link = get_permalink(); //$veille->link;
 										// var_dump($formation)
 									 ?>
+
 								<li class="js-home-block-link">
-									<img src="" alt="" />
+									<img src="<?php echo $formation->matiere->picto ?>" alt="<?php echo $formation->matiere->label ?>" />
 									<h4><?php echo $_title; ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
 									<div class="adresse">
