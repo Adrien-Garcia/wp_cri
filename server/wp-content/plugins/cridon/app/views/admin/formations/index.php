@@ -2,16 +2,6 @@
 
 <form id="posts-filter" action="<?php echo MvcRouter::admin_url(); ?>" method="get">
 
-    <input type="hidden" id="baseUrl" name="baseUrl" value="<?php echo mvc_admin_url(array('controller' => 'formations')); ?>" />
-
-    <p class="filter-box">
-        <select id="formationFilter" name="formationFilter">
-            <option value="all"> --- Toutes --- </option>
-            <option value="old" <?php echo (isset($_GET['option']) && $_GET['option'] == 'old' ? 'selected' : ''); ?>> Formations passées </option>
-            <option value="new" <?php echo (isset($_GET['option']) && $_GET['option'] == 'new' ? 'selected' : ''); ?>> Formations à venir </option>
-        </select>
-    </p>
-
     <p class="search-box">
         <label class="screen-reader-text" for="post-search-input">Search:</label>
         <input type="hidden" name="page" value="<?php echo MvcRouter::admin_page_param($model->name); ?>" />
