@@ -13,8 +13,8 @@ foreach ($objects as $key => $object) :
 	    if ( !empty($object->__model_name) && $object->__model_name == 'Formation' && !empty($object->custom_post_date) ){
             $current_date = $object->custom_post_date;
         } else {
-            if ($current_date != get_the_date('d-M-Y')) {
-                $current_date = get_the_date('d-M-Y');
+            if ($current_date != get_the_date('Y-m-d')) {
+                $current_date = get_the_date('Y-m-d');
             }
         }
 	 ?>
