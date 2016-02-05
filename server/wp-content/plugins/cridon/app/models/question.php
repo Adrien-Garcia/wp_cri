@@ -855,27 +855,31 @@ class Question extends MvcModel
             if (count($updateValues) > 0) {
                 // bulk update
                 $i = 0;
-                $updtateQuery = implode(' ', $updateValues);
-                /**
-                 * @var $mysqliBuilder mysqli
-                 */
-                $mysqliBuilder = mvc_model('QueryBuilder')->getInstanceMysqli();
-                if( $mysqliBuilder->multi_query($updtateQuery) )
-                {
-                    while( $mysqliBuilder->more_results() );
-                    {
-                        $mysqliBuilder->next_result();
-                        $i++;
-                    }
-                } else {
-                    writeLog('Une erreur inconnue est survenue', 'questioncronUpdate.log');
-                }
+                $updateValuesChunk = array_chunk($updateValues, CONST_MAX_SQL_OPERATION);
+                foreach ($updateValuesChunk as $uv) {
 
-                if (!empty($mysqliBuilder->error)) {
-                    // write into logfile
-                    writeLog($mysqliBuilder->error . ' IN : ' . $updtateQuery[$i], 'questioncronUpdate.log');
+                    $updtateQuery = implode(' ', $uv);
+                    /**
+                     * @var $mysqliBuilder mysqli
+                     */
+                    $mysqliBuilder = mvc_model('QueryBuilder')->getInstanceMysqli();
+                    if( $mysqliBuilder->multi_query($updtateQuery) )
+                    {
+                        do {
+                            $mysqliBuilder->next_result();
+                            $i++;
+                        }
+                        while( $mysqliBuilder->more_results() );
+                    } else {
+                        writeLog('Une erreur inconnue est survenue', 'questioncronUpdate.log');
+                    }
+
+                    if (!empty($mysqliBuilder->error)) {
+                        // write into logfile
+                        writeLog($mysqliBuilder->error . ' IN : ' . $updateValues[$i], 'questioncronUpdate.log');
+                    }
                 }
-                writeLog(count($updateValues). ' questions maj', 'questioncronUpdate.log');
+                writeLog($i. ' questions maj', 'questioncronUpdate.log');
             }
 
             if (!empty($lastDateUpdate)) {
