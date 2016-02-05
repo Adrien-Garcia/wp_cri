@@ -529,6 +529,10 @@ if ( !defined( 'CONST_MAXFILESIZE_ERROR_MSG' ) ) {
     define( 'CONST_MAXFILESIZE_ERROR_MSG', 'Taille de ' );
 }
 
+if ( !defined( 'CONST_MAX_SQL_OPERATION' ) ) {
+    define( 'CONST_MAX_SQL_OPERATION', 10000 );
+}
+
 // import status code
 if ( !defined( 'CONST_STATUS_CODE_OK' ) ) {
     define( 'CONST_STATUS_CODE_OK', 200 );
