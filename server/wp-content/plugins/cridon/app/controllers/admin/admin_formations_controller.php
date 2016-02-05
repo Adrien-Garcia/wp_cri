@@ -62,7 +62,20 @@ class AdminFormationsController extends BaseAdminController
     {
         $this->init_default_columns();
         $this->process_params_for_search();
-        $collection = $this->model->paginate($this->params);
+
+        $params = $this->params;
+
+        if (isset($_GET['option']) && $_GET['option'] != 'all') {
+            if ($_GET['option'] == 'old') { // Formations passées : triées de la plus récente à la plus ancienne
+                $params['order']      = 'custom_post_date DESC';
+                $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
+            } elseif ($_GET['option'] == 'new') { // Formations a venir : triées de la plus proche à la plus éloignée
+                $params['order']      = 'custom_post_date ASC';
+                $params['conditions'] = array('custom_post_date >= ' => date('Y-m-d'));
+            }
+        }
+
+        $collection = $this->model->paginate($params);
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
         // Load custom helper
