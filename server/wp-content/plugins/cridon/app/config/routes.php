@@ -47,7 +47,6 @@ MvcRouter::public_connect('vie_cridons', array('controller' => 'vie_cridons', 'a
 // default
 MvcRouter::public_connect('{:controller}', array('action' => 'index'));
 MvcRouter::public_connect('{:controller}/{:id:[a-zA-Z0-9=+~_-]+}', array('action' => 'show'));
-MvcRouter::public_connect('{:controller}/{:id:[\d]+}', array('action' => 'show'));
 MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
 
 //Ajax admin
