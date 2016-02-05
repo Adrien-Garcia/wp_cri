@@ -202,7 +202,7 @@ if (!function_exists('criSetLostPwdOptions')) {
  * @param string $format_date Format of date, default is french format
  * @return null or array of objects
  */
-function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd/m/Y' ){
+function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y-m-d' ){
     if( !is_string( $model ) || empty( $model ) ){
         return null;
     }
@@ -259,20 +259,10 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
             'column' => 'm.id = '.$model[0].'.id_matiere'
     );
 
-    if ($model === 'formation' ){
-        $options['fields'] = $options['fields'].',CAST(f.custom_post_date AS DATE) AS formation_date';
-        $sortDate = 'CAST(f.custom_post_date AS DATE)';
-    } else {
-        $sortDate = 'CAST(p.post_date AS DATE)';
-    }
-    $results = criQueryPosts( $options, $sortDate );
+    $results = criQueryPosts( $options, $date );
     //To have others attributes in array result. Default is object WP_Post
     //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
-    if( $model === 'formation' ){// If model Formation, sort by formation date instead of post published date
-        $res = $tools->buildSubArray( $model,$results, 'formation_date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
-    }else{
-        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
-    }
+    $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
     return $res;
 }
 
