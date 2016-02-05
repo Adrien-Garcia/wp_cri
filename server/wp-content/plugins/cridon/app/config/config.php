@@ -226,7 +226,8 @@ class Config {
         'questions','soldes','supports','user_cridons','veilles','vie_cridons'
     );
     public static $listOfControllersWithNoActionAdd = array(
-        'notaires'
+        'notaires',
+        'questions'
     );
     
     //Admin wp_mvc action translation
