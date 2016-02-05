@@ -204,28 +204,4 @@ jQuery(document).ready(function($) {
 
     });
 
-    
-
-    /* ARCHIVE FORMATIONS */
-
-    $("#filtres_formations .futures").click(function(){
-    	$(this).addClass("open");
-    	$("#filtres_formations .passees").removeClass("open");
-    });
-
-    $("#filtres_formations .passees").click(function(){
-    	$(this).addClass("open");
-    	$("#filtres_formations .futures").removeClass("open");
-    });
-
-
-    $(".js-veille-matiere-filter").on('change', function(e) {
-        if (this.checked ){
-            $(this).parents("label").first().addClass('select');
-        } else {
-            $(this).parents("label").first().removeClass('select');
-
-        }
-    });
-
 }); /* end of as page load scripts */

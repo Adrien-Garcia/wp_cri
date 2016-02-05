@@ -20,7 +20,7 @@ class AdminFormationsController extends BaseAdminController
      * Search join
      * @var array
      */
-    var $default_search_joins = array('Post');
+    var $default_search_joins = array('Matiere','Post');
 
     /**
      * Default searchable field
@@ -28,7 +28,8 @@ class AdminFormationsController extends BaseAdminController
      */
     var $default_searchable_fields = array(
         'id',
-        'Post.post_title'
+        'Post.post_title',
+        'Matiere.label'
     );
 
     /**
@@ -44,7 +45,10 @@ class AdminFormationsController extends BaseAdminController
         'date' => array(
             'label' => 'Date',
             'value_method' => 'post_date'
-        )
+        ),
+        'matiere' => array(
+            'label'=>'Matière',
+            'value_method' => 'matiere_edit_link')
     );
 
     public function __construct()
@@ -59,7 +63,6 @@ class AdminFormationsController extends BaseAdminController
         $this->init_default_columns();
         $this->process_params_for_search();
 
-        // params
         $params = $this->params;
 
         if (isset($_GET['option']) && $_GET['option'] != 'all') {
@@ -72,10 +75,7 @@ class AdminFormationsController extends BaseAdminController
             }
         }
 
-        // get collection
         $collection = $this->model->paginate($params);
-
-        // set object to template
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
         // Load custom helper
@@ -118,23 +118,16 @@ class AdminFormationsController extends BaseAdminController
         return $custom_date;
     }
 
-    private function trim($str)
-    {
+    private function trim($str){
         return str_replace('admin_', '', $str);
     }
-
-    private function postEditUrl($object, $controller)
-    {
+    private function postEditUrl($object, $controller){
         return admin_url('post.php?post=' . $object->post_id . '&action=edit&cridon_type=' . $this->trim($controller->name));
     }
-
-    private function samplePostEditUrl($object, $controller)
-    {
+    private function samplePostEditUrl($object, $controller){
         return 'post.php?post=' . $object->post_id . '&action=edit&cridon_type=' . $this->trim($controller->name);
     }
-
-    private function prepareData($aOptionList, $aData)
-    {
+    private function prepareData($aOptionList, $aData){
         if (is_array($aData) && count($aData) > 0) {
             foreach ($aData as $oData) {
                 foreach ($aOptionList as $sKey => $sVal) {
@@ -146,6 +139,15 @@ class AdminFormationsController extends BaseAdminController
                 $aData->$sKey = $aData->$sVal;
             }
         }
+    }
+
+    public function matiere_edit_link($object)
+    {
+        $aOptionList = array(
+            '__name'    => 'label'
+        );
+        $this->prepareData($aOptionList, $object->matiere);
+        return empty($object->matiere) ? Config::$defaultMatiere['name'] : HtmlHelper::admin_object_link($object->matiere, array('action' => 'edit'));
     }
 
     /**

@@ -188,7 +188,7 @@ function init_parent_meta_boxes( $post, $args ){
 add_action('add_meta_boxes','init_meta_boxes_category_post');
 
 function init_meta_boxes_category_post(){
-    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithMatiere)) {//Check if is a model Veille
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithMatiere)) {
         // init meta box depends on the current type of content
         add_meta_box('id_meta_boxes_link_post', Config::$titleMetabox , 'init_select_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
     }
@@ -874,9 +874,9 @@ function loadAdminCustomCss(){
 add_action('add_meta_boxes','formation_post_date_meta_box');
 
 function formation_post_date_meta_box(){
-    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithCustomDate)) {//Check if is a model Veille
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithCustomDate)) {
         // init meta box depends on the current type of content
-        add_meta_box('id_meta_boxes_link_post', Config::$dateTitleMetabox , 'content_formation_post_date', 'post', 'side', 'high', $_GET['cridon_type']);
+        add_meta_box('id_meta_boxes_link_post_date', Config::$dateTitleMetabox , 'content_formation_post_date', 'post', 'side', 'high', $_GET['cridon_type']);
         wp_enqueue_script('jquery-ui-core');
         wp_enqueue_script('jquery-ui-datepicker');
 
