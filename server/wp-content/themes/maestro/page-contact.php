@@ -58,7 +58,7 @@
 								<tr>
 									<td>
 										<?php _e('Autres demandes'); ?>
-										<span><?php _e('tout pubic'); ?></span>
+										<span><?php _e('tout public'); ?></span>
 									</td>
 									<td>04 37 24 79 00</td>
 								</tr>

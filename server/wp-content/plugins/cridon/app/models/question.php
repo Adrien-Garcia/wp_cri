@@ -585,7 +585,7 @@ class Question extends MvcModel
         $value .= "'" . (isset($data[$adapter::QUEST_SREBPC]) ? esc_sql($data[$adapter::QUEST_SREBPC]) : '') . "', "; // client_number
         $value .= "'" . (isset($data[$adapter::QUEST_SRECCN]) ? esc_sql($data[$adapter::QUEST_SRECCN]) : '') . "', "; // sreccn
         $value .= "'" . (isset($data[$adapter::QUEST_YCODESUP]) ? esc_sql($data[$adapter::QUEST_YCODESUP]) : '') . "', "; // id_support
-        $value .= "'" . (isset($data[$adapter::QUEST_ZCOMPETENC]) ? esc_sql(intval($data[$adapter::QUEST_ZCOMPETENC])) : '') . "', "; // id_competence_1
+        $value .= "'" . (isset($data[$adapter::QUEST_ZCOMPETENC]) ? esc_sql($data[$adapter::QUEST_ZCOMPETENC]) : '') . "', "; // id_competence_1
         $value .= "'" . (isset($data[$adapter::QUEST_YRESUME]) ? esc_sql($data[$adapter::QUEST_YRESUME]) : '') . "', "; // resume
         $value .= "'" . (isset($data[$adapter::QUEST_YSREASS]) ? intval($data[$adapter::QUEST_YSREASS]) : 0) . "', "; // id_affectation
         $value .= "'" . (isset($data[$adapter::QUEST_SREDET]) ? esc_sql($data[$adapter::QUEST_SREDET]) : '') . "', "; // juriste
@@ -790,7 +790,7 @@ class Question extends MvcModel
                         }
 
                         if (isset($data[$adapter::QUEST_ZCOMPETENC])) { // id_competence_1
-                            $query .= " id_competence_1 = '" . intval($data[$adapter::QUEST_ZCOMPETENC]) . "', ";
+                            $query .= " id_competence_1 = '" . esc_sql($data[$adapter::QUEST_ZCOMPETENC]) . "', ";
                         }
 
                         if (isset($data[$adapter::QUEST_YRESUME])) { // resume
