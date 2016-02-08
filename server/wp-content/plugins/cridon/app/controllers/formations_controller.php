@@ -15,22 +15,21 @@ class FormationsController extends MvcPublicController
 
         // params
         $params = $this->params;
-
-        if (isset($_GET['option']) && $_GET['option'] != 'all') {
-            if ($_GET['option'] == 'old') { // Formations passées : triées de la plus récente à la plus ancienne
-                $params['order']      = 'custom_post_date DESC';
-                $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
-            } elseif ($_GET['option'] == 'new') { // Formations a venir : triées de la plus proche à la plus éloignée
-                $params['order']      = 'custom_post_date ASC';
-                $params['conditions'] = array('custom_post_date >= ' => date('Y-m-d'));
-            }
-        }
-
+        // Formations passées : triées de la plus récente à la plus ancienne
+        $params['order']      = 'custom_post_date DESC';
+        $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
         // get collection
         $collection = $this->model->paginate($params);
+        $formationsPassees = $collection['objects'];
+        // Formations a venir : triées de la plus proche à la plus éloignée
+        $params['order']      = 'custom_post_date ASC';
+        $params['conditions'] = array('custom_post_date >= ' => date('Y-m-d'));
+        $collection = $this->model->paginate($params);
+        $formationsFutures = $collection['objects'];
 
         // set object to template
-        $this->set('objects', $collection['objects']);
+        $this->set('formationsFutures', $formationsFutures);
+        $this->set('formationsPassees', $formationsPassees);
         $this->set_pagination($collection);
     }
 

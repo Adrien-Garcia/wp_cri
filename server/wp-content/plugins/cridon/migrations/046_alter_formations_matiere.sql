@@ -1,0 +1,1 @@
+ALTER TABLE `cri_formation` ADD `id_matiere` INT NULL;

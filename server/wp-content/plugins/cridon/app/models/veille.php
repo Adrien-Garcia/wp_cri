@@ -49,6 +49,8 @@ class Veille extends MvcModel {
             $params['conditions'] = array_merge($params['conditions'], array(
                 'Post.post_status' => 'publish'
             ));
+        } else {
+            $params['conditions'] = array('Post.post_status' => 'publish');
         };
         //Order by date publish
         $params['order'] = 'Post.post_date DESC' ;
