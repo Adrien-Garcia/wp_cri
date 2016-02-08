@@ -10,8 +10,7 @@
     <?php echo $this->form->belongs_to_dropdown('Competence', $aCompetence, array('style' => 'width: 200px;', 'empty' => false,'disabled' => true)); ?>
     <?php echo $this->form->has_many_dropdown('Competences', $aCompetence, array('select_id'=>'competence_select_n','select_name'=>'competence_select_n','label'=> 'Autres compétences','style' => 'width: 200px;', 'empty' => true,'disabled' => true)); ?>
     <?php echo $this->form->input('id_affectation',array('label' => 'Code affectation','disabled' => true)); ?>
-    <?php echo $this->form->input('resume',array('label' => 'Objet de la question','disabled' => true)); ?>
-    <?php echo $this->form->textarea_input('content',array('label' => 'Texte de la question','value' => $object->content,'disabled' => true)); ?>
+    <?php echo $this->form->input('resume',array('label' => 'Objet de la question')); ?>
+    <?php echo $this->form->textarea_input('content',array('label' => 'Texte de la question','value' => $object->content)); ?>
     <?php echo $this->form->input('juriste',array('label' => 'Juriste principal','disabled' => true)); ?>
-    <?php echo $this->form->end('Valider'); ?>
 </div>
