@@ -65,7 +65,21 @@ class FlashesController extends MvcPublicController {
                )
             );
             if(!empty($aObject)){
-                $object = $aObject[0];
+                $object = reset($aObject);
+            } else if (is_numeric($this->params['id'])) {
+                //if the url is numeric and if it's not a post name
+                $object = $this->model->find_by_id($this->params['id']);
+                if (!empty($object)) {
+                    $options = array(
+                        'controller' => $this->name,
+                        'action' => 'show',
+                        'id' => $object->post->post_name
+                    );
+                    $url = MvcRouter::public_url($options);
+                    //redirect to url with virtual-name
+                    wp_redirect($url, 301);
+                    exit;
+                }
             }else{
                 $object = null;
             }
@@ -75,8 +89,7 @@ class FlashesController extends MvcPublicController {
             MvcObjectRegistry::add_object($this->model->name, $this->object);
             return true;
         }
-        MvcError::warning('Object not found.');
-        return false;
+        redirectTo404();
     }
 }
 
