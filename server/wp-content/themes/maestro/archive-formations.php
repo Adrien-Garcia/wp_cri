@@ -15,15 +15,15 @@
 				<h1 class="h1">Nos formations</h1>
 
 				<div id="filtres_formations">
-	   				<div class="futures open js-tab-formation-future-open"><span>à venir</span></div>
-	   				<div class="passees js-tab-formation-passees-open"><span>passées</span></div>  
+	   				<div class="futures js-tab-formations-futures-open open"><span>à venir</span></div>
+	   				<div class="passees js-tab-formations-passees-open"><span>passées</span></div>
 				</div>
 				<div style="display:block; clear: both; width:100%">
 					
 				</div>
 
-				<div class="listing formations" id="sel-formations">
-					<?php set_query_var( 'objects', $objects ); ?>						
+				<div class="listing formations tab js-tab-formations-futures open">
+					<?php set_query_var( 'objects', $formationsFutures ); ?>
 					
 					<?php echo get_template_part("content","post-list"); ?>
 
@@ -32,6 +32,17 @@
                     </div>
                     
                 </div>
+
+				<div class="listing formations tab js-tab-formations-passees">
+					<?php set_query_var( 'objects', $formationsPassees ); ?>
+
+					<?php echo get_template_part("content","post-list"); ?>
+
+					<div class="pagination">
+						<?php echo $this->pagination(); ?>
+					</div>
+
+				</div>
 
 			</div>					
 

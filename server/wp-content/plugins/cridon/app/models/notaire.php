@@ -721,7 +721,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // write into logfile
             writeLog($e, 'notaire.log');
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(), 'Cridon - Données notaire - Erreur mise à jour');
         }
 
         // import into wp_users table
@@ -919,7 +919,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // write into logfile
             writeLog($e, 'etude.log');
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(), 'Cridon - Données étude - Erreur mise à jour');
         }
 
     }
@@ -1134,7 +1134,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // write into logfile
             writeLog($e, 'notaire.log');
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(), 'Cridon - Données utilisateurs - Erreur mise à jour');
         }
     }
 
@@ -1170,7 +1170,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // write into logfile
             writeLog($e, 'notaire.log');
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur mise à jour id_wp_user');
         }
     }
 
@@ -1367,7 +1367,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     writeLog($error, 'solde.log');
 
                     // send email
-                    reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
+                    reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde','Cridon - Solde notaire - Erreur mise à jour');
                 }
             } else { // file doesn't exist
                 // write into logfile
@@ -1375,7 +1375,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 writeLog($error, 'solde.log');
 
                 // send email
-                reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde');
+                reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde','Cridon - Solde notaire - Erreur ouverture fichier');
             }
         } catch (Exception $e) {
             // archive file
@@ -1387,7 +1387,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             writeLog($e, 'solde.log');
 
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Solde notaire - Erreur fichier');
         }
     }
 

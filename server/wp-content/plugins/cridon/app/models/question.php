@@ -129,7 +129,7 @@ class Question extends \App\Override\Model\CridonMvcModel
             }
         } catch (\Exception $e) {
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Erreur comptage en base de donnée');
         }
     }
 
@@ -1003,7 +1003,8 @@ class Question extends \App\Override\Model\CridonMvcModel
 
         } catch (\Exception $e) {
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Question - Erreur création liste de suppression');
+            writeLog($e, 'questionweeklyupdatesetListDelete.log');
         }
     }
 
@@ -1225,7 +1226,7 @@ writeLog($query, 'query_export.log');
                 } else {
                     // log erreur
                     $error = sprintf(CONST_EXPORT_EMAIL_ERROR, date('d/m/Y à H:i:s'));
-                    writeLog($error, 'exportquestion.log');
+                    writeLog($error, 'exportquestion.log','Cridon - Export');
 
                     // send email
                     reportError(CONST_EXPORT_EMAIL_ERROR, $error);

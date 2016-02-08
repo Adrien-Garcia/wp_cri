@@ -8,6 +8,8 @@ Version: 1.0
 Author URI: 
 */
 
+setlocale(LC_TIME, 'fr_FR.utf8');
+
 register_activation_hook(__FILE__, 'cridon_activate');
 register_deactivation_hook(__FILE__, 'cridon_deactivate');
 

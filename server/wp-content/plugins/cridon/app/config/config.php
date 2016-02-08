@@ -74,6 +74,7 @@ class Config {
         'veilles',
         'flashes',
         'cahier_cridons',
+        'formations'
     );
 
     //Content qualified by a "Matière"
