@@ -327,4 +327,32 @@ function custom_mvc_title_page( $title ){
         $title = preg_replace('/(\bUser\b)/', 'Utilisateur', $title);
     }
     return $title ;
-} 
+}
+
+add_action( 'wp', 'custom_redirect_301' );
+function custom_redirect_301($wp)
+{
+    if (!is_admin() && !empty($wp->matched_query)) {
+        // convert a query string to an array of vars
+        parse_str($wp->matched_query, $vars);
+
+        if (is_array($vars)
+            && isset($vars['mvc_controller'])
+            && isset($vars['mvc_action'])
+            && isset($vars['mvc_id']) // id notary is set
+            && $vars['mvc_controller'] == 'notaires' // controller "notaires"
+            && $vars['mvc_action']
+        ) {
+            // redirect 301 for an url like [site_url]/notaires/{id} to [site_url]/notaires
+            // and [site_url]/notaires/{id}/{action} to [site_url]/notaires/{action}
+            wp_redirect(
+                mvc_public_url(array(
+                        'controller' => 'notaires',
+                        'action'     => $vars['mvc_action']
+                    )
+                ),
+                301
+            );
+        }
+    }
+}

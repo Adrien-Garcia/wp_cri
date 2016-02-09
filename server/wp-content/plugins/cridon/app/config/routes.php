@@ -15,6 +15,14 @@ MvcRouter::public_connect('rest/{:controller}', array('action' => 'index_json', 
 MvcRouter::public_connect('rest/{:controller}/{:id:[\d]+}', array('action' => 'show_json', 'layout' => 'json'));
 MvcRouter::public_connect('rest/{:controller}/{:action:[^\d]+}', array('layout' => 'json'));
 
+/**
+ * Ne pas supprimer l'ancienne regle de routage suivante
+ * Utile pour les URL deja indéxées qui seront gerer via une redirection 301
+ *
+ * La suppression de ces lignes affiche une page 404 (ou autre chose que le format attendu) donc impossible d'effectuer une redirection 301 (test effectué en local)
+ *
+ */
+// Debut bloc ancienne url
 // mes questions
 MvcRouter::public_connect('notaires/{:id:[\d]+}/questions', array('controller' => 'notaires', 'action' => 'questions'));
 // mon profil
@@ -30,6 +38,17 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/contentquestions', array('contro
 MvcRouter::public_connect('notaires/{:id:[\d]+}/contentprofil', array('controller' => 'notaires', 'action' => 'contentprofil'));
 // regles de facturation
 MvcRouter::public_connect('notaires/{:id:[\d]+}/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
+// Fin bloc ancienne url
+
+// nouvelle regle de routage notaire
+MvcRouter::public_connect('notaires/questions', array('controller' => 'notaires', 'action' => 'questions'));
+MvcRouter::public_connect('notaires/profil', array('controller' => 'notaires', 'action' => 'profil'));
+MvcRouter::public_connect('notaires/facturation', array('controller' => 'notaires', 'action' => 'facturation'));
+MvcRouter::public_connect('notaires/contentdashboard', array('controller' => 'notaires', 'action' => 'contentdashboard'));
+MvcRouter::public_connect('notaires/contentquestions', array('controller' => 'notaires', 'action' => 'contentquestions'));
+MvcRouter::public_connect('notaires/contentprofil', array('controller' => 'notaires', 'action' => 'contentprofil'));
+MvcRouter::public_connect('notaires/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
+MvcRouter::public_connect('notaires', array('controller' => 'notaires', 'action' => 'show'));
 
 // archives routes
 MvcRouter::public_connect('flashes', array('controller' => 'flashes', 'action' => 'index'));
