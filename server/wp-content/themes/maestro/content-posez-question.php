@@ -72,7 +72,7 @@
 							</select>
 							<?php $icomp++; ?>
 						<?php endforeach; ?>
-						<input class="js-question-object" type="text" name="question_objet" id="question_objet" value="" placeholder="Objet de la question">
+						<input class="js-question-object" type="text" name="question_objet" id="question_objet" value="" placeholder="Objet de la question" maxlength="80">
 						<textarea class="js-question-message" name="question_message" id="question_message" placeholder="Votre question"></textarea>
 
                         <?php for ($i = 0; $i < 5; $i++) : ?>
