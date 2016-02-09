@@ -25,10 +25,6 @@ class NotairesController extends BasePublicController
         parent::__construct();
     }
 
-    public function index() {
-        $this->generateError();
-    }
-
     /**
      * Generate error
      *
@@ -56,11 +52,17 @@ class NotairesController extends BasePublicController
 
         // check if user is not logged in
         // or notaire id (url params) not equal to WP user session data
-        if (!is_user_logged_in() || !$notaireData->id || $this->params['id'] !== $notaireData->id) {
+        if (!is_user_logged_in()
+            || !$notaireData->id
+            || (isset($this->params['id']) && $this->params['id'] !== $notaireData->id)) {
             wp_logout();//logout current user
             // redirect user to home page
             $this->redirect(home_url());
         }
+
+        // set notary id in params
+        // needed to retrieve notary data by the MVC system
+        $this->params['id'] = $notaireData->id;
     }
 
     /**
