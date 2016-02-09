@@ -50,6 +50,11 @@ if (isset($argv[1]) && !empty($pack)) {
     $limit = $offset + $pack;
 }
 
+//argv[3] -> is delta ? (only uploading files ; no update)
+if ((!empty($argv[3]) && $argv[3] == 'delta') || (!empty($_GET['delta']) && $_GET['delta'] == true)){
+    $delta = true;
+}
+
 // LOGs
 $logDocList = array();
 $errorDocList = array();
@@ -122,6 +127,9 @@ foreach ($csvParser->data as $row => $data) {
         if( !empty( $docs ) && !empty($contents[$indexes['INDEX_VALCAB']]) ){
             //Si le CAB du csv existe parmi les CAB dans les docs du site
             if( in_array( $contents[$indexes['INDEX_VALCAB']],$cabs ) ){
+                if ($delta){
+                    continue;
+                }
                 $typeAction = 3;//mise à jour
             }else{
                 $typeAction = 2;//complément/suite
@@ -202,21 +210,21 @@ foreach ($csvParser->data as $row => $data) {
             $logDocList[] = $filename;
         } else {
             // message par défaut
-            $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $docName);
+            /*$message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_CSV_MSG, date('d/m/Y à H:i'), $docName);
             // log : envoie mail
             if( !$fileToImport ){
                 // PDF inexistant
                 $message = sprintf(CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG, date('d/m/Y à H:i'), $contents[$indexes['INDEX_NUMQUESTION']]);
                 $message .= "\n PATH Chemin sur le serveur : ".$storedInfoFile;
-            }
-            reportError($message, '');
+            }*/
+            //reportError($message, '');
             $errorDocList[] = '404 File : ' . $storedInfoFile . ' (doc_name : ' . $docName .')';
         }
     } else { // doc sans question associee
 
         // log : envoie mail
-        $message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[$indexes['INDEX_VALCAB']]);
-        reportError($message, '');
+        //$message = sprintf(CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG, date('d/m/Y à H:i'), $contents[$indexes['INDEX_VALCAB']]);
+        //reportError($message, '');
         $errorDocList[] = '404 Quest : ' . $contents[$indexes['INDEX_NUMQUESTION']];
     }
 }
