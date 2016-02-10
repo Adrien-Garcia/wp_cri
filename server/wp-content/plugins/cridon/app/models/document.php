@@ -264,7 +264,6 @@ class Document extends MvcModel {
                             $this->updateQuestion($question, $contents);
                             $documentstoArchive = $this->getDocumentsToArchive($question);
                             $this->updateDocuments($documentstoArchive);
-                            //$this->deleteDocuments($question);
                             $logDocList[] = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
                         } else { // invalide doc
                             // message par défaut
@@ -422,6 +421,35 @@ class Document extends MvcModel {
         return $documentId;
     }
 
+
+
+    /**
+     * Archive all existing PJ when question is answered
+     */
+    public function archivePJ()
+    {
+        $documents = $this->getDocumentsWithPJAndDocAnswer();
+        foreach($documents as $document) {
+            $documentstoArchive = $this->getDocumentsToArchive($document);
+            if (!empty($documentstoArchive)){
+                $this->updateDocuments($documentstoArchive);
+            }
+        }
+    }
+    /**
+     * Get questions->id with documents : PJ and question/reponse
+     * @return array
+     */
+    public function getDocumentsWithPJAndDocAnswer(){
+        $sql = "SELECT DISTINCT d1.id_externe AS id FROM {$this->table} as d1
+                LEFT JOIN {$this->table} as d2 ON d1.id_externe = d2.id_externe
+                WHERE d1.label = 'PJ'
+                AND d2.label = 'question/reponse'
+            ";
+
+        return $questions = $this->wpdb->get_results($sql);
+    }
+
     /**
      * Get documents to archive
      * @param object $question
@@ -453,25 +481,8 @@ class Document extends MvcModel {
                         'label' => 'Archive'
                     )
                 );
-                // mise de la date réelle de réponse
                 $this->save($docData);
             }
-        }
-    }
-
-    /**
-     * Delete documents
-     * @param object $question
-     * @return bool|int
-     */
-    public function deleteDocuments($question){
-        if(!empty ($question)){
-            $qb = new QueryBuilder();
-            //Delete user cridon
-            $qb->delete( array( 'table' => 'document', 'conditions' => array(
-                    'id_externe ='.$question->id,
-                    'label = PJ'
-            )));
         }
     }
 
