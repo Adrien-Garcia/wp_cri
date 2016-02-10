@@ -797,3 +797,37 @@ function CriSetAdminCridonCaps() {
         }
     }
 }
+
+/**
+ * Send confirmation to notary for posted question
+ *
+ * @param array $question
+ * @throws Exception
+ */
+function CriSendPostQuestConfirmation($question) {
+    // get connected user
+    global $current_user;
+
+    // set meail headers
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+    // retrieve notary data
+    $notary = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
+    if (is_object($notary) && property_exists($notary, 'email_adress')) {
+        // default dest for DEV ENV
+        $dest = Config::$notificationAddressPreprod;
+
+        // check environnement
+        $env = getenv('ENV');
+        if ($env === 'PROD') {
+            $dest = $notary->email_adress;
+        }
+
+        // prepare message
+        $subject = Config::$mailBodyQuestionConfirmation['subject'];
+        $message = sprintf(Config::$mailBodyQuestionConfirmation['message'], $question['resume'], $notary->first_name, $notary->last_name);
+
+        // send email
+        wp_mail($dest , $subject, $message, $headers);
+    }
+}

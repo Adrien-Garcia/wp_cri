@@ -505,7 +505,10 @@ class Question extends MvcModel
                 return $response;
             }
 
-            return true;
+            return array(
+                        'resume'  => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]), // objet
+                        'content' => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]) // Message
+                    );
         } catch(\Exception $e) {
             writeLog( $e,'upload.log' );
             return false;

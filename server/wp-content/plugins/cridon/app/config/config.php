@@ -171,7 +171,7 @@ class Config {
         'documents' => 'Les documents associés: ',
         'tags'      => ''
     );
-    public static $notificationAddressPreprod = "clement.horgues@jetpulp.fr";
+    public static $notificationAddressPreprod = "victor.albert@jetpulp.fr";
 
     //GED Administration
     public static $GEDtxtIndexes = array(
@@ -312,5 +312,16 @@ class Config {
     public static $authorizedCapsForAdminsCridon = array(
         'read_private_posts',
         'read_private_pages',
+    );
+
+    // Notification for posted question
+    public static $mailBodyQuestionConfirmation  = array(
+        'subject'   => 'Confirmation question posée sur le site de Cridon',
+        'message'   => '<p>Bonjour,
+                            <br><br>Votre question a été bien enregistrée dont voici les informations concernant :
+                            <br><strong>Objet</strong> : %s
+                            <br><strong>Prénom du notaire</strong> : %s
+                            <br><strong>Nom du notaire</strong> : %s
+                        </p>'
     );
 }
