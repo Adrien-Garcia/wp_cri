@@ -444,38 +444,60 @@ class Document extends MvcModel {
     //Encryption
     /**
      * Encrypt value
-     * 
+     *
      * @param string $val
      * @return string
      */
-    public function encryptVal( $val ) {
-	$salt = wp_salt( 'secure_auth' );        
-	$td = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
-        $ks = mcrypt_enc_get_key_size($td);//key size
-	$key = substr(md5($salt),0,$ks);//create key
-	$iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($td), MCRYPT_RAND);
-	mcrypt_generic_init ($td, $key, $iv);
-	$encrypted_data = mcrypt_generic ($td, $val);
-	mcrypt_generic_deinit ($td);
-	mcrypt_module_close ($td);
-	return trim($this->urlBase64Encode($encrypted_data));
+    public function encryptVal( $val )
+    {
+        try {
+            $salt = wp_salt('secure_auth');
+
+            return $this->mcEncrypt($val, $this->getMcKey($salt));
+        } catch(\Exception $e) {
+            writeLog($e, 'decryptError.log');
+        }
     }
-    
+
     /**
      * Decrypt value
-     * 
+     *
      * @param string $val
      * @return string
      */
-    public function decryptVal( $val ) {
+    public function decryptVal( $val )
+    {
+        try {
+            $salt = wp_salt('secure_auth');
+
+            $decrypted_data = $this->mcDecrypt($val, $this->getMcKey($salt));
+
+            // patch for old url value
+            if (!preg_match(Config::$confPublicDownloadURL['pattern'], $decrypted_data)) {
+                $decrypted_data = $this->decryptOldVal($val);
+            }
+
+            return $decrypted_data;
+        } catch (\Exception $e) {
+            writeLog($e, 'decryptError.log');
+        }
+    }
+
+    /**
+     * Decrypt value
+     *
+     * @param string $val
+     * @return string
+     */
+    public function decryptOldVal( $val ) {
         $salt = wp_salt( 'secure_auth' );
         //Decode base64
         $input = trim($this->urlBase64Decode($val));
-        
+
         /**
          * @see http://php.net/manual/fr/function.mcrypt-module-open.php
          */
-        
+
         $td = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
         $ks = mcrypt_enc_get_key_size($td);//key size
         $key = substr(md5($salt),0,$ks);//create key
@@ -487,6 +509,53 @@ class Document extends MvcModel {
         mcrypt_module_close ($td);
         return trim($decrypted_data);
     }
+
+    /**
+     * Get key by escaping size error
+     *
+     * @param string $salt
+     * @return string
+     */
+    protected function getMcKey($salt)
+    {
+        $td   = mcrypt_module_open(MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
+        $ks   = mcrypt_enc_get_key_size($td);//key size
+        $key  = substr(md5($salt), 0, $ks);//create key
+
+        mcrypt_module_close($td);
+
+        return $key;
+    }
+
+    /**
+     * Encrypt string
+     *
+     * @param string $encrypt
+     * @param string $mc_key
+     * @return string
+     */
+    protected function mcEncrypt($encrypt, $mc_key)
+    {
+        $passcrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($mc_key), $encrypt, MCRYPT_MODE_CBC, md5(md5($mc_key)));
+        $encode = $this->urlBase64Encode($passcrypt);
+
+        return $encode;
+    }
+
+    /**
+     * Decrypt string
+     *
+     * @param string $decrypt
+     * @param string $mc_key
+     * @return string
+     */
+    protected function mcDecrypt($decrypt, $mc_key)
+    {
+        $decoded = $this->urlBase64Decode($decrypt);
+        $decrypted = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($mc_key), $decoded, MCRYPT_MODE_CBC, md5(md5($mc_key))));
+
+        return $decrypted;
+    }
     
     /**
      * Encode in Base64
@@ -494,12 +563,13 @@ class Document extends MvcModel {
      * @param string $str
      * @return string
      */
-    public function urlBase64Encode($str){
-	return strtr(base64_encode($str),
+    public function urlBase64Encode($str)
+    {
+        return strtr(base64_encode($str),
             array(
-		'/' => '~'
+                '/' => '~'
             )
-	);
+        );
     }
     
     /**
@@ -508,18 +578,26 @@ class Document extends MvcModel {
      * @param string $str
      * @return string
      */
-    public function urlBase64Decode($str){
+    public function urlBase64Decode($str)
+    {
         return base64_decode(strtr($str,
-            array(
-                '~' => '/'
+                array(
+                    '~' => '/'
                 )
             )
         );
-    }    
+    }
 
     public function generatePublicUrl( $id ){
         $url = Config::$confPublicDownloadURL['url'].$id;
-        return '/telechargement/'.$this->encryptVal($url);
+
+        // log error
+        $encrypted = $this->encryptVal($url);
+        if(!preg_match(Config::$confPublicDownloadURL['pattern'], $this->decryptVal($encrypted), $matches)){
+            writeLog('Impossible de decrypter l\url du document avec id = ' . $id . ' / url = ' . $url, 'decryptValError.log');
+        }
+
+        return '/telechargement/'.$encrypted;
     }
 //End Encryption
 }
