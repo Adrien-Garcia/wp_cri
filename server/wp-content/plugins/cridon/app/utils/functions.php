@@ -829,7 +829,6 @@ function CriSendPostQuestConfirmation($question) {
             "content" => sprintf(Config::$mailBodyQuestionConfirmation['message'], $question['resume'], $notary->first_name, $notary->last_name),
         );
         $message = CriRenderView('mail_question_confirmation', $vars,'custom', false);
-        $headers = array('Content-Type: text/html; charset=UTF-8');
 
         // send email
         wp_mail($dest , $subject, $message, $headers);
