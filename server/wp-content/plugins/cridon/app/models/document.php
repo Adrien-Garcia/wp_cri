@@ -120,7 +120,7 @@ class Document extends MvcModel {
         // doc list pour log
         $logDocList = array();
         try{
-            
+
             $Directory = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH);
             $Iterator = new RecursiveIteratorIterator($Directory);
             //remove the ending symbol $ as a txt file contains a '0' behind the extension...
@@ -169,7 +169,7 @@ class Document extends MvcModel {
                         // document associé
                         $docs = $this->queryBuilder->find($options);
                         /*
-                         * Type d'action à effectué
+                         * Type d'action à effectuer
                          * 1 : insertion de nouveau document
                          * 2 : insertion de nouveau document suite/complément
                          * 3 : mise à jour du document
@@ -262,6 +262,8 @@ class Document extends MvcModel {
                             rename($document, $archivePath . $fileInfo['basename']);
                             // Mise de la date réelle de réponse de la question
                             $this->updateQuestion($question, $contents);
+                            $documentstoArchive = $this->getDocumentsToArchive($question);
+                            $this->archivePJs($documentstoArchive);
                             $logDocList[] = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
                         } else { // invalide doc
                             // message par défaut
@@ -417,6 +419,56 @@ class Document extends MvcModel {
         }
 
         return $documentId;
+    }
+
+    /**
+     * Get questions->id with documents : PJ and question/reponse
+     * @return array
+     */
+    public function getDocumentsWithPJAndDocAnswer(){
+        $sql = "SELECT DISTINCT d1.id_externe AS id FROM {$this->table} as d1
+                LEFT JOIN {$this->table} as d2 ON d1.id_externe = d2.id_externe
+                WHERE d1.label = 'PJ'
+                AND d2.label = 'question/reponse'
+            ";
+
+        return $questions = $this->wpdb->get_results($sql);
+    }
+
+    /**
+     * Get documents to archive
+     * @param object $question
+     * @return object
+     */
+    public function getDocumentsToArchive($question){
+        if(!empty($question->id)){
+            // recuperation documents PJ pour la question
+            $options               = array();
+            $options['attributes'] = array('id');
+            $options['model']      = 'document';
+            $options['conditions'] = ' id_externe = ' . $question->id . ' AND type="question" AND label = "PJ"';
+
+            // documents associés
+            return $this->queryBuilder->find($options);
+        }
+    }
+
+    /**
+     * Change document type from PJ to Archive
+     * @param object|array $documents
+     */
+    public function archivePJs($documents){
+        foreach ($documents as $document){
+            if(!empty ($document->id)){
+                $docData = array(
+                    'Document' => array(
+                        'id'        => $document->id,
+                        'label' => 'Archive'
+                    )
+                );
+                $this->save($docData);
+            }
+        }
     }
 
     /**
