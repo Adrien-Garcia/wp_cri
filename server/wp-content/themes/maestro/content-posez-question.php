@@ -76,7 +76,7 @@
 						<textarea class="js-question-message" name="question_message" id="question_message" placeholder="Votre question"></textarea>
 
                         <?php for ($i = 0; $i < 5; $i++) : ?>
-						<div class="fileUpload btn btn-primary <?php echo ($i == 0) ? "" : "hidden"; ?>">
+						<div class="fileUpload btn btn-primary js-file-hide <?php echo ($i == 0) ? "" : "hidden"; ?>">
                             <span class="fileName js-file-name">Vide</span>
 						    <button class="btn btn-primary btn-reset js-file-reset">+</button>
 						    <input type="file" class="upload js-question-file"  id="question_fichier_<?php echo $i; ?>" name="question_fichier[]"  placeholder="Télécharger vos documents"/>

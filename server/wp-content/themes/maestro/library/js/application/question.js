@@ -12,6 +12,7 @@ App.Question = {
     fileQuestionSelector                : '.js-question-file',
     fileQuestionResetSelector           : '.js-file-reset',
     fileQuestionNameSelector            : '.js-file-name',
+    fileQuestionHideSelector            : '.js-file-hide',
     objectQuestionFieldSelector         : '.js-question-object',
     messageQuestionFieldSelector        : '.js-question-message',
 
@@ -43,6 +44,7 @@ App.Question = {
     $fileQuestion                       : null,
     $fileQuestionReset                  : null,
     $fileQuestionName                   : null,
+    $fileQuestionHide                   : null,
     $objectQuestionField                : null,
     $messageQuestionField               : null,
 
@@ -87,6 +89,7 @@ App.Question = {
         this.$fileQuestion                          = $(this.fileQuestionSelector);
         this.$fileQuestionReset                     = $(this.fileQuestionResetSelector);
         this.$fileQuestionName                      = $(this.fileQuestionNameSelector);
+        this.$fileQuestionHide                      = $(this.fileQuestionHideSelector);
 
         this.$buttonQuestionDocumentation           = $(this.buttonQuestionDocumentationSelector);
         this.$buttonQuestionSupportShortcut         = $(this.buttonQuestionSupportSelector);
@@ -238,6 +241,7 @@ App.Question = {
                 self.$zoneQuestionSupport.removeClass(this.selectedClass);
                 self.$popupOverlay.popup('show');
                 self.openTabQuestionMaQuestion(false);
+                self.eventFileReset();
                 self.eventButtonDocumentationClick($(this));
             });
 
@@ -295,6 +299,9 @@ App.Question = {
                 file.replaceWith(file = file.clone(true));
                 file.wrap('<form>').closest('form').get(0).reset();
                 file.unwrap();
+                if (i != 0){
+                    file.closest(self.fileQuestionHideSelector).addClass('hidden');
+                }
                 self.eventFileChange(file);
             });
         }
@@ -346,7 +353,7 @@ App.Question = {
             }
         });
         this.eventZoneQuestionSupportClick(min.el.parents(this.zoneQuestionSupportSelector).first());
-        this.$selectQuestionMatiere.val( DocumentationID).change();
+        this.$selectQuestionMatiere.val(DocumentationID).change();
         //this.eventSelectQuestionMatiereChange(false);
 
     },
