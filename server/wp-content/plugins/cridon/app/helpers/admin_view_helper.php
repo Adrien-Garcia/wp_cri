@@ -1,6 +1,6 @@
 <?php
 
-class AdminNotaireHelper extends MvcHelper
+class AdminViewHelper extends MvcHelper
 {
     /*
      * @override 

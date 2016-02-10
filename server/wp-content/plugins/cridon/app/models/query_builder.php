@@ -37,6 +37,7 @@ class QueryBuilder{
     protected function dbConnect()
     {
         $this->mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        $this->mysqli->set_charset('utf8');
     }
 
     /*

@@ -34,7 +34,7 @@
     </tfoot>
 
     <tbody>
-        <?php echo $this->admin_notaire->admin_table_cells($this, $objects); ?>
+        <?php echo $this->admin_view->admin_table_cells($this, $objects); ?>
     </tbody>
     
 </table>

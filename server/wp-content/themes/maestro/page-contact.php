@@ -58,7 +58,7 @@
 								<tr>
 									<td>
 										<?php _e('Autres demandes'); ?>
-										<span><?php _e('tout pubic'); ?></span>
+										<span><?php _e('tout public'); ?></span>
 									</td>
 									<td>04 37 24 79 00</td>
 								</tr>
@@ -66,7 +66,7 @@
 									<td>
 										<?php _e('Fax'); ?>
 									</td>
-									<td>04 37 24 79 71</td>
+									<td>04 78 24 96 71</td>
 								</tr>
 								<tr itemtype="http://schema.org/Restaurant" >
 									<td itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">

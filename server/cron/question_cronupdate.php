@@ -10,11 +10,14 @@
 // load WP Core
 require_once '../wp-load.php';
 
+// Force update ?
+$force = isset($argv[1]) && $argv[1];
+
 // question model
 /**
  * @var $model Question
  */
 $model = mvc_model('Question');
 // call import action
-$code = $model->cronUpdate();
+$code = $model->cronUpdate($force);
 echo $code;
