@@ -14,6 +14,11 @@ class NotairesController extends BasePublicController
     public $current_user;
 
     /**
+     * @var object Notaire
+     */
+    protected $current_notaire;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -52,11 +57,17 @@ class NotairesController extends BasePublicController
     protected function secureAccess()
     {
         // get notaire by id_wp_user
-        $notaireData = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+        $idWPoptions = array(
+            'where' => array(
+                'Notaire.id_wp_user = '.$this->current_user->ID,
+            )
+        );
+        // exec query and return result as object
+        $this->current_notaire = $this->model->findOneBy($idWPoptions);
 
         // check if user is not logged in
         // or notaire id (url params) not equal to WP user session data
-        if (!is_user_logged_in() || !$notaireData->id || $this->params['id'] !== $notaireData->id) {
+        if (!is_user_logged_in() || !$this->current_notaire->id || $this->params['id'] !== $this->current_notaire->id) {
             wp_logout();//logout current user
             // redirect user to home page
             $this->redirect(home_url());
@@ -106,16 +117,22 @@ class NotairesController extends BasePublicController
      */
     protected function get_object()
     {
-        if (!empty($this->model->invalid_data)) {
-            if (!empty($this->params['id']) && empty($this->model->invalid_data[$this->model->primary_key])) {
-                $this->model->invalid_data[$this->model->primary_key] = $this->params['id'];
+        if (empty($this->current_notaire)) {
+            if (!empty($this->model->invalid_data)) {
+                if (!empty($this->params['id']) && empty($this->model->invalid_data[$this->model->primary_key])) {
+                    $this->model->invalid_data[$this->model->primary_key] = $this->params['id'];
+                }
+                $this->current_notaire = $this->model->new_object($this->model->invalid_data);
+            } else if (!empty($this->params['id'])) {
+                $this->current_notaire = $this->model->findOneBy(array(
+                    'where' => array(
+                        'Notaire.id_wp_user = ' . $this->params['id'],
+                    )
+                ));
             }
-            $object = $this->model->new_object($this->model->invalid_data);
-        } else if (!empty($this->params['id'])) {
-            $object = $this->model->find_by_id($this->params['id']);
         }
-        if (!empty($object)) {
-            return $object;
+        if (!empty($this->current_notaire)) {
+            return $this->current_notaire;
         }
         MvcError::warning('Object not found.');
 

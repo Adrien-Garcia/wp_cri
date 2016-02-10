@@ -1275,7 +1275,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if( self::$userConnectedData !== null && is_object(self::$userConnectedData) && self::$userConnectedData instanceof MvcModelObject ){
             $object = self::$userConnectedData;
         } else {
-            $object = $this->find_one_by_id_wp_user($current_user->ID);
+            $idWPoptions = array(
+                'where' => array(
+                    'Notaire.id_wp_user = '.$current_user->ID,
+                )
+            );
+            // exec query and return result as object
+            $object = $this->findOneBy($idWPoptions);
         }
 
         if (is_object($object) && property_exists($object, 'client_number')) {
