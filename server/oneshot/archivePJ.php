@@ -13,9 +13,14 @@ header('Content-type: text/html; charset=utf-8');
 // load WP Core
 require_once '../wp-load.php';
 
-// Document model
+/**
+ * @var Document $model
+ */
 $model = mvc_model('Document');
 // call archivePJ
-$model->archivePJ();
+$documents = $model->getDocumentsWithPJAndDocAnswer();
+if (!empty($documents)){
+    $model->archivePJs($documents);
+}
 
 echo 'Archive done';

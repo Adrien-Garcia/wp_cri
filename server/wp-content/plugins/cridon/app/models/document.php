@@ -263,7 +263,7 @@ class Document extends MvcModel {
                             // Mise de la date réelle de réponse de la question
                             $this->updateQuestion($question, $contents);
                             $documentstoArchive = $this->getDocumentsToArchive($question);
-                            $this->updateDocuments($documentstoArchive);
+                            $this->archivePJs($documentstoArchive);
                             $logDocList[] = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
                         } else { // invalide doc
                             // message par défaut
@@ -421,21 +421,6 @@ class Document extends MvcModel {
         return $documentId;
     }
 
-
-
-    /**
-     * Archive all existing PJ when question is answered
-     */
-    public function archivePJ()
-    {
-        $documents = $this->getDocumentsWithPJAndDocAnswer();
-        foreach($documents as $document) {
-            $documentstoArchive = $this->getDocumentsToArchive($document);
-            if (!empty($documentstoArchive)){
-                $this->updateDocuments($documentstoArchive);
-            }
-        }
-    }
     /**
      * Get questions->id with documents : PJ and question/reponse
      * @return array
@@ -470,9 +455,9 @@ class Document extends MvcModel {
 
     /**
      * Change document type from PJ to Archive
-     * @param object $documents
+     * @param object|array $documents
      */
-    public function updateDocuments($documents){
+    public function archivePJs($documents){
         foreach ($documents as $document){
             if(!empty ($document->id)){
                 $docData = array(
