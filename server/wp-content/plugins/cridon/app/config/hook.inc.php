@@ -339,6 +339,10 @@ if( !is_admin() ){
     function join_wp_post_and_wpmvc($wp)
     {
         global $wpdb;
+        //check wp_mvc pages
+        if (empty($wp->matched_query) || preg_match("/(mvc_controller)|(mvc_action)/",$wp->matched_query)){
+            return;
+        }
         //only for WP_Posts
         if( !is_feed() && !empty($wp->query_vars) && !isset($wp->query_vars['mvc_controller']) && ('post' === get_post_type()) ){
             $post_ID = get_the_ID();
