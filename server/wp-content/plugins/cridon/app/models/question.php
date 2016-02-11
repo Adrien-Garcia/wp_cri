@@ -640,7 +640,7 @@ class Question extends MvcModel
             $options               = array();
             $options['table']      = 'question';
             $options['attributes'] = 'srenum, client_number, sreccn, id_support, id_competence_1, `resume`, id_affectation, juriste, ';
-            $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, treated, creation_date, date_modif, ';
+            $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, creation_date, date_modif, ';
             $options['attributes'] .= 'hour_modif, transmis_erp, confidential, content';
             // insert values
             $insertValues = array();
