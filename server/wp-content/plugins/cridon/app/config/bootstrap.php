@@ -826,7 +826,7 @@ function generateUrlByModel( $model ){
         'action'     => ( !isset( $model->id ) ) ? 'index' : 'show'        
     );
     if( isset( $model->id ) ){
-        $options['id'] = $model->id;
+        $options['id'] = $model->post->post_name;
     }
     return MvcRouter::public_url($options);
 }

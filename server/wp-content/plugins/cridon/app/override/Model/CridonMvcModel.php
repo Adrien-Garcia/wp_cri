@@ -264,23 +264,24 @@ class CridonMvcModel extends \MvcModel{
     /**
      * Retreive all association object with the documents
      * 
-     * @param integer id
+     * @param string $post_name virtual name, given to related post by WP
      * @return \MvcModelObject
      */
-    public function associatePostWithDocumentById($id){
-        $id = esc_sql($id);
+    public function associatePostWithDocumentByPostName($post_name){
+        $post_name = esc_sql($post_name);
         $type = strtolower($this->name);
         $select  = "SELECT c,p,d";
         if( !empty($this->belongs_to) && array_key_exists('Matiere',$this->belongs_to) ){
             $select  .= ",m";
         }
-        $query = $select."            
+        $query = $select."
+
             FROM (
                 SELECT c1.*
                 FROM {$this->name} AS c1 
                 JOIN Post AS p
                 ON c1.post_id = p.ID 
-                WHERE p.post_status = 'publish' AND c1.id = {$id}
+                WHERE p.post_status = 'publish' AND p.post_name = '{$post_name}'
             ) [{$this->name}] c
             JOIN Post p
             ON c.post_id = p.ID
@@ -295,7 +296,7 @@ class CridonMvcModel extends \MvcModel{
         $qs = new \App\Override\Model\QueryStringModel($query);
         $objects = $qs->getResults();
         $objects = $this->processAppendDocuments($objects);
-        return (!empty($objects)) ? $objects[0] : null;
+        return (!empty($objects)) ? reset($objects) : null;
     }
     
     /**

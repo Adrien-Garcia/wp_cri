@@ -44,11 +44,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     protected $logs;
 
-    /**    
-     * @var mixed 
+    /**
+     * @var mixed
      */
     private static $userConnectedData = null;
-    
+
     /**
      * @var array
      */
@@ -69,7 +69,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             'fields' => array('id','label','code','short_label','displayed','picto')
         )
     );
-    
+
     /**
      *
      * @var array
@@ -196,9 +196,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     /**
      * Action for importing notaire data into wp_users
      *
+     * @param bool $force : Update all notaries ? (default false) Only available through DB update
+     *
      * @return mixed
      */
-    public function importIntoWpUsers()
+    public function importIntoWpUsers($force = false)
     {
         // log start of import
         if (CONST_TRACE_IMPORT_NOTAIRE) {
@@ -220,7 +222,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
                 default :
                     //both OCI and ODBC will can this
-                    $this->importDataUsingDBconnect();
+                    $this->importDataUsingDBconnect($force);
                     break;
             }
 
@@ -317,11 +319,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     /**
      * Import data with ODBC Link
      *
+     * @param bool $force : Update all notaries ? (default false)
+     *
      * @throws Exception
      *
      * @return void
      */
-    protected function importDataUsingDBconnect()
+    protected function importDataUsingDBconnect($force = false)
     {
         try {
             // query
@@ -355,7 +359,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $this->setSiteNotaireList();
 
             // insert or update data
-            $this->manageNotaireData();
+            $this->manageNotaireData($force);
 
             // set list of existing notaire
             $this->setSiteEtudeList();
@@ -486,9 +490,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     /**
      * Manage Notaire data (insert, update)
      *
+     * @param bool $force : Update all notaries ? (default false)
+     *
      * @return void
      */
-    protected function manageNotaireData()
+    protected function manageNotaireData($force = false)
     {
         try {
             // instance of adapter
@@ -539,7 +545,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         $newDate = $newDate->format('Ymd');
                         $oldDate = new DateTime($currentData->date_modified);
                         $oldDate = $oldDate->format('Ymd');
-                        if ($newDate > $oldDate) {
+                        if ($force || ($newDate > $oldDate)) {
                             // prepare all update   query
                             if (isset($newData[$adapter::NOTAIRE_CATEG]))
                                 $updateCategValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CATEG]) . "' ";
@@ -590,61 +596,121 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateCategValues);
                     $notaireQuery .= ' ELSE `category` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateNumclientValues) > 0) {
                     // client_number
                     $notaireQuery = ' SET `client_number` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateNumclientValues);
                     $notaireQuery .= ' ELSE `client_number` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateFirstnameValues) > 0) {
                     // first_name
                     $notaireQuery = ' SET `first_name` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFirstnameValues);
                     $notaireQuery .= ' ELSE `first_name` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateLastnameValues) > 0) {
                     // last_name
                     $notaireQuery = ' SET `last_name` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateLastnameValues);
                     $notaireQuery .= ' ELSE `last_name` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updatePwdtelValues) > 0) {
                     // tel_password
                     $notaireQuery = ' SET `tel_password` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updatePwdtelValues);
                     $notaireQuery .= ' ELSE `tel_password` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateInterCodeValues) > 0) {
                     // code_interlocuteur
                     $notaireQuery = ' SET `code_interlocuteur` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateInterCodeValues);
                     $notaireQuery .= ' ELSE `code_interlocuteur` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateCivlitValues) > 0) {
                     // id_civilite
                     $notaireQuery = ' SET `id_civilite` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateCivlitValues);
                     $notaireQuery .= ' ELSE `id_civilite` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateEmailValues) > 0) {
                     // email_adress
                     $notaireQuery = ' SET `email_adress` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateEmailValues);
                     $notaireQuery .= ' ELSE `email_adress` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateFoncValues) > 0) {
                     // id_fonction
                     $notaireQuery = ' SET `id_fonction` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFoncValues);
                     $notaireQuery .= ' ELSE `id_fonction` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateTelValues) > 0) {
                     // tel
                     $notaireQuery = ' SET `tel` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateTelValues);
                     $notaireQuery .= ' ELSE `tel` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateFaxValues) > 0) {
                     // fax
                     $notaireQuery = ' SET `fax` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFaxValues);
                     $notaireQuery .= ' ELSE `fax` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateMobileValues) > 0) {
                     // tel_portable
                     $notaireQuery = ' SET `tel_portable` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateMobileValues);
                     $notaireQuery .= ' ELSE `tel_portable` ';
                     $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+
+                    $this->importSuccess = true;
+                }
+
+                if (count($updateDateModified) > 0) {
                     // date_modified
                     $notaireQuery = ' SET `date_modified` = CASE ';
                     $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateDateModified);
@@ -800,11 +866,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         if (isset($newData[$adapter::NOTAIRE_MAIL3]))
                             $updateEmail3Values[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL3]) . "' ";
 
-                        if (isset($newData[$adapter::NOTAIRE_FAX]))
-                            $updateFaxValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
+                        if (isset($newData[$adapter::NOTAIRE_OFFICETEL]))
+                            $updateTelValues[]      = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICETEL]) . "' ";
 
-                        if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
-                            $updateTelValues[]      = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
+                        if (isset($newData[$adapter::NOTAIRE_OFFICEFAX]))
+                            $updateFaxValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
+
                     }
                     // end optimisation
                 }
@@ -1759,29 +1826,29 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     //End webservice
-    
+
     //FRONT
-    
+
     //Override function of pagination
     public function paginate($options = array()){
         global $wpdb;
         $options['page'] = empty($options['page']) ? 1 : intval($options['page']);//for limit
-        $limit = $this->db_adapter->get_limit_sql($options);      
+        $limit = $this->db_adapter->get_limit_sql($options);
         if(!is_admin()){
             $user = CriNotaireData();//get Notaire
             $where = $this->getFilters($options);//Filter
             $query = $this->prepareQueryForFront($options['status'], $where, $limit);
             //Total query for pagination
             $query_count ='
-                SELECT COUNT(*) AS count 
+                SELECT COUNT(*) AS count
                 FROM '.$wpdb->prefix.'question AS Q
                 JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
-                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
-                LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1 
+                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
+                LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1
                 LEFT JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
                 WHERE E.crpcen = "'.$user->crpcen.'" '.$where.'
-                ORDER BY Q.creation_date DESC 
-                '; 
+                ORDER BY Q.creation_date DESC
+                ';
             //convert pseudo query to sql
             $qs = new \App\Override\Model\QueryStringModel($query);
             $total_count = $wpdb->get_var($query_count);
@@ -1797,28 +1864,28 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         } else {
             $where = '';
             if(isset($options['conditions'])){
-                $where = $this->getWhere($options,$options);                
+                $where = $this->getWhere($options,$options);
             }
             $query = '
             SELECT n,e
-            FROM (SELECT N.* 
+            FROM (SELECT N.*
                 FROM Notaire N
-                JOIN Etude AS E ON E.crpcen = N.crpcen 
+                JOIN Etude AS E ON E.crpcen = N.crpcen
                  '.$where.'
-                ORDER BY N.id ASC 
+                ORDER BY N.id ASC
                 '.$limit.'
                  ) [Notaire] n
-            JOIN Etude e ON e.crpcen = n.crpcen 
+            JOIN Etude e ON e.crpcen = n.crpcen
                 ';
-            
+
             //Total query for pagination
             $query_count ='
-                SELECT COUNT(*) AS count 
+                SELECT COUNT(*) AS count
                 FROM '.$wpdb->prefix.'notaire AS N
-                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen 
+                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
                 '.$where.'
-                ORDER BY N.id DESC 
-                '; 
+                ORDER BY N.id DESC
+                ';
             //convert pseudo query to sql
             $qs = new \App\Override\Model\QueryStringModel($query);
             $total_count = $wpdb->get_var($query_count);
@@ -1834,10 +1901,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             return $response;
         }
     }
-    
+
     /**
      * Get filter parameter in URL
-     * 
+     *
      * @param array $options
      * @return string
      */
@@ -1892,33 +1959,33 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $objects = $this->processAppendDocuments($objects);
         return $objects;
     }
-    
+
     /**
      * Query used in front for list of questions
-     * 
+     *
      * @param array $status
      * @param string $where
      * @param string $limit
      * @return string
      */
     protected function prepareQueryForFront($status,$where,$limit = ''){
-        $user = CriNotaireData();//get Notaire   
+        $user = CriNotaireData();//get Notaire
         $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
         $query = '
             SELECT d,q,s,m,c,n
-            FROM (SELECT Q.* 
+            FROM (SELECT Q.*
                     FROM Question AS Q
                     JOIN Notaire AS N ON Q.client_number = N.client_number
-                    JOIN Etude AS E ON E.crpcen = N.crpcen 
+                    JOIN Etude AS E ON E.crpcen = N.crpcen
                     LEFT JOIN Competence AS C ON Q.id_competence_1 = C.id
                     LEFT JOIN Matiere AS M ON M.code = C.code_matiere
                     WHERE '.$condAffectation.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
-                    ORDER BY Q.creation_date DESC 
+                    ORDER BY Q.creation_date DESC
                     '.$limit.'
                  ) [Question] q
-            LEFT JOIN Document d ON (d.id_externe = q.id AND d.type = "question" ) 
+            LEFT JOIN Document d ON (d.id_externe = q.id AND d.type = "question" )
             LEFT JOIN Support s ON s.id = q.id_support
-            LEFT JOIN Competence c ON c.id = q.id_competence_1 
+            LEFT JOIN Competence c ON c.id = q.id_competence_1
             LEFT JOIN Matiere m ON m.code = c.code_matiere
             JOIN Notaire n ON n.client_number = q.client_number
                 ';
