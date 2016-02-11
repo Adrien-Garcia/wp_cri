@@ -615,6 +615,8 @@ class Question extends MvcModel
     public function cronUpdate($force = false)
     {
         try {
+            //get date for update
+            $dateOptionUpdate = date('Y-m-d H:i:s');
             // enable gbcollector
             if (function_exists('gc_enable')) {
                 gc_enable();
@@ -884,7 +886,7 @@ class Question extends MvcModel
 
             if (!empty($lastDateUpdate)) {
                 // maj derniere date d'execution
-                update_option('cronquestionupdate', $lastDateUpdate);
+                update_option('cronquestionupdate', $dateOptionUpdate);
             }
 
             return CONST_STATUS_CODE_OK;
