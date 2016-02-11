@@ -18,9 +18,12 @@ require_once '../wp-load.php';
  */
 $model = mvc_model('Document');
 // call archivePJ
-$documents = $model->getDocumentsWithPJAndDocAnswer();
-if (!empty($documents)){
-    $model->archivePJs($documents);
+$questionIds = $model->getDocumentsWithPJAndDocAnswer();
+foreach ($questionIds as $questionId){
+    $questionsWithDocumentsToArchive = $model->getDocumentsToArchive($questionId);
+    if (!empty($questionsWithDocumentsToArchive)){
+        $model->archivePJs($questionsWithDocumentsToArchive);
+    }
 }
 
 echo 'Archive done';
