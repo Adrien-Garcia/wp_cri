@@ -301,11 +301,13 @@ add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
  */
 function add_new_post_url( $url, $path, $blog_id ) {
 
+    $hookPath = false;
     if ( $path == "post-new.php" && isset($_GET['cridon_type']) ) {
         $path = "post-new.php?cridon_type=" . $_GET['cridon_type'];
+        $hookPath = true;
     }
 
-    return ($path)?$path:$url;
+    return ($hookPath) ? $path : $url;
 }
 add_filter( 'admin_url', 'add_new_post_url', 10, 3 );
 
