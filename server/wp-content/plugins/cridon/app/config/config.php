@@ -335,7 +335,7 @@ class Config {
     //RSS
     public static $rss = array(
         'title'         => 'Flux RSS des veilles',//all
-        'title_mat'     => '%s',//filtered
+        'title_mat'     => 'Flux RSS : %s',//filtered
         'description'   => ''
     );
     //End RSS
