@@ -307,6 +307,11 @@ class Config {
     );
     public static $dateTitleMetabox = 'Date de formation';// Titre du metabox date de formation
 
+    public static $contentWithAddress = array(
+        'formations',
+    );
+    public static $addressTitleMetabox = 'Adresse de la formation';// Titre du metabox date de formation
+
     //Label des affectations sur les questions
     public static $labelAffection = array(
         1 => 'Question transmise',

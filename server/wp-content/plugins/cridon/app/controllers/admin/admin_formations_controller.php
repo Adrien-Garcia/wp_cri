@@ -48,7 +48,12 @@ class AdminFormationsController extends BaseAdminController
         ),
         'matiere' => array(
             'label'=>'Matière',
-            'value_method' => 'matiere_edit_link')
+            'value_method' => 'matiere_edit_link'
+        ),
+        'adresse' => array(
+            'label'=>'Adresse',
+            'value_method' => 'address'
+        )
     );
 
     public function __construct()
@@ -116,6 +121,15 @@ class AdminFormationsController extends BaseAdminController
             $custom_date = date('d/m/Y', strtotime($object->custom_post_date));
         }
         return $custom_date;
+    }
+
+    public function address($object){
+        $address = '';
+        if (property_exists($object, 'address') && !empty($object->address)) {
+            $address = $object->address;
+        }
+        return $address;
+
     }
 
     private function trim($str){
