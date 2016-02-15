@@ -44,14 +44,11 @@
 			<div class="content">		
 				<?php the_content(); ?>
 			</div>
-			
-			<!-- <div class="adresse">
-				La Joliette<br />
-				20A Boulevard du Plomb<br />
-				13581 Marseille Cedex 20<br />
-				France
-			</div> -->
-
+			<?php if (!empty($object->address)) : ?>
+                 <div class="adresse">
+                     <?php echo $object->address; ?>
+                </div>
+			<?php endif; ?>
 			<ul class="mots_cles">
 			<?php 
 				$tags = get_the_tags();

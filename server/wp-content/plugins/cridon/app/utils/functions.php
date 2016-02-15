@@ -259,10 +259,22 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y
             'column' => 'm.id = '.$model[0].'.id_matiere'
     );
 
+    if ($model === 'formation'){
+        $address = ',f.address';
+        $options['fields'] = $options['fields'].$address;
+    }
+
     $results = criQueryPosts( $options, $date );
     //To have others attributes in array result. Default is object WP_Post
     //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
-    $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
+    if ($model === 'formation'){
+        $address = array('address');
+        $addressField = 'f.address';
+        $options['fields'] = $options['fields'].$addressField;
+        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere', 'formation'),array('matiere'=>$fields,'formation'=>$address) );
+    } else {
+        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
+    }
     return $res;
 }
 

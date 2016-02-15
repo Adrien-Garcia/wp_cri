@@ -137,13 +137,7 @@
 									<img src="<?php echo $formation->matiere->picto ?>" alt="<?php echo $formation->matiere->label ?>" />
 									<h4><?php echo $_title; ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
-									<div class="adresse">
-										La Joliette<br />
-										20A Boulevard du Plomb<br />
-										13581 Marseille Cedex 20<br />
-										France
-										
-									</div>
+									<div class="adresse"><?php echo $formation->formation->address ?></div>
 									<a href="<?php echo $_link ?>"><?php _e('Lire'); ?></a>
 								</li>
 								<?php endforeach; ?>
