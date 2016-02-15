@@ -1,0 +1,1 @@
+ALTER TABLE `cri_formation` ADD `address` VARCHAR(100) NOT NULL;
