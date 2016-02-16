@@ -210,8 +210,10 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y
     //The formation date is used instead of the post date
     if ($model === 'formation'){
         $date = 'CAST(f.custom_post_date AS DATE)';
+        $orderBy = 'f.custom_post_date';
     } else {
         $date = 'CAST(p.post_date AS DATE)';
+        $orderBy = 'p.id';
     }
     $nestedOptions = array(
         'synonym' => 'p',
@@ -228,7 +230,7 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y
         'order' => 'DESC'
     );
     $query_builder = $cri_container->get( 'query_builder' );
-    $nested = $query_builder->buildQuery( 'posts',$nestedOptions,'p.ID' );// Nested query ( simple string )
+    $nested = $query_builder->buildQuery( 'posts', $nestedOptions, $orderBy );// Nested query ( simple string )
     $tools = $cri_container->get( 'tools' );
     $options = array(
         'fields' => $tools->getFieldPost().$date.' AS date,p.post_title,'.$model[0].'.id as join_id',
