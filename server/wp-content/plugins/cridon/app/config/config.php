@@ -310,7 +310,12 @@ class Config {
     public static $contentWithAddress = array(
         'formations',
     );
-    public static $addressTitleMetabox = 'Adresse de la formation';// Titre du metabox date de formation
+    // Titre des metabox - adresse de formation
+    public static $addressTitleMetabox = array(
+        'address' => 'Adresse de la formation',
+        'postal_code' => 'Code postal de la formation',
+        'town' => 'Ville de la formation'
+    ) ;
 
     //Label des affectations sur les questions
     public static $labelAffection = array(

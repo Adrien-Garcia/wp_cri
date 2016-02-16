@@ -29,7 +29,10 @@ class AdminFormationsController extends BaseAdminController
     var $default_searchable_fields = array(
         'id',
         'Post.post_title',
-        'Matiere.label'
+        'Matiere.label',
+        'Formation.address',
+        'Formation.postal_code',
+        'Formation.town'
     );
 
     /**
@@ -50,9 +53,14 @@ class AdminFormationsController extends BaseAdminController
             'label'=>'Matière',
             'value_method' => 'matiere_edit_link'
         ),
-        'adresse' => array(
-            'label'=>'Adresse',
-            'value_method' => 'address'
+        'address' => array(
+            'label'=>'Adresse'
+        ),
+        'postal_code' => array(
+            'label'=>'Code Postal'
+        ),
+        'town' => array(
+            'label'=>'Ville'
         )
     );
 
@@ -121,15 +129,6 @@ class AdminFormationsController extends BaseAdminController
             $custom_date = date('d/m/Y', strtotime($object->custom_post_date));
         }
         return $custom_date;
-    }
-
-    public function address($object){
-        $address = '';
-        if (property_exists($object, 'address') && !empty($object->address)) {
-            $address = $object->address;
-        }
-        return $address;
-
     }
 
     private function trim($str){
