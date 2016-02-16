@@ -313,4 +313,9 @@ class Config {
         'read_private_posts',
         'read_private_pages',
     );
+
+    /**
+     * @var array list of notary "function" allowed to edit profil
+     */
+    public static $allowedNotaryFunctionToEditProfil = array(1, 2, 3, 6, 7, 8, 9, 10);
 }

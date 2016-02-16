@@ -1810,4 +1810,110 @@ class Notaire extends MvcModel
     }
 
     //End webservice
+
+    /**
+     * Update notary and office data
+     *
+     * @param int    $id
+     * @param string $crpcen
+     * @throws Exception
+     */
+    public function updateProfil($id, $crpcen)
+    {
+        if ($id) {
+            // flag for updating data
+            $updateAction = false;
+            // init  notary data
+            $notary = array();
+            // init  office data
+            $office = array();
+            // notary first_name
+            if (isset($_POST['notary_first_name'])) {
+                $notary['first_name'] = $_POST['notary_first_name'];
+                $updateAction = true;
+            }
+            // notary last_name
+            if (isset($_POST['notary_last_name'])) {
+                $notary['last_name'] = $_POST['notary_last_name'];
+                $updateAction = true;
+            }
+            // notary email_adress
+            if (isset($_POST['notary_email_adress'])) {
+                $notary['email_adress'] = $_POST['notary_email_adress'];
+                $updateAction = true;
+            }
+            // notary tel
+            if (isset($_POST['notary_tel'])) {
+                $notary['tel'] = $_POST['notary_tel'];
+                $updateAction = true;
+            }
+            // notary tel_portable
+            if (isset($_POST['notary_tel_portable'])) {
+                $notary['tel_portable'] = $_POST['notary_tel_portable'];
+                $updateAction = true;
+            }
+            // notary fax
+            if (isset($_POST['notary_fax'])) {
+                $notary['fax'] = $_POST['notary_fax'];
+                $updateAction = true;
+            }
+
+            // office adress_1
+            if (isset($_POST['office_adress_1'])) {
+                $office['adress_1'] = $_POST['office_adress_1'];
+                $updateAction = true;
+            }
+            // office adress_2
+            if (isset($_POST['office_adress_2'])) {
+                $office['adress_2'] = $_POST['office_adress_2'];
+                $updateAction = true;
+            }
+            // office adress_3
+            if (isset($_POST['office_adress_3'])) {
+                $office['adress_3'] = $_POST['office_adress_3'];
+                $updateAction = true;
+            }
+            // office cp
+            if (isset($_POST['office_cp'])) {
+                $office['cp'] = $_POST['office_cp'];
+                $updateAction = true;
+            }
+            // office city
+            if (isset($_POST['office_city'])) {
+                $office['city'] = $_POST['office_city'];
+                $updateAction = true;
+            }
+            // office office_email_adress_1
+            if (isset($_POST['office_email_adress_1'])) {
+                $office['office_email_adress_1'] = $_POST['office_email_adress_1'];
+                $updateAction = true;
+            }
+            // office tel
+            if (isset($_POST['office_tel'])) {
+                $office['tel'] = $_POST['office_tel'];
+                $updateAction = true;
+            }
+            // office fax
+            if (isset($_POST['office_fax'])) {
+                $office['fax'] = $_POST['office_fax'];
+                $updateAction = true;
+            }
+            // update data
+            if ($updateAction) {
+                // notary
+                $notary['id'] = $id;
+                $data = array(
+                    'Notaire' => $notary
+                );
+                $this->save($data);
+
+                // office
+                $office['crpcen'] = $crpcen;
+                $data = array(
+                    'Etude' => $office
+                );
+                mvc_model('Etude')->save($data);
+            }
+        }
+    }
 }

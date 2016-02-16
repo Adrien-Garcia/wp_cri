@@ -14,6 +14,11 @@ class NotairesController extends BasePublicController
     public $current_user;
 
     /**
+     * @var mixed
+     */
+    protected $notaryData;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -48,13 +53,13 @@ class NotairesController extends BasePublicController
     protected function secureAccess()
     {
         // get notaire by id_wp_user
-        $notaireData = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+        $this->notaryData = $this->model->find_one_by_id_wp_user($this->current_user->ID);
 
         // check if user is not logged in
         // or notaire id (url params) not equal to WP user session data
         if (!is_user_logged_in()
-            || !$notaireData->id
-            || (isset($this->params['id']) && $this->params['id'] !== $notaireData->id)) {
+            || !$this->notaryData->id
+            || (isset($this->params['id']) && $this->params['id'] !== $this->notaryData->id)) {
             wp_logout();//logout current user
             // redirect user to home page
             $this->redirect(home_url());
@@ -62,7 +67,7 @@ class NotairesController extends BasePublicController
 
         // set notary id in params
         // needed to retrieve notary data by the MVC system
-        $this->params['id'] = $notaireData->id;
+        $this->params['id'] = $this->notaryData->id;
     }
 
     /**
@@ -348,5 +353,38 @@ class NotairesController extends BasePublicController
         // @TODO to be completed with others notaire dynamic data
         $vars = $this->get_object();
         $this->set_vars($vars);
+    }
+
+    /**
+     * Update Profil action
+     */
+    public function majprofil()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+
+        // check notary "function"
+        if (!in_array($this->notaryData->id_fonction, Config::$allowedNotaryFunctionToEditProfil)) {
+            // redirect to dashboard page
+            $this->redirect(mvc_public_url(
+                                array(
+                                    'controller' => 'notaires',
+                                    'action'     => 'show'
+                                )
+                            )
+            );
+        }
+
+        // update data
+        $this->model->updateProfil($this->notaryData->id, $this->notaryData->crpcen);
+
+        // redirect to profil page
+        $this->redirect(mvc_public_url(
+                            array(
+                                'controller' => 'notaires',
+                                'action'     => 'profil'
+                            )
+                        )
+        );
     }
 }
