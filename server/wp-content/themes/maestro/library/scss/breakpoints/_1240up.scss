@@ -51,7 +51,7 @@ HEADER STYLES
 *********************/
 
 .header {
-	height:180px; 
+	height:180px;  
 
 	.header-sup{
 
@@ -64,14 +64,25 @@ HEADER STYLES
 		
 
 		.logo-partenaires{
-			display: none; // Masquer les logos des éditeurs pour le lot 1
-			width: 366px;
-			height: 40px;
+			display: block; // Masquer les logos des éditeurs pour le lot 1
+			width: 259px;
+			height: 28px;
 			position: absolute;
 			left: 0;
 			top: 15px;
 
-			@include sprite($partenaire-header);
+			//@include sprite($partenaire-header);
+
+			a{
+				display: inline-block;
+				@include transition(all 0.3s);
+
+				&:hover{
+					opacity: 0.8;
+				}
+			}
+
+			
 
 		}
 
@@ -111,20 +122,55 @@ HEADER STYLES
 			
 		}
 
-		.acceder-compte{
+		#acceder-compte{
 			width: 222px;
 			height: 40px;
 			line-height: 40px;
 			right: 0;
 			left:  inherit;
-			font-size: 16px;
+			
 			padding-left: 50px;			
 
-			&:before{
-				
-				@include svgicon('icon-compte', 26px, 26px, $vert);	
-				top:7px;
-				left: 10px;				
+
+			margin: 0;
+			padding: 0;
+			top: 10px;
+
+
+
+			> li{
+
+				a.acceder-compte{
+					width: 222px;
+					height: 40px;
+					font-size: 16px;
+					line-height: 40px;
+
+					&:before{				
+						@include svgicon('icon-compte', 26px, 26px, $vert);	
+						top:7px;
+						left: 10px;				
+					}
+				}
+			
+
+				> ul.logout-2{
+					bottom: -40px;
+					height: 40px;
+
+					> li{
+						height: 40px;
+						
+						> a{ 							
+							height: 40px;
+							line-height: 40px;
+							font-size: 20px;
+							padding-right: 20px;
+							
+						}
+					}
+				}
+
 			}
 
 		}
@@ -1713,11 +1759,19 @@ body.single #content
         #inner-content{
             overflow: hidden;
 
-			h1{}
+			h1{ float: left;}
+
+			a.logout{
+				font-size: 22px;
+			    line-height: 28px;
+			    margin-top: 5px;
+			    margin-left: 20px;
+			}
 
 
 
 			> ul{
+				clear: both;
 				
 
 				>li{
