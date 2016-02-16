@@ -37,7 +37,7 @@
 								</li>
 								<?php endforeach; ?>
 							</ul>
-							<input type="submit" name="Valider" value="Valider" id="bt_valider"/>
+							<input type="submit" value="Valider" id="bt_valider"/>
 						</form>
 					</div>	
 
