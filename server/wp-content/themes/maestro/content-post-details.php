@@ -46,8 +46,10 @@
 			</div>
 			<?php if (!empty($object->address)) : ?>
                  <div class="adresse">
-                     <?php echo nl2br($object->address); ?>
-                </div>
+                    <?php echo nl2br($object->address); ?><br />
+                    <?php echo $object->postal_code; ?>
+                    <?php echo $object->town; ?>
+                 </div>
 			<?php endif; ?>
 			<ul class="mots_cles">
 			<?php 
