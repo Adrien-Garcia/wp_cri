@@ -1968,7 +1968,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * @param string $limit
      * @return string
      */
-    protected function prepareQueryForFront($status,$where,$limit = ''){
+    protected function prepareQueryForFront($status, $where, $limit = ''){
         $user = CriNotaireData();//get Notaire
         $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
         $query = '
@@ -1987,9 +1987,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             LEFT JOIN Support s ON s.id = q.id_support
             LEFT JOIN Competence c ON c.id = q.id_competence_1
             LEFT JOIN Matiere m ON m.code = c.code_matiere
-            JOIN Notaire n ON n.client_number = q.client_number
                 ';
         return $query;
     }
+    
     //End FRONT
 }
