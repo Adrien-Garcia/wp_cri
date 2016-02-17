@@ -1970,6 +1970,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     LEFT JOIN Competence AS C ON Q.id_competence_1 = C.id
                     LEFT JOIN Matiere AS M ON M.code = C.code_matiere
                     WHERE '.$condAffectation.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
+                    GROUP BY Q.id
                     ORDER BY Q.creation_date DESC
                     '.$limit.'
                  ) [Question] q
