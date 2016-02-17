@@ -389,7 +389,9 @@ function CriIsNotaire() {
     global $cri_container;
 
     // user logged in is notaire
-    return $cri_container->get('tools')->isNotary();
+    /** @var $tool CridonTools*/
+    $tool = $cri_container->get('tools');
+    return $tool->isNotary();
 }
 
 /**
@@ -413,6 +415,7 @@ function CriNotaireData() {
  * @return array|null
  */
 function getMatieresByNotaire(){
+    global $wpdb;
     //output
     $aResults = array();
     // check if user connected is notaire
@@ -420,9 +423,22 @@ function getMatieresByNotaire(){
         $notaire = CriNotaireData();
         $options = array(
             'conditions' => array(
-                'Matiere.displayed' => 1
+                'Matiere.displayed' => 1,
             )
         );
+        // custom query on matiere_notaire since it is not a model
+
+        $query = '
+            SELECT MN.id_matiere as id
+                FROM '.$wpdb->prefix.'notaire as N
+                JOIN '.$wpdb->prefix.'matiere_notaire as MN ON N.id = MN.id_notaire
+                JOIN '.$wpdb->prefix.'matiere as M on M.id = MN.id_matiere
+                WHERE M.displayed = 1
+                AND N.id = '.$notaire->id.'
+                ';
+
+        $notaire->matieres = $wpdb->get_results($query);
+
         $aSubscribed = array();
         $matieres = mvc_model('matiere')->find( $options );
         if( isset( $notaire->matieres ) && !empty( $notaire->matieres ) ){
@@ -613,16 +629,6 @@ function CriListSupport()
 
     return $supports;
 
-}
-
-/**
- * Restore the questions asked by the notary
- * 
- * @return array
- */
-function criRestoreQuestions(){
-    $question = new QuestionNotaire();
-    return $question;
 }
 
 /*

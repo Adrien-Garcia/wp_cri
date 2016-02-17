@@ -13,6 +13,7 @@
  */
 require_once 'base_actu_controller.php';
 class VeillesController extends BaseActuController {
+
     //unique matiere selected, default null
     protected static $currentMatiereSelected = null;
 
@@ -105,7 +106,7 @@ class VeillesController extends BaseActuController {
             }
         }
     }
-    
+
     /**
      * Clean array
      *
@@ -162,6 +163,7 @@ class VeillesController extends BaseActuController {
         $this->set('description',Config::$rss['description']);
         $this->render_view('feed', array('layout' => 'feed'));
     }
+
 }
 
 ?>

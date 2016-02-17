@@ -6,7 +6,7 @@
  * @contributor Joelio
  */
 
-class Notaire extends MvcModel
+class Notaire extends \App\Override\Model\CridonMvcModel
 {
 
     /**
@@ -45,6 +45,11 @@ class Notaire extends MvcModel
     protected $logs;
 
     /**
+     * @var mixed
+     */
+    private static $userConnectedData = null;
+
+    /**
      * @var array
      */
     public $has_many = array(
@@ -64,6 +69,7 @@ class Notaire extends MvcModel
             'fields' => array('id','label','code','short_label','displayed','picto')
         )
     );
+
     /**
      *
      * @var array
@@ -75,7 +81,7 @@ class Notaire extends MvcModel
     public $belongs_to = array(
         'User' => array(
             'class'       => 'MvcUser',
-            'foreign_key' => 'ID'
+            'foreign_key' => 'id_wp_user'
         ),
         'Etude' => array(
             'foreign_key' => 'crpcen'
@@ -1333,7 +1339,17 @@ class Notaire extends MvcModel
     {
         global $current_user;
 
-        $object = $this->find_one_by_id_wp_user($current_user->ID);
+        if( self::$userConnectedData !== null && is_object(self::$userConnectedData) && self::$userConnectedData instanceof MvcModelObject ){
+            $object = self::$userConnectedData;
+        } else {
+            $idWPoptions = array(
+                'where' => array(
+                    'Notaire.id_wp_user = '.$current_user->ID,
+                )
+            );
+            // exec query and return result as object
+            $object = $this->findOneBy($idWPoptions);
+        }
 
         if (is_object($object) && property_exists($object, 'client_number')) {
             $datas = mvc_model('solde')->getSoldeByClientNumber($object->client_number);
@@ -1810,4 +1826,170 @@ class Notaire extends MvcModel
     }
 
     //End webservice
+
+    //FRONT
+
+    //Override function of pagination
+    public function paginate($options = array()){
+        global $wpdb;
+        $options['page'] = empty($options['page']) ? 1 : intval($options['page']);//for limit
+        $limit = $this->db_adapter->get_limit_sql($options);
+        if(!is_admin()){
+            $user = CriNotaireData();//get Notaire
+            $where = $this->getFilters($options);//Filter
+            $query = $this->prepareQueryForFront($options['status'], $where, $limit);
+            //Total query for pagination
+            $query_count ='
+                SELECT COUNT(*) AS count
+                FROM '.$wpdb->prefix.'question AS Q
+                JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
+                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
+                LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1
+                LEFT JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
+                WHERE E.crpcen = "'.$user->crpcen.'" '.$where.'
+                ORDER BY Q.creation_date DESC
+                ';
+            //convert pseudo query to sql
+            $qs = new \App\Override\Model\QueryStringModel($query);
+            $total_count = $wpdb->get_var($query_count);
+            $objects = $qs->getResults();
+            $objects = $this->processAppendDocuments($objects);
+            $response = array(
+                'objects' => $objects,
+                'total_objects' => $total_count,
+                'total_pages' => ceil($total_count/$options['per_page']),
+                'page' => $options['page']
+            );
+            return $response;
+        } else {
+            $where = '';
+            if(isset($options['conditions'])){
+                $where = $this->getWhere($options,$options);
+            }
+            $query = '
+            SELECT n,e
+            FROM (SELECT N.*
+                FROM Notaire N
+                JOIN Etude AS E ON E.crpcen = N.crpcen
+                 '.$where.'
+                ORDER BY N.id ASC
+                '.$limit.'
+                 ) [Notaire] n
+            JOIN Etude e ON e.crpcen = n.crpcen
+                ';
+
+            //Total query for pagination
+            $query_count ='
+                SELECT COUNT(*) AS count
+                FROM '.$wpdb->prefix.'notaire AS N
+                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
+                '.$where.'
+                ORDER BY N.id DESC
+                ';
+            //convert pseudo query to sql
+            $qs = new \App\Override\Model\QueryStringModel($query);
+            $total_count = $wpdb->get_var($query_count);
+            $objects = $qs->getResults();
+            $objects = $this->splitArray($objects,'id');
+            $per_page = (!empty($options['per_page'])) ? $options['per_page'] : $this->per_page;
+            $response = array(
+                'objects' => $objects,
+                'total_objects' => $total_count,
+                'total_pages' => ceil($total_count/$per_page),
+                'page' => $options['page']
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * Get filter parameter in URL
+     *
+     * @param array $options
+     * @return string
+     */
+    protected function getFilters($options){
+        global $wpdb;
+        $where = array();
+        foreach ( $options as $k => $v ){
+            if (empty($v)) {
+                // Ne pas filtrer sur une valeur vide
+                continue;
+            }
+            switch ($k) {
+                case 'm':
+                    // Matieres
+                    $v = (array) esc_sql($v);
+                    $v = array_map(function($value) use ($wpdb) {
+                        return "'" . strip_tags($value) . "'";
+                    }, $v);
+                    $where[] = ' M.id = ('.implode(',', $v).')';
+                    break;
+                case 'd1':
+                case 'd2':
+                    // Dates (bornes)
+                    $d = $this->convertToDateSql($v);
+                    if ($d !== false) {
+                        $where[] = " Q.creation_date " . ($k == 'd1' ? ">=" : "<=") . " '" . $d . "'";
+                    }
+                    break;
+                case 'n':
+                    // Nom/Prénom du notaire
+                    $v = urldecode(esc_sql(strip_tags($v)));
+                    $where[] = " CONCAT(N.first_name,N.last_name) LIKE '%{$v}%'";
+                    break;
+            }
+        }
+        return (empty($where)) ? '' : ' AND '.implode(' AND ',$where);
+    }
+
+    /**
+     * Get questions pending
+     *
+     * @param array $options
+     * @param array $status
+     *
+     * @return mixed
+     */
+    public function getPending($status){
+        $query = $this->prepareQueryForFront( $status, '' );
+        //convert pseudo query to sql
+        $qs = new \App\Override\Model\QueryStringModel($query);
+        $objects = $qs->getResults();
+        $objects = $this->processAppendDocuments($objects);
+        return $objects;
+    }
+
+    /**
+     * Query used in front for list of questions
+     *
+     * @param array $status
+     * @param string $where
+     * @param string $limit
+     * @return string
+     */
+    protected function prepareQueryForFront($status,$where,$limit = ''){
+        $user = CriNotaireData();//get Notaire
+        $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
+        $query = '
+            SELECT d,q,s,m,c,n
+            FROM (SELECT Q.*
+                    FROM Question AS Q
+                    JOIN Notaire AS N ON Q.client_number = N.client_number
+                    JOIN Etude AS E ON E.crpcen = N.crpcen
+                    LEFT JOIN Competence AS C ON Q.id_competence_1 = C.id
+                    LEFT JOIN Matiere AS M ON M.code = C.code_matiere
+                    WHERE '.$condAffectation.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
+                    ORDER BY Q.creation_date DESC
+                    '.$limit.'
+                 ) [Question] q
+            LEFT JOIN Document d ON (d.id_externe = q.id AND d.type = "question" )
+            LEFT JOIN Support s ON s.id = q.id_support
+            LEFT JOIN Competence c ON c.id = q.id_competence_1
+            LEFT JOIN Matiere m ON m.code = c.code_matiere
+            JOIN Notaire n ON n.client_number = q.client_number
+                ';
+        return $query;
+    }
+    //End FRONT
 }

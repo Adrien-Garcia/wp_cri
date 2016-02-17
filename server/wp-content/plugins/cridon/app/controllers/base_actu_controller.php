@@ -9,6 +9,10 @@
 class BaseActuController extends MvcPublicController
 {
     /**
+     * @var \App\Override\Model\CridonMvcModel
+     */
+    public $model = null;
+    /**
      * @override
      * @return boolean
      */
@@ -20,17 +24,9 @@ class BaseActuController extends MvcPublicController
             }
             $object = $this->model->new_object($this->model->invalid_data);
         } else if (!empty($this->params['id'])) {
-            $aObject = $this->model->find(
-                array(
-                    'joins' => array('Post'),
-                    'conditions' => array(
-                        'Post.post_name' => $this->params['id']
-                    )
-                )
-            );
-            if(!empty($aObject)){
-                $object = reset($aObject);
-            } else if (is_numeric($this->params['id'])) {
+            //optimized query
+            $object = $this->model->associatePostWithDocumentByPostName($this->params['id']);
+            if (empty($object) && is_numeric($this->params['id'])) {
                 //if the url is numeric and if it's not a post name
                 $object = $this->model->find_by_id($this->params['id']);
                 if (!empty($object)) {
@@ -44,8 +40,6 @@ class BaseActuController extends MvcPublicController
                     wp_redirect($url, 301);
                     exit;
                 }
-            }else{
-                $object = null;
             }
         }
         if (!empty($object)) {

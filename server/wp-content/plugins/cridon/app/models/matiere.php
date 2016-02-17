@@ -1,21 +1,21 @@
 <?php
 
-class Matiere extends MvcModel
+class Matiere extends \App\Override\Model\CridonMvcModel
 {
     var $display_field  = 'label';
     var $table          = '{prefix}matiere';
     var $has_many       = array(
         'Competence' => array(
-            'foreign_key' => 'code_matiere'
+            'foreign_key' => 'code'
         ),
-        'veilles' => array(
-            'foreign_key' => 'id_matiere'
+        'Veille' => array(
+            'foreign_key' => 'id'
         ),
-        'flashes' => array(
-            'foreign_key' => 'id_matiere'
+        'Flash' => array(
+            'foreign_key' => 'id'
         ),
-        'cahier_cridons' => array(
-            'foreign_key' => 'id_matiere'
+        'CahierCridon' => array(
+            'foreign_key' => 'id'
         )
     );
     public function create($data) {

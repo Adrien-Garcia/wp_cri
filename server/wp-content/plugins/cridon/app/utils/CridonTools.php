@@ -234,19 +234,19 @@ class CridonTools {
      */
     public function isNotary()
     {
-        global $current_user, $wpdb;
-
-        if (is_object($current_user) && property_exists($current_user, 'ID')) {
+        global $wpdb;
+        global $current_user,$lastQueryFindNotaire,$lastQueryFindNotaireData;
+        if( $lastQueryFindNotaire === true ){
+            //No duplicate query for current user
+            $notaireData = $lastQueryFindNotaireData;
+        } elseif (is_object($current_user) && property_exists($current_user, 'ID') && !empty($current_user->ID)) {
+            // get notaire by id_wp_user
             $query = " SELECT id FROM {$wpdb->prefix}notaire WHERE id_wp_user = {$current_user->ID} LIMIT 1 ";
-
-            $notary = $wpdb->get_row($query);
-
-            if (is_object($notary) && $notary->id) {
-                return true;
-            }
+            $lastQueryFindNotaireData = $notaireData = $wpdb->get_row($query);;
+            $lastQueryFindNotaire = true;
         }
 
-        return false;
+        return !empty($notaireData);
     }
 }
 

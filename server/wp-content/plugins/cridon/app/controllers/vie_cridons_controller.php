@@ -13,6 +13,7 @@
  */
 require_once 'base_actu_controller.php';
 class VieCridonsController extends BaseActuController {
+
     /*
      * We use the standard function for wordpress for queries ( query_posts() ) in views
      */

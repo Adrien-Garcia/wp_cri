@@ -353,4 +353,7 @@ class Config {
         'read_private_posts',
         'read_private_pages',
     );
+
+    // question pending status
+    public static $questionPendingStatus = array(1,2,3);
 }

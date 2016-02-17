@@ -20,8 +20,9 @@ require_once $dir . '/app/config/const.inc.php';
 require_once $dir . '/app/config/config.php';
 // load hook
 require_once $dir . '/app/config/hook.inc.php';
-// load specific class 
+// load specific class
 require_once $dir . '/app/utils/class_loader.php';
+
 
 function cridon_activate() {
     require_once dirname(__FILE__).'/cridon_loader.php';
