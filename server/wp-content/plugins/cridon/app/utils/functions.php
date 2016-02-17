@@ -821,16 +821,27 @@ function CriSendPostQuestConfirmation($question) {
         $env = getenv('ENV');
         if ($env === 'PROD') {
             $dest = $notary->email_adress;
+            if (!$dest) { // notary email is empty
+                // send email to the office
+                $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+                if (is_object($offices) && $offices->office_email_adress_1) {
+                    $dest = $offices->office_email_adress_1;
+                }
+            }
         }
 
-        // prepare message
-        $subject = Config::$mailBodyQuestionConfirmation['subject'];
-        $vars = array(
-            "content" => sprintf(Config::$mailBodyQuestionConfirmation['message'], $question['resume'], $notary->first_name, $notary->last_name),
-        );
-        $message = CriRenderView('mail_question_confirmation', $vars,'custom', false);
+        // dest must be set
+        if ($dest) {
+            // prepare message
+            $subject = Config::$mailBodyQuestionConfirmation['subject'];
+            $vars    = array(
+                "content" => sprintf(Config::$mailBodyQuestionConfirmation['message'], $question['resume'],
+                                     $notary->first_name, $notary->last_name),
+            );
+            $message = CriRenderView('mail_question_confirmation', $vars, 'custom', false);
 
-        // send email
-        wp_mail($dest , $subject, $message, $headers);
+            // send email
+            wp_mail($dest, $subject, $message, $headers);
+        }
     }
 }
