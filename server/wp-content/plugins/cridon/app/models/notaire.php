@@ -1835,20 +1835,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $options['page'] = empty($options['page']) ? 1 : intval($options['page']);//for limit
         $limit = $this->db_adapter->get_limit_sql($options);
         if(!is_admin()){
-            $user = CriNotaireData();//get Notaire
             $where = $this->getFilters($options);//Filter
             $query = $this->prepareQueryForFront($options['status'], $where, $limit);
             //Total query for pagination
-            $query_count ='
-                SELECT COUNT(*) AS count
-                FROM '.$wpdb->prefix.'question AS Q
-                JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
-                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
-                LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1
-                LEFT JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
-                WHERE E.crpcen = "'.$user->crpcen.'" '.$where.'
-                ORDER BY Q.creation_date DESC
-                ';
+            $query_count = $this->prepareQueryForCount($options['status'], $where);
             //convert pseudo query to sql
             $qs = new \App\Override\Model\QueryStringModel($query);
             $total_count = $wpdb->get_var($query_count);
@@ -1990,6 +1980,28 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 ';
         return $query;
     }
-    
+    /**
+     * Query used in front in order to preprare pagination for questions list
+     *
+     * @param array $status
+     * @param string $where
+     * @return string
+     */
+    protected function prepareQueryForCount($status, $where){
+        global $wpdb;
+        $user = CriNotaireData();//get Notaire
+        $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
+        $query = '
+                SELECT COUNT(DISTINCT (Q.id)) AS count
+                FROM '.$wpdb->prefix.'question AS Q
+                JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
+                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
+                LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1
+                LEFT JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
+                WHERE '.$condAffectation.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
+                ORDER BY Q.creation_date DESC
+                ';
+        return $query;
+    }
     //End FRONT
 }
