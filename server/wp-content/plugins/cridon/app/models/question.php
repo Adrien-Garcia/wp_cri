@@ -531,7 +531,7 @@ class Question extends MvcModel
             'matiere'        => '', // Matiere
             'competence'     => '', // Competence
             'support'        => '', // Support
-            'dateSoumission' => $post['creation_date'], // DateSoumission
+            'dateSoumission' => date('d.m.Y', strtotime($post['creation_date'])), // DateSoumission
         );
         // matiere
         $options  = array(

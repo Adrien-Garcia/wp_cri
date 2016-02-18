@@ -69,7 +69,14 @@
         <tr>
             <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
-                <?php echo $content; ?>
+                <p>QUESTION du <?php echo $dateSoumission; ?></p>
+                <p>
+                    <?php echo $matiere; ?>
+                    <br>><?php echo $competence; ?>
+                </p>
+                <p><?php echo stripslashes($objet); ?></p>
+                <p><?php echo nl2br(stripslashes($content)); ?></p>
+                <p><?php echo $support; ?></p>
             <td width="20" style="background-color:#fff;"></td>
         </tr>
 

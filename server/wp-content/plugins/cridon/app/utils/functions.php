@@ -835,8 +835,12 @@ function CriSendPostQuestConfirmation($question) {
             // prepare message
             $subject = Config::$mailBodyQuestionConfirmation['subject'];
             $vars    = array(
-                "content" => sprintf(Config::$mailBodyQuestionConfirmation['message'], $question['resume'],
-                                     $notary->first_name, $notary->last_name),
+                'objet'          => $question['resume'],
+                'content'        => $question['content'],
+                'matiere'        => $question['matiere'],
+                'competence'     => $question['competence'],
+                'support'        => $question['support'],
+                "dateSoumission" => $question['dateSoumission']
             );
             $message = CriRenderView('mail_question_confirmation', $vars, 'custom', false);
 
