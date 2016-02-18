@@ -1,28 +1,4 @@
 <?php
-//Retrieve post data using custom table join
-function custom_posts_join ($join) {
-    global $custom_global_join;
-    if ( $custom_global_join ){
-        $join .= " $custom_global_join";
-    }
-    return $join;
-}
-function custom_posts_where ($where) {
-    global $custom_global_where;
-    if ( $custom_global_where ) {
-        $where .= " $custom_global_where";
-    }
-    return $where;
-}
-add_filter('posts_join','custom_posts_join');
-add_filter('posts_where','custom_posts_where');
-function resetGlobalVars(){
-    global $custom_global_join;
-    global $custom_global_where;
-    $custom_global_join = $custom_global_where = '';
-}
-// End retrieve post
-
 // After save into post table, save in others tables 
 function save_post_in_table( $post_ID, $post ){
     $modelConf = getRelatedContentConfInReferer($post_ID);
@@ -489,8 +465,8 @@ add_action( 'deleted_user', 'custom_delete_user' );
 /**
  * Get a value associated with a key in array if exists, default value otherwise
  * Avoid warning and easily allow fallback
- * @param mixed $key searched key
  * @param array $array in which the key should be
+ * @param mixed $key searched key
  * @param mixed $default value to retrieve if key is not in array
  * @return mixed $value corresponding to $key if exists, $defaults otherwise
  */
@@ -579,7 +555,7 @@ function CriRenderView($path, $view_vars, $folder = "custom", $echo = true) {
  * Send email for error reporting
  *
  * @param string $message the default message in which we want to add the error
- * @param string $object the object to introduce in the message
+ * @param string $object the error to introduce in the message
  * @param string $subject the subject of the sent mail
  */
 function reportError($message, $object, $subject = CONST_EMAIL_ERROR_SUBJECT) {
@@ -653,7 +629,7 @@ function init_ui_meta_boxes( $post ){
         if( $obj ){
             $cls = new stdClass();
             $cls->id = $obj->id;
-            $container->setObject($cls);            
+            $container->setObject($cls);
         }
     }
     $container->create();
@@ -741,18 +717,6 @@ function sendNotificationForPostPublished( $post,$model ){
     global $pages,$page ;
     $pages = array($post->post_content);
     $page = 1;
-    $options = array(
-        'conditions' => array(
-            'type'       => strtolower( $model->__model_name ),
-            'id_externe' => $model->id
-        )
-    );
-    $documentModel = mvc_model('Document');
-    $documents = false;
-    $class = $model->__model_name;
-    if (method_exists($class, "getDocuments")) {
-        $documents = $class::getDocuments($model->id);
-    }
     $title = $post->post_title;
     $date  = get_the_date('d M Y',$post->ID);
 
@@ -761,6 +725,16 @@ function sendNotificationForPostPublished( $post,$model ){
     //$model don't contain Matiere
     //It's necessary to get it again
     $current = mvc_model($model->__model_name)->find_one_by_id($model->id);
+    $documentModel = mvc_model('Document');
+    $documents = false;
+    $class = $model->__model_name;
+    if (property_exists($current, 'documents') || method_exists($class, "getDocuments")) {
+        if (property_exists($current, 'documents')){
+            $documents = $current->documents;
+        } else {
+            $documents = $class::getDocuments($model->id);
+        }
+    }
     $matiere = (!empty($current) && !empty($current->matiere)) ? $current->matiere : false;
     $permalink = generateUrlByModel($model);
     $tags = get_the_tags( $post->ID );
@@ -822,7 +796,7 @@ function generateUrlByModel( $model ){
         return '';
     }
     $options = array(
-        'controller' => MvcInflector::pluralize(strtolower($model->__model_name)),
+        'controller' => MvcInflector::tableize(strtolower($model->__model_name)),
         'action'     => ( !isset( $model->id ) ) ? 'index' : 'show'        
     );
     if( isset( $model->id ) ){
