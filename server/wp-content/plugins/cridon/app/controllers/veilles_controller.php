@@ -22,7 +22,8 @@ class VeillesController extends BaseActuController {
         $matieres = Matiere::getMatieresByModelPost($veille);
         if ( isset($_GET['matieres']) && !empty($_GET['matieres']) && is_array($_GET['matieres']) ) {
             if (count($_GET['matieres']) === 1) {
-                $matiere = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($_GET['matieres'][0])));
+                $options['where'] = 'Matiere.virtual_name = \''.esc_sql(strip_tags($_GET['matieres'][0])).'\'';
+                $matiere = mvc_model('matiere')->findOneBy($options);
                 if ($matiere) {
                     self::$currentMatiereSelected = $matiere;
                 }
