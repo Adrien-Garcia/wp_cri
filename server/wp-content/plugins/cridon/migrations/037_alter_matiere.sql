@@ -1,0 +1,1 @@
+ALTER TABLE `cri_matiere` ADD COLUMN `virtual_name` VARCHAR(255) NULL AFTER `picto`, ADD INDEX `IX_VIRTUAL` (`virtual_name`); 

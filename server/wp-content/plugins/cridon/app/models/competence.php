@@ -1,6 +1,6 @@
 <?php
 
-class Competence extends MvcModel
+class Competence extends \App\Override\Model\CridonMvcModel
 {
     var $display_field  = 'label';
     var $table          = '{prefix}competence';

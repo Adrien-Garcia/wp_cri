@@ -529,6 +529,10 @@ if ( !defined( 'CONST_MAXFILESIZE_ERROR_MSG' ) ) {
     define( 'CONST_MAXFILESIZE_ERROR_MSG', 'Taille de ' );
 }
 
+if ( !defined( 'CONST_MAX_SQL_OPERATION' ) ) {
+    define( 'CONST_MAX_SQL_OPERATION', 10000 );
+}
+
 // import status code
 if ( !defined( 'CONST_STATUS_CODE_OK' ) ) {
     define( 'CONST_STATUS_CODE_OK', 200 );
@@ -573,6 +577,11 @@ if ( !defined( 'CONST_ADMIN_NB_ITEM_PERPAGE' ) ) {
 // default notaire 2006_2009 password
 if ( !defined( 'CONST_NOTARY_PWD' ) ) {
     define( 'CONST_NOTARY_PWD', 'cridon-jetpulp-2016' );
+}
+
+// admin nb formations per page
+if ( !defined( 'CONST_ADMIN_NB_FORMATIONS_PERPAGE' ) ) {
+    define( 'CONST_ADMIN_NB_FORMATIONS_PERPAGE', 10 );
 }
 
 // admins Cridon role
@@ -693,3 +702,4 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 }
 
 // End of block for mobile
+

@@ -55,7 +55,7 @@ class AdminNotairesController extends BaseAdminController
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
         //Load custom helper
-        $this->load_helper('AdminNotaire');
+        $this->load_helper('AdminView');
     }
     
     public function edit() {

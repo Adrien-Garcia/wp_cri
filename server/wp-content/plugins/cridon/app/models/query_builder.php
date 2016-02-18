@@ -37,6 +37,7 @@ class QueryBuilder{
     protected function dbConnect()
     {
         $this->mysqli = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        $this->mysqli->set_charset('utf8');
     }
 
     /*
@@ -558,5 +559,27 @@ class QueryBuilder{
     public function getInstanceMysqli(){
         $this->dbConnect();
         return $this->mysqli;
+    }
+
+    /**
+     * Get post by wpmvc params
+     *
+     * @return array|null|object|string|void
+     */
+    public function getPostByMVCParams()
+    {
+        global $mvc_params;
+
+        $posts = '';
+        if (isset($mvc_params['controller']) && isset($mvc_params['id']) && $mvc_params['id']) {
+            $table = $this->wpdb->prefix . MvcInflector::singularize($mvc_params['controller']);
+
+            $query  = " SELECT `p`.`post_title` FROM `{$this->wpdb->posts}` p ";
+            $query .= " LEFT JOIN `{$table}` cm ON `cm`.`post_id` = `p`.`ID` ";
+            $query .= " WHERE `cm`.`id` = {$mvc_params['id']} ";
+
+            $posts = $this->wpdb->get_row($query);
+        }
+        return $posts;
     }
 }

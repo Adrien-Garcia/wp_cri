@@ -8,17 +8,21 @@ class CridonLoader extends MvcPluginLoader
 
     public function activate()
     {
-        global $wpdb;
 
         // This call needs to be made to activate this app within WP MVC
 
         $this->activate_app(__FILE__);
 
-        // Perform any databases modifications related to plugin activation here, if necessary
+        $this->migrate();
+    }
+
+    public function migrate()
+    {
+        global $wpdb;
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-        add_option('cridon_db_version', $this->db_version);
+        $this->db_version = get_option('cridon_db_version');
 
         $this->tables = array(
             'plugin_migrations' => $wpdb->prefix . 'plugin_migrations'
@@ -39,12 +43,6 @@ class CridonLoader extends MvcPluginLoader
         ";
         // Use dbDelta() to create the tables for the app here
         dbDelta($sql);
-
-        //Search for the latest version of the plugin (will be empty if the table has just been created)
-        $max = (int) $wpdb->get_var( $wpdb->prepare(
-            "SELECT MAX(version) FROM " . $this->tables['plugin_migrations'] . " WHERE plugin = %s",
-            $pluginName
-        ) );
 
         // list of all versions
         $listVersions = array();
@@ -69,60 +67,63 @@ class CridonLoader extends MvcPluginLoader
                         }
                     }
                 }
-                ksort($updates);
-                foreach ($updates as $v => $sql) {
-                    //If ALTER QUERY
-                    if ( preg_match_all( "|ALTER TABLE ([a-zA-Z0-9`_\s(),]*)|", $sql, $matches ) ) {
-                        if( !empty( $matches[0] ) ){
-                            foreach( $matches[0] as $alter ){
-                                $wpdb->query( $alter );
-                            }
-                        }
-                    }else{
-                        //If UPDATE
-                        //Separate queries with a '#'
-                        if ( preg_match_all( "|(UPDATE ([a-zA-Z0-9`_\s()={}':\";\-éèà@ùê&]*);)|", $sql, $matches ) ) {
+                if (!empty($updates)) {
+                    ksort($updates);
+                    foreach ($updates as $v => $sql) {
+                        //If ALTER QUERY
+                        if ( preg_match_all( "|ALTER TABLE ([a-zA-Z0-9`_\s(),]*)|", $sql, $matches ) ) {
                             if( !empty( $matches[0] ) ){
-                                foreach( $matches[0] as $update ){
-                                    $wpdb->query( $update );
-                                }
-                            }
-                        } elseif( preg_match_all( "|TRUNCATE ([a-zA-Z0-9`_\s()]*)|", $sql, $matches ) ) { // truncate
-                            if( !empty( $matches[0] ) ){
-                                foreach( $matches[0] as $query ){
-                                    if ($query)  {
-                                        $wpdb->query( $query );
-                                    }
-                                }
-                            }
-                        } elseif( preg_match_all( "|INSERT ([a-zA-Z0-9`_\s(),':\";\-éèà@ùê&]*)|", $sql, $matches ) ) { // insert
-                            if( !empty( $matches[0] ) ){
-                                foreach( $matches[0] as $query ){
-                                    if ($query)  {
-                                        $wpdb->query( $query );
-                                    }
-                                }
-                            }
-                        } elseif ( preg_match_all( "|DROP ([a-zA-Z0-9`_\s]*)|", $sql, $matches ) ) { // drop
-                            if( !empty( $matches[0] ) ){
-                                foreach( $matches[0] as $query ){
-                                    if ($query)  {
-                                        $wpdb->query( $query );
-                                    }
+                                foreach( $matches[0] as $alter ){
+                                    $wpdb->query( $alter );
                                 }
                             }
                         }else{
-                            //TODO surround with try/catch
-                            // Use dbDelta() to create the tables for the app here
-                            dbDelta($sql);                                                  
+                            //If UPDATE
+                            //Separate queries with a '#'
+                            if ( preg_match_all( "|(UPDATE ([a-zA-Z0-9`_\s()={}':\";\-éèà@ùê&]*);)|", $sql, $matches ) ) {
+                                if( !empty( $matches[0] ) ){
+                                    foreach( $matches[0] as $update ){
+                                        $wpdb->query( $update );
+                                    }
+                                }
+                            } elseif( preg_match_all( "|TRUNCATE ([a-zA-Z0-9`_\s()]*)|", $sql, $matches ) ) { // truncate
+                                if( !empty( $matches[0] ) ){
+                                    foreach( $matches[0] as $query ){
+                                        if ($query)  {
+                                            $wpdb->query( $query );
+                                        }
+                                    }
+                                }
+                            } elseif( preg_match_all( "|INSERT ([a-zA-Z0-9`_\s(),':\";\-éèà@ùê&]*)|", $sql, $matches ) ) { // insert
+                                if( !empty( $matches[0] ) ){
+                                    foreach( $matches[0] as $query ){
+                                        if ($query)  {
+                                            $wpdb->query( $query );
+                                        }
+                                    }
+                                }
+                            } elseif ( preg_match_all( "|DROP ([a-zA-Z0-9`_\s]*)|", $sql, $matches ) ) { // drop
+                                if( !empty( $matches[0] ) ){
+                                    foreach( $matches[0] as $query ){
+                                        if ($query)  {
+                                            $wpdb->query( $query );
+                                        }
+                                    }
+                                }
+                            }else{
+                                //TODO surround with try/catch
+                                // Use dbDelta() to create the tables for the app here
+                                dbDelta($sql);
+                            }
                         }
-                    }
 
-                    // Update last known version
-                    $wpdb->insert($this->tables['plugin_migrations'], array(
-                        "plugin" => $pluginName,
-                        "version" => $v
-                    ));
+                        // Update last known version
+                        $wpdb->insert($this->tables['plugin_migrations'], array(
+                            "plugin" => $pluginName,
+                            "version" => $v
+                        ));
+                    }
+                    $this->db_version = (int) array_pop(array_keys($updates));
                 }
                 closedir($handle);
             }
@@ -133,10 +134,10 @@ class CridonLoader extends MvcPluginLoader
             $exceptions = array( 'notaire',CONST_OFFICES_ROLE,CONST_ORGANISMES_ROLE,CONST_CLIENTDIVERS_ROLE );
             if( in_array($k, $exceptions) ) {
                 $role = get_role($k);
-                $role->remove_cap( 'read' ); 
+                $role->remove_cap( 'read' );
                 $role->remove_cap( 'level_0' );
             }
-        }    
+        }
         // @TODO to be removed if we use specific plugin like "user-role-editor"
         // remove  notaire role
         remove_role( CONST_NOTAIRE_ROLE );
@@ -149,11 +150,10 @@ class CridonLoader extends MvcPluginLoader
         // add custom caps to admincridon
         CriSetAdminCridonCaps();
 
-        // disable admin bar for existing notaire
-        CriDisableAdminBarForExistingNotaire();
-        
         // update download_url field in cri_document when it's empty
         updateEmptyDownloadUrlFieldsDocument();
+
+        update_option('cridon_db_version', $this->db_version);
     }
 
     public function deactivate()

@@ -1,12 +1,12 @@
 <?php
 
-class Sigle extends MvcModel {
+class Sigle extends \App\Override\Model\CridonMvcModel {
 
     var $display_field  = 'label';
     var $table          = '{prefix}sigle';
     var $has_many       = array(
         'Etude' => array(
-            'foreign_key' => 'id_sigle'
+            'foreign_key' => 'id'
         )
     );
     

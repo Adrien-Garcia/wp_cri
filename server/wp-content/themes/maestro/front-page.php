@@ -55,27 +55,24 @@
 
    				<div id="onglets">
    					<h3 class="juridique open js-tab-veille-open"><span><?php _e('Veille juridique'); ?></span></h3>   				
-   					<!--h3 class="formations js-tab-formation-open"><span><?php // _e('Formations'); ?></span></h3!-->
+   					<h3 class="formations js-tab-formation-open"><span><?php _e('Formations'); ?></span></h3>
    				</div>
    				<div class="details">
    					<div id="accordion-juridique" class="accordion js-tab-veille open">
-						<?php 
-							setlocale(LC_ALL, 'fr_FR');
-							$veilles = criFilterByDate('veille',3,3,'veille', 'd/m/Y');
+						<?php
+							$veilles = criFilterByDate('veille',3,3,'veille', 'Y-m-d');
 							// var_dump($veilles);
 						 ?>
 						<?php foreach ($veilles as $keyd => $date): ?>
 						<?php 
-							if( preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date['date'], $matches) ){
-								$_date = date_create_from_format('d/m/Y', $date['date']);
-							}
+                            $current_date = $date['date'];
 						?>
 						<?php // var_dump($_date) ?>
    						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-juridique-panel">
 					      <div class="date js-accordion-button ">
-					      	<span class="jour"><?php echo date_format($_date, 'd') ?></span>
-					      	<span class="mois"><?php echo date_format($_date, 'M') ?></span>
-					      	<span class="annee"><?php echo date_format($_date, 'Y') ?></span> 
+					      	<span class="jour"><?php echo strftime('%d',strtotime($current_date)) ?></span>
+					      	<span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,3) ?></span>
+					      	<span class="annee"><?php echo strftime('%Y',strtotime($current_date)) ?></span>
 					      </div>
 					      <div class="content">
 							<ul>
@@ -110,21 +107,19 @@
    					<div id="accordion-formations" class="accordion js-tab-formation">
 
    						<?php 
-							$formations = criFilterByDate('formation',3,1,'formation', 'd/m/Y');
+							$formations = criFilterByDate('formation',3,1,'formation', 'Y-m-d');
 							// var_dump($formations);
 						 ?>
 						<?php foreach ($formations as $keyd => $date): ?>
 						<?php 
-							if( preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $date['date'], $matches) ){
-								$_date = date_create_from_format('d/m/Y', $date['date']);
-							}
+                            $current_date = $date['date'];
 						?>
 						<?php // var_dump($_date) ?>
    						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-formation-panel">
 					      <div class="date js-accordion-button">
-					      	<span class="jour"><?php echo date_format($_date, 'd') ?></span>
-					      	<span class="mois"><?php echo date_format($_date, 'M') ?></span>
-					      	<span class="annee"><?php echo date_format($_date, 'Y') ?></span> 
+                              <span class="jour"><?php echo strftime('%d',strtotime($current_date)) ?></span>
+                              <span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,3) ?></span>
+                              <span class="annee"><?php echo strftime('%Y',strtotime($current_date)) ?></span>
 					      </div>
 					      <div class="content">
 							<ul>
@@ -132,17 +127,23 @@
 									<?php 
 										criWpPost($formation);
 
-										// $_matiere = $formation->getMatiere() != null ? $formation->getMatiere() : 'Expertise générale';
-										$_matiere = false != false ? false : 'Expertise générale';
 										$_title = get_the_title();
 										$_chapo = get_the_excerpt();//$veille->excerpt;
 										$_link = get_permalink(); //$veille->link;
 										// var_dump($formation)
 									 ?>
-								<li>
-									<img src="" alt="" />
+
+								<li class="js-home-block-link">
+									<img src="<?php echo $formation->matiere->picto ?>" alt="<?php echo $formation->matiere->label ?>" />
 									<h4><?php echo $_title; ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
+									<div class="adresse">
+										La Joliette<br />
+										20A Boulevard du Plomb<br />
+										13581 Marseille Cedex 20<br />
+										France
+										
+									</div>
 									<a href="<?php echo $_link ?>"><?php _e('Lire'); ?></a>
 								</li>
 								<?php endforeach; ?>
@@ -156,7 +157,7 @@
 
 					    <div class="blockEnd"></div>
 
-					    <a href="#" title=""><span><?php _e('Toutes les formations'); ?></span></a>
+					    <a href="<?php echo MvcRouter::public_url(array('controller' => 'formations', 'action'     => 'index')) ?>" title=""><span><?php _e('Toutes les formations'); ?></span></a>
    						
    					</div>
    				</div>

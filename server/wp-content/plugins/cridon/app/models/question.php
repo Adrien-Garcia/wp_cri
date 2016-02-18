@@ -4,7 +4,7 @@
  * Question Model
  */
 
-class Question extends MvcModel
+class Question extends \App\Override\Model\CridonMvcModel
 {
     /**
      * @var string
@@ -129,7 +129,7 @@ class Question extends MvcModel
             }
         } catch (\Exception $e) {
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Erreur comptage en base de donnée');
         }
     }
 
@@ -585,7 +585,7 @@ class Question extends MvcModel
         $value .= "'" . (isset($data[$adapter::QUEST_SREBPC]) ? esc_sql($data[$adapter::QUEST_SREBPC]) : '') . "', "; // client_number
         $value .= "'" . (isset($data[$adapter::QUEST_SRECCN]) ? esc_sql($data[$adapter::QUEST_SRECCN]) : '') . "', "; // sreccn
         $value .= "'" . (isset($data[$adapter::QUEST_YCODESUP]) ? esc_sql($data[$adapter::QUEST_YCODESUP]) : '') . "', "; // id_support
-        $value .= "'" . (isset($data[$adapter::QUEST_ZCOMPETENC]) ? esc_sql(intval($data[$adapter::QUEST_ZCOMPETENC])) : '') . "', "; // id_competence_1
+        $value .= "'" . (isset($data[$adapter::QUEST_ZCOMPETENC]) ? esc_sql($data[$adapter::QUEST_ZCOMPETENC]) : '') . "', "; // id_competence_1
         $value .= "'" . (isset($data[$adapter::QUEST_YRESUME]) ? esc_sql($data[$adapter::QUEST_YRESUME]) : '') . "', "; // resume
         $value .= "'" . (isset($data[$adapter::QUEST_YSREASS]) ? intval($data[$adapter::QUEST_YSREASS]) : 0) . "', "; // id_affectation
         $value .= "'" . (isset($data[$adapter::QUEST_SREDET]) ? esc_sql($data[$adapter::QUEST_SREDET]) : '') . "', "; // juriste
@@ -607,8 +607,12 @@ class Question extends MvcModel
 
     /**
      * Daily update
+     *
+     * @param $force bool : Force to update all questions ? (defaut false)
+     *
+     * @return int : code status
      */
-    public function cronUpdate()
+    public function cronUpdate($force = false)
     {
         try {
             // enable gbcollector
@@ -627,23 +631,8 @@ class Question extends MvcModel
                     break;
             }
 
-            // get last cron date if is set or server datetime
-            $lastDateUpdate          = get_option('cronquestionupdate');
-            if (empty($lastDateUpdate)) {
-                $lastUpQuestion = $this->find_one(array(
-                        'conditions' => array(
-                            'transmis_erp' => CONST_QUEST_TRANSMIS_ERP, //avoid considering those coming from website
-                        ),
-                        'order' => 'Question.date_modif DESC, Question.hour_modif DESC',
-                    )
-                );
-                $lastDateUpdate = $lastUpQuestion->date_modif . ' ' . $lastUpQuestion->hour_modif;
-            }
-            $date                  = new DateTime($lastDateUpdate);
             $queryOptions          = array();
             $queryOptions['daily'] = true;
-            $dateModif             = $date->format('Y-m-d');
-            $hourModif             = $date->format('H:i:s');
 
             $this->setSiteQuestList($queryOptions);
 
@@ -660,17 +649,35 @@ class Question extends MvcModel
             $updateValues = array();
 
             $mainQuery = 'SELECT * FROM ' . CONST_ODBC_TABLE_QUEST . ' WHERE ';
-            switch (strtolower(CONST_IMPORT_OPTION)) {//wrong test, this does not depend on the connector but on the used DB type
-                case self::IMPORT_ODBC_OPTION:
-                    $mainQuery .= "TIMESTAMPDIFF(MINUTE, '{$dateModif} {$hourModif}', CONCAT_WS(' ', STR_TO_DATE(" . $adapter::QUEST_UPDDAT . ", '%d/%m/%Y'), " . $adapter::QUEST_ZUPDHOU . ")) > 0 AND ";
-                    $mainQuery .= " " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
+
+            if (!$force) {
+                // get last cron date if is set or server datetime
+                $lastDateUpdate          = get_option('cronquestionupdate');
+                if (empty($lastDateUpdate)) {
+                    $lastUpQuestion = $this->find_one(array(
+                            'conditions' => array(
+                                'transmis_erp' => CONST_QUEST_TRANSMIS_ERP, //avoid considering those coming from website
+                            ),
+                            'order' => 'Question.date_modif DESC, Question.hour_modif DESC',
+                        )
+                    );
+                    $lastDateUpdate = $lastUpQuestion->date_modif . ' ' . $lastUpQuestion->hour_modif;
+                }
+                $date                  = new DateTime($lastDateUpdate);
+                $dateModif             = $date->format('Y-m-d');
+                $hourModif             = $date->format('H:i:s');
+
+                switch (strtolower(CONST_IMPORT_OPTION)) {//wrong test, this does not depend on the connector but on the used DB type
+                    case self::IMPORT_ODBC_OPTION:
+                        $mainQuery .= "TIMESTAMPDIFF(MINUTE, '{$dateModif} {$hourModif}', CONCAT_WS(' ', STR_TO_DATE(" . $adapter::QUEST_UPDDAT . ", '%d/%m/%Y'), " . $adapter::QUEST_ZUPDHOU . ")) > 0 AND ";
+                        $mainQuery .= " " . $adapter::QUEST_ZUPDHOU . " IS NOT NULL
                         AND " . $adapter::QUEST_ZUPDHOU . " != '' ";
-                    break;
-                case self::IMPORT_OCI_OPTION:
-                default:
-                    $dateModif = explode('-', $dateModif);
-                    $dateModif = $dateModif[2].'/'.$dateModif[1].'/'.$dateModif[0];
-                    $mainQuery .= " (
+                        break;
+                    case self::IMPORT_OCI_OPTION:
+                    default:
+                        $dateModif = explode('-', $dateModif);
+                        $dateModif = $dateModif[2].'/'.$dateModif[1].'/'.$dateModif[0];
+                        $mainQuery .= " (
                     ( ". $adapter::QUEST_UPDDAT . " = TO_DATE('". $dateModif . "', 'DD/MM/YYYY')
                         AND (
                             ( " . $adapter::QUEST_ZUPDHOU . " <> ' '
@@ -681,11 +688,16 @@ class Question extends MvcModel
                     )
                     OR ". $adapter::QUEST_UPDDAT . " > TO_DATE('". $dateModif . "', 'DD/MM/YYYY')
                 )";
-                break;
+                        break;
+                }
+                if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
+                    $mainQuery .= ' AND ';
+                }
             }
+
             // filter by list of supports if necessary
             if (is_array(Config::$acceptedSupports) && count(Config::$acceptedSupports) > 0) {
-                $mainQuery .= ' AND ' . $adapter::QUEST_YCODESUP . ' IN(' . implode(',',
+                $mainQuery .= $adapter::QUEST_YCODESUP . ' IN(' . implode(',',
                         Config::$acceptedSupports) . ')
                     AND '.$adapter::QUEST_NOFAC_TEL. '!= 2';
             }
@@ -778,7 +790,7 @@ class Question extends MvcModel
                         }
 
                         if (isset($data[$adapter::QUEST_ZCOMPETENC])) { // id_competence_1
-                            $query .= " id_competence_1 = '" . intval($data[$adapter::QUEST_ZCOMPETENC]) . "', ";
+                            $query .= " id_competence_1 = '" . esc_sql($data[$adapter::QUEST_ZCOMPETENC]) . "', ";
                         }
 
                         if (isset($data[$adapter::QUEST_YRESUME])) { // resume
@@ -794,15 +806,15 @@ class Question extends MvcModel
                         }
 
                         $query .= " affectation_date = " . (empty($affectationDate) ? "NULL," : "'".$affectationDate."'") . ", ";
-                        $query .= " wish_date = " . (empty($wishDate) ? "NULL," : "'".$wishDate."'") . ", ";
-                        $query .= " real_date = " . (empty($realDate) ? "NULL," : "'".$realDate."'") . ", ";
+                        $query .= " wish_date = " . (empty($wishDate) ? "NULL" : "'".$wishDate."'") . ", ";
+                        $query .= " real_date = " . (empty($realDate) ? "NULL" : "'".$realDate."'") . ", ";
 
                         if (isset($data[$adapter::QUEST_YUSER])) {
                             $query .= " yuser = '" . esc_sql($data[$adapter::QUEST_YUSER]) . "', ";
                         }
 
-                        $query .= " date_modif = " . (empty($updatedDate) ? "NULL," : "'".$updatedDate."'") . ", ";
-                        $query .= " hour_modif = " . (empty($updatedHour) ? "NULL," : "'".$updatedHour."'") . ", ";
+                        $query .= " date_modif = " . (empty($updatedDate) ? "NULL" : "'".$updatedDate."'") . ", ";
+                        $query .= " hour_modif = " . (empty($updatedHour) ? "NULL" : "'".$updatedHour."'") . ", ";
 
 
                         $query .= " transmis_erp = '" . CONST_QUEST_TRANSMIS_ERP . "', "; // transmis_erp
@@ -841,19 +853,39 @@ class Question extends MvcModel
                 writeLog(count($insertValues). ' nouvelles questions','questioncronUpdate.log');
             }
             if (count($updateValues) > 0) {
-                $queryBulder = mvc_model('QueryBuilder');
                 // bulk update
-                $updtateQuery = implode(' ', $updateValues);
+                $i = 0;
+                $updateValuesChunk = array_chunk($updateValues, CONST_MAX_SQL_OPERATION);
+                foreach ($updateValuesChunk as $uv) {
 
-                if (!$queryBulder->getInstanceMysqli()->multi_query($updtateQuery)) {
-                    // write into logfile
-                    writeLog($queryBulder->getInstanceMysqli()->error, 'questioncronUpdate.log');
+                    $updtateQuery = implode(' ', $uv);
+                    /**
+                     * @var $mysqliBuilder mysqli
+                     */
+                    $mysqliBuilder = mvc_model('QueryBuilder')->getInstanceMysqli();
+                    if( $mysqliBuilder->multi_query($updtateQuery) )
+                    {
+                        do {
+                            $mysqliBuilder->next_result();
+                            $i++;
+                        }
+                        while( $mysqliBuilder->more_results() );
+                    } else {
+                        writeLog('Une erreur inconnue est survenue', 'questioncronUpdate.log');
+                    }
+
+                    if (!empty($mysqliBuilder->error)) {
+                        // write into logfile
+                        writeLog($mysqliBuilder->error . ' IN : ' . $updateValues[$i], 'questioncronUpdate.log');
+                    }
                 }
-                writeLog(count($updateValues). ' questions maj', 'questioncronUpdate.log');
+                writeLog($i. ' questions maj', 'questioncronUpdate.log');
             }
 
-            // maj derniere date d'execution
-            update_option('cronquestionupdate', $lastDateUpdate);
+            if (!empty($lastDateUpdate)) {
+                // maj derniere date d'execution
+                update_option('cronquestionupdate', $lastDateUpdate);
+            }
 
             // notification client mobile si question traitee
             // id_affectation = 4
@@ -892,15 +924,15 @@ class Question extends MvcModel
             // site quest list
             $queryOptions['weekly'] = true;
             $this->setSiteQuestList($queryOptions);
-            // store question list into local var
-            $siteQuestList = $this->siteQuestList;
+            // store question list into dedicated var
+            $this->questListForDelete = $this->siteQuestList;
 
             // nb items
             $this->getNbItems();
 
             // list of question
             $i = 0;
-            $this->setQuestListForDelete($i, $siteQuestList);
+            $this->setQuestListForDelete($i);
 
             // delete action
             /**
@@ -914,7 +946,11 @@ class Question extends MvcModel
                           WHERE CONCAT(client_number, srenum) IN (" . $conditions . ")";
 
                 // execute query
-                mvc_model('QueryBuilder')->getInstanceMysqli()->query($query);
+                $queryBuilder = mvc_model('QueryBuilder')->getInstanceMysqli();
+                $queryBuilder->query($query);
+                if (!empty($queryBuilder->error)) {
+                    throw new Exception($queryBuilder->error);
+                }
             }
 
             return CONST_STATUS_CODE_OK;
@@ -931,7 +967,7 @@ class Question extends MvcModel
      * @param int $i
      * @param array $siteQuestList
      */
-    protected function setQuestListForDelete($i, $siteQuestList)
+    protected function setQuestListForDelete($i)
     {
         try {
             // instance of adapter
@@ -982,13 +1018,12 @@ class Question extends MvcModel
                         // unique key "client_number + num question"
                         $uniqueKey = intval($data[$adapter::QUEST_SREBPC]) . $data[$adapter::QUEST_SRENUM];
 
-                        if (in_array($uniqueKey, $siteQuestList)) { // quest found on Site / ERP
+                        if (in_array($uniqueKey, $this->questListForDelete)) { // quest found on Site / ERP
 
                             // remove quest on list
-                            $key = array_search($uniqueKey, $siteQuestList);
+                            $key = array_search($uniqueKey, $this->questListForDelete);
                             if ($key !== false) {
-                                unset($siteQuestList[$key]);
-                                $this->questListForDelete = $siteQuestList;
+                                unset($this->questListForDelete[$key]);
                             }
                         }
                     }
@@ -998,7 +1033,7 @@ class Question extends MvcModel
                 $i++;
 
                 // call import action
-                $this->setQuestListForDelete($i, $siteQuestList);
+                $this->setQuestListForDelete($i);
 
             } else {
                 // Close Connection
@@ -1007,7 +1042,8 @@ class Question extends MvcModel
 
         } catch (\Exception $e) {
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Question - Erreur création liste de suppression');
+            writeLog($e, 'questionweeklyupdatesetListDelete.log');
         }
     }
 
@@ -1229,7 +1265,7 @@ writeLog($query, 'query_export.log');
                 } else {
                     // log erreur
                     $error = sprintf(CONST_EXPORT_EMAIL_ERROR, date('d/m/Y à H:i:s'));
-                    writeLog($error, 'exportquestion.log');
+                    writeLog($error, 'exportquestion.log','Cridon - Export');
 
                     // send email
                     reportError(CONST_EXPORT_EMAIL_ERROR, $error);
@@ -1245,6 +1281,93 @@ writeLog($query, 'query_export.log');
             // status code
             return CONST_STATUS_CODE_GONE;
         }
+    } 
+    
+    /**
+     * @return array
+     */
+    public function getJuristeAndAssistant() {
+        global $wpdb;
+        $sql = "
+    SELECT
+        q.juriste as juriste_code,
+        u.display_name as juriste_name,
+        uc.profil as juriste_profil,
+        q.yuser as assistant_code,
+        u2.display_name as assistant_name,
+        uc2.profil as assistant_profil,
+        q.id as id
+    FROM
+        ".$wpdb->prefix."question AS q
+            LEFT JOIN
+        ".$wpdb->prefix."user_cridon AS uc ON q.juriste = uc.id_erp
+            LEFT JOIN
+        ".$wpdb->prefix."user_cridon AS uc2 ON q.yuser = uc2.id_erp
+            LEFT JOIN
+        ".$wpdb->prefix."users AS u ON uc.id_wp_user = u.id
+            LEFT JOIN
+        ".$wpdb->prefix."users AS u2 ON uc2.id_wp_user = u2.id
+    WHERE q.id = ".$this->id.";
+        ";
+        $r = $wpdb->get_results($sql);
+        $result = array();
+        foreach($r as $data) {
+            $result[$data->id] = $data;
+        }
+        return $result;
+    }
+
+    /**
+     * @param $questions
+     * @return mixed
+     */
+    public static function getJuristeAndAssistantFromQuestions($questions) {
+        global $wpdb;
+        $id_array = array();
+        if (is_object($questions) && get_class($questions) == "MvcModelObject") {
+            $id_array[] = $questions->id;
+        } else if (is_array($questions)
+            && is_object($questions[0])
+            && get_class($questions[0]) == "MvcModelObject"
+        ) {
+            foreach ($questions as $q ) {
+                $id_array[] = $q->id;
+            }
+        } else if (is_array($questions) && is_int($questions[0])) {
+            $id_array = $questions;
+        } else if (is_int($questions)) {
+            $id_array[] = $questions;
+        } else {
+            return false;
+        }
+        $sql = "
+    SELECT
+        q.juriste as juriste_code,
+        u.display_name as juriste_name,
+        uc.profil as juriste_profil,
+        q.yuser as assistant_code,
+        u2.display_name as assistant_name,
+        uc2.profil as assistant_profil,
+        q.id as id
+    FROM
+        ".$wpdb->prefix."question AS q
+            LEFT JOIN
+        ".$wpdb->prefix."user_cridon AS uc ON q.juriste = uc.id_erp
+            LEFT JOIN
+        ".$wpdb->prefix."user_cridon AS uc2 ON q.yuser = uc2.id_erp
+            LEFT JOIN
+        ".$wpdb->prefix."users AS u ON uc.id_wp_user = u.id
+            LEFT JOIN
+        ".$wpdb->prefix."users AS u2 ON uc2.id_wp_user = u2.id
+    WHERE q.id IN (".implode(",",$id_array).");
+        ";
+
+        $r = $wpdb->get_results($sql);
+        $result = array();
+        foreach($r as $data) {
+            $result[$data->id] = $data;
+        }
+        return $result;
     }
 
 

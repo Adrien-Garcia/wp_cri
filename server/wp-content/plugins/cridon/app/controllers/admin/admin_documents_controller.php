@@ -21,7 +21,7 @@ class AdminDocumentsController extends BaseAdminController {
         'type'
     );
     var $default_columns = array(
-        'name' => array('label' => 'Nom'), 
+        'name' => array('label' => 'Nom', 'value_method' => 'pdf_name'),
         'file_path' => array('label' => 'Chemin du fichier'),
         'download_url' => array('label' => 'Lien de téléchargement','value_method' => 'download_link'),
         'date_modified' => array('label' => 'Date de modification')
@@ -79,6 +79,15 @@ class AdminDocumentsController extends BaseAdminController {
     public function download_link($object)
     {   
         return ltrim($this->model->generatePublicUrl($object->id),'/');
+    }
+    /**
+     * Pdf name of the document
+     *
+     * @param object $object
+     * @return string
+     */
+    public function pdf_name($objects){
+        return substr(strrchr($objects->file_path,'/'), 1);
     }
 }
 
