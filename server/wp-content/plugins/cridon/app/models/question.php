@@ -416,12 +416,14 @@ class Question extends MvcModel
                 && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
             ) {
                 // prepare data
+                $creationDate = date('Y-m-d');
+                $post['creation_date'] = $creationDate;
                 $question = array(
                     'Question' => array(
                         'client_number' => $notaire->client_number,
                         'sreccn' => $notaire->code_interlocuteur,
                         'resume' => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
-                        'creation_date' => date('Y-m-d H:i:s'),
+                        'creation_date' => $creationDate,
                         'id_support' => $post[CONST_QUESTION_SUPPORT_FIELD],// Support
                         'id_competence_1' => $post[CONST_QUESTION_COMPETENCE_FIELD],// Competence
                         'content' => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD])// Message
@@ -505,14 +507,64 @@ class Question extends MvcModel
                 return $response;
             }
 
-            return array(
-                        'resume'  => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]), // objet
-                        'content' => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]) // Message
-                    );
+            // response data
+            return $this->getResponseData($post);
         } catch(\Exception $e) {
             writeLog( $e,'upload.log' );
             return false;
         }
+    }
+
+    /**
+     * Get response data
+     *
+     * @param array $post
+     * @return array
+     * @throws Exception
+     */
+    protected function getResponseData($post)
+    {
+        // response
+        $response = array(
+            'resume'         => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]), // objet
+            'content'        => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]), // Message
+            'matiere'        => '', // Matiere
+            'competence'     => '', // Competence
+            'support'        => '', // Support
+            'dateSoumission' => $post['creation_date'], // DateSoumission
+        );
+        // matiere
+        $options  = array(
+            'fields'     => 'label',
+            'conditions' => "id = {$post[CONST_QUESTION_MATIERE_FIELD]}",
+            'limit'      => 1,
+        );
+        $matieres = mvc_model('QueryBuilder')->findOne('matiere', $options);
+        if (is_object($matieres) && isset($matieres->label)) {
+            $response['matiere'] = $matieres->label;
+        }
+        // competence
+        $options     = array(
+            'fields'     => 'label',
+            'conditions' => "id = {$post[CONST_QUESTION_COMPETENCE_FIELD]}",
+            'limit'      => 1,
+        );
+        $competences = mvc_model('QueryBuilder')->findOne('competence', $options);
+        if (is_object($competences) && isset($competences->label)) {
+            $response['competence'] = $competences->label;
+        }
+        // support
+        $options  = array(
+            'fields'     => 'label',
+            'conditions' => "id = {$post[CONST_QUESTION_SUPPORT_FIELD]}",
+            'limit'      => 1,
+        );
+        $supports = mvc_model('QueryBuilder')->findOne('support', $options);
+        if (is_object($supports) && isset($supports->label)) {
+            $response['support'] = $supports->label;
+        }
+
+        return $response;
     }
 
     /**
