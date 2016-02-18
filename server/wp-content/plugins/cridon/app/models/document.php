@@ -120,7 +120,7 @@ class Document extends \App\Override\Model\CridonMvcModel {
         // doc list pour log
         $logDocList = array();
         try{
-            
+
             $Directory = new RecursiveDirectoryIterator(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH);
             $Iterator = new RecursiveIteratorIterator($Directory);
             //remove the ending symbol $ as a txt file contains a '0' behind the extension...
@@ -169,7 +169,7 @@ class Document extends \App\Override\Model\CridonMvcModel {
                         // document associé
                         $docs = $this->queryBuilder->find($options);
                         /*
-                         * Type d'action à effectué
+                         * Type d'action à effectuer
                          * 1 : insertion de nouveau document
                          * 2 : insertion de nouveau document suite/complément
                          * 3 : mise à jour du document
@@ -262,6 +262,8 @@ class Document extends \App\Override\Model\CridonMvcModel {
                             rename($document, $archivePath . $fileInfo['basename']);
                             // Mise de la date réelle de réponse de la question
                             $this->updateQuestion($question, $contents);
+                            $documentstoArchive = $this->getDocumentsToArchive($question);
+                            $this->archivePJs($documentstoArchive);
                             $logDocList[] = $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']];
                         } else { // invalide doc
                             // message par défaut
@@ -420,6 +422,56 @@ class Document extends \App\Override\Model\CridonMvcModel {
     }
 
     /**
+     * Get questions->id with documents : PJ and question/reponse
+     * @return array
+     */
+    public function getDocumentsWithPJAndDocAnswer(){
+        $sql = "SELECT DISTINCT d1.id_externe AS id FROM {$this->table} as d1
+                LEFT JOIN {$this->table} as d2 ON d1.id_externe = d2.id_externe
+                WHERE d1.label = 'PJ'
+                AND d2.label = 'question/reponse'
+            ";
+
+        return $questions = $this->wpdb->get_results($sql);
+    }
+
+    /**
+     * Get documents to archive
+     * @param object $question
+     * @return object
+     */
+    public function getDocumentsToArchive($question){
+        if(!empty($question->id)){
+            // recuperation documents PJ pour la question
+            $options               = array();
+            $options['attributes'] = array('id');
+            $options['model']      = 'document';
+            $options['conditions'] = ' id_externe = ' . $question->id . ' AND type="question" AND label = "PJ"';
+
+            // documents associés
+            return $this->queryBuilder->find($options);
+        }
+    }
+
+    /**
+     * Change document type from PJ to Archive
+     * @param object|array $documents
+     */
+    public function archivePJs($documents){
+        foreach ($documents as $document){
+            if(!empty ($document->id)){
+                $docData = array(
+                    'Document' => array(
+                        'id'        => $document->id,
+                        'label' => 'Archive'
+                    )
+                );
+                $this->save($docData);
+            }
+        }
+    }
+
+    /**
      * @return string
      */
     public function getUploadDir()
@@ -444,38 +496,60 @@ class Document extends \App\Override\Model\CridonMvcModel {
     //Encryption
     /**
      * Encrypt value
-     * 
+     *
      * @param string $val
      * @return string
      */
-    public function encryptVal( $val ) {
-	$salt = wp_salt( 'secure_auth' );        
-	$td = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
-        $ks = mcrypt_enc_get_key_size($td);//key size
-	$key = substr(md5($salt),0,$ks);//create key
-	$iv = mcrypt_create_iv (mcrypt_enc_get_iv_size ($td), MCRYPT_RAND);
-	mcrypt_generic_init ($td, $key, $iv);
-	$encrypted_data = mcrypt_generic ($td, $val);
-	mcrypt_generic_deinit ($td);
-	mcrypt_module_close ($td);
-	return trim($this->urlBase64Encode($encrypted_data));
+    public function encryptVal( $val )
+    {
+        try {
+            $salt = wp_salt('secure_auth');
+
+            return $this->mcEncrypt($val, $this->getMcKey($salt));
+        } catch(\Exception $e) {
+            writeLog($e, 'decryptError.log');
+        }
     }
-    
+
     /**
      * Decrypt value
-     * 
+     *
      * @param string $val
      * @return string
      */
-    public function decryptVal( $val ) {
+    public function decryptVal( $val )
+    {
+        try {
+            $salt = wp_salt('secure_auth');
+
+            $decrypted_data = $this->mcDecrypt($val, $this->getMcKey($salt));
+
+            // patch for old url value
+            if (!preg_match(Config::$confPublicDownloadURL['pattern'], $decrypted_data)) {
+                $decrypted_data = $this->decryptOldVal($val);
+            }
+
+            return $decrypted_data;
+        } catch (\Exception $e) {
+            writeLog($e, 'decryptError.log');
+        }
+    }
+
+    /**
+     * Decrypt value
+     *
+     * @param string $val
+     * @return string
+     */
+    public function decryptOldVal( $val ) {
         $salt = wp_salt( 'secure_auth' );
         //Decode base64
         $input = trim($this->urlBase64Decode($val));
-        
+
         /**
          * @see http://php.net/manual/fr/function.mcrypt-module-open.php
          */
-        
+
         $td = mcrypt_module_open (MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
         $ks = mcrypt_enc_get_key_size($td);//key size
         $key = substr(md5($salt),0,$ks);//create key
@@ -487,6 +561,53 @@ class Document extends \App\Override\Model\CridonMvcModel {
         mcrypt_module_close ($td);
         return trim($decrypted_data);
     }
+
+    /**
+     * Get key by escaping size error
+     *
+     * @param string $salt
+     * @return string
+     */
+    protected function getMcKey($salt)
+    {
+        $td   = mcrypt_module_open(MCRYPT_RIJNDAEL_256, '', MCRYPT_MODE_ECB, '');
+        $ks   = mcrypt_enc_get_key_size($td);//key size
+        $key  = substr(md5($salt), 0, $ks);//create key
+
+        mcrypt_module_close($td);
+
+        return $key;
+    }
+
+    /**
+     * Encrypt string
+     *
+     * @param string $encrypt
+     * @param string $mc_key
+     * @return string
+     */
+    protected function mcEncrypt($encrypt, $mc_key)
+    {
+        $passcrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($mc_key), $encrypt, MCRYPT_MODE_CBC, md5(md5($mc_key)));
+        $encode = $this->urlBase64Encode($passcrypt);
+
+        return $encode;
+    }
+
+    /**
+     * Decrypt string
+     *
+     * @param string $decrypt
+     * @param string $mc_key
+     * @return string
+     */
+    protected function mcDecrypt($decrypt, $mc_key)
+    {
+        $decoded = $this->urlBase64Decode($decrypt);
+        $decrypted = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($mc_key), $decoded, MCRYPT_MODE_CBC, md5(md5($mc_key))));
+
+        return $decrypted;
+    }
     
     /**
      * Encode in Base64
@@ -494,12 +615,13 @@ class Document extends \App\Override\Model\CridonMvcModel {
      * @param string $str
      * @return string
      */
-    public function urlBase64Encode($str){
-	return strtr(base64_encode($str),
+    public function urlBase64Encode($str)
+    {
+        return strtr(base64_encode($str),
             array(
-		'/' => '~'
+                '/' => '~'
             )
-	);
+        );
     }
     
     /**
@@ -508,18 +630,26 @@ class Document extends \App\Override\Model\CridonMvcModel {
      * @param string $str
      * @return string
      */
-    public function urlBase64Decode($str){
+    public function urlBase64Decode($str)
+    {
         return base64_decode(strtr($str,
-            array(
-                '~' => '/'
+                array(
+                    '~' => '/'
                 )
             )
         );
-    }    
+    }
 
     public function generatePublicUrl( $id ){
         $url = Config::$confPublicDownloadURL['url'].$id;
-        return '/telechargement/'.$this->encryptVal($url);
+
+        // log error
+        $encrypted = $this->encryptVal($url);
+        if(!preg_match(Config::$confPublicDownloadURL['pattern'], $this->decryptVal($encrypted), $matches)){
+            writeLog('Impossible de decrypter l\url du document avec id = ' . $id . ' / url = ' . $url, 'decryptValError.log');
+        }
+
+        return '/telechargement/'.$encrypted;
     }
 //End Encryption
 }

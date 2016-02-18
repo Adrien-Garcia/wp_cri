@@ -202,7 +202,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
                         $documents = $question->documents;
                     ?>
                     <?php foreach($documents as $document): ?>
-                        <?php if( !($document->label == 'Suite') && !($document->label == 'Complément') ): ?>
+                        <?php if( !($document->label == 'Suite') && !($document->label == 'Complément') && !($document->label == 'Archive')): ?>
                             <?php
                             $options = array(
                                 'controller' => 'documents',
