@@ -316,12 +316,6 @@ class Config {
 
     // Notification for posted question
     public static $mailBodyQuestionConfirmation  = array(
-        'subject'   => 'Confirmation question posée sur le site de Cridon',
-        'message'   => '<p>Bonjour,
-                            <br><br>Votre question a été bien enregistrée dont voici les informations concernant :
-                            <br><strong>Objet</strong> : %s
-                            <br><strong>Prénom du notaire</strong> : %s
-                            <br><strong>Nom du notaire</strong> : %s
-                        </p>'
+        'subject'   => 'Confirmation question posée sur le site de Cridon'
     );
 }
