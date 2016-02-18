@@ -269,20 +269,8 @@ class CridonTools {
                     $payload['dest'] = $message['urlnotaire'];
                     $payload = json_encode($payload);
 
-                    // by default mode sandbox
-                    $apns_url = CONST_APNS_SANDBOX_URL;
-                    // APNS sandbox certificat
-                    $apns_cert = CONST_APNS_SANDBOX_PEM;
-
-                    // set server by env
-                    $env = getenv('ENV');
-                    if ($env === 'PROD') {
-                        $apns_url  = CONST_APNS_PROD_URL;
-                        $apns_cert = CONST_APNS_PROD_PEM;
-                    }
-
-                    if (!file_exists($apns_cert)) { // certificat introuvable
-                        $error = sprintf(CONST_NOTIFICATION_ERROR, 'certificat introuvable : ' . $apns_cert);
+                    if (!file_exists(CONST_APNS_PEM)) { // certificat introuvable
+                        $error = sprintf(CONST_NOTIFICATION_ERROR, 'certificat introuvable : ' . CONST_APNS_PEM);
                         writeLog($error, 'pushnotification.log');
 
                         // stop process
@@ -291,10 +279,10 @@ class CridonTools {
 
                     if (is_array($registration_ids)) {
                         $stream_context = stream_context_create();
-                        stream_context_set_option($stream_context, 'ssl', 'local_cert', $apns_cert);
+                        stream_context_set_option($stream_context, 'ssl', 'local_cert', CONST_APNS_PEM);
                         stream_context_set_option($stream_context, 'ssl', 'passphrase ', CONST_APNS_PASSPHRASE);
 
-                        $apns = stream_socket_client('ssl://' . $apns_url . ':' . CONST_APNS_PORT, $error, $error_string, 60, STREAM_CLIENT_CONNECT, $stream_context);
+                        $apns = stream_socket_client('ssl://' . CONST_APNS_URL . ':' . CONST_APNS_PORT, $error, $error_string, 60, STREAM_CLIENT_CONNECT, $stream_context);
                         if ($apns) {
                             if ($badge > 0) { // verification badge
                                 foreach ($registration_ids as $device_token) {

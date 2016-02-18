@@ -602,7 +602,20 @@ if ( !defined( 'CONST_EMPTY_SUBACTIVITY_ERROR_MSG' ) ) {
 
 // Push Notification
 if ( !defined( 'CONST_GOOGLE_API_KEY' ) ) {
-    define( 'CONST_GOOGLE_API_KEY', 'AIzaSyBh_fFDWcD41pxxbA4pHnYliP48K6BkBYw' );
+    switch ($env) {
+        case PROD:
+            $key =  'AIzaSyBh_fFDWcD41pxxbA4pHnYliP48K6BkBYw';
+            break;
+        case PREPROD:
+        case DEV:
+            $key = '';
+            break;
+        case LOCAL:
+        default:
+            $key = '';
+            break;
+    }
+    define( 'CONST_GOOGLE_API_KEY', $key );
 }
 if ( !defined( 'CONST_GOOGLE_GCM_URL' ) ) {
     // alternative fournit par d'autre documentation : https://gcm-http.googleapis.com/gcm/send
@@ -622,27 +635,61 @@ if ( !defined( 'CONST_NOTIFICATION_CONTENT_MSG' ) ) {
 }
 // APNS passphrase ( obtenu lors de la generation du Certificat )
 if ( !defined( 'CONST_APNS_PASSPHRASE' ) ) {
-    define( 'CONST_APNS_PASSPHRASE', 'mahery' );
+    switch ($env) {
+        case PROD:
+            $pass =  'mahery';
+            break;
+        case PREPROD:
+            $pass = '';
+            break;
+        case DEV:
+        case LOCAL:
+        default:
+            $pass = '';
+            break;
+    }
+    define( 'CONST_APNS_PASSPHRASE', $pass );
 }
 // APNS port
 if ( !defined( 'CONST_APNS_PORT' ) ) {
     define( 'CONST_APNS_PORT', 2195 );
 }
-// APNS Sandbox certificat path ( fichier à generer et emplacement à definir ici )
-if ( !defined( 'CONST_APNS_SANDBOX_PEM' ) ) {
-    define( 'CONST_APNS_SANDBOX_PEM', WP_PLUGIN_DIR . '/cridon/app/apns/ck.pem' );
+if ( !defined( 'CONST_APNS_PEM' ) ) {
+    switch ($env) {
+        case PROD:
+            // APNS Prod certificat path ( fichier à generer )
+            $pem =  WP_PLUGIN_DIR . '/cridon/app/apns/ckprod.pem';
+            break;
+        case PREPROD:
+            // APNS Sandbox certificat path ( fichier à generer et emplacement à definir ici )
+            $pem = WP_PLUGIN_DIR . '/cridon/app/apns/ck.pem';
+            break;
+        case DEV:
+        case LOCAL:
+        default:
+            $pem = '';
+            break;
+    }
+    define( 'CONST_APNS_PEM', $pem );
 }
-// APNS Prod certificat path ( fichier à generer )
-if ( !defined( 'CONST_APNS_PROD_PEM' ) ) {
-    define( 'CONST_APNS_PROD_PEM', WP_PLUGIN_DIR . '/cridon/app/apns/ckprod.pem' );
-}
-// APNS Sandbox URL
-if ( !defined( 'CONST_APNS_SANDBOX_URL' ) ) {
-    define( 'CONST_APNS_SANDBOX_URL', 'gateway.sandbox.push.apple.com' );
-}
-// APNS Prod URL
-if ( !defined( 'CONST_APNS_PROD_URL' ) ) {
-    define( 'CONST_APNS_PROD_URL', 'gateway.push.apple.com' );
+
+if ( !defined( 'CONST_APNS_URL' ) ) {
+    switch ($env) {
+        case PROD:
+            // APNS Prod URL
+            $apns_url = 'gateway.push.apple.com';
+            break;
+        case PREPROD:
+            // APNS Sandbox URL
+            $apns_url = 'gateway.sandbox.push.apple.com';
+            break;
+        case DEV:
+        case LOCAL:
+        default:
+            $apns_url = '';
+            break;
+    }
+    define( 'CONST_APNS_URL', $apns_url );
 }
 
 // End of block for mobile
