@@ -397,3 +397,24 @@ function custom_map_meta_cap( $caps, $cap, $user_id, $args ) {
     return $caps;
 }
 add_filter( 'map_meta_cap', 'custom_map_meta_cap', 10, 4 );
+
+/**
+ * Hook for initializing session data if not is set
+ */
+function cri_session_start() {
+    if (!session_id()) {
+        @session_start();
+    }
+}
+add_action('init', 'cri_session_start', 1);
+
+/**
+ * Hook wp_logout
+ * Destruction des filtres des veilles avec la session utilisateur
+ */
+function cri_unset_veilles_criteria() {
+    if ( isset( $_SESSION['SESS_VEILLES_CRITERIA'] ) ) {
+        unset( $_SESSION['SESS_VEILLES_CRITERIA'] );
+    }
+}
+add_action('wp_logout', 'cri_unset_veilles_criteria');
