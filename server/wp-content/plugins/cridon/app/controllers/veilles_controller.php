@@ -40,7 +40,7 @@ class VeillesController extends BaseActuController {
         $this->matieres = Matiere::getMatieresByModelPost($veille);
         if ( isset($_GET['matieres']) && is_array($_GET['matieres']) && count($_GET['matieres']) > 0 ) {
             // apply filters
-            $this->applyFilters($_GET['matieres'], $this->matieres);
+            $this->applyFilters($_GET['matieres']);
 
             // store criteria into session
             $session->write('SESS_VEILLES_CRITERIA', base64_encode(serialize($this->virtualNames)));
@@ -83,10 +83,9 @@ class VeillesController extends BaseActuController {
      * Apply criteria filters
      *
      * @param array $criteria
-     * @param mixed $matieres
      * @throws Exception
      */
-    protected function applyFilters($criteria, $matieres)
+    protected function applyFilters($criteria)
     {
         if (count($criteria) === 1) {
             $this->currentMatSelectedModel = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($criteria[0])));
@@ -98,14 +97,13 @@ class VeillesController extends BaseActuController {
         foreach ($criteria as $mat){
             $this->virtualNames[] = esc_sql(strip_tags($mat));
         }
-        foreach($matieres as $mat){
+        foreach($this->matieres as $mat){
             if( in_array($mat->virtual_name, $this->virtualNames) ){
                 $mat->filtered = true;
             }else{
                 $mat->filtered = false;
             }
         }
-        $this->matieres = $matieres;
         $this->params['conditions'] = array(
             'Matiere.virtual_name'=> $this->virtualNames
         );
