@@ -37,6 +37,8 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}', array('controller' => 'notaire
 MvcRouter::public_connect('medias/rss/actualites.xml', array( 'controller' =>'veilles','action' => 'feed'));
 MvcRouter::public_connect('medias/rss/{:id:[\d]+}', array( 'controller' =>'veilles','action' => 'feedFilter'));
 
+// reset criteria for "veilles"
+MvcRouter::public_connect('toute-la-veille', array('controller' => 'veilles', 'action' => 'resetCriteria'));
 // archives routes
 MvcRouter::public_connect('flashes', array('controller' => 'flashes', 'action' => 'index'));
 MvcRouter::public_connect('formations', array('controller' => 'formations', 'action' => 'index'));

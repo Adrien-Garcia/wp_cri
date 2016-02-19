@@ -399,7 +399,7 @@ function custom_map_meta_cap( $caps, $cap, $user_id, $args ) {
 add_filter( 'map_meta_cap', 'custom_map_meta_cap', 10, 4 );
 
 /**
- * Hook for initializing session data if not is set
+ * Hook for initializing session data if is not set
  */
 function cri_session_start() {
     if (!session_id()) {

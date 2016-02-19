@@ -17,47 +17,110 @@ class VeillesController extends BaseActuController {
     //unique matiere selected, default null
     protected static $currentMatiereSelected = null;
 
+    /**
+     * @var \Matiere
+     */
+    protected $currentMatSelectedModel;
+
+    /**
+     * @var array
+     */
+    protected $virtualNames = array();
+
+    /**
+     * @var mixed
+     */
+    protected $matieres;
+
     public function index() {
+        // session instance
+        $session = new CriSession();
+
         $veille = new Veille;
-        $matieres = Matiere::getMatieresByModelPost($veille);
-        if ( isset($_GET['matieres']) && !empty($_GET['matieres']) && is_array($_GET['matieres']) ) {
-            if (count($_GET['matieres']) === 1) {
-                $matiere = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($_GET['matieres'][0])));
-                if ($matiere) {
-                    self::$currentMatiereSelected = $matiere;
+        $this->matieres = Matiere::getMatieresByModelPost($veille);
+        if ( isset($_GET['matieres']) && is_array($_GET['matieres']) && count($_GET['matieres']) > 0 ) {
+            // apply filters
+            $this->applyFilters($_GET['matieres'], $this->matieres);
+
+            // store criteria into session
+            $session->write('SESS_VEILLES_CRITERIA', base64_encode(serialize($this->virtualNames)));
+        } else {
+            // check filters from session
+            if ($session_criteria = $session->read('SESS_VEILLES_CRITERIA')) {
+                $criteria = unserialize(base64_decode($session_criteria));
+                // prepare url GET params
+                $url = '';
+                if (is_array($criteria) && count($criteria) > 0) {
+                    foreach ($criteria as $key => $virtualName) {
+                        $url .= ($key == 0) ? '?matieres[]=' . $virtualName : '&matieres[]=' . $virtualName;
+                    }
                 }
-            }
-            $virtual_names = array();
-            foreach ($_GET['matieres'] as $mat){
-                $virtual_names[] = esc_sql(strip_tags($mat));
-            }
-            foreach($matieres as $mat){
-                if( in_array($mat->virtual_name,$virtual_names) ){
-                    $mat->filtered = true;
-                }else{
+                // redirect to the right url ( with list of 'matieres' params )
+                if ($url != '') {
+                    $this->redirect(mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url);
+                }
+            } else {
+                foreach ($this->matieres as $mat) {
                     $mat->filtered = false;
                 }
             }
-            $this->params['conditions'] = array(
-                'Matiere.virtual_name'=> $virtual_names
-            );
-        } else {
-            foreach($matieres as $mat){
-                $mat->filtered = false;
-            }
         }
-        if ($matiere) {
-            self::$currentMatiereSelected = $matiere;
-            $this->set('h1', $matiere->label);
+        if ($this->currentMatSelectedModel) {
+            self::$currentMatiereSelected = $this->currentMatSelectedModel;
+            $this->set('h1', $this->currentMatSelectedModel->label);
         } else {
             $this->set('h1', Config::$listingVeille['h1']);
         }
         $collection = $this->model->getList($this->params);
         //selected matiere
-        $this->set('matieres', $matieres);
+        $this->set('matieres', $this->matieres);
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
         add_action('wp_head', array($this, 'addMetaHeader') );//hook WP to append in header
+    }
+
+    /**
+     * Apply criteria filters
+     *
+     * @param array $criteria
+     * @param mixed $matieres
+     * @throws Exception
+     */
+    protected function applyFilters($criteria, $matieres)
+    {
+        if (count($criteria) === 1) {
+            $this->currentMatSelectedModel = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($criteria[0])));
+            if ($this->currentMatSelectedModel) {
+                self::$currentMatiereSelected = $this->currentMatSelectedModel;
+            }
+        }
+
+        foreach ($criteria as $mat){
+            $this->virtualNames[] = esc_sql(strip_tags($mat));
+        }
+        foreach($matieres as $mat){
+            if( in_array($mat->virtual_name, $this->virtualNames) ){
+                $mat->filtered = true;
+            }else{
+                $mat->filtered = false;
+            }
+        }
+        $this->matieres = $matieres;
+        $this->params['conditions'] = array(
+            'Matiere.virtual_name'=> $this->virtualNames
+        );
+    }
+
+    /**
+     * Resete veilles filter and redirect to the archives page
+     */
+    public function resetCriteria()
+    {
+        $session = new CriSession();
+
+        $session->delete('SESS_VEILLES_CRITERIA');
+
+        $this->redirect(mvc_public_url(array('controller' => 'veilles', 'action' => 'index')));
     }
 
     public  function addMetaHeader() {
