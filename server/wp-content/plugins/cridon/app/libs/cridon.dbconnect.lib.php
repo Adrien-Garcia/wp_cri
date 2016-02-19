@@ -446,6 +446,37 @@ interface DBConnect
     const ZQUEST_CREDAT_0  = 'CREDAT_0';
 
     /**
+     * @var string : Lien fichier complémentaire (contrainte EPR Oracle)
+     */
+    const ZQUEST_ZLIENS_0 = 'ZLIENS_0';
+
+    /**
+     * @var string : Lien fichier complémentaire (contrainte EPR Oracle)
+     */
+    const ZQUEST_ZLIENS_1 = 'ZLIENS_1';
+
+    /**
+     * @var string : Lien fichier complémentaire (contrainte EPR Oracle)
+     */
+    const ZQUEST_ZLIENS_2 = 'ZLIENS_2';
+
+    /**
+     * @var string : Lien fichier complémentaire (contrainte EPR Oracle)
+     */
+    const ZQUEST_ZLIENS_3 = 'ZLIENS_3';
+
+    /**
+     * @var string : Lien fichier complémentaire (contrainte EPR Oracle)
+     */
+    const ZQUEST_ZLIENS_4 = 'ZLIENS_4';
+
+    /**
+     * @var string : Contenu de la question
+     */
+    const ZQUEST_ZTXTQUEST_0 = 'ZTXTQUEST_0';
+
+
+    /**
      * Get instance
      *
      * @return mixed Connector, such as CridonODBCAdapter
