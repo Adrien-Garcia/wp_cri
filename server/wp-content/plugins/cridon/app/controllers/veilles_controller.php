@@ -22,7 +22,8 @@ class VeillesController extends BaseActuController {
         $matieres = Matiere::getMatieresByModelPost($veille);
         if ( isset($_GET['matieres']) && !empty($_GET['matieres']) && is_array($_GET['matieres']) ) {
             if (count($_GET['matieres']) === 1) {
-                $matiere = mvc_model('matiere')->find_one_by_virtual_name(esc_sql(strip_tags($_GET['matieres'][0])));
+                $options['where'] = 'Matiere.virtual_name = \''.esc_sql(strip_tags($_GET['matieres'][0])).'\'';
+                $matiere = mvc_model('matiere')->findOneBy($options);
                 if ($matiere) {
                     self::$currentMatiereSelected = $matiere;
                 }
@@ -52,6 +53,7 @@ class VeillesController extends BaseActuController {
         } else {
             $this->set('h1', Config::$listingVeille['h1']);
         }
+        add_action('wp_head', array($this,'rssVeilles'));
         $collection = $this->model->getList($this->params);
         //selected matiere
         $this->set('matieres', $matieres);
@@ -120,6 +122,25 @@ class VeillesController extends BaseActuController {
             }
         }
     }
+
+    public function rssVeilles(){
+        if (!empty(self::$currentMatiereSelected)) {
+            $title = sprintf(Config::$rss['title_mat'],self::$currentMatiereSelected->label);
+            $feed = mvc_public_url(array('controller' => 'veilles','action' =>'feedFilter', 'id' =>self::$currentMatiereSelected->id));
+        } else {
+            $title = Config::$rss['title'];
+            $feed = mvc_public_url(array('controller' => 'veilles','action' =>'feed'));
+        }
+
+        $options = array(
+            'locals' => array(
+                'title'         => $title,
+                'feed'          => $feed
+            )
+        );
+        $this->render_view_with_view_vars('layouts/rssLink', $options);
+    }
+
     //RSS feed
     public function feed(){
         $options = array();
@@ -131,7 +152,7 @@ class VeillesController extends BaseActuController {
             'Post.post_status'=>'publish'
         );
         //Order by date publish
-        $$options['order'] = 'Post.post_date DESC' ;
+        $options['order'] = 'Post.post_date DESC' ;
         $title = Config::$rss['title'];//Title of RSS
         $objects = $this->model->find($options);
         $this->set('title',$title);

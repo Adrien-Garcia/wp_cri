@@ -307,6 +307,16 @@ class Config {
     );
     public static $dateTitleMetabox = 'Date de formation';// Titre du metabox date de formation
 
+    public static $contentWithAddress = array(
+        'formations',
+    );
+    // Titre des metabox - adresse de formation
+    public static $addressTitleMetabox = array(
+        'address' => 'Adresse de la formation',
+        'postal_code' => 'Code postal de la formation',
+        'town' => 'Ville de la formation'
+    ) ;
+
     //Label des affectations sur les questions
     public static $labelAffection = array(
         1 => 'Question transmise',
@@ -335,7 +345,7 @@ class Config {
     //RSS
     public static $rss = array(
         'title'         => 'Flux RSS des veilles',//all
-        'title_mat'     => '%s',//filtered
+        'title_mat'     => 'Flux RSS : %s',//filtered
         'description'   => ''
     );
     //End RSS
