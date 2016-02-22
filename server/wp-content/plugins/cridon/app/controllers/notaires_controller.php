@@ -26,21 +26,6 @@ class NotairesController extends BasePublicController
     }
 
     /**
-     * Generate error
-     *
-     * @global \WP_Query $wp_query
-     */
-    private function generateError(){
-        global $wp_query;
-        header("HTTP/1.0 404 Not Found - Archive Empty");
-        $wp_query->set_404();
-        if( file_exists(TEMPLATEPATH.'/404.php') ){
-            require TEMPLATEPATH.'/404.php';
-        }
-        exit;
-    }
-
-    /**
      * Secure Access Page
      *
      * @return void
