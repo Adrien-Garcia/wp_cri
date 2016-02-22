@@ -124,8 +124,8 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 <li> <a href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions/#historique-questions">Toutes mes questions</a></li>
                 <li>
                     <span class="titre">Période :</span>
-                    <p class="du">Du <input name="d1" type="date" id="datefrom" class="datepicker js-account-du-filter" value="<?php echo $_GET['d1'] ; ?>" /></p>
-                    <p class="au">Au <input name="d2" type="date" id="dateto" class="datepicker js-account-au-filter" value="<?php echo $_GET['d2'] ; ?>" /></p>
+                    <p class="du">Du <input name="d1" type="text" id="datefrom" class="datepicker js-account-du-filter" value="<?php echo $_GET['d1'] ; ?>" /></p>
+                    <p class="au">Au <input name="d2" type="text" id="dateto" class="datepicker js-account-au-filter" value="<?php echo $_GET['d2'] ; ?>" /></p>
                 </li>
                 <li>
                     <span class="titre">Matière :</span>
