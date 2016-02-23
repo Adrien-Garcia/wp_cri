@@ -19,7 +19,7 @@ body {
   	background: #FFF;
 }
 
-.breadcrumbs{display: none!important;}
+//.breadcrumbs{display: none!important;}
 
 /*********************
 LAYOUT & GRID STYLES
@@ -2942,6 +2942,8 @@ body.single #content {
 
 	padding: 60px 0 0 0;
 	background: #FFF;
+
+
 	
 
 	.breadcrumbs{
@@ -2989,7 +2991,9 @@ body.single #content {
 
 		}
 
-		.h1{
+		
+
+		.h1, h1{
 			@extend .do-sm;
 			font-size: 30px;
 			line-height: 30px;
@@ -3000,6 +3004,7 @@ body.single #content {
 			text-align: center;
 			position: relative;
 			display: block;
+
 
 			&:before{
 				display:block;
@@ -3284,11 +3289,42 @@ body.single #content {
 
 		#inner-content{
 
-			h1{}
+			h1{
+				float: left;
+			}
+
+			a.logout{
+				color:$rouge;
+				background: none;
+				display: inline-block;
+				width: auto;
+				text-transform: none;
+				font-size: 14px;
+				@extend .do-el;
+				float: none;
+				margin: 0;
+				padding: 0;
+				text-align: left;
+				border-bottom:solid 1px $rouge;
+				height: auto;
+				line-height: 18px;
+				text-decoration: none;
+				float: right;
+				margin-bottom: 20px;
+
+				&:after{ display: none;}
+
+				&:hover{
+					border-bottom:solid 1px #FFF;
+					color:$rouge;
+				}
+			}
 
 			> ul{
 				margin:40px 0 40px 0;
 				padding: 0;
+				clear: both;
+				float: none;
 
 				>li{
 					margin: 0;

@@ -62,8 +62,8 @@ echo get_template_part("content","ga");
 			<div class="header-sup">
 				<div id="inner-header" class="wrap cf">
 					<div class="logo-partenaires">
-						<img src="" alt="">
-						<img src="" alt="">
+						<a href="http://www.lexbase.fr/" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/library/images/origin/logo-lexbase.png" alt="lexbase"></a>
+						<a href="http://www.wolterskluwerfrance.fr/" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/library/images/origin/logo-woltersKluwer.png" alt=""></a>
 					</div>
 					<a href="/rechercher-dans-les-bases-de-connaissances/" class="rechercher">
 						<?php _e('Rechercher dans les bases de connaissances'); ?>
@@ -76,12 +76,23 @@ echo get_template_part("content","ga");
 					</a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
 						<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="#">
-							<?php _e('acceder à mon compte'); ?>
+							<?php _e('acceder à mon compte'); ?>							
 						</a>
 					<?php else: ?>
-						<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="/notaires/<?php echo CriNotaireData()->id ?>/">
-							<?php _e('acceder à mon compte'); ?>
-						</a>
+					<ul id="acceder-compte">
+						<li>
+							<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="/notaires/<?php echo CriNotaireData()->id ?>/">
+								<?php _e('acceder à mon compte'); ?>
+							</a>
+							<ul class="logout-2">
+								<li>
+									<a href="/wp-login.php?action=logout" target="_blank" >
+										<?php _e('Se déconnecter'); ?>
+									</a>
+								</li>
+							</ul>							
+						</li>						
+					</ul>
 					<?php endif; ?>
 				</div>
 			</div>
