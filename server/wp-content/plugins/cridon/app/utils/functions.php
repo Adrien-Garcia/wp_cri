@@ -776,61 +776,62 @@ function updateEmptyDownloadUrlFieldsDocument() {
 /**
  * Custom breadcrumbs
  */
-function CriBreadcrumb() {
+function CriBreadcrumb()
+{
     global $post,
            $mvc_params;
 
     // prepare vars
     $home        = new stdClass();
+    // title of level 1
     $home->title = 'Accueil';
     $home->url   = home_url();
     $vars        = array(
-        'breadcrumb'        => array($home),
-        'separator'         => ' + ',
-        'containerId'       => 'inner-content',
-        'containerClass'    => 'wrap cf'
+        'breadcrumbs' => array($home),
+        'separator'   => ' + ',
     );
 
     if (is_mvc_page()) { // WPMVC page (single, archives,...)
         if (isset($mvc_params['action']) && $mvc_params['action']) {
             if ($mvc_params['controller'] == 'notaires') { // page notaire
                 // archive model
-                $archive              = new stdClass();
-                $archive->title       = 'Mon compte';
-                $archive->url         = mvc_public_url(array(
-                    'controller' => $mvc_params['controller']
-                ));
-                $vars['breadcrumb'][] = $archive;
+                $archive               = new stdClass();
+                $archive->title        = 'Mon compte';
+                $archive->url          = mvc_public_url(array(
+                                                            'controller' => $mvc_params['controller']
+                                                        ));
+                $vars['breadcrumbs'][] = $archive;
             } else {
                 // archive model
-                $archive              = new stdClass();
-                $archive->title       = isset(Config::$breadcrumbModelParams[$mvc_params['controller']]) ?
-                    Config::$breadcrumbModelParams[$mvc_params['controller']] : ucfirst($mvc_params['controller']);
-                $archive->url         = mvc_public_url(array(
-                    'controller' => $mvc_params['controller']
-                ));
-                $vars['breadcrumb'][] = $archive;
+                $archive               = new stdClass();
+                // title of level 2 : retrieves from config if isset or uses controller name from params
+                $archive->title        = isset(Config::$breadcrumbModelParams[$mvc_params['controller']]) ? Config::$breadcrumbModelParams[$mvc_params['controller']] : ucfirst($mvc_params['controller']);
+                $archive->url          = mvc_public_url(array(
+                                                            'controller' => $mvc_params['controller']
+                                                        ));
+                $vars['breadcrumbs'][] = $archive;
 
                 // single model
                 if (isset($mvc_params['id']) && $mvc_params['id']) {
-                    $singles              = mvc_model('QueryBuilder')->getPostByMVCParams();
-                    $single               = new stdClass();
-                    $single->title        = isset($singles->post_title) ? $singles->post_title : '';
-                    $single->url          = mvc_public_url(array(
-                        'controller' => $mvc_params['controller'],
-                        'action'     => $mvc_params['action'],
-                        'id'         => $mvc_params['id'],
-                    ));
-                    $vars['breadcrumb'][] = $single;
-                    $vars['containerId']  = '';
+                    $singles               = mvc_model('QueryBuilder')->getPostByMVCParams();
+                    $single                = new stdClass();
+                    // title of level 3
+                    $single->title         = isset($singles->post_title) ? $singles->post_title : '';
+                    $single->url           = mvc_public_url(array(
+                                                                'controller' => $mvc_params['controller'],
+                                                                'action'     => $mvc_params['action'],
+                                                                'id'         => $mvc_params['id'],
+                                                            ));
+                    $vars['breadcrumbs'][] = $single;
+                    $vars['containerId']   = '';
                 }
             }
         }
     } elseif ((is_single() || is_page()) && !is_attachment()) { // page or post single
-        $single              = new stdClass();
-        $single->title       = $post->post_title;
-        $single->url         = get_the_permalink($post->ID);
-        $vars['breadcrumb'][] = $single;
+        $single                = new stdClass();
+        $single->title         = $post->post_title;
+        $single->url           = get_the_permalink($post->ID);
+        $vars['breadcrumbs'][] = $single;
     }
 
     // render view
