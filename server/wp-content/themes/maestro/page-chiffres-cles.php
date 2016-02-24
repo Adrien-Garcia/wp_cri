@@ -9,9 +9,8 @@
 	<div id="content" class="page">
 
 		<div class="breadcrumbs">
-			<div id="inner-content" class="wrap cf">
-				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
-				<a href="#" title="">Accueil</a> + <span>Mon compte</span>
+			<div class="wrap cf">
+				<?php if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
 			</div>
 		</div>
 

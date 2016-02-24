@@ -1,11 +1,10 @@
 <?php get_header(); ?>
 
 	<div id="content" class="archive archive-flash">
-				
+
 		<div class="breadcrumbs">
-			<div id="inner-content" class="wrap cf">
-				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
-				<a href="#" title="">Accueil</a>  +  <a href="#" title=""> Accéder aux bases de connaisances </a>  +  <span>Flash</span>
+			<div class="wrap cf">
+				<?php if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
 			</div>
 		</div>
 
