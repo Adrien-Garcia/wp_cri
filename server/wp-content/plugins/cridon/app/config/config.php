@@ -313,4 +313,17 @@ class Config {
         'read_private_posts',
         'read_private_pages',
     );
+
+    // Content qualified by a "Niveau"
+    public static $contentWithLevel = array(
+        'veilles',
+    );
+    // level meta_box title
+    public static $titleLevelMetabox = 'Niveau de %s';
+    // list of level
+    public static $listOfLevel = array(
+    	'Niveau 1' => 1,
+    	'Niveau 2' => 2,
+    	'Niveau 3' => 3,
+    );
 }
