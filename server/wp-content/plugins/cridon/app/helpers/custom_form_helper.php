@@ -43,11 +43,7 @@ class CustomFormHelper extends MvcFormHelper {
             $html .= ' enctype="multipart/form-data"';
         }
 
-        if ($options['public']) {
-            $html .= ' method="post">';
-        } else {
-            $html .= ' method="post">';
-        }
+        $html .= ' method="post">';
 
         if ($object_id) {
             $html .= '<input type="hidden" id="'.$this->input_id('hidden_id').'" name="'.$this->input_name('id').'" value="'.$object_id.'" />';

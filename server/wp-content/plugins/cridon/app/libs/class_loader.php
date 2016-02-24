@@ -13,3 +13,7 @@ require_once 'cridon.odbcadapter.lib.php';
 
 //OCI
 require_once 'cridon.oci.lib.php';
+
+// autoloader for namespace
+require_once __DIR__ . '/../override/Autoloader.php';
+\App\Override\Autoloader::register();

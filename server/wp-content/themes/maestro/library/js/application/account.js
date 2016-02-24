@@ -23,6 +23,12 @@ App.Account = {
     ajaxPaginationSelector              : '-pagination',
     paginationSelector                  : '.page-numbers',
 
+    accountFilterFormSelector          : '-form',
+    accountFilterSelector              : '-filter',
+    accountFilterDateDuSelector        : '-du',
+    accountFilterDateAuSelector        : '-au',
+    accountFilterSelectMatiereSelector : '-matiere',
+
     accountSoldeDataSelector            : '#js-solde-data',
     accountSoldeSVGSelector             : '#solde-circle-path',
 
@@ -52,6 +58,11 @@ App.Account = {
     $accountProfilNewsletterMessage     : null,
     $accountProfilNewsletterEmail       : null,
     $accountProfilNewsletterState       : null,
+
+    $formQuestionFilter                 : null,
+    $dateQuestionFilterDu               : null,
+    $dateQuestionFilterAu               : null,
+    $selectQuestionFilterMatiere        : null,
 
     $accountQuestionPagination          : null,
 
@@ -120,10 +131,16 @@ App.Account = {
         var d = this.defaultSelector;
         var a = this.ajaxSelector;
         var b = this.eventAccountButtonSelector;
+        var f = this.accountFilterSelector;
 
         this.$accountQuestionPagination = $(d + a + this.ajaxPaginationSelector).find(this.paginationSelector);
 
         this.$accountQuestionMoreButton = $(d + this.accountQuestionSelector + this.accountQuestionMoreSelector + b);
+
+        this.$formQuestionFilter = $(d + this.accountFormSelector + f);
+        this.$dateQuestionFilterAu = $(d + this.accountFilterDateAuSelector + f);
+        this.$dateQuestionFilterDu = $(d + this.accountFilterDateDuSelector + f);
+        this.$selectQuestionFilterMatiere = $(d + this.accountFilterSelectMatiereSelector + f);
 
         this.$accountQuestionMoreButton.each((function(i, el) {
             var h = $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).find('ul').first().outerHeight();
@@ -134,7 +151,11 @@ App.Account = {
 
         }
         else{
+            $.datepicker.setDefaults({
+                dateFormat: "dd/mm/yy"
+            });
             $( ".datepicker" ).datepicker();
+            $( ".datepicker" ).datepicker("option", "dateFormat" , "dd/mm/yy");
         }
 
         this.addListenersQuestions();
@@ -232,6 +253,13 @@ App.Account = {
 
         this.$accountQuestionMoreButton.on('click', function (e) {
             self.eventAccountQuestionMoreToggle($(this));
+        });
+
+        this.$selectQuestionFilterMatiere
+            .add(this.$dateQuestionFilterAu)
+            .add(this.$dateQuestionFilterDu)
+            .on('change', function (e) {
+            self.eventQuestionFilter($(this));
         });
 
     },
@@ -416,6 +444,29 @@ App.Account = {
         }
 
         return false;
+    },
+
+    eventQuestionFilter: function () {
+        var formdata = new FormData();
+        this.$formQuestionFilter.submit();
+        return;
+        /*formdata.append("action", this.$formQuestionFilter[0].action);
+        formdata.append("m", this.$selectQuestionFilterMatiere.first().val() );
+        formdata.append("d1", this.$dateQuestionFilterDu.first().val() );
+        formdata.append("d2", this.$dateQuestionFilterAu.first().val() );
+
+        jQuery.ajax({
+            type: 'POST',
+            url: this.$formQuestionFilter[0].action,
+            data: formdata,
+            processData: false,
+            contentType: false,
+            success: this.successQuestionFilter.bind(this)
+        });*/
+    },
+
+    successQuestionFilter: function (data) {
+
     },
 
     successNewsletterToggle: function (data) {

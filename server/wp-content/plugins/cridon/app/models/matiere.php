@@ -1,21 +1,21 @@
 <?php
 
-class Matiere extends MvcModel
+class Matiere extends \App\Override\Model\CridonMvcModel
 {
     var $display_field  = 'label';
     var $table          = '{prefix}matiere';
     var $has_many       = array(
         'Competence' => array(
-            'foreign_key' => 'code_matiere'
+            'foreign_key' => 'code'
         ),
-        'veilles' => array(
-            'foreign_key' => 'id_matiere'
+        'Veille' => array(
+            'foreign_key' => 'id'
         ),
-        'flashes' => array(
-            'foreign_key' => 'id_matiere'
+        'Flash' => array(
+            'foreign_key' => 'id'
         ),
-        'cahier_cridons' => array(
-            'foreign_key' => 'id_matiere'
+        'CahierCridon' => array(
+            'foreign_key' => 'id'
         )
     );
     public function create($data) {
@@ -23,12 +23,31 @@ class Matiere extends MvcModel
         if( $path ){
             $data['Matiere']['picto'] = $path;
         }
-        return parent::create($data);
+        if(!empty($data['Matiere']['label'])){
+            $data['Matiere']['virtual_name'] = sanitize_title($data['Matiere']['label']);
+        }
+        $id = parent::create($data);
+        if( $id && (intval($data['Matiere']['question']) === 1) ){            
+            $competence = mvc_model('Competence');
+            $opt = array(
+                'Competence' => array(
+                    'id'            => $data['Matiere']['code'],
+                    'label'         => $data['Matiere']['label'],
+                    'short_label'   => $data['Matiere']['short_label'],
+                    'code_matiere'  => $data['Matiere']['code']
+                )
+            );
+            $competence->create($opt);
+        }
+        return $id;
     }
     public function save($data) {
         $path = $this->upload( $data );
         if( $path ){
             $data['Matiere']['picto'] = $path;
+        }
+        if(!empty($data['Matiere']['label'])){
+            $data['Matiere']['virtual_name'] = sanitize_title($data['Matiere']['label']);
         }
         return parent::save($data);
     }
@@ -85,4 +104,46 @@ class Matiere extends MvcModel
         return ( ( Config::$maxWidthHeight['width'] < $width ) || ( Config::$maxWidthHeight['height'] < $height ) ) ? false : true;
     }
     
+    
+    public function getMatieresByModelPost($model){
+        global $wpdb;
+        $sql = "
+            SELECT m.* FROM {$wpdb->prefix}matiere m
+            LEFT JOIN {$model->table} j ON m.id = j.id_matiere
+            LEFT JOIN {$wpdb->prefix}posts p ON p.id = j.post_id
+            WHERE j.id IS NOT NULL
+            AND p.post_status = 'publish'
+            GROUP BY m.id
+        ";
+        return $wpdb->get_results($sql);
+    }
+    
+    public function getMatieresByNotaireQuestion(){
+        global $wpdb;
+        $notaire = CriNotaireData();
+        $matieres = array();
+        if(!$notaire){
+            return $matieres;
+        }
+        $sql = "
+            SELECT m.id,m.code,m.label,m.virtual_name FROM {$wpdb->prefix}matiere m
+            JOIN {$wpdb->prefix}competence c ON m.code = c.code_matiere
+            LEFT JOIN {$wpdb->prefix}question q ON q.id_competence_1 = c.id
+            LEFT JOIN {$wpdb->prefix}notaire AS n ON q.client_number = n.client_number
+            LEFT JOIN {$wpdb->prefix}etude AS e ON e.crpcen = n.crpcen 
+            WHERE e.crpcen = \"{$notaire->crpcen}\" 
+            AND m.displayed = 1
+            GROUP BY m.id
+        ";
+        $items = $wpdb->get_results($sql);
+        // format output
+        if (is_array($items) && count($items) > 0) {
+            foreach ($items as $item) {
+                $matieres[$item->id]['label'] = $item->label;
+                $matieres[$item->id]['code'] = $item->code;
+                $matieres[$item->id]['virtual_name'] = $item->virtual_name;
+            }
+        }
+        return $matieres;
+    }
 }

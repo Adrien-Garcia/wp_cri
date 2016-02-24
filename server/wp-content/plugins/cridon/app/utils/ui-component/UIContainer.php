@@ -33,7 +33,7 @@ class UIContainer extends UIFields{
     /**
      * Set model name
      * 
-     * @param string $model
+     * @param string $modelName
      */
     public function setModel( $modelName ){
         $model = mvc_model($modelName);

@@ -1,28 +1,4 @@
 <?php
-//Retrieve post data using custom table join
-function custom_posts_join ($join) {
-    global $custom_global_join;
-    if ( $custom_global_join ){
-        $join .= " $custom_global_join";
-    }
-    return $join;
-}
-function custom_posts_where ($where) {
-    global $custom_global_where;
-    if ( $custom_global_where ) {
-        $where .= " $custom_global_where";
-    }
-    return $where;
-}
-add_filter('posts_join','custom_posts_join');
-add_filter('posts_where','custom_posts_where');
-function resetGlobalVars(){
-    global $custom_global_join;
-    global $custom_global_where;
-    $custom_global_join = $custom_global_where = '';
-}
-// End retrieve post
-
 // After save into post table, save in others tables 
 function save_post_in_table( $post_ID, $post ){
     $modelConf = getRelatedContentConfInReferer($post_ID);
@@ -38,6 +14,18 @@ function save_post_in_table( $post_ID, $post ){
         }
         if (!empty($_POST['id_parent'])) {
             $aAdditionalFields['id_parent'] = $_POST['id_parent'];
+        }
+        if (isset($_POST['custom_post_date'])) {
+            $aAdditionalFields['custom_post_date'] = $_POST['custom_post_date'];
+        }
+        if (isset($_POST['address'])) {
+            $aAdditionalFields['address'] = $_POST['address'];
+        }
+        if (isset($_POST['postal_code'])) {
+            $aAdditionalFields['postal_code'] = $_POST['postal_code'];
+        }
+        if (isset($_POST['town'])) {
+            $aAdditionalFields['town'] = $_POST['town'];
         }
         if (!empty($_POST['cri_post_level'])) {
             $aAdditionalFields['level'] = $_POST['cri_post_level'];
@@ -58,7 +46,7 @@ function save_post_in_table( $post_ID, $post ){
  * @return mixed conf array or false if not found
  */
 function getRelatedContentConfInReferer($post_ID) {
-    if( $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ) {
+    if( isset($_POST[ 'post_type' ]) && $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ) {
         if (isset($_POST['_wp_http_referer'])) {
             $http = explode('cridon_type=', $_POST['_wp_http_referer']);
             if (count($http) == 2) {
@@ -160,7 +148,7 @@ function init_parent_meta_boxes( $post, $args ){
     $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
     $oParent = mvc_model( $config['model'] );//load model Matiere to use functions
     $aQueryOptions = array(
-        'selects' => array('Post.post_title as label', $config['model'].'.*'),
+        'selects' => array('Post.post_title', $config['model'].'.*'),
         'order' => 'Post.post_title ASC',
         'conditions' => array(
             $config['model'].'.id_parent' => null
@@ -188,7 +176,7 @@ function init_parent_meta_boxes( $post, $args ){
 add_action('add_meta_boxes','init_meta_boxes_category_post');
 
 function init_meta_boxes_category_post(){
-    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithMatiere)) {//Check if is a model Veille
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithMatiere)) {
         // init meta box depends on the current type of content
         add_meta_box('id_meta_boxes_link_post', Config::$titleMetabox , 'init_select_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
     }
@@ -273,6 +261,7 @@ if ( is_admin() ) {//only in admin
     checkUserAuthorization();
 }
 function checkUserAuthorization(){
+    require_once ABSPATH . WPINC . '/pluggable.php';
     $user = wp_get_current_user();
     $capabilities = $user->get_role_caps();//Get user capability
     $aIndex = $aEdit = $aAdd = $aDelete = array();
@@ -490,8 +479,8 @@ add_action( 'deleted_user', 'custom_delete_user' );
 /**
  * Get a value associated with a key in array if exists, default value otherwise
  * Avoid warning and easily allow fallback
- * @param mixed $key searched key
  * @param array $array in which the key should be
+ * @param mixed $key searched key
  * @param mixed $default value to retrieve if key is not in array
  * @return mixed $value corresponding to $key if exists, $defaults otherwise
  */
@@ -580,12 +569,13 @@ function CriRenderView($path, $view_vars, $folder = "custom", $echo = true) {
  * Send email for error reporting
  *
  * @param string $message the default message in which we want to add the error
- * @param string $error the error to introduce in the message
+ * @param string $object the error to introduce in the message
+ * @param string $subject the subject of the sent mail
  */
-function reportError($message, $object) {
+function reportError($message, $object, $subject = CONST_EMAIL_ERROR_SUBJECT) {
     $to = arrayGet(Config::$emailNotificationError, 'to', CONST_EMAIL_ERROR_CONTACT);
     // send email
-    return sendMail($to,CONST_EMAIL_ERROR_SUBJECT,$message,$object,Config::$emailNotificationError['cc']);
+    return sendMail($to,$subject,$message,$object,Config::$emailNotificationError['cc']);
 }
 /**
  * Send email for reporting
@@ -650,15 +640,17 @@ function init_ui_meta_boxes( $post ){
     if( !empty( $current ) && !empty( $post ) ){
         $obj = findBy( $current[ 'name' ], $post->ID );
         $container->setModel($current[ 'model' ]);
-        $cls = new stdClass();
-        $cls->id = $obj->id;
-        $container->setObject($cls);
+        if( $obj ){
+            $cls = new stdClass();
+            $cls->id = $obj->id;
+            $container->setObject($cls);
+        }
     }
     $container->create();
 }
 
 function after_save_post_for_ui( $post_ID ){ 
-    if( $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ){
+    if( isset($_POST[ 'post_type' ]) && $_POST[ 'post_type' ] == 'post' && !wp_is_post_revision( $post_ID ) ){
         if( isset( $_POST[ '_wp_http_referer' ] ) ){
             $http = explode( 'cridon_type=', $_POST[ '_wp_http_referer' ] );
             if( count( $http ) == 2 ){
@@ -739,18 +731,6 @@ function sendNotificationForPostPublished( $post,$model ){
     global $pages,$page ;
     $pages = array($post->post_content);
     $page = 1;
-    $options = array(
-        'conditions' => array(
-            'type'       => strtolower( $model->__model_name ),
-            'id_externe' => $model->id
-        )
-    );
-    $documentModel = mvc_model('Document');
-    $documents = false;
-    $class = $model->__model_name;
-    if (method_exists($class, "getDocuments")) {
-        $documents = $class::getDocuments($model->id);
-    }
     $title = $post->post_title;
     $date  = get_the_date('d M Y',$post->ID);
 
@@ -759,6 +739,16 @@ function sendNotificationForPostPublished( $post,$model ){
     //$model don't contain Matiere
     //It's necessary to get it again
     $current = mvc_model($model->__model_name)->find_one_by_id($model->id);
+    $documentModel = mvc_model('Document');
+    $documents = false;
+    $class = $model->__model_name;
+    if (property_exists($current, 'documents') || method_exists($class, "getDocuments")) {
+        if (property_exists($current, 'documents')){
+            $documents = $current->documents;
+        } else {
+            $documents = $class::getDocuments($model->id);
+        }
+    }
     $matiere = (!empty($current) && !empty($current->matiere)) ? $current->matiere : false;
     $permalink = generateUrlByModel($model);
     $tags = get_the_tags( $post->ID );
@@ -820,11 +810,11 @@ function generateUrlByModel( $model ){
         return '';
     }
     $options = array(
-        'controller' => MvcInflector::pluralize(strtolower($model->__model_name)),
+        'controller' => MvcInflector::tableize(strtolower($model->__model_name)),
         'action'     => ( !isset( $model->id ) ) ? 'index' : 'show'        
     );
     if( isset( $model->id ) ){
-        $options['id'] = $model->id;
+        $options['id'] = $model->post->post_name;
     }
     return MvcRouter::public_url($options);
 }
@@ -866,6 +856,116 @@ function getNotariesByMatiere( $model ){
 function loadAdminCustomCss(){
     wp_register_style( 'mvcform-style-css', plugins_url('cridon/app/public/css/form-style.css'), false ); 
     wp_enqueue_style( 'mvcform-style-css' );
+}
+
+// Date de formation
+add_action('add_meta_boxes','formation_post_date_meta_box');
+
+function formation_post_date_meta_box(){
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithCustomDate)) {
+        // init meta box depends on the current type of content
+        add_meta_box('id_meta_boxes_link_post_date', Config::$dateTitleMetabox , 'content_formation_post_date', 'post', 'side', 'high', $_GET['cridon_type']);
+        wp_enqueue_script('jquery-ui-core');
+        wp_enqueue_script('jquery-ui-datepicker');
+
+        wp_enqueue_script('jquery-ui-i18n-fr', plugins_url('cridon/app/public/js/jquery.ui.datepicker-fr.js'), array('jquery-ui-datepicker'));
+        wp_register_script( 'formation-js', plugins_url('cridon/app/public/js/bo/formation.js'), array('jquery') );
+        wp_enqueue_script('formation-js');
+        wp_enqueue_style('jquery-ui-css', plugins_url('cridon/app/public/css/jquery-ui.css'));
+    }
+}
+
+// Adresse de formation : adresse, code postal & ville
+add_action('add_meta_boxes','formation_post_address_meta_box');
+
+function formation_post_address_meta_box(){
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithAddress)) {
+        // init meta box depends on the current type of content
+        add_meta_box('id_meta_boxes_link_post_address', Config::$addressTitleMetabox['address'], 'content_formation_post_address', 'post', 'side', 'high', $_GET['cridon_type']);
+        add_meta_box('id_meta_boxes_link_post_postal_code', Config::$addressTitleMetabox['postal_code'], 'content_formation_post_postal_code', 'post', 'side', 'high', $_GET['cridon_type']);
+        add_meta_box('id_meta_boxes_link_post_town', Config::$addressTitleMetabox['town'], 'content_formation_post_town', 'post', 'side', 'high', $_GET['cridon_type']);
+    }
+
+}
+
+/**
+ * Init metabox
+ *
+ * @param \WP_Post $post
+ */
+function content_formation_post_date( $post, $args ){
+    //args contains only one param : key to model name using config
+    $models = $args['args'];
+    $config = arrayGet(Config::$data, $models, reset(Config::$data));
+    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
+
+    // prepare vars
+    $vars = array(
+        'oModel' => $oModel
+    );
+
+    // render view
+    CriRenderView('date_meta_box', $vars);
+}
+
+/**
+ * Init metabox adresse de la formation
+ *
+ * @param \WP_Post $post
+ */
+function content_formation_post_address( $post, $args ){
+    //args contains only one param : key to model name using config
+    $models = $args['args'];
+    $config = arrayGet(Config::$data, $models, reset(Config::$data));
+    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
+
+    // prepare vars
+    $vars = array(
+        'oModel' => $oModel
+    );
+
+    // render view
+    CriRenderView('address_meta_box', $vars);
+}
+
+/**
+ * Init metabox code postal de la formation
+ *
+ * @param \WP_Post $post
+ */
+function content_formation_post_postal_code( $post, $args ){
+    //args contains only one param : key to model name using config
+    $models = $args['args'];
+    $config = arrayGet(Config::$data, $models, reset(Config::$data));
+    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
+
+    // prepare vars
+    $vars = array(
+        'oModel' => $oModel
+    );
+
+    // render view
+    CriRenderView('postal_code_meta_box', $vars);
+}
+
+/**
+ * Init metabox ville de la formation
+ *
+ * @param \WP_Post $post
+ */
+function content_formation_post_town( $post, $args ){
+    //args contains only one param : key to model name using config
+    $models = $args['args'];
+    $config = arrayGet(Config::$data, $models, reset(Config::$data));
+    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
+
+    // prepare vars
+    $vars = array(
+        'oModel' => $oModel
+    );
+
+    // render view
+    CriRenderView('town_meta_box', $vars);
 }
 
 // Level meta_box

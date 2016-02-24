@@ -10,6 +10,5 @@
 ?>
 <?php 
 	$onglet = 3;
-    resetGlobalVars();
     include TEMPLATEPATH.'/page-mon-compte.php';
 ?>
