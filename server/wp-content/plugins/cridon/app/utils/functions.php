@@ -802,15 +802,29 @@ function CriBreadcrumb()
                                                         ));
                 $vars['breadcrumbs'][] = $archive;
             } else {
-                // archive model
-                $archive               = new stdClass();
-                // title of level 2 : retrieves from config if isset or uses controller name from params
-                $archive->title        = isset(Config::$breadcrumbModelParams[$mvc_params['controller']]) ? Config::$breadcrumbModelParams[$mvc_params['controller']] : ucfirst($mvc_params['controller']);
-                $archive->url          = mvc_public_url(array(
-                                                            'controller' => $mvc_params['controller']
-                                                        ));
-                $vars['breadcrumbs'][] = $archive;
+                if ($mvc_params['controller'] !== 'matieres') {
 
+                    // archive model
+                    $archive = new stdClass();
+                    // title of level 2 : retrieves from config if isset or uses controller name from params
+                    $archive->title = isset(Config::$breadcrumbModelParams[$mvc_params['controller']]) ? Config::$breadcrumbModelParams[$mvc_params['controller']] : ucfirst($mvc_params['controller']);
+
+                    if ($mvc_params['controller'] == 'veilles') {
+                        // A Modifier pour prendre en compte la conservation du filtre des veilles
+                        $archive->url = mvc_public_url(array(
+                            'controller' => $mvc_params['controller']
+                        ));
+                        //
+                        if ( isset($_GET['matieres']) && !empty($_GET['matieres']) && is_array($_GET['matieres'])  && count($_GET['matieres']) === 1){
+                            $archive->title = ucfirst($_GET['matieres'][0]);
+                        }
+                    } else {
+                        $archive->url = mvc_public_url(array(
+                            'controller' => $mvc_params['controller']
+                        ));
+                    }
+                    $vars['breadcrumbs'][] = $archive;
+                }
                 // single model
                 if (isset($mvc_params['id']) && $mvc_params['id']) {
                     $singles               = mvc_model('QueryBuilder')->getPostByMVCParams();
