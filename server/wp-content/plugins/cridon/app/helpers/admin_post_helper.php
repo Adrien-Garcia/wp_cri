@@ -44,15 +44,15 @@ class AdminPostHelper extends MvcHelper
         if (isset($_GET['option'])) {
             $deleteLink .= '&option=' . $_GET['option'];
         }
+
         $option = array(
             'controller' => MvcInflector::tableize($object->__model_name),
             'action'     => 'show',
             'id'         => $object->post->post_name
         );
-        $url =  MvcRouter::public_url( $option );
+        $url = MvcRouter::public_url( $option );
         $links[]             = '<a href="' . admin_url('post.php?post=' . $object->post_id . '&action=edit&cridon_type=' . $this->trim($controller->name)) . '" title="'.Config::$actionsWpmvcTranslation['edit'].' ' . $encoded_object_name . '">'.Config::$actionsWpmvcTranslation['edit'].'</a>';
-        $links[]             = '<a href="' . $url . '" title="'.Config::$actionsWpmvcTranslation['view'].' ' . $encoded_object_name . '">'.Config::$actionsWpmvcTranslation['view'].'</a>';
-        $links[]             = '<a href="' . $deleteLink . '" title="'.Config::$actionsWpmvcTranslation['delete'].' ' . $encoded_object_name . '" onclick="return confirm(&#039;'.Config::$msgConfirmDelete.' ' . $encoded_object_name . '?&#039;);">'.Config::$actionsWpmvcTranslation['delete'].'</a>';
+        $links[] = '<a href="' . $url . '" title="'.Config::$actionsWpmvcTranslation['view'].' ' . $encoded_object_name . '">'.Config::$actionsWpmvcTranslation['view'].'</a>';        $links[]             = '<a href="' . $deleteLink . '" title="'.Config::$actionsWpmvcTranslation['delete'].' ' . $encoded_object_name . '" onclick="return confirm(&#039;'.Config::$msgConfirmDelete.' ' . $encoded_object_name . '?&#039;);">'.Config::$actionsWpmvcTranslation['delete'].'</a>';
         $html                = implode(' | ', $links);
 
         return '<td>' . $html . '</td>';

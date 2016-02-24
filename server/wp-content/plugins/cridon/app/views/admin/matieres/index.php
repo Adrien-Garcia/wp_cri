@@ -34,7 +34,7 @@
     </tfoot>
 
     <tbody>
-        <?php echo $this->admin_custom->admin_table_cells($this, $objects); ?>
+        <?php echo $this->admin_matiere->admin_table_cells($this, $objects); ?>
     </tbody>
     
 </table>
