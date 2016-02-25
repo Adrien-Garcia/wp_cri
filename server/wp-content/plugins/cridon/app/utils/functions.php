@@ -895,11 +895,23 @@ function CriSetAdminCridonCaps() {
     }
 }
 
+/**
+ * Redirect to information page
+ *
+ * @throws Exception
+ */
 function redirectToInformationPage()
 {
     global $cri_container;
     $tools = $cri_container->get( 'tools' );
 
-    $tools->redirect(get_the_permalink(CONST_INFORMATION_PAGE_ID));
+    /**
+     * redirect url maybe changed to static page
+     * by default it plugged into CMS page
+     * @see plugins/cridon/app/config/const.inc.php to configure "CONST_INFORMATION_PAGE_ID"
+     */
+    $redirectUrl = get_the_permalink(CONST_INFORMATION_PAGE_ID);
+
+    $tools->redirect($redirectUrl);
     exit;
 }
