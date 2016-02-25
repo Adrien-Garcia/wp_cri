@@ -588,3 +588,8 @@ if ( !defined( 'CONST_ADMIN_NB_FORMATIONS_PERPAGE' ) ) {
 if ( !defined( 'CONST_ADMINCRIDON_ROLE' ) ) {
     define( 'CONST_ADMINCRIDON_ROLE', 'admincridon' );
 }
+
+// id information page CMS
+if ( !defined( 'CONST_INFORMATION_PAGE_ID' ) ) {
+    define( 'CONST_INFORMATION_PAGE_ID', 41 );
+}
