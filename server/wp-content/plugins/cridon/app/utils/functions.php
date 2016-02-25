@@ -894,3 +894,12 @@ function CriSetAdminCridonCaps() {
         }
     }
 }
+
+function redirectToInformationPage()
+{
+    global $cri_container;
+    $tools = $cri_container->get( 'tools' );
+
+    $tools->redirect(get_the_permalink(CONST_INFORMATION_PAGE_ID));
+    exit;
+}

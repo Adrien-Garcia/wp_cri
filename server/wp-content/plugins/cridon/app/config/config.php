@@ -379,4 +379,11 @@ class Config {
         'Niveau 2' => 2,
         'Niveau 3' => 3,
     );
+
+    /**
+     * @var array list of type to be restricted by level
+     */
+    public static $restrictedDownloadByTypeLevel = array(
+        'veille'
+    );
 }

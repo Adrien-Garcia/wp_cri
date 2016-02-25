@@ -20,7 +20,7 @@ class DocumentsController extends MvcPublicController {
         if( ($model->name == 'Question') || in_array($document->type,Config::$accessDowloadDocument) ){
             $object = $model->find_one_by_id( $document->id_externe );
             //Check user access
-            $this->checkAccess($object,$notaire, $document);            
+            $this->checkAccess($object,$notaire, $document);
         }
         //Let's begin download
         $uploadDir = wp_upload_dir();
@@ -137,6 +137,11 @@ class DocumentsController extends MvcPublicController {
         }
         //Access download document of news
         if( in_array($document->type,Config::$accessDowloadDocument) && !empty( $notaire ) ){
+            if (in_array($document->type, Config::$restrictedDownloadByTypeLevel)
+                && !$this->model->userCanDownload($document)
+            ) {
+                redirectToInformationPage();
+            }
             return true;
         }elseif(in_array($document->type,Config::$accessDowloadDocument)){
             redirectTo404();

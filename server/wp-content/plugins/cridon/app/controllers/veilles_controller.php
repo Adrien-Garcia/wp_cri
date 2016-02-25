@@ -90,7 +90,13 @@ class VeillesController extends BaseActuController {
         if ( !CriIsNotaire() ) {
             CriRefuseAccess();
         } else {
-            parent::show();
+            // check if user can access this level
+            if ($this->model->userCanAccessSingle($this)) {
+                parent::show();
+            } else {
+                // redirect to information page
+                redirectToInformationPage();
+            }
         }
     }
 
