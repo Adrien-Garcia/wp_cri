@@ -1357,7 +1357,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             'city',
                             'office_email_adress_1',
                             'tel',
-                            'fax'
+                            'fax',
+                            'subscription_level'
                             ),
                         'foreign_key' => 'crpcen',
                         'key' => 'crpcen'
