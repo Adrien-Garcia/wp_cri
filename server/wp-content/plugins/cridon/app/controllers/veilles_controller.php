@@ -33,36 +33,14 @@ class VeillesController extends BaseActuController {
     protected $matieres;
 
     public function index() {
-        // session instance
-        $session = new CriSession();
-
         $veille = new Veille;
         $this->matieres = Matiere::getMatieresByModelPost($veille);
         if ( isset($_GET['matieres']) && is_array($_GET['matieres']) && count($_GET['matieres']) > 0 ) {
             // apply filters
             $this->applyFilters($_GET['matieres']);
-
-            // store criteria into session
-            $session->write('SESS_VEILLES_CRITERIA', base64_encode(serialize($this->virtualNames)));
         } else {
-            // check filters from session
-            if ($session_criteria = $session->read('SESS_VEILLES_CRITERIA')) {
-                $criteria = unserialize(base64_decode($session_criteria));
-                // prepare url GET params
-                $url = '';
-                if (is_array($criteria) && count($criteria) > 0) {
-                    foreach ($criteria as $key => $virtualName) {
-                        $url .= ($key == 0) ? '?matieres[]=' . $virtualName : '&matieres[]=' . $virtualName;
-                    }
-                }
-                // redirect to the right url ( with list of 'matieres' params )
-                if ($url != '') {
-                    $this->redirect(mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url);
-                }
-            } else {
-                foreach ($this->matieres as $mat) {
-                    $mat->filtered = false;
-                }
+            foreach ($this->matieres as $mat) {
+                $mat->filtered = false;
             }
         }
         if ($this->currentMatSelectedModel) {

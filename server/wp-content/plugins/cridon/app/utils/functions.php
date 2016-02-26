@@ -879,3 +879,15 @@ function CriSetAdminCridonCaps() {
         }
     }
 }
+
+function CriVeilleWithUriFilters()
+{
+    $url = '';
+    if (is_array($_GET['matieres']) && count($_GET['matieres']) > 0) {
+        foreach ($_GET['matieres'] as $key => $virtualName) {
+            $url .= ($key == 0) ? '?matieres[]=' . $virtualName : '&matieres[]=' . $virtualName;
+        }
+    }
+
+    return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
+}
