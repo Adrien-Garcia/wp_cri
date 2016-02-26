@@ -1916,4 +1916,54 @@ class Notaire extends MvcModel
             }
         }
     }
+
+    /**
+     * Inscription/desinscription newsletter
+     *
+     * @param mixed $notaryData notary user data
+     */
+    public function newsletterSubscription($notaryData)
+    {
+        $disabled = $_POST['disabled'] == 1 ? 0 : 1;
+        $update = array();
+        $update['Notaire']['id'] = $notaryData->id;
+        $update['Notaire']['newsletter'] = $disabled;
+        $this->save($update);
+    }
+
+    /**
+     * Gestion centre d'interet
+     *
+     * @param mixed $notaryData notary user data
+     * @param array $data data to insert
+     */
+    public function manageInterest($notaryData, $data)
+    {
+        // post matieres
+        $options = array(
+            'conditions' => array(
+                'Matiere.displayed' => 1
+            )
+        );
+        $matieres = mvc_model('matiere')->find($options);
+        //Clean $_POST before
+        $toCompare = array();
+        //Create array to compare Matiere in $_POST
+        foreach ($matieres as $mat) {
+            $toCompare[] = $mat->id;
+        }
+        $insert = array();
+        $insert['Notaire']['id'] = $notaryData->id;
+        $insert['Notaire']['Matiere']['ids'] = array();
+        if (isset($data['matieres'])) {
+            foreach ($data['matieres'] as $v) {
+                //Check if current Matiere is valid
+                if (in_array($v, $toCompare)) {
+                    $insert['Notaire']['Matiere']['ids'][] = $v;
+                }
+            }
+        }
+        //Put in DB
+        $this->save($insert);
+    }
 }

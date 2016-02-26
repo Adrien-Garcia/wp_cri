@@ -91,7 +91,7 @@
 	<?php 
 		$matieres = getMatieresByNotaire();
 	 ?>
-	<form method="post" action="/notaires/<?php echo $notaire->id ?>/profil" class="form-centre-interet">
+	<form method="post" action="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" class="form-centre-interet">
 		<ul>
 			<?php foreach($matieres as $key => $matiere): ?>
 			<li>
