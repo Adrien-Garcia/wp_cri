@@ -87,18 +87,6 @@ class VeillesController extends BaseActuController {
         );
     }
 
-    /**
-     * Resete veilles filter and redirect to the archives page
-     */
-    public function resetCriteria()
-    {
-        $session = new CriSession();
-
-        $session->delete('SESS_VEILLES_CRITERIA');
-
-        $this->redirect(mvc_public_url(array('controller' => 'veilles', 'action' => 'index')));
-    }
-
     public  function addMetaHeader() {
         $meta_title = Config::$listingVeille['meta_title'];
         $meta_description = Config::$listingVeille['meta_description'];
