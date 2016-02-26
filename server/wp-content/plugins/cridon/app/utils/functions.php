@@ -811,9 +811,7 @@ function CriBreadcrumb()
 
                     if ($mvc_params['controller'] == 'veilles') {
                         // A Modifier pour prendre en compte la conservation du filtre des veilles
-                        $archive->url = mvc_public_url(array(
-                            'controller' => $mvc_params['controller']
-                        ));
+                        $archive->url = CriVeilleWithUriFilters();
                         //
                         if ( isset($_GET['matieres']) && !empty($_GET['matieres']) && is_array($_GET['matieres'])  && count($_GET['matieres']) === 1){
                             $archive->title = ucfirst($_GET['matieres'][0]);
@@ -908,4 +906,16 @@ function CriSetAdminCridonCaps() {
             }
         }
     }
+}
+
+function CriVeilleWithUriFilters()
+{
+    $url = '';
+    if (is_array($_GET['matieres']) && count($_GET['matieres']) > 0) {
+        foreach ($_GET['matieres'] as $key => $virtualName) {
+            $url .= ($key == 0) ? '?matieres[]=' . $virtualName : '&matieres[]=' . $virtualName;
+        }
+    }
+
+    return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
 }
