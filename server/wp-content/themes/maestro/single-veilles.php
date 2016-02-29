@@ -28,7 +28,7 @@
 
 
 
-					<a href="<?php echo MvcRouter::public_url(array('controller' => 'veilles', 'action'     => 'index')) ?>"><?php _e('Retour'); ?></a>
+					<a href="<?php echo CriVeilleWithUriFilters(); ?>"><?php _e('Retour'); ?></a>
 
 				<?php // endwhile; ?>
 
