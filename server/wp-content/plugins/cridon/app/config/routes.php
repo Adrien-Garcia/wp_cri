@@ -38,6 +38,8 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/contentquestions', array('contro
 MvcRouter::public_connect('notaires/{:id:[\d]+}/contentprofil', array('controller' => 'notaires', 'action' => 'contentprofil'));
 // regles de facturation
 MvcRouter::public_connect('notaires/{:id:[\d]+}/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
+// regles show
+MvcRouter::public_connect('notaires/{:id:[\d]+}', array('controller' => 'notaires', 'action' => 'show'));
 // Fin bloc ancienne url
 
 // nouvelle regle de routage notaire
