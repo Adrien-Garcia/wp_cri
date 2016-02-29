@@ -210,8 +210,10 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y
     //The formation date is used instead of the post date
     if ($model === 'formation'){
         $date = 'CAST(f.custom_post_date AS DATE)';
+        $orderBy = 'f.custom_post_date';
     } else {
         $date = 'CAST(p.post_date AS DATE)';
+        $orderBy = 'p.id';
     }
     $nestedOptions = array(
         'synonym' => 'p',
@@ -228,7 +230,7 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y
         'order' => 'DESC'
     );
     $query_builder = $cri_container->get( 'query_builder' );
-    $nested = $query_builder->buildQuery( 'posts',$nestedOptions,'p.ID' );// Nested query ( simple string )
+    $nested = $query_builder->buildQuery( 'posts', $nestedOptions, $orderBy );// Nested query ( simple string )
     $tools = $cri_container->get( 'tools' );
     $options = array(
         'fields' => $tools->getFieldPost().$date.' AS date,p.post_title,'.$model[0].'.id as join_id',
@@ -259,10 +261,23 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y
             'column' => 'm.id = '.$model[0].'.id_matiere'
     );
 
+    if ($model === 'formation'){
+        $addressFields = array('address','postal_code','town');
+        $fFields = '';
+        foreach ( $addressFields as $v ){
+            $fFields .= ',f.'.$v;
+        }
+        $options['fields'] = $options['fields'].$fFields;
+    }
+
     $results = criQueryPosts( $options, $date );
     //To have others attributes in array result. Default is object WP_Post
     //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
-    $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
+    if ($model === 'formation'){
+        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere', 'formation'),array('matiere'=>$fields,'formation'=>$addressFields) );
+    } else {
+        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
+    }
     return $res;
 }
 

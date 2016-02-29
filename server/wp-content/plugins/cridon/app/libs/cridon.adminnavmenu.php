@@ -33,7 +33,6 @@ class CriAdminNavMenu
             return;
 
         $this->listMat = $this->getListMat();
-
         $this->add_veille_meta_box();
         $this->add_archive_meta_box();
         $this->add_matiere_meta_box();
@@ -49,20 +48,27 @@ class CriAdminNavMenu
     {
         $matieres = mvc_model('Matiere')->find(array(
             'selects'    => array(
-                'DISTINCT Matiere.id',
-                'Matiere.label'
+                'Matiere.id',
+                'Matiere.label',
+                'Matiere.virtual_name'
             ),
             'joins'     => array(
                 'Veille' => array(
                     'table' => 'cri_veille',
-                    'alias' => 'Veille',
-                    'on' => 'Veille.id_matiere = Matiere.id'
+                    'model' => 'Veille',
+                    'alias' => 'v',
+                    'on' => 'v.id_matiere = m.id'
                 )
             ),
+            'group' => 'm.id',
             'order' => 'Matiere.label'
         ));
+
+
+        //$matieres = array_unique($matieres);
         foreach($matieres as $matiere) {
             $matiere->veilles = array();
+
             $veilles = mvc_model('Veille')->find_by_id_matiere($matiere->id);
             if (count($veilles) > 0) {
                 $matiere->veilles = $veilles;

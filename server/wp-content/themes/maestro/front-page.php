@@ -138,11 +138,9 @@
 									<h4><?php echo $_title; ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
 									<div class="adresse">
-										La Joliette<br />
-										20A Boulevard du Plomb<br />
-										13581 Marseille Cedex 20<br />
-										France
-										
+                                        <?php echo nl2br($formation->formation->address) ?><br />
+                                        <?php echo $formation->formation->postal_code ?>
+                                        <?php echo $formation->formation->town ?>
 									</div>
 									<a href="<?php echo $_link ?>"><?php _e('Lire'); ?></a>
 								</li>
@@ -179,7 +177,7 @@
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
 
-						<a <?php if(CriIsNotaire()) : ?> href="/notaires/<?php echo CriNotaireData()->id ?>/profil" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+						<a <?php if(CriIsNotaire()) : ?> href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
 							<span><?php _e('S\'abonner à votre veille !'); ?></span>
 						</a>
 

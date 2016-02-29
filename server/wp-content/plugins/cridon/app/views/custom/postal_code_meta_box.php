@@ -1,0 +1,2 @@
+<?php $postal_code = (is_object($oModel) && property_exists($oModel, 'postal_code') && $oModel->postal_code) ? $oModel->postal_code : '' ?>
+<input maxlength="5" name="postal_code" id="postal_code" value="<?php echo $postal_code ?>" <?php echo $postal_code ?> >

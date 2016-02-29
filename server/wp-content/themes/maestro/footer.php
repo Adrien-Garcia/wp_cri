@@ -53,7 +53,7 @@
 									<li class="veille">
 										<h4><?php  _e('Veille juridique personnalisée'); ?></h4>
 										<!-- <a href="#"><span><?php _e('S\'abonner à votre veille'); ?></span></a>	 -->
-										<a <?php if(CriIsNotaire()) : ?> href="/notaires/<?php echo CriNotaireData()->id ?>/profil" <?php else : ?> class="js-panel-connexion-open" href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+										<a <?php if(CriIsNotaire()) : ?> href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" <?php else : ?> class="js-panel-connexion-open" href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
 											<span><?php _e('S\'abonner à votre veille !'); ?></span>
 										</a>
 									</li>

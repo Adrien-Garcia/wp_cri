@@ -1347,7 +1347,24 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $idWPoptions = array(
                 'where' => array(
                     'Notaire.id_wp_user = '.$current_user->ID,
-                )
+                ),
+                'joins' => array(
+                    'Etude' => array(
+                        'fields' => array(
+                            'office_name',
+                            'adress_1',
+                            'adress_2',
+                            'adress_3',
+                            'cp',
+                            'city',
+                            'office_email_adress_1',
+                            'tel',
+                            'fax'
+                            ),
+                        'foreign_key' => 'crpcen',
+                        'key' => 'crpcen'
+                    )
+                ),
             );
             // exec query and return result as object
             $object = $this->findOneBy($idWPoptions);

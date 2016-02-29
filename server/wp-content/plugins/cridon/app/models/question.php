@@ -615,6 +615,8 @@ class Question extends \App\Override\Model\CridonMvcModel
     public function cronUpdate($force = false)
     {
         try {
+            //get date for update
+            $dateOptionUpdate = date('Y-m-d H:i:s');
             // enable gbcollector
             if (function_exists('gc_enable')) {
                 gc_enable();
@@ -640,7 +642,7 @@ class Question extends \App\Override\Model\CridonMvcModel
             $options               = array();
             $options['table']      = 'question';
             $options['attributes'] = 'srenum, client_number, sreccn, id_support, id_competence_1, `resume`, id_affectation, juriste, ';
-            $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, treated, creation_date, date_modif, ';
+            $options['attributes'] .= 'affectation_date, wish_date, real_date, yuser, creation_date, date_modif, ';
             $options['attributes'] .= 'hour_modif, transmis_erp, confidential, content';
             // insert values
             $insertValues = array();
@@ -884,7 +886,7 @@ class Question extends \App\Override\Model\CridonMvcModel
 
             if (!empty($lastDateUpdate)) {
                 // maj derniere date d'execution
-                update_option('cronquestionupdate', $lastDateUpdate);
+                update_option('cronquestionupdate', $dateOptionUpdate);
             }
 
             // notification client mobile si question traitee

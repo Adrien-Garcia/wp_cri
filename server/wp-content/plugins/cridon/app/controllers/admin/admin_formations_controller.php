@@ -29,7 +29,10 @@ class AdminFormationsController extends BaseAdminController
     var $default_searchable_fields = array(
         'id',
         'Post.post_title',
-        'Matiere.label'
+        'Matiere.label',
+        'Formation.address',
+        'Formation.postal_code',
+        'Formation.town'
     );
 
     /**
@@ -48,7 +51,17 @@ class AdminFormationsController extends BaseAdminController
         ),
         'matiere' => array(
             'label'=>'Matière',
-            'value_method' => 'matiere_edit_link')
+            'value_method' => 'matiere_edit_link'
+        ),
+        'address' => array(
+            'label'=>'Adresse'
+        ),
+        'postal_code' => array(
+            'label'=>'Code Postal'
+        ),
+        'town' => array(
+            'label'=>'Ville'
+        )
     );
 
     public function __construct()
