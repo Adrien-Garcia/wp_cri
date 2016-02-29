@@ -369,6 +369,6 @@ class Config {
 
     // Notification for posted question
     public static $mailBodyQuestionConfirmation  = array(
-        'subject'   => 'Confirmation question posée sur le site de Cridon'
+        'subject'   => 'Prise en compte de votre question sur le site'
     );
 }
