@@ -105,7 +105,7 @@ class Matiere extends \App\Override\Model\CridonMvcModel
     }
     
     
-    public function getMatieresByModelPost($model){
+    public static function getMatieresByModelPost($model){
         global $wpdb;
         $sql = "
             SELECT m.* FROM {$wpdb->prefix}matiere m
