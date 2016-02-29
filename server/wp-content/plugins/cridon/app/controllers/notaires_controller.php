@@ -30,25 +30,6 @@ class NotairesController extends BasePublicController
         parent::__construct();
     }
 
-    public function index() {
-        $this->generateError();
-    }
-
-    /**
-     * Generate error
-     *
-     * @global \WP_Query $wp_query
-     */
-    private function generateError(){
-        global $wp_query;
-        header("HTTP/1.0 404 Not Found - Archive Empty");
-        $wp_query->set_404();
-        if( file_exists(TEMPLATEPATH.'/404.php') ){
-            require TEMPLATEPATH.'/404.php';
-        }
-        exit;
-    }
-
     /**
      * Secure Access Page
      *
@@ -67,11 +48,17 @@ class NotairesController extends BasePublicController
 
         // check if user is not logged in
         // or notaire id (url params) not equal to WP user session data
-        if (!is_user_logged_in() || !$this->current_notaire->id || $this->params['id'] !== $this->current_notaire->id) {
+        if (!is_user_logged_in()
+            || !$this->current_notaire->id
+            || (isset($this->params['id']) && $this->params['id'] !== $this->current_notaire->id)) {
             wp_logout();//logout current user
             // redirect user to home page
             $this->redirect(home_url());
         }
+
+        // set notary id in params
+        // needed to retrieve notary data by the MVC system
+        $this->params['id'] = $this->current_notaire->id;
     }
 
     /**

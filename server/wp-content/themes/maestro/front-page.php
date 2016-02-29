@@ -177,7 +177,7 @@
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
 
-						<a <?php if(CriIsNotaire()) : ?> href="/notaires/<?php echo CriNotaireData()->id ?>/profil" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+						<a <?php if(CriIsNotaire()) : ?> href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
 							<span><?php _e('S\'abonner à votre veille !'); ?></span>
 						</a>
 
