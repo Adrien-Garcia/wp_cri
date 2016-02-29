@@ -12,6 +12,7 @@ App.Question = {
     fileQuestionSelector                : '.js-question-file',
     fileQuestionResetSelector           : '.js-file-reset',
     fileQuestionNameSelector            : '.js-file-name',
+    fileQuestionHideSelector            : '.js-file-hide',
     objectQuestionFieldSelector         : '.js-question-object',
     messageQuestionFieldSelector        : '.js-question-message',
 
@@ -43,6 +44,7 @@ App.Question = {
     $fileQuestion                       : null,
     $fileQuestionReset                  : null,
     $fileQuestionName                   : null,
+    $fileQuestionHide                   : null,
     $objectQuestionField                : null,
     $messageQuestionField               : null,
 
@@ -87,6 +89,7 @@ App.Question = {
         this.$fileQuestion                          = $(this.fileQuestionSelector);
         this.$fileQuestionReset                     = $(this.fileQuestionResetSelector);
         this.$fileQuestionName                      = $(this.fileQuestionNameSelector);
+        this.$fileQuestionHide                      = $(this.fileQuestionHideSelector);
 
         this.$buttonQuestionDocumentation           = $(this.buttonQuestionDocumentationSelector);
         this.$buttonQuestionSupportShortcut         = $(this.buttonQuestionSupportSelector);
@@ -238,6 +241,7 @@ App.Question = {
                 self.$zoneQuestionSupport.removeClass(this.selectedClass);
                 self.$popupOverlay.popup('show');
                 self.openTabQuestionMaQuestion(false);
+                self.eventFileReset();
                 self.eventButtonDocumentationClick($(this));
             });
 
@@ -295,6 +299,9 @@ App.Question = {
                 file.replaceWith(file = file.clone(true));
                 file.wrap('<form>').closest('form').get(0).reset();
                 file.unwrap();
+                if (i != 0){
+                    file.closest(self.fileQuestionHideSelector).addClass('hidden');
+                }
                 self.eventFileChange(file);
             });
         }
@@ -346,7 +353,7 @@ App.Question = {
             }
         });
         this.eventZoneQuestionSupportClick(min.el.parents(this.zoneQuestionSupportSelector).first());
-        this.$selectQuestionMatiere.val( DocumentationID).change();
+        this.$selectQuestionMatiere.val(DocumentationID).change();
         //this.eventSelectQuestionMatiereChange(false);
 
     },
@@ -393,13 +400,6 @@ App.Question = {
 
         var formdata = new FormData();
         var nbFiles = 0;
-        if (this.$objectQuestionField.first().val() == '') {
-            this.$blockQuestionError.text('Merci de bien remplir le champ "Objet de la question"');
-            this.$objectQuestionField.focus();
-
-            // stop action
-            return false;
-        }
         nbFiles = this.$fileQuestion.length;
         if (nbFiles > 0) {
             this.$fileQuestion.each(function () {
@@ -411,12 +411,40 @@ App.Question = {
                 }
             });
         }
+
+        var d = {
+            support : $(this.radioQuestionSupportSelector + ':checked').first().val(),
+            matiere : this.$selectQuestionMatiere.first().val(),
+            competence : $('*[name="' + competenceFieldId + '"]').first().val(),
+            object : this.$objectQuestionField.first().val(),
+            message : this.$messageQuestionField.first().val()
+        };
+
+        if(!d.support) {
+            this.$blockQuestionError.text('Merci de sélectionner un support/délai');
+            this.openTabQuestionConsultation();
+            return false;
+        }
+        if(!d.matiere) {
+            this.$blockQuestionError.text('Merci de sélectionner une matière');
+            this.openTabQuestionMaQuestion();
+            return false;
+        }
+        if(!d.object) {
+            this.$blockQuestionError.text('Merci de bien remplir le champ "Objet de la question"');
+            this.openTabQuestionMaQuestion();
+            this.$objectQuestionField.focus();
+
+            // stop action
+            return false;
+        }
+
         formdata.append("action", 'add_question');
-        formdata.append(supportFieldId, $(this.radioQuestionSupportSelector + ':checked').first().val() );
-        formdata.append(matiereFieldId, this.$selectQuestionMatiere.first().val() );
-        formdata.append(competenceFieldId, $('*[name="' + competenceFieldId + '"]').first().val() );
-        formdata.append(objectFieldId, this.$objectQuestionField.first().val() );
-        formdata.append(messageFieldId, this.$messageQuestionField.first().val() );
+        formdata.append(supportFieldId, d.support );
+        formdata.append(matiereFieldId, d.matiere );
+        formdata.append(competenceFieldId, d.competence );
+        formdata.append(objectFieldId, d.object );
+        formdata.append(messageFieldId, d.message );
         this.$messageQuestionField.html('');
 
         if (parseInt(nbFiles) > parseInt(jsvar.question_nb_file)) {

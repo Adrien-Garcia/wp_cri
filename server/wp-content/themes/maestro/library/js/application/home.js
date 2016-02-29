@@ -79,7 +79,7 @@ App.Home = {
     },
 
     /*
-     * Event for toggling on and off the flash 
+     * Event for toggling on and off the flash
      */
 
     eventFlashToggle: function() {

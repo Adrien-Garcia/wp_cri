@@ -50,6 +50,9 @@ abstract class BaseAdminController extends MvcAdminController
             $this->flash('warning', $warning);
         }
         $url = MvcRouter::admin_url(array('controller' => $this->name, 'action' => 'index'));
+        if (isset($this->params['option'])) {
+            $url .= '&option=' . $this->params['option'];
+        }
         $this->redirect($url);
     }
 

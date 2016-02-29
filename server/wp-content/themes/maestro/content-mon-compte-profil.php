@@ -1,4 +1,3 @@
-<?php $notaire = CriNotaireData() ?>
 <div class="mes-informations" id="sel-compte-profil">
 
 	<h2>Mes informations</h2>
@@ -88,9 +87,6 @@
 	<div class="description">
 		Le notaire ou le collaborateur est invité à signaler la ou les thématiques juridiques pour lesquelles il souhaite disposer d'une veille ou information prioritaire. A défaut, il recevra l'information sur tous les domaines du droit.
 	</div>
-	<?php 
-		$matieres = getMatieresByNotaire();
-	 ?>
 	<form method="post" action="/notaires/<?php echo $notaire->id ?>/profil" class="form-centre-interet">
 		<ul>
 			<?php foreach($matieres as $key => $matiere): ?>
