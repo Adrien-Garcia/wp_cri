@@ -11,8 +11,9 @@
  * @contributor Fabrice MILA
  *
  */
+require_once 'base_actu_controller.php';
+class VieCridonsController extends BaseActuController {
 
-class VieCridonsController extends MvcPublicController {
     /*
      * We use the standard function for wordpress for queries ( query_posts() ) in views
      */

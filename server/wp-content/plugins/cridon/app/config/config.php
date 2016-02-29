@@ -74,6 +74,7 @@ class Config {
         'veilles',
         'flashes',
         'cahier_cridons',
+        'formations'
     );
 
     //Content qualified by a "Matière"
@@ -280,7 +281,8 @@ class Config {
         'client_number' => 'Numéro client',
         'quota'         => 'Quota',
         'type_support'  => 'Type du support',
-        'date_arret'    => 'Date d\'arrêt'
+        'date_arret'    => 'Date d\'arrêt',
+        'question'      => 'Sur les questions ?'
     );
     //End translation
     
@@ -298,7 +300,23 @@ class Config {
         'flash','veille'//correspond au champ type de la table cri_document
     );
     //End access
-    
+
+    // Content qualified by a "Custom Date"
+    public static $contentWithCustomDate = array(
+        'formations',
+    );
+    public static $dateTitleMetabox = 'Date de formation';// Titre du metabox date de formation
+
+    public static $contentWithAddress = array(
+        'formations',
+    );
+    // Titre des metabox - adresse de formation
+    public static $addressTitleMetabox = array(
+        'address' => 'Adresse de la formation',
+        'postal_code' => 'Code postal de la formation',
+        'town' => 'Ville de la formation'
+    ) ;
+
     //Label des affectations sur les questions
     public static $labelAffection = array(
         1 => 'Question transmise',
@@ -313,6 +331,41 @@ class Config {
         'read_private_posts',
         'read_private_pages',
     );
+
+    // breadcrumb wpmvc model title
+    // key must be match with controller params name
+    public static $breadcrumbModelParams = array(
+        'veilles'           => 'Veille juridique',
+        'flashes'           => 'Flash infos',
+        'cahier_cridons'    => 'Les cahiers du CRIDON',
+        'formations'        => 'Formation',
+        'vie_cridons'       => 'Vie du CRIDON',
+    );
+
+    //RSS
+    public static $rss = array(
+        'title'         => 'Flux RSS des veilles',//all
+        'title_mat'     => 'Flux RSS : %s',//filtered
+        'description'   => ''
+    );
+    //End RSS
+
+    //Listing veille
+    public static $listingVeille = array(
+        'h1'                => 'Veille juridique',
+        'meta_title'        => 'CRIDON Lyon: la veille juridique et l\'actualité des notaires',
+        'meta_description'  => 'CRIDON Lyon vous accompagne au coeur de l’actualité juridique : droit international, fiscalité, droit social, droit de la famille...'
+    );
+    //End listing
+
+    // manually set list of authorized capabilities for notary (no roles were associated to notary by default)
+    public static $authorizedCapsForNotary = array(
+        'read_private_posts',
+        'read_private_pages',
+    );
+
+    // question pending status
+    public static $questionPendingStatus = array(1,2,3);
 
     /**
      * @var array list of notary "function" allowed to edit profil

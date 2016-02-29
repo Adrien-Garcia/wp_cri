@@ -71,7 +71,7 @@ class CridonODBCAdapter implements DBConnect
 
         if (!$conn) {
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, odbc_errormsg());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, odbc_errormsg(),'Cridon - '.CONST_CONNECTION_FAILED);
         }
 
         return $conn;

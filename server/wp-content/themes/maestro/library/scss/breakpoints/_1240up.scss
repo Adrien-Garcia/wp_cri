@@ -51,7 +51,7 @@ HEADER STYLES
 *********************/
 
 .header {
-	height:180px; 
+	height:180px;  
 
 	.header-sup{
 
@@ -64,14 +64,25 @@ HEADER STYLES
 		
 
 		.logo-partenaires{
-			display: none; // Masquer les logos des éditeurs pour le lot 1
-			width: 366px;
-			height: 40px;
+			display: block; // Masquer les logos des éditeurs pour le lot 1
+			width: 259px;
+			height: 28px;
 			position: absolute;
 			left: 0;
 			top: 15px;
 
-			@include sprite($partenaire-header);
+			//@include sprite($partenaire-header);
+
+			a{
+				display: inline-block;
+				@include transition(all 0.3s);
+
+				&:hover{
+					opacity: 0.8;
+				}
+			}
+
+			
 
 		}
 
@@ -111,20 +122,55 @@ HEADER STYLES
 			
 		}
 
-		.acceder-compte{
+		#acceder-compte{
 			width: 222px;
 			height: 40px;
 			line-height: 40px;
 			right: 0;
 			left:  inherit;
-			font-size: 16px;
+			
 			padding-left: 50px;			
 
-			&:before{
-				
-				@include svgicon('icon-compte', 26px, 26px, $vert);	
-				top:7px;
-				left: 10px;				
+
+			margin: 0;
+			padding: 0;
+			top: 10px;
+
+
+
+			> li{
+
+				a.acceder-compte{
+					width: 222px;
+					height: 40px;
+					font-size: 16px;
+					line-height: 40px;
+
+					&:before{				
+						@include svgicon('icon-compte', 26px, 26px, $vert);	
+						top:7px;
+						left: 10px;				
+					}
+				}
+			
+
+				> ul.logout-2{
+					bottom: -40px;
+					height: 40px;
+
+					> li{
+						height: 40px;
+						
+						> a{ 							
+							height: 40px;
+							line-height: 40px;
+							font-size: 20px;
+							padding-right: 20px;
+							
+						}
+					}
+				}
+
 			}
 
 		}
@@ -852,10 +898,12 @@ body.page-template-front-page{
 
 										font-size: 15px;
 										line-height: 18px;
-										width: 450px;							
+										width: 450px;
+									}
 
-										
-
+									.adresse{
+										font-size: 12px;
+										line-height: 14px;
 									}
 
 									> a {		
@@ -879,6 +927,23 @@ body.page-template-front-page{
 						margin: 40px 0 50px 0;
 						
 					}
+				}
+
+				#accordion-formations{ /* specifique accordion formations*/
+					.panel .content > ul > li{
+
+						h4{
+							line-height: 30px;
+						}
+
+						.chapeau-categorie{
+							max-height: 56px;
+							height: auto;
+						}
+
+						
+
+					} 
 				}
 
 			}
@@ -1113,35 +1178,102 @@ body.page-template-front-page{
 		#inner-content{
 
 
-			h1{
-				
-				/*font-size: 50px;
-				line-height: 40px;*/ 
+			h1{	
 				margin: 0 0 70px 0; 
+			}
 
-				&:before{
-					/*display:block;
-					@include svgicon('icon-vieducridon', 10px, 10px,$rouge);	 				
-					position: absolute;
-				    bottom: -19px;
-				    left: 50%;
-				    margin-left: -27px;	*/			
+			#filtres_veilles{
+
+				
+				border-bottom: none;
+				height: 220px;				
+
+				#tri_matiere{					
+
+					display: none;
+
+					>label{}
+
+					span.open{}
+					span.close{}
+
+					span{}
+
+				}
+
+				.panel{
+
+					display: block;
+
+					form{
+						float: right;
+						width: 970px;
+					}
+
+					>a {
+						float: left;
+					}
+
+					ul{						
+						width: 970px;
+						float: right;
+						margin: 0;
+
+						>li{
+							
+							>label{	
+
+								>input{
+									margin-right: 10px;
+								} 
+								
+							}
+						}
+					}
+					#bt_valider{						
+						margin-bottom: 0;
+						margin-top: 20px;
+    					margin-left: 0;
+
+					}
+
+
+				}
+
+				
+
+				#bt_valider{
+					margin:0 0 20px 10px;
+				}
+
+			}
+
+			#filtres_formations{
+
+				>div{
+					line-height: 70px;
+					font-size: 30px;					
+
+					span{}
+
+					&:hover{
+
+						span{
+						}
+					}
+
+				}
+
+				>div.open{
+
+					span{}
 				}
 
 
 			}
 
-			#filtres_veilles{
-
-				/*width: 100%;
-				border-bottom:solid 5px $bg-top-footer;
-				height: 20px;
-				margin-bottom: 20px;*/
-				border-bottom: none;
-
-			}
-
 			.listing{
+				margin-top: 60px;
 
 				article{
 
@@ -1222,6 +1354,11 @@ body.page-template-front-page{
 							.extrait{
 								font-size: 15px;
 								 
+								
+							}
+
+							.adresse{
+								
 								
 							}
 
@@ -1349,7 +1486,13 @@ body.page-template-front-page{
 	}  
 }
 
+#content.archive-formations{
+	#main #inner-content .listing{
+		margin-top: 40px;
 
+	}
+
+}
 
 /***
 
@@ -1713,11 +1856,19 @@ body.single #content
         #inner-content{
             overflow: hidden;
 
-			h1{}
+			h1{ float: left;}
+
+			a.logout{
+				font-size: 22px;
+			    line-height: 28px;
+			    margin-top: 5px;
+			    margin-left: 20px;
+			}
 
 
 
 			> ul{
+				clear: both;
 				
 
 				>li{

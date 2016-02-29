@@ -77,7 +77,7 @@ function criGetLatestPost( $model ){
         $latest = new stdClass();
         $latest->title   = $result->post_title;
         $latest->content = $result->post_content;
-        $latest->link = CridonPostUrl::generatePostUrl( $model, $result->join_id );
+        $latest->link = CridonPostUrl::generatePostUrl( $model, $result->post_name );
         $latest->post = $tools->createPost( $result ); // Create Object WP_Post
         return $latest;
     }
@@ -112,7 +112,7 @@ if (!function_exists('criSetLoginFormOptions')) {
             $cri_container->setPasswordFieldId($passwdAttributeId);
             $cri_container->setErrorBlocId($errorBlocAttributeId);
 
-            add_action('wp_enqueue_scripts', append_js_var());
+            add_action('wp_enqueue_scripts', 'append_js_var');
         }
     }
 
@@ -165,7 +165,7 @@ if (!function_exists('criSetLostPwdOptions')) {
             $cri_container->setCrpcenFieldId($crpcenAttributeId);
             $cri_container->setMsgBlocId($msgBlocAttributeId);
 
-            add_action('wp_enqueue_scripts', append_js_lostpwd_var());
+            add_action('wp_enqueue_scripts', 'append_js_lostpwd_var');
         }
     }
 
@@ -202,14 +202,22 @@ if (!function_exists('criSetLostPwdOptions')) {
  * @param string $format_date Format of date, default is french format
  * @return null or array of objects
  */
-function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd/m/Y' ){
+function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y-m-d' ){
     if( !is_string( $model ) || empty( $model ) ){
         return null;
     }
     global $cri_container;
+    //The formation date is used instead of the post date
+    if ($model === 'formation'){
+        $date = 'CAST(f.custom_post_date AS DATE)';
+        $orderBy = 'f.custom_post_date';
+    } else {
+        $date = 'CAST(p.post_date AS DATE)';
+        $orderBy = 'p.id';
+    }
     $nestedOptions = array(
         'synonym' => 'p',
-        'fields' => 'CAST(p.post_date AS DATE) AS date',
+        'fields' => $date.' AS date',
         'join'  => array(
             $model => array(
                 'table' => $model.' '.$model[0],
@@ -222,10 +230,10 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
         'order' => 'DESC'
     );
     $query_builder = $cri_container->get( 'query_builder' );
-    $nested = $query_builder->buildQuery( 'posts',$nestedOptions,'p.ID' );// Nested query ( simple string )
+    $nested = $query_builder->buildQuery( 'posts', $nestedOptions, $orderBy );// Nested query ( simple string )
     $tools = $cri_container->get( 'tools' );
     $options = array(
-        'fields' => $tools->getFieldPost().'CAST(p.post_date AS DATE) AS date,p.post_title,'.$model[0].'.id as join_id',
+        'fields' => $tools->getFieldPost().$date.' AS date,p.post_title,'.$model[0].'.id as join_id',
         'join'  => array(
             $model => array(
                 'table' => $model.' '.$model[0],
@@ -233,32 +241,42 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'd
             ),
             'nested' => array(
                 'table' => '('.$nested.') AS nested',
-                'column' => 'CAST(p.post_date AS DATE) = nested.date',
+                'column' => $date.' = nested.date',
                 'nested' => true
             )
         ),
         'conditions' => 'p.post_status = "publish"',
-        'order' => 'DESC'
+        'order' => 'DESC',
     );
-    if( $model === 'veille' ){
-        $fields = array('id','code','label','short_label','displayed','picto');
-        $mFields = '';// fields of model Matiere
-        foreach ( $fields as $v ){
-            $mFields .= ',m.'.$v;
-        }
-        $options['fields'] = $options['fields'].$mFields;
-        $options['join']['matiere'] = array(
-                'table' => 'matiere m',
-                'column' => 'm.id = '.$model[0].'.id_matiere'
-            );
+
+    $fields = array('id','code','label','short_label','displayed','picto');
+    $mFields = '';// fields of model Matiere
+    foreach ( $fields as $v ){
+        $mFields .= ',m.'.$v;
     }
-    $results = criQueryPosts( $options,'CAST(p.post_date AS DATE)' );
+
+    $options['fields'] = $options['fields'].$mFields;
+    $options['join']['matiere'] = array(
+            'table' => 'matiere m',
+            'column' => 'm.id = '.$model[0].'.id_matiere'
+    );
+
+    if ($model === 'formation'){
+        $addressFields = array('address','postal_code','town');
+        $fFields = '';
+        foreach ( $addressFields as $v ){
+            $fFields .= ',f.'.$v;
+        }
+        $options['fields'] = $options['fields'].$fFields;
+    }
+
+    $results = criQueryPosts( $options, $date );
     //To have others attributes in array result. Default is object WP_Post
     //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
-    if( $model === 'veille' ){// If model Veille, so associate model Matiere in result
-        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );        
-    }else{
-        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date );        
+    if ($model === 'formation'){
+        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere', 'formation'),array('matiere'=>$fields,'formation'=>$addressFields) );
+    } else {
+        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
     }
     return $res;
 }
@@ -329,7 +347,7 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
     if( !is_array( $results ) ){
         $std = new stdClass();
         $std->matiere = CridonObjectFactory::create( $results, 'matiere', $fields);
-        $std->link = CridonPostUrl::generatePostUrl( $model, $results->join_id );
+        $std->link = CridonPostUrl::generatePostUrl( $model, $results->post_name );
         $std->post = $tools->createPost( $results ); // Create Object WP_Post
         return $std;
     }
@@ -347,19 +365,6 @@ function criQueryPostVeille( $limit = false,$order = 'ASC' ){
     return $aFinal;
 }
 
-// Hook of the_permalink() and get_permalink()
-function append_custom_link( $url, $post ) {
-    if ( $post->post_type === 'post' ) {
-        $newUrl = criGetPostLink();//Get custom post link 
-        if( $newUrl ){
-            $url = $newUrl;
-        }
-    }
-    return $url;
-}
-add_filter( 'post_link', 'append_custom_link', 10, 2 );
-
-//End hook
 
 /**
  * Restore current data in loop while of WP ( object with their all attributes ( post, link, ... )
@@ -396,17 +401,12 @@ function get_the_matiere() {
  * @return bool
  */
 function CriIsNotaire() {
-    global $current_user;
-
-    // get notaire by id_wp_user
-    $notaireData = mvc_model('notaire')->find_one_by_id_wp_user($current_user->ID);
+    global $cri_container;
 
     // user logged in is notaire
-    if (is_user_logged_in() && $notaireData->id) {
-        return true;
-    }
-
-    return false;
+    /** @var $tool CridonTools*/
+    $tool = $cri_container->get('tools');
+    return $tool->isNotary();
 }
 
 /**
@@ -430,6 +430,7 @@ function CriNotaireData() {
  * @return array|null
  */
 function getMatieresByNotaire(){
+    global $wpdb;
     //output
     $aResults = array();
     // check if user connected is notaire
@@ -437,9 +438,22 @@ function getMatieresByNotaire(){
         $notaire = CriNotaireData();
         $options = array(
             'conditions' => array(
-                'Matiere.displayed' => 1
+                'Matiere.displayed' => 1,
             )
         );
+        // custom query on matiere_notaire since it is not a model
+
+        $query = '
+            SELECT MN.id_matiere as id
+                FROM '.$wpdb->prefix.'notaire as N
+                JOIN '.$wpdb->prefix.'matiere_notaire as MN ON N.id = MN.id_notaire
+                JOIN '.$wpdb->prefix.'matiere as M on M.id = MN.id_matiere
+                WHERE M.displayed = 1
+                AND N.id = '.$notaire->id.'
+                ';
+
+        $notaire->matieres = $wpdb->get_results($query);
+
         $aSubscribed = array();
         $matieres = mvc_model('matiere')->find( $options );
         if( isset( $notaire->matieres ) && !empty( $notaire->matieres ) ){
@@ -492,7 +506,7 @@ function CriListMatieres()
     // init
     $matieres = array();
 
-    // query optoins
+    // query options
     $options = array(
         'selects' => array('Matiere.id', 'Matiere.label', 'Matiere.code'),
         'conditions' => array(
@@ -632,16 +646,6 @@ function CriListSupport()
 
 }
 
-/**
- * Restore the questions asked by the notary
- * 
- * @return array
- */
-function criRestoreQuestions(){
-    $question = new QuestionNotaire();
-    return $question;
-}
-
 /*
  * End restore
  */
@@ -769,15 +773,108 @@ function updateEmptyDownloadUrlFieldsDocument() {
     }
 }
 
+/**
+ * Custom breadcrumbs
+ */
+function CriBreadcrumb() {
+    global $post,
+           $mvc_params;
+
+    // prepare vars
+    $home        = new stdClass();
+    $home->title = 'Accueil';
+    $home->url   = home_url();
+    $vars        = array(
+        'breadcrumb'        => array($home),
+        'separator'         => ' + ',
+        'containerId'       => 'inner-content',
+        'containerClass'    => 'wrap cf'
+    );
+
+    if (is_mvc_page()) { // WPMVC page (single, archives,...)
+        if (isset($mvc_params['action']) && $mvc_params['action']) {
+            if ($mvc_params['controller'] == 'notaires') { // page notaire
+                // archive model
+                $archive              = new stdClass();
+                $archive->title       = 'Mon compte';
+                $archive->url         = mvc_public_url(array(
+                    'controller' => $mvc_params['controller']
+                ));
+                $vars['breadcrumb'][] = $archive;
+            } else {
+                // archive model
+                $archive              = new stdClass();
+                $archive->title       = isset(Config::$breadcrumbModelParams[$mvc_params['controller']]) ?
+                    Config::$breadcrumbModelParams[$mvc_params['controller']] : ucfirst($mvc_params['controller']);
+                $archive->url         = mvc_public_url(array(
+                    'controller' => $mvc_params['controller']
+                ));
+                $vars['breadcrumb'][] = $archive;
+
+                // single model
+                if (isset($mvc_params['id']) && $mvc_params['id']) {
+                    $singles              = mvc_model('QueryBuilder')->getPostByMVCParams();
+                    $single               = new stdClass();
+                    $single->title        = isset($singles->post_title) ? $singles->post_title : '';
+                    $single->url          = mvc_public_url(array(
+                        'controller' => $mvc_params['controller'],
+                        'action'     => $mvc_params['action'],
+                        'id'         => $mvc_params['id'],
+                    ));
+                    $vars['breadcrumb'][] = $single;
+                    $vars['containerId']  = '';
+                }
+            }
+        }
+    } elseif ((is_single() || is_page()) && !is_attachment()) { // page or post single
+        $single              = new stdClass();
+        $single->title       = $post->post_title;
+        $single->url         = get_the_permalink($post->ID);
+        $vars['breadcrumb'][] = $single;
+    }
+
+    // render view
+    CriRenderView('breadcrumb', $vars);
+}
+
+// Hook of the_permalink() and get_permalink()
+function append_custom_link( $url, $post ) {
+    if ( $post->post_type === 'post' ) {
+        $newUrl = criGetPostLink();//Get custom post link
+        if( $newUrl ){
+            $url = $newUrl;
+        }
+    }
+    return $url;
+}
+add_filter( 'post_link', 'append_custom_link', 10, 2 );
 //get affectation label
 /**
  * Obtenir l'étiquette d'une affectation
- * 
+ *
  * @param integer $id
  * @return string
  */
 function getAffectation($id){
     return isset(Config::$labelAffection[$id]) ? Config::$labelAffection[$id] : '';
+}
+
+function getMatieresByQuestionNotaire(){
+    return mvc_model('Matiere')->getMatieresByNotaireQuestion();
+}
+/**
+ * Redirect to 404
+ *
+ * @global \WP_Query $wp_query
+ */
+function redirectTo404(){
+    global $wp_query;
+    header("HTTP/1.0 404 Not Found");
+    $wp_query->set_404();
+    if( file_exists(TEMPLATEPATH.'/404.php') ){
+        require TEMPLATEPATH.'/404.php';
+    }
+    exit;
 }
 
 /**
