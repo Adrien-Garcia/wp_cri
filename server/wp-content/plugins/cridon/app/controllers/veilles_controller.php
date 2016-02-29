@@ -35,9 +35,14 @@ class VeillesController extends BaseActuController {
     public function index() {
         $veille = new Veille;
         $this->matieres = Matiere::getMatieresByModelPost($veille);
-        if ( isset($_GET['matieres']) && is_array($_GET['matieres']) && count($_GET['matieres']) > 0 ) {
-            // apply filters
-            $this->applyFilters($_GET['matieres']);
+        if ( isset($_GET['matieres']) && is_array($_GET['matieres']) ) {
+            // apply filters after removing empty values
+            $filtres = array_filter($_GET['matieres'], function($value) {
+                return !empty($value);
+            });
+            if (!empty($filtres)) {
+                $this->applyFilters($filtres);
+            }
         } else {
             foreach ($this->matieres as $mat) {
                 $mat->filtered = false;
