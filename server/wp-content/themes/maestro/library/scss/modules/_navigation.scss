@@ -422,9 +422,11 @@ and more scalable.
 						width: 270px;
 						float: left;
 
-						a{
+						/*a{
 							    opacity: 0.5;
     							cursor: default;
+
+    							border:solid 1px red;
 
     							&:hover{
     								margin-left: 0;
@@ -432,7 +434,7 @@ and more scalable.
 
     								&:before{background: #FFF;}
     							}
-						}
+						}*/
 
 						&.active{
 							a{
@@ -827,7 +829,7 @@ nav#menu_mobile{
 
 /* CACHE PR MEL */
 
-#mm-2{
+/*#mm-2{
 	
 	> ul.sub-menu{
 
@@ -859,6 +861,6 @@ nav#menu_mobile{
 			}
 
 	}
-}
+}*/ 
 
 

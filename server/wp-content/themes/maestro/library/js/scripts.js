@@ -221,23 +221,14 @@ jQuery(document).ready(function($) {
 
 
 
+    /* FILTRE LISTE VEILLES */
 
+    $("#tri_matiere").click(function(){
 
+    	$("#tri_matiere > span").toggleClass("active"); 
 
+    	$("#tri_matiere + .panel").toggle('slow');
 
-
-
-
-
-
-
-
-
- 
-
-
-	
-
-
+    });
 
 }); /* end of as page load scripts */

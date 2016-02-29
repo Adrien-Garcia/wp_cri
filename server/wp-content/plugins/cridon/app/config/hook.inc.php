@@ -123,7 +123,7 @@ function append_js_files()
         );
     }
 }
-add_action('wp_enqueue_scripts', append_js_files(), 99);
+add_action('wp_enqueue_scripts', 'append_js_files', 99);
 
 /**
  * hook for connection
@@ -301,11 +301,13 @@ add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
  */
 function add_new_post_url( $url, $path, $blog_id ) {
 
+    $hookPath = false;
     if ( $path == "post-new.php" && isset($_GET['cridon_type']) ) {
         $path = "post-new.php?cridon_type=" . $_GET['cridon_type'];
+        $hookPath = true;
     }
 
-    return ($path)?$path:$url;
+    return ($hookPath) ? $path : $url;
 }
 add_filter( 'admin_url', 'add_new_post_url', 10, 3 );
 
@@ -327,4 +329,100 @@ function custom_mvc_title_page( $title ){
         $title = preg_replace('/(\bUser\b)/', 'Utilisateur', $title);
     }
     return $title ;
-} 
+}
+
+// Match wp_posts and WP_MVC show action
+if( !is_admin() ){
+    /**
+     * @see https://codex.wordpress.org/Plugin_API/Action_Reference/wp
+     */
+    add_action( 'wp', 'join_wp_post_and_wpmvc' );
+    function join_wp_post_and_wpmvc($wp)
+    {
+        global $wpdb;
+        //check wp_mvc pages
+        if (empty($wp->matched_query) || preg_match("/(mvc_controller)|(mvc_action)/",$wp->matched_query)){
+            return;
+        }
+        //only for WP_Posts
+        if( !is_feed() && !empty($wp->query_vars) && !isset($wp->query_vars['mvc_controller']) && ('post' === get_post_type()) ){
+            $post_ID = get_the_ID();
+            $post = get_post();
+            foreach( Config::$data as $v ){
+                $table = $v[ 'name' ];
+                //Simple query using WP_query to get mvc_model (id)
+                $mvc = $wpdb->get_row(
+                        'SELECT id FROM '.$wpdb->prefix.$table
+                        .' WHERE post_id = '.$post_ID
+                );
+                //when model founded
+                if($mvc){
+                    $options=array(
+                        'controller' => $v['controller'],
+                        'action'     => 'show',
+                        'id'         => $post->post_name
+                    );
+                    $url  = MvcRouter::public_url($options);
+                    //redirect to correct url
+                    wp_redirect( $url, 301 );
+                    exit;
+                }
+            }
+        }
+    }
+}
+//End Match wp_posts and WP_MVC show action
+
+/**
+ * Filter a notary capabilities depending on config
+ * This would be secure because only executed on user notary connected
+ *
+ * @param array $caps : A list of required capabilities to access the page or doing some actions
+ * @param string $cap : The capability being checked
+ * @param int $user_id : The current user ID
+ * @param mixed $args : A numerically indexed array of additional arguments dependent on the meta cap being used
+ * @return null|array
+ */
+function custom_map_meta_cap( $caps, $cap, $user_id, $args ) {
+    // bypass unauthorized capabilities
+    // by returning an empty value (or empty array)
+    // if the capabalities was found on the list of config values
+    if ( CriIsNotaire() ) { // Check if user is notary
+        if (is_array($caps)
+            && count(array_intersect($caps, Config::$authorizedCapsForNotary)) > 0
+        ) {
+            return;
+        }
+    }
+
+    return $caps;
+}
+add_filter( 'map_meta_cap', 'custom_map_meta_cap', 10, 4 );
+
+add_action( 'wp', 'custom_redirect_301' );
+function custom_redirect_301($wp)
+{
+    if (!is_admin() && !empty($wp->matched_query)) {
+        // convert a query string to an array of vars
+        parse_str($wp->matched_query, $vars);
+
+        if (is_array($vars)
+            && isset($vars['mvc_controller'])
+            && isset($vars['mvc_action'])
+            && isset($vars['mvc_id']) // id notary is set
+            && $vars['mvc_controller'] == 'notaires' // controller "notaires"
+            && $vars['mvc_action']
+        ) {
+            // redirect 301 for an url like [site_url]/notaires/{id} to [site_url]/notaires
+            // and [site_url]/notaires/{id}/{action} to [site_url]/notaires/{action}
+            wp_redirect(
+                mvc_public_url(array(
+                        'controller' => 'notaires',
+                        'action'     => $vars['mvc_action']
+                    )
+                ),
+                301
+            );
+        }
+    }
+}
