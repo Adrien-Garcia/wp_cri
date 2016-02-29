@@ -60,10 +60,17 @@ MvcRouter::public_connect('formations', array('controller' => 'formations', 'act
 MvcRouter::public_connect('veilles', array('controller' => 'veilles', 'action' => 'index'));
 MvcRouter::public_connect('cahier_cridons', array('controller' => 'cahier_cridons', 'action' => 'index'));
 MvcRouter::public_connect('vie_cridons', array('controller' => 'vie_cridons', 'action' => 'index'));
+MvcRouter::public_connect('matieres', array('controller' => 'matieres', 'action' => 'index'));
+
+// wpmvc virtual_name routes
+MvcRouter::public_connect('flashes/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'flashes', 'action' => 'show'));
+MvcRouter::public_connect('formations/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'formations', 'action' => 'show'));
+MvcRouter::public_connect('veilles/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'veilles', 'action' => 'show'));
+MvcRouter::public_connect('cahier_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'cahier_cridons', 'action' => 'show'));
+MvcRouter::public_connect('vie_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'vie_cridons', 'action' => 'show'));
+MvcRouter::public_connect('matieres/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'matieres', 'action' => 'show'));
 
 // default
-MvcRouter::public_connect('{:controller}', array('action' => 'index'));
-MvcRouter::public_connect('{:controller}/{:id:[a-zA-Z0-9=+~_-]+}', array('action' => 'show'));
 MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
 
 //Ajax admin
