@@ -79,7 +79,7 @@ echo get_template_part("content","ga");
 							<?php _e('acceder à mon compte'); ?>
 						</a>
 					<?php else: ?>
-						<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="/notaires/<?php echo CriNotaireData()->id ?>/">
+						<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')); ?>">
 							<?php _e('acceder à mon compte'); ?>
 						</a>
 					<?php endif; ?>
@@ -112,7 +112,7 @@ echo get_template_part("content","ga");
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
 						<div id="bt-account" class="js-panel-connexion-open sel-open-onglet-connexion"></div>
 					<?php else: ?>
-						<a id="bt-account" class="sel-open-onglet-connexion" href="/notaires/<?php echo CriNotaireData()->id ?>/" ></a>
+						<a id="bt-account" class="sel-open-onglet-connexion" href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')); ?>" ></a>
 					<?php endif; ?>
 
 				</div>

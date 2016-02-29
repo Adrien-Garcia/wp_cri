@@ -300,13 +300,14 @@ add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
  * @return string
  */
 function add_new_post_url( $url, $path, $blog_id ) {
-    $isCustom = false;
+
+    $hookPath = false;
     if ( $path == "post-new.php" && isset($_GET['cridon_type']) ) {
         $path = "post-new.php?cridon_type=" . $_GET['cridon_type'];
-        $isCustom = true;
+        $hookPath = true;
     }
 
-    return ($isCustom)?$path:$url;
+    return ($hookPath) ? $path : $url;
 }
 add_filter( 'admin_url', 'add_new_post_url', 10, 3 );
 
@@ -397,6 +398,35 @@ function custom_map_meta_cap( $caps, $cap, $user_id, $args ) {
     return $caps;
 }
 add_filter( 'map_meta_cap', 'custom_map_meta_cap', 10, 4 );
+
+add_action( 'wp', 'custom_redirect_301' );
+function custom_redirect_301($wp)
+{
+    if (!is_admin() && !empty($wp->matched_query)) {
+        // convert a query string to an array of vars
+        parse_str($wp->matched_query, $vars);
+
+        if (is_array($vars)
+            && isset($vars['mvc_controller'])
+            && isset($vars['mvc_action'])
+            && isset($vars['mvc_id']) // id notary is set
+            && $vars['mvc_controller'] == 'notaires' // controller "notaires"
+            && $vars['mvc_action']
+        ) {
+            // redirect 301 for an url like [site_url]/notaires/{id} to [site_url]/notaires
+            // and [site_url]/notaires/{id}/{action} to [site_url]/notaires/{action}
+            wp_redirect(
+                mvc_public_url(array(
+                        'controller' => 'notaires',
+                        'action'     => $vars['mvc_action']
+                    )
+                ),
+                301
+            );
+        }
+    }
+}
+
 
 /**
  * Hook lien "Lire" pour conservation filtre de veille

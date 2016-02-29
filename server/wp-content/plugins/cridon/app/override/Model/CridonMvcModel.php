@@ -21,6 +21,7 @@ class CridonMvcModel extends \MvcModel{
      * @var string : default join type
      */
     protected $defaultJoin = 'LEFT';
+    protected $defaultJoinKey = 'id';
 
 
     public function __construct() {
@@ -174,7 +175,8 @@ class CridonMvcModel extends \MvcModel{
                             }
                         }
                     }
-                    $on = " {$model}.id = {$this->name}.{$join['foreign_key']}";
+                    $joinKey   = (isset($join['key'])) ? $join['key'] : $this->defaultJoinKey;
+                    $on = " {$model}.$joinKey = {$this->name}.{$join['foreign_key']}";
                     $processOptions['joins'][] = $joinType . " JOIN {$modelTable} AS {$model} ON  {$on}";
                 }
             }

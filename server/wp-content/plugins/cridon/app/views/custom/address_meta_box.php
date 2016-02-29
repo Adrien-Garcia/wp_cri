@@ -1,0 +1,2 @@
+<?php $address = (is_object($oModel) && property_exists($oModel, 'address') && $oModel->address) ? $oModel->address : '' ?>
+<textarea maxlength="50" style="width: 100%; height: 45px;" name="address" id="address" value="<?php echo $address ?>" ><?php echo $address ?></textarea>
