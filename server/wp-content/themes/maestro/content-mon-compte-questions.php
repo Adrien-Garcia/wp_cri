@@ -117,11 +117,11 @@ Vous n'avez actuellement aucune question en attente de réponse.
 
 <div id="historique-questions">
 	<h2><?php _e('Historique de mes questions'); ?></h2>
-    <form class="js-account-form-filter" action="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions#historique-questions">
+    <form class="js-account-form-filter" action="<?php get_home_url() ?>/notaires/questions#historique-questions">
 
         <div class="filtres">
             <ul>
-                <li> <a href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions/#historique-questions">Toutes mes questions</a></li>
+                <li> <a href="<?php get_home_url() ?>/notaires/questions/#historique-questions">Toutes mes questions</a></li>
                 <li>
                     <span class="titre">Période :</span>
                     <p class="du">Du <input name="d1" type="text" id="datefrom" class="datepicker js-account-du-filter" value="<?php echo $_GET['d1'] ; ?>" /></p>
