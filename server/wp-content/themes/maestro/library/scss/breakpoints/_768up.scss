@@ -2098,6 +2098,8 @@ body.single #content{
 						line-height: 16px; 
 						width: 157px;
 
+						@extend .do-sm; 
+
 						
 
 						&:before{}
