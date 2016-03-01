@@ -129,31 +129,33 @@ class DocumentsController extends MvcPublicController {
         die();
     }
     
-    private function checkAccess( $object,$notaire,$document ){
+    private function checkAccess( $object,$notaire,$document )
+    {
         //If we are in BO, logged and not a Notaire
-        if ( is_user_logged_in() && empty( $notaire ) ) {
+        if (is_user_logged_in() && empty($notaire)) {
             //If user cridon, they can download with no restriction
             return true;
         }
         //Access download document of news
-        if( in_array($document->type,Config::$accessDowloadDocument) && !empty( $notaire ) ){
+        if (in_array($document->type, Config::$accessDowloadDocument) && !empty($notaire)) { // user connected && document allowed for download
             if (in_array($document->type, Config::$restrictedDownloadByTypeLevel)
                 && !$this->model->userCanDownload($document)
-            ) {
+            ) { // document was restricted for specific level
                 redirectToInformationPage();
             }
+
             return true;
-        }elseif(in_array($document->type,Config::$accessDowloadDocument)){
-            redirectTo404();
-        //Check if question exist, document file path is valid
-        }elseif( empty( $notaire ) || empty( $object ) || empty( $document->file_path ) ){
-            redirectTo404();
-        }        
-        //Check if question is created by current user
-        //$objet = Question MvcModelObject
-        if( $object->client_number != $notaire->client_number ){
+        } elseif (in_array($document->type, Config::$accessDowloadDocument)) { // force user to login before downloading
+            CriRefuseAccess();
+        } elseif (empty($notaire) || empty($object) || empty($document->file_path)) { // Check if question exist, document file path is valid
             redirectTo404();
         }
+        //Check if question is created by current user
+        //$objet = Question MvcModelObject
+        if ($object->client_number != $notaire->client_number) {
+            redirectTo404();
+        }
+
         return true;
     }
     //Téléchagement des documents à lien public

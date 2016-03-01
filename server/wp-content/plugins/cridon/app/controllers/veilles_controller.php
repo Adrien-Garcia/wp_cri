@@ -92,6 +92,12 @@ class VeillesController extends BaseActuController {
         } else {
             // check if user can access this level
             if ($this->model->userCanAccessSingle($this)) {
+                $download_url = '';
+                if (isset($_GET['id_doc']) && $_GET['id_doc']) {
+                    $download_url = mvc_public_url(array('controller' => 'documents', 'action' => 'download', 'id' => $_GET['id_doc']));
+                }
+                $this->set('download_url', $download_url);
+
                 parent::show();
             } else {
                 // redirect to information page
