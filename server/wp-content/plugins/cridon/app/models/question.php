@@ -1642,7 +1642,7 @@ writeLog($query, 'query_export.log');
             $question = array(
                 'Question' => array(
                     'client_number'      => $notaire->client_number,
-                    'sreccn'             => intval($notaire->code_interlocuteur),
+                    'sreccn'             => $notaire->code_interlocuteur,
                     'resume'             => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
                     'creation_date'      => date('Y-m-d H:i:s'),
                     'id_support'         => $post[CONST_QUESTION_SUPPORT_FIELD], // Support
