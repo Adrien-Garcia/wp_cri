@@ -176,13 +176,6 @@ jQuery(document).ready(function($) {
                 "",
                 "close"
              ]
-          },
-          {
-             "position": "bottom",
-             "content": [
-               "<a href='http://www.lexbase.fr/' target='_blank'><img src='/wp-content/themes/maestro/library/images/origin/logo-lexbase.png' alt='lexbase'></a>",
-				"<a href='http://www.wolterskluwerfrance.fr/' target='_blank'><img src='/wp-content/themes/maestro/library/images/origin/logo-woltersKluwer.png' alt='Wolters Kluwer'></a>"
-             ]
           }
        ]
     });
