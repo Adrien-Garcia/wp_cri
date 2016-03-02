@@ -102,47 +102,61 @@ class LoginsController extends MvcPublicController
      * 
      * @global CridonContainer $cri_container
      */
-    public function login(){
+    public function login()
+    {
         global $cri_container;
         $request = $cri_container->get('request');
-        $success = true;
-        $message = CONST_WS_MSG_SUCCESS;
+        $success = false;
+        $message = CONST_LOGIN_ERROR_MSG;
         $token   = false;
+        $notaire = new stdClass();
+
         //N'accepter que les requêtes POST
-        if( !$request->isMethod( 'POST' ) ){  
+        if (!$request->isMethod('POST')) {
             $message = CONST_WS_MSG_ERROR_METHOD;
-            $success = false;
-        }else{
+        } else {
+            $model = mvc_model('notaire');//load model notaire
+            // Check if Notaire exist with this login and password
             $method = $request->getMethod();
-            $token = $this->generateToken( $request->get( $method, 'login' ),$request->get( $method, 'password' ) );
+            $notaire = $model->findByLoginAndPassword($request->get( $method, 'login' ), $request->get( $method, 'password' ) );
+
+            $token = $this->generateToken($model, $notaire);
             //No token generated
-            if( !$token ){
-                $success = false;
-                $message = CONST_LOGIN_ERROR_MSG;
-            }            
+            if ($token) {
+                $success = true;
+                $message = CONST_WS_MSG_SUCCESS;
+            }
         }
         //output token
-        $encoded = $request->response->getResponse( array( 'success'=>$success,'message' => $message,'token'=>$token ) );
-        $this->set('encoded',$encoded);
-        $this->render_view('login', array('layout' => 'response_json'));
+        $encoded = $request->response->getResponse(array(
+                'success'            => $success,
+                'message'            => $message,
+                CONST_TOKEN_NAME_VAR => $token,
+                'civilite'           => property_exists($notaire, 'civilite') ? $notaire->civilite : '',
+                'nom'                => property_exists($notaire, 'nom') ? $notaire->nom : '',
+                'prenom'             => property_exists($notaire, 'prenom') ? $notaire->prenom : ''
+            )
+        );
+        $this->set('encoded', $encoded);
+        $this->render_view(
+            'login',
+            array(
+                'layout' => 'response_json'
+            )
+        );
     }
     
     /**
      * Attempt to authenticate
      * 
-     * @param string $login
-     * @param string $password
      * @return boolean|object
      */
-    protected function generateToken( $login,$password ){
-        $model = mvc_model('notaire');//load model notaire
-        //Check if Notaire exist with this login and password 
-        $notaire = $model->findByLoginAndPassword( $login, $password );
+    protected function generateToken( $model, $notaire ){
         if( empty( $notaire ) ){ 
             return false;
-        }        
-        return $model->generateToken( $notaire->id,$login,$password );
-    }  
+        }
+        return $model->generateToken( $notaire->id, $notaire->crpcen, $notaire->web_password );
+    }
         
     //End webservice
 }
