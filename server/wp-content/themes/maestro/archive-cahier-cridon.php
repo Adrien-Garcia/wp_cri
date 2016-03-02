@@ -1,13 +1,12 @@
 <?php get_header(); ?>
 
 	<div id="content" class="archive archive-cahier">
-				
-		<div class="breadcrumbs">
-			<div id="inner-content" class="wrap cf">
-				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
-				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux connaissances juridiques </a>  +  <span>Les cahiers du CRIDON</span>
-			</div>
-		</div>
+
+        <div class="breadcrumbs">
+            <div class="wrap cf">
+                <?php if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
+            </div>
+        </div>
 
 		<div id="main" class="cf" role="main">
 			<div id="inner-content" class="wrap cf">

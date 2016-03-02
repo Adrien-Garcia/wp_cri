@@ -17,9 +17,12 @@ body {
   	-webkit-font-smoothing: antialiased;
   	box-sizing: border-box;
   	background: #FFF;
+
+  	-webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.breadcrumbs{display: none!important;}
+//.breadcrumbs{display: none!important;}
 
 /*********************
 LAYOUT & GRID STYLES
@@ -2696,6 +2699,11 @@ body.single, #content.single {
 						display: block;
 						margin: 0;
 						padding: 0;
+						text-align:left;
+
+						&:before{
+							display: none;
+						}
 
 					}
 
@@ -2942,6 +2950,8 @@ body.single #content {
 
 	padding: 60px 0 0 0;
 	background: #FFF;
+
+
 	
 
 	.breadcrumbs{
@@ -2949,28 +2959,41 @@ body.single #content {
 		background: $bg-top-footer;
 		height: 70px; 
 		padding-top: 10px;
-		color:#818181;
+		color:$bleu;
 
 		display: none;
 
-		a{
-			@extend .do-re;
-			font-size: 15px;
-			color:#818181;
-			text-transform: uppercase;
-			text-decoration: none;
-			line-height: 24px;
+		nav > div{
+			display: inline-block;
 
-			&:hover{text-decoration: underline;}
+			a{
+				@extend .do-re;
+				font-size: 15px;
+				text-transform: uppercase;
+				text-decoration: none;
+				line-height: 24px;
+				color:$bleu;
 
+				&:hover{
+					//text-decoration: underline;
+					border-bottom:solid 1px #818181;
+				}
+
+				span{
+					color:#818181;
+				}
+
+			}
+
+			span{
+				@extend .do-sm;
+				color:$bleu;
+				font-size: 15px;
+				line-height: 24px;
+			}
 		}
 
-		span{
-			@extend .do-sm;
-			color:$bleu;
-			font-size: 15px;
-			line-height: 24px;
-		}
+		
 
 	}
 
@@ -2989,7 +3012,9 @@ body.single #content {
 
 		}
 
-		.h1{
+		
+
+		.h1, h1{
 			@extend .do-sm;
 			font-size: 30px;
 			line-height: 30px;
@@ -3000,6 +3025,7 @@ body.single #content {
 			text-align: center;
 			position: relative;
 			display: block;
+
 
 			&:before{
 				display:block;
@@ -3284,11 +3310,42 @@ body.single #content {
 
 		#inner-content{
 
-			h1{}
+			h1{
+				float: left;
+			}
+
+			a.logout{
+				color:$rouge;
+				background: none;
+				display: inline-block;
+				width: auto;
+				text-transform: none;
+				font-size: 14px;
+				@extend .do-el;
+				float: none;
+				margin: 0;
+				padding: 0;
+				text-align: left;
+				border-bottom:solid 1px $rouge;
+				height: auto;
+				line-height: 18px;
+				text-decoration: none;
+				float: right;
+				margin-bottom: 20px;
+
+				&:after{ display: none;}
+
+				&:hover{
+					border-bottom:solid 1px #FFF;
+					color:$rouge;
+				}
+			}
 
 			> ul{
 				margin:40px 0 40px 0;
 				padding: 0;
+				clear: both;
+				float: none;
 
 				>li{
 					margin: 0;

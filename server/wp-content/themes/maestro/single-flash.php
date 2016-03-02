@@ -3,8 +3,8 @@
 	<div id="content" class="single single-flash">
 
 		<div class="breadcrumbs">
-			<div id="" class="wrap cf">				
-				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux bases de connaissances</a>  +  <a href="">Flash infos</a>  +  <span>Titre POST flashes</span>
+			<div class="wrap cf">
+				<?php if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
 			</div>
 		</div>
 

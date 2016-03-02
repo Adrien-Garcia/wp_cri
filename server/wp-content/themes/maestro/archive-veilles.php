@@ -1,11 +1,10 @@
 <?php get_header(); ?>
 
 	<div id="content" class="archive archive-veilles">
-				
+
 		<div class="breadcrumbs">
-			<div id="inner-content" class="wrap cf">
-				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
-				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux connaissances juridiques </a>  +  <span>Veille juridique</span>
+			<div class="wrap cf">
+				<?php if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
 			</div>
 		</div>
 

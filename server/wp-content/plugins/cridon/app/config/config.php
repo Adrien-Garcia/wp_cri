@@ -335,11 +335,12 @@ class Config {
     // breadcrumb wpmvc model title
     // key must be match with controller params name
     public static $breadcrumbModelParams = array(
-        'veilles'           => 'Veille juridique',
+        'veilles'           => 'Veilles',
         'flashes'           => 'Flash infos',
         'cahier_cridons'    => 'Les cahiers du CRIDON',
         'formations'        => 'Formation',
         'vie_cridons'       => 'Vie du CRIDON',
+        'matieres'          => 'Matiere',
     );
 
     //RSS

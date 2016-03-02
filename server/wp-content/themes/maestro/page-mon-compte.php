@@ -1,10 +1,9 @@
 <?php get_header(); ?>
 	<div id="content" class="page page-mon-compte">
-				
+
 		<div class="breadcrumbs">
-			<div id="inner-content" class="wrap cf">
-				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
-				<a href="#" title="">Accueil</a> + <span>Mon compte</span>
+			<div class="wrap cf">
+				<?php if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
 			</div>
 		</div>
 		
@@ -12,10 +11,9 @@
 		<div id="main" class="cf" role="main">
 
 			<div id="inner-content" class="wrap cf">
-			
-				<?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
  
 				<h1>Mon compte</h1>
+				<a href="/wp-login.php?action=logout" class="logout"> Se déconnecter</a>
 				<ul id="sel-compte">
 					<li class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : ""?>" data-js-name="Dashboard" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentdashboard">
 						<a href="<?php get_home_url() ?>/notaires/" class="bt js-account-dashboard-button">Tableaux de bord</a>

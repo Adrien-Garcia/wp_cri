@@ -139,37 +139,107 @@ HEADER STYLES
 			
 		}
 
-		.acceder-compte{
+		#acceder-compte{
+
+			margin: 0;
+			padding: 0;
 			width: 175px;
 			height: 30px;
 			position: absolute;
 			top: 10px;
 			left: 485px;
-			background: #FFF;
-			text-decoration: none;
 
-			@extend .do-sm;
-			font-size: 12px;
-			color:$vert;
-			text-transform: uppercase;
-			line-height: 30px;
-			padding-left: 40px;
+			>li{
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				position: relative;
 
-			&:before{
-				display:block;
-				font-weight: normal;
-				@include svgicon('icon-compte', 20px, 20px, '');	 				
-				position:absolute;
-				top:6px;
-				left: 8px;
-			}
-			&:hover {
-				background: $vert;
-				&, &:before {
-					color: #fff;
+				a.acceder-compte{
+					width: 175px;
+					height: 30px;					
+					background: #FFF;
+					text-decoration: none;
+					@extend .do-sm;
+					font-size: 12px;
+					color:$vert !important;
+					text-transform: uppercase;
+					line-height: 30px;
+					padding-left: 40px;
+					display: block;
+
+					&:before{
+						display:block;
+						font-weight: normal;
+						@include svgicon('icon-compte', 20px, 20px, '');	 				
+						position:absolute;
+						top:4px;
+						left: 8px;
+					}
+
+					&:hover {
+						background: $vert;
+						color:#FFF !important;
+
+						&, &:before {
+							color: #fff;
+						}
+					}
+				}
+
+				>ul{
+					visibility: hidden;
+    				position: absolute;
+    				width: 100%;
+    				padding: 0;
+    				margin: 0;
+    				bottom: -30px;
+    				left: 0;
+    				z-index: 3000;
+
+    				&.visible{
+    					visibility: visible;
+    				}
+
+    				> li{
+    					padding: 0;
+    					margin: 0;
+    					width: 100%;
+    					height: 30px;
+    					
+
+
+    					&:before{
+    						content: none;
+    					}
+
+
+    					> a{
+    						display: block;
+    						height: 30px;
+    						line-height: 30px;
+    						color:#FFF;
+    						text-decoration: none;
+    						text-align: right;
+    						padding-right: 10px;
+    						@extend .do-el;
+    						font-size: 16px;
+    						background: $vj_03;
+    						
+
+    						&:hover{
+    							background: $vert;
+								color:#FFF !important;
+    						}
+
+    					}
+    				}
+
 				}
 			}
+
 		}
+		
 	}
 
 	.header-bottom{
@@ -1999,6 +2069,11 @@ body.single #content{
 
 			h1{}
 
+			a.logout{
+				font-size: 16px;
+			    width: auto;
+			}
+
 
 
 			> ul{
@@ -2022,6 +2097,8 @@ body.single #content{
 						vertical-align: middle;
 						line-height: 16px; 
 						width: 157px;
+
+						@extend .do-sm; 
 
 						
 
@@ -2959,12 +3036,12 @@ FOOTER STYLES
 
 			}
 
-			&:after{
-				content:'';
+			&:after{ /* PARTENAIRES FOOTER*/
+				/* content:'';
 				@include sprite($partenaire-footer);
 				position: absolute;
 				bottom: -100px;
-				left: 50px;
+				left: 50px; */
 			}
 
 			.chapeau {
