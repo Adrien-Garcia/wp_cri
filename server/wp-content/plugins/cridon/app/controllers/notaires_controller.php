@@ -44,7 +44,7 @@ class NotairesController extends BasePublicController
             )
         );
         // exec query and return result as object
-        $this->current_notaire = $this->model->findOneBy($idWPoptions);
+        $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
 
         // check if user is not logged in
         // or notaire id (url params) not equal to WP user session data
@@ -111,11 +111,7 @@ class NotairesController extends BasePublicController
                 }
                 $this->current_notaire = $this->model->new_object($this->model->invalid_data);
             } else if (!empty($this->params['id'])) {
-                $this->current_notaire = $this->model->findOneBy(array(
-                    'where' => array(
-                        'Notaire.id_wp_user = ' . $this->params['id'],
-                    )
-                ));
+                $this->current_notaire = $this->model->find_one_by_id_wp_user($this->params['id']);
             }
         }
         if (!empty($this->current_notaire)) {
