@@ -13,6 +13,7 @@
 			<div id="inner-content" class="wrap cf">
  
 				<h1>Mon compte</h1>
+				<a href="/wp-login.php?action=logout" class="logout"> Se déconnecter</a>
 				<ul id="sel-compte">
 					<li class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : ""?>" data-js-name="Dashboard" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentdashboard">
 						<a href="<?php get_home_url() ?>/notaires/" class="bt js-account-dashboard-button">Tableaux de bord</a>
