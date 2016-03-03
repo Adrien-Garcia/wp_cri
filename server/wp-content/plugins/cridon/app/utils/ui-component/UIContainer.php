@@ -122,14 +122,7 @@ class UIContainer extends UIFields{
         $data = $this->database->find( array( 'limit' => 30, 'conditions' => array(
             'type' => $this->type,
         ) ) );
-        $res = array();
-        foreach( $data as $v ){
-            $cls = new stdClass();
-            $cls->id = $v->id;
-            $cls->name = $v->name;
-            $res[] = $cls;
-        }
-        $this->left = $res;
+        $this->left = $this->createItems($data);;
         $ul = new UIList();
         $ul->setClass('bl relationship_list ui-sortable');
         if( empty( $this->left ) ){
@@ -168,15 +161,9 @@ class UIContainer extends UIFields{
                 ) 
             );
             $data = $this->database->find( $options );
-            $res = array();
-            foreach( $data as $v ){
-                $cls = new stdClass();
-                $cls->id = $v->id;
-                $cls->name = $v->name;
-                $res[] = $cls;
-            }
+
             //Documents of current object ( model ) 
-            $this->right = $res;            
+            $this->right = $this->createItems($data);
         }
         $ul = new UIList();
         $ul->setClass('bl relationship_list');
@@ -203,6 +190,18 @@ class UIContainer extends UIFields{
         }
         $ul->setContent( $lists );
         return $ul->create();
+    }
+
+    protected function createItems($data) {
+        $res = array();
+        foreach( $data as $v ){
+            $cls = new stdClass();
+            $cls->id = $v->id;
+            $fileinfo = explode('/', $v->file_path);
+            $cls->name = array_pop($fileinfo);
+            $res[] = $cls;
+        }
+        return $res;
     }
     
     public function save(){
