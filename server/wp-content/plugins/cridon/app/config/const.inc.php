@@ -284,7 +284,7 @@ if ( !defined( 'CONST_EMAIL_ERROR_CORRUPTED_FILE' ) ) {
 
 // Error reporting for Exception
 if ( !defined( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION' ) ) {
-    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exception a été levée avec le message d\'erreur suivante : "%s"' );
+    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exception a été levée avec le message d\'erreur suivant : "%s"' );
 }
 // Appel && Courrier support id
 if ( !defined( 'CONST_SUPPORT_APPEL_ID' ) ) {
@@ -588,3 +588,118 @@ if ( !defined( 'CONST_ADMIN_NB_FORMATIONS_PERPAGE' ) ) {
 if ( !defined( 'CONST_ADMINCRIDON_ROLE' ) ) {
     define( 'CONST_ADMINCRIDON_ROLE', 'admincridon' );
 }
+
+// Start of Block for mobile
+// token name var used in WS
+if ( !defined( 'CONST_TOKEN_NAME_VAR' ) ) {
+    define( 'CONST_TOKEN_NAME_VAR', 'token' );
+}
+if ( !defined( 'CONST_QUESTION_PUSHTOKEN_FIELD' ) ) {
+    define( 'CONST_QUESTION_PUSHTOKEN_FIELD', 'pushToken' );
+}
+if ( !defined( 'CONST_QUESTION_DEVICETYPE_FIELD' ) ) {
+    define( 'CONST_QUESTION_DEVICETYPE_FIELD', 'deviceType' );
+}
+
+// Activity & Sub domain activity error message
+if ( !defined( 'CONST_EMPTY_ACTIVITY_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_ACTIVITY_ERROR_MSG', 'Veuillez renseigner votre domaine d\'activité.' );
+}
+if ( !defined( 'CONST_EMPTY_SUBACTIVITY_ERROR_MSG' ) ) {
+    define( 'CONST_EMPTY_SUBACTIVITY_ERROR_MSG', 'Veuillez renseigner votre sous-domaine d\'activité.' );
+}
+
+// Push Notification
+if ( !defined( 'CONST_GOOGLE_API_KEY' ) ) {
+    switch ($env) {
+        case PROD:
+            $key =  'AIzaSyBh_fFDWcD41pxxbA4pHnYliP48K6BkBYw';
+            break;
+        case PREPROD:
+        case DEV:
+            $key = '';
+            break;
+        case LOCAL:
+        default:
+            $key = '';
+            break;
+    }
+    define( 'CONST_GOOGLE_API_KEY', $key );
+}
+if ( !defined( 'CONST_GOOGLE_GCM_URL' ) ) {
+    // alternative fournit par d'autre documentation : https://gcm-http.googleapis.com/gcm/send
+    define( 'CONST_GOOGLE_GCM_URL', 'https://android.googleapis.com/gcm/send' );
+}
+if ( !defined( 'CONST_NOTIFICATION_ERROR' ) ) {
+    define( 'CONST_NOTIFICATION_ERROR', 'Une erreur a été capturée avec le message suivant : "%s"' );
+}
+if ( !defined( 'CONST_ANDROID_TITLE_MSG' ) ) {
+    define( 'CONST_ANDROID_TITLE_MSG', 'Notification Question traitée' );
+}
+if ( !defined( 'CONST_ANDROID_SUBTITLE_MSG' ) ) {
+    define( 'CONST_ANDROID_SUBTITLE_MSG', 'Cridon Lyon' );
+}
+if ( !defined( 'CONST_NOTIFICATION_CONTENT_MSG' ) ) {
+    define( 'CONST_NOTIFICATION_CONTENT_MSG', 'Votre question ayant comme objet "%s" a été bien traitée.' );
+}
+// APNS passphrase ( obtenu lors de la generation du Certificat )
+if ( !defined( 'CONST_APNS_PASSPHRASE' ) ) {
+    switch ($env) {
+        case PROD:
+            $pass =  'mahery';
+            break;
+        case PREPROD:
+            $pass = '';
+            break;
+        case DEV:
+        case LOCAL:
+        default:
+            $pass = '';
+            break;
+    }
+    define( 'CONST_APNS_PASSPHRASE', $pass );
+}
+// APNS port
+if ( !defined( 'CONST_APNS_PORT' ) ) {
+    define( 'CONST_APNS_PORT', 2195 );
+}
+if ( !defined( 'CONST_APNS_PEM' ) ) {
+    switch ($env) {
+        case PROD:
+            // APNS Prod certificat path ( fichier à generer )
+            $pem =  WP_PLUGIN_DIR . '/cridon/app/apns/ckprod.pem';
+            break;
+        case PREPROD:
+            // APNS Sandbox certificat path ( fichier à generer et emplacement à definir ici )
+            $pem = WP_PLUGIN_DIR . '/cridon/app/apns/ck.pem';
+            break;
+        case DEV:
+        case LOCAL:
+        default:
+            $pem = '';
+            break;
+    }
+    define( 'CONST_APNS_PEM', $pem );
+}
+
+if ( !defined( 'CONST_APNS_URL' ) ) {
+    switch ($env) {
+        case PROD:
+            // APNS Prod URL
+            $apns_url = 'gateway.push.apple.com';
+            break;
+        case PREPROD:
+            // APNS Sandbox URL
+            $apns_url = 'gateway.sandbox.push.apple.com';
+            break;
+        case DEV:
+        case LOCAL:
+        default:
+            $apns_url = '';
+            break;
+    }
+    define( 'CONST_APNS_URL', $apns_url );
+}
+
+// End of block for mobile
+

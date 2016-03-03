@@ -89,13 +89,6 @@ echo get_template_part("content","ga");
 								<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')); ?>">
 									<?php _e('acceder à mon compte'); ?>
 								</a>
-								<ul class="logout-2">
-									<li>
-										<a href="/wp-login.php?action=logout" >
-											<?php _e('Se déconnecter'); ?>
-										</a>
-									</li>
-								</ul>
 							</li>
 						</ul>
 					<?php endif; ?>
