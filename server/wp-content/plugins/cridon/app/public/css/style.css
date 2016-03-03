@@ -263,3 +263,7 @@
     resize: none;
     width: 100%;
 }
+
+.filter-box {
+    float: left;
+}

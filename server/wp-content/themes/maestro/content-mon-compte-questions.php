@@ -1,21 +1,13 @@
-<?php
-    $questions = criRestoreQuestions();
-    $answered = $questions->getAnswered();
-    $pending = $questions->getPending();
-?>
-<?php $notaire = CriNotaireData(); ?>
 <div id="questions-attentes">
 	<h2><?php _e('Mes questions en attente'); ?></h2>
 
-	<?php if(count($pending) != 0): ?>
-	
+	<?php if($pending): ?>
 	<ul>
-        <?php $juristes = QuestionEntity::getJuristeAndAssistantFromQuestions($pending) ?>
         <?php foreach ($pending as $index => $question) : ?>
 		<li>
             <?php
-                $date = date_create_from_format('Y-m-d', $question->question->creation_date);
-                $wdate = date_create_from_format('Y-m-d', $question->question->wish_date);
+                $date = date_create_from_format('Y-m-d', $question->creation_date);
+                $wdate = date_create_from_format('Y-m-d', $question->wish_date);
                 $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "";
                 $sWdate =  $wdate ? date('d.m.Y', $wdate->getTimestamp()) : "";
             ?>
@@ -36,21 +28,21 @@
 				<li>
 					<span class="matiere"><?php echo $matiere->label ; ?></span>
                     <?php
-                        if ( !empty($question->question->content) ) {
-                            $resume = stripslashes(wp_trim_words($question->question->content, 18 ));
+                        if ( !empty($question->content) ) {
+                            $resume = wp_trim_words($question->content, 18 );
                         } else {
-                            $resume = stripslashes(wp_trim_words($question->question->resume, 18 ));
+                            $resume = wp_trim_words($question->resume, 18 );
                         }
                     ?>
 					<p><?php echo html_entity_decode(stripslashes( $resume )) ; ?></p>
 				</li>
 				<li>
                     <?php
-                        $status = isset(Config::$labelAffection[$question->question->id_affectation]) ? Config::$labelAffection[$question->question->id_affectation] : "Status indisponible";
-                    if ( ($question->question->id_affectation == 2 || $question->question->id_affectation == CONST_QUEST_ANSWERED)
-                        && $juristes[$question->question->id]->juriste_code != null
+                        $status = isset(Config::$labelAffection[$question->id_affectation]) ? Config::$labelAffection[$question->id_affectation] : "Status indisponible";
+                    if ( ($question->id_affectation == 2 || $question->id_affectation == CONST_QUEST_ANSWERED)
+                        && $juristesPending[$question->id]->juriste_code != null
                     ) {
-                        $status .= '<span class="person">par ' . ($juristes[$question->question->id]->juriste_name != null ? $juristes[$question->question->id]->juriste_name : $juristes[$question->question->id]->juriste_code) . '</span>';
+                        $status .= '<span class="person">par ' . ($juristesPending[$question->id]->juriste_name != null ? $juristesPending[$question->id]->juriste_name : $juristesPending[$question->id]->juriste_code) . '</span>';
                     }
                     ?>
 
@@ -66,8 +58,8 @@
                     <?php endif; ?>
                 </li>
 				<li>
-                    <?php if (! empty($question->question->srenum)) : ?>
-					<span class="id-question">N ° <?php echo $question->question->srenum ; ?></span>
+                    <?php if (! empty($question->srenum)) : ?>
+					<span class="id-question">N ° <?php echo $question->srenum ; ?></span>
                     <?php endif; ?>
                 </li>
 				<li class="pdf"></li>
@@ -78,7 +70,7 @@
 							<li>
 								<span><?php echo $matiere->label ; ?></span>
 								<span><?php echo $question->competence->label ; ?></span>
-								<span><?php echo html_entity_decode(stripslashes( $question->question->resume )) ; ?></span>
+								<span><?php echo html_entity_decode(stripslashes( $question->resume )) ; ?></span>
 								<ul>
                                 <?php
                                     $docs = array();
@@ -102,10 +94,10 @@
 								</ul>
 							</li>
 
-                            <?php if ( !empty($question->question->content) ) : ?>
+                            <?php if ( !empty($question->content) ) : ?>
                                 <li>
                                     <span>Votre question</span>
-                                    <?php echo html_entity_decode(stripslashes( $question->question->content )) ; ?>
+                                    <?php echo html_entity_decode(stripslashes( $question->content )) ; ?>
                                 </li>
                             <?php endif; ?>
 						</ul>
@@ -125,45 +117,42 @@ Vous n'avez actuellement aucune question en attente de réponse.
 
 <div id="historique-questions">
 	<h2><?php _e('Historique de mes questions'); ?></h2>
+    <form class="js-account-form-filter" action="<?php get_home_url() ?>/notaires/questions#historique-questions">
 
-	<div class="filtres">
-		<ul>
-			<li> <a href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions">Toutes mes questions</a></li>
-			<li>
-				<span class="titre">Période :</span>
-				<p class="du">Du <input type="date" id="datefrom" class="datepicker"></p>
-				<p class="au">Au <input type="date" id="dateto" class="datepicker"></p>
-			</li>
-			<li>
-				<span class="titre">Matière :</span>
-                <?php
-                $matieres = CriListMatieres();
-                ?>
-				<select name="">
-					<option value="">Selectionnez une matière</option>
-                    <?php foreach($matieres as $id => $data): ?>
-                        <?php
-                        $label = $data['label'];
-                        ?>
-                        <option <?php echo ($imatieres == 0) ? "selected" : "" ?> value="<?php echo $id ?>"><?php echo $label ?></option>
-                        <?php $imatieres++; ?>
-                    <?php endforeach; ?>
-				</select>
-			</li>
-		</ul>
+        <div class="filtres">
+            <ul>
+                <li> <a href="<?php get_home_url() ?>/notaires/questions/#historique-questions">Toutes mes questions</a></li>
+                <li>
+                    <span class="titre">Période :</span>
+                    <p class="du">Du <input name="d1" type="text" id="datefrom" class="datepicker js-account-du-filter" value="<?php echo $_GET['d1'] ; ?>" /></p>
+                    <p class="au">Au <input name="d2" type="text" id="dateto" class="datepicker js-account-au-filter" value="<?php echo $_GET['d2'] ; ?>" /></p>
+                </li>
+                <li>
+                    <span class="titre">Matière :</span>
+                    <select name="m" class="js-account-matiere-filter">
+                        <option value="" <?php echo empty($_GET['m']) ? "selected" : ""; ?>>Selectionnez une matière</option>
+                        <?php foreach($matieres as $id => $data): ?>
+                            <?php
+                            $label = $data['label'];
+                            ?>
+                            <option value="<?php echo $id ?>" <?php echo (!empty($_GET['m']) && $_GET['m'] == $id) ? "selected" : ""; ?>><?php echo $label ?></option>
 
-	</div>
+                        <?php endforeach; ?>
+                    </select>
+                </li>
+            </ul>
+        </div>
+    </form>
 
-	<?php if(count($answered) != 0): ?>
+	<?php if($answered): ?>
 
 	<ul>
-        <?php $juristes = QuestionEntity::getJuristeAndAssistantFromQuestions($answered) ?>
         <?php foreach ($answered as $index => $question) : ?>
 
             <?php
-            $date = date_create_from_format('Y-m-d', $question->question->creation_date);
+            $date = date_create_from_format('Y-m-d', $question->creation_date);
             $sDate = $date ? date('d.m.Y', $date->getTimestamp()) : "";
-            $adate = date_create_from_format('Y-m-d', $question->question->date_modif);
+            $adate = date_create_from_format('Y-m-d', $question->date_modif);
             $sAdate = $adate ? date('d.m.Y', $adate->getTimestamp()) : "";
             ?>
         <li>
@@ -181,20 +170,20 @@ Vous n'avez actuellement aucune question en attente de réponse.
 				<li>
                     <span class="matiere"><?php echo $matiere->label ; ?></span>
                     <?php
-                    if ( !empty($question->question->content) ) {
-                        $resume = stripslashes(wp_trim_words($question->question->content, 18 ));
+                    if ( !empty($question->content) ) {
+                        $resume = wp_trim_words($question->content, 18 );
                     } else {
-                        $resume = stripslashes(wp_trim_words($question->question->resume, 18 ));
+                        $resume = wp_trim_words($question->resume, 18 );
                     }
                     ?>
-                    <p><?php echo html_entity_decode($resume) ; ?></p>
+                    <p><?php echo html_entity_decode(stripslashes($resume)) ; ?></p>
                 </li>
 				<li>
 					<!--span class="answer">répondu</span!-->
                     <?php if (! empty($sAdate)) : ?>
 					<span class="status"><?php echo Config::$labelAffection[CONST_QUEST_ANSWERED] ?> le <?php echo $sAdate ; ?></span>
                     <?php endif; ?>
-                    <span class="person">par <?php echo $juristes[$question->question->id]->juriste_name != null ? $juristes[$question->question->id]->juriste_name : $juristes[$question->question->id]->juriste_code ?></span>
+                    <span class="person">par <?php echo $juristesAnswered[$question->id]->juriste_name != null ? $juristesAnswered[$question->id]->juriste_name : $juristesAnswered[$question->id]->juriste_code ?></span>
 				</li>
 				<li>
 					<span class="delai"><?php echo $question->support->label; ?></span>
@@ -203,8 +192,8 @@ Vous n'avez actuellement aucune question en attente de réponse.
 					<span class="pts"><?php echo $question->support->value; ?> pts</span>
 				</li>
 				<li>
-                    <?php if (! empty($question->question->srenum)) : ?>
-                    <span class="id-question">N ° <?php echo $question->question->srenum; ?></span>
+                    <?php if (! empty($question->srenum)) : ?>
+                    <span class="id-question">N ° <?php echo $question->srenum; ?></span>
                     <?php endif; ?>
 
 				</li>
@@ -263,11 +252,13 @@ Vous n'avez actuellement aucune question en attente de réponse.
 		<?php endforeach; ?>
 	</ul>
 	<?php else:  ?>
-	Vous n'avez pas encore posé de questions
+	Votre recherche n'a pas produit de résultats ou vous n'avez pas encore posé de questions
 	<?php endif; ?>
 	<div style="clear:both;"></div>
-    <div class="pagination <?php echo (isset($is_ajax) && is_ajax == true) ? "js-account-ajax-pagination" : ""; ?>">
-        <?php echo $questions->getPagination() ?>
+    <div class="pagination <?php echo (isset($is_ajax) && $is_ajax == true) ? "js-account-ajax-pagination" : ""; ?>">
+        <?php // echo $questions->getPagination()
+        echo $controller->pagination();
+        ?>
     </div>
 
 </div>

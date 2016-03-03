@@ -1,6 +1,6 @@
 <?php
 
-class Document extends MvcModel {
+class Document extends \App\Override\Model\CridonMvcModel {
 
     var $display_field = 'name';
     var $table         = '{prefix}document';

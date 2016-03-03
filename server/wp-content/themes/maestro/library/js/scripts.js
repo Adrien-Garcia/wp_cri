@@ -192,25 +192,36 @@ jQuery(document).ready(function($) {
     	event.preventDefault();
     });
 
+    $("#acceder-compte > li > a.acceder-compte").mouseenter(function(){
+    	$("#acceder-compte .logout-2").addClass('visible');
+    });
+    $("#acceder-compte > li > a.acceder-compte").mouseleave(function(){
+    	$("#acceder-compte .logout-2").removeClass('visible');
+    });
+
+    
+
+    $(".logout-2").hover(function(){
+    	$("#acceder-compte .logout-2").addClass('visible');
+    });
+    $(".logout-2").mouseleave(function(){
+    	$("#acceder-compte .logout-2").removeClass('visible');
+    })
+    
 
 
 
 
 
 
+    /* FILTRE LISTE VEILLES */
 
+    $("#tri_matiere").click(function(){
 
+    	$("#tri_matiere > span").toggleClass("active"); 
 
+    	$("#tri_matiere + .panel").toggle('slow');
 
-
-
-
-
- 
-
-
-	
-
-
+    });
 
 }); /* end of as page load scripts */

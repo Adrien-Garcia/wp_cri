@@ -11,8 +11,8 @@
  * @contributor Fabrice MILA
  *
  */
-
-class FlashesController extends MvcPublicController {
+require_once 'base_actu_controller.php';
+class FlashesController extends BaseActuController {
     /*
      * We use the standard function for wordpress for queries ( query_posts() ) in views
      */
@@ -23,8 +23,9 @@ class FlashesController extends MvcPublicController {
             parent::show();
         }     
     }
-    public function index() {
-        if ( !CriIsNotaire() ) {
+    public function index()
+    {
+        if (!CriIsNotaire()) {
             CriRefuseAccess();
         } else {
             $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
@@ -34,10 +35,10 @@ class FlashesController extends MvcPublicController {
             );
             //Set conditions
             $this->params['conditions'] = array(
-                'Post.post_status'=>'publish'            
+                'Post.post_status' => 'publish'
             );
             //Order by date publish
-            $this->params['order'] = 'Post.post_date DESC' ;
+            $this->params['order'] = 'Post.post_date DESC';
             $collection = $this->model->paginate($this->params);
 
             $this->set('objects', $collection['objects']);

@@ -1,0 +1,314 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "Visualizer: Charts and Graphs"
+msgstr ""
+
+#. Short description.
+msgid "A simple, easy to use and quite powerful tool to create, manage and embed interactive charts into your WordPress posts and pages."
+msgstr ""
+
+#. Screenshot description.
+msgid "Chart type selection"
+msgstr ""
+
+#. Screenshot description.
+msgid "Chart data uploading"
+msgstr ""
+
+#. Screenshot description.
+msgid "Chart options editing"
+msgstr ""
+
+#. Screenshot description.
+msgid "Charts media library"
+msgstr ""
+
+#. Screenshot description.
+msgid "Charts library"
+msgstr ""
+
+#. Found in description header.
+msgid "9 Chart types"
+msgstr ""
+
+#. Found in description header.
+msgid "Flexible and customizable"
+msgstr ""
+
+#. Found in description header.
+msgid "HTML5/SVG"
+msgstr ""
+
+#. Found in description header.
+msgid "Knowledge Base"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://github.com/madpixelslabs/visualizer/wiki/How-can-I-create-a-chart%3F\">How can I create a chart?</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://github.com/madpixelslabs/visualizer/wiki/How-can-I-edit-a-chart%3F\">How can I edit a chart?</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://github.com/madpixelslabs/visualizer/wiki/How-can-I-clone-a-chart%3F\">How can I clone a chart?</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://github.com/madpixelslabs/visualizer/wiki/How-can-I-delete-a-chart%3F\">How can I delete a chart?</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://github.com/madpixelslabs/visualizer/wiki/How-can-I-highlight-a-single-bar%3F\">How can I highlight a single bar?</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://github.com/madpixelslabs/visualizer/wiki/How-can-I-populate-chart-series-and-data-dynamically%3F\">How can I populate chart series and data dynamically?</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://github.com/madpixelslabs/visualizer/wiki/How-can-I-populate-data-from-Google-Spreadsheet%3F\">How can I populate data from Google Spreadsheet?</a>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "WordPress Visualizer plugin is a simple, easy to use and quite powerful tool to create, manage and embed interactive charts into your WordPress posts and pages."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "The plugin uses Google Visualization API to render charts, which support cross-browser compatibility (adopting VML for older IE versions) and cross-platform portability to iOS and new Android releases."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "The plugin provides a variety of charts that are optimized to address your data visualization needs. It is line chart, area chart, bar chart, column chart, pie chart, geo chart, gauge chart, candlestick chart and scatter chart. These charts are based on pure HTML5/SVG technology (adopting VML for old IE versions), so no extra plugins are required. Adding these charts to your page can be done in a few simple steps."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Make the charts your own. Configure an extensive set of options to perfectly match the look and feel of your website. You can use Google Chart Tools with their default setting - all customization is optional and the basic setup is launch-ready. However, charts can be easily customizable in case your webpage adopts a style which is at odds with provided defaults. Every chart exposes a number of options that customize its look and feel."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Charts are rendered using HTML5/SVG technology to provide cross-browser compatibility (including VML for older IE versions) and cross platform portability to iPhones, iPads and Android. Your users will never have to mess with extra plugins or any software. If they have a web browser, they can see your charts."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<em>above descriptions were partially taken from Google Visualization API site</em>"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Upload the files to the <code>/wp-content/plugins/visualizer/</code> directory."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Activate the plugin through the 'Plugins' menu in WordPress."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed bug with from web button"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added support for live editor"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added support for importing data from other charts"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added filter for chart settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed bug when zero was not working on the charts"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented ability to edit horizontal and vertical axis number format for bar and column charts"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added ability to pass a class for chart wrapper div"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added proper label for custom post type"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed issue with download_url function which not exists at front end"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added functionality which prevents direct access to the plugin folder"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed remote CSV uploading issue when allow_url_fopen option is disabled in php.ini"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Replaced flattr image on widget and added donate link to plugin meta data"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added notification message at library page when allow_url_fopen option is disabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed CSV parser escape constant to prevent warnings which appears when PHP 5.2.x or less is used"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed issue which prevents the plugin working on SSL backend"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed issue with CSV file uploading in IE and other browsers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed issue with empty series, which appears due to leading space in a source file"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added ability to define custom delimiter, enclosure and escape variables for CSV parsing"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented aggregation target and selection mode options for candlestick chart"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented focus target and data opacity for columnar chars"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented data opacity and interpolate nulls settings for line chart"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented ability to edit tooltip settings"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented new settings for linear charts like selection mode and aggregation target"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented area and point opacity settings for area chart"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented new settings for pie chart like pie hole, start angle and slice offset"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented ability to select a color for chart title and legend items"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed number formatting settings for linear charts, from now it works only for axis labels"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Reworked general settings section by moving title and font settings into separate groups"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Replaced links to github wiki"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added Flattr button"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented ability to set number and date formatters"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented ability to select transparent background for a chart"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed JS bugs which appear when post type editor support is disabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed issue with NULL values for numeric series"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed invalid charts rendering at \"Add Media\" library"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed compatibility issue with another Google API related plugins"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Added \"rate the plugin\" box"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented minor grid lines settings."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Implemented view window settings."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Horizontal and vertical axes settings were split into separate groups."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug with float values has been fixed."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Issue with \"fseek warning\" for Google Spreadsheet document source, was fixed."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Compatibility issues with WordPress version 3.6 has been fixed."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Active type tab in the charts library was fixed."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Library styles were updated."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Auto population was added for remote CSV file source."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Ability to hook chart series and data was implemented."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Ability to upload CSV files from web was implemented."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "The bug with CSV file uploading was fixed."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "The first version of the plugin was implemented."
+msgstr ""
+
+#. Found in faq header.
+msgid "Shortcode does not turn into graph"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "Pay attention that to turn your shortcodes into graphs, your theme has to have <code>&lt;?php wp_footer(); ?&gt;</code> call at the bottom of <strong>footer.php</strong> file."
+msgstr ""

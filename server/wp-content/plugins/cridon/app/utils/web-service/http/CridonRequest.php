@@ -94,6 +94,17 @@ class CridonRequest {
         }
         return null;
     }
+
+    /**
+     * Get data from JSON params
+     * @param string $key
+     * @return mixed
+     */
+    public function getParam( $key ) {
+        $params = json_decode(file_get_contents('php://input'));
+
+        return ( $params->$key ) ? $params->$key : null ;
+    }
     
     /**
      * Clean all data
