@@ -646,7 +646,7 @@ class Document extends \App\Override\Model\CridonMvcModel {
         // log error
         $encrypted = $this->encryptVal($url);
         if(!preg_match(Config::$confPublicDownloadURL['pattern'], $this->decryptVal($encrypted), $matches)){
-            writeLog('Impossible de decrypter l\url du document avec id = ' . $id . ' / url = ' . $url, 'decryptValError.log');
+            writeLog('Impossible de decrypter l\'url du document avec id = ' . $id . ' / url = ' . $url, 'decryptValError.log');
         }
 
         return '/telechargement/'.$encrypted;
