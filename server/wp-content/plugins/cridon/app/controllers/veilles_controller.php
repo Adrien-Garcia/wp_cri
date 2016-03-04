@@ -140,20 +140,6 @@ class VeillesController extends BaseActuController {
         }
     }
 
-    /**
-     * Clean array
-     *
-     * @param array $data
-     */
-    protected function clean(&$data){
-        $data = array_unique($data);
-        foreach ( $data as $k => $v ){
-            if( !is_numeric($v) ){
-                unset($data[$k]);
-            }
-        }
-    }
-
     public function rssVeilles(){
         if (!empty(self::$currentMatiereSelected)) {
             $title = sprintf(Config::$rss['title_mat'],self::$currentMatiereSelected->label);
@@ -217,5 +203,3 @@ class VeillesController extends BaseActuController {
     }
 
 }
-
-?>
