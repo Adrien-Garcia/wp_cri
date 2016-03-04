@@ -3,24 +3,8 @@
 /**
  * Documents Controller
  */
-class DocumentsController extends MvcPublicController
+class DocumentsController extends BasePublicController
 {
-
-    /**
-     * @var mixed tools actions container
-     */
-    protected $tools;
-
-    /**
-     * DocumentsController constructor.
-     */
-    public function __construct()
-    {
-        global $cri_container;
-        $this->tools = $cri_container->get('tools');
-
-        parent::__construct();
-    }
 
     /**
      * Action download for user connected

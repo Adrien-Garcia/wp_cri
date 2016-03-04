@@ -19,6 +19,11 @@ abstract class BasePublicController extends MvcPublicController
      */
     protected $request;
 
+    /**
+     * @var mixed tools actions container
+     */
+    protected $tools;
+
     public function __construct()
     {
         global $cri_container;
@@ -27,6 +32,7 @@ abstract class BasePublicController extends MvcPublicController
 
         $this->data    = json_decode(file_get_contents('php://input'));
         $this->request = $cri_container->get('request');
+        $this->tools   = $cri_container->get('tools');
     }
 
     /**
