@@ -513,5 +513,25 @@ class CridonTools {
         }
         die();
     }
+
+    /**
+     * Cleaning data
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    public function clean( $data )
+    {
+        $clean_input = Array();
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $clean_input[$k] = $this->clean($v);
+            }
+        } else {
+            $clean_input = trim(strip_tags($data));
+        }
+
+        return $clean_input;
+    }
 }
 
