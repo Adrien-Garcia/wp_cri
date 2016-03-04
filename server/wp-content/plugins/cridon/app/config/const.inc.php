@@ -62,9 +62,9 @@ if ( !defined( 'CONST_DB_TYPE' ) ) {
 if ( !defined( 'CONST_DB_HOST' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $host = '10.115.100.192';
             break;
+        case PREPROD:
         case DEV:
             $host = '10.115.100.26';
             break;
@@ -142,9 +142,9 @@ if ( !defined( 'CONST_DB_DATABASE' ) ) {
 if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
+        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
@@ -393,9 +393,9 @@ if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
 if ( !defined( 'CONST_ODBC_TABLE_QUEST' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
+        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
@@ -544,9 +544,9 @@ if ( !defined( 'CONST_STATUS_CODE_GONE' ) ) {
 if ( !defined( 'CONST_DB_TABLE_QUESTTEMP' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
+        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
