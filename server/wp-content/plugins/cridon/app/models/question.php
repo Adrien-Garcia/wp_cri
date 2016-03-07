@@ -924,6 +924,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                 $mail = false;
                 $creation_date = false;
                 $type_question = 0;
+                $subject = '';
                 // id_affectation change / first time question is !empty to site -> Send mail
                 if ( ( !empty($data[$adapter::QUEST_YSREASS]) && isset($question) && !empty($question->id_affectation) && intval($data[$adapter::QUEST_YSREASS]) != $question->id_affectation )
                     || (!empty($question) && empty($question->srenum) )
@@ -950,8 +951,9 @@ class Question extends \App\Override\Model\CridonMvcModel
                 }
                 // id_support change -> Send mail
                 if (isset($data[$adapter::QUEST_YCODESUP]) && isset($question) && !empty($question->id_support)
-                    && ( ( intval($data[$adapter::QUEST_YCODESUP]) == 6 && ($question->id_support == 7))
-                      || ( intval($data[$adapter::QUEST_YCODESUP]) == 7 && ($question->id_support == 1)) )
+                    && ( ( intval($data[$adapter::QUEST_YCODESUP]) == 1 && ($question->id_support == 7))
+                      || ( intval($data[$adapter::QUEST_YCODESUP]) == 7 && ($question->id_support == 6))
+                      || ( intval($data[$adapter::QUEST_YCODESUP]) == 1 && ($question->id_support == 6)))
                     && (intval($data[$adapter::QUEST_YCODESUP]) != $question->id_support)
                     && isset($data[$adapter::QUEST_YSREASS])
                     && intval($data[$adapter::QUEST_YSREASS]) == 1)
