@@ -84,7 +84,7 @@ class CriCustomWalker extends Walker_Nav_Menu
      * @param object $item
      * @param int    $depth
      */
-    public function start_el( &$output, $item, $depth )
+    public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 )
     {
         // indexation des menus parents
         if ($depth == 0) {

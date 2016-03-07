@@ -1,5 +1,4 @@
-<h2><?php echo $object->__name; ?></h2>
+<?php
+include TEMPLATEPATH.'/archive-veilles.php';
+?>
 
-<p>
-    <?php echo $this->html->link('&#8592; All Matieres', array('controller' => 'matieres')); ?>
-</p>

@@ -1,6 +1,6 @@
 <?php
 
-class Etude extends MvcModel {
+class Etude extends \App\Override\Model\CridonMvcModel {
     public $primary_key = 'crpcen';
     public $display_field = 'office_name';
     public $table = '{prefix}etude';

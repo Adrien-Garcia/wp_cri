@@ -1,6 +1,6 @@
 <?php
 
-class UserCridon extends MvcModel {
+class UserCridon extends \App\Override\Model\CridonMvcModel {
     var $table        = '{prefix}user_cridon';
     var $display_field = 'id_erp';
     var $includes  = array('User');
