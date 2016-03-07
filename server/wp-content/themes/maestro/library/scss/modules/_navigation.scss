@@ -680,7 +680,8 @@ nav#menu_mobile{
 
 
 
-	.mm-navbar{
+	//.mm-navbar,
+	.mm-navbar-top{
 		border:0;
 
 		height: 60px;
@@ -717,6 +718,30 @@ nav#menu_mobile{
 
 		.mm-prev:after{border-color: rgba(46, 72, 103, 1);}
 	}
+
+	.mm-navbar-bottom{
+		background: $vj_01;
+		height: 50px;
+
+		> a{
+			width: auto;
+			@include transition (all 0.3s);
+
+			&:hover{
+				opacity: 0.6;
+			}
+		}
+
+		> a:first-child{
+			padding: 10px 6px 10px 20px;
+		}
+
+		> a:last-child{
+			padding: 10px;
+		}
+	}
+
+	
 
 	.mm-panel{
 		top: 60px;

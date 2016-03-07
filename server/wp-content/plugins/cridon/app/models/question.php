@@ -1221,6 +1221,10 @@ class Question extends \App\Override\Model\CridonMvcModel
                 update_option('cronquestionupdate', $dateOptionUpdate);
             }
 
+            // notification client mobile si question traitee
+            // id_affectation = 4
+            $this->pushNotification();
+
             return CONST_STATUS_CODE_OK;
         } catch (\Exception $e) {
             writeLog($e, 'questioncronUpdate.log');
@@ -1946,5 +1950,208 @@ writeLog($query, 'query_export.log');
                 LIMIT 1";
 
         return $this->wpdb->get_row($query);
+    }
+
+    /**
+     * Insert data into DB
+     *
+     * @param object $notaire
+     * @param array $post
+     * @param array $response
+     * @return mixed
+     * @throws Exception
+     */
+    protected function insertData($notaire, $post, $response)
+    {
+        // notaire exist
+        if ($notaire->client_number
+            && isset($post[CONST_QUESTION_OBJECT_FIELD]) && $post[CONST_QUESTION_OBJECT_FIELD] != ''
+            && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && ctype_digit($post[CONST_QUESTION_SUPPORT_FIELD]) && ((int)$post[CONST_QUESTION_SUPPORT_FIELD] > 0)
+            && isset($post[CONST_QUESTION_MATIERE_FIELD]) && !empty($post[CONST_QUESTION_MATIERE_FIELD])
+            && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && $post[CONST_QUESTION_COMPETENCE_FIELD] != ''
+            && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
+        ) {
+            // prepare data
+            $question = array(
+                'Question' => array(
+                    'client_number'      => $notaire->client_number,
+                    'sreccn'             => $notaire->code_interlocuteur,
+                    'resume'             => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
+                    'creation_date'      => date('Y-m-d H:i:s'),
+                    'id_support'         => $post[CONST_QUESTION_SUPPORT_FIELD], // Support
+                    'id_competence_1'    => $post[CONST_QUESTION_COMPETENCE_FIELD], // Competence
+                    'content'            => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]), // Message
+                    'mobile_push_token'  => ($post[CONST_QUESTION_PUSHTOKEN_FIELD]), // push token
+                    'mobile_device_type' => ($post[CONST_QUESTION_DEVICETYPE_FIELD]) // device type
+                )
+            );
+            // insert question
+            $questionId = $this->create($question);
+
+            // Attached files
+            if ($questionId && isset($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['name'])) {
+                // prepare file data
+                $files = $_FILES[CONST_QUESTION_ATTACHEMENT_FIELD];
+
+                // \CriFileUploader required an array of data
+                if (!is_array($files['name'])) {
+                    $files = array(
+                        'name'     => array($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['name']),
+                        'type'     => array($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['type']),
+                        'tmp_name' => array($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['tmp_name']),
+                        'error'    => array($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['error']),
+                        'size'     => array($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['size']),
+                    );
+                }
+                // instance of CriFileUploader
+                $criFileUploader = new CriFileUploader();
+                // set files list
+                $criFileUploader->setFiles($files);
+                // set max size from config (@see : const.inc.php)
+                $criFileUploader->setMaxSize(CONST_QUESTION_MAX_FILE_SIZE);
+                // set upload dir
+                $uploadDir = wp_upload_dir();
+                $path      = $uploadDir['basedir'] . '/questions/' . date('Ym') . '/';
+                if (!file_exists($path)) { // not yet directory
+                    // crete the directory
+                    wp_mkdir_p($path);
+                }
+                $criFileUploader->setUploaddir($path);
+
+                // validate file size, max upload authorized,...
+                if ($criFileUploader->validate()) {
+                    $listDocuments = $criFileUploader->execute();
+
+                    if (is_array($listDocuments) && count($listDocuments) > 0) {
+                        foreach ($listDocuments as $document) {
+                            // prepare data
+                            $documents = array(
+                                'Document' => array(
+                                    'file_path'     => '/questions/' . date('Ym') . '/' . $document,
+                                    'download_url'  => '/documents/download/' . $questionId,
+                                    'date_modified' => date('Y-m-d H:i:s'),
+                                    'type'          => 'question',
+                                    'id_externe'    => $questionId,
+                                    'name'          => $document,
+                                    'label'         => 'PJ'
+                                )
+                            );
+
+                            // insert
+                            $documentId = mvc_model('Document')->create($documents);
+
+                            // update download_url
+                            $documents = array(
+                                'Document' => array(
+                                    'id'           => $documentId,
+                                    'download_url' => '/documents/download/' . $documentId
+                                )
+                            );
+                            mvc_model('Document')->save($documents);
+                        }
+                    }
+                } else {
+                    $response['error'][] = sprintf(CONST_QUESTION_FILE_SIZE_ERROR,
+                        (CONST_QUESTION_MAX_FILE_SIZE / 1000000) . 'M');
+
+                    return $response;
+                }
+            }
+        } else {
+            if (!isset($post[CONST_QUESTION_OBJECT_FIELD]) || $post[CONST_QUESTION_OBJECT_FIELD] == '') {
+                $response['error'][] = CONST_EMPTY_OBJECT_ERROR_MSG;
+            }
+            if (!isset($post[CONST_QUESTION_MESSAGE_FIELD]) || $post[CONST_QUESTION_MESSAGE_FIELD] == '') {
+                $response['error'][] = CONST_EMPTY_MESSAGE_ERROR_MSG;
+            }
+            if (!isset($post[CONST_QUESTION_SUPPORT_FIELD]) || !ctype_digit($post[CONST_QUESTION_SUPPORT_FIELD]) || intval($post[CONST_QUESTION_SUPPORT_FIELD] <= 0)) {
+                $response['error'][] = CONST_EMPTY_SUPPORT_ERROR_MSG;
+            }
+            if (!isset($post[CONST_QUESTION_MATIERE_FIELD]) || intval($post[CONST_QUESTION_MATIERE_FIELD] <= 0)) {
+                $response['error'][] = CONST_EMPTY_ACTIVITY_ERROR_MSG;
+            }
+            if (!isset($post[CONST_QUESTION_COMPETENCE_FIELD]) || $post[CONST_QUESTION_COMPETENCE_FIELD] == '') {
+                $response['error'][] = CONST_EMPTY_SUBACTIVITY_ERROR_MSG;
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * Create Question from mobile
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    public function createFromMobile($data)
+    {
+        // init error
+        $response = array();
+        $response['error'] = array();
+
+        return $this->insertData($data['notary'], $data['post'], $response);
+    }
+
+    /**
+     * Get list of question need to be notified
+     *
+     * @return array|null|object
+     */
+    public function getQuestForNotification()
+    {
+        // init query
+        $query  = " SELECT `q`.`id`, `q`.`resume`, `q`.`mobile_device_type`, `q`.`mobile_push_token`, `n`.`id` AS id_notaire FROM `{$this->table}` q ";
+        $query .= " LEFT JOIN `{$this->wpdb->prefix}notaire` n ON `n`.`client_number` = `q`.`client_number` ";
+        $query .= " WHERE `mobile_push_token` IS NOT NULL
+                    AND `mobile_device_type` IS NOT NULL
+                    AND `mobile_notification_status` = 0
+                    AND `id_affectation` = %d ";
+
+        // exec prepared query
+        return $this->wpdb->get_results($this->wpdb->prepare($query, CONST_QUEST_ANSWERED));
+    }
+
+    /**
+     * Update notification status
+     *
+     * @param int $questionId
+     */
+    public function updateQuestNotificationStatus($questionId)
+    {
+        $this->wpdb->query(" UPDATE {$this->table} SET mobile_notification_status = 1 WHERE id = {$questionId} ");
+    }
+
+    /**
+     * Push notification action
+     *
+     * @throws Exception
+     */
+    public function pushNotification()
+    {
+        global $cri_container;
+
+        // get instance of Cridon Tools
+        $tools = $cri_container->get('tools');
+
+        // get list of questions to be notified
+        $questions = $this->getQuestForNotification();
+
+        // only executed for valid $questions data
+        if (is_array($questions) && count($questions) > 0) {
+            foreach ($questions as $question) {
+                $messages = array(
+                    'message'      => sprintf(CONST_NOTIFICATION_CONTENT_MSG, $question->resume),
+                    'urlnotaire' => mvc_public_url(array('controller' => 'notaires', 'id' => $question->id_notaire))
+                );
+
+                $resp = $tools->pushNotification($question->mobile_device_type, $question->mobile_push_token, $messages, $question->id);
+
+                // update question notification status
+                if ($resp) {
+                    $this->updateQuestNotificationStatus($question->id);
+                }
+            }
+        }
     }
 }
