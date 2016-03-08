@@ -9,26 +9,9 @@ class NotairesController extends BasePublicController
 {
 
     /**
-     * @var mixed
-     */
-    public $current_user;
-
-    /**
      * @var object Notaire
      */
     protected $current_notaire;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        global $current_user;
-
-        $this->current_user = $current_user;
-
-        parent::__construct();
-    }
 
     /**
      * Secure Access Page
@@ -37,23 +20,33 @@ class NotairesController extends BasePublicController
      */
     protected function secureAccess()
     {
-        // get notaire by id_wp_user
-        $idWPoptions = array(
-            'where' => array(
-                'Notaire.id_wp_user = '.$this->current_user->ID,
-            )
-        );
-        // exec query and return result as object
-        $this->current_notaire = $this->model->findOneBy($idWPoptions);
+        global $mvc_params;
+
+        // get current notary data
+        $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
 
         // check if user is not logged in
         // or notaire id (url params) not equal to WP user session data
         if (!is_user_logged_in()
             || !$this->current_notaire->id
-            || (isset($this->params['id']) && $this->params['id'] !== $this->current_notaire->id)) {
-            wp_logout();//logout current user
+            || (isset($this->params['id']) && $this->params['id'] !== $this->current_notaire->id)
+        ) {
+            // logout current user
+            wp_logout();
             // redirect user to home page
             $this->redirect(home_url());
+        } elseif (isset($mvc_params['action'])
+                  && $mvc_params['action'] === 'facturation'
+                  && !$this->model->userCanAccessFinance()
+        ) { // check if is page finance && notary can access
+            // redirect to profil page
+            $this->redirect(mvc_public_url(
+                                array(
+                                    'controller' => 'notaires',
+                                    'action'     => 'profil'
+                                )
+                            )
+            );
         }
 
         // set notary id in params
