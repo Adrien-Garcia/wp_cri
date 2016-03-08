@@ -706,3 +706,8 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 
 // End of block for mobile
 
+if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
+    define( 'CONST_FACTURATION_PAGE_ID', 1515 );
+}
+
+
