@@ -349,7 +349,7 @@ class NotairesController extends BasePublicController
             }
 
             // maj profil et/ou données d'etude
-            if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunctionToEditProfil)) {
+            if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
                 $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
             }
         }
@@ -410,6 +410,36 @@ class NotairesController extends BasePublicController
         }else{
             parent::set_pagination($collection);
         }
+    }
+
+    /**
+     * Show every member of the office
+     */
+    public function showofficemembers(){
+        // access secured
+        $this->prepareSecureAccess();
+
+        // check notary function
+        if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+            // redirect to dashboard page
+            $this->redirect(mvc_public_url(
+                    array(
+                        'controller' => 'notaires',
+                        'action'     => 'show'
+                    )
+                )
+            );
+        }
+        //show every member of an office
+        $options = array(
+            'conditions' => array(
+                'crpcen' => $this->current_notaire->crpcen
+            )
+        );
+
+        $membersOfOffice = mvc_model('QueryBuilder')->findAll('notaire',$options);
+        CriRenderView('showofficemembers',get_defined_vars(),'notaires');
+        die();
     }
 
 }

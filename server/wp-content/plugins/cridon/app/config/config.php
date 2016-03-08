@@ -368,7 +368,7 @@ class Config {
     public static $questionPendingStatus = array(1,2,3);
 
     /**
-     * @var array list of notary "function" allowed to edit profil
+     * @var array list of notary "function" allowed to edit profil, show office members
      */
-    public static $allowedNotaryFunctionToEditProfil = array(1, 2, 3, 6, 7, 8, 9, 10);
+    public static $allowedNotaryFunction = array(1, 2, 3, 6, 7, 8, 9, 10);
 }
