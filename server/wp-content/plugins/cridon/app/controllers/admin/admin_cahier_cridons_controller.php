@@ -106,7 +106,7 @@ class AdminCahierCridonsController extends BaseAdminController {
     {
         if ($object->id_parent) {
             $aQueryOptions = array(
-                'selects' => array('Post.post_title as label', 'CahierCridon.*'),
+                'selects' => array('Post.post_title', 'CahierCridon.*'),
                 'conditions' => array(
                     'CahierCridon.id' => $object->id_parent
                 ),
@@ -115,11 +115,7 @@ class AdminCahierCridonsController extends BaseAdminController {
             $aParent = $this->model->find( $aQueryOptions );
 
             if (isset($aParent[0])) {
-                $aOptionList = array(
-                    '__name'    => 'label'
-                );
-                $this->prepareData($aOptionList, $aParent[0]);
-                return '<a href="'.$this->postEditUrl($aParent[0], $this).'" title="Edit">'.$aParent[0]->__name.'</a>';
+                return '<a href="'.$this->postEditUrl($aParent[0], $this).'" title="Edit">'.$aParent[0]->post->post_title.'</a>';
             }
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-class VieCridon extends MvcModel {
+class VieCridon extends \App\Override\Model\CridonMvcModel {
     var $table          = "{prefix}vie_cridon";
     var $includes       = array('Post');
     var $belongs_to     = array(

@@ -48,6 +48,10 @@ function bones_head_cleanup() {
 	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
 	// WP version
 	remove_action( 'wp_head', 'wp_generator' );
+	// RSS feed - category feeds
+	remove_action( 'wp_head', 'feed_links_extra', 3 );
+	// RSS feed - post & comments feeds
+	remove_action( 'wp_head', 'feed_links', 2 );
 	// remove WP version from css
 	add_filter( 'style_loader_src', 'bones_remove_wp_ver_css_js', 9999 );
 	// remove Wp version from scripts
