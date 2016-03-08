@@ -251,7 +251,7 @@ class NotairesController extends BasePublicController
         $this->prepareSecureAccess();
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
-        $content = get_post(1515)->post_content;
+        $content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
         $this->set('content',$content);
     }
 
