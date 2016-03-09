@@ -263,6 +263,35 @@ class NotairesController extends BasePublicController
     }
 
     /**
+     * Notaire CridOnline Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentcridonline.php
+     *
+     * @return void
+     */
+    public function contentcridonline()
+    {
+        // access secured
+        $this->cridonline();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentcridonline', $vars,'notaires');
+        die();
+    }
+    /**
+     * Notaire cridonline page
+     * Associated template : app/views/notaires/cridonline.php
+     *
+     * @return void
+     */
+    public function cridonline()
+    {
+        $this->prepareCridOnline();
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
+    }
+
+    /**
      * Cleaning data
      * 
      * @param mixed $data
@@ -385,6 +414,14 @@ class NotairesController extends BasePublicController
         // @TODO to be completed with others notaire dynamic data
         $vars = $this->get_object();
         $this->set_vars($vars);
+    }
+
+    protected function prepareCridOnline(){
+        // access secured
+        $this->prepareSecureAccess();
+        $vars = $this->get_object();
+        $this->set_vars($vars);
+        return $vars;
     }
 
     /**

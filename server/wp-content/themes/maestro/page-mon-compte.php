@@ -40,7 +40,7 @@
                             <?php endif; ?>
 						</div>
 					</li>
-					<?php if (CriCanAccessFinance()): ?>
+					<?php if (CriCanAccessSensitiveInfo()): ?>
 					<li class="js-account-facturation js-account-blocs <?php echo ($onglet == 4) ? " active " : ""?>" data-js-name="Facturation" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentfacturation">
 						<a href="<?php get_home_url() ?>/notaires/facturation" class="bt js-account-facturation-button">Règles de facturation</a>
 						<div id="regles-facturation" class="pannel js-account-ajax">
@@ -49,7 +49,16 @@
                             
                             <?php endif; ?>
 						</div>
-					</li>				
+					</li>
+                    <li class="js-account-cridonline js-account-blocs <?php echo ($onglet == 5) ? " active " : ""?>" data-js-name="CridOnline" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentcridonline">
+                        <a href="<?php get_home_url() ?>/notaires/cridonline" class="bt js-account-cridonline-button">Crid'Online</a>
+                        <div id="cridonline" class="pannel js-account-ajax">
+                        <?php if ($onglet == 5) : ?>
+                            <?php CriRenderView('contentcridonline', array('notaire' => $notaire), 'notaires') ?>
+
+                        <?php endif; ?>
+                        </div>
+                    </li>
 					<?php endif ?>
 				</ul>
 

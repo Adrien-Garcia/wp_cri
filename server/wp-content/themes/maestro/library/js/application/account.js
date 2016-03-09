@@ -9,6 +9,7 @@ App.Account = {
     accountQuestionSelector             : '-questions',
     accountProfilSelector               : '-profil',
     accountFacturationSelector          : '-facturation',
+    accountCridonlineSelector           : '-cridonline',
 
     accountQuestionMoreSelector         : '-more',
     accountProfilSubscriptionSelector   : '-subscription',
@@ -41,15 +42,18 @@ App.Account = {
     $accountQuestion                    : null,
     $accountProfil                      : null,
     $accountFacturation                 : null,
+    $accountCridonline                  : null,
     $accountDashboardAjax               : null,
     $accountQuestionAjax                : null,
     $accountProfilAjax                  : null,
     $accountFacturationAjax             : null,
+    $accountCridonlineAjax              : null,
 
     $accountDashboardButton             : null,
     $accountQuestionButton              : null,
     $accountProfilButton                : null,
     $accountFacturationButton           : null,
+    $accountCridonlineButton            : null,
 
     $accountQuestionMoreButton          : null,
 
@@ -89,16 +93,19 @@ App.Account = {
         this.$accountQuestionButton     = $(d + this.accountQuestionSelector + b);
         this.$accountProfilButton       = $(d + this.accountProfilSelector + b);
         this.$accountFacturationButton  = $(d + this.accountFacturationSelector + b);
+        this.$accountCridonlineButton   = $(d + this.accountCridonlineSelector + b);
 
         this.$accountDashboard          = $(d + this.accountDashboardSelector);
         this.$accountQuestion           = $(d + this.accountQuestionSelector);
         this.$accountProfil             = $(d + this.accountProfilSelector);
         this.$accountFacturation        = $(d + this.accountFacturationSelector);
+        this.$accountCridonline         = $(d + this.accountCridonlineSelector);
 
         this.$accountDashboardAjax      = this.$accountDashboard.find(d + a);
         this.$accountQuestionAjax       = this.$accountQuestion.find(d + a);
         this.$accountProfilAjax         = this.$accountProfil.find(d + a);
         this.$accountFacturationAjax    = this.$accountFacturation.find(d + a);
+        this.$accountCridonlineAjax     = this.$accountCridonline.find(d + a);
 
         this.$accountBlocks.each(function(i, e) {
             if ($(e).hasClass('active')) {
@@ -187,6 +194,11 @@ App.Account = {
 
     },
 
+    initCridonline: function() {
+        this.debug('Account : Init Cridonline');
+        this.addListenersCridonline();
+
+    },
     /*
      * Listeners for the Account page events
      */
@@ -215,6 +227,11 @@ App.Account = {
             e.returnValue = false;
             e.preventDefault();
             self.eventAccountFacturationOpen($(this));
+        });
+        this.$accountCridonlineButton.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountCridonlineOpen($(this));
         });
 
         this.debug("Account : addListeners end");
@@ -287,8 +304,16 @@ App.Account = {
         var self = this;
 
         this.debug("Account : addListenersFacturation");
+    },
 
+    /*
+     * Listeners for the Account Cridonline
+     */
 
+    addListenersCridonline: function() {
+        var self = this;
+
+        this.debug("Account : addListenersFacturation");
     },
 
 
@@ -365,6 +390,26 @@ App.Account = {
                 self.$accountFacturationAjax.html(data);
                 self.debug('Account Facturation Loaded');
                 self.initFacturation();
+            }
+        });
+        App.Utils.scrollTop();
+
+    },
+
+    /*
+     * Event for Opening the Cridonline (Ultimately AJAX)
+     */
+    eventAccountCridonlineOpen: function() {
+        var self = this;
+        this.$accountBlocks.removeClass("active");
+        this.$accountCridonline.addClass("active");
+        $.ajax({
+            url: this.$accountCridonline.data('js-ajax-src'),
+            success: function(data)
+            {
+                self.$accountCridonlineAjax.html(data);
+                self.debug('Account Cridonline Loaded');
+                self.initCridonline();
             }
         });
         App.Utils.scrollTop();

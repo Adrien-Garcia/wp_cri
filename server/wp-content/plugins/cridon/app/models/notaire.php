@@ -1713,11 +1713,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     /**
-     * Check if users can access finances
+     * Check if users can access sensitive informations
      *
      * @return bool
      */
-    public function userCanAccessFinance()
+    public function userCanAccessSensitiveInfo()
     {
         $object = $this->getUserConnectedData();
 

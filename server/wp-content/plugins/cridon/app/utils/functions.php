@@ -479,15 +479,15 @@ function getMatieresByNotaire(){
 }
 
 /**
- * Check if notaire can access finances
+ * Check if notaire can access sensitive informations
  *
  * @return bool
  */
-function CriCanAccessFinance() {
+function CriCanAccessSensitiveInfo() {
     // check if user connected is notaire
     if (CriIsNotaire()) {
         // user data
-        return mvc_model('notaire')->userCanAccessFinance();
+        return mvc_model('notaire')->userCanAccessSensitiveInfo();
     }
     return false;
 }
