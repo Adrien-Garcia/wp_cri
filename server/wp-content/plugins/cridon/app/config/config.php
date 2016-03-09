@@ -367,4 +367,24 @@ class Config {
 
     // question pending status
     public static $questionPendingStatus = array(1,2,3);
+
+    // Content qualified by a "Niveau"
+    public static $contentWithLevel = array(
+        'veilles',
+    );
+    // level meta_box title
+    public static $titleLevelMetabox = 'Niveau de %s';
+    // list of level
+    public static $listOfLevel = array(
+        'Niveau 1' => 1,
+        'Niveau 2' => 2,
+        'Niveau 3' => 3,
+    );
+
+    /**
+     * @var array list of type to be restricted by level
+     */
+    public static $restrictedDownloadByTypeLevel = array(
+        'veille'
+    );
 }

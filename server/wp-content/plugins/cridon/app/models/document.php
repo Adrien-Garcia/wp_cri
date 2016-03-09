@@ -651,5 +651,56 @@ class Document extends \App\Override\Model\CridonMvcModel {
 
         return '/telechargement/'.$encrypted;
     }
-//End Encryption
+    //End Encryption
+
+    /**
+     * Get parent model
+     *
+     * @param int    $id id of element
+     * @param string $type type of parent (question, veille,...)
+     * @return mixed
+     * @throws Exception
+     */
+    public function getParentModel($id, $type)
+    {
+        $options = array(
+            'fields' => array(
+                "{$type}.*"
+            ),
+            'synonym' => 'document',
+            'conditions' => 'document.id = ' . $id,
+            'join'  => array(
+                array(
+                    'type'  => 'left',
+                    'table' => "{$type} as {$type}",
+                    'column' => " {$type}.id = document.id_externe"
+                )
+            )
+        );
+
+        $object = mvc_model('QueryBuilder')->findOne('document', $options, 'document.id');
+        return $object;
+    }
+
+    /**
+     * Check if user can download document
+     *
+     * @param mixed $object
+     * @return bool
+     * @throws Exception
+     */
+    public function userCanDownload($object)
+    {
+        if (is_object($object) && property_exists($object, 'id')) {
+            // notary data
+            $notaryData = mvc_model('Notaire')->getUserConnectedData();
+            // veile data
+            $veille = $this->getParentModel($object->id, 'veille');
+
+            // subscription_level must be >= veille_level
+            return ($notaryData->etude->subscription_level >= $veille->level);
+        } else {
+            return false;
+        }
+    }
 }

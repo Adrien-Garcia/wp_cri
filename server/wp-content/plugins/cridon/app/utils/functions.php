@@ -701,6 +701,23 @@ function CriRecursiveFindingFileInDirectory($path, $file)
 function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
     $referer = $_SERVER['HTTP_REFERER'];
     $request = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+
+    /**
+     * on est obligé de passer par cette action intermediaire pour le telechargement de fichier
+     * car l'action Document::download avec la methode "force download" ne permet pas la fermeture
+     * du layer de connexion apres authentification
+     * Impact visible sur le controller Frontal "Veille::show" et la vue associée
+     */
+    if (preg_match('/documents\/download\/([0-9]+)/', $_SERVER['REQUEST_URI'], $mathes)) {
+        if (isset($mathes[1]) && $mathes[1]) { // id document exist
+            $parent = mvc_model('Document')->getParentModel($mathes[1], 'Veille');
+            if (is_object($parent) && property_exists($parent, 'post_id')) {
+                $request = $_SERVER['HTTP_HOST'];
+                $request .= '/veilles/' . get_post($parent->post_id)->post_name . '?id_doc=' . $mathes[1];
+            }
+        }
+    }
+
     if (! empty($referer) /*&& strripos( $request , $referer)*/ ){
         $redirect = $referer;
     } else {
@@ -776,8 +793,7 @@ function updateEmptyDownloadUrlFieldsDocument() {
 /**
  * Custom breadcrumbs
  */
-function CriBreadcrumb()
-{
+function CriBreadcrumb() {
     global $post,
            $mvc_params;
 
@@ -918,4 +934,25 @@ function CriVeilleWithUriFilters()
     }
 
     return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
+}
+
+/**
+ * Redirect to information page
+ *
+ * @throws Exception
+ */
+function redirectToInformationPage()
+{
+    global $cri_container;
+    $tools = $cri_container->get( 'tools' );
+
+    /**
+     * redirect url maybe changed to static page
+     * by default it plugged into CMS page
+     * @see plugins/cridon/app/config/const.inc.php to configure "CONST_INFORMATION_PAGE_ID"
+     */
+    $redirectUrl = get_the_permalink(CONST_INFORMATION_PAGE_ID);
+
+    $tools->redirect($redirectUrl);
+    exit;
 }

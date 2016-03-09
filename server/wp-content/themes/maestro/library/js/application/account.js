@@ -154,12 +154,16 @@ App.Account = {
             $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).css('height', h);
         }).bind(this));
 
-        $.datepicker.setDefaults({
-            dateFormat: "dd/mm/yy"
-        });
-        $( ".datepicker" ).datepicker();
-        $( ".datepicker" ).datepicker("option", "dateFormat" , "dd/mm/yy");
+        if(Modernizr.inputtypes.date){
 
+        }
+        else{
+            $.datepicker.setDefaults({
+                dateFormat: "dd/mm/yy"
+            });
+            $( ".datepicker" ).datepicker();
+            $( ".datepicker" ).datepicker("option", "dateFormat" , "dd/mm/yy");
+        }
 
         this.addListenersQuestions();
     },

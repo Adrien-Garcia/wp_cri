@@ -27,6 +27,9 @@ function save_post_in_table( $post_ID, $post ){
         if (isset($_POST['town'])) {
             $aAdditionalFields['town'] = $_POST['town'];
         }
+        if (!empty($_POST['cri_post_level'])) {
+            $aAdditionalFields['level'] = $_POST['cri_post_level'];
+        }
         updateRelatedContent( $model , $aAdditionalFields);
         
         //Only on insert and post status is publish
@@ -214,6 +217,8 @@ function check( $needle ,$haystack, $property = 'id_matiere' ){
         if( $haystack->id == Config::$defaultMatiere['id'] ){
             return ' selected="selected" ';
         }
+    } elseif (property_exists($haystack, 'type') && $haystack->type == 'level') {
+        return ($needle == $haystack->id) ? ' selected="selected" ' : '';
     }
     return ( ( $needle ) && ( $needle->{$property} === $haystack->id ) ) ? ' selected="selected" ' : '';
 }
@@ -961,4 +966,39 @@ function content_formation_post_town( $post, $args ){
 
     // render view
     CriRenderView('town_meta_box', $vars);
+}
+
+// Level meta_box
+add_action('add_meta_boxes','init_meta_boxes_post_level');
+
+function init_meta_boxes_post_level()
+{
+    // check if is a post cridon model
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithLevel)) {
+        // init meta box depends on the current type of content
+        add_meta_box('level_meta_boxes', sprintf(Config::$titleLevelMetabox, MvcInflector::camelize(MvcInflector::singularize($_GET['cridon_type']))) , 'init_select_level_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
+    }
+}
+/**
+ * Init metabox for Post Level
+ *
+ * @param \WP_Post $post
+ */
+function init_select_level_meta_boxes( $post, $args ){
+    //args contains only one param : key to model name using config
+    $models = $args['args'];
+    $config = arrayGet(Config::$data, $models, reset(Config::$data));
+    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
+    $oHayStack = new \stdClass;
+    $oHayStack->type = 'level';
+
+    // prepare vars
+    $vars = array(
+        'aLevel' => Config::$listOfLevel,
+        'oModel' => $oModel,
+        'oHayStack' => $oHayStack
+    );
+
+    // render view
+    CriRenderView('level_meta_box', $vars);
 }

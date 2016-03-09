@@ -1121,6 +1121,12 @@ class Question extends \App\Override\Model\CridonMvcModel
                          */
                         // Add required fields on the Oracle DB
                         $query = substr($query, 0, - strlen(")  VALUES ")).', ';
+                        $query .= $adapter::ZQUEST_ZLIENS_0 . ", ";   // ZQUEST_ZLIENS_0
+                        $query .= $adapter::ZQUEST_ZLIENS_1 . ", ";   // ZQUEST_ZLIENS_1
+                        $query .= $adapter::ZQUEST_ZLIENS_2 . ", ";   // ZQUEST_ZLIENS_2
+                        $query .= $adapter::ZQUEST_ZLIENS_3 . ", ";   // ZQUEST_ZLIENS_3
+                        $query .= $adapter::ZQUEST_ZLIENS_4 . ", ";   // ZQUEST_ZLIENS_4
+                        $query .= $adapter::ZQUEST_ZTXTQUEST_0 . ", ";   // ZQUEST_ZTXTQUEST_0
                         $query .= $adapter::ZQUEST_SRENUM_0 . ", ";   // ZQUEST_SRENUM_0
                         $query .= $adapter::ZQUEST_ZMESERR_0 . ", ";   // ZQUEST_ZMESSERR_0
                         $query .= $adapter::ZQUEST_ZERR_0 . " ";   // ZQUEST_ZERR_0
@@ -1177,6 +1183,12 @@ class Question extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . ( empty($question->resume) ? ' ' : str_replace('\\\'', '\'\'', html_entity_decode($question->resume)) ) . "', "; // ZQUEST_YRESUME_0
                             $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
                             $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy'), "; // ZQUEST_CREDAT_0
+                            $value .= "' ',"; // ZQUEST_ZLIENS_0
+                            $value .= "' ',"; // ZQUEST_ZLIENS_1
+                            $value .= "' ',"; // ZQUEST_ZLIENS_2
+                            $value .= "' ',"; // ZQUEST_ZLIENS_3
+                            $value .= "' ',"; // ZQUEST_ZLIENS_4
+                            $value .= "'" . ( empty($question->content) ? ' ' : str_replace('\\\'', '\'\'', html_entity_decode($question->content)) ) . "', "; // ZTXTQUEST_0
                             $value .= "'000000',"; // ZQUEST_SRENUM_0
                             $value .= "' ',"; // ZQUEST_ZMESSERR_0
                             $value .= "'0'"; // ZQUEST_ZERR_0
