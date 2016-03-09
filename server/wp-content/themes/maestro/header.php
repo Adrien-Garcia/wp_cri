@@ -91,7 +91,7 @@ echo get_template_part("content","ga");
 								</a>
 								<ul class="logout-2">
 									<li>
-										<a href="/wp-login.php?action=logout" target="_blank" >
+										<a href="/wp-login.php?action=logout" >
 											<?php _e('Se déconnecter'); ?>
 										</a>
 									</li>

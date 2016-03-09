@@ -218,7 +218,7 @@ class QueryConstructorModel {
                                 $values[] = '"'.esc_sql($val).'"';
                             }
                             $values = implode(',', $values);
-                            $sql_clauses[] = esc_sql($key).' IN ('.$values.')';
+                            $sql_clauses[] = esc_sql($this->normalizeStringForAlias($key)).' IN ('.$values.')';
                         } else {
                             $clauses = $this->prepareWhere($value);
                             $logical_operator = $key == 'OR' ? ' OR ' : ' AND ';

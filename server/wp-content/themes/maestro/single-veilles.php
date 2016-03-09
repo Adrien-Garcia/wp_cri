@@ -3,8 +3,8 @@
 	<div id="content" class="single single-veilles">
 
 		<div class="breadcrumbs">
-			<div id="" class="wrap cf">				
-				<a href="#" title="">Accueil</a> + <a href="#" title=""> Accéder aux bases de connaissances</a>  +  <a href="">Veille juridique</a>  +  <span>Titre POST veilles</span>
+			<div class="wrap cf">
+				<?php if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
 			</div>
 		</div>
 
@@ -28,7 +28,7 @@
 
 
 
-					<a href="<?php echo MvcRouter::public_url(array('controller' => 'veilles', 'action'     => 'index')) ?>"><?php _e('Retour'); ?></a>
+					<a href="<?php echo CriVeilleWithUriFilters(); ?>"><?php _e('Retour'); ?></a>
 
 				<?php // endwhile; ?>
 

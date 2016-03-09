@@ -17,6 +17,9 @@ body {
   	-webkit-font-smoothing: antialiased;
   	box-sizing: border-box;
   	background: #FFF;
+
+  	-webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 //.breadcrumbs{display: none!important;}
@@ -2696,6 +2699,11 @@ body.single, #content.single {
 						display: block;
 						margin: 0;
 						padding: 0;
+						text-align:left;
+
+						&:before{
+							display: none;
+						}
 
 					}
 
@@ -2951,28 +2959,41 @@ body.single #content {
 		background: $bg-top-footer;
 		height: 70px; 
 		padding-top: 10px;
-		color:#818181;
+		color:$bleu;
 
 		display: none;
 
-		a{
-			@extend .do-re;
-			font-size: 15px;
-			color:#818181;
-			text-transform: uppercase;
-			text-decoration: none;
-			line-height: 24px;
+		nav > div{
+			display: inline-block;
 
-			&:hover{text-decoration: underline;}
+			a{
+				@extend .do-re;
+				font-size: 15px;
+				text-transform: uppercase;
+				text-decoration: none;
+				line-height: 24px;
+				color:$bleu;
 
+				&:hover{
+					//text-decoration: underline;
+					border-bottom:solid 1px #818181;
+				}
+
+				span{
+					color:#818181;
+				}
+
+			}
+
+			span{
+				@extend .do-sm;
+				color:$bleu;
+				font-size: 15px;
+				line-height: 24px;
+			}
 		}
 
-		span{
-			@extend .do-sm;
-			color:$bleu;
-			font-size: 15px;
-			line-height: 24px;
-		}
+		
 
 	}
 
