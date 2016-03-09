@@ -172,7 +172,7 @@ class Config {
         'documents' => 'Les documents associés: ',
         'tags'      => ''
     );
-    public static $notificationAddressPreprod = "clement.horgues@jetpulp.fr";
+    public static $notificationAddressPreprod = "victor.albert@jetpulp.fr";
 
     //GED Administration
     public static $GEDtxtIndexes = array(
@@ -367,4 +367,9 @@ class Config {
 
     // question pending status
     public static $questionPendingStatus = array(1,2,3);
+
+    // Notification for posted question
+    public static $mailBodyQuestionConfirmation  = array(
+        'subject'   => 'Prise en compte de votre question sur le site'
+    );
 }
