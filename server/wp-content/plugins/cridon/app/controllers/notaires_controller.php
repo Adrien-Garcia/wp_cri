@@ -22,9 +22,6 @@ class NotairesController extends BasePublicController
     {
         global $mvc_params;
 
-        // get current notary data
-        $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
-
         // check if user is logged in and must be a notary
         if (!is_user_logged_in()
             || !in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)
@@ -46,6 +43,9 @@ class NotairesController extends BasePublicController
                             )
             );
         }
+
+        // get current notary data
+        $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
 
         // set notary id in params
         // needed to retrieve notary data by the MVC system
