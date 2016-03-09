@@ -177,6 +177,7 @@ App.Question = {
         // reset file list
         this.eventFileReset();
         this.$formQuestion[0].reset();
+        this.openTabQuestionConsultation();
         this.$submitQuestion.attr('disabled',false);
         this.$blockQuestionError.html('');
         this.$formQuestion.append(nonce);
