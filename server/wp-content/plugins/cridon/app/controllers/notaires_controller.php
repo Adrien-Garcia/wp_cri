@@ -25,11 +25,9 @@ class NotairesController extends BasePublicController
         // get current notary data
         $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
 
-        // check if user is not logged in
-        // or notaire id (url params) not equal to WP user session data
+        // check if user is logged in and must be a notary
         if (!is_user_logged_in()
-            || !$this->current_notaire->id
-            || (isset($this->params['id']) && $this->params['id'] !== $this->current_notaire->id)
+            || !in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)
         ) {
             // logout current user
             wp_logout();
