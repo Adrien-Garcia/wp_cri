@@ -1,5 +1,42 @@
-<div class="mes-informations">
+<h2><?php _e("Crid'Online"); ?></h2>
+<div class="description">
+	<?php if ($notaire->etude->subscription_level == 1 ):?>
+		<script type="text/javascript">
+			//<![CDATA[
+			jsvar.newsletter_success_msg = "Inscription terminée avec succès.";
+			//]]>
+		</script>
+	<?php _e('Vous bénéficiez d\'un accès aux veilles de niveau 1.'); ?>
+	<?php elseif ($notaire->etude->subscription_level == 2 ):?>
+		<script type="text/javascript">
+			//<![CDATA[
+			jsvar.newsletter_success_msg = "Désinscription terminée avec succès.";
+			//]]>
+		</script>
+		<?php _e('Vous bénéficiez d\'un accès aux veilles de niveau 2.'); ?>
+        <?php elseif ($notaire->etude->subscription_level == 3 ) : ?>
+        <script type="text/javascript">
+            //<![CDATA[
+            jsvar.newsletter_success_msg = "Désinscription terminée avec succès.";
+            //]]>
+        </script>
+        <?php _e('Vous bénéficiez d\'un accès aux veilles de niveau 3.'); ?>
+	<?php endif; ?>
+</div>
 
-	<h2>Mes informations</h2>
-
+<?php if ($notaire->etude->subscription_level < 2 ):?>
+    <form action="/notaires/<?php echo $notaire->id ?>/cridonline" method="post" accept-charset="utf-8" id="cridonlineFormId" class="form-sublevel js-account-cridonline-sublevel-form">
+        <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-sublevel-crpcen">
+        <input type="hidden" name="level" value="<?php echo "2"; ?>" class="js-account-cridonline-sublevel-level">
+        <input type="submit" name="submit" value="<?php _e("S'abonner au niveau 2"); ?>">
+    </form>
+<?php endif;?>
+<?php if ($notaire->etude->subscription_level < 3 ):?>
+<form action="/notaires/<?php echo $notaire->id ?>/cridonline" method="post" accept-charset="utf-8" id="cridonlineFormId" class="form-sublevel js-account-cridonline-sublevel-form">
+    <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-sublevel-crpcen">
+    <input type="hidden" name="level" value="<?php echo "3"; ?>" class="js-account-cridonline-sublevel-level">
+    <input type="submit" name="submit" value="<?php _e("S'abonner au niveau 3"); ?>">
+</form>
+<?php endif;?>
+<div id="subLevelMsgId" class="js-account-cridonline-sublevel-message">
 </div>

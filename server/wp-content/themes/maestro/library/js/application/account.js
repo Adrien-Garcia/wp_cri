@@ -14,10 +14,13 @@ App.Account = {
     accountQuestionMoreSelector         : '-more',
     accountProfilSubscriptionSelector   : '-subscription',
     accountProfilNewsletterSelector     : '-newsletter',
+    accountCridonlineSubLevelSelector   : '-sublevel',
     accountFormSelector                 : '-form',
 
     accountEmailSelector                : '-email',
     accountStateSelector                : '-state',
+    accountCrpcenSelector               : '-crpcen',
+    accountLevelSelector                : '-level',
 
 
     ajaxSelector                        : '-ajax',
@@ -62,6 +65,10 @@ App.Account = {
     $accountProfilNewsletterMessage     : null,
     $accountProfilNewsletterEmail       : null,
     $accountProfilNewsletterState       : null,
+
+    $accountCridonlineSubLevelForm      : null,
+    $accountCridonlineSubLevelMessage   : null,
+    $accountCridonlineSubLevelState     : null,
 
     $formQuestionFilter                 : null,
     $dateQuestionFilterDu               : null,
@@ -200,6 +207,22 @@ App.Account = {
 
     initCridonline: function() {
         this.debug('Account : Init Cridonline');
+
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'tokencridonline';
+        nonce.id    = 'tokencridonline';
+        nonce.value = jsvar.cridonline_nonce;
+
+        var d = this.defaultSelector;
+
+        this.$accountCridonlineSubLevelForm = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountFormSelector);
+        this.$accountCridonlineSubLevelForm.append(nonce);
+
+        this.$accountCridonlineSubLevelMessage = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountMessageSelector);
+        this.$accountCridonlineSubLevelCrpcen = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountCrpcenSelector);
+        this.$accountCridonlineSubLevelLevel = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountLevelSelector);
+
         this.addListenersCridonline();
 
     },
@@ -317,7 +340,12 @@ App.Account = {
     addListenersCridonline: function() {
         var self = this;
 
-        this.debug("Account : addListenersFacturation");
+        this.debug("Account : addListenersCridonline");
+
+        this.$accountCridonlineSubLevelForm.on('submit', function (e) {
+            self.eventAccountProfilSubLevelSubmit($(this));
+            return false;
+        });
     },
 
 
@@ -488,6 +516,35 @@ App.Account = {
             this.$accountProfilNewsletterMessage.html(jsvar.newsletter_empty_error);
         }
 
+        return false;
+    },
+
+    eventAccountProfilSubLevelSubmit: function () {
+        //this.$accountCridonlineSubLevelMessage.html('');
+        jQuery.ajax({
+            type: 'POST',
+            url: jsvar.ajaxurl,
+            data: {
+                action: 'veilles',
+                token: $('#tokencridonline').val(),
+                crpcen: this.$accountCridonlineSubLevelCrpcen.val(),
+                level: this.$accountCridonlineSubLevelLevel.val()
+            },
+            success: this.successCridonlineToggle.bind(this)
+        });
+        return false;
+    },
+
+    successCridonlineToggle: function (data) {
+        data = JSON.parse(data);
+        if(data == 'success')
+        {
+            this.eventAccountCridonlineOpen();
+        }
+        else
+        {
+            //this.$accountProfilNewsletterMessage.html(jsvar.newsletter_email_error);
+        }
         return false;
     },
 
