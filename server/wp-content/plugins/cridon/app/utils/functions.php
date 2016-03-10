@@ -776,61 +776,74 @@ function updateEmptyDownloadUrlFieldsDocument() {
 /**
  * Custom breadcrumbs
  */
-function CriBreadcrumb() {
+function CriBreadcrumb()
+{
     global $post,
            $mvc_params;
 
     // prepare vars
     $home        = new stdClass();
+    // title of level 1
     $home->title = 'Accueil';
     $home->url   = home_url();
     $vars        = array(
-        'breadcrumb'        => array($home),
-        'separator'         => ' + ',
-        'containerId'       => 'inner-content',
-        'containerClass'    => 'wrap cf'
+        'breadcrumbs' => array($home),
+        'separator'   => ' + ',
     );
 
     if (is_mvc_page()) { // WPMVC page (single, archives,...)
         if (isset($mvc_params['action']) && $mvc_params['action']) {
             if ($mvc_params['controller'] == 'notaires') { // page notaire
                 // archive model
-                $archive              = new stdClass();
-                $archive->title       = 'Mon compte';
-                $archive->url         = mvc_public_url(array(
-                    'controller' => $mvc_params['controller']
-                ));
-                $vars['breadcrumb'][] = $archive;
+                $archive               = new stdClass();
+                $archive->title        = 'Mon compte';
+                $archive->url          = mvc_public_url(array(
+                                                            'controller' => $mvc_params['controller']
+                                                        ));
+                $vars['breadcrumbs'][] = $archive;
             } else {
-                // archive model
-                $archive              = new stdClass();
-                $archive->title       = isset(Config::$breadcrumbModelParams[$mvc_params['controller']]) ?
-                    Config::$breadcrumbModelParams[$mvc_params['controller']] : ucfirst($mvc_params['controller']);
-                $archive->url         = mvc_public_url(array(
-                    'controller' => $mvc_params['controller']
-                ));
-                $vars['breadcrumb'][] = $archive;
+                if ($mvc_params['controller'] !== 'matieres') {
 
+                    // archive model
+                    $archive = new stdClass();
+                    // title of level 2 : retrieves from config if isset or uses controller name from params
+                    $archive->title = isset(Config::$breadcrumbModelParams[$mvc_params['controller']]) ? Config::$breadcrumbModelParams[$mvc_params['controller']] : ucfirst($mvc_params['controller']);
+
+                    if ($mvc_params['controller'] == 'veilles') {
+                        // A Modifier pour prendre en compte la conservation du filtre des veilles
+                        $archive->url = CriVeilleWithUriFilters();
+                        //
+                        if ( isset($_GET['matieres']) && !empty($_GET['matieres']) && is_array($_GET['matieres'])  && count($_GET['matieres']) === 1){
+                            $archive->title = ucfirst($_GET['matieres'][0]);
+                        }
+                    } else {
+                        $archive->url = mvc_public_url(array(
+                            'controller' => $mvc_params['controller']
+                        ));
+                    }
+                    $vars['breadcrumbs'][] = $archive;
+                }
                 // single model
                 if (isset($mvc_params['id']) && $mvc_params['id']) {
-                    $singles              = mvc_model('QueryBuilder')->getPostByMVCParams();
-                    $single               = new stdClass();
-                    $single->title        = isset($singles->post_title) ? $singles->post_title : '';
-                    $single->url          = mvc_public_url(array(
-                        'controller' => $mvc_params['controller'],
-                        'action'     => $mvc_params['action'],
-                        'id'         => $mvc_params['id'],
-                    ));
-                    $vars['breadcrumb'][] = $single;
-                    $vars['containerId']  = '';
+                    $singles               = mvc_model('QueryBuilder')->getPostByMVCParams();
+                    $single                = new stdClass();
+                    // title of level 3
+                    $single->title         = isset($singles->post_title) ? $singles->post_title : '';
+                    $single->url           = mvc_public_url(array(
+                                                                'controller' => $mvc_params['controller'],
+                                                                'action'     => $mvc_params['action'],
+                                                                'id'         => $mvc_params['id'],
+                                                            ));
+                    $vars['breadcrumbs'][] = $single;
+                    $vars['containerId']   = '';
                 }
             }
         }
     } elseif ((is_single() || is_page()) && !is_attachment()) { // page or post single
-        $single              = new stdClass();
-        $single->title       = $post->post_title;
-        $single->url         = get_the_permalink($post->ID);
-        $vars['breadcrumb'][] = $single;
+        $single                = new stdClass();
+        $single->title         = $post->post_title;
+        $single->url           = get_the_permalink($post->ID);
+        $vars['breadcrumbs'][] = $single;
     }
 
     // render view
@@ -891,6 +904,70 @@ function CriSetAdminCridonCaps() {
                     $role->add_cap($cap);
                 }
             }
+        }
+    }
+}
+
+function CriVeilleWithUriFilters()
+{
+    $url = '';
+    if (is_array($_GET['matieres']) && count($_GET['matieres']) > 0) {
+        foreach ($_GET['matieres'] as $key => $virtualName) {
+            $url .= ($key == 0) ? '?matieres[]=' . $virtualName : '&matieres[]=' . $virtualName;
+        }
+    }
+
+    return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
+}
+
+/**
+ * Send confirmation to notary for posted question
+ *
+ * @param array $question
+ * @throws Exception
+ */
+function CriSendPostQuestConfirmation($question) {
+    // get connected user
+    global $current_user;
+
+    // set meail headers
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+    // retrieve notary data
+    $notary = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
+    if (is_object($notary) && property_exists($notary, 'email_adress')) {
+        // default dest for DEV ENV
+        $dest = Config::$notificationAddressPreprod;
+
+        // check environnement
+        $env = getenv('ENV');
+        if ($env === 'PROD') {
+            $dest = $notary->email_adress;
+            if (!$dest) { // notary email is empty
+                // send email to the office
+                $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+                if (is_object($offices) && $offices->office_email_adress_1) {
+                    $dest = $offices->office_email_adress_1;
+                }
+            }
+        }
+
+        // dest must be set
+        if ($dest) {
+            // prepare message
+            $subject = Config::$mailBodyQuestionConfirmation['subject'];
+            $vars    = array(
+                'objet'          => $question['resume'],
+                'content'        => $question['content'],
+                'matiere'        => $question['matiere'],
+                'competence'     => $question['competence'],
+                'support'        => $question['support'],
+                "dateSoumission" => $question['dateSoumission']
+            );
+            $message = CriRenderView('mail_question_confirmation', $vars, 'custom', false);
+
+            // send email
+            wp_mail($dest, $subject, $message, $headers);
         }
     }
 }

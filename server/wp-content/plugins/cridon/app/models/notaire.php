@@ -1317,8 +1317,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     public function findByLoginAndPassword($login, $pwd)
     {
         // base query
-        $query = " SELECT `n`.`id` FROM {$this->table} n ";
-        $query .= " INNER JOIN `{$this->wpdb->users}` u ON u.`ID` = n.`id_wp_user` ";
+        $query = " SELECT `n`.`id`, `n`.`code_interlocuteur`, `n`.`crpcen`, `n`.`client_number`, `n`.`web_password`, `n`.`first_name` AS prenom,
+                    `n`.`last_name` AS nom, `c`.`label` AS civilite FROM {$this->table} n ";
+        $query .= " INNER JOIN `{$this->wpdb->users}` u ON u.`ID` = n.`id_wp_user`
+                    LEFT JOIN `{$this->wpdb->prefix}civilite` c ON `c`.`id` = `n`.`id_civilite` ";
         $query .= " WHERE `crpcen` = %s
                     AND `web_password` = %s
                     AND `user_status` = " . CONST_STATUS_ENABLED;
@@ -1758,7 +1760,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if( !$notaire ){
             return false;
         }
-        return true;
+        return $notaire;
     }
 
     /**

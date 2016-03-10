@@ -426,3 +426,18 @@ function custom_redirect_301($wp)
         }
     }
 }
+
+
+/**
+ * Hook lien "Lire" pour conservation filtre de veille
+ * A noter que ca respecte deja le principe de WP lors de la formation des liens des Posts
+ * Pour info template associé : wp-content/themes/maestro/content-post-list.php
+ * @see https://codex.wordpress.org/Plugin_API/Filter_Reference/the_permalink
+ *
+ * @param string $url the post url
+ * @return string
+ */
+function append_query_string($url) {
+    return add_query_arg($_GET, $url);
+}
+add_filter('the_permalink', 'append_query_string');

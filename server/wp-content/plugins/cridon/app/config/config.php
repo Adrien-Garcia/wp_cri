@@ -172,7 +172,7 @@ class Config {
         'documents' => 'Les documents associés: ',
         'tags'      => ''
     );
-    public static $notificationAddressPreprod = "clement.horgues@jetpulp.fr";
+    public static $notificationAddressPreprod = "victor.albert@jetpulp.fr";
 
     //GED Administration
     public static $GEDtxtIndexes = array(
@@ -335,11 +335,12 @@ class Config {
     // breadcrumb wpmvc model title
     // key must be match with controller params name
     public static $breadcrumbModelParams = array(
-        'veilles'           => 'Veille juridique',
+        'veilles'           => 'Veilles',
         'flashes'           => 'Flash infos',
         'cahier_cridons'    => 'Les cahiers du CRIDON',
         'formations'        => 'Formation',
         'vie_cridons'       => 'Vie du CRIDON',
+        'matieres'          => 'Matiere',
     );
 
     //RSS
@@ -366,6 +367,11 @@ class Config {
 
     // question pending status
     public static $questionPendingStatus = array(1,2,3);
+
+    // Notification for posted question
+    public static $mailBodyQuestionConfirmation  = array(
+        'subject'   => 'Prise en compte de votre question sur le site'
+    );
 
     /**
      * @var array list of notary "function" allowed to edit profil, show office members

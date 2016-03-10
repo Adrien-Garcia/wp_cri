@@ -572,11 +572,8 @@ class QueryBuilder{
 
         $posts = '';
         if (isset($mvc_params['controller']) && isset($mvc_params['id']) && $mvc_params['id']) {
-            $table = $this->wpdb->prefix . MvcInflector::singularize($mvc_params['controller']);
-
             $query  = " SELECT `p`.`post_title` FROM `{$this->wpdb->posts}` p ";
-            $query .= " LEFT JOIN `{$table}` cm ON `cm`.`post_id` = `p`.`ID` ";
-            $query .= " WHERE `cm`.`id` = {$mvc_params['id']} ";
+            $query .= " WHERE `p`.`post_name` = '{$mvc_params['id']}' ";
 
             $posts = $this->wpdb->get_row($query);
         }
