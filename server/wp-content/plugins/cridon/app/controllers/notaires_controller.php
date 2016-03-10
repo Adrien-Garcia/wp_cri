@@ -339,6 +339,45 @@ class NotairesController extends BasePublicController
         die;
     }
 
+
+    public function veillesSubscription()
+    {
+        // init response
+        $ret = '';
+
+        // Verify that the nonce is valid.
+        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen']) ) {
+            // only an individual email is valid
+            // find the office
+            $office = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
+            if (!empty($_REQUEST['level']) && !empty($office)) {
+                // @TODO send info to Cridon (waiting for info 'How to do that'
+
+                // Free trial date
+                if (intval($_REQUEST['level']) > $office->subscription_level && empty($office->final_date_trial_veilles)){
+                    $final_date_trial_veilles = date('Y-m-d', strtotime('+1 month'));
+                    $office = array(
+                        'Etude' => array(
+                            'crpcen'                       => $_REQUEST['crpcen'],
+                            'final_date_trial_veilles'     => $final_date_trial_veilles
+                        )
+                    );
+                    mvc_model('Etude')->save($office);
+                }
+
+
+
+                $ret = 'success';
+            }
+        }
+
+        echo json_encode($ret);
+
+        die;
+    }
+
+
+
     protected function prepareDashboard()
     {
         // access secured

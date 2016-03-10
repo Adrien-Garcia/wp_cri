@@ -493,6 +493,11 @@ if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
     define( 'CONST_NEWSLETTER_MSGBLOCK_ID', 'newsletterMsgId' );
 }
 
+//cridonline form
+if ( !defined( 'CONST_CRIDONLINE_FORM_ID' ) ) {
+    define( 'CONST_CRIDONLINE_FORM_ID', 'cridonlineFormId' );
+}
+
 //Alert on issues without documents
 if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
     define( 'CONST_ALERT_MINUTE', 30 );
