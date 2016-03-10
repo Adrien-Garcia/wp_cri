@@ -132,7 +132,12 @@ class VeillesController extends BaseActuController {
                 parent::show();
             } else {
                 // redirect to information page
-                redirectToInformationPage();
+                $options = array(
+                    'controller' => 'notaires',
+                    'action'     => 'cridonline'
+                );
+                $publicUrl  = MvcRouter::public_url($options);
+                wp_redirect( $publicUrl, 302 );
             }
         }
     }
