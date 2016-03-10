@@ -437,7 +437,7 @@ class NotairesController extends BasePublicController
             )
         );
 
-        $membersOfOffice = mvc_model('QueryBuilder')->findAll('notaire',$options);
+        $liste = mvc_model('QueryBuilder')->findAll('notaire',$options);
         CriRenderView('liste',get_defined_vars(),'notaires');
         die();
     }

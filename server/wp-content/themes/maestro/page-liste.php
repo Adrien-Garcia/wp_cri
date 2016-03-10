@@ -14,7 +14,7 @@
         <div id="inner-content" class="wrap cf">
 
             <?php
-            foreach ($membersOfOffice as $key => $member) :
+            foreach ($liste as $key => $member) :
                 echo 'NEW MEMBER : ';
                     var_dump($member);
             endforeach;
