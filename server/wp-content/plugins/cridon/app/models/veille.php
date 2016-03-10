@@ -76,7 +76,7 @@ class Veille extends \App\Override\Model\CridonMvcModel {
             $veille     = $this->associatePostWithDocumentByPostName($object->params['id']);
 
             // subscription_level must be >= veille_level
-            return ($notaryData->etude->subscription_level >= $veille->level);
+            return ($notaryData->etude->subscription_level >= $veille->level || $notaryData->etude->final_date_trial_veilles >= date('Y-m-d'));
         } else {
             return false;
         }
