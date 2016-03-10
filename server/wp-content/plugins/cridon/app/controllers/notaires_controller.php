@@ -415,7 +415,7 @@ class NotairesController extends BasePublicController
     /**
      * Show every member of the office
      */
-    public function showofficemembers(){
+    public function liste(){
         // access secured
         $this->prepareSecureAccess();
 
@@ -438,7 +438,7 @@ class NotairesController extends BasePublicController
         );
 
         $membersOfOffice = mvc_model('QueryBuilder')->findAll('notaire',$options);
-        CriRenderView('showofficemembers',get_defined_vars(),'notaires');
+        CriRenderView('liste',get_defined_vars(),'notaires');
         die();
     }
 
