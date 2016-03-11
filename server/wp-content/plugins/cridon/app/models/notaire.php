@@ -1976,6 +1976,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function find($options = array())
     {
-        return (is_array($options) && count($options) > 0) ? parent::find() : mvc_model('QueryBuilder')->findAll('notaire');
+        return (is_array($options) && count($options) > 0) ? parent::find($options) : mvc_model('QueryBuilder')->findAll('notaire');
     }
 }
