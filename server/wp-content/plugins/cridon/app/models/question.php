@@ -1167,16 +1167,16 @@ class Question extends MvcModel
                             if (!empty($question->content)) {
                                 $content = trim(html_entity_decode($question->content));
                                 if (mb_strlen($content) <= static::ODBC_MAX_CHARS) {
-                                    $content = str_replace( "\r\n", "'||chr(13)||chr(10)||'", $content);
+                                    $content = str_replace(array("\r\n","\r","\n","\\r","\\n","\\r\\n"), "'||chr(13)||chr(10)||'", $content); // avoid considering all forms of newline
                                     $content = "'" . str_replace('\\\'', '\'\'', $content) . "'";
                                 } else {
                                     $contents = str_split($content, static::ODBC_MAX_CHARS);
                                     //to_clob('...') || to_clob('...')..
                                     array_walk($contents, function(& $chunk) {
-                                        $chunk = str_replace( "\r\n", "')||chr(13)||chr(10)||to_clob('", $chunk);
+                                        $chunk = str_replace(array("\r\n","\r","\n","\\r","\\n","\\r\\n"), "')||chr(13)||chr(10)||to_clob('", $chunk); // also change plain characters
                                         $chunk = "to_clob('" . str_replace('\\\'', '\'\'', $chunk) . "')";
                                     });
-                                    $content = 'CONCAT('.implode(',', $contents).')';
+                                    $content = implode('||', $contents);
                                 }
                             }
                             $value  = $query;
