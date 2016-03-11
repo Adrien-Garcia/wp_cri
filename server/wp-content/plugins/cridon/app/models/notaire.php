@@ -1970,11 +1970,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     /**
      * Find all notary by optimized query
      *
+     * @param array $options
      * @return mixed
      * @throws Exception
      */
-    public function find()
+    public function find($options = array())
     {
-        return mvc_model('QueryBuilder')->findAll('notaire');
+        return (is_array($options) && count($options) > 0) ? parent::find() : mvc_model('QueryBuilder')->findAll('notaire');
     }
 }
