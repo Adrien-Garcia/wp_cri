@@ -12,6 +12,14 @@ class Question extends MvcModel
     const IMPORT_ODBC_OPTION = 'odbc';
 
     /**
+     * Max number of chars in a string for Oracle SQL query.
+     * Theorical limit is 4000, but replacing chars (line feed and quotes) will increase number of chars
+     * Performing the replacement before could have side effects by cutting the two '' in two seperates strings.
+     * @var int
+     */
+    const ODBC_MAX_CHARS = 3000;
+
+    /**
      * @var string
      */
     const IMPORT_OCI_OPTION = 'oci';
@@ -1155,6 +1163,22 @@ class Question extends MvcModel
                                 }
                             }
 
+                            $content = "' '";
+                            if (!empty($question->content)) {
+                                $content = trim(html_entity_decode($question->content));
+                                if (mb_strlen($content) <= static::ODBC_MAX_CHARS) {
+                                    $content = str_replace( "\r\n", "'||chr(13)||chr(10)||'", $content);
+                                    $content = "'" . str_replace('\\\'', '\'\'', $content) . "'";
+                                } else {
+                                    $contents = str_split($content, static::ODBC_MAX_CHARS);
+                                    //to_clob('...') || to_clob('...')..
+                                    array_walk($contents, function(& $chunk) {
+                                        $chunk = str_replace( "\r\n", "')||chr(13)||chr(10)||to_clob('", $chunk);
+                                        $chunk = "to_clob('" . str_replace('\\\'', '\'\'', $chunk) . "')";
+                                    });
+                                    $content = 'CONCAT('.implode(',', $contents).')';
+                                }
+                            }
                             $value  = $query;
                             $value .= "(";
 
@@ -1183,7 +1207,7 @@ class Question extends MvcModel
                             $value .= "' ',"; // ZQUEST_ZLIENS_2
                             $value .= "' ',"; // ZQUEST_ZLIENS_3
                             $value .= "' ',"; // ZQUEST_ZLIENS_4
-                            $value .= "'" . ( empty($question->content) ? ' ' : str_replace('\\\'', '\'\'', html_entity_decode($question->content)) ) . "', "; // ZTXTQUEST_0
+                            $value .= $content . ","; // ZTXTQUEST_0
                             $value .= "'000000',"; // ZQUEST_SRENUM_0
                             $value .= "' ',"; // ZQUEST_ZMESSERR_0
                             $value .= "'0'"; // ZQUEST_ZERR_0
