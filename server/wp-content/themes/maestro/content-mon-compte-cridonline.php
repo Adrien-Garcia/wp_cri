@@ -29,6 +29,7 @@
         <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-sublevel-crpcen">
         <input type="hidden" name="level" value="<?php echo "2"; ?>" class="js-account-cridonline-sublevel-level">
         <input type="submit" name="submit" value="<?php _e("S'abonner au niveau 2"); ?>">
+        <p>Price : <?php echo $priceVeilleLevel2 ?></p>
     </form>
 <?php endif;?>
 <?php if ($notaire->etude->subscription_level < 3 ):?>
@@ -36,6 +37,7 @@
     <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-sublevel-crpcen">
     <input type="hidden" name="level" value="<?php echo "3"; ?>" class="js-account-cridonline-sublevel-level">
     <input type="submit" name="submit" value="<?php _e("S'abonner au niveau 3"); ?>">
+    <p>Price : <?php echo $priceVeilleLevel3 ?></p>
 </form>
 <?php endif;?>
 <div id="subLevelMsgId" class="js-account-cridonline-sublevel-message">

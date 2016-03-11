@@ -387,4 +387,17 @@ class Config {
     public static $restrictedDownloadByTypeLevel = array(
         'veille'
     );
+
+    public static $pricesLevelsVeilles = array(
+        '2' => array(
+            '5' => 7900,
+            '2' => 4800,
+            '1' => 2500,
+        ),
+        '3' => array (
+            '5' => 9900,
+            '2' => 5900,
+            '1' => 3500,
+        )
+    );
 }

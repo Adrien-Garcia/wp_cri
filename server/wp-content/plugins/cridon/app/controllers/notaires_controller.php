@@ -286,9 +286,33 @@ class NotairesController extends BasePublicController
      */
     public function cridonline()
     {
-        $this->prepareCridOnline();
+        $this->prepareSecureAccess();
         $notaire = CriNotaireData();
-        $this->set('notaire',$notaire);
+        $this->set('notaire', $notaire);
+
+        $options = array(
+            'conditions' => array(
+                'crpcen' => $notaire->crpcen
+            )
+        );
+        $nombreNotaires = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
+        // Tri du tableau de prix par clé descendante
+        krsort(Config::$pricesLevelsVeilles[2]);
+        krsort(Config::$pricesLevelsVeilles[3]);
+        // on cherche quelle clé est correcte
+        foreach (Config::$pricesLevelsVeilles[2] as $k => $v) {
+            if ($nombreNotaires >= $k) {
+                $priceVeilleLevel2 = $v;
+                $this->set('priceVeilleLevel2', $priceVeilleLevel2);
+                break;
+            }
+        }
+        foreach (Config::$pricesLevelsVeilles[3] as $k => $v) {
+            if ($nombreNotaires >= $k) {
+                $this->set('priceVeilleLevel3', $v);
+                break;
+            }
+        }
     }
 
     /**
@@ -380,7 +404,6 @@ class NotairesController extends BasePublicController
 
     protected function prepareDashboard()
     {
-        // access secured
         $this->prepareSecureAccess();
 
         // set template vars
@@ -392,13 +415,11 @@ class NotairesController extends BasePublicController
 
     protected function prepareSecureAccess()
     {
-// access secured
         $this->secureAccess();
     }
 
     protected function prepareProfil()
     {
-// access secured
         $this->prepareSecureAccess();
         //unsubscribe to newsletter
         if(isset($_POST['disabled'])){
@@ -454,15 +475,6 @@ class NotairesController extends BasePublicController
         $vars = $this->get_object();
         $this->set_vars($vars);
     }
-
-    protected function prepareCridOnline(){
-        // access secured
-        $this->prepareSecureAccess();
-        $vars = $this->get_object();
-        $this->set_vars($vars);
-        return $vars;
-    }
-
     /**
      * Get questions pending
      *

@@ -54,7 +54,7 @@
                         <a href="<?php get_home_url() ?>/notaires/cridonline" class="bt js-account-cridonline-button">Crid'Online</a>
                         <div id="cridonline" class="pannel js-account-ajax">
                         <?php if ($onglet == 5) : ?>
-                            <?php CriRenderView('contentcridonline', array('notaire' => $notaire), 'notaires') ?>
+                            <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3 ), 'notaires') ?>
 
                         <?php endif; ?>
                         </div>
