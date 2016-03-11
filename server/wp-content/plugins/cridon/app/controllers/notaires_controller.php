@@ -373,12 +373,12 @@ class NotairesController extends BasePublicController
         if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen']) ) {
             // only an individual email is valid
             // find the office
-            $office = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
-            if (!empty($_REQUEST['level']) && !empty($office)) {
+            $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
+            if (!empty($_REQUEST['level']) && !empty($etude)) {
                 // @TODO send info to Cridon (waiting for info 'How to do that'
 
                 // Free trial date
-                if (intval($_REQUEST['level']) > $office->subscription_level && empty($office->final_date_trial_veilles)){
+                if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->final_date_trial_veilles)){
                     $final_date_trial_veilles = date('Y-m-d', strtotime('+1 month'));
                     $office = array(
                         'Etude' => array(
@@ -388,10 +388,15 @@ class NotairesController extends BasePublicController
                     );
                     mvc_model('Etude')->save($office);
                 }
-
-
-
-                $ret = 'success';
+            }
+            if (!empty($_REQUEST['price']) && !empty($etude)) {
+                $office = array(
+                    'Etude' => array(
+                        'crpcen'            => $_REQUEST['crpcen'],
+                        'initial_price'     => intval($_REQUEST['price'])
+                    )
+                );
+                mvc_model('Etude')->save($office);
             }
         }
 

@@ -15,12 +15,16 @@ App.Account = {
     accountProfilSubscriptionSelector   : '-subscription',
     accountProfilNewsletterSelector     : '-newsletter',
     accountCridonlineSubLevelSelector   : '-sublevel',
-    accountFormSelector                 : '-form',
+    accountForm2Selector                 : '-form2',
+    accountForm3Selector                 : '-form3',
 
     accountEmailSelector                : '-email',
     accountStateSelector                : '-state',
     accountCrpcenSelector               : '-crpcen',
-    accountLevelSelector                : '-level',
+    accountLevel2Selector                : '-level2',
+    accountLevel3Selector                : '-level3',
+    accountPrice2Selector               : '-price2',
+    accountPrice3Selector               : '-price3',
 
 
     ajaxSelector                        : '-ajax',
@@ -66,7 +70,8 @@ App.Account = {
     $accountProfilNewsletterEmail       : null,
     $accountProfilNewsletterState       : null,
 
-    $accountCridonlineSubLevelForm      : null,
+    $accountCridonlineSubLevelForm2     : null,
+    $accountCridonlineSubLevelForm3     : null,
     $accountCridonlineSubLevelMessage   : null,
     $accountCridonlineSubLevelState     : null,
 
@@ -216,12 +221,17 @@ App.Account = {
 
         var d = this.defaultSelector;
 
-        this.$accountCridonlineSubLevelForm = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountFormSelector);
-        this.$accountCridonlineSubLevelForm.append(nonce);
+        this.$accountCridonlineSubLevelForm2 = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountForm2Selector);
+        this.$accountCridonlineSubLevelForm3 = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountForm3Selector);
+        this.$accountCridonlineSubLevelForm2.append(nonce);
+        this.$accountCridonlineSubLevelForm3.append(nonce);
 
         this.$accountCridonlineSubLevelMessage = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountMessageSelector);
         this.$accountCridonlineSubLevelCrpcen = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountCrpcenSelector);
-        this.$accountCridonlineSubLevelLevel = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountLevelSelector);
+        this.$accountCridonlineSubLevelLevel2 = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountLevel2Selector);
+        this.$accountCridonlineSubLevelLevel3 = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountLevel3Selector);
+        this.$accountCridonlineSubLevelPrice2 = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountPrice2Selector);
+        this.$accountCridonlineSubLevelPrice3 = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountPrice3Selector);
 
         this.addListenersCridonline();
 
@@ -342,8 +352,13 @@ App.Account = {
 
         this.debug("Account : addListenersCridonline");
 
-        this.$accountCridonlineSubLevelForm.on('submit', function (e) {
-            self.eventAccountProfilSubLevelSubmit($(this));
+        this.$accountCridonlineSubLevelForm2.on('submit', function (e) {
+            self.eventAccountCridonlineSubLevel2Submit($(this));
+            return false;
+        });
+
+        this.$accountCridonlineSubLevelForm3.on('submit', function (e) {
+            self.eventAccountCridonlineSubLevel3Submit($(this));
             return false;
         });
     },
@@ -519,7 +534,7 @@ App.Account = {
         return false;
     },
 
-    eventAccountProfilSubLevelSubmit: function () {
+    eventAccountCridonlineSubLevelSubmit: function () {
         //this.$accountCridonlineSubLevelMessage.html('');
         jQuery.ajax({
             type: 'POST',
@@ -528,7 +543,42 @@ App.Account = {
                 action: 'veilles',
                 token: $('#tokencridonline').val(),
                 crpcen: this.$accountCridonlineSubLevelCrpcen.val(),
-                level: this.$accountCridonlineSubLevelLevel.val()
+                level: this.$accountCridonlineSubLevelLevel.val(),
+                price: this.$accountCridonlineSubLevelPrice3.val()
+            },
+            success: this.successCridonlineToggle.bind(this)
+        });
+        return false;
+    },
+
+    eventAccountCridonlineSubLevel2Submit: function () {
+        //this.$accountCridonlineSubLevelMessage.html('');
+        jQuery.ajax({
+            type: 'POST',
+            url: jsvar.ajaxurl,
+            data: {
+                action: 'veilles',
+                token: $('#tokencridonline').val(),
+                crpcen: this.$accountCridonlineSubLevelCrpcen.val(),
+                level: this.$accountCridonlineSubLevelLevel2.val(),
+                price: this.$accountCridonlineSubLevelPrice2.val()
+            },
+            success: this.successCridonlineToggle.bind(this)
+        });
+        return false;
+    },
+
+    eventAccountCridonlineSubLevel3Submit: function () {
+        //this.$accountCridonlineSubLevelMessage.html('');
+        jQuery.ajax({
+            type: 'POST',
+            url: jsvar.ajaxurl,
+            data: {
+                action: 'veilles',
+                token: $('#tokencridonline').val(),
+                crpcen: this.$accountCridonlineSubLevelCrpcen.val(),
+                level: this.$accountCridonlineSubLevelLevel3.val(),
+                price: this.$accountCridonlineSubLevelPrice3.val()
             },
             success: this.successCridonlineToggle.bind(this)
         });

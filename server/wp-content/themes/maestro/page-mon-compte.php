@@ -50,7 +50,7 @@
                             <?php endif; ?>
 						</div>
 					</li>
-                    <li class="js-account-cridonline js-account-blocs <?php echo ($onglet == 5) ? " active " : ""?>" data-js-name="CridOnline" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentcridonline">
+                    <li class="js-account-cridonline js-account-blocs <?php echo ($onglet == 5) ? " active " : ""?>" data-js-name="Cridonline" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentcridonline">
                         <a href="<?php get_home_url() ?>/notaires/cridonline" class="bt js-account-cridonline-button">Crid'Online</a>
                         <div id="cridonline" class="pannel js-account-ajax">
                         <?php if ($onglet == 5) : ?>
