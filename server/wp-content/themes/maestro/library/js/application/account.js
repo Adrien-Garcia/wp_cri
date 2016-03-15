@@ -15,14 +15,14 @@ App.Account = {
     accountProfilSubscriptionSelector   : '-subscription',
     accountProfilNewsletterSelector     : '-newsletter',
     accountCridonlineSubLevelSelector   : '-sublevel',
-    accountForm2Selector                 : '-form2',
-    accountForm3Selector                 : '-form3',
+    accountForm2Selector                : '-form2',
+    accountForm3Selector                : '-form3',
 
     accountEmailSelector                : '-email',
     accountStateSelector                : '-state',
     accountCrpcenSelector               : '-crpcen',
-    accountLevel2Selector                : '-level2',
-    accountLevel3Selector                : '-level3',
+    accountLevel2Selector               : '-level2',
+    accountLevel3Selector               : '-level3',
     accountPrice2Selector               : '-price2',
     accountPrice3Selector               : '-price3',
 
@@ -31,14 +31,15 @@ App.Account = {
     ajaxPaginationSelector              : '-pagination',
     paginationSelector                  : '.page-numbers',
 
-    accountFilterFormSelector          : '-form',
-    accountFilterSelector              : '-filter',
-    accountFilterDateDuSelector        : '-du',
-    accountFilterDateAuSelector        : '-au',
-    accountFilterSelectMatiereSelector : '-matiere',
+    accountFilterFormSelector           : '-form',
+    accountFilterSelector               : '-filter',
+    accountFilterDateDuSelector         : '-du',
+    accountFilterDateAuSelector         : '-au',
+    accountFilterSelectMatiereSelector  : '-matiere',
 
     accountSoldeDataSelector            : '#js-solde-data',
     accountSoldeSVGSelector             : '#solde-circle-path',
+    accountPopupCridonline              : '#layer-cridonline',
 
     eventAccountButtonSelector          : '-button',
 
@@ -81,6 +82,8 @@ App.Account = {
     $selectQuestionFilterMatiere        : null,
 
     $accountQuestionPagination          : null,
+
+    $popupCridonline                    : null,
 
     $accountSoldeData                   : null,
     $accountSoldeSVG                    : null,
@@ -227,14 +230,29 @@ App.Account = {
         this.$accountCridonlineSubLevelForm3.append(nonce);
 
         this.$accountCridonlineSubLevelMessage = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountMessageSelector);
-        this.$accountCridonlineSubLevelCrpcen = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountCrpcenSelector);
-        this.$accountCridonlineSubLevelLevel2 = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountLevel2Selector);
-        this.$accountCridonlineSubLevelLevel3 = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountLevel3Selector);
-        this.$accountCridonlineSubLevelPrice2 = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountPrice2Selector);
-        this.$accountCridonlineSubLevelPrice3 = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountPrice3Selector);
+        this.$accountCridonlineSubLevelCrpcen  = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountCrpcenSelector);
+        this.$accountCridonlineSubLevelLevel2  = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountLevel2Selector);
+        this.$accountCridonlineSubLevelLevel3  = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountLevel3Selector);
+        this.$accountCridonlineSubLevelPrice2  = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountPrice2Selector);
+        this.$accountCridonlineSubLevelPrice3  = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountPrice3Selector);
+
+        this.$popupCridonline                  = $(this.accountPopupCridonline);
+
+        this.popupCridonlineInit();
 
         this.addListenersCridonline();
 
+    },
+
+    popupCridonlineInit: function() {
+        this.$popupCridonline.popup({
+            transition: 'all 0.3s',
+            scrolllock: true,
+            opacity: 0.8,
+            color: '#324968',
+            offsettop: 10,
+            vertical: top
+        });
     },
     /*
      * Listeners for the Account page events
@@ -534,23 +552,6 @@ App.Account = {
         return false;
     },
 
-    eventAccountCridonlineSubLevelSubmit: function () {
-        //this.$accountCridonlineSubLevelMessage.html('');
-        jQuery.ajax({
-            type: 'POST',
-            url: jsvar.ajaxurl,
-            data: {
-                action: 'veilles',
-                token: $('#tokencridonline').val(),
-                crpcen: this.$accountCridonlineSubLevelCrpcen.val(),
-                level: this.$accountCridonlineSubLevelLevel.val(),
-                price: this.$accountCridonlineSubLevelPrice3.val()
-            },
-            success: this.successCridonlineToggle.bind(this)
-        });
-        return false;
-    },
-
     eventAccountCridonlineSubLevel2Submit: function () {
         //this.$accountCridonlineSubLevelMessage.html('');
         jQuery.ajax({
@@ -589,7 +590,7 @@ App.Account = {
         data = JSON.parse(data);
         if(data == 'success')
         {
-            this.eventAccountCridonlineOpen();
+            this.$popupCridonline.popup('show');
         }
         else
         {

@@ -1,4 +1,8 @@
 <h2><?php _e("Crid'Online"); ?></h2>
+
+<div id="cridonline-validation">
+    <?php echo get_template_part("content","cridonline-validation"); ?>
+</div>
 <div class="description">
 	<?php if ($notaire->etude->subscription_level == 1 ):?>
 		<script type="text/javascript">
@@ -25,7 +29,7 @@
 </div>
 
 <?php if ($notaire->etude->subscription_level < 2 ):?>
-    <form action="/notaires/<?php echo $notaire->id ?>/cridonline" method="post" accept-charset="utf-8" id="cridonlineFormId" class="form-sublevel js-account-cridonline-sublevel-form2">
+    <form action="/notaires/cridonline" method="post" accept-charset="utf-8" id="cridonlineFormId" class="form-sublevel js-account-cridonline-sublevel-form2">
         <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-sublevel-crpcen">
         <input type="hidden" name="level" value="<?php echo "2"; ?>" class="js-account-cridonline-sublevel-level2">
         <input type="hidden" name="price" value="<?php echo $priceVeilleLevel2 ?>" class="js-account-cridonline-sublevel-price2">
@@ -34,7 +38,7 @@
     <p>Price : <?php echo $priceVeilleLevel2 ?></p>
 <?php endif;?>
 <?php if ($notaire->etude->subscription_level < 3 ):?>
-<form action="/notaires/<?php echo $notaire->id ?>/cridonline" method="post" accept-charset="utf-8" id="cridonlineFormId" class="form-sublevel js-account-cridonline-sublevel-form3">
+<form action="/notaires/cridonline" method="post" accept-charset="utf-8" id="cridonlineFormId" class="form-sublevel js-account-cridonline-sublevel-form3">
     <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-sublevel-crpcen">
     <input type="hidden" name="level" value="<?php echo "3"; ?>" class="js-account-cridonline-sublevel-level3">
     <input type="hidden" name="price" value="<?php echo $priceVeilleLevel3 ?>" class="js-account-cridonline-sublevel-price3">

@@ -397,11 +397,11 @@ class NotairesController extends BasePublicController
                     )
                 );
                 mvc_model('Etude')->save($office);
+                $ret = 'success';
             }
         }
 
         echo json_encode($ret);
-
         die;
     }
 
