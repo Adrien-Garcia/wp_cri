@@ -104,12 +104,9 @@ class CridonTools {
                             }
                         }                        
                     }
-                    $cls->link = CridonPostUrl::generatePostUrl( $model, $v1->join_id );//Obtenir le lien de l'article
-                    $option['id'] = $v1->join_id;
+                    $cls->link = CridonPostUrl::generatePostUrl( $model, $v1->post_name );//Obtenir le lien de l'article
                     /* object WP_Post*/
                     $cls->post = $this->postFactory->create( $v1 );
-                    /**/
-                    $cls->link = MvcRouter::public_url($option);
                     $tmpNews[] = $cls;
                     if( count( $val ) - 1 === $k1 ){// Si nous sommes déjà à la fin faire un push dans le tableau final
                         $tmpRes[$index] = $tmpNews;
@@ -228,6 +225,196 @@ class CridonTools {
 
         // send email
         wp_mail($to, CONST_EMAIL_ERROR_SUBJECT, $message, $headers);
+    }
+
+    /**
+     * Check if user connected is notary
+     *
+     * @return bool
+     */
+    public function isNotary()
+    {
+        global $wpdb;
+        global $current_user,$lastQueryFindNotaire,$lastQueryFindNotaireData;
+        if( $lastQueryFindNotaire === true ){
+            //No duplicate query for current user
+            $notaireData = $lastQueryFindNotaireData;
+        } elseif (is_object($current_user) && property_exists($current_user, 'ID') && !empty($current_user->ID)) {
+            // get notaire by id_wp_user
+            $query = " SELECT id FROM {$wpdb->prefix}notaire WHERE id_wp_user = {$current_user->ID} LIMIT 1 ";
+            $lastQueryFindNotaireData = $notaireData = $wpdb->get_row($query);;
+            $lastQueryFindNotaire = true;
+        }
+
+        return !empty($notaireData);
+    }
+
+    /**
+     * Push notification
+     *
+     * @param string    $type
+     * @param mixed     $registrationIds
+     * @param string    $message
+     * @param int       $questionId
+     * @return int
+     */
+    public function pushNotification($type, $registrationIds, $message, $questionId)
+    {
+        try {
+            switch (strtolower($type)) { // check device type
+                case 'ios':
+                    // init response
+                    $response = 0;
+
+                    $registration_ids = '';
+                    // check registrationId type
+                    // to be converted in array if is a string (required by the API)
+                    if (is_array($registrationIds)) {
+                        $registration_ids = $registrationIds;
+                    } elseif ($registrationIds) {
+                        // @todo may be changed by pushToken validator if necessary (no doc for PHP at the moment)
+                        $registration_ids = array(str_replace(' ', '', $registrationIds));
+                    }
+                    // APNS params
+                    $badge = 1 ;
+                    $sound = 'default';
+
+                    $payload = array();
+                    $payload['aps'] = array(
+                        'alert' => $message['message'],
+                        'badge' => intval($badge),
+                        'sound' => $sound
+                    );
+                    $payload['dest'] = $message['urlnotaire'];
+                    $payload = json_encode($payload);
+
+                    if (!file_exists(CONST_APNS_PEM)) { // certificat introuvable
+                        $error = sprintf(CONST_NOTIFICATION_ERROR, 'certificat introuvable : ' . CONST_APNS_PEM);
+                        writeLog($error, 'pushnotification.log');
+
+                        // stop process
+                        return $response;
+                    }
+
+                    if (is_array($registration_ids)) {
+                        $stream_context = stream_context_create();
+                        stream_context_set_option($stream_context, 'ssl', 'local_cert', CONST_APNS_PEM);
+                        stream_context_set_option($stream_context, 'ssl', 'passphrase ', CONST_APNS_PASSPHRASE);
+
+                        $apns = stream_socket_client('ssl://' . CONST_APNS_URL . ':' . CONST_APNS_PORT, $error, $error_string, 60, STREAM_CLIENT_CONNECT, $stream_context);
+                        if ($apns) {
+                            if ($badge > 0) { // verification badge
+                                foreach ($registration_ids as $device_token) {
+                                    $apns_message = chr(0) . chr(0) . chr(32) . pack('H*', str_replace(' ', '', $device_token)) . chr(0) . chr(strlen($payload)) . $payload;
+                                    fwrite($apns, $apns_message);
+                                }
+                                @socket_close($apns);
+                                @fclose($apns);
+
+                                // no error
+                                $response = 1;
+                            } else { // badge invalid
+                                $errorLog = sprintf(CONST_NOTIFICATION_ERROR, 'badge invalid');
+                                writeLog($errorLog, 'pushnotification.log');
+                            }
+
+                        } else { // APNS not found
+
+                            $errorLog = sprintf(CONST_NOTIFICATION_ERROR, 'impossible de se connecter au serveur APNS pour la question avec id = ' . $questionId);
+                            writeLog($errorLog, 'pushnotification.log');
+                        }
+                    } else { // invalid pushToken
+                        $errorLog = sprintf(CONST_NOTIFICATION_ERROR, 'invalid pushToken pour la question avec id = ' . $questionId);
+                        writeLog($errorLog, 'pushnotification.log');
+                    }
+
+                    return $response ;
+
+                    break;
+                case 'android':
+                    $msg              = array(
+                        'message'  => json_encode($message),
+                        'title'    => CONST_ANDROID_TITLE_MSG,
+                        'subtitle' => CONST_ANDROID_SUBTITLE_MSG,
+                        'vibrate'  => 1,
+                        'sound'    => 'default'
+                    );
+                    $registration_ids = '';
+                    // check registrationId type
+                    // to be converted in array if is a string (required by the API)
+                    if (is_array($registrationIds)) {
+                        $registration_ids = $registrationIds;
+                    } elseif ($registrationIds) {
+                        // @todo may be changed by pushToken validator if necessary (no doc for PHP at the moment)
+                        $registration_ids = array(str_replace(' ', '', $registrationIds));
+                    }
+
+                    $fields = array
+                    (
+                        'registration_ids' => $registration_ids,
+                        'data'             => $msg
+                    );
+
+                    $headers = array
+                    (
+                        'Authorization: key=' . CONST_GOOGLE_API_KEY,
+                        'Content-Type: application/json'
+                    );
+
+                    // init response
+                    $response = 0;
+
+                    if (is_array($registration_ids)) {
+                        // Open connection
+                        $ch = curl_init();
+
+                        // Set the url, number of POST vars, POST data
+                        curl_setopt( $ch, CURLOPT_URL, CONST_GOOGLE_GCM_URL );
+
+                        // Set request method to POST
+                        curl_setopt( $ch, CURLOPT_POST, true );
+                        // Set our custom headers
+                        curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
+                        // Get the response back as string instead of printing it
+                        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+
+                        // Avoids problem with https certificate
+                        curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false);
+                        curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false);
+
+                        // Set JSON post data
+                        curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $fields ) );
+
+                        // Execute post
+                        $result = curl_exec($ch);
+                        if ($result === false) {
+                            // error reporting
+                            $errorLog = sprintf(CONST_NOTIFICATION_ERROR, curl_error($ch));
+                            reportError($errorLog, 'Push Notification');
+                            writeLog($errorLog, 'pushnotification.log');
+                        } else {
+                            // no error was found
+                            $response = 1;
+                        }
+                        // Close connection
+                        curl_close($ch);
+                    } else {
+                        $errorLog = sprintf(CONST_NOTIFICATION_ERROR, 'invalid pushToken pour la question avec id = ' . $questionId);
+                        writeLog($errorLog, 'pushnotification.log');
+                    }
+
+                    return $response;
+                    break;
+
+                default: // unrecognized device
+                    $errorLog = sprintf(CONST_NOTIFICATION_ERROR, 'device inconnu pour la question avec id = ' . $questionId);
+                    writeLog($errorLog, 'pushnotification.log');
+                    break;
+            }
+        } catch(\Exception $e) {
+            // write into logfile
+            writeLog($e, 'pushnotification.log');
+        }
     }
 }
 

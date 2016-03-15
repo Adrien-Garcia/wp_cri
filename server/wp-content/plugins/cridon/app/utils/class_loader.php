@@ -72,7 +72,6 @@ $cri_container->set('post_parser', function(){
 //Web service
 
 include_once 'web-service/class_loader.php';
-include_once 'question_notaire/class_loader.php';
 
 //UI Component
 

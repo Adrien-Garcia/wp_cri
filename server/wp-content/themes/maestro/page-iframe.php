@@ -14,9 +14,8 @@ if ( !CriIsNotaire() ) : ?>
         <div id="content" class="page page-iframe">
 
             <div class="breadcrumbs">
-                <div id="inner-content" class="wrap cf">
-                    <?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
-                    <a href="#" title="">Accueil</a> + <span>Rechercher dans les bases de connaissances</span>
+                <div class="wrap cf">
+                    <?php if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
                 </div>
             </div>
 

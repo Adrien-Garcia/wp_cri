@@ -14,6 +14,11 @@ class NotairesController extends BasePublicController
     public $current_user;
 
     /**
+     * @var object Notaire
+     */
+    protected $current_notaire;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -25,25 +30,6 @@ class NotairesController extends BasePublicController
         parent::__construct();
     }
 
-    public function index() {
-        $this->generateError();
-    }
-
-    /**
-     * Generate error
-     *
-     * @global \WP_Query $wp_query
-     */
-    private function generateError(){
-        global $wp_query;
-        header("HTTP/1.0 404 Not Found - Archive Empty");
-        $wp_query->set_404();
-        if( file_exists(TEMPLATEPATH.'/404.php') ){
-            require TEMPLATEPATH.'/404.php';
-        }
-        exit;
-    }
-
     /**
      * Secure Access Page
      *
@@ -52,15 +38,27 @@ class NotairesController extends BasePublicController
     protected function secureAccess()
     {
         // get notaire by id_wp_user
-        $notaireData = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+        $idWPoptions = array(
+            'where' => array(
+                'Notaire.id_wp_user = '.$this->current_user->ID,
+            )
+        );
+        // exec query and return result as object
+        $this->current_notaire = $this->model->findOneBy($idWPoptions);
 
         // check if user is not logged in
         // or notaire id (url params) not equal to WP user session data
-        if (!is_user_logged_in() || !$notaireData->id || $this->params['id'] !== $notaireData->id) {
+        if (!is_user_logged_in()
+            || !$this->current_notaire->id
+            || (isset($this->params['id']) && $this->params['id'] !== $this->current_notaire->id)) {
             wp_logout();//logout current user
             // redirect user to home page
             $this->redirect(home_url());
         }
+
+        // set notary id in params
+        // needed to retrieve notary data by the MVC system
+        $this->params['id'] = $this->current_notaire->id;
     }
 
     /**
@@ -106,16 +104,22 @@ class NotairesController extends BasePublicController
      */
     protected function get_object()
     {
-        if (!empty($this->model->invalid_data)) {
-            if (!empty($this->params['id']) && empty($this->model->invalid_data[$this->model->primary_key])) {
-                $this->model->invalid_data[$this->model->primary_key] = $this->params['id'];
+        if (empty($this->current_notaire)) {
+            if (!empty($this->model->invalid_data)) {
+                if (!empty($this->params['id']) && empty($this->model->invalid_data[$this->model->primary_key])) {
+                    $this->model->invalid_data[$this->model->primary_key] = $this->params['id'];
+                }
+                $this->current_notaire = $this->model->new_object($this->model->invalid_data);
+            } else if (!empty($this->params['id'])) {
+                $this->current_notaire = $this->model->findOneBy(array(
+                    'where' => array(
+                        'Notaire.id_wp_user = ' . $this->params['id'],
+                    )
+                ));
             }
-            $object = $this->model->new_object($this->model->invalid_data);
-        } else if (!empty($this->params['id'])) {
-            $object = $this->model->find_by_id($this->params['id']);
         }
-        if (!empty($object)) {
-            return $object;
+        if (!empty($this->current_notaire)) {
+            return $this->current_notaire;
         }
         MvcError::warning('Object not found.');
 
@@ -130,9 +134,11 @@ class NotairesController extends BasePublicController
      */
     public function contentdashboard()
     {
-        $this->prepareDashboard();
-        $is_ajax = true;
-        CriRenderView('contentdashboard', get_defined_vars(),'notaires');
+        $this->show();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentdashboard', $vars,'notaires');
         die();
     }
 
@@ -145,6 +151,10 @@ class NotairesController extends BasePublicController
     public function show()
     {
         $this->prepareDashboard();
+        $questions = $this->getQuestions();
+        $this->set('questions', $questions);
+        $notaire = CriNotaireData();
+        $this->set('notaire', $notaire);
     }
 
     /**
@@ -155,9 +165,12 @@ class NotairesController extends BasePublicController
      */
     public function contentquestions()
     {
-        $this->prepareSecureAccess();
-        $is_ajax = true;
-        CriRenderView('contentquestions', get_defined_vars(),'notaires');
+        //$this->prepareSecureAccess();
+        $this->questions();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentquestions', $vars,'notaires');
         die();
     }
 
@@ -170,7 +183,23 @@ class NotairesController extends BasePublicController
     public function questions()
     {
         $this->prepareSecureAccess();
+        $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_QUESTION_PER_PAGE;
+        $this->params['status'] = CONST_QUEST_ANSWERED;
+        $collection = $this->model->paginate($this->params);//Get questions answered
+        $answered = $collection['objects'];
+        $this->set('answered', $answered);
+        $pending = $this->getPending();
+        $this->set('pending', $pending);
+        $juristesPending = Question::getJuristeAndAssistantFromQuestions($pending);
+        $this->set('juristesPending',$juristesPending);
+        $juristesAnswered = Question::getJuristeAndAssistantFromQuestions($answered);
+        $this->set('juristesAnswered',$juristesAnswered);
+        $matieres = getMatieresByQuestionNotaire();
+        $this->set('matieres',$matieres);
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
 
+        $this->set_pagination($collection);
     }
 
     /**
@@ -181,9 +210,11 @@ class NotairesController extends BasePublicController
      */
     public function contentprofil()
     {
-        $this->prepareProfil();
-        $is_ajax = true;
-        CriRenderView('contentprofil', get_defined_vars(),'notaires');
+        $this->profil();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentprofil', $vars,'notaires');
         die();
     }
 
@@ -196,6 +227,8 @@ class NotairesController extends BasePublicController
     public function profil()
     {
         $this->prepareProfil();
+        $this->set('notaire', CriNotaireData());
+        $this->set('matieres', getMatieresByNotaire());
     }
 
     /**
@@ -207,9 +240,11 @@ class NotairesController extends BasePublicController
     public function contentfacturation()
     {
         // access secured
-        $this->prepareSecureAccess();
-        $is_ajax = true;
-        CriRenderView('contentfacturation', get_defined_vars(),'notaires');
+        $this->facturation();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentfacturation', $vars,'notaires');
         die();
     }
     /**
@@ -221,6 +256,10 @@ class NotairesController extends BasePublicController
     public function facturation()
     {
         $this->prepareSecureAccess();
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
+        $content = get_post(1515)->post_content;
+        $this->set('content',$content);
     }
 
     /**
@@ -347,4 +386,59 @@ class NotairesController extends BasePublicController
         $vars = $this->get_object();
         $this->set_vars($vars);
     }
+
+    /**
+     * Get questions pending
+     *
+     * @return mixed
+     */
+    public function getPending(){
+        return $this->model->getPending(Config::$questionPendingStatus);
+    }
+
+    /**
+     * Get questions
+     *
+     * @return mixed
+     */
+    public function getQuestions(){
+        $allStatus = Config::$questionPendingStatus;
+        $allStatus[] = CONST_QUEST_ANSWERED;
+        $this->params['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
+        $this->params['status'] = $allStatus;
+        $collection = $this->model->paginate($this->params);//Get questions
+        return $collection['objects'];
+    }
+
+    /**
+     * Override
+     *
+     * @param array $collection
+     */
+    public function set_pagination($collection) {
+        if( !is_admin() ){
+            $params = $this->params;
+            unset($params['page']);
+            unset($params['conditions']);
+            $url = MvcRouter::public_url(
+                    array(
+                        'controller' => $this->name, 'action' => $this->action,
+                        'id' => $this->params['id']
+                    )
+             );
+            $this->pagination = array(
+                'base' => $url.'%_%',
+                'format' => '?page=%#%',
+                'total' => $collection['total_pages'],
+                'current' => $collection['page'],
+                'add_args' => $params
+            );
+
+            unset($collection['objects']);
+            $this->pagination = array_merge($collection, $this->pagination);
+        }else{
+            parent::set_pagination($collection);
+        }
+    }
+
 }

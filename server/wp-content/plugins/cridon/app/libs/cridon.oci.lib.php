@@ -88,7 +88,7 @@ class CridonOCIAdapter implements DBConnect
             $error = oci_error();
             $error = empty($error) ? CONST_CONNECTION_FAILED : $error;
             writeLog($error, 'connexion.log');
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $error['message']);
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $error['message'],'Cridon - '.CONST_CONNECTION_FAILED);
             throw new Exception($error['message'], $error['code']);
         }
 
@@ -118,7 +118,7 @@ class CridonOCIAdapter implements DBConnect
             $error = oci_error();
             $error = empty($error) ? CONST_CONNECTION_FAILED : $error['message'];
             writeLog($error, 'execute.log');
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $error);
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $error,'Cridon - '.CONST_CONNECTION_FAILED);
             throw new Exception($error);
         }
         return $this;
