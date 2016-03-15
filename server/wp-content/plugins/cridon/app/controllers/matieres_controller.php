@@ -41,6 +41,7 @@ class MatieresController extends BasePublicController
             if (!$collection['objects']){
                 redirectTo404();
             } else {
+                add_action('wp_head', array($this, 'rssVeilles'));
                 $this->set('h1', $matiere->label);
                 $this->set('objects', $collection['objects']);
                 $this->set('matieres',$matieres);
@@ -50,6 +51,24 @@ class MatieresController extends BasePublicController
         } else {
             redirectTo404();
         }
+    }
+
+    public function rssVeilles(){
+        if (!empty(self::$currentMatiereSelected)) {
+            $title = sprintf(Config::$rss['title_mat'],self::$currentMatiereSelected->label);
+            $feed = mvc_public_url(array('controller' => 'veilles','action' =>'feedFilter', 'id' =>self::$currentMatiereSelected->id));
+        } else {
+            $title = Config::$rss['title'];
+            $feed = mvc_public_url(array('controller' => 'veilles','action' =>'feed'));
+        }
+
+        $options = array(
+            'locals' => array(
+                'title'         => $title,
+                'feed'          => $feed
+            )
+        );
+        $this->render_view_with_view_vars('layouts/rssLink', $options);
     }
 
     public  function addMetaHeader() {
