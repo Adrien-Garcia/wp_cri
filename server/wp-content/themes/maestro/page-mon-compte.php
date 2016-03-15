@@ -51,6 +51,18 @@
 						</div>
 					</li>				
 					<?php endif ?>
+                    <?php
+                    // utile pour pouvoir afficher le formulaire de creation collaborateur
+                    // suivant les modeles ci-dessus, pas de traitement en ajax, pas de popin affichée
+                    ?>
+                    <li class="js-account-profil js-account-blocs <?php echo ($onglet == 6) ? " active " : ""?>" data-js-name="Profil" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentcollaborateur">
+                        <a href="<?php get_home_url() ?>/notaires/collaborateur" class="bt js-account-profil-button" id="sel-compte-profil-button">Mes collaborateurs</a>
+                        <div id="mes-collaborateurs" class="pannel js-account-ajax">
+                            <?php if ($onglet == 6) : ?>
+                                <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions), 'notaires') ?>
+                            <?php endif; ?>
+                        </div>
+                    </li>
 				</ul>
 
 			</div>

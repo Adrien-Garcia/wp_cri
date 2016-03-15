@@ -395,4 +395,51 @@ class NotairesController extends BasePublicController
         }
     }
 
+    /**
+     * Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/collaborateur.php
+     *
+     * @return void
+     */
+    public function collaborateur()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+
+        // post form
+        if (isset($_POST['collaborator_first_name'])
+            && $_POST['collaborator_first_name']
+        ) {
+            // Clean $_POST before
+            $data = $this->tools->clean($_POST);
+            $this->model->manageCollaborator($this->current_notaire, $data);
+        }
+
+        // list of function
+        $collaborator_functions = $this->tools->getFunctionCollaborator();
+
+        // set list of collaborator functions
+        $this->set('collaborator_functions', $collaborator_functions);
+
+        //@todo set list of existing collaborators
+        $this->set('collaborators', array());
+    }
+
+    /**
+     * Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentcollaborateur.php
+     *
+     * @return void
+     */
+    public function contentcollaborateur()
+    {
+        // access secured
+        $this->collaborateur();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentcollaborateur', $vars,'notaires');
+        die();
+    }
+
 }
