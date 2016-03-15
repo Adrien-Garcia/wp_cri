@@ -533,5 +533,23 @@ class CridonTools {
 
         return $clean_input;
     }
+
+    /**
+     * Renvoie une / toutes fonction(s) collaborateur
+     *
+     * @param int $id
+     * @return array|null|object
+     */
+    public function getFunctionCollaborator($id = 0)
+    {
+        global $wpdb;
+
+        $sql = " SELECT * FROM `{$wpdb->prefix}fonction_collaborateur` ";
+        if ($id) {
+            $sql .= $wpdb->prepare(' WHERE `user_login` = %d ', $id);
+        }
+
+        return $wpdb->get_results($sql);
+    }
 }
 
