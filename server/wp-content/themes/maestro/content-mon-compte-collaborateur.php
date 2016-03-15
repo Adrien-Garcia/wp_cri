@@ -18,13 +18,14 @@
         </p>
         <p>
             <label for="collaborator_function">Fonction</label>
+            <select name="collaborator_function" id="collaborator_function" required>
+                <option value=""> --- </option>
             <?php if(is_array($collaborator_functions) && count($collaborator_functions) > 0): ?>
-                <select name="collaborator_function" id="collaborator_function">
-                    <?php foreach($collaborator_functions as $item): ?>
-                    <option value="<?php echo $item->id; ?>"><?php echo $item->label; ?></option>
-                    <?php endforeach; ?>
-                </select>
+                <?php foreach($collaborator_functions as $item): ?>
+                <option value="<?php echo $item->id; ?>"><?php echo $item->label; ?></option>
+                <?php endforeach; ?>
             <?php endif ?>
+            </select>
         </p>
         <p>
             <label for="collaborator_email">E-mail</label>
