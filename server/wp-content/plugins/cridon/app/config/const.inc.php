@@ -703,3 +703,8 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 
 // End of block for mobile
 
+// id of collaborator on cri_fonction
+if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
+    define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );
+}
+

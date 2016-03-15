@@ -44,10 +44,12 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}', array('controller' => 'notaire
 MvcRouter::public_connect('notaires/questions', array('controller' => 'notaires', 'action' => 'questions'));
 MvcRouter::public_connect('notaires/profil', array('controller' => 'notaires', 'action' => 'profil'));
 MvcRouter::public_connect('notaires/facturation', array('controller' => 'notaires', 'action' => 'facturation'));
+MvcRouter::public_connect('notaires/collaborateur', array('controller' => 'notaires', 'action' => 'collaborateur'));
 MvcRouter::public_connect('notaires/contentdashboard', array('controller' => 'notaires', 'action' => 'contentdashboard'));
 MvcRouter::public_connect('notaires/contentquestions', array('controller' => 'notaires', 'action' => 'contentquestions'));
 MvcRouter::public_connect('notaires/contentprofil', array('controller' => 'notaires', 'action' => 'contentprofil'));
 MvcRouter::public_connect('notaires/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
+MvcRouter::public_connect('notaires/contentcollaborateur', array('controller' => 'notaires', 'action' => 'contentcollaborateur'));
 MvcRouter::public_connect('notaires', array('controller' => 'notaires', 'action' => 'show'));
 
 //RSS feed
