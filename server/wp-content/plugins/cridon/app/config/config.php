@@ -372,4 +372,9 @@ class Config {
     public static $mailBodyQuestionConfirmation  = array(
         'subject'   => 'Prise en compte de votre question sur le site'
     );
+
+    /**
+     * @var array list of notary "function" allowed to edit profil, show office members
+     */
+    public static $allowedNotaryFunction = array(1, 2, 3, 6, 7, 8, 9, 10);
 }
