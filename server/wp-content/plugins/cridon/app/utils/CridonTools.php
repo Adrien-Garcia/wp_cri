@@ -545,8 +545,8 @@ class CridonTools {
         global $wpdb;
 
         $sql = " SELECT * FROM `{$wpdb->prefix}fonction_collaborateur` ";
-        if ($id) {
-            $sql .= $wpdb->prepare(' WHERE `user_login` = %d ', $id);
+        if (intval($id) > 0) {
+            $sql .= $wpdb->prepare(' WHERE `id` = %d ', $id);
         }
 
         return $wpdb->get_results($sql);
