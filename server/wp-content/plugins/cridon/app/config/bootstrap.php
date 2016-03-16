@@ -755,6 +755,9 @@ function sendNotificationForPostPublished( $post,$model ){
     //It's necessary to get it again
     $current = mvc_model($model->__model_name)->find_one_by_id($model->id);
     $matiere = (!empty($current) && !empty($current->matiere)) ? $current->matiere : false;
+    if (!empty($matiere->id)) {
+        $model->id_matiere = $matiere->id;
+    }
     $permalink = generateUrlByModel($model);
     $tags = get_the_tags( $post->ID );
     $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
