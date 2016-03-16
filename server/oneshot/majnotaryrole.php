@@ -92,9 +92,6 @@ class MajNotaryRole
      */
     private function setDefaultRole($i)
     {
-        // increase memory limit
-        ini_set('memory_limit', '-1');
-
         // set max limit
         $limitMax = intval(self::$nbItems / self::$limit) + 1;
 
@@ -173,7 +170,7 @@ class MajNotaryRole
                 if ($user instanceof WP_User) {
                     switch ($option) {
                         // default role
-                        case 'default':
+                        case 'notaire':
                             $user->remove_role(CONST_NOTAIRE_ROLE);
                             break;
                         // finance role
