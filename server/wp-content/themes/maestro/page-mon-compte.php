@@ -44,7 +44,7 @@
 						<a href="<?php get_home_url() ?>/notaires/facturation" class="bt js-account-facturation-button">Règles de facturation</a>
 						<div id="regles-facturation" class="pannel js-account-ajax">
                         <?php if ($onglet == 4) : ?>
-                        	<?php CriRenderView('contentprofil', array('notaire' => $notaire, 'content' => $content), 'facturation') ?>
+                        	<?php CriRenderView('contentfacturation', array('notaire' => $notaire, 'content' => $content), 'notaires') ?>
                             
                             <?php endif; ?>
 						</div>
