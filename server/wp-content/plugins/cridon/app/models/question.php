@@ -12,6 +12,14 @@ class Question extends MvcModel
     const IMPORT_ODBC_OPTION = 'odbc';
 
     /**
+     * Max number of chars in a string for Oracle SQL query.
+     * Theorical limit is 4000, but replacing chars (line feed and quotes) will increase number of chars
+     * Performing the replacement before could have side effects by cutting the two '' in two seperates strings.
+     * @var int
+     */
+    const ODBC_MAX_CHARS = 3000;
+
+    /**
      * @var string
      */
     const IMPORT_OCI_OPTION = 'oci';
@@ -1161,6 +1169,22 @@ class Question extends MvcModel
                                 }
                             }
 
+                            $content = "' '";
+                            if (!empty($question->content)) {
+                                $content = trim(html_entity_decode($question->content));
+                                if (mb_strlen($content) <= static::ODBC_MAX_CHARS) {
+                                    $content = str_replace(array("\r\n","\r","\n","\\r","\\n","\\r\\n"), "'||chr(13)||chr(10)||'", $content); // avoid considering all forms of newline
+                                    $content = "'" . str_replace('\\\'', '\'\'', $content) . "'";
+                                } else {
+                                    $contents = str_split($content, static::ODBC_MAX_CHARS);
+                                    //to_clob('...') || to_clob('...')..
+                                    array_walk($contents, function(& $chunk) {
+                                        $chunk = str_replace(array("\r\n","\r","\n","\\r","\\n","\\r\\n"), "')||chr(13)||chr(10)||to_clob('", $chunk); // also change plain characters
+                                        $chunk = "to_clob('" . str_replace('\\\'', '\'\'', $chunk) . "')";
+                                    });
+                                    $content = implode('||', $contents);
+                                }
+                            }
                             $value  = $query;
                             $value .= "(";
 
@@ -1189,7 +1213,7 @@ class Question extends MvcModel
                             $value .= "'" . ( empty($documents[2]->id) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[2]->id) ) ."', "; // ZQUEST_ZLIENS_2
                             $value .= "'" . ( empty($documents[3]->id) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[3]->id) ) ."', "; // ZQUEST_ZLIENS_3
                             $value .= "'" . ( empty($documents[4]->id) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[4]->id) ) ."', "; // ZQUEST_ZLIENS_4
-                            $value .= "'" . ( empty($question->content) ? ' ' : str_replace('\\\'', '\'\'', html_entity_decode($question->content)) ) . "', "; // ZTXTQUEST_0
+                            $value .= $content . ","; // ZTXTQUEST_0
                             $value .= "'000000',"; // ZQUEST_SRENUM_0
                             $value .= "' ',"; // ZQUEST_ZMESSERR_0
                             $value .= "'0'"; // ZQUEST_ZERR_0
