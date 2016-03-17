@@ -2010,4 +2010,26 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         return $query;
     }
     //End FRONT
+
+    /**
+     * Check if users can reset password
+     *
+     * @return bool
+     */
+    public function userCanResetPwd()
+    {
+        $object = $this->getUserConnectedData();
+
+        /**
+         * ACs :
+         * - notaire connecté dispose d'une adresse email perso
+         * - Seuls les notaires de fonctions 1, 2, 3, 6, 7, 8, 9, 10 peuvent accéder à la fonction
+         */
+        return (is_object($object)
+                && property_exists($object, 'email_adress')
+                && !empty($object->email_adress)
+                && property_exists($object, 'id_fonction')
+                && in_array($object->id_fonction, Config::$allowedNotaryFunction)
+        ) ? true : false;
+    }
 }

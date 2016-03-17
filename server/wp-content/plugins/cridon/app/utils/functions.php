@@ -919,3 +919,12 @@ function CriVeilleWithUriFilters()
 
     return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
 }
+
+/**
+ * Check if notaire can reset password
+ *
+ * @return bool
+ */
+function CriCanResetPwd() {
+    return mvc_model('notaire')->userCanResetPwd();
+}
