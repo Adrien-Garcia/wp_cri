@@ -1,9 +1,7 @@
-<?php //echo '<pre>'; die(print_r($oModel)); ?>
 <select name="cri_post_level">
 <?php
-foreach( $aLevel as $key => $value ){
-    $oHayStack->id = $value;
-    echo '<option'.check( $oModel->level, $oHayStack ).' value="'.$value.'">'.$key.'</option>';
+foreach( $aLevel as $value ){
+    echo '<option'.check( $oModel, $value, 'level' ).' value="' . $value->id . '">' . $value->label . '</option>';
 }
 ?>
 </select>

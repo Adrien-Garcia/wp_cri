@@ -217,8 +217,6 @@ function check( $needle ,$haystack, $property = 'id_matiere' ){
         if( $haystack->id == Config::$defaultMatiere['id'] ){
             return ' selected="selected" ';
         }
-    } elseif (property_exists($haystack, 'type') && $haystack->type == 'level') {
-        return ($needle == $haystack->id) ? ' selected="selected" ' : '';
     }
     return ( ( $needle ) && ( $needle->{$property} === $haystack->id ) ) ? ' selected="selected" ' : '';
 }
@@ -989,14 +987,27 @@ function init_select_level_meta_boxes( $post, $args ){
     $models = $args['args'];
     $config = arrayGet(Config::$data, $models, reset(Config::$data));
     $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
-    $oHayStack = new \stdClass;
-    $oHayStack->type = 'level';
+    $aLevel = array();
+    foreach (Config::$listOfLevel as $label => $id) {
+        $oLevel        = new \stdClass;
+        $oLevel->label = $label;
+        $oLevel->id    = $id;
+
+        $aLevel[] = clone $oLevel;
+    }
+    /**
+     * cast type de $oModel::level afin de respecter
+     * la comparaison strict imposée par la methode "check"
+     * var_dump renvoit en fait un type string pour "$oModel::level" !!!!
+     */
+    if (property_exists($oModel, 'level')) {
+        $oModel->level = (int)$oModel->level;
+    }
 
     // prepare vars
     $vars = array(
-        'aLevel' => Config::$listOfLevel,
+        'aLevel' => $aLevel,
         'oModel' => $oModel,
-        'oHayStack' => $oHayStack
     );
 
     // render view
