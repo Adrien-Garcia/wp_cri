@@ -256,7 +256,6 @@ function veilles()
     $controller->veillesSubscription();
 }
 add_action( 'wp_ajax_veilles',   'veilles' );
-add_action( 'wp_ajax_nopriv_newsletter',   'veilles' );
 
 
 /**
