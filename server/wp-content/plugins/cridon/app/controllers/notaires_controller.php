@@ -20,18 +20,32 @@ class NotairesController extends BasePublicController
      */
     protected function secureAccess()
     {
-        // exec query and return result as object
-        $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+        global $mvc_params;
 
-        // check if user is not logged in
-        // or notaire id (url params) not equal to WP user session data
+        // check if user is logged in and must be a notary
         if (!is_user_logged_in()
-            || !$this->current_notaire->id
-            || (isset($this->params['id']) && $this->params['id'] !== $this->current_notaire->id)) {
-            wp_logout();//logout current user
+            || !in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)
+        ) {
+            // logout current user
+            wp_logout();
             // redirect user to home page
             $this->redirect(home_url());
+        } elseif (isset($mvc_params['action'])
+                  && $mvc_params['action'] === 'facturation'
+                  && !$this->model->userCanAccessFinance()
+        ) { // check if is page finance && notary can access
+            // redirect to profil page
+            $this->redirect(mvc_public_url(
+                                array(
+                                    'controller' => 'notaires',
+                                    'action'     => 'profil'
+                                )
+                            )
+            );
         }
+
+        // get current notary data
+        $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
 
         // set notary id in params
         // needed to retrieve notary data by the MVC system
@@ -231,7 +245,7 @@ class NotairesController extends BasePublicController
         $this->prepareSecureAccess();
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
-        $content = get_post(1515)->post_content;
+        $content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
         $this->set('content',$content);
     }
 

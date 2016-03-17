@@ -77,15 +77,18 @@ class LoginsController extends MvcPublicController
 
         // find the notaire by CRPCEN and email
         $model    = mvc_model('notaire');
-        $notaires = $model->findByLoginAndEmail($_REQUEST['crpcen'], $_REQUEST['email']);
+        $notary   = $model->findByLoginAndEmail($_REQUEST['crpcen'], $_REQUEST['email']);
 
         // only an individual email is valid
-        if (is_array($notaires) && count($notaires) == 1) {
+        if (is_object($notary)
+            && property_exists($notary, 'email_adress')
+            && $notary->email_adress
+        ) {
             // message content
-            $message =  sprintf(CONST_EMAIL_CONTENT, $notaires[0]->web_password);
+            $message =  sprintf(CONST_EMAIL_CONTENT, $notary->web_password);
 
             // send mdp by email
-            if (wp_mail($notaires[0]->email_adress, CONST_EMAIL_SUBJECT, $message)) {
+            if (wp_mail($notary->email_adress, CONST_EMAIL_SUBJECT, $message)) {
                 $ret = 'success';
             }
         }

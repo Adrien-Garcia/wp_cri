@@ -998,66 +998,23 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function setNotaireRole()
     {
-        global $cri_container;
-
-        // block query
-        $roleQuery             = $roleUpdateQuery = array();
-        $options               = array();
-        $options['table']      = 'usermeta';
-        $options['attributes'] = 'user_id, meta_key, meta_value';
-
-        // instance of cridonTools
-        $cridonTools = $cri_container->get('tools');
-
-        // existing user roles
-        $users = $cridonTools->getExistingUserRoles();
-
-        foreach ($this->find() as $notaire) {
-            // role by group
-            // if not is set the category, use default role
-            $role = ($notaire->category) ? strtolower($notaire->category) : CONST_NOTAIRE_ROLE;
-
-            // recognized role format by WP
-            $roleValue = serialize(
-                array($role => true)
-            );
-            // prepare query
-            if ($notaire->id_wp_user) {
-                if (!in_array($notaire->id_wp_user, $users)) { // insert query
-                    $value = "(";
-                    $value .= "'" . $notaire->id_wp_user . "', ";
-                    $value .= "'" . $this->wpdb->prefix . "capabilities', ";
-                    $value .= "'" . $roleValue . "'";
-                    $value .= ")";
-
-                    $roleQuery[] = $value;
-                } else { // update query
-                    $roleUpdateQuery[] = " user_id = {$notaire->id_wp_user} AND meta_key = '{$this->wpdb->prefix}capabilities' THEN '{$roleValue}' ";
+        foreach ($this->find() as $notary) {
+            // get user by id
+            $user = new WP_User($notary->id_wp_user);
+            // user must be an instance of WP_User vs WP_Error
+            if ($user instanceof WP_User) {
+                // default role
+                $user->add_role(CONST_NOTAIRE_ROLE);
+                /**
+                 * finance role
+                 * to be matched in list of authorized user by function
+                 *
+                 * @see \Config::$canAccessFinance
+                 */
+                if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
+                    $user->add_role(CONST_FINANCE_ROLE);
                 }
-
             }
-        }
-
-        // execute prepared insert query
-        if (count($roleQuery) > 0) {
-            $queryBulder       = mvc_model('QueryBuilder');
-            $options['values'] = implode(', ', $roleQuery);
-            // bulk insert
-            $queryBulder->insertMultiRows($options);
-        }
-
-        // execute prepared update query
-        if (count($roleUpdateQuery) > 0) {
-            // start/end query block
-            $queryStart = " UPDATE `{$this->wpdb->prefix}usermeta` ";
-            $queryEnd   = ' END ';
-
-            // query
-            $query = ' SET `meta_value` = CASE ';
-            $query .= ' WHEN ' . implode(' WHEN ', $roleUpdateQuery);
-            $query .= ' ELSE `meta_value` ';
-
-            $this->wpdb->query($queryStart . $query . $queryEnd);
         }
     }
 
@@ -1287,23 +1244,21 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function findByLoginAndEmail($login, $email)
     {
-        $items = $this->find(array(
-                'selects'    => array(
-                    'Notaire.id',
-                    'Notaire.web_password',
-                    'Notaire.email_adress',
-                    'Notaire.crpcen',
-                    'Notaire.id_civilite',
-                    'Notaire.id_fonction'
-                ),
-                'conditions' => array(
-                    'crpcen'       => $login,
-                    'email_adress' => $email
-                )
-            )
-        );
+        // base query
+        $query = " SELECT `n`.`id`, `n`.`web_password`, `n`.`email_adress`, `n`.`crpcen`, `n`.`code_interlocuteur`,
+                    `n`.`client_number`, `n`.`id_civilite`, `n`.`id_fonction`,
+                    `n`.`first_name` AS prenom, `n`.`last_name` AS nom, `c`.`label` AS civilite FROM {$this->table} n ";
+        $query .= " INNER JOIN `{$this->wpdb->users}` u ON u.`ID` = n.`id_wp_user`
+                    LEFT JOIN `{$this->wpdb->prefix}civilite` c ON `c`.`id` = `n`.`id_civilite` ";
+        $query .= " WHERE `crpcen` = %s
+                    AND `email_adress` = %s
+                    AND `user_status` = " . CONST_STATUS_ENABLED;
 
-        return $items;
+        // prepare query
+        $query = $this->wpdb->prepare($query, $login, $email);
+
+        // exec query and return result
+        return $this->wpdb->get_row($query);
     }
 
     /**
@@ -1705,12 +1660,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function userCanAccessFinance()
     {
+        global $current_user;
+
         $object = $this->getUserConnectedData();
 
         return (isset($object->category)
                 && (strcasecmp($object->category, CONST_OFFICES_ROLE) === 0)
-                && isset($object->id_fonction)
-                && in_array($object->id_fonction, Config::$canAccessFinance)
+                && in_array(CONST_FINANCE_ROLE, (array) $current_user->roles)
         ) ? true : false;
     }
 
@@ -2010,4 +1966,16 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         return $query;
     }
     //End FRONT
+
+    /**
+     * Find all notary by optimized query
+     *
+     * @param array $options
+     * @return mixed
+     * @throws Exception
+     */
+    public function find($options = array())
+    {
+        return (is_array($options) && count($options) > 0) ? parent::find($options) : mvc_model('QueryBuilder')->findAll('notaire');
+    }
 }

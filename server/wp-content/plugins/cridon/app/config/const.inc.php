@@ -19,6 +19,9 @@ define('PREPROD', 'PREPROD');
 if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
     define( 'CONST_NOTAIRE_ROLE', 'notaire' );
 }
+if ( !defined( 'CONST_FINANCE_ROLE' ) ) {
+    define( 'CONST_FINANCE_ROLE', 'accesfinances' );
+}
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
     define( 'CONST_ADMIN_ROLE', 'administrator' );
@@ -702,4 +705,9 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 }
 
 // End of block for mobile
+
+if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
+    define( 'CONST_FACTURATION_PAGE_ID', 1515 );
+}
+
 
