@@ -1208,11 +1208,11 @@ class Question extends MvcModel
                             $value .= "'" . ( empty($question->resume) ? ' ' : str_replace('\\\'', '\'\'', html_entity_decode($question->resume)) ) . "', "; // ZQUEST_YRESUME_0
                             $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
                             $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy'), "; // ZQUEST_CREDAT_0
-                            $value .= "'" . ( empty($documents[0]->id) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[0]->id) ) ."', "; // ZQUEST_ZLIENS_0
-                            $value .= "'" . ( empty($documents[1]->id) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[1]->id) ) ."', "; // ZQUEST_ZLIENS_1
-                            $value .= "'" . ( empty($documents[2]->id) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[2]->id) ) ."', "; // ZQUEST_ZLIENS_2
-                            $value .= "'" . ( empty($documents[3]->id) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[3]->id) ) ."', "; // ZQUEST_ZLIENS_3
-                            $value .= "'" . ( empty($documents[4]->id) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[4]->id) ) ."', "; // ZQUEST_ZLIENS_4
+                            $value .= "'" . ( ( empty($documents[0]) && empty($documents[0]->id) ) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[0]->id) ) ."', "; // ZQUEST_ZLIENS_0
+                            $value .= "'" . ( ( empty($documents[1]) && empty($documents[1]->id) ) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[1]->id) ) ."', "; // ZQUEST_ZLIENS_1
+                            $value .= "'" . ( ( empty($documents[2]) && empty($documents[2]->id) ) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[2]->id) ) ."', "; // ZQUEST_ZLIENS_2
+                            $value .= "'" . ( ( empty($documents[3]) && empty($documents[3]->id) ) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[3]->id) ) ."', "; // ZQUEST_ZLIENS_3
+                            $value .= "'" . ( ( empty($documents[4]) && empty($documents[4]->id) ) ? ' ' : mvc_model('Document')->generatePublicUrl($documents[4]->id) ) ."', "; // ZQUEST_ZLIENS_4
                             $value .= $content . ","; // ZTXTQUEST_0
                             $value .= "'000000',"; // ZQUEST_SRENUM_0
                             $value .= "' ',"; // ZQUEST_ZMESSERR_0
