@@ -121,7 +121,6 @@ function append_js_files()
                 'newsletter_email_error'   => CONST_NEWSLETTER_EMAIL_ERROR_MSG,
                 
                 // cridonline
-                'cridonline_form_id'       => CONST_CRIDONLINE_FORM_ID,
                 'cridonline_nonce'         => wp_create_nonce("process_cridonline_nonce"),
             )
         );
@@ -245,18 +244,6 @@ function newsletter()
 }
 add_action( 'wp_ajax_newsletter',   'newsletter' );
 add_action( 'wp_ajax_nopriv_newsletter',   'newsletter' );
-
-/**
- * hook for level 2 & 3 veilles subscription
- */
-function veilles()
-{
-    require_once WP_PLUGIN_DIR . '/cridon/app/controllers/notaires_controller.php';
-    $controller = new NotairesController();
-    $controller->veillesSubscription();
-}
-add_action( 'wp_ajax_veilles',   'veilles' );
-
 
 /**
  * Suppression option "show admin bar" sur fiche notaire en admin

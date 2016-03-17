@@ -543,9 +543,8 @@ App.Account = {
         //this.$accountCridonlineSubLevelMessage.html('');
         jQuery.ajax({
             type: 'POST',
-            url: jsvar.ajaxurl,
+            url: '/notaires/souscriptionveille',
             data: {
-                action: 'veilles',
                 token: $('#tokencridonline').val(),
                 crpcen: $form.find(this.$accountCridonlineSubLevelCrpcen).val(),
                 level: $form.find(this.$accountCridonlineSubLevelLevel).val(),

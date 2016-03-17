@@ -364,7 +364,7 @@ class NotairesController extends BasePublicController
     }
 
 
-    public function veillesSubscription()
+    public function ajaxSubscriptionVeille()
     {
         // init response
         $ret = '';
