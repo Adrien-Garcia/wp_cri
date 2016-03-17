@@ -118,7 +118,7 @@ class Matiere extends \App\Override\Model\CridonMvcModel
         return $wpdb->get_results($sql);
     }
     
-    public function getMatieresByNotaireQuestion(){
+    public function getMatieresByNotaireQuestionAnswered(){
         global $wpdb;
         $notaire = CriNotaireData();
         $matieres = array();
@@ -131,7 +131,8 @@ class Matiere extends \App\Override\Model\CridonMvcModel
             LEFT JOIN {$wpdb->prefix}question q ON q.id_competence_1 = c.id
             LEFT JOIN {$wpdb->prefix}notaire AS n ON q.client_number = n.client_number
             LEFT JOIN {$wpdb->prefix}etude AS e ON e.crpcen = n.crpcen 
-            WHERE e.crpcen = \"{$notaire->crpcen}\" 
+            WHERE e.crpcen = \"{$notaire->crpcen}\"
+            AND q.id_affectation = " .CONST_QUEST_ANSWERED. "
             AND m.displayed = 1
             GROUP BY m.id
         ";
