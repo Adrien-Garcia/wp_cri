@@ -1,6 +1,6 @@
 <?php
 
-class Flash extends MvcModel {
+class Flash extends \App\Override\Model\CridonMvcModel {
     var $table     = "{prefix}flash";
     var $includes       = array('Post', 'Matiere');
     var $belongs_to     = array(

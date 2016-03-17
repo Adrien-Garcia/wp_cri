@@ -3,8 +3,8 @@
 	<div id="content" class="single single-vie-cridon">
 
 		<div class="breadcrumbs">
-			<div id="" class="wrap cf">				
-				<a href="#" title="">Accueil</a> + <a href="#" title=""> Vie du CRIDON </a>  +  <span>Titre POST Vie du CRIDON</span>
+			<div class="wrap cf">
+				<?php if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
 			</div>
 		</div>
 

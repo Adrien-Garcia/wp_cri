@@ -2,11 +2,15 @@
 
 	<div id="content">
 
+		<div class="breadcrumbs">
+			<div class="wrap cf">
+				<?php if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
+			</div>
+		</div>
+
 		<div id="inner-content" class="wrap cf">
 
 			<div id="main" class="cf" role="main">
-			
-				<?php if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
 
 				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
