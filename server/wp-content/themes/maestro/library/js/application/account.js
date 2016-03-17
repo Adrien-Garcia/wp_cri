@@ -523,7 +523,7 @@ App.Account = {
         if (email != '') {
             jQuery.ajax({
                 type: 'POST',
-                url: jsvar.ajaxurl,
+                url: '/notaires/souscriptionnewsletter',
                 data: {
                     action: 'newsletter',
                     email: email,

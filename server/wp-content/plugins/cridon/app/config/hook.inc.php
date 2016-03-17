@@ -233,17 +233,6 @@ function custom_mvc_menu_position( $menu_position ){
     return $new_menu_position ;
 }
 //End Hook for Mvc_menu_position
-/**
- * hook for newsletter subscription
- */
-function newsletter()
-{
-    require_once WP_PLUGIN_DIR . '/cridon/app/controllers/notaires_controller.php';
-    $controller = new NotairesController();
-    $controller->newsletterSubscription();
-}
-add_action( 'wp_ajax_newsletter',   'newsletter' );
-add_action( 'wp_ajax_nopriv_newsletter',   'newsletter' );
 
 /**
  * Suppression option "show admin bar" sur fiche notaire en admin
