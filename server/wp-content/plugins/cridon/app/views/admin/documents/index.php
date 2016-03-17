@@ -2,6 +2,17 @@
 
 <form id="posts-filter" action="<?php echo MvcRouter::admin_url(); ?>" method="get">
 
+    <input type="hidden" id="baseUrl" name="baseUrl" value="<?php echo mvc_admin_url(array('controller' => 'documents')); ?>" />
+
+    <p class="filter-box">
+        <select id="documentFilter" name="documentFilter">
+            <option value="all"> --- Toutes --- </option>
+            <?php foreach ($options as $k => $v) : ?>
+                <option value="<?php echo $k ?>" <?php echo (isset($_GET['option']) && $_GET['option'] == $k ? 'selected' : ''); ?>> <?php echo $v ?> </option>
+            <?php endforeach; ?>
+        </select>
+    </p>
+
     <p class="search-box">
         <label class="screen-reader-text" for="post-search-input">Search:</label>
         <input type="hidden" name="page" value="<?php echo MvcRouter::admin_page_param($model->name); ?>" />

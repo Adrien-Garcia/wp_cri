@@ -102,11 +102,7 @@ class NotairesController extends BasePublicController
                 }
                 $this->current_notaire = $this->model->new_object($this->model->invalid_data);
             } else if (!empty($this->params['id'])) {
-                $this->current_notaire = $this->model->findOneBy(array(
-                    'where' => array(
-                        'Notaire.id_wp_user = ' . $this->params['id'],
-                    )
-                ));
+                $this->current_notaire = $this->model->find_one_by_id_wp_user($this->params['id']);
             }
         }
         if (!empty($this->current_notaire)) {
@@ -253,24 +249,6 @@ class NotairesController extends BasePublicController
         $this->set('content',$content);
     }
 
-    /**
-     * Cleaning data
-     * 
-     * @param mixed $data
-     * @return mixed
-     */
-    private function clean( $data ){
-        $clean_input = Array();
-        if (is_array($data)) {
-            foreach ($data as $k => $v) {
-                $clean_input[$k] = $this->clean( $v );
-            }
-        } else {
-            $clean_input = trim( strip_tags( $data ) );
-        }
-        return $clean_input;
-    }
-
     public function newsletterSubscription()
     {
         // init response
@@ -280,8 +258,7 @@ class NotairesController extends BasePublicController
         if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_newsletter_nonce') && isset($_REQUEST['email'])) {
             // find the notaire email
             $notaire = $this->model->find_one_by_email_adress($_REQUEST['email']);
-//            echo '<pre>'; die(print_r($notaire));
-//
+
             // only an individual email is valid
             if (is_object($notaire) && $notaire->id && isset($_REQUEST['state'])) {
                 // update notaire newsletter
@@ -321,7 +298,7 @@ class NotairesController extends BasePublicController
 
     protected function prepareProfil()
     {
-// access secured
+        // access secured
         $this->prepareSecureAccess();
         //unsubscribe to newsletter
         if(isset($_POST['disabled'])){
@@ -350,7 +327,7 @@ class NotairesController extends BasePublicController
                 );
                 $matieres = mvc_model('matiere')->find($options);
                 //Clean $_POST before
-                $data = $this->clean($_POST);
+                $data = $this->tools->clean($_POST);
                 $toCompare = array();
                 //Create array to compare Matiere in $_POST
                 foreach ($matieres as $mat) {
