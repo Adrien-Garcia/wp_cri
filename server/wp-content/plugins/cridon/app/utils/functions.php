@@ -948,6 +948,10 @@ function CriSendPostQuestConfirmation($question) {
                 $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
                 if (is_object($offices) && $offices->office_email_adress_1) {
                     $dest = $offices->office_email_adress_1;
+                } elseif (is_object($offices) && $offices->office_email_adress_2) {
+                    $dest = $offices->office_email_adress_2;
+                } elseif (is_object($offices) && $offices->office_email_adress_3) {
+                    $dest = $offices->office_email_adress_3;
                 }
             }
         }
@@ -955,16 +959,19 @@ function CriSendPostQuestConfirmation($question) {
         // dest must be set
         if ($dest) {
             // prepare message
-            $subject = Config::$mailBodyQuestionConfirmation['subject'];
+            $subject = Config::$mailSubjectQuestionStatusChange['1'];
             $vars    = array(
-                'objet'          => $question['resume'],
-                'content'        => $question['content'],
-                'matiere'        => $question['matiere'],
-                'competence'     => $question['competence'],
-                'support'        => $question['support'],
-                "dateSoumission" => $question['dateSoumission']
+                'resume'          => $question['resume'],
+                'content'         => $question['content'],
+                'matiere'         => $question['matiere'],
+                'competence'      => $question['competence'],
+                'support'         => $question['support'],
+                'creation_date'   => $question['dateSoumission'],
+                'date'            => $question['dateSoumission'],
+                'notaire'         => $notary,
+                'type_question'   => '1',
             );
-            $message = CriRenderView('mail_question_confirmation', $vars, 'custom', false);
+            $message = CriRenderView('mail_notification_question', $vars, 'custom', false);
 
             // send email
             wp_mail($dest, $subject, $message, $headers);

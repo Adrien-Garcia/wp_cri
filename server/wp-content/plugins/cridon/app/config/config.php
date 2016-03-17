@@ -172,6 +172,41 @@ class Config {
         'documents' => 'Les documents associés: ',
         'tags'      => ''
     );
+    public static $mailBodyQuestionStatusChange = array(
+        'numero_question'  => '%s',
+        'resume'           => '%s',
+        'content'          => '%s',
+        'support'          => '%s',
+        'juriste'          => '%s',
+        'matiere'          => '%s',
+        'competence'       => '%s',
+        'creation_date'    => '%s',
+        'affectation_date' => '%s',
+        'wish_date'        => '%s',
+        'date'             => '%s',
+    );
+
+    // Notification for posted question
+    public static $mailSubjectQuestionStatusChange = array(
+        1 => 'Question CRIDON LYON transmise',
+        2 => 'Question CRIDON LYON numéro %s prise en compte',
+        3 => 'Requalification de la question CRIDON LYON numéro %s',
+        4 => 'Question CRIDON LYON numéro %s en cours de traitement',
+        5 => 'Question CRIDON LYON numéro %s en attente de renseignements complémentaires',
+        6 => 'Réponse à votre question CRIDON LYON numéro %s',
+    );
+
+    // Notification for posted question
+    public static $mailContentQuestionStatusChange = array(
+        1 => 'Votre question du %s en délai %s a bien été transmise.',
+        2 => 'Nous avons bien reçu votre question numéro %s du %s en délai %s.',
+        3 => 'Compte tenu de l’affluence des demandes, il ne nous sera pas possible de respecter le délai demandé de votre question numéro %s du %s. Nous enregistrons votre question en délai %s et faisons le nécessaire pour vous donner satisfaction.',
+        4 => 'Votre question numéro %s en délai %s a été attribuée le %s à %s. Une réponse vous sera apportée au plus tard le %s.',
+        5 => 'Merci de nous adresser les renseignements complémentaires demandés qui nous sont indispensables pour répondre à votre question numéro %s en délai %s du %s.',
+        6 => 'La réponse à votre question numéro %s en délai %s du %s est disponible depuis votre espace privé.',
+
+    );
+
     public static $notificationAddressPreprod = "victor.albert@jetpulp.fr";
 
     //GED Administration
