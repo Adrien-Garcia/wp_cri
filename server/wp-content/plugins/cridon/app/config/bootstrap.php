@@ -753,8 +753,8 @@ function sendNotificationForPostPublished( $post,$model ){
     $content = get_the_content();
     //$model don't contain Matiere
     //It's necessary to get it again
-    $current = mvc_model($model->__model_name)->find_one_by_id($model->id);
-    $matiere = (!empty($current) && !empty($current->matiere)) ? $current->matiere : false;
+    $completeModel = mvc_model($model->__model_name)->find_one_by_id($model->id);
+    $matiere = (!empty($completeModel) && !empty($completeModel->matiere)) ? $completeModel->matiere : false;
     $permalink = generateUrlByModel($model);
     $tags = get_the_tags( $post->ID );
     $subject  = sprintf(Config::$mailBodyNotification['subject'], $title );
@@ -787,12 +787,12 @@ function sendNotificationForPostPublished( $post,$model ){
      * type = 1 => all notaries
      * type = 0 => subscribers notaries ( veille )
      */
-    $type = checkTypeNofication($model);
+    $type = checkTypeNofication($completeModel);
     if( $type == 1 ){
         //all notaries
         $notaires = mvc_model('Notaire')->find();        
     }elseif( $type == 0 ){
-        $notaires = getNotariesByMatiere($model);
+        $notaires = getNotariesByMatiere($completeModel);
     }else{
         return false;//Don't send notification
     }
