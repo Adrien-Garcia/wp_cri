@@ -401,6 +401,8 @@ class Config {
         )
     );
 
+    public static $daysTrialVeille = 15;
+
     // Notification for posted question
     public static $mailBodyQuestionConfirmation  = array(
         'subject'   => 'Prise en compte de votre question sur le site'

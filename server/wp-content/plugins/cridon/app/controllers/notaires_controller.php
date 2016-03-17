@@ -379,7 +379,7 @@ class NotairesController extends BasePublicController
 
                 // Free trial date
                 if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->final_date_trial_veilles)){
-                    $final_date_trial_veilles = date('Y-m-d', strtotime('+1 month'));
+                    $final_date_trial_veilles = date('Y-m-d', strtotime('+'. Config::$daysTrialVeille .' days'));
                     $office = array(
                         'Etude' => array(
                             'crpcen'                       => $_REQUEST['crpcen'],

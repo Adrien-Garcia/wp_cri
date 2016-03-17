@@ -13,7 +13,7 @@
     <div class="block js-home-block-link">
         <div class="content">
             <div class="h2">
-                <span><?php _e('Merci pour votre souscription, le service est désormais activé pour 30 jours, en attendant votre réglèment.'); ?></span>
+                <span><?php _e('Merci pour votre souscription, le service est désormais activé pour '. Config::$daysTrialVeille .' jours, en attendant votre réglèment.'); ?></span>
                 <span><?php _e('Un email de confirmation vous a été envoyé .'); ?></span>
             </div>
             <a href="/veilles">Découvrir l'offre de veille</a>
