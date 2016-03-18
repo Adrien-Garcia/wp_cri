@@ -29,7 +29,7 @@
 </div>
 
 <?php if ($notaire->etude->subscription_level < 2 ):?>
-    <form action="/notaires/cridonline" method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-sublevel-form">
+    <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-sublevel-form" data-js-ajax-souscription-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionveille'));?>">
         <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-sublevel-crpcen">
         <input type="hidden" name="level" value="<?php echo "2"; ?>" class="js-account-cridonline-sublevel-level">
         <input type="hidden" name="price" value="<?php echo $priceVeilleLevel2 ?>" class="js-account-cridonline-sublevel-price">
@@ -38,7 +38,7 @@
     <p>Price : <?php echo $priceVeilleLevel2 ?></p>
 <?php endif;?>
 <?php if ($notaire->etude->subscription_level < 3 ):?>
-<form action="/notaires/cridonline" method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-sublevel-form">
+<form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-sublevel-form" data-js-ajax-souscription-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionveille'));?>">
     <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-sublevel-crpcen">
     <input type="hidden" name="level" value="<?php echo "3"; ?>" class="js-account-cridonline-sublevel-level">
     <input type="hidden" name="price" value="<?php echo $priceVeilleLevel3 ?>" class="js-account-cridonline-sublevel-price">

@@ -51,8 +51,8 @@ MvcRouter::public_connect('notaires/contentprofil', array('controller' => 'notai
 MvcRouter::public_connect('notaires/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
 MvcRouter::public_connect('notaires/liste', array('controller' => 'notaires', 'action' => 'liste'));
 MvcRouter::public_connect('notaires/contentcridonline', array('controller' => 'notaires', 'action' => 'contentcridonline'));
-MvcRouter::public_connect('notaires/souscriptionveille', array('controller' => 'notaires', 'action' => 'ajaxsubscriptionveille'));
-MvcRouter::public_connect('notaires/souscriptionnewsletter', array('controller' => 'notaires', 'action' => 'newslettersubscription'));
+MvcRouter::public_connect('notaires/souscriptionveille', array('controller' => 'notaires', 'action' => 'ajaxveillesubscription'));
+MvcRouter::public_connect('notaires/souscriptionnewsletter', array('controller' => 'notaires', 'action' => 'ajaxnewslettersubscription'));
 MvcRouter::public_connect('notaires', array('controller' => 'notaires', 'action' => 'show'));
 
 //RSS feed

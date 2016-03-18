@@ -517,17 +517,16 @@ App.Account = {
         }
     },
 
-    eventAccountProfilNewsletterSubmit: function () {
+    eventAccountProfilNewsletterSubmit: function (form) {
         this.$accountProfilNewsletterMessage.html('');
         var email = this.$accountProfilNewsletterEmail.val();
         if (email != '') {
             jQuery.ajax({
                 type: 'POST',
-                url: '/notaires/souscriptionnewsletter',
+                url: form.data('js-ajax-newsletter-url'),
                 data: {
-                    action: 'newsletter',
-                    email: email,
                     token: $('#tokennewsletter').val(),
+                    email: email,
                     state: this.$accountProfilNewsletterState.val()
                 },
                 success: this.successNewsletterToggle.bind(this)
@@ -539,16 +538,16 @@ App.Account = {
         return false;
     },
 
-    eventAccountCridonlineSubLevelSubmit: function ($form) {
+    eventAccountCridonlineSubLevelSubmit: function (form) {
         //this.$accountCridonlineSubLevelMessage.html('');
         jQuery.ajax({
             type: 'POST',
-            url: '/notaires/souscriptionveille',
+            url: form.data('js-ajax-souscription-url'),
             data: {
                 token: $('#tokencridonline').val(),
-                crpcen: $form.find(this.$accountCridonlineSubLevelCrpcen).val(),
-                level: $form.find(this.$accountCridonlineSubLevelLevel).val(),
-                price: $form.find(this.$accountCridonlineSubLevelPrice).val()
+                crpcen: form.find(this.$accountCridonlineSubLevelCrpcen).val(),
+                level: form.find(this.$accountCridonlineSubLevelLevel).val(),
+                price: form.find(this.$accountCridonlineSubLevelPrice).val()
             },
             success: this.successCridonlineToggle.bind(this)
         });

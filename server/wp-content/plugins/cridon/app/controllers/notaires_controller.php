@@ -331,7 +331,7 @@ class NotairesController extends BasePublicController
         return $clean_input;
     }
 
-    public function newsletterSubscription()
+    public function ajaxnewslettersubscription()
     {
         // init response
         $ret = 'invalidemail';
@@ -362,7 +362,7 @@ class NotairesController extends BasePublicController
     }
 
 
-    public function ajaxSubscriptionVeille()
+    public function ajaxVeilleSubscription()
     {
         // init response
         $ret = '';
