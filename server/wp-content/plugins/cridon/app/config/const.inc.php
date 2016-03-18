@@ -703,3 +703,24 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 
 // End of block for mobile
 
+// ERP YNOTAIRE table
+if ( !defined( 'CONST_ERP_TABLE_YNOTAIRE' ) ) {
+    switch ($env) {
+        case PROD:
+        case PREPROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_ODBC_TABLE_QUEST', $prefix.'YNOTAIRE' );
+}
+// Reset pwd value to be inserted in YNOTAIRE
+if ( !defined( 'CONST_YTRAITEE_RESETPWD' ) ) {
+    define( 'CONST_YTRAITEE_RESETPWD', 3 );
+}
