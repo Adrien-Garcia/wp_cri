@@ -2012,6 +2012,18 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     //End FRONT
 
     /**
+     * Find all notary by optimized query
+     *
+     * @param array $options
+     * @return mixed
+     * @throws Exception
+     */
+    public function find($options = array())
+    {
+        return (is_array($options) && count($options) > 0) ? parent::find($options) : mvc_model('QueryBuilder')->findAll('notaire');
+    }
+
+    /**
      * Update notary and office data
      *
      * @param int    $id
