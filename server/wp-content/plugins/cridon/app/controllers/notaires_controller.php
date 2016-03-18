@@ -295,22 +295,20 @@ class NotairesController extends BasePublicController
                 'crpcen' => $notaire->crpcen
             )
         );
-        $nombreNotaires = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
+        $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
+
+
         // Tri du tableau de prix par clé descendante
-        krsort(Config::$pricesLevelsVeilles[2]);
-        krsort(Config::$pricesLevelsVeilles[3]);
-        // on cherche quelle clé est correcte
-        foreach (Config::$pricesLevelsVeilles[2] as $k => $v) {
-            if ($nombreNotaires >= $k) {
-                $priceVeilleLevel2 = $v;
-                $this->set('priceVeilleLevel2', $priceVeilleLevel2);
-                break;
-            }
-        }
-        foreach (Config::$pricesLevelsVeilles[3] as $k => $v) {
-            if ($nombreNotaires >= $k) {
-                $this->set('priceVeilleLevel3', $v);
-                break;
+        foreach(Config::$pricesLevelsVeilles as $veilleLevel => $prices){
+            //set name of variable
+            $priceVeilleLevelx = 'priceVeilleLevel'.$veilleLevel;
+            //Tri par pri décroissant pour chaque niveau de veille
+            krsort($prices);
+            foreach($prices as $nbCollaborator => $price) {
+                if ($nbCollaboratorEtude >= $nbCollaborator) {
+                    $this->set($priceVeilleLevelx, $price);
+                    break;
+                }
             }
         }
     }
