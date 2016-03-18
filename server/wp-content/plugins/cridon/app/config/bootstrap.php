@@ -1000,7 +1000,7 @@ function init_select_level_meta_boxes( $post, $args ){
      * la comparaison strict imposée par la methode "check"
      * var_dump renvoit en fait un type string pour "$oModel::level" !!!!
      */
-    if (property_exists($oModel, 'level')) {
+    if (is_object($oModel) && property_exists($oModel, 'level')) {
         $oModel->level = (int)$oModel->level;
     }
 
