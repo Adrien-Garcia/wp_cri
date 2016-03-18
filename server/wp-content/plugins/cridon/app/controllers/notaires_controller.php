@@ -286,57 +286,29 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->prepareSecureAccess();
-        //unsubscribe to newsletter
-        if(isset($_POST['disabled'])){
-            $disabled = $_POST['disabled'] == 1 ? 0 : 1;
-            $notaire = $this->model->getUserConnectedData();
-            $update = array();
-            $update['Notaire']['id'] = $notaire->id;
-            $update['Notaire']['newsletter'] = $disabled;
-            $this->model->save($update);
-            $options = array(
-                'controller' => 'notaires',
-                'action'     => 'profil',
-                'id'         => $this->params['id']
-            );
-            $publicUrl  = MvcRouter::public_url($options);
-            wp_redirect( $publicUrl, 302 );
-            exit;
-        }
-        if (isset($_POST) && !empty($_POST)) {
-            $notaire = $this->model->getUserConnectedData();
-            if (!empty($notaire)) {
-                $options = array(
-                    'conditions' => array(
-                        'Matiere.displayed' => 1
-                    )
-                );
-                $matieres = mvc_model('matiere')->find($options);
-                //Clean $_POST before
-                $data = $this->tools->clean($_POST);
-                $toCompare = array();
-                //Create array to compare Matiere in $_POST
-                foreach ($matieres as $mat) {
-                    $toCompare[] = $mat->id;
-                }
-                $insert = array();
-                $insert['Notaire']['id'] = $notaire->id;
-                $insert['Notaire']['Matiere']['ids'] = array();
-                if (isset($data['matieres'])) {
-                    foreach ($data['matieres'] as $v) {
-                        //Check if current Matiere is valid
-                        if (in_array($v, $toCompare)) {
-                            $insert['Notaire']['Matiere']['ids'][] = $v;
-                        }
-                    }
-                }
-                //Put in DB
-                $this->model->save($insert);
+
+        if (isset($_POST)
+            && !empty($_POST)
+            && !empty($this->current_notaire)
+        ) {
+            // newsletter
+            if(isset($_POST['disabled'])) {
+                $this->model->newsletterSubscription($this->current_notaire);
             }
 
+            // centre d'interets
+            if (isset($_POST['matieres'])) {
+                //Clean $_POST before
+                $data = $this->tools->clean($_POST);
+                $this->model->manageInterest($this->current_notaire, $data);
+            }
+
+            // maj profil et/ou données d'etude
+            if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+                $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
+            }
         }
         // set template vars
-        // @TODO to be completed with others notaire dynamic data
         $vars = $this->get_object();
         $this->set_vars($vars);
     }
