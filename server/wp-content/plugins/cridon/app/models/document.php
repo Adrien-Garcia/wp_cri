@@ -667,18 +667,18 @@ class Document extends \App\Override\Model\CridonMvcModel {
             'fields' => array(
                 "{$type}.*"
             ),
-            'synonym' => 'document',
-            'conditions' => 'document.id = ' . $id,
+            'synonym' => 'd',
+            'conditions' => 'd.id = ' . $id,
             'join'  => array(
                 array(
                     'type'  => 'left',
                     'table' => "{$type} as {$type}",
-                    'column' => " {$type}.id = document.id_externe"
+                    'column' => " {$type}.id = d.id_externe"
                 )
             )
         );
 
-        $object = mvc_model('QueryBuilder')->findOne('document', $options, 'document.id');
+        $object = mvc_model('QueryBuilder')->findOne('document', $options, 'd.id');
         return $object;
     }
 
