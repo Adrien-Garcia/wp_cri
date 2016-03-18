@@ -141,7 +141,13 @@ class DocumentsController extends MvcPublicController {
             if (in_array($document->type, Config::$restrictedDownloadByTypeLevel)
                 && !$this->model->userCanDownload($document)
             ) { // document was restricted for specific level
-                redirectToInformationPage();
+                $this->redirect(mvc_public_url(
+                        array(
+                            'controller' => 'notaires',
+                            'action'     => 'cridonline'
+                        )
+                    )
+                );
             }
 
             return true;
