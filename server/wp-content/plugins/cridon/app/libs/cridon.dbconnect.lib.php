@@ -474,6 +474,124 @@ interface DBConnect
      * @var string : Contenu de la question
      */
     const ZQUEST_ZTXTQUEST_0 = 'ZTXTQUEST_0';
+    /****************** /Export Table Temp Structure *******************/
+
+    /****************** Table YNOTAIRE Structure *******************/
+    /**
+     * @var string : N° CRPCEN
+     */
+    const YCRPCEN = 'YCRPCEN';
+
+    /**
+     * @var string : Nom
+     */
+    const CNTLNA = 'CNTLNA';
+
+    /**
+     * @var string : Code interlocuteur
+     */
+    const CCNCRM = 'CCNCRM';
+
+    /**
+     * @var string : Prénom
+     */
+    const CNTFNA = 'CNTFNA';
+
+    /**
+     * @var string : Fonction
+     */
+    const CNTFNC = 'CNTFNC';
+
+    /**
+     * @var string : E-Mail
+     */
+    const WEB = 'WEB';
+
+    /**
+     * @var string : Téléphone
+     */
+    const TEL = 'TEL';
+
+    /**
+     * @var string : Portable
+     */
+    const CNTMOB = 'CNTMOB';
+
+    /**
+     * @var string : Fax
+     */
+    const FAX = 'FAX';
+
+    /**
+     * @var string : Date de fin de présence
+     */
+    const YFINPRE = 'YFINPRE';
+
+    /**
+     * @var string : Mot de passe Web
+     */
+    const YMDPWEB = 'YMDPWEB';
+
+    /**
+     * @var string : Identifiant  appel
+     */
+    const ZMDPTEL = 'ZMDPTEL';
+
+    /**
+     * @var string : Adresse 1 office
+     */
+    const ADDLIG1 = 'ADDLIG1';
+
+    /**
+     * @var string : Adresse 2 office
+     */
+    const ADDLIG2 = 'ADDLIG2';
+
+    /**
+     * @var string : Adresse 3 office
+     */
+    const ADDLIG3 = 'ADDLIG3';
+
+    /**
+     * @var string : Code postal
+     */
+    const POSCOD = 'POSCOD';
+
+    /**
+     * @var string : Ville
+     */
+    const CTY = 'CTY';
+
+    /**
+     * @var string : Téléphone office
+     */
+    const TELOFF = 'TELOFF';
+
+    /**
+     * @var string : Fax office
+     */
+    const FAXOFF = 'FAXOFF';
+
+    /**
+     * @var string : E-mail office
+     */
+    const WEBOFF = 'WEBOFF';
+
+    /**
+     * @var string : Statut de l’enregistrement
+     */
+    const YTRAITEE = 'YTRAITEE';
+
+    /**
+     * @var string : Flag erreur
+     */
+    const YERR = 'YERR';
+
+    /**
+     * @var string : Message de l’erreur
+     */
+    const YMESSERR = 'YMESSERR';
+    /****************** /Table YNOTAIRE Structure *******************/
 
 
     /**

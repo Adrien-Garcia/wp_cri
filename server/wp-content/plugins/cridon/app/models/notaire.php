@@ -2192,15 +2192,153 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     /**
      * Set reset pwd flag
      *
-     * @param mixed $notaryData
+     * @param int $notaryId
+     * @param string $action
      *
      * @return void
      */
-    public function resetPwd($notaryData)
+    public function resetPwd($notaryId, $action = 'on')
     {
         $notary                         = array();
-        $notary['Notaire']['id']        = $notaryData->id;
-        $notary['Notaire']['renew_pwd'] = 1;
+        $notary['Notaire']['id']        = $notaryId;
+        $notary['Notaire']['renew_pwd'] = ($action == 'on') ? 1 : 0;
         $this->save($notary);
+    }
+
+    /**
+     * @return array|null|object
+     */
+    public function cronResetPwd()
+    {
+        try {
+            $notaries = mvc_model('QueryBuilder')->find(array(
+                                         'model' => 'Notaire',
+                                         'conditions' => 'renew_pwd = 1'
+                                     )
+            );
+
+            // verification nb notaires à traiter
+            if (is_array($notaries) && count($notaries) > 0) {
+                // set adapter
+                switch (strtolower(CONST_IMPORT_OPTION)) {
+                    case self::IMPORT_ODBC_OPTION:
+                        $this->adapter = CridonODBCAdapter::getInstance();
+                        break;
+                    case self::IMPORT_OCI_OPTION:
+                        //if case above did not match, set OCI
+                        $this->adapter = CridonOCIAdapter::getInstance();
+                        break;
+                }
+
+                // bloc de requette
+                $queryBloc = array();
+                // adapter instance
+                $adapter = $this->adapter;
+                // list des id notaires pour maj cri_notaire.renew_pwd apres transfert
+                $qList = array();
+
+                // requete commune
+                $query  = " INTO " . CONST_DB_TABLE_YNOTAIRE;
+                $query .= " (";
+                $query .= $adapter::YCRPCEN . ", "; // YCRPCEN
+                $query .= $adapter::CNTLNA . ", "; // CNTLNA
+                $query .= $adapter::CCNCRM . ", ";   // CCNCRM
+                $query .= $adapter::CNTFNA . ", ";   // CNTFNA
+                $query .= $adapter::CNTFNC . ", ";   // CNTFNC
+                $query .= $adapter::YTRAITEE . ", ";   // YTRAITEE
+                $query .= $adapter::YERR . " ";   // YERR
+                $query .= ") ";
+                $query .= " VALUES ";
+
+                // complement requete selon le type de BDD
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a bulk insert in Oracle SQL
+                         INSERT ALL
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                        SELECT * FROM dual;
+                         */
+                        foreach ($notaries as $notary) {
+                            // remplit la liste des notaries
+                            $qList[] = $notary->id;
+
+                            // value block
+                            $value  = $query;
+                            $value .= "(";
+
+                            $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
+                            $value .= "'" . $notary->first_name . "', "; // CNTLNA
+                            $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
+                            $value .= "'" . $notary->first_name . "', "; // CNTFNA
+                            $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
+                            $value .= "'" . CONST_YTRAITEE_RESETPWD . "', "; // YTRAITEE
+                            $value .= "'0'"; // YERR
+
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT ALL ';
+                            $query .= implode(' ', $queryBloc);
+                            $query .= ' SELECT * FROM dual';
+                            writeLog($query, 'query_resetpwd.log');
+                        }
+                        break;
+                    case CONST_DB_DEFAULT:
+                    default:
+                        foreach ($notaries as $notary) {
+                            // remplit la liste des notaires
+                            $qList[] = $notary->id;
+
+                            $value = "(";
+
+                            $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
+                            $value .= "'" . $notary->first_name . "', "; // CNTLNA
+                            $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
+                            $value .= "'" . $notary->first_name . "', "; // CNTFNA
+                            $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
+                            $value .= "'" . CONST_YTRAITEE_RESETPWD . "', "; // YTRAITEE
+                            $value .= "'0'"; // YERR
+
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT' . $query . implode(', ', $queryBloc);
+                            writeLog($query, 'query_resetpwd.log');
+                        }
+                        break;
+                }
+            }
+
+            // execution requete
+            if (!empty($query)) {
+                if ($result = $this->adapter->execute($query) && !empty($qList)) {
+                    // update cri_notaire.renew_pwd
+                    $sql = " UPDATE {$this->table} SET renew_pwd = 0 WHERE id IN (" . implode(', ', $qList) . ")";
+                    $this->wpdb->query($sql);
+                } else {
+                    // log erreur
+                    $error = sprintf(CONST_RESETPWD_ERROR, date('d/m/Y à H:i:s'));
+                    writeLog($error, 'resetnotarypasswd.log', 'Cridon - demande de renouvellement de mot de passe');
+                }
+            }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch(\Exception $e) {
+            // write into logfile
+            writeLog($e, 'resetnotarypasswd.log');
+
+            // status code
+            return CONST_STATUS_CODE_GONE;
+        }
     }
 }

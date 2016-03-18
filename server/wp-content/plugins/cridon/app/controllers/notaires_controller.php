@@ -317,7 +317,7 @@ class NotairesController extends BasePublicController
                     && !empty($this->current_notaire->email_adress)
                     && filter_var($this->current_notaire->email_adress, FILTER_VALIDATE_EMAIL)
                 ) {
-                    $this->model->resetPwd($this->current_notaire);
+                    $this->model->resetPwd($this->current_notaire->id);
                 }
             }
         }

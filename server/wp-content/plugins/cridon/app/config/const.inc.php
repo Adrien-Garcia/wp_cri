@@ -704,7 +704,7 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 // End of block for mobile
 
 // ERP YNOTAIRE table
-if ( !defined( 'CONST_ERP_TABLE_YNOTAIRE' ) ) {
+if ( !defined( 'CONST_DB_TABLE_YNOTAIRE' ) ) {
     switch ($env) {
         case PROD:
         case PREPROD:
@@ -718,9 +718,12 @@ if ( !defined( 'CONST_ERP_TABLE_YNOTAIRE' ) ) {
             $prefix = '';
             break;
     }
-    define( 'CONST_ERP_TABLE_YNOTAIRE', $prefix.'YNOTAIRE' );
+    define( 'CONST_DB_TABLE_YNOTAIRE', $prefix.'YNOTAIRE' );
 }
 // Reset pwd value to be inserted in YNOTAIRE
 if ( !defined( 'CONST_YTRAITEE_RESETPWD' ) ) {
     define( 'CONST_YTRAITEE_RESETPWD', 3 );
+}
+if ( !defined( 'CONST_RESETPWD_ERROR' ) ) {
+    define( 'CONST_RESETPWD_ERROR', 'Renouvellement mot de passe interrompu le : %s' );
 }
