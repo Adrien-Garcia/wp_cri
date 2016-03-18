@@ -718,7 +718,7 @@ if ( !defined( 'CONST_ERP_TABLE_YNOTAIRE' ) ) {
             $prefix = '';
             break;
     }
-    define( 'CONST_ODBC_TABLE_QUEST', $prefix.'YNOTAIRE' );
+    define( 'CONST_ERP_TABLE_YNOTAIRE', $prefix.'YNOTAIRE' );
 }
 // Reset pwd value to be inserted in YNOTAIRE
 if ( !defined( 'CONST_YTRAITEE_RESETPWD' ) ) {
