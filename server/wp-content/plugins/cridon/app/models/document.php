@@ -698,7 +698,7 @@ class Document extends \App\Override\Model\CridonMvcModel {
             $veille = $this->getRelatedModel($object->id, 'veille');
 
             // subscription_level must be >= veille_level
-            return ($notaryData->etude->subscription_level >= $veille->level);
+            return ($notaryData->etude->subscription_level >= $veille->level || $notaryData->etude->end_subscription_date_veille >= date('Y-m-d'));
         } else {
             return false;
         }
