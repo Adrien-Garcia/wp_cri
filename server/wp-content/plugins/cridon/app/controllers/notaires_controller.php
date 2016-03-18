@@ -315,6 +315,7 @@ class NotairesController extends BasePublicController
                  */
                 if (isset($_POST['reset_pwd'])
                     && !empty($this->current_notaire->email_adress)
+                    && filter_var($this->current_notaire->email_adress, FILTER_VALIDATE_EMAIL)
                 ) {
                     $this->model->resetPwd($this->current_notaire);
                 }
