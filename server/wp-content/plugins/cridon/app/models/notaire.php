@@ -2183,7 +2183,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
          */
         return (is_object($object)
                 && property_exists($object, 'email_adress')
-                && !empty($object->email_adress)
+                && !empty($object->email_adress) && filter_var($object->email_adress, FILTER_VALIDATE_EMAIL)
                 && property_exists($object, 'id_fonction')
                 && in_array($object->id_fonction, Config::$allowedNotaryFunction)
         ) ? true : false;
