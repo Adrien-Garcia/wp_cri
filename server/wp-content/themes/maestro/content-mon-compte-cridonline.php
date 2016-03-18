@@ -17,14 +17,14 @@
 			jsvar.newsletter_success_msg = "Désinscription terminée avec succès.";
 			//]]>
 		</script>
-		<?php _e('Vous bénéficiez d\'un accès aux veilles de niveau 2 au prix de : '.$notaire->etude->initial_price.'.'); ?>
+		<?php _e('Vous bénéficiez d\'un accès aux veilles de niveau 2 au prix de : '.$notaire->etude->subscription_price.'.'); ?>
         <?php elseif ($notaire->etude->subscription_level == 3 ) : ?>
         <script type="text/javascript">
             //<![CDATA[
             jsvar.newsletter_success_msg = "Désinscription terminée avec succès.";
             //]]>
         </script>
-        <?php _e('Vous bénéficiez d\'un accès aux veilles de niveau 3 au prix de : '.$notaire->etude->initial_price.'.'); ?>
+        <?php _e('Vous bénéficiez d\'un accès aux veilles de niveau 3 au prix de : '.$notaire->etude->subscription_price.'.'); ?>
 	<?php endif; ?>
 </div>
 

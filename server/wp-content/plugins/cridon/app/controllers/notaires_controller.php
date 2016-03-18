@@ -369,29 +369,30 @@ class NotairesController extends BasePublicController
 
         // Verify that the nonce is valid.
         if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen']) ) {
-            // only an individual email is valid
             // find the office
             $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
             if (!empty($_REQUEST['level']) && !empty($etude)) {
                 // @TODO send info to Cridon (waiting for info 'How to do that'
 
-                // Free trial date
-                if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->final_date_trial_veilles)){
-                    $final_date_trial_veilles = date('Y-m-d', strtotime('+'. Config::$daysTrialVeille .' days'));
+                // Free trial date only if it's the first subscription online for that office
+                if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->end_subscription_date_veille)){
+                    $end_subscription_date_veille = date('Y-m-d', strtotime('+'. Config::$daysTrialVeille .' days'));
                     $office = array(
                         'Etude' => array(
-                            'crpcen'                       => $_REQUEST['crpcen'],
-                            'final_date_trial_veilles'     => $final_date_trial_veilles
+                            'crpcen'                         => $_REQUEST['crpcen'],
+                            'end_subscription_date_veille'   => $end_subscription_date_veille
                         )
                     );
                     mvc_model('Etude')->save($office);
                 }
             }
             if (!empty($_REQUEST['price']) && !empty($etude)) {
+                $start_subscription_date_veille = date('Y-m-d');
                 $office = array(
                     'Etude' => array(
                         'crpcen'            => $_REQUEST['crpcen'],
-                        'initial_price'     => intval($_REQUEST['price'])
+                        'start_subscription_date_veille' => $start_subscription_date_veille,
+                        'subscription_price'     => intval($_REQUEST['price'])
                     )
                 );
                 mvc_model('Etude')->save($office);

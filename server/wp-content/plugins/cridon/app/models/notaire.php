@@ -1361,8 +1361,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             'tel',
                             'fax',
                             'subscription_level',
-                            'final_date_trial_veilles',
-                            'initial_price'
+                            'start_subscription_date_veille',
+                            'end_subscription_date_veille',
+                            'subscription_price'
                             ),
                         'foreign_key' => 'crpcen',
                         'key' => 'crpcen'
