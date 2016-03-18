@@ -2188,4 +2188,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 && in_array($object->id_fonction, Config::$allowedNotaryFunction)
         ) ? true : false;
     }
+
+    /**
+     * Set reset pwd flag
+     *
+     * @param mixed $notaryData
+     *
+     * @return void
+     */
+    public function resetPwd($notaryData)
+    {
+        $notary                         = array();
+        $notary['Notaire']['id']        = $notaryData->id;
+        $notary['Notaire']['renew_pwd'] = 1;
+        $this->save($notary);
+    }
 }

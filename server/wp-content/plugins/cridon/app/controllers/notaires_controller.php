@@ -306,6 +306,18 @@ class NotairesController extends BasePublicController
             // maj profil et/ou données d'etude
             if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
                 $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
+
+                /**
+                 * Renouvellement mot de passe :
+                 * - notaire connecté dispose d'une adresse email perso
+                 * - seuls les notaires de fonctions 1, 2, 3, 6, 7, 8, 9, 10 peuvent accéder à la fonction
+                 * @see \Config::$allowedNotaryFunction
+                 */
+                if (isset($_POST['reset_pwd'])
+                    && !empty($this->current_notaire->email_adress)
+                ) {
+                    $this->model->resetPwd($this->current_notaire);
+                }
             }
         }
         // set template vars
