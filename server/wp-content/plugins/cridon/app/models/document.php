@@ -661,7 +661,7 @@ class Document extends \App\Override\Model\CridonMvcModel {
      * @return mixed
      * @throws Exception
      */
-    public function getParentModel($id, $type)
+    public function getRelatedModel($id, $type)
     {
         $options = array(
             'fields' => array(
@@ -695,7 +695,7 @@ class Document extends \App\Override\Model\CridonMvcModel {
             // notary data
             $notaryData = mvc_model('Notaire')->getUserConnectedData();
             // veile data
-            $veille = $this->getParentModel($object->id, 'veille');
+            $veille = $this->getRelatedModel($object->id, 'veille');
 
             // subscription_level must be >= veille_level
             return ($notaryData->etude->subscription_level >= $veille->level);
