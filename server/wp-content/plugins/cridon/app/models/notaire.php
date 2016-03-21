@@ -2490,7 +2490,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $message = CriRenderView('mail_notification_password', $vars, 'custom', false);
 
                 // send email
-                wp_mail($dest, $subject, $message, $headers);
+                if (wp_mail($dest, $subject, $message, $headers)) {
+                    // reset all flag
+                    $this->resetPwd($notary->id, 'off');
+                } else {
+                    writeLog($notary, 'majnotarypwd.log');
+                }
             }
         }
         // free vars
