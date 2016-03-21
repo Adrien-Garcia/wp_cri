@@ -1169,7 +1169,8 @@ class Question extends \App\Override\Model\CridonMvcModel
                             }
 
                             $content = "' '";
-                            if (!empty($question->content)) {
+                            $trimQuestion = trim($question->content);
+                            if (!empty($trimQuestion)) {
                                 $content = trim(html_entity_decode($question->content));
                                 if (mb_strlen($content) <= static::ODBC_MAX_CHARS) {
                                     $content = str_replace(array("\r\n","\r","\n","\\r","\\n","\\r\\n"), "'||chr(13)||chr(10)||'", $content); // avoid considering all forms of newline
