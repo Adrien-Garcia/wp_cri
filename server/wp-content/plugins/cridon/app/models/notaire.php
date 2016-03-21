@@ -511,6 +511,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // list of new data
             $newNotaires = $this->getNewNotaireList();
 
+            // list of notary to be notified by new changed PWD
+            $notariesChangedPwd = $this->getNotaryForEmailPwd();
+
             // list of data for update
             $updateNotaireList = $this->getNotaireToBeUpdated();
 
@@ -732,8 +735,18 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 foreach ($newNotaires as $notaire) {
                     // import only authorized category
                     // @see https://trello.com/c/P81yRyRM/21-s-43-import-des-notaires-et-creation-des-etudes-il-y-a-deux-notaires-avec-le-meme-crpcen-qui-n-ont-pas-les-memes-infos-pour-l-et
+
+                    /**
+                     * vue qu'on a comme identifiant unique "crpcen + mdp" (faute de manque d'identifiant unique côté ERP)
+                     * si mdp a changé donc l'user sera dans la liste des $newNotaires
+                     * dans ce cas la seule facon de pouvoir l'identier c'est son email perso via la comparaison de celle
+                     * fournie par ERP et celle du site pour le cas de changement de MDP
+                     * in_array($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL], $notariesChangedPwd)
+                     */
                     if (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG])
-                        && !in_array(strtolower($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]), Config::$notImportedList)) {
+                        && !in_array(strtolower($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]), Config::$notImportedList)
+                        && !in_array($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL], $notariesChangedPwd)
+                    ) {
 
                         // format date
                         $dateModified = '0000-00-00';
@@ -770,6 +783,16 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         $value .= ")";
 
                         $insertValues[] = $value;
+                    } elseif (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL])
+                              && isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB])
+                              && in_array($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL], $notariesChangedPwd)
+                    ) { // changement de mot de passe
+                        $key      = array_search($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL], $notariesChangedPwd, true);
+                        $newPwd   = $this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB];
+                        $this->updatePwd($key, $newPwd);
+                        // free vars
+                        unset($key);
+                        unset($newPwd);
                     }
                 }
 
@@ -2211,9 +2234,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function resetPwd($notaryId, $action = 'on')
     {
-        $notary                         = array();
-        $notary['Notaire']['id']        = $notaryId;
-        $notary['Notaire']['renew_pwd'] = ($action == 'on') ? 1 : 0;
+        $notary                            = array();
+        $notary['Notaire']['id']           = $notaryId;
+        $notary['Notaire']['renew_pwd']    = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronResetPwd" )
+        $notary['Notaire']['sendmail_pwd'] = ($action == 'on') ? 1 : 0; // flag pour identification sur Site ( lors du cron de maj )
         $this->save($notary);
     }
 
@@ -2352,5 +2376,124 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // status code
             return CONST_STATUS_CODE_GONE;
         }
+    }
+
+    /**
+     * Get list of notaries needed to be notified with new pwd
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function getNotaryForEmailPwd()
+    {
+        // init data
+        $notaries = array();
+
+        // get from db
+        $items = mvc_model('QueryBuilder')->find(array(
+                                                   'attributes' => array('id, id_wp_user, email_adress'),
+                                                   'model'      => 'Notaire',
+                                                   'conditions' => 'sendmail_pwd = 1'
+                                               )
+        );
+
+        // prepare data
+        if (is_array($items) && count($items) > 0) {
+            foreach ($items as $item) {
+                if (filter_var($item->email_adress, FILTER_VALIDATE_EMAIL)) {
+                    $notaries[$item->id . '~' . $item->id_wp_user] = $item->email_adress;
+                }
+            }
+        }
+
+        // returning data
+        return $notaries;
+    }
+
+    /**
+     * Update notary PWD
+     *
+     * @param string $key : sous la forme "id~id_wp_user"
+     * @param string $newPwd
+     */
+    public function updatePwd($key, $newPwd)
+    {
+        // recuperation id et id_wp_user
+        $keys = explode('~', $key);
+        if (is_array($keys) && count($keys) == 2) {
+            // mettre à jour la table notaire
+            $query = " UPDATE {$this->table}
+                       SET web_password = %s
+                       WHERE id = %d ";
+            $this->wpdb->query($this->wpdb->prepare($query, $newPwd, $keys[0]));
+
+            // mettre à jour cri_users
+            wp_set_password($newPwd, $keys[1]);
+
+            // envoie email
+            $this->sendEmailForPwdChanged($keys[0], $newPwd);
+
+        }
+        unset($keys);
+    }
+
+    /**
+     * Sending new PWDto notary  by email
+     *
+     * @param int    $id
+     * @param string $newPwd
+     * @throws Exception
+     */
+    protected function sendEmailForPwdChanged($id, $newPwd)
+    {
+        $notary = mvc_model('QueryBuilder')->findOne('notaire',
+                                                     array(
+                                                         'fields' => 'id, first_name, last_name, crpcen, email_adress',
+                                                         'conditions' => 'id = ' . $id,
+                                                     )
+        );
+
+        if (is_object($notary)) {
+
+            // default dest for DEV ENV
+            $dest = Config::$notificationAddressPreprod;
+
+            // email headers
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+
+            // check environnement
+            $env = getenv('ENV');
+            if ($env === 'PROD') {
+                $dest = $notary->email_adress;
+                if (!$dest) { // notary email is empty
+                    // send email to the office
+                    $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+                    if (is_object($offices) && $offices->office_email_adress_1) {
+                        $dest = $offices->office_email_adress_1;
+                    } elseif (is_object($offices) && $offices->office_email_adress_2) {
+                        $dest = $offices->office_email_adress_2;
+                    } elseif (is_object($offices) && $offices->office_email_adress_3) {
+                        $dest = $offices->office_email_adress_3;
+                    }
+                    unset($offices);
+                }
+            }
+
+            // dest must be set
+            if ($dest) {
+                // prepare message
+                $subject = sprintf(Config::$mailPasswordChange['subject'], $notary->first_name . ' ' . $notary->last_name);
+                $vars    = array(
+                    'password' => $newPwd,
+                    'notaire'  => $notary,
+                );
+                $message = CriRenderView('mail_notification_password', $vars, 'custom', false);
+
+                // send email
+                wp_mail($dest, $subject, $message, $headers);
+            }
+        }
+        // free vars
+        unset($notary);
     }
 }
