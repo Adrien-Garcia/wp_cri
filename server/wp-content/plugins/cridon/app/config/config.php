@@ -377,4 +377,9 @@ class Config {
      * @var array list of notary "function" allowed to edit profil, show office members
      */
     public static $allowedNotaryFunction = array(1, 2, 3, 6, 7, 8, 9, 10);
+
+    // Notification for password changed
+    public static $mailPasswordChange = array(
+        'subject' => 'Changement du mot de passe de %s',
+    );
 }
