@@ -423,6 +423,9 @@ class NotairesController extends BasePublicController
 
         //@todo set list of existing collaborators
         $this->set('collaborators', array());
+
+        // tab rank
+        $this->set('onglet', 6);
     }
 
     /**

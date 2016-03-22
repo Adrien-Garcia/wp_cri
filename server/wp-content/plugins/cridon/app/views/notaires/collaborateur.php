@@ -10,6 +10,5 @@
 ?>
 <?php
     // modele pris selon fichier app/views/notaires/facturation.php
-	$onglet = 6;
     include TEMPLATEPATH.'/page-mon-compte.php';
 ?>
