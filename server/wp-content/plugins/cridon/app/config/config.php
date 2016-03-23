@@ -403,6 +403,45 @@ class Config {
     // question pending status
     public static $questionPendingStatus = array(1,2,3);
 
+    // Content qualified by a "Niveau"
+    public static $contentWithLevel = array(
+        'veilles',
+    );
+    // level meta_box title
+    public static $titleLevelMetabox = 'Niveau de %s';
+    // list of level
+    public static $listOfLevel = array(
+        'Niveau 1' => 1,
+        'Niveau 2' => 2,
+        'Niveau 3' => 3,
+    );
+
+    /**
+     * @var array list of type to be restricted by level
+     */
+    public static $restrictedDownloadByTypeLevel = array(
+        'veille'
+    );
+
+    public static $modelWithIdDocImplemented = array(
+        'Veille'
+    );
+
+    public static $pricesLevelsVeilles = array(
+        '2' => array(
+            '5' => 7900,
+            '2' => 4800,
+            '1' => 2500,
+        ),
+        '3' => array (
+            '5' => 9900,
+            '2' => 5900,
+            '1' => 3500,
+        )
+    );
+
+    public static $daysTrialVeille = 15;
+
     // Notification for posted question
     public static $mailBodyQuestionConfirmation  = array(
         'subject'   => 'Prise en compte de votre question sur le site'

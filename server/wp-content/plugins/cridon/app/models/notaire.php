@@ -1344,16 +1344,34 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if( self::$userConnectedData !== null && is_object(self::$userConnectedData) && self::$userConnectedData instanceof MvcModelObject ){
             $object = self::$userConnectedData;
         } else {
-            /**
-             * get current notary data
-             *
-             * already optimized
-             * @see \App\Override\Model\CridonMvcModel::find_one
-             */
-            $object = $this->find_one_by_id_wp_user($current_user->ID);
-
-            // set current notary data
-            self::$userConnectedData = is_object($object) ? $object : self::$userConnectedData;
+            $idWPoptions = array(
+                'where' => array(
+                    'Notaire.id_wp_user = '.$current_user->ID,
+                ),
+                'joins' => array(
+                    'Etude' => array(
+                        'fields' => array(
+                            'office_name',
+                            'adress_1',
+                            'adress_2',
+                            'adress_3',
+                            'cp',
+                            'city',
+                            'office_email_adress_1',
+                            'tel',
+                            'fax',
+                            'subscription_level',
+                            'start_subscription_date_veille',
+                            'end_subscription_date_veille',
+                            'subscription_price'
+                            ),
+                        'foreign_key' => 'crpcen',
+                        'key' => 'crpcen'
+                    )
+                ),
+            );
+            // exec query and return result as object
+            $object = $this->findOneBy($idWPoptions);
         }
 
         if (is_object($object) && property_exists($object, 'client_number')) {
@@ -1699,11 +1717,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     /**
-     * Check if users can access finances
+     * Check if users can access sensitive informations
      *
      * @return bool
      */
-    public function userCanAccessFinance()
+    public function userCanAccessSensitiveInfo()
     {
         $object = $this->getUserConnectedData();
 

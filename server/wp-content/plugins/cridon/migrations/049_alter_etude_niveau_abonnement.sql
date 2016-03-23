@@ -1,0 +1,1 @@
+ALTER TABLE `cri_etude` ADD COLUMN `subscription_level` INT UNSIGNED DEFAULT 1 NOT NULL AFTER `fax`; 
