@@ -877,7 +877,7 @@ function getAffectation($id){
 }
 
 function getMatieresByQuestionNotaire(){
-    return mvc_model('Matiere')->getMatieresByNotaireQuestion();
+    return mvc_model('Matiere')->getMatieresByNotaireQuestionAnswered();
 }
 /**
  * Redirect to 404

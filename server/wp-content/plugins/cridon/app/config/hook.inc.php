@@ -433,3 +433,29 @@ function append_query_string($url) {
     return add_query_arg($_GET, $url);
 }
 add_filter('the_permalink', 'append_query_string');
+
+/**
+ * Hook permettant d'ajouter les classes `analytics` au tag anchor <a>
+ * @param array $atts {
+ *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
+ *
+ *     @type string $title  Title attribute.
+ *     @type string $target Target attribute.
+ *     @type string $rel    The rel attribute.
+ *     @type string $href   The href attribute.
+ * }
+ * @param object $item  The current menu item.
+ * @param array  $args  An array of {@see wp_nav_menu()} arguments.
+ * @param int    $depth Depth of menu item. Used for padding.
+ *
+ * @return array $att
+ */
+function addClassesAnalytics($atts, $item, $args, $depth){
+    foreach($item->classes as $class) {
+        if (preg_match('/analytics/', $class)) {
+            $atts['class'] = $class;
+        }
+    }
+    return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'addClassesAnalytics',10,4 );

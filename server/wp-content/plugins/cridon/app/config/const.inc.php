@@ -19,6 +19,9 @@ define('PREPROD', 'PREPROD');
 if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
     define( 'CONST_NOTAIRE_ROLE', 'notaire' );
 }
+if ( !defined( 'CONST_FINANCE_ROLE' ) ) {
+    define( 'CONST_FINANCE_ROLE', 'accesfinances' );
+}
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
     define( 'CONST_ADMIN_ROLE', 'administrator' );
@@ -62,9 +65,9 @@ if ( !defined( 'CONST_DB_TYPE' ) ) {
 if ( !defined( 'CONST_DB_HOST' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $host = '10.115.100.192';
             break;
+        case PREPROD:
         case DEV:
             $host = '10.115.100.26';
             break;
@@ -142,9 +145,9 @@ if ( !defined( 'CONST_DB_DATABASE' ) ) {
 if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
+        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
@@ -393,9 +396,9 @@ if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
 if ( !defined( 'CONST_ODBC_TABLE_QUEST' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
+        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
@@ -544,9 +547,9 @@ if ( !defined( 'CONST_STATUS_CODE_GONE' ) ) {
 if ( !defined( 'CONST_DB_TABLE_QUESTTEMP' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
+        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
@@ -707,4 +710,9 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
     define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );
 }
+
+if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
+    define( 'CONST_FACTURATION_PAGE_ID', 1515 );
+}
+
 
