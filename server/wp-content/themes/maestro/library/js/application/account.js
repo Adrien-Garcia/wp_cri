@@ -9,6 +9,7 @@ App.Account = {
     accountQuestionSelector             : '-questions',
     accountProfilSelector               : '-profil',
     accountFacturationSelector          : '-facturation',
+    accountCollaborateurSelector        : '-collaborateur',
     accountCridonlineSelector           : '-cridonline',
 
     accountQuestionMoreSelector         : '-more',
@@ -47,17 +48,20 @@ App.Account = {
     $accountQuestion                    : null,
     $accountProfil                      : null,
     $accountFacturation                 : null,
+    $accountCollaborateur               : null,
     $accountCridonline                  : null,
     $accountDashboardAjax               : null,
     $accountQuestionAjax                : null,
     $accountProfilAjax                  : null,
     $accountFacturationAjax             : null,
     $accountCridonlineAjax              : null,
+    $accountCollaborateurAjax           : null,
 
     $accountDashboardButton             : null,
     $accountQuestionButton              : null,
     $accountProfilButton                : null,
     $accountFacturationButton           : null,
+    $accountCollaborateurButton         : null,
     $accountCridonlineButton            : null,
 
     $accountQuestionMoreButton          : null,
@@ -98,25 +102,28 @@ App.Account = {
         var b = this.eventAccountButtonSelector;
         var a = this.ajaxSelector;
 
-        this.$accountBlocks             = $(d + this.accountBlocksSelector);
+        this.$accountBlocks              = $(d + this.accountBlocksSelector);
 
-        this.$accountDashboardButton    = $(d + this.accountDashboardSelector + b);
-        this.$accountQuestionButton     = $(d + this.accountQuestionSelector + b);
-        this.$accountProfilButton       = $(d + this.accountProfilSelector + b);
-        this.$accountFacturationButton  = $(d + this.accountFacturationSelector + b);
-        this.$accountCridonlineButton   = $(d + this.accountCridonlineSelector + b);
+        this.$accountDashboardButton     = $(d + this.accountDashboardSelector + b);
+        this.$accountQuestionButton      = $(d + this.accountQuestionSelector + b);
+        this.$accountProfilButton        = $(d + this.accountProfilSelector + b);
+        this.$accountFacturationButton   = $(d + this.accountFacturationSelector + b);
+        this.$accountCollaborateurButton = $(d + this.accountCollaborateurSelector + b);
+        this.$accountCridonlineButton    = $(d + this.accountCridonlineSelector + b);
 
-        this.$accountDashboard          = $(d + this.accountDashboardSelector);
-        this.$accountQuestion           = $(d + this.accountQuestionSelector);
-        this.$accountProfil             = $(d + this.accountProfilSelector);
-        this.$accountFacturation        = $(d + this.accountFacturationSelector);
-        this.$accountCridonline         = $(d + this.accountCridonlineSelector);
+        this.$accountDashboard           = $(d + this.accountDashboardSelector);
+        this.$accountQuestion            = $(d + this.accountQuestionSelector);
+        this.$accountProfil              = $(d + this.accountProfilSelector);
+        this.$accountFacturation         = $(d + this.accountFacturationSelector);
+        this.$accountCollaborateur       = $(d + this.accountCollaborateurSelector);
+        this.$accountCridonline          = $(d + this.accountCridonlineSelector);
 
-        this.$accountDashboardAjax      = this.$accountDashboard.find(d + a);
-        this.$accountQuestionAjax       = this.$accountQuestion.find(d + a);
-        this.$accountProfilAjax         = this.$accountProfil.find(d + a);
-        this.$accountFacturationAjax    = this.$accountFacturation.find(d + a);
-        this.$accountCridonlineAjax     = this.$accountCridonline.find(d + a);
+        this.$accountDashboardAjax       = this.$accountDashboard.find(d + a);
+        this.$accountQuestionAjax        = this.$accountQuestion.find(d + a);
+        this.$accountProfilAjax          = this.$accountProfil.find(d + a);
+        this.$accountFacturationAjax     = this.$accountFacturation.find(d + a);
+        this.$accountCollaborateurAjax   = this.$accountCollaborateur.find(d + a);
+        this.$accountCridonlineAjax      = this.$accountCridonline.find(d + a);
 
         this.$accountBlocks.each(function(i, e) {
             if ($(e).hasClass('active')) {
@@ -209,6 +216,12 @@ App.Account = {
 
     },
 
+    initCollaborateur: function() {
+        this.debug('Account : Init Collaborateur');
+        this.addListenersCollaborateur();
+
+    },
+
     initCridonline: function() {
         this.debug('Account : Init Cridonline');
 
@@ -274,6 +287,11 @@ App.Account = {
             e.returnValue = false;
             e.preventDefault();
             self.eventAccountFacturationOpen($(this));
+        });
+        this.$accountCollaborateurButton.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountCollaborateurOpen($(this));
         });
         this.$accountCridonlineButton.on("click", function(e) {
             e.returnValue = false;
@@ -368,6 +386,18 @@ App.Account = {
         });
     },
 
+    /*
+     * Listeners for the Account Collaborateur
+     */
+
+    addListenersCollaborateur: function() {
+        var self = this;
+
+        this.debug("Account : addListenersCollaborateur");
+
+
+    },
+
 
     /*
      * Event for Opening the dashboard (Ultimately AJAX)
@@ -442,6 +472,26 @@ App.Account = {
                 self.$accountFacturationAjax.html(data);
                 self.debug('Account Facturation Loaded');
                 self.initFacturation();
+            }
+        });
+        App.Utils.scrollTop();
+
+    },
+
+    /*
+     * Event for Opening the Collaborateur (AJAX)
+     */
+    eventAccountCollaborateurOpen: function() {
+        var self = this;
+        this.$accountBlocks.removeClass("active");
+        this.$accountCollaborateur.addClass("active");
+        $.ajax({
+            url: this.$accountCollaborateur.data('js-ajax-src'),
+            success: function(data)
+            {
+                self.$accountCollaborateurAjax.html(data);
+                self.debug('Account Collaborateur Loaded');
+                self.initCollaborateur();
             }
         });
         App.Utils.scrollTop();

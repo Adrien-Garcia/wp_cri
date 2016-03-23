@@ -60,6 +60,18 @@
                         </div>
                     </li>
 					<?php endif ?>
+                    <?php
+                    // utile pour pouvoir afficher le formulaire de creation collaborateur
+                    // suivant les modeles ci-dessus, pas de traitement en ajax, pas de popin affichée
+                    ?>
+                    <li class="js-account-collaborateur js-account-blocs <?php echo ($onglet == 6) ? " active " : ""?>" data-js-name="Collaborateur" data-js-ajax-src="<?php mvc_public_url(array('controller' => 'notaires', 'action' => 'contentcollaborateur')) ?>">
+                        <a href="<?php mvc_public_url(array('controller' => 'notaires', 'action' => 'collaborateur')) ?>" class="bt js-account-collaborateur-button" id="sel-compte-collaborateur-button">Mes collaborateurs</a>
+                        <div id="mes-collaborateurs" class="pannel js-account-ajax">
+                            <?php if ($onglet == 6) : ?>
+                                <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions), 'notaires') ?>
+                            <?php endif; ?>
+                        </div>
+                    </li>
 				</ul>
 
 			</div>

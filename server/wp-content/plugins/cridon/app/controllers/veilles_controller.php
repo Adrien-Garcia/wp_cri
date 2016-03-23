@@ -32,6 +32,9 @@ class VeillesController extends BaseActuController {
      */
     protected $matieres;
 
+    /**
+     * Archive action
+     */
     public function index() {
         $veille = new Veille;
         $this->matieres = Matiere::getMatieresByModelPost($veille);
@@ -93,6 +96,9 @@ class VeillesController extends BaseActuController {
         );
     }
 
+    /**
+     * Hook action for wp_head
+     */
     public  function addMetaHeader() {
         $meta_title = Config::$listingVeille['meta_title'];
         $meta_description = Config::$listingVeille['meta_description'];
@@ -117,6 +123,9 @@ class VeillesController extends BaseActuController {
         $this->render_view_with_view_vars('veilles/meta', $options);
     }
 
+    /**
+     * Single action
+     */
     public function show() {
         if ( !CriIsNotaire() ) {
             CriRefuseAccess();
@@ -143,6 +152,9 @@ class VeillesController extends BaseActuController {
     }
 
     /**
+     * Set pagination
+     *
+     * @param mixed $collection
      * @override
      */
     public function set_pagination($collection) {
@@ -158,19 +170,8 @@ class VeillesController extends BaseActuController {
     }
 
     /**
-     * Clean array
-     *
-     * @param array $data
+     * RSS feed action
      */
-    protected function clean(&$data){
-        $data = array_unique($data);
-        foreach ( $data as $k => $v ){
-            if( !is_numeric($v) ){
-                unset($data[$k]);
-            }
-        }
-    }
-
     public function rssVeilles(){
         if (!empty(self::$currentMatiereSelected)) {
             $title = sprintf(Config::$rss['title_mat'],self::$currentMatiereSelected->label);
@@ -189,7 +190,9 @@ class VeillesController extends BaseActuController {
         $this->render_view_with_view_vars('layouts/rssLink', $options);
     }
 
-    //RSS feed
+    /**
+     * RSS feed action
+     */
     public function feed(){
         $options = array();
         $options['joins'] = array(
@@ -209,6 +212,11 @@ class VeillesController extends BaseActuController {
         $this->render_view('feed', array('layout' => 'feed'));
     }
 
+    /**
+     * RSS feed action
+     *
+     * @throws Exception
+     */
     public function feedFilter(){
         $matiere = mvc_model('Matiere')->find_one_by_id($this->params['id']);
         if(!$matiere){//no matiere found
@@ -234,5 +242,3 @@ class VeillesController extends BaseActuController {
     }
 
 }
-
-?>

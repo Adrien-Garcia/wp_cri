@@ -2029,6 +2029,63 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
     //End FRONT
 
+    public function manageCollaborator($notary, $data)
+    {
+        global $cri_container;
+
+        // collaborator data
+        $collaborator                              = array();
+        $collaborator['first_name']                = isset($data['collaborator_first_name']) ? esc_sql($data['collaborator_first_name']) : '';
+        $collaborator['last_name']                 = isset($data['collaborator_last_name']) ? esc_sql($data['collaborator_last_name']) : '';
+        $collaborator['email_adress']              = isset($data['collaborator_email']) ? esc_sql($data['collaborator_email']) : '';
+        $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
+        $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
+        $collaborator['id_fonction_collaborateur'] = isset($data['collaborator_function']) ? esc_sql($data['collaborator_function']) : 0;
+        $collaborator['id_fonction']               = CONST_NOTAIRE_COLLABORATEUR;
+
+        // @todo data from notary to be confirmed
+        $collaborator['client_number'] = $notary->client_number;
+        $collaborator['crpcen']        = $notary->crpcen;
+
+        // insert into cri_notaire
+        $collaboratorId = $this->create($collaborator);
+
+        /**
+         * insert into cri_users
+         */
+        // check if user already exist
+        $existingUsers = $cri_container->get('tools')->getWpUsers();
+        $userName      = $notary->crpcen . CONST_LOGIN_SEPARATOR . $collaboratorId;
+        $displayName   = $collaborator['first_name'] . ' ' . $collaborator['last_name'];
+
+        if (!in_array($userName, $existingUsers['username'])) {
+            // query builder options
+            $options               = array();
+            $options['table']      = 'users';
+            $options['attributes'] = 'user_login, user_nicename, user_email, user_registered, user_status,  display_name';
+
+            // prepare values
+            $value = "'" . esc_sql($userName) . "', ";
+            $value .= "'" . sanitize_title($displayName) . "', ";
+            $value .= "'" . $collaborator['email_adress'] . "', ";
+            $value .= "'" . date('Y-m-d H:i:s') . "', ";
+            $value .= CONST_STATUS_ENABLED . ", ";
+            $value .= "'" . esc_sql($displayName) . "'";
+
+            $options['values'] = $value;
+
+            // insert data into cri_users
+            mvc_model('QueryBuilder')->insert($options);
+
+            // update id_wp_user
+            $collaborator = new stdClass();
+            $collaborator->id = $collaboratorId;
+            $collaborator->crpcen = $notary->crpcen;
+            $this->updateCriNotaireWpUserId(array($collaborator));
+        }
+
+    }
+
     /**
      * Update notary and office data
      *

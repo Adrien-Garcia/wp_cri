@@ -19,14 +19,27 @@ abstract class BasePublicController extends MvcPublicController
      */
     protected $request;
 
+    /**
+     * @var mixed tools actions container
+     */
+    protected $tools;
+
+    /**
+     * @var mixed
+     */
+    protected $current_user;
+
     public function __construct()
     {
-        global $cri_container;
+        global $cri_container,
+               $current_user;
 
         parent::__construct();
 
-        $this->data    = json_decode(file_get_contents('php://input'));
-        $this->request = $cri_container->get('request');
+        $this->data         = json_decode(file_get_contents('php://input'));
+        $this->request      = $cri_container->get('request');
+        $this->tools        = $cri_container->get('tools');
+        $this->current_user = $current_user;
     }
 
     /**

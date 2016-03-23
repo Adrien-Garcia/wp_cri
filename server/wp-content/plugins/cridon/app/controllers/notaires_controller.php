@@ -9,26 +9,9 @@ class NotairesController extends BasePublicController
 {
 
     /**
-     * @var mixed
-     */
-    public $current_user;
-
-    /**
      * @var object Notaire
      */
     protected $current_notaire;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        global $current_user;
-
-        $this->current_user = $current_user;
-
-        parent::__construct();
-    }
 
     /**
      * Secure Access Page
@@ -37,14 +20,8 @@ class NotairesController extends BasePublicController
      */
     protected function secureAccess()
     {
-        // get notaire by id_wp_user
-        $idWPoptions = array(
-            'where' => array(
-                'Notaire.id_wp_user = '.$this->current_user->ID,
-            )
-        );
         // exec query and return result as object
-        $this->current_notaire = $this->model->findOneBy($idWPoptions);
+        $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
 
         // check if user is not logged in
         // or notaire id (url params) not equal to WP user session data
@@ -111,11 +88,7 @@ class NotairesController extends BasePublicController
                 }
                 $this->current_notaire = $this->model->new_object($this->model->invalid_data);
             } else if (!empty($this->params['id'])) {
-                $this->current_notaire = $this->model->findOneBy(array(
-                    'where' => array(
-                        'Notaire.id_wp_user = ' . $this->params['id'],
-                    )
-                ));
+                $this->current_notaire = $this->model->find_one_by_id_wp_user($this->params['id']);
             }
         }
         if (!empty($this->current_notaire)) {
@@ -315,7 +288,7 @@ class NotairesController extends BasePublicController
 
     /**
      * Cleaning data
-     * 
+     *
      * @param mixed $data
      * @return mixed
      */
@@ -340,8 +313,7 @@ class NotairesController extends BasePublicController
         if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_newsletter_nonce') && isset($_REQUEST['email'])) {
             // find the notaire email
             $notaire = $this->model->find_one_by_email_adress($_REQUEST['email']);
-//            echo '<pre>'; die(print_r($notaire));
-//
+
             // only an individual email is valid
             if (is_object($notaire) && $notaire->id && isset($_REQUEST['state'])) {
                 // update notaire newsletter
@@ -502,6 +474,56 @@ class NotairesController extends BasePublicController
         }else{
             parent::set_pagination($collection);
         }
+    }
+
+    /**
+     * Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/collaborateur.php
+     *
+     * @return void
+     */
+    public function collaborateur()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+
+        // post form
+        if (isset($_POST['collaborator_first_name'])
+            && $_POST['collaborator_first_name']
+        ) {
+            // Clean $_POST before
+            $data = $this->tools->clean($_POST);
+            $this->model->manageCollaborator($this->current_notaire, $data);
+        }
+
+        // list of function
+        $collaborator_functions = $this->tools->getFunctionCollaborator();
+
+        // set list of collaborator functions
+        $this->set('collaborator_functions', $collaborator_functions);
+
+        //@todo set list of existing collaborators
+        $this->set('collaborators', array());
+
+        // tab rank
+        $this->set('onglet', 6);
+    }
+
+    /**
+     * Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentcollaborateur.php
+     *
+     * @return void
+     */
+    public function contentcollaborateur()
+    {
+        // access secured
+        $this->collaborateur();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentcollaborateur', $vars,'notaires');
+        die();
     }
 
     /**
