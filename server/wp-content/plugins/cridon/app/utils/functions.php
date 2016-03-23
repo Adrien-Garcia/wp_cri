@@ -919,3 +919,62 @@ function CriVeilleWithUriFilters()
 
     return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
 }
+
+/**
+ * Send confirmation to notary for posted question
+ *
+ * @param array $question
+ * @throws Exception
+ */
+function CriSendPostQuestConfirmation($question) {
+    // get connected user
+    global $current_user;
+
+    // set meail headers
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+    // retrieve notary data
+    $notary = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
+    if (is_object($notary) && property_exists($notary, 'email_adress')) {
+        // default dest for DEV ENV
+        $dest = Config::$notificationAddressPreprod;
+
+        // check environnement
+        $env = getenv('ENV');
+        if ($env === 'PROD') {
+            $dest = $notary->email_adress;
+            if (!$dest) { // notary email is empty
+                // send email to the office
+                $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+                if (is_object($offices) && $offices->office_email_adress_1) {
+                    $dest = $offices->office_email_adress_1;
+                } elseif (is_object($offices) && $offices->office_email_adress_2) {
+                    $dest = $offices->office_email_adress_2;
+                } elseif (is_object($offices) && $offices->office_email_adress_3) {
+                    $dest = $offices->office_email_adress_3;
+                }
+            }
+        }
+
+        // dest must be set
+        if ($dest) {
+            // prepare message
+            $subject = Config::$mailSubjectQuestionStatusChange['1'];
+            $vars    = array(
+                'resume'          => $question['resume'],
+                'content'         => $question['content'],
+                'matiere'         => $question['matiere'],
+                'competence'      => $question['competence'],
+                'support'         => $question['support'],
+                'creation_date'   => $question['dateSoumission'],
+                'date'            => $question['dateSoumission'],
+                'notaire'         => $notary,
+                'type_question'   => '1',
+            );
+            $message = CriRenderView('mail_notification_question', $vars, 'custom', false);
+
+            // send email
+            wp_mail($dest, $subject, $message, $headers);
+        }
+    }
+}

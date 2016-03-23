@@ -61,6 +61,10 @@ echo get_template_part("content","ga");
 		<header class="header" role="banner" id="sel-header">
 			<div class="header-sup">
 				<div id="inner-header" class="wrap cf">
+					<div class="logo-partenaires">
+						<a href="http://www.lexbase.fr/" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/library/images/origin/logo-lexbase.png" alt="lexbase"></a>
+						<a href="http://www.wolterskluwerfrance.fr/" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/library/images/origin/logo-woltersKluwer.png" alt=""></a>
+					</div>
 					<a href="/rechercher-dans-les-bases-de-connaissances/" class="rechercher">
 						<?php _e('Rechercher dans les bases de connaissances'); ?>
 					</a>

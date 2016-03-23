@@ -87,7 +87,7 @@
 	<div class="description">
 		Le notaire ou le collaborateur est invité à signaler la ou les thématiques juridiques pour lesquelles il souhaite disposer d'une veille ou information prioritaire. A défaut, il recevra l'information sur tous les domaines du droit.
 	</div>
-	<form method="post" action="/notaires/<?php echo $notaire->id ?>/profil" class="form-centre-interet">
+	<form method="post" action="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" class="form-centre-interet">
 		<ul>
 			<?php foreach($matieres as $key => $matiere): ?>
 			<li>

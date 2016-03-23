@@ -50,6 +50,7 @@ MvcRouter::public_connect('notaires/contentquestions', array('controller' => 'no
 MvcRouter::public_connect('notaires/contentprofil', array('controller' => 'notaires', 'action' => 'contentprofil'));
 MvcRouter::public_connect('notaires/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
 MvcRouter::public_connect('notaires/contentcollaborateur', array('controller' => 'notaires', 'action' => 'contentcollaborateur'));
+MvcRouter::public_connect('notaires/liste', array('controller' => 'notaires', 'action' => 'liste'));
 MvcRouter::public_connect('notaires', array('controller' => 'notaires', 'action' => 'show'));
 
 //RSS feed
