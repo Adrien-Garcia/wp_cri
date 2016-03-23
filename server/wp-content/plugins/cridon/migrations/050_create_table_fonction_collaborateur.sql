@@ -1,4 +1,4 @@
-CREATE TABLE `cri_fonction_collaborateur` (
+CREATE TABLE IF NOT EXISTS `cri_fonction_collaborateur` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `label` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `displayed` tinyint(1) NOT NULL DEFAULT '0',
