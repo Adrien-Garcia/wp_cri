@@ -1300,33 +1300,15 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $object = self::$userConnectedData;
         } else {
             $idWPoptions = array(
-                'where' => array(
-                    'Notaire.id_wp_user = '.$current_user->ID,
+                'conditions' => array(
+                    'Notaire.id_wp_user' => $current_user->ID,
                 ),
                 'joins' => array(
-                    'Etude' => array(
-                        'fields' => array(
-                            'office_name',
-                            'adress_1',
-                            'adress_2',
-                            'adress_3',
-                            'cp',
-                            'city',
-                            'office_email_adress_1',
-                            'tel',
-                            'fax',
-                            'subscription_level',
-                            'start_subscription_date_veille',
-                            'end_subscription_date_veille',
-                            'subscription_price'
-                            ),
-                        'foreign_key' => 'crpcen',
-                        'key' => 'crpcen'
-                    )
+                    'Etude'
                 ),
             );
             // exec query and return result as object
-            $object = $this->findOneBy($idWPoptions);
+            $object = $this->find_one($idWPoptions);
         }
 
         if (is_object($object) && property_exists($object, 'client_number')) {

@@ -912,10 +912,10 @@ class Question extends \App\Override\Model\CridonMvcModel
                 if (!empty ($data[$adapter::QUEST_ZIDQUEST]) && intval($data[$adapter::QUEST_ZIDQUEST]) > 0) {
                     $question = mvc_model('Question')->find_by_id(intval($data[$adapter::QUEST_ZIDQUEST]));
                 } elseif ( (!empty ($data[$adapter::QUEST_SREBPC])) && ($data[$adapter::QUEST_SREBPC] !== ' ') && (!empty ($data[$adapter::QUEST_SRENUM])) && ($data[$adapter::QUEST_SRENUM] !== ' ' )) {
-                    $question = mvc_model('Question')->findOneBy(array(
-                        'where' => array(
-                            'Question.client_number = '.esc_sql($data[$adapter::QUEST_SREBPC]),
-                            'Question.srenum = '.esc_sql($data[$adapter::QUEST_SRENUM])
+                    $question = mvc_model('Question')->find_one(array(
+                        'conditions' => array(
+                            'Question.client_number' => esc_sql($data[$adapter::QUEST_SREBPC]),
+                            'Question.srenum' => esc_sql($data[$adapter::QUEST_SRENUM])
                         )
                     ));
                 }
@@ -1074,18 +1074,12 @@ class Question extends \App\Override\Model\CridonMvcModel
                     }
 
                     if (!empty($juriste)) {
-                        $juristes = mvc_model('UserCridon')->findOneBy(array(
-                            'where' => array(
-                                'UserCridon.id_erp = \'' . $juriste . '\''
+                        $juristes = mvc_model('UserCridon')->find(array(
+                            'conditions' => array(
+                                'UserCridon.id_erp' => '\'' . $juriste . '\''
                             ),
                             'joins' => array(
-                                'User' => array(
-                                    'fields' => array(
-                                        'display_name'
-                                    ),
-                                    'foreign_key' => 'id_wp_user',
-                                    'key' => 'id'
-                                )
+                                'User'
                             )
                         ));
                         if (is_object($juristes) && !empty ($juristes->user->display_name)) {
@@ -1101,9 +1095,9 @@ class Question extends \App\Override\Model\CridonMvcModel
                     }
 
                     if (!empty($matiere)){
-                        $matieres = mvc_model('Matiere')->findOneBy(array(
-                            'where' => array(
-                                'Matiere.code = \''.$matiere.'\''
+                        $matieres = mvc_model('Matiere')->find(array(
+                            'conditions' => array(
+                                'Matiere.code' => '\''.$matiere.'\''
                             )
                         ));
                         if (is_object($matieres) && !empty ($matieres->label)){
@@ -1126,21 +1120,13 @@ class Question extends \App\Override\Model\CridonMvcModel
 
                     $notaire = '';
                     if (!empty($client_number) && !empty($sreccn) ) {
-                        $notaire = mvc_model('Notaire')->findOneBy(array(
-                            'where' => array(
-                                'Notaire.client_number = ' . $client_number,
-                                'Notaire.code_interlocuteur = ' . $sreccn
+                        $notaire = mvc_model('Notaire')->find_one(array(
+                            'conditions' => array(
+                                'Notaire.client_number' => $client_number,
+                                'Notaire.code_interlocuteur' => $sreccn
                             ),
                             'joins' => array(
-                                'Etude' => array(
-                                    'fields' => array(
-                                        'office_email_adress_1',
-                                        'office_email_adress_2',
-                                        'office_email_adress_3'
-                                    ),
-                                    'foreign_key' => 'crpcen',
-                                    'key' => 'crpcen'
-                                )
+                                'Etude'
                             )
                         ));
                     }
