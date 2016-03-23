@@ -137,28 +137,36 @@ class DocumentsController extends MvcPublicController {
             return true;
         }
         //Access download document of news
-        if (in_array($document->type, Config::$accessDowloadDocument) && !empty($notaire)) { // user connected && document allowed for download
-            if (in_array($document->type, Config::$restrictedDownloadByTypeLevel)
-                && !$this->model->userCanDownload($document)
-            ) { // document was restricted for specific level
-                $this->redirect(mvc_public_url(
-                        array(
-                            'controller' => 'notaires',
-                            'action'     => 'cridonline'
-                        )
+        if (in_array($document->type, Config::$restrictedDownloadByTypeLevel)
+            && !empty($notaire)
+            && !$this->model->userCanDownload($document)) {
+            // user connected && document allowed for download but document was restricted for specific level
+            $this->redirect(mvc_public_url(
+                    array(
+                        'controller' => 'notaires',
+                        'action'     => 'cridonline'
                     )
-                );
+                )
+            );
+        } elseif (empty($notaire)) { // force user to login before downloading
+            $config = assocToKeyVal(Config::$data, 'model', 'controller');//get config
+            $url = mvc_public_url(
+                array(
+                    'controller' => $config[$object->__model_name],
+                    'action'     => 'show',
+                    'id'         => $object->post->post_name,
+                )
+            );
+            if (in_array($object->__model_name, Config::$modelWithIdDocImplemented)){
+                $url.= '?id_doc='.$document->id;
             }
-
-            return true;
-        } elseif (in_array($document->type, Config::$accessDowloadDocument)) { // force user to login before downloading
-            CriRefuseAccess();
-        } elseif (empty($notaire) || empty($object) || empty($document->file_path)) { // Check if question exist, document file path is valid
+            CriRefuseAccess('PROTECTED CONTENT',$url);
+        } elseif (empty($object) || empty($document->file_path)) { // Check if question exist, document file path is valid
             redirectTo404();
         }
         //Check if question is created by current user
         //$objet = Question MvcModelObject
-        if ($object->client_number != $notaire->client_number) {
+        if (isset($object->client_number) && $object->client_number != $notaire->client_number) {
             redirectTo404();
         }
 
@@ -173,14 +181,20 @@ class DocumentsController extends MvcPublicController {
             if( !$document && !empty($document->file_path) ){
                 redirectTo404();
             }
-            //Let's begin download
-            $uploadDir = wp_upload_dir();
-            $file = $uploadDir['basedir'].$document->file_path;
-            $pathinfo = pathinfo($document->file_path);
-            //Get file name
-            $filename = $pathinfo['basename'];
-            //download
-            $this->output_file($file, $filename);
+            //Test if it's a protected document
+            if (in_array($document->type,Config::$restrictedDownloadByTypeLevel)){
+                $this->params['id'] = $document->id;
+                $this->download();
+            } else {
+                //Let's begin download
+                $uploadDir = wp_upload_dir();
+                $file = $uploadDir['basedir'] . $document->file_path;
+                $pathinfo = pathinfo($document->file_path);
+                //Get file name
+                $filename = $pathinfo['basename'];
+                //download
+                $this->output_file($file, $filename);
+            }
         }else{
             redirectTo404();
         }

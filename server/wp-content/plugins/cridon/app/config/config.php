@@ -388,6 +388,10 @@ class Config {
         'veille'
     );
 
+    public static $modelWithIdDocImplemented = array(
+        'Veille'
+    );
+
     public static $pricesLevelsVeilles = array(
         '2' => array(
             '5' => 7900,
