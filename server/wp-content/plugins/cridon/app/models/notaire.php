@@ -1359,7 +1359,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             'city',
                             'office_email_adress_1',
                             'tel',
-                            'fax'
+                            'fax',
+                            'subscription_level',
+                            'start_subscription_date_veille',
+                            'end_subscription_date_veille',
+                            'subscription_price'
                             ),
                         'foreign_key' => 'crpcen',
                         'key' => 'crpcen'
@@ -1713,11 +1717,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     /**
-     * Check if users can access finances
+     * Check if users can access sensitive informations
      *
      * @return bool
      */
-    public function userCanAccessFinance()
+    public function userCanAccessSensitiveInfo()
     {
         $object = $this->getUserConnectedData();
 

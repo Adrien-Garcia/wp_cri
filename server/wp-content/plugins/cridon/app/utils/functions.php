@@ -479,15 +479,15 @@ function getMatieresByNotaire(){
 }
 
 /**
- * Check if notaire can access finances
+ * Check if notaire can access sensitive informations
  *
  * @return bool
  */
-function CriCanAccessFinance() {
+function CriCanAccessSensitiveInfo() {
     // check if user connected is notaire
     if (CriIsNotaire()) {
         // user data
-        return mvc_model('notaire')->userCanAccessFinance();
+        return mvc_model('notaire')->userCanAccessSensitiveInfo();
     }
     return false;
 }
@@ -698,19 +698,25 @@ function CriRecursiveFindingFileInDirectory($path, $file)
     return $fileSource;
 }
 
-function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
-    $referer = $_SERVER['HTTP_REFERER'];
-    $request = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+/**
+ * Redirect to non protected page in order to connect
+ * Will redirect to the asked page if connected
+ * @param string $error_code
+ * @param mixed $url
+ */
+function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
+    if (isset($_GET['requestUrl'] ) ) {
+        $referer = get_home_url();
+        $request = !empty($url) ? $url : urlencode($_GET['requestUrl']);
+    } else {
+        $referer = $_SERVER['HTTP_REFERER'];
+        $request = !empty($url) ? $url : "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    }
+
     if (! empty($referer) /*&& strripos( $request , $referer)*/ ){
         $redirect = $referer;
     } else {
         $redirect = get_home_url();
-    }
-
-    $request = urlencode(htmlspecialchars("//" . $request, ENT_QUOTES, "UTF-8"));
-
-    if( empty($request) ) {
-        $request = false;
     }
 
     if (
@@ -727,10 +733,8 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
         $redirect .= "?";
     }
 
-    $redirect .= "openLogin=1&messageLogin=" . $error_code;
-    if ($request) {
-        $redirect .= "&requestUrl=" . $request;
-    }
+    $redirect .= "openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . $request;
+
     wp_redirect($redirect);
 }
 

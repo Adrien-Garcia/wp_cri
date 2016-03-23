@@ -416,5 +416,31 @@ class CridonTools {
             writeLog($e, 'pushnotification.log');
         }
     }
+
+    /**
+     * Redirect by escaping header already send by...
+     * useful outside the mvc_controller block
+     *
+     * @see MvcController::redirect
+     * @param string $location the url to be redirected
+     * @param int    $status
+     */
+    public function redirect($location = '', $status=302)
+    {
+        // MvcDispatcher::dispatch() doesn't run until after the WP has already begun to print out HTML, unfortunately, so
+        // this will almost always be done with JS instead of wp_redirect().
+        if (headers_sent()) {
+            $html = '
+                <script type="text/javascript">
+                    window.location = "'.$location.'";
+                </script>';
+            echo $html;
+        } else {
+            wp_redirect($location, $status);
+        }
+
+        die();
+
+    }
 }
 

@@ -263,6 +263,57 @@ class NotairesController extends BasePublicController
     }
 
     /**
+     * Notaire CridOnline Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentcridonline.php
+     *
+     * @return void
+     */
+    public function contentcridonline()
+    {
+        // access secured
+        $this->cridonline();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentcridonline', $vars,'notaires');
+        die();
+    }
+    /**
+     * Notaire cridonline page
+     * Associated template : app/views/notaires/cridonline.php
+     *
+     * @return void
+     */
+    public function cridonline()
+    {
+        $this->prepareSecureAccess();
+        $notaire = CriNotaireData();
+        $this->set('notaire', $notaire);
+
+        $options = array(
+            'conditions' => array(
+                'crpcen' => $notaire->crpcen
+            )
+        );
+        $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
+
+
+        // Tri du tableau de prix par clé descendante
+        foreach(Config::$pricesLevelsVeilles as $veilleLevel => $prices){
+            //set name of variable
+            $priceVeilleLevelx = 'priceVeilleLevel'.$veilleLevel;
+            //Tri par pri décroissant pour chaque niveau de veille
+            krsort($prices);
+            foreach($prices as $nbCollaborator => $price) {
+                if ($nbCollaboratorEtude >= $nbCollaborator) {
+                    $this->set($priceVeilleLevelx, $price);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
      * Cleaning data
      * 
      * @param mixed $data
@@ -280,7 +331,7 @@ class NotairesController extends BasePublicController
         return $clean_input;
     }
 
-    public function newsletterSubscription()
+    public function ajaxnewslettersubscription()
     {
         // init response
         $ret = 'invalidemail';
@@ -310,9 +361,53 @@ class NotairesController extends BasePublicController
         die;
     }
 
+
+    public function ajaxVeilleSubscription()
+    {
+        // init response
+        $ret = '';
+
+        // Verify that the nonce is valid.
+        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen']) ) {
+            // find the office
+            $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
+            if (!empty($_REQUEST['level']) && !empty($etude)) {
+                // @TODO send info to Cridon (waiting for info 'How to do that'
+
+                // Free trial date only if it's the first subscription online for that office
+                if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->end_subscription_date_veille)){
+                    $end_subscription_date_veille = date('Y-m-d', strtotime('+'. Config::$daysTrialVeille .' days'));
+                    $office = array(
+                        'Etude' => array(
+                            'crpcen'                         => $_REQUEST['crpcen'],
+                            'end_subscription_date_veille'   => $end_subscription_date_veille
+                        )
+                    );
+                    mvc_model('Etude')->save($office);
+                }
+            }
+            if (!empty($_REQUEST['price']) && !empty($etude)) {
+                $start_subscription_date_veille = date('Y-m-d');
+                $office = array(
+                    'Etude' => array(
+                        'crpcen'            => $_REQUEST['crpcen'],
+                        'start_subscription_date_veille' => $start_subscription_date_veille,
+                        'subscription_price'     => intval($_REQUEST['price'])
+                    )
+                );
+                mvc_model('Etude')->save($office);
+                $ret = 'success';
+            }
+        }
+
+        echo json_encode($ret);
+        die;
+    }
+
+
+
     protected function prepareDashboard()
     {
-        // access secured
         $this->prepareSecureAccess();
 
         // set template vars
@@ -323,13 +418,11 @@ class NotairesController extends BasePublicController
 
     protected function prepareSecureAccess()
     {
-// access secured
         $this->secureAccess();
     }
 
     protected function prepareProfil()
     {
-        // access secured
         $this->prepareSecureAccess();
 
         if (isset($_POST)
@@ -357,7 +450,6 @@ class NotairesController extends BasePublicController
         $vars = $this->get_object();
         $this->set_vars($vars);
     }
-
     /**
      * Get questions pending
      *
