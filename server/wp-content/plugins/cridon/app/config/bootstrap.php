@@ -23,7 +23,7 @@ function resetGlobalVars(){
 }
 // End retrieve post
 
-// After save into post table, save in others tables 
+// After save into post table, save in others tables
 function save_post_in_table( $post_ID, $post ){
     $modelConf = getRelatedContentConfInReferer($post_ID);
     $isInsert = false;
