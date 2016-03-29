@@ -59,7 +59,6 @@
                         <?php endif; ?>
                         </div>
                     </li>
-					<?php endif ?>
                     <?php
                     // utile pour pouvoir afficher le formulaire de creation collaborateur
                     // suivant les modeles ci-dessus, pas de traitement en ajax, pas de popin affichée
@@ -72,6 +71,7 @@
                             <?php endif; ?>
                         </div>
                     </li>
+					<?php endif ?>
 				</ul>
 
 			</div>
