@@ -31,7 +31,7 @@ class NotairesController extends BasePublicController
             // redirect user to home page
             $this->redirect(home_url());
         } elseif (isset($mvc_params['action'])
-                  && ($mvc_params['action'] === 'facturation' || $mvc_params['action'] === 'cridonline' || $mvc_params['action'] === 'collaborateur')
+                  && (in_array($mvc_params['action'],Config::$protected_pages))
                   && !$this->model->userCanAccessSensitiveInfo()
         ) { // check if is page sensitive information && notary can access
             // redirect to profil page

@@ -451,4 +451,13 @@ class Config {
      * @var array list of notary "function" allowed to edit profil, show office members
      */
     public static $allowedNotaryFunction = array(1, 2, 3, 6, 7, 8, 9, 10);
+
+    /**
+     * @var array list of protected pages allowed only for notaries with a fonction inside $allowedNotaryFunction
+     */
+    public static $protected_pages = array(
+        'facturation',
+        'cridonline',
+        'collaborateur'
+    );
 }
