@@ -1,3 +1,6 @@
+<?php if (isset($messageError)) : ?>
+    <div class="error"><?php echo $messageError ?></div>
+<?php endif; ?>
 <div class="mon-solde">
 	<h2><?php _e('Mon solde'); ?></h2>
 	<div class="solde-pts <?php echo ($notaire->solde >= 0) ? "" : "inactive"; ?>">
@@ -15,7 +18,6 @@
 			       	id="solde-circle-path" ></path>
 			</g>
 		</svg>
-
 		<div class="point sel-solde-data" id="js-solde-data" data-solde="<?php echo ($notaire->solde >= 0) ? $notaire->solde : "0"; ?>" data-solde-max="<?php echo $notaire->quota ?>">
 			<div class="pts" >
                 <?php echo $notaire->solde >= 0 ? $notaire->solde : 0; ?> <span>pt<?php echo ($notaire->solde < 2 && $notaire->solde > -2) ? "" : "s" ?></span>

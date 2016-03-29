@@ -19,7 +19,7 @@
 						<a href="<?php echo mvc_public_url(array('controller' => 'notaires'));?>" class="bt js-account-dashboard-button analytics_Dashboard_dashboard">Tableaux de bord</a>
 						<div id="tableau-de-bord" class="pannel js-account-ajax">
                             <?php if (!isset($onglet) || $onglet == 1) : ?>
-                                <?php CriRenderView('contentdashboard', array('controller' => $this, 'questions' => $questions, 'notaire' => $notaire), 'notaires') ?>
+                                <?php CriRenderView('contentdashboard', array('controller' => $this, 'questions' => $questions, 'notaire' => $notaire, 'messageError' => $messageError), 'notaires') ?>
                             <?php endif; ?>
 						</div>
 
