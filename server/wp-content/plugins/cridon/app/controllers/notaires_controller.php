@@ -31,17 +31,12 @@ class NotairesController extends BasePublicController
             // redirect user to home page
             $this->redirect(home_url());
         } elseif (isset($mvc_params['action'])
-                  && $mvc_params['action'] === 'facturation'
-                  && !$this->model->userCanAccessFinance()
-        ) { // check if is page finance && notary can access
+                  && ($mvc_params['action'] === 'facturation' || $mvc_params['action'] === 'cridonline' || $mvc_params['action'] === 'collaborateur')
+                  && !$this->model->userCanAccessSensitiveInfo()
+        ) { // check if is page sensitive information && notary can access
             // redirect to profil page
-            $this->redirect(mvc_public_url(
-                                array(
-                                    'controller' => 'notaires',
-                                    'action'     => 'profil'
-                                )
-                            )
-            );
+            $url = mvc_public_url(array('controller' => 'notaires', 'action' => 'index'));
+            $this->redirect($url);
         }
 
         // get current notary data
