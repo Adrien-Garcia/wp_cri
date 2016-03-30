@@ -454,16 +454,11 @@ class Config {
 
     /**
      * @var array list of notary roles : the keys must be match of the list defined in const.inc.php
-     * eg :
-     *      > 'accesfinances' => CONST_FINANCE_ROLE
-     *      > 'notaire' => CONST_NOTAIRE_ROLE
-     *      > 'accesquestecrites' => CONST_QUESTIONECRITES_ROLE
-     *      > 'accesquesttelephoniques' => CONST_QUESTIONTELEPHONIQUES_ROLE
      */
     public static $notaryRoles = array(
-        'accesfinances'             => 'Accès aux pages "compta" (finances, factures, relevée de consommation)',
-        'notaire'                   => 'Accès aux bases de connaissance', // par tout le monde
-        'accesquestecrites'         => 'Poser des questions écrites',
-        'accesquesttelephoniques'   => 'Poser des questions téléphoniques',
+        CONST_FINANCE_ROLE                 => 'Accès aux pages "compta" (finances, factures, relevée de consommation)',
+        CONST_NOTAIRE_ROLE                 => 'Accès aux bases de connaissance', // par tout le monde
+        CONST_QUESTIONECRITES_ROLE         => 'Poser des questions écrites',
+        CONST_QUESTIONTELEPHONIQUES_ROLE   => 'Poser des questions téléphoniques',
     );
 }
