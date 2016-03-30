@@ -74,6 +74,7 @@ class Config {
         'veilles',
         'flashes',
         'cahier_cridons',
+        'formations'
     );
 
     //Content qualified by a "Matière"
@@ -171,7 +172,42 @@ class Config {
         'documents' => 'Les documents associés: ',
         'tags'      => ''
     );
-    public static $notificationAddressPreprod = "clement.horgues@jetpulp.fr";
+    public static $mailBodyQuestionStatusChange = array(
+        'numero_question'  => '%s',
+        'resume'           => '%s',
+        'content'          => '%s',
+        'support'          => '%s',
+        'juriste'          => '%s',
+        'matiere'          => '%s',
+        'competence'       => '%s',
+        'creation_date'    => '%s',
+        'affectation_date' => '%s',
+        'wish_date'        => '%s',
+        'date'             => '%s',
+    );
+
+    // Notification for posted question
+    public static $mailSubjectQuestionStatusChange = array(
+        1 => 'Question CRIDON LYON transmise',
+        2 => 'Question CRIDON LYON numéro %s prise en compte',
+        3 => 'Requalification de la question CRIDON LYON numéro %s',
+        4 => 'Question CRIDON LYON numéro %s en cours de traitement',
+        5 => 'Question CRIDON LYON numéro %s en attente de renseignements complémentaires',
+        6 => 'Réponse à votre question CRIDON LYON numéro %s',
+    );
+
+    // Notification for posted question
+    public static $mailContentQuestionStatusChange = array(
+        1 => 'Votre question du %s en délai %s a bien été transmise.',
+        2 => 'Nous avons bien reçu votre question numéro %s du %s en délai %s.',
+        3 => 'Compte tenu de l’affluence des demandes, il ne nous sera pas possible de respecter le délai demandé de votre question numéro %s du %s. Nous enregistrons votre question en délai %s et faisons le nécessaire pour vous donner satisfaction.',
+        4 => 'Votre question numéro %s en délai %s a été attribuée le %s à %s. Une réponse vous sera apportée au plus tard le %s.',
+        5 => 'Merci de nous adresser les renseignements complémentaires demandés qui nous sont indispensables pour répondre à votre question numéro %s en délai %s du %s.',
+        6 => 'La réponse à votre question numéro %s en délai %s du %s est disponible depuis votre espace privé.',
+
+    );
+
+    public static $notificationAddressPreprod = "victor.albert@jetpulp.fr";
 
     //GED Administration
     public static $GEDtxtIndexes = array(
@@ -280,7 +316,8 @@ class Config {
         'client_number' => 'Numéro client',
         'quota'         => 'Quota',
         'type_support'  => 'Type du support',
-        'date_arret'    => 'Date d\'arrêt'
+        'date_arret'    => 'Date d\'arrêt',
+        'question'      => 'Sur les questions ?'
     );
     //End translation
     
@@ -298,7 +335,23 @@ class Config {
         'flash','veille'//correspond au champ type de la table cri_document
     );
     //End access
-    
+
+    // Content qualified by a "Custom Date"
+    public static $contentWithCustomDate = array(
+        'formations',
+    );
+    public static $dateTitleMetabox = 'Date de formation';// Titre du metabox date de formation
+
+    public static $contentWithAddress = array(
+        'formations',
+    );
+    // Titre des metabox - adresse de formation
+    public static $addressTitleMetabox = array(
+        'address' => 'Adresse de la formation',
+        'postal_code' => 'Code postal de la formation',
+        'town' => 'Ville de la formation'
+    ) ;
+
     //Label des affectations sur les questions
     public static $labelAffection = array(
         1 => 'Question transmise',
@@ -313,4 +366,89 @@ class Config {
         'read_private_posts',
         'read_private_pages',
     );
+
+    // breadcrumb wpmvc model title
+    // key must be match with controller params name
+    public static $breadcrumbModelParams = array(
+        'veilles'           => 'Veilles',
+        'flashes'           => 'Flash infos',
+        'cahier_cridons'    => 'Les cahiers du CRIDON',
+        'formations'        => 'Formation',
+        'vie_cridons'       => 'Vie du CRIDON',
+        'matieres'          => 'Matiere',
+    );
+
+    //RSS
+    public static $rss = array(
+        'title'         => 'CRIDON LYON - Veilles juridiques',//all
+        'title_mat'     => 'CRIDON LYON - Veille %s',//filtered
+        'description'   => ''
+    );
+    //End RSS
+
+    //Listing veille
+    public static $listingVeille = array(
+        'h1'                => 'Veille juridique',
+        'meta_title'        => 'CRIDON Lyon: la veille juridique et l\'actualité des notaires',
+        'meta_description'  => 'CRIDON Lyon vous accompagne au coeur de l’actualité juridique : droit international, fiscalité, droit social, droit de la famille...'
+    );
+    //End listing
+
+    // manually set list of authorized capabilities for notary (no roles were associated to notary by default)
+    public static $authorizedCapsForNotary = array(
+        'read_private_posts',
+        'read_private_pages',
+    );
+
+    // question pending status
+    public static $questionPendingStatus = array(1,2,3);
+
+    // Content qualified by a "Niveau"
+    public static $contentWithLevel = array(
+        'veilles',
+    );
+    // level meta_box title
+    public static $titleLevelMetabox = 'Niveau de %s';
+    // list of level
+    public static $listOfLevel = array(
+        'Niveau 1' => 1,
+        'Niveau 2' => 2,
+        'Niveau 3' => 3,
+    );
+
+    /**
+     * @var array list of type to be restricted by level
+     */
+    public static $restrictedDownloadByTypeLevel = array(
+        'veille'
+    );
+
+    public static $modelWithIdDocImplemented = array(
+        'Veille'
+    );
+
+    public static $pricesLevelsVeilles = array(
+        '2' => array(
+            '5' => 7900,
+            '2' => 4800,
+            '1' => 2500,
+        ),
+        '3' => array (
+            '5' => 9900,
+            '2' => 5900,
+            '1' => 3500,
+        )
+    );
+
+    public static $daysTrialVeille = 15;
+
+    // Notification for posted question
+    public static $mailBodyQuestionConfirmation  = array(
+        'subject'   => 'Prise en compte de votre question sur le site'
+    );
+
+    /**
+     * @var array list of notary "function" allowed to edit profil, show office members
+     */
+    public static $allowedNotaryFunction = array(1, 2, 3, 6, 7, 8, 9, 10);
 }

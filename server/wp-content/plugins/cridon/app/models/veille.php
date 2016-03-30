@@ -1,6 +1,7 @@
 <?php
 
-class Veille extends MvcModel {
+class Veille extends \App\Override\Model\CridonMvcModel {
+
     var $table          = "{prefix}veille";
     var $includes       = array('Post','Matiere');
     var $belongs_to     = array(
@@ -37,6 +38,47 @@ class Veille extends MvcModel {
         );
         return mvc_model('Document')->find($options);
     }
-}
 
-?>
+    public function getList($params){
+        $params['per_page'] = !empty($params['per_page']) ? $params['per_page'] : DEFAULT_POST_PER_PAGE;
+        //Set explicit join
+        $params['joins'] = array(
+            'Post','Matiere'
+        );
+        //Set conditions
+        if (isset($params['conditions']) && is_array($params['conditions'])) {
+            $params['conditions'] = array_merge($params['conditions'], array(
+                'Post.post_status' => 'publish'
+            ));
+        } else {
+            $params['conditions'] = array('Post.post_status' => 'publish');
+        };
+        //Order by date publish
+        $params['order'] = 'Post.post_date DESC' ;
+
+        /** @var $this->model veille  */
+        return Veille::paginate($params);
+    }
+
+    /**
+     * Check if user can access content of page
+     *
+     * @param mixed $object
+     * @return bool
+     * @throws Exception
+     */
+    public function userCanAccessSingle($object)
+    {
+        if (isset($object->params['id']) && $object->params['id']) {
+            // notary data
+            $notaryData = mvc_model('Notaire')->getUserConnectedData();
+            // veilles data
+            $veille     = $this->associatePostWithDocumentByPostName($object->params['id']);
+
+            // subscription_level must be >= veille_level
+            return ($notaryData->etude->subscription_level >= $veille->level || $notaryData->etude->end_subscription_date_veille >= date('Y-m-d'));
+        } else {
+            return false;
+        }
+    }
+}

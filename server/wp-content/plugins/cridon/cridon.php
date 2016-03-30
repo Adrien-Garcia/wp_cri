@@ -8,6 +8,8 @@ Version: 1.0
 Author URI: 
 */
 
+setlocale(LC_TIME, 'fr_FR.utf8');
+
 register_activation_hook(__FILE__, 'cridon_activate');
 register_deactivation_hook(__FILE__, 'cridon_deactivate');
 
@@ -18,8 +20,9 @@ require_once $dir . '/app/config/const.inc.php';
 require_once $dir . '/app/config/config.php';
 // load hook
 require_once $dir . '/app/config/hook.inc.php';
-// load specific class 
+// load specific class
 require_once $dir . '/app/utils/class_loader.php';
+
 
 function cridon_activate() {
     require_once dirname(__FILE__).'/cridon_loader.php';

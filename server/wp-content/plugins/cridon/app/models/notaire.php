@@ -6,7 +6,7 @@
  * @contributor Joelio
  */
 
-class Notaire extends MvcModel
+class Notaire extends \App\Override\Model\CridonMvcModel
 {
 
     /**
@@ -45,6 +45,11 @@ class Notaire extends MvcModel
     protected $logs;
 
     /**
+     * @var mixed
+     */
+    private static $userConnectedData = null;
+
+    /**
      * @var array
      */
     public $has_many = array(
@@ -64,6 +69,7 @@ class Notaire extends MvcModel
             'fields' => array('id','label','code','short_label','displayed','picto')
         )
     );
+
     /**
      *
      * @var array
@@ -75,7 +81,7 @@ class Notaire extends MvcModel
     public $belongs_to = array(
         'User' => array(
             'class'       => 'MvcUser',
-            'foreign_key' => 'ID'
+            'foreign_key' => 'id_wp_user'
         ),
         'Etude' => array(
             'foreign_key' => 'crpcen'
@@ -781,7 +787,7 @@ class Notaire extends MvcModel
             // write into logfile
             writeLog($e, 'notaire.log');
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(), 'Cridon - Données notaire - Erreur mise à jour');
         }
 
         // import into wp_users table
@@ -980,7 +986,7 @@ class Notaire extends MvcModel
             // write into logfile
             writeLog($e, 'etude.log');
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(), 'Cridon - Données étude - Erreur mise à jour');
         }
 
     }
@@ -992,66 +998,23 @@ class Notaire extends MvcModel
      */
     public function setNotaireRole()
     {
-        global $cri_container;
-
-        // block query
-        $roleQuery             = $roleUpdateQuery = array();
-        $options               = array();
-        $options['table']      = 'usermeta';
-        $options['attributes'] = 'user_id, meta_key, meta_value';
-
-        // instance of cridonTools
-        $cridonTools = $cri_container->get('tools');
-
-        // existing user roles
-        $users = $cridonTools->getExistingUserRoles();
-
-        foreach ($this->find() as $notaire) {
-            // role by group
-            // if not is set the category, use default role
-            $role = ($notaire->category) ? strtolower($notaire->category) : CONST_NOTAIRE_ROLE;
-
-            // recognized role format by WP
-            $roleValue = serialize(
-                array($role => true)
-            );
-            // prepare query
-            if ($notaire->id_wp_user) {
-                if (!in_array($notaire->id_wp_user, $users)) { // insert query
-                    $value = "(";
-                    $value .= "'" . $notaire->id_wp_user . "', ";
-                    $value .= "'" . $this->wpdb->prefix . "capabilities', ";
-                    $value .= "'" . $roleValue . "'";
-                    $value .= ")";
-
-                    $roleQuery[] = $value;
-                } else { // update query
-                    $roleUpdateQuery[] = " user_id = {$notaire->id_wp_user} AND meta_key = '{$this->wpdb->prefix}capabilities' THEN '{$roleValue}' ";
+        foreach ($this->find() as $notary) {
+            // get user by id
+            $user = new WP_User($notary->id_wp_user);
+            // user must be an instance of WP_User vs WP_Error
+            if ($user instanceof WP_User) {
+                // default role
+                $user->add_role(CONST_NOTAIRE_ROLE);
+                /**
+                 * finance role
+                 * to be matched in list of authorized user by function
+                 *
+                 * @see \Config::$canAccessFinance
+                 */
+                if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
+                    $user->add_role(CONST_FINANCE_ROLE);
                 }
-
             }
-        }
-
-        // execute prepared insert query
-        if (count($roleQuery) > 0) {
-            $queryBulder       = mvc_model('QueryBuilder');
-            $options['values'] = implode(', ', $roleQuery);
-            // bulk insert
-            $queryBulder->insertMultiRows($options);
-        }
-
-        // execute prepared update query
-        if (count($roleUpdateQuery) > 0) {
-            // start/end query block
-            $queryStart = " UPDATE `{$this->wpdb->prefix}usermeta` ";
-            $queryEnd   = ' END ';
-
-            // query
-            $query = ' SET `meta_value` = CASE ';
-            $query .= ' WHEN ' . implode(' WHEN ', $roleUpdateQuery);
-            $query .= ' ELSE `meta_value` ';
-
-            $this->wpdb->query($queryStart . $query . $queryEnd);
         }
     }
 
@@ -1195,7 +1158,7 @@ class Notaire extends MvcModel
             // write into logfile
             writeLog($e, 'notaire.log');
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(), 'Cridon - Données utilisateurs - Erreur mise à jour');
         }
     }
 
@@ -1231,7 +1194,7 @@ class Notaire extends MvcModel
             // write into logfile
             writeLog($e, 'notaire.log');
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur mise à jour id_wp_user');
         }
     }
 
@@ -1281,23 +1244,21 @@ class Notaire extends MvcModel
      */
     public function findByLoginAndEmail($login, $email)
     {
-        $items = $this->find(array(
-                'selects'    => array(
-                    'Notaire.id',
-                    'Notaire.web_password',
-                    'Notaire.email_adress',
-                    'Notaire.crpcen',
-                    'Notaire.id_civilite',
-                    'Notaire.id_fonction'
-                ),
-                'conditions' => array(
-                    'crpcen'       => $login,
-                    'email_adress' => $email
-                )
-            )
-        );
+        // base query
+        $query = " SELECT `n`.`id`, `n`.`web_password`, `n`.`email_adress`, `n`.`crpcen`, `n`.`code_interlocuteur`,
+                    `n`.`client_number`, `n`.`id_civilite`, `n`.`id_fonction`,
+                    `n`.`first_name` AS prenom, `n`.`last_name` AS nom, `c`.`label` AS civilite FROM {$this->table} n ";
+        $query .= " INNER JOIN `{$this->wpdb->users}` u ON u.`ID` = n.`id_wp_user`
+                    LEFT JOIN `{$this->wpdb->prefix}civilite` c ON `c`.`id` = `n`.`id_civilite` ";
+        $query .= " WHERE `crpcen` = %s
+                    AND `email_adress` = %s
+                    AND `user_status` = " . CONST_STATUS_ENABLED;
 
-        return $items;
+        // prepare query
+        $query = $this->wpdb->prepare($query, $login, $email);
+
+        // exec query and return result
+        return $this->wpdb->get_row($query);
     }
 
     /**
@@ -1311,8 +1272,10 @@ class Notaire extends MvcModel
     public function findByLoginAndPassword($login, $pwd)
     {
         // base query
-        $query = " SELECT `n`.`id` FROM {$this->table} n ";
-        $query .= " INNER JOIN `{$this->wpdb->users}` u ON u.`ID` = n.`id_wp_user` ";
+        $query = " SELECT `n`.`id`, `n`.`code_interlocuteur`, `n`.`crpcen`, `n`.`client_number`, `n`.`web_password`, `n`.`first_name` AS prenom,
+                    `n`.`last_name` AS nom, `c`.`label` AS civilite FROM {$this->table} n ";
+        $query .= " INNER JOIN `{$this->wpdb->users}` u ON u.`ID` = n.`id_wp_user`
+                    LEFT JOIN `{$this->wpdb->prefix}civilite` c ON `c`.`id` = `n`.`id_civilite` ";
         $query .= " WHERE `crpcen` = %s
                     AND `web_password` = %s
                     AND `user_status` = " . CONST_STATUS_ENABLED;
@@ -1333,7 +1296,20 @@ class Notaire extends MvcModel
     {
         global $current_user;
 
-        $object = $this->find_one_by_id_wp_user($current_user->ID);
+        if( self::$userConnectedData !== null && is_object(self::$userConnectedData) && self::$userConnectedData instanceof MvcModelObject ){
+            $object = self::$userConnectedData;
+        } else {
+            $idWPoptions = array(
+                'conditions' => array(
+                    'Notaire.id_wp_user' => $current_user->ID,
+                ),
+                'joins' => array(
+                    'Etude'
+                ),
+            );
+            // exec query and return result as object
+            $object = $this->find_one($idWPoptions);
+        }
 
         if (is_object($object) && property_exists($object, 'client_number')) {
             $datas = mvc_model('solde')->getSoldeByClientNumber($object->client_number);
@@ -1424,7 +1400,7 @@ class Notaire extends MvcModel
                     writeLog($error, 'solde.log');
 
                     // send email
-                    reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde');
+                    reportError(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Solde','Cridon - Solde notaire - Erreur mise à jour');
                 }
             } else { // file doesn't exist
                 // write into logfile
@@ -1432,7 +1408,7 @@ class Notaire extends MvcModel
                 writeLog($error, 'solde.log');
 
                 // send email
-                reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde');
+                reportError(CONST_EMAIL_ERROR_CONTENT, 'Solde','Cridon - Solde notaire - Erreur ouverture fichier');
             }
         } catch (Exception $e) {
             // archive file
@@ -1444,7 +1420,7 @@ class Notaire extends MvcModel
             writeLog($e, 'solde.log');
 
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Solde notaire - Erreur fichier');
         }
     }
 
@@ -1678,18 +1654,19 @@ class Notaire extends MvcModel
     }
 
     /**
-     * Check if users can access finances
+     * Check if users can access sensitive informations
      *
      * @return bool
      */
-    public function userCanAccessFinance()
+    public function userCanAccessSensitiveInfo()
     {
+        global $current_user;
+
         $object = $this->getUserConnectedData();
 
         return (isset($object->category)
                 && (strcasecmp($object->category, CONST_OFFICES_ROLE) === 0)
-                && isset($object->id_fonction)
-                && in_array($object->id_fonction, Config::$canAccessFinance)
+                && in_array(CONST_FINANCE_ROLE, (array) $current_user->roles)
         ) ? true : false;
     }
 
@@ -1725,7 +1702,7 @@ class Notaire extends MvcModel
         if( !$notaire ){
             return false;
         }
-        return true;
+        return $notaire;
     }
 
     /**
@@ -1810,4 +1787,408 @@ class Notaire extends MvcModel
     }
 
     //End webservice
+
+    //FRONT
+
+    //Override function of pagination
+    public function paginate($options = array()){
+        global $wpdb;
+        $options['page'] = empty($options['page']) ? 1 : intval($options['page']);//for limit
+        $limit = $this->db_adapter->get_limit_sql($options);
+        if(!is_admin()){
+            $where = $this->getFilters($options);//Filter
+            $query = $this->prepareQueryForFront($options['status'], $where, $limit);
+            //Total query for pagination
+            $query_count = $this->prepareQueryForCount($options['status'], $where);
+            //convert pseudo query to sql
+            $qs = new \App\Override\Model\QueryStringModel($query);
+            $total_count = $wpdb->get_var($query_count);
+            $objects = $qs->getResults();
+            $objects = $this->processAppendDocuments($objects);
+            $response = array(
+                'objects' => $objects,
+                'total_objects' => $total_count,
+                'total_pages' => ceil($total_count/$options['per_page']),
+                'page' => $options['page']
+            );
+            return $response;
+        } else {
+            $where = '';
+            if(isset($options['conditions'])){
+                $where = $this->getWhere($options,$options);
+            }
+            $query = '
+            SELECT n,e
+            FROM (SELECT N.*
+                FROM Notaire N
+                JOIN Etude AS E ON E.crpcen = N.crpcen
+                 '.$where.'
+                ORDER BY N.id ASC
+                '.$limit.'
+                 ) [Notaire] n
+            JOIN Etude e ON e.crpcen = n.crpcen
+                ';
+
+            //Total query for pagination
+            $query_count ='
+                SELECT COUNT(*) AS count
+                FROM '.$wpdb->prefix.'notaire AS N
+                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
+                '.$where.'
+                ORDER BY N.id DESC
+                ';
+            //convert pseudo query to sql
+            $qs = new \App\Override\Model\QueryStringModel($query);
+            $total_count = $wpdb->get_var($query_count);
+            $objects = $qs->getResults();
+            $objects = $this->splitArray($objects,'id');
+            $per_page = (!empty($options['per_page'])) ? $options['per_page'] : $this->per_page;
+            $response = array(
+                'objects' => $objects,
+                'total_objects' => $total_count,
+                'total_pages' => ceil($total_count/$per_page),
+                'page' => $options['page']
+            );
+            return $response;
+        }
+    }
+
+    /**
+     * Get filter parameter in URL
+     *
+     * @param array $options
+     * @return string
+     */
+    protected function getFilters($options){
+        global $wpdb;
+        $where = array();
+        foreach ( $options as $k => $v ){
+            if (empty($v)) {
+                // Ne pas filtrer sur une valeur vide
+                continue;
+            }
+            switch ($k) {
+                case 'm':
+                    // Matieres
+                    $v = (array) esc_sql($v);
+                    $v = array_map(function($value) use ($wpdb) {
+                        return "'" . strip_tags($value) . "'";
+                    }, $v);
+                    $where[] = ' M.id = ('.implode(',', $v).')';
+                    break;
+                case 'd1':
+                case 'd2':
+                    // Dates (bornes)
+                    $d = $this->convertToDateSql($v);
+                    if ($d !== false) {
+                        $where[] = " Q.creation_date " . ($k == 'd1' ? ">=" : "<=") . " '" . $d . "'";
+                    }
+                    break;
+                case 'n':
+                    // Nom/Prénom du notaire
+                    $v = urldecode(esc_sql(strip_tags($v)));
+                    $where[] = " CONCAT(N.first_name,N.last_name) LIKE '%{$v}%'";
+                    break;
+            }
+        }
+        return (empty($where)) ? '' : ' AND '.implode(' AND ',$where);
+    }
+
+    /**
+     * Get questions pending
+     *
+     * @param array $options
+     * @param array $status
+     *
+     * @return mixed
+     */
+    public function getPending($status){
+        $query = $this->prepareQueryForFront( $status, '' );
+        //convert pseudo query to sql
+        $qs = new \App\Override\Model\QueryStringModel($query);
+        $objects = $qs->getResults();
+        $objects = $this->processAppendDocuments($objects);
+        return $objects;
+    }
+
+    /**
+     * Query used in front for list of questions
+     *
+     * @param array $status
+     * @param string $where
+     * @param string $limit
+     * @return string
+     */
+    protected function prepareQueryForFront($status, $where, $limit = ''){
+        $user = CriNotaireData();//get Notaire
+        $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
+        $query = '
+            SELECT d,q,s,m,c,n
+            FROM (SELECT Q.*
+                    FROM Question AS Q
+                    JOIN Notaire AS N ON Q.client_number = N.client_number
+                    JOIN Etude AS E ON E.crpcen = N.crpcen
+                    LEFT JOIN Competence AS C ON Q.id_competence_1 = C.id
+                    LEFT JOIN Matiere AS M ON M.code = C.code_matiere
+                    WHERE '.$condAffectation.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
+                    GROUP BY Q.id
+                    ORDER BY Q.creation_date DESC
+                    '.$limit.'
+                 ) [Question] q
+            LEFT JOIN Document d ON (d.id_externe = q.id AND d.type = "question" )
+            LEFT JOIN Support s ON s.id = q.id_support
+            LEFT JOIN Competence c ON c.id = q.id_competence_1
+            LEFT JOIN Matiere m ON m.code = c.code_matiere
+                ';
+        return $query;
+    }
+    /**
+     * Query used in front in order to preprare pagination for questions list
+     *
+     * @param array $status
+     * @param string $where
+     * @return string
+     */
+    protected function prepareQueryForCount($status, $where){
+        global $wpdb;
+        $user = CriNotaireData();//get Notaire
+        $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
+        $query = '
+                SELECT COUNT(DISTINCT (Q.id)) AS count
+                FROM '.$wpdb->prefix.'question AS Q
+                JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
+                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
+                LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1
+                LEFT JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
+                WHERE '.$condAffectation.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
+                ORDER BY Q.creation_date DESC
+                ';
+        return $query;
+    }
+    //End FRONT
+
+    public function manageCollaborator($notary, $data)
+    {
+        global $cri_container;
+
+        // collaborator data
+        $collaborator                              = array();
+        $collaborator['first_name']                = isset($data['collaborator_first_name']) ? esc_sql($data['collaborator_first_name']) : '';
+        $collaborator['last_name']                 = isset($data['collaborator_last_name']) ? esc_sql($data['collaborator_last_name']) : '';
+        $collaborator['email_adress']              = isset($data['collaborator_email']) ? esc_sql($data['collaborator_email']) : '';
+        $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
+        $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
+        $collaborator['id_fonction_collaborateur'] = isset($data['collaborator_function']) ? esc_sql($data['collaborator_function']) : 0;
+        $collaborator['id_fonction']               = CONST_NOTAIRE_COLLABORATEUR;
+
+        // @todo data from notary to be confirmed
+        $collaborator['client_number'] = $notary->client_number;
+        $collaborator['crpcen']        = $notary->crpcen;
+
+        // insert into cri_notaire
+        $collaboratorId = $this->create($collaborator);
+
+        /**
+         * insert into cri_users
+         */
+        // check if user already exist
+        $existingUsers = $cri_container->get('tools')->getWpUsers();
+        $userName      = $notary->crpcen . CONST_LOGIN_SEPARATOR . $collaboratorId;
+        $displayName   = $collaborator['first_name'] . ' ' . $collaborator['last_name'];
+
+        if (!in_array($userName, $existingUsers['username'])) {
+            // query builder options
+            $options               = array();
+            $options['table']      = 'users';
+            $options['attributes'] = 'user_login, user_nicename, user_email, user_registered, user_status,  display_name';
+
+            // prepare values
+            $value = "'" . esc_sql($userName) . "', ";
+            $value .= "'" . sanitize_title($displayName) . "', ";
+            $value .= "'" . $collaborator['email_adress'] . "', ";
+            $value .= "'" . date('Y-m-d H:i:s') . "', ";
+            $value .= CONST_STATUS_ENABLED . ", ";
+            $value .= "'" . esc_sql($displayName) . "'";
+
+            $options['values'] = $value;
+
+            // insert data into cri_users
+            mvc_model('QueryBuilder')->insert($options);
+
+            // update id_wp_user
+            $collaborator = new stdClass();
+            $collaborator->id = $collaboratorId;
+            $collaborator->crpcen = $notary->crpcen;
+            $this->updateCriNotaireWpUserId(array($collaborator));
+        }
+
+    }
+
+    /**
+     * Update notary and office data
+     *
+     * @param int    $id
+     * @param string $crpcen
+     * @throws Exception
+     */
+    public function updateProfil($id, $crpcen)
+    {
+        if ($id) {
+            // flag for updating data
+            $updateAction = false;
+            // init  notary data
+            $notary = array();
+            // init  office data
+            $office = array();
+            // notary first_name
+            if (isset($_POST['notary_first_name'])) {
+                $notary['first_name'] = $_POST['notary_first_name'];
+                $updateAction = true;
+            }
+            // notary last_name
+            if (isset($_POST['notary_last_name'])) {
+                $notary['last_name'] = $_POST['notary_last_name'];
+                $updateAction = true;
+            }
+            // notary email_adress
+            if (isset($_POST['notary_email_adress'])) {
+                $notary['email_adress'] = $_POST['notary_email_adress'];
+                $updateAction = true;
+            }
+            // notary tel
+            if (isset($_POST['notary_tel'])) {
+                $notary['tel'] = $_POST['notary_tel'];
+                $updateAction = true;
+            }
+            // notary tel_portable
+            if (isset($_POST['notary_tel_portable'])) {
+                $notary['tel_portable'] = $_POST['notary_tel_portable'];
+                $updateAction = true;
+            }
+            // notary fax
+            if (isset($_POST['notary_fax'])) {
+                $notary['fax'] = $_POST['notary_fax'];
+                $updateAction = true;
+            }
+
+            // office adress_1
+            if (isset($_POST['office_adress_1'])) {
+                $office['adress_1'] = $_POST['office_adress_1'];
+                $updateAction = true;
+            }
+            // office adress_2
+            if (isset($_POST['office_adress_2'])) {
+                $office['adress_2'] = $_POST['office_adress_2'];
+                $updateAction = true;
+            }
+            // office adress_3
+            if (isset($_POST['office_adress_3'])) {
+                $office['adress_3'] = $_POST['office_adress_3'];
+                $updateAction = true;
+            }
+            // office cp
+            if (isset($_POST['office_cp'])) {
+                $office['cp'] = $_POST['office_cp'];
+                $updateAction = true;
+            }
+            // office city
+            if (isset($_POST['office_city'])) {
+                $office['city'] = $_POST['office_city'];
+                $updateAction = true;
+            }
+            // office office_email_adress_1
+            if (isset($_POST['office_email_adress_1'])) {
+                $office['office_email_adress_1'] = $_POST['office_email_adress_1'];
+                $updateAction = true;
+            }
+            // office tel
+            if (isset($_POST['office_tel'])) {
+                $office['tel'] = $_POST['office_tel'];
+                $updateAction = true;
+            }
+            // office fax
+            if (isset($_POST['office_fax'])) {
+                $office['fax'] = $_POST['office_fax'];
+                $updateAction = true;
+            }
+            // update data
+            if ($updateAction) {
+                // notary
+                $notary['id'] = $id;
+                $data = array(
+                    'Notaire' => $notary
+                );
+                $this->save($data);
+
+                // office
+                $office['crpcen'] = $crpcen;
+                $data = array(
+                    'Etude' => $office
+                );
+                mvc_model('Etude')->save($data);
+            }
+        }
+    }
+
+    /**
+     * Inscription/desinscription newsletter
+     *
+     * @param mixed $notaryData notary user data
+     */
+    public function newsletterSubscription($notaryData)
+    {
+        $disabled = $_POST['disabled'] == 1 ? 0 : 1;
+        $update = array();
+        $update['Notaire']['id'] = $notaryData->id;
+        $update['Notaire']['newsletter'] = $disabled;
+        $this->save($update);
+    }
+
+    /**
+     * Gestion centre d'interet
+     *
+     * @param mixed $notaryData notary user data
+     * @param array $data data to insert
+     */
+    public function manageInterest($notaryData, $data)
+    {
+        // post matieres
+        $options = array(
+            'conditions' => array(
+                'Matiere.displayed' => 1
+            )
+        );
+        $matieres = mvc_model('matiere')->find($options);
+        //Clean $_POST before
+        $toCompare = array();
+        //Create array to compare Matiere in $_POST
+        foreach ($matieres as $mat) {
+            $toCompare[] = $mat->id;
+        }
+        $insert = array();
+        $insert['Notaire']['id'] = $notaryData->id;
+        $insert['Notaire']['Matiere']['ids'] = array();
+        if (isset($data['matieres'])) {
+            foreach ($data['matieres'] as $v) {
+                //Check if current Matiere is valid
+                if (in_array($v, $toCompare)) {
+                    $insert['Notaire']['Matiere']['ids'][] = $v;
+                }
+            }
+        }
+        //Put in DB
+        $this->save($insert);
+    }
+
+    /**
+     * Find all notary by optimized query
+     *
+     * @param array $options
+     * @return mixed
+     * @throws Exception
+     */
+    public function find($options = array())
+    {
+        return (is_array($options) && count($options) > 0) ? parent::find($options) : mvc_model('QueryBuilder')->findAll('notaire');
+    }
 }

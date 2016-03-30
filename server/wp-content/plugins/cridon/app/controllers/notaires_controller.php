@@ -9,40 +9,9 @@ class NotairesController extends BasePublicController
 {
 
     /**
-     * @var mixed
+     * @var object Notaire
      */
-    public $current_user;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        global $current_user;
-
-        $this->current_user = $current_user;
-
-        parent::__construct();
-    }
-
-    public function index() {
-        $this->generateError();
-    }
-
-    /**
-     * Generate error
-     *
-     * @global \WP_Query $wp_query
-     */
-    private function generateError(){
-        global $wp_query;
-        header("HTTP/1.0 404 Not Found - Archive Empty");
-        $wp_query->set_404();
-        if( file_exists(TEMPLATEPATH.'/404.php') ){
-            require TEMPLATEPATH.'/404.php';
-        }
-        exit;
-    }
+    protected $current_notaire;
 
     /**
      * Secure Access Page
@@ -51,16 +20,36 @@ class NotairesController extends BasePublicController
      */
     protected function secureAccess()
     {
-        // get notaire by id_wp_user
-        $notaireData = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+        global $mvc_params;
 
-        // check if user is not logged in
-        // or notaire id (url params) not equal to WP user session data
-        if (!is_user_logged_in() || !$notaireData->id || $this->params['id'] !== $notaireData->id) {
-            wp_logout();//logout current user
+        // check if user is logged in and must be a notary
+        if (!is_user_logged_in()
+            || !in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)
+        ) {
+            // logout current user
+            wp_logout();
             // redirect user to home page
             $this->redirect(home_url());
+        } elseif (isset($mvc_params['action'])
+                  && $mvc_params['action'] === 'facturation'
+                  && !$this->model->userCanAccessFinance()
+        ) { // check if is page finance && notary can access
+            // redirect to profil page
+            $this->redirect(mvc_public_url(
+                                array(
+                                    'controller' => 'notaires',
+                                    'action'     => 'profil'
+                                )
+                            )
+            );
         }
+
+        // get current notary data
+        $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+
+        // set notary id in params
+        // needed to retrieve notary data by the MVC system
+        $this->params['id'] = $this->current_notaire->id;
     }
 
     /**
@@ -106,16 +95,18 @@ class NotairesController extends BasePublicController
      */
     protected function get_object()
     {
-        if (!empty($this->model->invalid_data)) {
-            if (!empty($this->params['id']) && empty($this->model->invalid_data[$this->model->primary_key])) {
-                $this->model->invalid_data[$this->model->primary_key] = $this->params['id'];
+        if (empty($this->current_notaire)) {
+            if (!empty($this->model->invalid_data)) {
+                if (!empty($this->params['id']) && empty($this->model->invalid_data[$this->model->primary_key])) {
+                    $this->model->invalid_data[$this->model->primary_key] = $this->params['id'];
+                }
+                $this->current_notaire = $this->model->new_object($this->model->invalid_data);
+            } else if (!empty($this->params['id'])) {
+                $this->current_notaire = $this->model->find_one_by_id_wp_user($this->params['id']);
             }
-            $object = $this->model->new_object($this->model->invalid_data);
-        } else if (!empty($this->params['id'])) {
-            $object = $this->model->find_by_id($this->params['id']);
         }
-        if (!empty($object)) {
-            return $object;
+        if (!empty($this->current_notaire)) {
+            return $this->current_notaire;
         }
         MvcError::warning('Object not found.');
 
@@ -130,9 +121,11 @@ class NotairesController extends BasePublicController
      */
     public function contentdashboard()
     {
-        $this->prepareDashboard();
-        $is_ajax = true;
-        CriRenderView('contentdashboard', get_defined_vars(),'notaires');
+        $this->show();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentdashboard', $vars,'notaires');
         die();
     }
 
@@ -145,6 +138,10 @@ class NotairesController extends BasePublicController
     public function show()
     {
         $this->prepareDashboard();
+        $questions = $this->getQuestions();
+        $this->set('questions', $questions);
+        $notaire = CriNotaireData();
+        $this->set('notaire', $notaire);
     }
 
     /**
@@ -155,9 +152,12 @@ class NotairesController extends BasePublicController
      */
     public function contentquestions()
     {
-        $this->prepareSecureAccess();
-        $is_ajax = true;
-        CriRenderView('contentquestions', get_defined_vars(),'notaires');
+        //$this->prepareSecureAccess();
+        $this->questions();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentquestions', $vars,'notaires');
         die();
     }
 
@@ -170,7 +170,23 @@ class NotairesController extends BasePublicController
     public function questions()
     {
         $this->prepareSecureAccess();
+        $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_QUESTION_PER_PAGE;
+        $this->params['status'] = CONST_QUEST_ANSWERED;
+        $collection = $this->model->paginate($this->params);//Get questions answered
+        $answered = $collection['objects'];
+        $this->set('answered', $answered);
+        $pending = $this->getPending();
+        $this->set('pending', $pending);
+        $juristesPending = Question::getJuristeAndAssistantFromQuestions($pending);
+        $this->set('juristesPending',$juristesPending);
+        $juristesAnswered = Question::getJuristeAndAssistantFromQuestions($answered);
+        $this->set('juristesAnswered',$juristesAnswered);
+        $matieres = getMatieresByQuestionNotaire();
+        $this->set('matieres',$matieres);
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
 
+        $this->set_pagination($collection);
     }
 
     /**
@@ -181,9 +197,11 @@ class NotairesController extends BasePublicController
      */
     public function contentprofil()
     {
-        $this->prepareProfil();
-        $is_ajax = true;
-        CriRenderView('contentprofil', get_defined_vars(),'notaires');
+        $this->profil();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentprofil', $vars,'notaires');
         die();
     }
 
@@ -196,6 +214,8 @@ class NotairesController extends BasePublicController
     public function profil()
     {
         $this->prepareProfil();
+        $this->set('notaire', CriNotaireData());
+        $this->set('matieres', getMatieresByNotaire());
     }
 
     /**
@@ -207,9 +227,11 @@ class NotairesController extends BasePublicController
     public function contentfacturation()
     {
         // access secured
-        $this->prepareSecureAccess();
-        $is_ajax = true;
-        CriRenderView('contentfacturation', get_defined_vars(),'notaires');
+        $this->facturation();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentfacturation', $vars,'notaires');
         die();
     }
     /**
@@ -221,11 +243,66 @@ class NotairesController extends BasePublicController
     public function facturation()
     {
         $this->prepareSecureAccess();
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
+        $content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
+        $this->set('content',$content);
+    }
+
+    /**
+     * Notaire CridOnline Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentcridonline.php
+     *
+     * @return void
+     */
+    public function contentcridonline()
+    {
+        // access secured
+        $this->cridonline();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentcridonline', $vars,'notaires');
+        die();
+    }
+    /**
+     * Notaire cridonline page
+     * Associated template : app/views/notaires/cridonline.php
+     *
+     * @return void
+     */
+    public function cridonline()
+    {
+        $this->prepareSecureAccess();
+        $notaire = CriNotaireData();
+        $this->set('notaire', $notaire);
+
+        $options = array(
+            'conditions' => array(
+                'crpcen' => $notaire->crpcen
+            )
+        );
+        $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
+
+
+        // Tri du tableau de prix par clé descendante
+        foreach(Config::$pricesLevelsVeilles as $veilleLevel => $prices){
+            //set name of variable
+            $priceVeilleLevelx = 'priceVeilleLevel'.$veilleLevel;
+            //Tri par pri décroissant pour chaque niveau de veille
+            krsort($prices);
+            foreach($prices as $nbCollaborator => $price) {
+                if ($nbCollaboratorEtude >= $nbCollaborator) {
+                    $this->set($priceVeilleLevelx, $price);
+                    break;
+                }
+            }
+        }
     }
 
     /**
      * Cleaning data
-     * 
+     *
      * @param mixed $data
      * @return mixed
      */
@@ -241,7 +318,7 @@ class NotairesController extends BasePublicController
         return $clean_input;
     }
 
-    public function newsletterSubscription()
+    public function ajaxnewslettersubscription()
     {
         // init response
         $ret = 'invalidemail';
@@ -250,8 +327,7 @@ class NotairesController extends BasePublicController
         if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_newsletter_nonce') && isset($_REQUEST['email'])) {
             // find the notaire email
             $notaire = $this->model->find_one_by_email_adress($_REQUEST['email']);
-//            echo '<pre>'; die(print_r($notaire));
-//
+
             // only an individual email is valid
             if (is_object($notaire) && $notaire->id && isset($_REQUEST['state'])) {
                 // update notaire newsletter
@@ -271,13 +347,56 @@ class NotairesController extends BasePublicController
         die;
     }
 
+
+    public function ajaxVeilleSubscription()
+    {
+        // init response
+        $ret = '';
+
+        // Verify that the nonce is valid.
+        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen']) ) {
+            // find the office
+            $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
+            if (!empty($_REQUEST['level']) && !empty($etude)) {
+                // @TODO send info to Cridon (waiting for info 'How to do that'
+
+                // Free trial date only if it's the first subscription online for that office
+                if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->end_subscription_date_veille)){
+                    $end_subscription_date_veille = date('Y-m-d', strtotime('+'. Config::$daysTrialVeille .' days'));
+                    $office = array(
+                        'Etude' => array(
+                            'crpcen'                         => $_REQUEST['crpcen'],
+                            'end_subscription_date_veille'   => $end_subscription_date_veille
+                        )
+                    );
+                    mvc_model('Etude')->save($office);
+                }
+            }
+            if (!empty($_REQUEST['price']) && !empty($etude)) {
+                $start_subscription_date_veille = date('Y-m-d');
+                $office = array(
+                    'Etude' => array(
+                        'crpcen'            => $_REQUEST['crpcen'],
+                        'start_subscription_date_veille' => $start_subscription_date_veille,
+                        'subscription_price'     => intval($_REQUEST['price'])
+                    )
+                );
+                mvc_model('Etude')->save($office);
+                $ret = 'success';
+            }
+        }
+
+        echo json_encode($ret);
+        die;
+    }
+
+
+
     protected function prepareDashboard()
     {
-        // access secured
         $this->prepareSecureAccess();
 
         // set template vars
-        // @TODO to be completed with others notaire dynamic data
         $vars = $this->get_object();
         $this->set_vars($vars);
         return $vars;
@@ -285,66 +404,170 @@ class NotairesController extends BasePublicController
 
     protected function prepareSecureAccess()
     {
-// access secured
         $this->secureAccess();
     }
 
     protected function prepareProfil()
     {
-// access secured
         $this->prepareSecureAccess();
-        //unsubscribe to newsletter
-        if(isset($_POST['disabled'])){
-            $disabled = $_POST['disabled'] == 1 ? 0 : 1;
-            $notaire = $this->model->getUserConnectedData();
-            $update = array();
-            $update['Notaire']['id'] = $notaire->id;
-            $update['Notaire']['newsletter'] = $disabled;
-            $this->model->save($update);
-            $options = array(
-                'controller' => 'notaires',
-                'action'     => 'profil',
-                'id'         => $this->params['id']
-            );
-            $publicUrl  = MvcRouter::public_url($options);
-            wp_redirect( $publicUrl, 302 );
-            exit;
-        }
-        if (isset($_POST) && !empty($_POST)) {
-            $notaire = $this->model->getUserConnectedData();
-            if (!empty($notaire)) {
-                $options = array(
-                    'conditions' => array(
-                        'Matiere.displayed' => 1
-                    )
-                );
-                $matieres = mvc_model('matiere')->find($options);
-                //Clean $_POST before
-                $data = $this->clean($_POST);
-                $toCompare = array();
-                //Create array to compare Matiere in $_POST
-                foreach ($matieres as $mat) {
-                    $toCompare[] = $mat->id;
-                }
-                $insert = array();
-                $insert['Notaire']['id'] = $notaire->id;
-                $insert['Notaire']['Matiere']['ids'] = array();
-                if (isset($data['matieres'])) {
-                    foreach ($data['matieres'] as $v) {
-                        //Check if current Matiere is valid
-                        if (in_array($v, $toCompare)) {
-                            $insert['Notaire']['Matiere']['ids'][] = $v;
-                        }
-                    }
-                }
-                //Put in DB
-                $this->model->save($insert);
+
+        if (isset($_POST)
+            && !empty($_POST)
+            && !empty($this->current_notaire)
+        ) {
+            // newsletter
+            if(isset($_POST['disabled'])) {
+                $this->model->newsletterSubscription($this->current_notaire);
             }
 
+            // centre d'interets
+            if (isset($_POST['matieres'])) {
+                //Clean $_POST before
+                $data = $this->clean($_POST);
+                $this->model->manageInterest($this->current_notaire, $data);
+            }
+
+            // maj profil et/ou données d'etude
+            if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+                $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
+            }
         }
         // set template vars
-        // @TODO to be completed with others notaire dynamic data
         $vars = $this->get_object();
         $this->set_vars($vars);
     }
+    /**
+     * Get questions pending
+     *
+     * @return mixed
+     */
+    public function getPending(){
+        return $this->model->getPending(Config::$questionPendingStatus);
+    }
+
+    /**
+     * Get questions
+     *
+     * @return mixed
+     */
+    public function getQuestions(){
+        $allStatus = Config::$questionPendingStatus;
+        $allStatus[] = CONST_QUEST_ANSWERED;
+        $this->params['per_page'] = DEFAULT_QUESTION_PER_PAGE;//set number per page
+        $this->params['status'] = $allStatus;
+        $collection = $this->model->paginate($this->params);//Get questions
+        return $collection['objects'];
+    }
+
+    /**
+     * Override
+     *
+     * @param array $collection
+     */
+    public function set_pagination($collection) {
+        if( !is_admin() ){
+            $params = $this->params;
+            unset($params['page']);
+            unset($params['conditions']);
+            $url = MvcRouter::public_url(
+                    array(
+                        'controller' => $this->name, 'action' => $this->action,
+                        'id' => $this->params['id']
+                    )
+             );
+            $this->pagination = array(
+                'base' => $url.'%_%',
+                'format' => '?page=%#%',
+                'total' => $collection['total_pages'],
+                'current' => $collection['page'],
+                'add_args' => $params
+            );
+
+            unset($collection['objects']);
+            $this->pagination = array_merge($collection, $this->pagination);
+        }else{
+            parent::set_pagination($collection);
+        }
+    }
+
+    /**
+     * Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/collaborateur.php
+     *
+     * @return void
+     */
+    public function collaborateur()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+
+        // post form
+        if (isset($_POST['collaborator_first_name'])
+            && $_POST['collaborator_first_name']
+        ) {
+            // Clean $_POST before
+            $data = $this->tools->clean($_POST);
+            $this->model->manageCollaborator($this->current_notaire, $data);
+        }
+
+        // list of function
+        $collaborator_functions = $this->tools->getFunctionCollaborator();
+
+        // set list of collaborator functions
+        $this->set('collaborator_functions', $collaborator_functions);
+
+        //@todo set list of existing collaborators
+        $this->set('collaborators', array());
+
+        // tab rank
+        $this->set('onglet', 6);
+    }
+
+    /**
+     * Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentcollaborateur.php
+     *
+     * @return void
+     */
+    public function contentcollaborateur()
+    {
+        // access secured
+        $this->collaborateur();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentcollaborateur', $vars,'notaires');
+        die();
+    }
+
+    /**
+     * Show every member of the office
+     */
+    public function liste(){
+        // access secured
+        $this->prepareSecureAccess();
+
+        // check notary function
+        if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+            // redirect to dashboard page
+            $this->redirect(mvc_public_url(
+                    array(
+                        'controller' => 'notaires',
+                        'action'     => 'show'
+                    )
+                )
+            );
+        }
+        //show every member of an office
+        $options = array(
+            'conditions' => array(
+                'crpcen' => $this->current_notaire->crpcen
+            )
+        );
+
+        $liste = mvc_model('QueryBuilder')->findAll('notaire',$options);
+        CriRenderView('liste',get_defined_vars(),'notaires');
+        die();
+    }
+
 }

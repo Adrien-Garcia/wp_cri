@@ -1,4 +1,3 @@
-<?php $notaire = CriNotaireData() ?>
 <div class="mes-informations" id="sel-compte-profil">
 
 	<h2>Mes informations</h2>
@@ -88,10 +87,7 @@
 	<div class="description">
 		Le notaire ou le collaborateur est invité à signaler la ou les thématiques juridiques pour lesquelles il souhaite disposer d'une veille ou information prioritaire. A défaut, il recevra l'information sur tous les domaines du droit.
 	</div>
-	<?php 
-		$matieres = getMatieresByNotaire();
-	 ?>
-	<form method="post" action="/notaires/<?php echo $notaire->id ?>/profil" class="form-centre-interet">
+	<form method="post" action="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" class="form-centre-interet">
 		<ul>
 			<?php foreach($matieres as $key => $matiere): ?>
 			<li>
@@ -126,7 +122,7 @@
             <?php _e('Vous êtes inscrit à notre newsletter selon vos centres d\'intérêts.'); ?>
             <?php endif; ?>
         </div>
-        <form action="/notaires/<?php echo $notaire->id ?>/profil" method="post" accept-charset="utf-8" id="newsletterFormId1" class="form-newsletter js-account-profil-newsletter-form">
+        <form method="post" accept-charset="utf-8" id="newsletterFormId1" class="form-newsletter js-account-profil-newsletter-form" data-js-ajax-newsletter-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionnewsletter'));?>">
             <input type="hidden" name="userEmail" value="<?php echo $notaire->email_adress ?>" class="js-account-profil-newsletter-email" id="userEmail" placeholder="<?php _e('Votre adresse email'); ?>">
             <input type="hidden" name="state" value="<?php echo $notaire->newsletter == 1 ? "0" : "1"; ?>" class="js-account-profil-newsletter-state">
             <input type="submit" name="submit" value="<?php _e( ($notaire->newsletter == 0 ? "S'inscrire" : "Me désinscrire" ) ); ?>">

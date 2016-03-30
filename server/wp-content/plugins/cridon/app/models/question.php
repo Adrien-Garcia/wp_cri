@@ -4,7 +4,7 @@
  * Question Model
  */
 
-class Question extends MvcModel
+class Question extends \App\Override\Model\CridonMvcModel
 {
     /**
      * @var string
@@ -137,7 +137,7 @@ class Question extends MvcModel
             }
         } catch (\Exception $e) {
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Erreur comptage en base de donnée');
         }
     }
 
@@ -424,12 +424,14 @@ class Question extends MvcModel
                 && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
             ) {
                 // prepare data
+                $creationDate = date('Y-m-d');
+                $post['creation_date'] = $creationDate;
                 $question = array(
                     'Question' => array(
                         'client_number' => $notaire->client_number,
                         'sreccn' => $notaire->code_interlocuteur,
                         'resume' => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
-                        'creation_date' => date('Y-m-d H:i:s'),
+                        'creation_date' => $creationDate,
                         'id_support' => $post[CONST_QUESTION_SUPPORT_FIELD],// Support
                         'id_competence_1' => $post[CONST_QUESTION_COMPETENCE_FIELD],// Competence
                         'content' => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD])// Message
@@ -513,11 +515,63 @@ class Question extends MvcModel
                 return $response;
             }
 
-            return true;
+            // response data
+            return $this->getResponseData($post);
         } catch(\Exception $e) {
             writeLog( $e,'upload.log' );
             return false;
         }
+    }
+
+    /**
+     * Get response data
+     *
+     * @param array $post
+     * @return array
+     * @throws Exception
+     */
+    protected function getResponseData($post)
+    {
+        // response
+        $response = array(
+            'resume'         => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]), // objet
+            'content'        => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]), // Message
+            'matiere'        => '', // Matiere
+            'competence'     => '', // Competence
+            'support'        => '', // Support
+            'dateSoumission' => strftime('%d', strtotime($post['creation_date'])) .' '.strftime('%B', strtotime($post['creation_date'])).' '.strftime('%Y', strtotime($post['creation_date'])) // DateSoumission
+        );
+        // matiere
+        $options  = array(
+            'conditions' => "id = {$post[CONST_QUESTION_MATIERE_FIELD]}",
+            'limit'      => 1,
+        );
+        $matieres = mvc_model('QueryBuilder')->findOne('matiere', $options);
+        if (is_object($matieres) && !empty($matieres)) {
+            $response['matiere'] = $matieres;
+        }
+        // competence
+        $options     = array(
+            'fields'     => 'label',
+            'conditions' => "id = {$post[CONST_QUESTION_COMPETENCE_FIELD]}",
+            'limit'      => 1,
+        );
+        $competences = mvc_model('QueryBuilder')->findOne('competence', $options);
+        if (is_object($competences) && !empty($competences->label)) {
+            $response['competence'] = $competences->label;
+        }
+        // support
+        $options  = array(
+            'fields'     => 'label',
+            'conditions' => "id = {$post[CONST_QUESTION_SUPPORT_FIELD]}",
+            'limit'      => 1,
+        );
+        $supports = mvc_model('QueryBuilder')->findOne('support', $options);
+        if (is_object($supports) && isset($supports->label)) {
+            $response['support'] = $supports->label;
+        }
+
+        return $response;
     }
 
     /**
@@ -852,6 +906,270 @@ class Question extends MvcModel
                         $updateValues[] = $query;
                     }
                 }
+                // Send mail if status / support change
+                // get questions info if on db
+                $question = '';
+                if (!empty ($data[$adapter::QUEST_ZIDQUEST]) && intval($data[$adapter::QUEST_ZIDQUEST]) > 0) {
+                    $question = mvc_model('Question')->find_by_id(intval($data[$adapter::QUEST_ZIDQUEST]));
+                } elseif ( (!empty ($data[$adapter::QUEST_SREBPC])) && ($data[$adapter::QUEST_SREBPC] !== ' ') && (!empty ($data[$adapter::QUEST_SRENUM])) && ($data[$adapter::QUEST_SRENUM] !== ' ' )) {
+                    $question = mvc_model('Question')->find_one(array(
+                        'conditions' => array(
+                            'Question.client_number' => esc_sql($data[$adapter::QUEST_SREBPC]),
+                            'Question.srenum' => esc_sql($data[$adapter::QUEST_SRENUM])
+                        )
+                    ));
+                }
+
+                // Récupération du srenum pour l'objet du mail
+                if (!empty($data[$adapter::QUEST_SRENUM])) { // srenum
+                    $srenum = esc_sql($data[$adapter::QUEST_SRENUM]);
+                } elseif (!empty($question->srenum)) {
+                    $srenum = $question->srenum;
+                } else {
+                    $srenum = false;
+                }
+
+                $mail = false;
+                $creation_date = false;
+                $type_question = 0;
+                $subject = '';
+                // id_affectation change / first time question is !empty to site -> Send mail
+                if ( ( !empty($data[$adapter::QUEST_YSREASS]) && isset($question) && !empty($question->id_affectation) && intval($data[$adapter::QUEST_YSREASS]) != $question->id_affectation )
+                    || (!empty($question) && empty($question->srenum) )
+                    || (!isset($question)) ) {
+                    $mail = true;
+                    if (intval($data[$adapter::QUEST_YSREASS]) == 1) {
+                        if (!empty($question->creation_date)) { // date de création de la question
+                            $creation_date = $question->creation_date;
+                        }
+                        $type_question = 2;
+                        $subject = sprintf(Config::$mailSubjectQuestionStatusChange['2'],$srenum);
+                    } elseif (intval($data[$adapter::QUEST_YSREASS]) == 2) {
+                        $type_question = 4;
+                        $subject = sprintf(Config::$mailSubjectQuestionStatusChange['4'],$srenum);
+                    } elseif (intval($data[$adapter::QUEST_YSREASS]) == 3) {
+                        $type_question = 5;
+                        $subject = sprintf(Config::$mailSubjectQuestionStatusChange['5'],$srenum);
+                    } elseif (intval($data[$adapter::QUEST_YSREASS]) == 4) {
+                        $type_question = 6;
+                        $subject = sprintf(Config::$mailSubjectQuestionStatusChange['6'],$srenum);
+                    } else {
+                        $mail = '';
+                    }
+                }
+                // id_support change -> Send mail
+                if (isset($data[$adapter::QUEST_YCODESUP]) && isset($question) && !empty($question->id_support)
+                    && ( ( intval($data[$adapter::QUEST_YCODESUP]) == 1 && ($question->id_support == 7))
+                      || ( intval($data[$adapter::QUEST_YCODESUP]) == 7 && ($question->id_support == 6))
+                      || ( intval($data[$adapter::QUEST_YCODESUP]) == 1 && ($question->id_support == 6)))
+                    && (intval($data[$adapter::QUEST_YCODESUP]) != $question->id_support)
+                    && isset($data[$adapter::QUEST_YSREASS])
+                    && intval($data[$adapter::QUEST_YSREASS]) == 1)
+                {
+                    $mail = true;
+                    $type_question = 3;
+                    $subject = sprintf(Config::$mailSubjectQuestionStatusChange['3'],$srenum);
+                }
+
+                if ($mail) {
+                    // set mail headers
+                    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                    // Récupération des données
+
+                    if (!empty($data[$adapter::QUEST_YCODESUP]) && $data[$adapter::QUEST_YCODESUP] !== ' ') { // support
+                        $support = esc_sql($data[$adapter::QUEST_YCODESUP]);
+                    } elseif (!empty($question->id_support)) {
+                        $support = $question->id_support;
+                    } else {
+                        $support = '';
+                    }
+
+                    if (!empty($data[$adapter::QUEST_ZCOMPETENC]) && $data[$adapter::QUEST_ZCOMPETENC] !== ' ') { // competence
+                        $competence = esc_sql($data[$adapter::QUEST_ZCOMPETENC]);
+                    } elseif (!empty($question->id_competence_1) && $question->id_competence_1 !== ' ') {
+                        $competence = $question->id_competence_1;
+                    } else {
+                        $competence = '';
+                    }
+
+                    if (!empty($data[$adapter::QUEST_YRESUME]) && $data[$adapter::QUEST_YRESUME] !== ' ') { // resume
+                        $resume = esc_sql($data[$adapter::QUEST_YRESUME]);
+                    } elseif (!empty($question->resume)) {
+                        $resume = $question->resume;
+                    } else {
+                        $resume = '';
+                    }
+
+                    if (!empty($data[$adapter::QUEST_YCONTENT]) && $data[$adapter::QUEST_YCONTENT] !== ' ') { // content
+                        $content = esc_sql($data[$adapter::QUEST_YCONTENT]);
+                    } elseif (!empty($question->content)) {
+                        $content = $question->content;
+                    } else {
+                        $content = '';
+                    }
+
+                    if (!empty($data[$adapter::QUEST_SREDET]) && $data[$adapter::QUEST_SREDET] !== ' ') { // juriste
+                        $juriste = esc_sql($data[$adapter::QUEST_SREDET]);
+                    } elseif (!empty($question->juriste)) {
+                        $juriste = $question->juriste;
+                    } else {
+                        $juriste = '';
+                    }
+
+                    if (!empty($data[$adapter::ZQUEST_YMATIERE_0]) && $data[$adapter::ZQUEST_YMATIERE_0] !== ' ') { // matière
+                        $matiere = esc_sql($data[$adapter::ZQUEST_YMATIERE_0]);
+                    } elseif (!empty($question->matiere)) {
+                        $matiere = $question->matiere;
+                    } else {
+                        $matiere = '';
+                    }
+
+                    if (!empty($data[$adapter::QUEST_SREDATASS]) && $data[$adapter::QUEST_SREDATASS] !== ' ') { //date affectation
+                        $affectation_date = $data[$adapter::QUEST_SREDATASS];
+                    } elseif (!empty($question->affectation_date)) {
+                        $affectation_date = $question->affectation_date;
+                    } else {
+                        $affectation_date = '';
+                    }
+
+                    if (!empty($data[$adapter::QUEST_YRESSOUH]) && $data[$adapter::QUEST_YRESSOUH] !== ' ') { // date de réponse souhaitée
+                        $wish_date = $data[$adapter::QUEST_YRESSOUH];
+                    } elseif (!empty($question->wish_date)) {
+                        $wish_date = $question->wish_date;
+                    } else {
+                        $wish_date = '';
+                    }
+
+                    // Mise en forme des données
+                    $date = '';
+                    if (!empty($creation_date)) {
+                        $newDate  = strftime('%d', strtotime($creation_date));
+                        $newDate .= ' '.strftime('%B', strtotime($creation_date));
+                        $newDate .= ' '.strftime('%Y', strtotime($creation_date));
+                        $creation_date = $newDate;
+                        $date = $creation_date;
+                    }
+
+                    if (!empty($affectation_date)) {
+                        $newDate  = strftime('%d', strtotime($affectation_date));
+                        $newDate .= ' '.strftime('%B', strtotime($affectation_date));
+                        $newDate .= ' '.strftime('%Y', strtotime($affectation_date));
+                        $affectation_date = $newDate;
+                        $date = $affectation_date;
+                    }
+
+                    if (!empty($wish_date)) {
+                        $newDate  = strftime('%d', strtotime($wish_date));
+                        $newDate .= ' '.strftime('%B', strtotime($wish_date));
+                        $newDate .= ' '.strftime('%Y', strtotime($wish_date));
+                        $wish_date = $newDate;
+                    }
+
+                    if (!empty($support)) {
+                        $supports = mvc_model('Support')->find_by_id($support);
+                        if (is_object($supports) && !empty($supports->label)) {
+                            $support = $supports->label;
+                        }
+                    }
+
+                    if (!empty($juriste)) {
+                        $juristes = mvc_model('UserCridon')->find(array(
+                            'conditions' => array(
+                                'UserCridon.id_erp' => '\'' . $juriste . '\''
+                            ),
+                            'joins' => array(
+                                'User'
+                            )
+                        ));
+                        if (is_object($juristes) && !empty ($juristes->user->display_name)) {
+                            $juriste = $juristes->user->display_name;
+                        }
+                    }
+
+                    if (!empty($competence) && $competence !== 0) {
+                        $competences = mvc_model('Competence')->find_by_id($competence);
+                        if (is_object($competences) && !empty ($competences->label)){
+                            $competence = $competences->label;
+                        }
+                    }
+
+                    if (!empty($matiere)){
+                        $matieres = mvc_model('Matiere')->find(array(
+                            'conditions' => array(
+                                'Matiere.code' => '\''.$matiere.'\''
+                            )
+                        ));
+                        if (is_object($matieres) && !empty ($matieres->label)){
+                            $matiere = $matieres;
+                        }
+                    }
+
+                    // get notaire data
+                    if (!empty($data[$adapter::ZQUEST_SREBPC_0])) { // numéro client
+                        $client_number = $data[$adapter::ZQUEST_SREBPC_0];
+                    } elseif (!empty($question->client_number)) {
+                        $client_number = $question->client_number;
+                    }
+
+                    if (!empty($data[$adapter::ZQUEST_SRECCN_0])) { // code interlocuteur
+                        $sreccn = $data[$adapter::ZQUEST_SRECCN_0];
+                    } elseif (!empty($question->sreccn)) {
+                        $sreccn = $question->sreccn;
+                    }
+
+                    $notaire = '';
+                    if (!empty($client_number) && !empty($sreccn) ) {
+                        $notaire = mvc_model('Notaire')->find_one(array(
+                            'conditions' => array(
+                                'Notaire.client_number' => $client_number,
+                                'Notaire.code_interlocuteur' => $sreccn
+                            ),
+                            'joins' => array(
+                                'Etude'
+                            )
+                        ));
+                    }
+
+
+
+                    $vars = array (
+                        'numero_question'  => $srenum,
+                        'support'          => $support,
+                        'matiere'          => $matiere,
+                        'competence'       => $competence,
+                        'resume'           => $resume,
+                        'content'          => $content,
+                        'juriste'          => $juriste,
+                        'creation_date'    => $creation_date,
+                        'affectation_date' => $affectation_date,
+                        'wish_date'        => $wish_date,
+                        'date'             => $date,
+                        'type_question'    => $type_question,
+                        'notaire'          => $notaire,
+                    );
+
+                    $message = CriRenderView('mail_notification_question', $vars, 'custom', false);
+
+                    $env = getenv('ENV');
+                    if (empty($env) || ($env !== 'PROD')) {
+                        $email = wp_mail( Config::$notificationAddressPreprod , $subject, $message, $headers );
+                        writeLog("not Prod: " . $email . "\n", "mailog.txt");
+                    } else {
+                        if (!empty($notaire->email_adress)) {
+                            $destinataire = $notaire->email_adress;
+                        } elseif (!empty($notaire->etude->office_email_adress_1)){
+                            $destinataire = $notaire->etude->office_email_adress_1;
+                        } elseif (!empty($notaire->etude->office_email_adress_2)){
+                            $destinataire = $notaire->etude->etude->office_email_adress_2;
+                        } elseif (!empty($notaire->etude->office_email_adress_3)){
+                            $destinataire = $notaire->etude->office_email_adress_3;
+                        }
+                        if (!empty($destinataire)) {
+                            //wp_mail($destinataire, $subject, $message, $headers);
+                        }
+                    }
+                }
             }
 
             // execute query
@@ -896,6 +1214,10 @@ class Question extends MvcModel
                 // maj derniere date d'execution
                 update_option('cronquestionupdate', $dateOptionUpdate);
             }
+
+            // notification client mobile si question traitee
+            // id_affectation = 4
+            $this->pushNotification();
 
             return CONST_STATUS_CODE_OK;
         } catch (\Exception $e) {
@@ -971,7 +1293,6 @@ class Question extends MvcModel
      * Set Quest list for delete
      *
      * @param int $i
-     * @param array $siteQuestList
      */
     protected function setQuestListForDelete($i)
     {
@@ -1048,7 +1369,8 @@ class Question extends MvcModel
 
         } catch (\Exception $e) {
             // send email
-            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage());
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Question - Erreur création liste de suppression');
+            writeLog($e, 'questionweeklyupdatesetListDelete.log');
         }
     }
 
@@ -1170,7 +1492,8 @@ class Question extends MvcModel
                             }
 
                             $content = "' '";
-                            if (!empty($question->content)) {
+                            $trimQuestion = trim($question->content);
+                            if (!empty($trimQuestion)) {
                                 $content = trim(html_entity_decode($question->content));
                                 if (mb_strlen($content) <= static::ODBC_MAX_CHARS) {
                                     $content = str_replace(array("\r\n","\r","\n","\\r","\\n","\\r\\n"), "'||chr(13)||chr(10)||'", $content); // avoid considering all forms of newline
@@ -1305,7 +1628,7 @@ writeLog($query, 'query_export.log');
                 } else {
                     // log erreur
                     $error = sprintf(CONST_EXPORT_EMAIL_ERROR, date('d/m/Y à H:i:s'));
-                    writeLog($error, 'exportquestion.log');
+                    writeLog($error, 'exportquestion.log','Cridon - Export');
 
                     // send email
                     reportError(CONST_EXPORT_EMAIL_ERROR, $error);
@@ -1321,6 +1644,93 @@ writeLog($query, 'query_export.log');
             // status code
             return CONST_STATUS_CODE_GONE;
         }
+    } 
+    
+    /**
+     * @return array
+     */
+    public function getJuristeAndAssistant() {
+        global $wpdb;
+        $sql = "
+    SELECT
+        q.juriste as juriste_code,
+        u.display_name as juriste_name,
+        uc.profil as juriste_profil,
+        q.yuser as assistant_code,
+        u2.display_name as assistant_name,
+        uc2.profil as assistant_profil,
+        q.id as id
+    FROM
+        ".$wpdb->prefix."question AS q
+            LEFT JOIN
+        ".$wpdb->prefix."user_cridon AS uc ON q.juriste = uc.id_erp
+            LEFT JOIN
+        ".$wpdb->prefix."user_cridon AS uc2 ON q.yuser = uc2.id_erp
+            LEFT JOIN
+        ".$wpdb->prefix."users AS u ON uc.id_wp_user = u.id
+            LEFT JOIN
+        ".$wpdb->prefix."users AS u2 ON uc2.id_wp_user = u2.id
+    WHERE q.id = ".$this->id.";
+        ";
+        $r = $wpdb->get_results($sql);
+        $result = array();
+        foreach($r as $data) {
+            $result[$data->id] = $data;
+        }
+        return $result;
+    }
+
+    /**
+     * @param $questions
+     * @return mixed
+     */
+    public static function getJuristeAndAssistantFromQuestions($questions) {
+        global $wpdb;
+        $id_array = array();
+        if (is_object($questions) && get_class($questions) == "MvcModelObject") {
+            $id_array[] = $questions->id;
+        } else if (is_array($questions)
+            && is_object($questions[0])
+            && get_class($questions[0]) == "MvcModelObject"
+        ) {
+            foreach ($questions as $q ) {
+                $id_array[] = $q->id;
+            }
+        } else if (is_array($questions) && is_int($questions[0])) {
+            $id_array = $questions;
+        } else if (is_int($questions)) {
+            $id_array[] = $questions;
+        } else {
+            return false;
+        }
+        $sql = "
+    SELECT
+        q.juriste as juriste_code,
+        u.display_name as juriste_name,
+        uc.profil as juriste_profil,
+        q.yuser as assistant_code,
+        u2.display_name as assistant_name,
+        uc2.profil as assistant_profil,
+        q.id as id
+    FROM
+        ".$wpdb->prefix."question AS q
+            LEFT JOIN
+        ".$wpdb->prefix."user_cridon AS uc ON q.juriste = uc.id_erp
+            LEFT JOIN
+        ".$wpdb->prefix."user_cridon AS uc2 ON q.yuser = uc2.id_erp
+            LEFT JOIN
+        ".$wpdb->prefix."users AS u ON uc.id_wp_user = u.id
+            LEFT JOIN
+        ".$wpdb->prefix."users AS u2 ON uc2.id_wp_user = u2.id
+    WHERE q.id IN (".implode(",",$id_array).");
+        ";
+
+        $r = $wpdb->get_results($sql);
+        $result = array();
+        foreach($r as $data) {
+            $result[$data->id] = $data;
+        }
+        return $result;
     }
 
 
@@ -1570,5 +1980,208 @@ writeLog($query, 'query_export.log');
                 LIMIT 1";
 
         return $this->wpdb->get_row($query);
+    }
+
+    /**
+     * Insert data into DB
+     *
+     * @param object $notaire
+     * @param array $post
+     * @param array $response
+     * @return mixed
+     * @throws Exception
+     */
+    protected function insertData($notaire, $post, $response)
+    {
+        // notaire exist
+        if ($notaire->client_number
+            && isset($post[CONST_QUESTION_OBJECT_FIELD]) && $post[CONST_QUESTION_OBJECT_FIELD] != ''
+            && isset($post[CONST_QUESTION_SUPPORT_FIELD]) && ctype_digit($post[CONST_QUESTION_SUPPORT_FIELD]) && ((int)$post[CONST_QUESTION_SUPPORT_FIELD] > 0)
+            && isset($post[CONST_QUESTION_MATIERE_FIELD]) && !empty($post[CONST_QUESTION_MATIERE_FIELD])
+            && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && $post[CONST_QUESTION_COMPETENCE_FIELD] != ''
+            && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
+        ) {
+            // prepare data
+            $question = array(
+                'Question' => array(
+                    'client_number'      => $notaire->client_number,
+                    'sreccn'             => $notaire->code_interlocuteur,
+                    'resume'             => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
+                    'creation_date'      => date('Y-m-d H:i:s'),
+                    'id_support'         => $post[CONST_QUESTION_SUPPORT_FIELD], // Support
+                    'id_competence_1'    => $post[CONST_QUESTION_COMPETENCE_FIELD], // Competence
+                    'content'            => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]), // Message
+                    'mobile_push_token'  => ($post[CONST_QUESTION_PUSHTOKEN_FIELD]), // push token
+                    'mobile_device_type' => ($post[CONST_QUESTION_DEVICETYPE_FIELD]) // device type
+                )
+            );
+            // insert question
+            $questionId = $this->create($question);
+
+            // Attached files
+            if ($questionId && isset($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['name'])) {
+                // prepare file data
+                $files = $_FILES[CONST_QUESTION_ATTACHEMENT_FIELD];
+
+                // \CriFileUploader required an array of data
+                if (!is_array($files['name'])) {
+                    $files = array(
+                        'name'     => array($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['name']),
+                        'type'     => array($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['type']),
+                        'tmp_name' => array($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['tmp_name']),
+                        'error'    => array($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['error']),
+                        'size'     => array($_FILES[CONST_QUESTION_ATTACHEMENT_FIELD]['size']),
+                    );
+                }
+                // instance of CriFileUploader
+                $criFileUploader = new CriFileUploader();
+                // set files list
+                $criFileUploader->setFiles($files);
+                // set max size from config (@see : const.inc.php)
+                $criFileUploader->setMaxSize(CONST_QUESTION_MAX_FILE_SIZE);
+                // set upload dir
+                $uploadDir = wp_upload_dir();
+                $path      = $uploadDir['basedir'] . '/questions/' . date('Ym') . '/';
+                if (!file_exists($path)) { // not yet directory
+                    // crete the directory
+                    wp_mkdir_p($path);
+                }
+                $criFileUploader->setUploaddir($path);
+
+                // validate file size, max upload authorized,...
+                if ($criFileUploader->validate()) {
+                    $listDocuments = $criFileUploader->execute();
+
+                    if (is_array($listDocuments) && count($listDocuments) > 0) {
+                        foreach ($listDocuments as $document) {
+                            // prepare data
+                            $documents = array(
+                                'Document' => array(
+                                    'file_path'     => '/questions/' . date('Ym') . '/' . $document,
+                                    'download_url'  => '/documents/download/' . $questionId,
+                                    'date_modified' => date('Y-m-d H:i:s'),
+                                    'type'          => 'question',
+                                    'id_externe'    => $questionId,
+                                    'name'          => $document,
+                                    'label'         => 'PJ'
+                                )
+                            );
+
+                            // insert
+                            $documentId = mvc_model('Document')->create($documents);
+
+                            // update download_url
+                            $documents = array(
+                                'Document' => array(
+                                    'id'           => $documentId,
+                                    'download_url' => '/documents/download/' . $documentId
+                                )
+                            );
+                            mvc_model('Document')->save($documents);
+                        }
+                    }
+                } else {
+                    $response['error'][] = sprintf(CONST_QUESTION_FILE_SIZE_ERROR,
+                        (CONST_QUESTION_MAX_FILE_SIZE / 1000000) . 'M');
+
+                    return $response;
+                }
+            }
+        } else {
+            if (!isset($post[CONST_QUESTION_OBJECT_FIELD]) || $post[CONST_QUESTION_OBJECT_FIELD] == '') {
+                $response['error'][] = CONST_EMPTY_OBJECT_ERROR_MSG;
+            }
+            if (!isset($post[CONST_QUESTION_MESSAGE_FIELD]) || $post[CONST_QUESTION_MESSAGE_FIELD] == '') {
+                $response['error'][] = CONST_EMPTY_MESSAGE_ERROR_MSG;
+            }
+            if (!isset($post[CONST_QUESTION_SUPPORT_FIELD]) || !ctype_digit($post[CONST_QUESTION_SUPPORT_FIELD]) || intval($post[CONST_QUESTION_SUPPORT_FIELD] <= 0)) {
+                $response['error'][] = CONST_EMPTY_SUPPORT_ERROR_MSG;
+            }
+            if (!isset($post[CONST_QUESTION_MATIERE_FIELD]) || intval($post[CONST_QUESTION_MATIERE_FIELD] <= 0)) {
+                $response['error'][] = CONST_EMPTY_ACTIVITY_ERROR_MSG;
+            }
+            if (!isset($post[CONST_QUESTION_COMPETENCE_FIELD]) || $post[CONST_QUESTION_COMPETENCE_FIELD] == '') {
+                $response['error'][] = CONST_EMPTY_SUBACTIVITY_ERROR_MSG;
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * Create Question from mobile
+     *
+     * @param mixed $data
+     * @return mixed
+     */
+    public function createFromMobile($data)
+    {
+        // init error
+        $response = array();
+        $response['error'] = array();
+
+        return $this->insertData($data['notary'], $data['post'], $response);
+    }
+
+    /**
+     * Get list of question need to be notified
+     *
+     * @return array|null|object
+     */
+    public function getQuestForNotification()
+    {
+        // init query
+        $query  = " SELECT `q`.`id`, `q`.`resume`, `q`.`mobile_device_type`, `q`.`mobile_push_token`, `n`.`id` AS id_notaire FROM `{$this->table}` q ";
+        $query .= " LEFT JOIN `{$this->wpdb->prefix}notaire` n ON `n`.`client_number` = `q`.`client_number` ";
+        $query .= " WHERE `mobile_push_token` IS NOT NULL
+                    AND `mobile_device_type` IS NOT NULL
+                    AND `mobile_notification_status` = 0
+                    AND `id_affectation` = %d ";
+
+        // exec prepared query
+        return $this->wpdb->get_results($this->wpdb->prepare($query, CONST_QUEST_ANSWERED));
+    }
+
+    /**
+     * Update notification status
+     *
+     * @param int $questionId
+     */
+    public function updateQuestNotificationStatus($questionId)
+    {
+        $this->wpdb->query(" UPDATE {$this->table} SET mobile_notification_status = 1 WHERE id = {$questionId} ");
+    }
+
+    /**
+     * Push notification action
+     *
+     * @throws Exception
+     */
+    public function pushNotification()
+    {
+        global $cri_container;
+
+        // get instance of Cridon Tools
+        $tools = $cri_container->get('tools');
+
+        // get list of questions to be notified
+        $questions = $this->getQuestForNotification();
+
+        // only executed for valid $questions data
+        if (is_array($questions) && count($questions) > 0) {
+            foreach ($questions as $question) {
+                $messages = array(
+                    'message'      => sprintf(CONST_NOTIFICATION_CONTENT_MSG, $question->resume),
+                    'urlnotaire' => mvc_public_url(array('controller' => 'notaires', 'id' => $question->id_notaire))
+                );
+
+                $resp = $tools->pushNotification($question->mobile_device_type, $question->mobile_push_token, $messages, $question->id);
+
+                // update question notification status
+                if ($resp) {
+                    $this->updateQuestNotificationStatus($question->id);
+                }
+            }
+        }
     }
 }

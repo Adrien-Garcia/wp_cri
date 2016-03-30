@@ -560,4 +560,23 @@ class QueryBuilder{
         $this->dbConnect();
         return $this->mysqli;
     }
+
+    /**
+     * Get post by wpmvc params
+     *
+     * @return array|null|object|string|void
+     */
+    public function getPostByMVCParams()
+    {
+        global $mvc_params;
+
+        $posts = '';
+        if (isset($mvc_params['controller']) && isset($mvc_params['id']) && $mvc_params['id']) {
+            $query  = " SELECT `p`.`post_title` FROM `{$this->wpdb->posts}` p ";
+            $query .= " WHERE `p`.`post_name` = '{$mvc_params['id']}' ";
+
+            $posts = $this->wpdb->get_row($query);
+        }
+        return $posts;
+    }
 }

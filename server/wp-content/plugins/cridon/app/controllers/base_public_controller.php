@@ -8,19 +8,62 @@
  */
 abstract class BasePublicController extends MvcPublicController
 {
+
+    /**
+     * @var mixed
+     */
+    protected $data;
+
+    /**
+     * @var mixed
+     */
+    protected $request;
+
+    /**
+     * @var mixed tools actions container
+     */
+    protected $tools;
+
+    /**
+     * @var mixed
+     */
+    protected $current_user;
+
+    public function __construct()
+    {
+        global $cri_container,
+               $current_user;
+
+        parent::__construct();
+
+        $this->data         = json_decode(file_get_contents('php://input'));
+        $this->request      = $cri_container->get('request');
+        $this->tools        = $cri_container->get('tools');
+        $this->current_user = $current_user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+
     /**
      * Action switcher for creating | listing data
      */
     public function index_json()
     {
-        $rest = new RestServer();
-        $rest->start();//Check security
-        $user = $rest->getUser();//Current user logged
-        $request = $rest->getRequest();
-        $security = $rest->getSecurity();
-        /**
-         * @todo Make sure the specified controller must be executed for rest server. Execute action. 
-         */
         $errors = new WP_Error();
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'POST':
@@ -179,23 +222,24 @@ abstract class BasePublicController extends MvcPublicController
     /**
      * Vérification du token 
      * 
-     * @param \CridonRequest $request
      * @return boolean
      */
-    public function checkToken( $request ){
+    public function checkToken()
+    {
         $token = null;
-        if( isset( $request->query['token'] ) ){
-            $token = $request->query['token'];
-        }else{
-            if( isset( $request->request['token'] ) ){
-                $token = $request->request['token'];
+        if (isset($this->request->query['token'])) {
+            $token = $this->request->query['token'];
+        } else {
+            if (isset($this->request->request['token'])) {
+                $token = $this->request->request['token'];
             }
         }
-        if( $token === null  ){            
+        if ($token === null) {
             return false;
         }
-        $model = mvc_model('notaire');//load model notaire
-        $result = $model->checkLastConnect( $token );
+        $model  = mvc_model('notaire');//load model notaire
+        $result = $model->checkLastConnect($token);
+
         return $result;
     }
 }

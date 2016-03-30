@@ -6,7 +6,7 @@
  * @contributor Joelio
  */
 
-class Solde extends MvcModel
+class Solde extends \App\Override\Model\CridonMvcModel
 {
 
     /**

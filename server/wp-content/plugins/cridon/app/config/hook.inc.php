@@ -119,11 +119,14 @@ function append_js_files()
                 'newsletter_empty_error'   => CONST_NEWSLETTER_EMPTY_ERROR_MSG,
                 'newsletter_success_msg'   => CONST_NEWSLETTER_SUCCESS_MSG,
                 'newsletter_email_error'   => CONST_NEWSLETTER_EMAIL_ERROR_MSG,
+                
+                // cridonline
+                'cridonline_nonce'         => wp_create_nonce("process_cridonline_nonce"),
             )
         );
     }
 }
-add_action('wp_enqueue_scripts', append_js_files(), 99);
+add_action('wp_enqueue_scripts', 'append_js_files', 99);
 
 /**
  * hook for connection
@@ -230,17 +233,6 @@ function custom_mvc_menu_position( $menu_position ){
     return $new_menu_position ;
 }
 //End Hook for Mvc_menu_position
-/**
- * hook for newsletter subscription
- */
-function newsletter()
-{
-    require_once WP_PLUGIN_DIR . '/cridon/app/controllers/notaires_controller.php';
-    $controller = new NotairesController();
-    $controller->newsletterSubscription();
-}
-add_action( 'wp_ajax_newsletter',   'newsletter' );
-add_action( 'wp_ajax_nopriv_newsletter',   'newsletter' );
 
 /**
  * Suppression option "show admin bar" sur fiche notaire en admin
@@ -301,11 +293,13 @@ add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
  */
 function add_new_post_url( $url, $path, $blog_id ) {
 
+    $hookPath = false;
     if ( $path == "post-new.php" && isset($_GET['cridon_type']) ) {
         $path = "post-new.php?cridon_type=" . $_GET['cridon_type'];
+        $hookPath = true;
     }
 
-    return ($path)?$path:$url;
+    return ($hookPath) ? $path : $url;
 }
 add_filter( 'admin_url', 'add_new_post_url', 10, 3 );
 
@@ -327,4 +321,141 @@ function custom_mvc_title_page( $title ){
         $title = preg_replace('/(\bUser\b)/', 'Utilisateur', $title);
     }
     return $title ;
-} 
+}
+
+// Match wp_posts and WP_MVC show action
+if( !is_admin() ){
+    /**
+     * @see https://codex.wordpress.org/Plugin_API/Action_Reference/wp
+     */
+    add_action( 'wp', 'join_wp_post_and_wpmvc' );
+    function join_wp_post_and_wpmvc($wp)
+    {
+        global $wpdb;
+        //check wp_mvc pages
+        if (empty($wp->matched_query) || preg_match("/(mvc_controller)|(mvc_action)/",$wp->matched_query)){
+            return;
+        }
+        //only for WP_Posts
+        if( !is_feed() && !empty($wp->query_vars) && !isset($wp->query_vars['mvc_controller']) && ('post' === get_post_type()) ){
+            $post_ID = get_the_ID();
+            $post = get_post();
+            foreach( Config::$data as $v ){
+                $table = $v[ 'name' ];
+                //Simple query using WP_query to get mvc_model (id)
+                $mvc = $wpdb->get_row(
+                        'SELECT id FROM '.$wpdb->prefix.$table
+                        .' WHERE post_id = '.$post_ID
+                );
+                //when model founded
+                if($mvc){
+                    $options=array(
+                        'controller' => $v['controller'],
+                        'action'     => 'show',
+                        'id'         => $post->post_name
+                    );
+                    $url  = MvcRouter::public_url($options);
+                    //redirect to correct url
+                    wp_redirect( $url, 301 );
+                    exit;
+                }
+            }
+        }
+    }
+}
+//End Match wp_posts and WP_MVC show action
+
+/**
+ * Filter a notary capabilities depending on config
+ * This would be secure because only executed on user notary connected
+ *
+ * @param array $caps : A list of required capabilities to access the page or doing some actions
+ * @param string $cap : The capability being checked
+ * @param int $user_id : The current user ID
+ * @param mixed $args : A numerically indexed array of additional arguments dependent on the meta cap being used
+ * @return null|array
+ */
+function custom_map_meta_cap( $caps, $cap, $user_id, $args ) {
+    // bypass unauthorized capabilities
+    // by returning an empty value (or empty array)
+    // if the capabalities was found on the list of config values
+    if ( CriIsNotaire() ) { // Check if user is notary
+        if (is_array($caps)
+            && count(array_intersect($caps, Config::$authorizedCapsForNotary)) > 0
+        ) {
+            return;
+        }
+    }
+
+    return $caps;
+}
+add_filter( 'map_meta_cap', 'custom_map_meta_cap', 10, 4 );
+
+add_action( 'wp', 'custom_redirect_301' );
+function custom_redirect_301($wp)
+{
+    if (!is_admin() && !empty($wp->matched_query)) {
+        // convert a query string to an array of vars
+        parse_str($wp->matched_query, $vars);
+
+        if (is_array($vars)
+            && isset($vars['mvc_controller'])
+            && isset($vars['mvc_action'])
+            && isset($vars['mvc_id']) // id notary is set
+            && $vars['mvc_controller'] == 'notaires' // controller "notaires"
+            && $vars['mvc_action']
+        ) {
+            // redirect 301 for an url like [site_url]/notaires/{id} to [site_url]/notaires
+            // and [site_url]/notaires/{id}/{action} to [site_url]/notaires/{action}
+            wp_redirect(
+                mvc_public_url(array(
+                        'controller' => 'notaires',
+                        'action'     => $vars['mvc_action']
+                    )
+                ),
+                301
+            );
+        }
+    }
+}
+
+
+/**
+ * Hook lien "Lire" pour conservation filtre de veille
+ * A noter que ca respecte deja le principe de WP lors de la formation des liens des Posts
+ * Pour info template associé : wp-content/themes/maestro/content-post-list.php
+ * @see https://codex.wordpress.org/Plugin_API/Filter_Reference/the_permalink
+ *
+ * @param string $url the post url
+ * @return string
+ */
+function append_query_string($url) {
+    return add_query_arg($_GET, $url);
+}
+add_filter('the_permalink', 'append_query_string');
+
+/**
+ * Hook permettant d'ajouter les classes `analytics` au tag anchor <a>
+ * @param array $atts {
+ *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
+ *
+ *     @type string $title  Title attribute.
+ *     @type string $target Target attribute.
+ *     @type string $rel    The rel attribute.
+ *     @type string $href   The href attribute.
+ * }
+ * @param object $item  The current menu item.
+ * @param array  $args  An array of {@see wp_nav_menu()} arguments.
+ * @param int    $depth Depth of menu item. Used for padding.
+ *
+ * @return array $att
+ */
+function addClassesAnalytics($atts, $item, $args, $depth){
+    foreach($item->classes as $class) {
+        if (preg_match('/analytics/', $class)) {
+            $atts['class'] = $class;
+        }
+    }
+    return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'addClassesAnalytics',10,4 );
