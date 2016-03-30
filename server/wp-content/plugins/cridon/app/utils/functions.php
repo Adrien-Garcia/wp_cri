@@ -982,3 +982,38 @@ function CriSendPostQuestConfirmation($question) {
         }
     }
 }
+
+/**
+ * Get list of all existing roles
+ *
+ * @return array
+ */
+function CriListRoles() {
+    return Config::$notaryRoles;
+}
+
+/**
+ * Get list of collaborator roles by collaborator_id
+ * @param int $id
+ * @return array
+ */
+function CriGetCollaboratorRoles($id = 0) {
+    // get collaborator
+    $collaborator = mvc_model('QueryBuilder')->findOne('notaire',
+                                                       array(
+                                                           'fields' => 'id, id_wp_user, crpcen',
+                                                           'conditions' => 'id = ' . $id,
+                                                       )
+    );
+
+    // get collaborator associated user
+    if (is_object($collaborator) && $collaborator->id_wp_user) {
+        $user = new WP_User($collaborator->id_wp_user);
+
+        // check if user is a WP_user vs WP_error
+        if ($user instanceof WP_User && is_array($user->roles)) {
+            return $user->roles;
+        }
+    }
+    return array();
+}
