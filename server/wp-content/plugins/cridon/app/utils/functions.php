@@ -997,7 +997,7 @@ function CriListRoles() {
  * @param int $id
  * @return array
  */
-function CriGetCollaboratorRoles($id = 0) {
+function CriGetCollaboratorRoles($id) {
     // get collaborator
     $collaborator = mvc_model('QueryBuilder')->findOne('notaire',
                                                        array(
