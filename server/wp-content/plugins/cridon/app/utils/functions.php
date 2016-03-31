@@ -993,7 +993,7 @@ function CriListRoles() {
 }
 
 /**
- * Get list of collaborator roles by collaborator_id
+ * Get list of roles by collaborator
  * @param mixed $collaborator
  * @return array
  */
