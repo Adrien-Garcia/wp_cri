@@ -510,6 +510,15 @@ class NotairesController extends BasePublicController
             $this->model->manageCollaborator($this->current_notaire, $data);
         }
 
+        // delete action
+        if (isset($_REQUEST['action'])
+            && $_REQUEST['action'] == 'delete'
+            && isset($_REQUEST['id'])
+            && intval($_REQUEST['id']) > 0
+        ) {
+
+        }
+
         // list of function
         $collaborator_functions = $this->tools->getFunctionCollaborator();
 
