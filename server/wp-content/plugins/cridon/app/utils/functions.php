@@ -994,18 +994,10 @@ function CriListRoles() {
 
 /**
  * Get list of collaborator roles by collaborator_id
- * @param int $id
+ * @param mixed $collaborator
  * @return array
  */
-function CriGetCollaboratorRoles($id) {
-    // get collaborator
-    $collaborator = mvc_model('QueryBuilder')->findOne('notaire',
-                                                       array(
-                                                           'fields' => 'id, id_wp_user, crpcen',
-                                                           'conditions' => 'id = ' . $id,
-                                                       )
-    );
-
+function CriGetCollaboratorRoles($collaborator) {
     // get collaborator associated user
     if (is_object($collaborator) && $collaborator->id_wp_user) {
         $user = new WP_User($collaborator->id_wp_user);
