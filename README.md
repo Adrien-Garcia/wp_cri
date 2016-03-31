@@ -50,6 +50,23 @@ setenv("DEV=DEV");
 $_SERVER('ENV');
 ```
 
+# Utilisation
+
+## Debug des crons
+
+Pour utiliser XDEBUG en CLI :
+
+* Configurer PhpStorm : [ici](https://confluence.jetbrains.com/display/PhpStorm/Debugging+PHP+CLI+scripts+with+PhpStorm)
+* Configuration dans le terminal : [ici](http://code-chronicle.blogspot.fr/2014/07/web-and-cli-debugging-with-phpstorm.html)
+
+Exemple d'export de variable d'environnement ci-dessous :
+
+
+```
+export PHP_IDE_CONFIG="serverName=wp-cridon.username.jetpulp.dev"
+export XDEBUG_CONFIG="remote_enable=1 remote_mode=req remote_port=9000 remote_host=10.0.2.1 remote_connect_back=0 idekey=PHPSTORM"
+```
+
 # Choix d'implémentation
 
 ## Soldes des notaires

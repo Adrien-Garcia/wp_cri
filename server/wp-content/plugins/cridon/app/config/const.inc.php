@@ -451,7 +451,7 @@ if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG', 'Import GED du %s : le fichier PDF associé au CSV de la question "%s" est illisible' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG' ) ) {
-    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : repertoire d\'import vide' );
+    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : Aucun document traité' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG', 'Import GED du %s : aucune question n\'est associée au document suivant "%s"' );
