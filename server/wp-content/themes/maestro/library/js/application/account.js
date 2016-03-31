@@ -3,6 +3,7 @@ App.Account = {
     defaultSelector                     :'.js-account',
 
     accountBlocksSelector               : '-blocs',
+    accountContentBlocksSelector        : '-content',
     accountMessageSelector              : '-message',
 
     accountDashboardSelector            : '-dashboard',
@@ -43,6 +44,7 @@ App.Account = {
 
 
     $accountBlocks                      : null,
+    $accountContentBlocks               : null,
 
     $accountDashboard                   : null,
     $accountQuestion                    : null,
@@ -103,6 +105,7 @@ App.Account = {
         var a = this.ajaxSelector;
 
         this.$accountBlocks              = $(d + this.accountBlocksSelector);
+        this.$accountContentBlocks       = $(d + this.accountContentBlocksSelector);
 
         this.$accountDashboardButton     = $(d + this.accountDashboardSelector + b);
         this.$accountQuestionButton      = $(d + this.accountQuestionSelector + b);
@@ -402,15 +405,18 @@ App.Account = {
     /*
      * Event for Opening the dashboard (Ultimately AJAX)
      */
-    eventAccountDashboardOpen: function() {
+    eventAccountDashboardOpen: function(link) {
         var self = this;
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountDashboard.addClass("active");
         $.ajax({
-            url: this.$accountDashboard.data('js-ajax-src'),
+            url: link.data('js-ajax-src'),
             success: function(data)
             {
-                self.$accountDashboardAjax.html(data);
+                $('#'+targetid).html(data);
+                // $('#'+targetid).html(data);
                 self.debug('Account Dashboard Loaded');
                 self.initDashboard();
             }
@@ -421,15 +427,18 @@ App.Account = {
     /*
      * Event for Opening the Question (Ultimately AJAX)
      */
-    eventAccountQuestionOpen: function() {
+    eventAccountQuestionOpen: function(link) {
         var self = this;
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountQuestion.addClass("active");
         $.ajax({
-            url: this.$accountQuestion.data('js-ajax-src'),
+            url: link.data('js-ajax-src'),
             success: function(data)
             {
-                self.$accountQuestionAjax.html(data);
+                $('#'+targetid).html(data);
+                // self.$accountQuestionAjax.html(data);
                 self.debug('Account Question Loaded');
                 self.initQuestions();
             }
@@ -441,15 +450,18 @@ App.Account = {
     /*
      * Event for Opening the Profil (Ultimately AJAX)
      */
-    eventAccountProfilOpen: function() {
+    eventAccountProfilOpen: function(link) {
         var self = this;
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountProfil.addClass("active");
         $.ajax({
-            url: this.$accountProfil.data('js-ajax-src'),
+            url: link.data('js-ajax-src'),
             success: function(data)
             {
-                self.$accountProfilAjax.html(data);
+                $('#'+targetid).html(data);
+                // self.$accountProfilAjax.html(data);
                 self.debug('Account Profil Loaded');
                 self.initProfil();
             }
@@ -461,15 +473,18 @@ App.Account = {
     /*
      * Event for Opening the Facturation (Ultimately AJAX)
      */
-    eventAccountFacturationOpen: function() {
+    eventAccountFacturationOpen: function(link) {
         var self = this;
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountFacturation.addClass("active");
         $.ajax({
-            url: this.$accountFacturation.data('js-ajax-src'),
+            url: link.data('js-ajax-src'),
             success: function(data)
             {
-                self.$accountFacturationAjax.html(data);
+                $('#'+targetid).html(data);
+                // self.$accountFacturationAjax.html(data);
                 self.debug('Account Facturation Loaded');
                 self.initFacturation();
             }
@@ -481,15 +496,18 @@ App.Account = {
     /*
      * Event for Opening the Collaborateur (AJAX)
      */
-    eventAccountCollaborateurOpen: function() {
+    eventAccountCollaborateurOpen: function(link) {
         var self = this;
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountCollaborateur.addClass("active");
         $.ajax({
-            url: this.$accountCollaborateur.data('js-ajax-src'),
+            url: link.data('js-ajax-src'),
             success: function(data)
             {
-                self.$accountCollaborateurAjax.html(data);
+                $('#'+targetid).html(data);
+                // self.$accountCollaborateurAjax.html(data);
                 self.debug('Account Collaborateur Loaded');
                 self.initCollaborateur();
             }
@@ -501,15 +519,18 @@ App.Account = {
     /*
      * Event for Opening the Cridonline (Ultimately AJAX)
      */
-    eventAccountCridonlineOpen: function() {
+    eventAccountCridonlineOpen: function(link) {
         var self = this;
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountCridonline.addClass("active");
         $.ajax({
-            url: this.$accountCridonline.data('js-ajax-src'),
+            url: link.data('js-ajax-src'),
             success: function(data)
             {
-                self.$accountCridonlineAjax.html(data);
+                $('#'+targetid).html(data);
+                // self.$accountCridonlineAjax.html(data);
                 self.debug('Account Cridonline Loaded');
                 self.initCridonline();
             }
@@ -523,13 +544,16 @@ App.Account = {
         var url = link.attr('href');
 
 
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountQuestion.addClass("active");
         $.ajax({
             url: url,
             success: function(data)
             {
-                self.$accountQuestionAjax.html(data);
+                $('#'+targetid).html(data);
+                // self.$accountQuestionAjax.html(data);
                 self.debug('Account Question Pagination Loaded');
                 self.initQuestions();
                 App.Utils.scrollTop(undefined, "#historique-questions");

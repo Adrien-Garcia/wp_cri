@@ -19,5 +19,6 @@
             <a href="/veilles">Découvrir l'offre de veille</a>
         </div>
     </div>
+</div>
 
 <?php endif; ?>

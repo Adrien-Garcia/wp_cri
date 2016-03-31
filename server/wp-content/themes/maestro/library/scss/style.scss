@@ -106,6 +106,14 @@ the other stylesheets. Remember, keep it light: Speed is Important.
 // styles in base.scss
 @import "breakpoints/base";
 
+/* ESPACE PRIVE*/
+@import "breakpoints/base/prive/generale"; 
+@import "breakpoints/base/prive/dashboard";
+@import "breakpoints/base/prive/questions";
+@import "breakpoints/base/prive/profil";
+@import "breakpoints/base/prive/facturation";
+@import "breakpoints/base/prive/cridonline";
+
 /*********************
 LARGER MOBILE DEVICES
 This is for devices like the Galaxy Note or something that's
@@ -130,6 +138,14 @@ you can add resource intensive styles.
 	// styles in 768up.scss
 	@import "breakpoints/768up";
 
+	/* ESPACE PRIVE*/
+	@import "breakpoints/768/prive/generale"; 
+	@import "breakpoints/768/prive/dashboard";
+	@import "breakpoints/768/prive/questions";
+	@import "breakpoints/768/prive/profil";
+	@import "breakpoints/768/prive/facturation";
+	@import "breakpoints/768/prive/cridonline";
+
 } // end of media query
 
 /*********************
@@ -142,6 +158,14 @@ you can add resource intensive styles.
 
 	// styles in 1024up.scss
 	@import "breakpoints/1240up";
+
+	/* ESPACE PRIVE*/
+	@import "breakpoints/1240/prive/generale"; 
+	@import "breakpoints/1240/prive/dashboard";
+	@import "breakpoints/1240/prive/questions";
+	@import "breakpoints/1240/prive/profil";
+	@import "breakpoints/1240/prive/facturation";
+	@import "breakpoints/1240/prive/cridonline";
 
 } // end of media query
 

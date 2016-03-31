@@ -1,0 +1,78 @@
+div#tableau-de-bord{
+
+	width: 100%;
+	float: left;
+
+	.mon-solde{
+
+		width: 300px;
+		float: left;
+
+		.solde-pts{								
+
+			.point{
+				.pts{								
+
+					> span{}
+				}
+
+				> span{										
+				}
+			}
+		}
+
+		.consomation{
+			
+			.pts{
+
+				> .pts{
+					
+				}
+
+				>.texte{
+					
+
+				}
+
+				>.date{
+					
+				}
+			}
+
+		}
+
+		.appel-courrier{
+			
+
+			.appel, .courrier{
+				
+				&:before{
+					
+					
+				}
+
+				span{
+					
+				}
+			}
+
+			.appel{
+
+				&:before{}
+			}
+
+			.courrier{
+				&:before{}
+			}
+		}
+
+	}
+
+	.mes-questions{
+		width: 360px;
+		float: left;
+	}
+
+	
+
+}
