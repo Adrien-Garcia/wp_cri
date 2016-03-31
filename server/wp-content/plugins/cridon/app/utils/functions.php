@@ -982,3 +982,19 @@ function CriSendPostQuestConfirmation($question) {
         }
     }
 }
+
+/**
+ * Check if  current user can manage Collaborator
+ *
+ * @return bool
+ * @throws Exception
+ */
+function CriCanManageCollaborator() {
+    if (is_user_logged_in()) {
+        $notary = mvc_model('notaire')->getUserConnectedData();
+
+        return (is_object($notary) && in_array($notary->id_fonction, Config::$allowedNotaryFunction));
+    }
+
+    return false;
+}
