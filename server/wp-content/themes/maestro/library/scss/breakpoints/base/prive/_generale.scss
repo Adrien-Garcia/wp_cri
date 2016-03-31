@@ -1,0 +1,255 @@
+#content.page-mon-compte{
+
+	#main{
+		background: linear-gradient(90deg, #e6e6e6 50%, #FFFFFF 50%);
+		padding-top: 0;
+
+		&:before{
+			display: none;
+		}
+
+		.header-wrap{
+			background: #FFF;
+			width:100%; 
+			display: block;
+			padding-top: 15px;
+			margin-top: 0;
+			height: 66px;
+
+			h1{
+				float: left;
+				background: #FFF;
+				font-size: 20px;
+				margin-bottom: 0;
+
+				&:before{
+					bottom:-9px;
+				}
+				
+			}
+		}
+
+		#inner-content{
+
+			&.wrap{width:320px;}
+
+
+
+			#sidebar_prive{
+				width: 65px;
+				float: left;
+				background: $bg-top-footer;
+				height: 100%;
+
+				nav{
+					ul{
+						margin: 0;
+						padding: 0;
+
+						>li{
+							//background: $bg-top-footer;
+							padding: 0;
+							margin: 0;
+
+							>a{
+								border-bottom:solid 1px #bcbcbc;
+								display: block;
+								width: 65px;
+								height: 75px;
+								text-decoration: none;
+								position: relative;
+								background: $bg-top-footer;
+
+								@include transition(all 0.3s ease-in);
+
+								
+
+								&:after{
+									@include svgiconafter('ico-dashboard', 27px, 27px, $bleu); 
+									position:absolute;
+									top: 50%;
+									left: 50%;
+									margin-left: -13px;
+									margin-top: -13px;
+									@include transition(all 0.3s ease-in);
+								}
+
+								&:before{
+									@include transition(color 0.3s ease-in);
+								}
+
+								> span{
+									display: none;
+									@include transition(all 0.3s ease-in);
+								}
+
+
+
+							}
+
+							
+
+							&:first-child{ /* Dashboard*/
+								> a{								
+									&:after{
+										@include svgiconafter('ico-dashboard', 27px, 27px, $bleu);
+									}
+								}
+							}
+							&:nth-child(2){ /* Questions */
+								> a{								
+									&:after{
+										@include svgiconafter('ico-questions', 28px, 28px, $bleu);
+										margin-left: -7px;
+									}
+								}
+							}
+							&:nth-child(3){ /* Profil */
+								> a{								
+									&:after{
+										@include svgiconafter('icon-profil', 27px, 27px, $bleu);
+										margin-left: -15px;
+									}
+								}
+							}
+							&:nth-child(4){ /* Facturation */
+								> a{								
+									&:after{
+										@include svgiconafter('ico-facturation', 27px, 27px, $bleu);
+									}
+								}
+							}
+							&:nth-child(5){ /* Cridonline */
+								> a{								
+									&:after{
+										@include svgiconafter('ico-cridonline', 27px, 27px, $rouge);
+
+									}
+								}
+							}
+							&:nth-child(6){ /* Collaborateurs */
+								> a{								
+									&:after{
+										@include svgiconafter('ico-collaborateur', 27px, 27px, $bleu);
+										margin-left: -18px;
+									}
+								}
+							}
+
+
+
+
+
+							&.active, &:hover{
+
+								>a{
+									background: $bleu;
+
+									&:before{
+										@include svgicon('icon-angle-bottom', 15px, 15px, $bleu);					
+										position:absolute;
+										top:50%;
+										right:-31px;
+										margin: -6px 0 0 0; 
+										display: block; 
+										z-index: 222;
+										@include rotate(-90);
+									}
+
+									&:after{
+										color:#FFF;
+									} 
+								}
+							}
+
+							&.active, &:hover{
+
+								>a.cridonline{
+									
+									background: $rouge;
+
+									&:before{
+										@include svgicon('icon-angle-bottom', 15px, 15px, $rouge);					
+										position:absolute;
+										top:50%;
+										right:-31px;
+										margin: -6px 0 0 0; 
+										display: block; 
+										z-index: 222;
+										@include rotate(-90);
+									}
+
+									&:after{
+										color:#FFF;
+									} 
+								}
+							}
+
+						}
+					}
+				}
+
+				
+			}
+
+			>.content{
+				float: right;
+				width: 255px;
+				background: #FFF;
+				min-height: 450px; 
+				padding-left: 20px;
+				padding-bottom: 40px;
+				//border:solid 1px red;
+				overflow: hidden;
+
+				>div{
+					display: none;
+					&.active{ display: block;}
+				}
+
+				h2{
+					text-transform: uppercase;
+					font-size: 20px;
+					color:$vert;
+					margin-top: 0;
+				}
+
+				p{
+					font-size: 12px;
+					font-family: $helvetica;
+					line-height: 18px;
+				}
+			}
+
+
+			/* a.logout{
+				color:$rouge;
+				background: none;
+				display: inline-block;
+				width: auto;
+				text-transform: none;
+				font-size: 14px;
+				@extend .do-el;
+				float: none;
+				margin: 0;
+				padding: 0;
+				text-align: left;
+				border-bottom:solid 1px $rouge;
+				height: auto;
+				line-height: 18px;
+				text-decoration: none;
+				float: right;
+				margin-bottom: 20px;
+			
+				&:after{ display: none;}
+			
+				&:hover{
+					border-bottom:solid 1px #FFF;
+					color:$rouge;
+				}
+			} */
+
+			
+		}
+	}
+}

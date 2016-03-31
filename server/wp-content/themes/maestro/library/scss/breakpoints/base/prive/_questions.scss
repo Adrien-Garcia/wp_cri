@@ -1,0 +1,562 @@
+/*
+ QUESTIONS
+  */
+
+div#mes-questions{
+
+	font-size: 12px;
+	color:$bleu;
+	@extend .do-re;
+
+
+
+	a.pdf{
+	 	display: block;
+	 	width: 16px;
+	 	height: 16px;
+	 	position: relative;
+	 	float: right;
+	 	text-decoration: none;
+
+	 	&:before{
+	 		@include svgicon('icon-pdf', 16px, 16px, $rouge);
+	 		position: absolute;
+	 		top: 0;
+	 		left: 0;
+	 		text-decoration: none;
+	 	}
+	 }
+
+	ul{
+		padding: 0;
+		margin: 0;
+
+		li{
+			padding: 0;
+			margin: 0;
+
+			p{
+				margin: 0;
+				padding: 0;
+				font-size: 14px;
+				line-height: 18px;
+				@extend .do-sm;
+				color:$bleu;
+				height: 36px;
+				overflow: hidden;
+			}
+
+			span{
+				font-size: 14px;
+				line-height: 18px;
+				@extend .do-sm;
+				color:$bleu;
+			}
+
+			.date{
+				position: absolute;
+				top: 0;
+				left: 40px;
+				font-family: $helvetica;
+				font-weight: 100;
+				color:$bleu;
+				font-size: 14px;
+				text-transform: uppercase;
+			}
+
+			.reponse{
+				position: absolute;
+				top: 20px;
+				left: 40px;
+				font-family: $helvetica;
+				font-weight: 100;
+				color:$bleu;
+				font-size: 14px;
+				text-transform: uppercase;
+
+			}
+
+			.matiere{
+				@extend .do-sm;
+				color: #FFF;
+			    text-transform: uppercase;
+			    font-size: 12px;
+			    background: #009999;
+			    display: inline-block;
+			    padding: 0 2px;
+			    margin-bottom: 5px;
+			}
+
+			.id-question{
+				font-family: $helvetica;
+				font-weight: 100;
+				text-transform: uppercase;
+			}
+
+			.answer{
+				color:$vert;
+				position: relative;
+				padding-left: 20px;
+				margin-bottom: 10px;
+				&:before{
+					@include svgicon('icon-status-repondu', 16px, 16px, $vert);
+					font-weight: normal;
+					position: absolute;
+					left:0px;
+					top: 50%;
+					margin-top: -8px;
+				}
+			}
+
+			.status{
+				//@include svgicon('icon-clock', 18px, 18px, $bleu);	
+				
+				position: relative;
+				padding-left: 20px;
+
+				&:before{
+					@include svgicon('icon-clock', 16px, 16px, $bleu);
+					font-weight: normal;
+					position: absolute;
+					left:0px;
+					top: 50%;
+					margin-top: -8px;
+
+				}
+
+			}
+
+			.person{
+				padding-left: 20px;
+			}
+
+			&:before{display: none;}
+
+
+
+		}
+
+		li.pdf{ 
+
+			display: none;
+
+			 
+		}
+
+		li.plusdedetails{
+			margin-bottom: 0;
+			
+			> span{
+				@extend .do-sm;
+				color:$rouge;
+				font-size: 14px;
+				position: relative;
+				display: inline-block;
+				margin-left: 40px;
+				padding-bottom: 15px;
+				border-bottom:solid 8px #e6e6e6;
+				cursor: pointer;
+				//text-decoration: underline;
+
+				> span{
+					border-bottom:solid 1px $rouge;
+					color:$rouge;
+				}
+
+				&:after{
+					content:'>';
+					font-weight: normal;
+					position: absolute;
+					right:-20px;
+					top:0px;
+					color:$rouge;
+					font-size: 30px;
+					@include rotate(90);
+					@extend .do-el;
+				}
+
+				&:before{
+					content:'';
+				}
+				
+				&.close{
+
+					&:before{
+						content:'+';
+						font-weight: normal;
+						position: absolute;
+						right:-20px;
+						top:-3px;
+						color:$rouge;
+						font-size: 34px;
+						@include rotate(45);
+						@extend .do-el;
+					}
+
+					&:after{
+						content:'';
+					}
+
+				}
+			}
+
+			.details{
+				width: 100%;
+				background: #e6e6e6;
+				padding: 0 20px 0 40px;
+
+				//display: none;
+				overflow: hidden;
+				//opacity: 0;
+				@include transition (height 0.3s);
+
+				&:not(.open) {
+                    height: 0px !important;
+
+                }
+
+				> ul{
+					padding: 10px 0;
+					margin: 0;
+
+					>li{
+						padding: 0;
+						margin: 0;
+					
+						&:first-child{
+
+							span{
+								display: block;
+								margin-bottom: 5px;
+								@extend .do-re; 
+							}
+
+							>ul{
+                                padding: 0;
+                                margin: 10px 0 0;
+
+                                >li {
+									margin: 0;
+									padding: 0;
+
+									a{
+										@extend .do-el;
+										font-size: 14px;
+										color:$bleu;
+										padding: 5px 0;
+										display: block;
+										text-decoration: none;
+									}
+								}
+							}
+
+						}
+
+						&:last-child{
+							margin-top: 30px;
+
+							font-size: 12px;
+
+							>span{
+								display: block;
+								margin-bottom: 5px;
+							}
+						}
+					}
+
+
+					
+				}
+			}
+
+		}
+
+	}
+
+	#questions-attentes, #historique-questions{		
+
+	
+	clear: both;
+	float: none;
+	width: 100%;					
+
+		>ul{
+			float: left;
+			width: 100%;
+
+			> li{
+				
+				position: relative;
+				width: 100%;
+				float: left;
+				line-height: 18px;
+				margin-bottom: 20px;
+
+				//padding-bottom: 10px;
+				border-bottom:solid 2px #e6e6e6;
+
+				&:last-child{
+					margin-bottom: 40px;
+				}
+
+				
+
+				>ul{
+					width: 100%;
+					float: left;
+
+					li{margin-bottom: 10px;}
+
+					>li:first-child{
+						width: 30px;
+						height: 30px;
+						float: left;
+						margin-right: 10px;
+
+						>img{ width: 30px; height: 30px;}
+					}
+
+					> li:nth-child(2), > li:nth-child(3), > li:nth-child(6){
+						float: right;
+						width: calc(100% - 40px);
+					}
+
+					
+
+					> li:nth-child(4), > li:nth-child(5){
+						float: left;
+						width: 42%;
+					}
+
+					> li:nth-child(2){
+						padding-top: 20px;
+					}
+
+					> li:nth-child(3){
+						span{
+							display:block;
+						}
+					}
+
+					> li:nth-child(4){
+						margin-left: 40px;
+					}
+
+					> li:nth-child(8){
+						
+						width: 100%;
+						clear: both;
+						margin-bottom: 0px;
+
+						li{margin-bottom: 5px;}
+					}
+				}
+
+			}
+
+			
+		}
+	}
+
+	#questions-attentes{
+		margin-bottom: 40px;
+
+		
+
+		> ul{
+			> li{
+
+				> ul {
+					
+					> li:nth-child(2){
+						padding-top: 40px;
+					}
+
+				}
+			}
+		}
+	}
+
+	#historique-questions{
+
+		.filtres{
+
+			border-bottom:solid 5px $bg-top-footer;
+			margin-bottom: 40px;
+			padding-bottom: 10px;
+			position: relative;
+
+			//display: none; /* FILTRE DISPLAY NON*/
+
+
+
+			&:before{
+
+				@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
+				position: absolute;
+				bottom: -19px;
+				background: #FFF;
+				left: 50%;
+				margin-left: -30px;
+
+				
+			}
+
+			> ul{
+				margin: 0;
+				padding: 0;
+				
+
+				li{
+					padding: 0;
+                    margin: 0 0 15px;
+
+                    @extend .do-sm;
+					font-size: 14px;
+					color:$bleu;
+					line-height: 35px;
+
+					.titre{
+						font-family: $garamond;
+						font-size: 16px;
+						color:$rouge;
+						font-weight: normal;
+						display: inline-block;
+						//margin: 20px 0;
+
+					}
+
+					> a{
+
+						font-family: $garamond;
+						font-size: 16px;
+						color:$rouge;
+						font-weight: normal;
+						border-bottom:solid 1px $rouge;
+						text-decoration: none;
+
+					}
+
+					.du{
+						display: inline-block;
+						margin: 7px 0;
+					}
+					.au{
+						
+						margin: 7px 0 7px 72px;
+					}
+
+					input{
+						width: 130px;
+						display: inline;
+						height: 35px;
+						line-height: 30px;
+						border:solid 3px #e6e6e6;
+						@include border-radius(0);
+                        padding:0;
+                        margin: 0 20px 0 10px;
+                        vertical-align: middle;
+                    }
+
+					select{
+						display: inline-block;
+						width: 210px;
+						border:solid 3px #e6e6e6;
+						@include border-radius(0);
+					}
+
+
+				}
+
+				> li:first-child{
+					margin-bottom: 10px;
+				}
+
+				>li:nth-child(2){
+					
+					.titre{
+						margin-right: 16px;
+					}
+
+					#dateto{margin-right: 0;}
+				}
+				>li:last-child{
+					.titre{
+						margin-right: 18px;
+					}
+				}
+			}
+		}
+
+		>ul >li:last-child{ margin-bottom: 0; border-bottom:none;}
+
+		> ul{
+			> li{
+
+				padding-bottom: 20px;
+				margin-bottom: 20px;
+
+				> ul{
+
+					li:nth-child(6){
+						width: 126px;
+						float: left;
+						margin-left: 40px;
+					}
+
+					li.pdf{
+						display: inline-block;
+						float: left;
+						width: 134px;
+					}
+
+				}
+
+				> ul.suite-complement{
+					width: 100%;
+					clear: both;
+					margin-top: 20px;
+
+					> li{
+						width: 100%;
+						text-align: right;
+						padding: 0;
+						margin-bottom: 10px;
+						margin-right: 20px;
+						float: right;
+						color:$bleu; 
+
+						>a{
+							margin-left: 15px;
+							@extend .do-sm;
+							font-size: 14px;
+							width: auto;
+							color:$bleu; 
+							text-decoration: none;
+
+							&:before{
+								left:inherit;
+								right: -20px;
+								font-weight: normal;
+							}
+
+							b{
+								font-family: $helvetica;
+								font-weight: normal;
+							}
+
+						}	
+					}
+
+				}
+			}
+		}
+
+
+
+		
+	}
+
+
+
+}

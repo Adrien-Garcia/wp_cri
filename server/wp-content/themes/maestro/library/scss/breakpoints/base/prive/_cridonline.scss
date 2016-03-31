@@ -1,0 +1,264 @@
+div#cridonline{
+
+	input[type="submit"]{
+			width: 100%;
+			height: 40px;
+			font-size: 15px;
+		}
+
+	.bloc-cridonline{
+		width: 217px;
+		height: 373px;
+		border:solid 6px $jaune;
+		margin-bottom: 15px;
+		overflow: hidden;
+
+		> .en-tete{
+			height: 127px;
+			background: $bg-top-footer;
+		}
+
+		.content{
+			padding:0px 10px 15px 10px;
+			text-align: center;
+			position: relative;
+			height: 234px;
+
+			.titre{
+				font-size: 17px;
+				color:$bleu;
+				@extend .do-bo;
+				text-align: center;
+				line-height: 20px;
+				margin: 15px 0;
+			}
+
+			.prix{
+				@extend .do-bo;
+				font-size: 53px;
+				position: relative;
+				text-align: center;
+				line-height: 70px;
+				display: inline-block;
+				overflow: hidden;
+				height: 70px;
+
+				span{
+					position: relative;
+					font-size: 18px;
+					top: -25px;
+					
+					line-height: 20px;
+
+				}
+			}
+
+			ul{
+				margin: 0 0 5px 0;
+				padding: 0 15px;
+
+				li{
+					margin: 0;
+					padding: 0;
+
+					font-size: 13px;
+					line-height: 18px;
+					font-family: $garamond;
+					color:$bleu;
+					text-align: left;
+
+
+				}
+			}
+
+			>a {
+				@include lien-souligne($vert);
+				font-size: 14px;
+				border-bottom:solid 1px $vert;
+				line-height: 19px;
+				margin-bottom: 25px;
+
+				&:after{
+					font-size: 20px;
+					left: 50%;
+					margin-left: -4px;
+					top: 15px;
+					text-decoration: none;
+				}
+
+				&:hover{
+					border-bottom: solid 1px #FFF;
+				}
+			}
+
+			input[type="submit"]{
+				position: absolute;
+			    left: 50%;
+			    margin-left: -85px;
+			    bottom: 15px;
+			    width: 170px;
+			}
+		}
+
+		
+
+		&.niveau-1{
+			border:solid 6px $bleu-cri;
+
+			.en-tete{
+				background: url("../images/cridonline-1.svg") no-repeat center center $bg-top-footer;
+				background-size: 174px 79px;
+			}
+
+			.prix{
+				color:$bleu-cri;
+			}
+
+			input[type="submit"]{
+				background-color: $bleu-cri;
+			}
+		}
+
+		&.niveau-2{			
+			border:solid 6px $vert-cri;
+
+			.en-tete{
+				background: url("../images/cridonline-2.svg") no-repeat center center $bg-top-footer;
+				background-size: 174px 79px;
+			}
+			.prix{
+				color:$vert-cri;
+			}
+			input[type="submit"]{
+				background-color: $vert-cri;
+			}
+		}
+		&.niveau-3{
+			border:solid 6px $jaune-cri; 
+
+			.en-tete{
+				background: url("../images/cridonline-3.svg") no-repeat center center $bg-top-footer;
+				background-size: 174px 79px;
+			}
+			.prix{
+				color:$jaune-cri;
+			}
+			input[type="submit"]{
+				background-color: $jaune-cri;
+			}
+		}
+
+		
+		
+	}
+
+
+	.wrap-link{
+		width: 170px;
+		margin-left:20px;
+		margin-bottom: 26px;
+		a{
+			@include lien-souligne($rouge);
+			border-bottom:solid 1px $rouge;
+			display: inline;
+
+			&:after{
+				left: 50%;
+				margin-left: -10px;
+			}
+
+			&:hover{
+				border-bottom: solid 1px #FFF;
+			}
+		}
+	} 
+
+	.message-offre{
+		font-size: 14px;
+		line-height: 18px;
+		font-family: $garamond;
+		color:$rouge;
+		margin-bottom: 30px;
+	}
+
+	
+
+	.bloc-souscription{
+		//height: 200px;
+		width: 220px;
+		border:solid 6px $bg-top-footer;
+		padding:15px;
+
+
+		form{
+
+			label{
+				position: relative;
+				display: block;
+				height: 45px;
+				
+
+				span{/*Message*/
+					//display: inline-block;
+					padding-left: 20px;
+					font-size: 15px;
+					@extend .do-re;
+					color:$bleu;
+					position: absolute;
+				    display: block;
+				    top: 0px;
+				    right: 0px;
+				    line-height: 16px;
+				}
+
+				input{ opacity: 0;}
+
+				&:before{
+					width: 10px;
+					height: 10px;
+					border:solid 1px $rouge;
+					content:'';
+					position: absolute;
+					top: 4px;
+					left: 0;
+				}
+
+				&.select{
+					&:before{
+						background-color: $rouge;
+					}
+
+				}
+
+			}
+
+			>a{
+				@include lien-souligne($rouge);
+				
+				text-align: left;
+				border-bottom:solid 1px $rouge;
+				line-height: 24px;
+				display: inline;
+
+				&:after{
+					right: -25px;
+					bottom: 8px;
+				}
+
+				&:hover{
+					border-bottom: solid 1px #FFF;
+				}
+
+
+			}
+
+			input[type="submit"]{
+				background-color: $rouge;
+				margin-top: 20px;
+				display: block;
+			}
+		}
+
+		
+	}
+}

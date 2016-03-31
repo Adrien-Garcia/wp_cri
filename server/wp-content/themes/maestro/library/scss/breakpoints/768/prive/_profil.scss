@@ -1,0 +1,105 @@
+div#mon-profil{
+					
+	.mes-informations{
+		
+
+		h2{}
+
+		.img-profil{
+			
+
+		}
+
+		.coordonnees{
+			padding-left: 30px;
+			width: 560px;
+
+			.notaire, .etude{
+				width: 50%;
+				float: left;
+				margin-top: 0;
+			}
+			
+
+			.nom{
+				width: 100%;
+				margin-bottom: 25px;
+
+				span{}
+			}
+
+			.adresse, .contact, .mail{
+				
+				margin-bottom: 25px;
+			}
+
+			> a{
+				    
+					margin-top: 7px;
+
+
+			}
+
+		}
+	}
+
+	.mes-centres-dinterets, .newsletter{
+
+		h2{ }
+
+		.description{
+
+		}
+
+		form{
+
+			> ul{
+				clear: both;
+
+				li{
+					width: 50%;
+					float: left;
+
+					&:nth-child(even){
+						padding-right: 10px;
+					}
+
+					&:nth-child(even){
+						padding-left: 10px;
+					}
+
+					&:before{ content:none;}
+
+					label{
+
+						&:before{
+
+
+						}
+						
+						input{
+
+						}
+
+					}
+				}
+			}
+
+			a, input[type="submit"]{
+
+				margin-left: 608px;
+
+			}
+		}
+
+		
+	}
+
+	.newsletter{
+
+		> a{
+			margin-left: 568px;
+		}
+	}
+
+}
