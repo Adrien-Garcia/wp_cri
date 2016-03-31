@@ -451,4 +451,11 @@ class Config {
      * @var array list of notary "function" allowed to edit profil, show office members
      */
     public static $allowedNotaryFunction = array(1, 2, 3, 6, 7, 8, 9, 10);
+
+    /**
+     * @var array list of excepted actions for redirect 301
+     */
+    public static $exceptedActionForRedirect301 = array(
+        'deletecollaborateur',
+    );
 }
