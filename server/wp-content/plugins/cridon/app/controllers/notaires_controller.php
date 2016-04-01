@@ -557,7 +557,7 @@ class NotairesController extends BasePublicController
         $collaborator_id = $this->params['id'];
 
         // check if user can manage collaborator
-        if (!$this->model->userCanManageCollaborator()
+        if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)
             || !$this->tools->isSameOffice($collaborator_id, $this->current_notaire)
         ) {
             // redirect to profil page
