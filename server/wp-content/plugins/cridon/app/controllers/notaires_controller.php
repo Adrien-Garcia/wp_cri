@@ -49,7 +49,9 @@ class NotairesController extends BasePublicController
 
         // set notary id in params
         // needed to retrieve notary data by the MVC system
-        $this->params['id'] = $this->current_notaire->id;
+        if (!in_array($this->params['action'], Config::$exceptedActionForRedirect301)) {
+            $this->params['id'] = $this->current_notaire->id;
+        }
     }
 
     /**
@@ -510,15 +512,6 @@ class NotairesController extends BasePublicController
             $this->model->manageCollaborator($this->current_notaire, $data);
         }
 
-        // delete action
-        if (isset($_REQUEST['action'])
-            && $_REQUEST['action'] == 'delete'
-            && isset($_REQUEST['id'])
-            && intval($_REQUEST['id']) > 0
-        ) {
-
-        }
-
         // list of function
         $collaborator_functions = $this->tools->getFunctionCollaborator();
 
@@ -547,6 +540,44 @@ class NotairesController extends BasePublicController
         $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
         CriRenderView('contentcollaborateur', $vars,'notaires');
         die();
+    }
+
+    /**
+     * Delete Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/deletecollaborateur.php
+     *
+     * @return void
+     */
+    public function deletecollaborateur()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+
+        // check if user can manage collaborator
+        if (!$this->model->userCanManageCollaborator()) {
+            // redirect to profil page
+            $this->redirect(mvc_public_url(
+                                array(
+                                    'controller' => 'notaires',
+                                    'action'     => 'profil'
+                                )
+                            )
+            );
+        }
+
+        // collaborator id
+        $collaborator_id = $this->params['id'];
+
+        // post form
+        if (isset($_POST['confirmdelete'])) {
+            $this->model->deleteCollaborator($collaborator_id);
+        }
+
+        // set collaborator id
+        $this->set('collaborator_id', $collaborator_id);
+
+        // tab rank
+        $this->set('onglet', 6);
     }
 
     /**
