@@ -2298,13 +2298,18 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     `ce`.`cp`,
                     `ce`.`tel` tel_office,
                     `ce`.`fax` fax_office,
-                    `ce`.`office_email_adress_1`
+                    `ce`.`office_email_adress_1`,
+                    `cf`.`label` fonction
                 FROM
                     `{$this->table}` cn
                 LEFT JOIN
                     `{$this->wpdb->prefix}etude` ce
                 ON
                     `ce`.`crpcen` = `cn`.`crpcen`
+                LEFT JOIN
+                    `{$this->wpdb->prefix}fonction` cf
+                ON
+                    `cf`.`id` = `cn`.`id_fonction`
                 WHERE
                     `cn`.`cron_delete` = 1
             ");
@@ -2394,7 +2399,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $notary->id . "', "; // YIDNOT
                             $value .= "'" . $notary->first_name . "', "; // CNTFNA
                             $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
-                            $value .= "' ', "; // YTXTFNC
+                            $value .= "'" . $notary->fonction . "', "; // CNTFNC
                             $value .= "'" . $notary->email_adress . "', "; // WEB
                             $value .= "'" . $notary->tel . "', "; // TEL
                             $value .= "'" . $notary->tel_portable . "', "; // CNTMOB
