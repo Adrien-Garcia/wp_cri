@@ -2240,10 +2240,23 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * Delete collaborator
      *
      * @param int $id
-     * @return void
+     * @return boolean
      */
     public function deleteCollaborator($id)
     {
         $associated_wp_user = $this->getAssociatedUserByNotaryId($id);
+
+        if ($associated_wp_user && $associated_wp_user->ID) {
+            $this->wpdb->update($this->wpdb->users,
+                                array('user_status' => CONST_STATUS_DISABLED),
+                                array(
+                                    'ID' => $associated_wp_user->ID
+                                )
+            );
+
+            return true;
+        }
+
+        return false;
     }
 }

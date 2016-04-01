@@ -715,13 +715,13 @@ if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
     define( 'CONST_FACTURATION_PAGE_ID', 1515 );
 }
 
-// Start Bloc suppression collaborator
+// Start of block delete collaborator
 if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
     define( 'CONST_CONFIRM_DEL_MSG', 'Confirmer la suppression du collaborateur ?' );
 }
 if ( !defined( 'CONST_DEL_SUCCESS_MSG' ) ) {
     define( 'CONST_DEL_SUCCESS_MSG', 'Collaborateur supprimé' );
 }
-// End Bloc suppression collaborator
+// End of block delete collaborator
 
 
