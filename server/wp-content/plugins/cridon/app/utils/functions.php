@@ -990,11 +990,5 @@ function CriSendPostQuestConfirmation($question) {
  * @throws Exception
  */
 function CriCanManageCollaborator() {
-    if (is_user_logged_in()) {
-        $notary = mvc_model('notaire')->getUserConnectedData();
-
-        return (is_object($notary) && in_array($notary->id_fonction, Config::$allowedNotaryFunction));
-    }
-
-    return false;
+    return mvc_model('notaire')->userCanManageCollaborator();
 }
