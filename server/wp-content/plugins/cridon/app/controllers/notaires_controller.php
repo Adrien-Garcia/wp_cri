@@ -568,13 +568,20 @@ class NotairesController extends BasePublicController
         // collaborator id
         $collaborator_id = $this->params['id'];
 
-        // post form
-        if (isset($_POST['confirmdelete'])) {
+        // default message
+        $flash_message = CONST_CONFIRM_DEL_MSG;
+
+        // submit form
+        if (isset($_REQUEST['confirmdelete'])) {
             $this->model->deleteCollaborator($collaborator_id);
+            $flash_message = CONST_DEL_SUCCESS_MSG;
         }
 
         // set collaborator id
         $this->set('collaborator_id', $collaborator_id);
+
+        // set flash message
+        $this->set('flash_message', $flash_message);
 
         // tab rank
         $this->set('onglet', 6);
