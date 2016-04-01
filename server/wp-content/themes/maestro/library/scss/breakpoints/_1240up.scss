@@ -63,44 +63,142 @@ HEADER STYLES
 
 		
 
-		.logo-partenaires{
+		/* .logo-partenaires{
 			display: block; // Masquer les logos des éditeurs pour le lot 1
 			width: 259px;
 			height: 28px;
 			position: absolute;
 			left: 0;
 			top: 15px;
-
+		
 			//@include sprite($partenaire-header);
-
+		
 			a{
 				display: inline-block;
 				@include transition(all 0.3s);
-
+		
 				&:hover{
 					opacity: 0.8;
 				}
 			}
-
+		
 			
-
-		}
+		
+		} */
 
 		a.contacter{display: none;}
 
 		.rechercher{
 			width: 393px;
 			height: 40px;
-			line-height: 40px;
-			left: 365px;
-			font-size: 16px;
-			padding-left: 50px;
+			
 
 			&:before{
 				@include svgicon('icon-rechercher', 26px, 26px, #FFFFFF);
 				top:7px;
 				left: 10px;
 			}
+
+		}
+
+		ul#rechercher{
+			width: 393px;
+			height: 40px;
+			left: 365px; 
+
+
+			>li{ 
+				height: 50px;
+
+				>a{
+					@extend .do-sm;
+					line-height: 40px;
+					left: 365px;
+					font-size: 16px;
+					padding-left: 50px;
+
+
+					&:before{
+						@include svgicon('icon-rechercher', 26px, 26px, #FFFFFF);
+						top:7px;
+						left: 10px;
+					}
+					&:hover {
+					}
+				}
+
+				&:hover{
+
+					a.acceder-compte{
+						background: #fff;
+						&, &:before {
+							color: $vert;
+						}
+					}
+				}
+
+				>ul{	
+					top: 50px;		
+
+
+    				&:before{
+					}
+
+					&:after{
+						width: 393px;
+    					height: 150px;
+					}
+
+
+    				&.visible{
+    				}
+
+    				> li{
+    					height: 50px;
+    					line-height: 50px;
+
+
+    					
+
+
+    					&:before{
+    						content: none;
+    					}
+
+
+    					> a{
+    						
+    						height: 50px;
+	    					line-height: 50px;
+	    					font-size: 16px;
+
+    						&:hover{ 
+    						}
+
+    						span{
+    						}
+
+    						
+
+    					}
+
+    					&:last-child{
+
+    						> a{
+
+    							&:hover{
+    							}
+    						}
+    					}
+    				}
+
+				}
+
+			}
+
+			
+
+			
 
 		}
 
@@ -127,9 +225,8 @@ HEADER STYLES
 			height: 40px;
 			line-height: 40px;
 			right: 0;
-			left:  inherit;
-			
-			padding-left: 50px;			
+			left:  inherit;			
+			padding-left: 50px;	
 
 
 			margin: 0;
@@ -149,23 +246,28 @@ HEADER STYLES
 					&:before{				
 						@include svgicon('icon-compte', 26px, 26px, $vert);	
 						top:7px;
-						left: 10px;				
+						//left: 10px;				
 					}
 				}
 			
 
 				> ul.logout-2{
-					bottom: -40px;
-					height: 40px;
+					bottom: -50px;
+					height: 50px;
+
+					&:after{
+						width: 222px;
+    					height: 50px;
+					}
 
 					> li{
-						height: 40px;
+						height: 50px;
 						
 						> a{ 							
-							height: 40px;
-							line-height: 40px;
-							font-size: 20px;
-							padding-right: 20px;
+							height: 50px;
+							line-height: 50px;
+							font-size: 16px;
+							padding-right: 0px;
 							
 						}
 					}
@@ -722,7 +824,7 @@ body.page-template-front-page{
 				margin-top: 60px;
 				//float: left;
 				height: 380px;
-				margin-bottom: 60px;
+				margin-bottom: 50px;
 				padding: 0;
 				width: 100%;
 
@@ -820,6 +922,32 @@ body.page-template-front-page{
 						left:calc( 50% - 26px ); 
 					}
 					
+				}
+			}
+
+			.partenaires{
+				margin-bottom: 30px;
+				clear: both;
+
+				> div{
+					font-size: 22px;
+
+					span{
+					}
+				}
+
+				ul{
+					width: 305px;
+
+					li{
+
+						&:first-child{
+						}
+
+						img{
+							height: 40px;
+						}
+					}
 				}
 			}
 
@@ -2310,6 +2438,30 @@ FOOTER STYLES
 				color:rgba(255, 255, 255, 0.6);
 				
 			}
+			.partenaires{
+				margin-top: 75px;
+
+				> div{
+					
+					
+
+					span{}
+				}
+
+				ul{
+					width: auto;
+
+					li{
+						
+						&:first-child{}
+
+						img{ height: 30px;}
+					}
+				}
+				
+				
+			}
+
 		}
 		&:after {
 		}

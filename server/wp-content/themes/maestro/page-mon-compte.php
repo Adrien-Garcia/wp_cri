@@ -21,7 +21,7 @@
 					<nav>
 						<ul id="sel-compte">
 							<li 
-								class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 5) ? " active " : "" ?>" 
+								class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : "" ?>" 
 								data-js-name="Dashboard" 
 								>
 								
@@ -76,7 +76,7 @@
 							<?php endif ?>
 							<?php if (CriCanAccessSensitiveInfo()): ?>
 							<li 
-								class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : "" ?>" 
+								class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == 5) ? " active " : "" ?>" 
 								data-js-name="Cridonline" 
 								>
 								
@@ -106,8 +106,8 @@
 					</nav>
 				</div>
 				<div class="content">
-					<div id="tableau-de-bord" class="pannel js-account-ajax js-account-dashboard js-account-content <?php echo (!isset($onglet) || $onglet == 5) ? " active " : "" ?>">
-                        <?php if (!isset($onglet) || $onglet == 5) : ?>
+					<div id="tableau-de-bord" class="pannel js-account-ajax js-account-dashboard js-account-content <?php echo (!isset($onglet) || $onglet == 1) ? " active " : "" ?>">
+                        <?php if (!isset($onglet) || $onglet == 1) : ?>
                             <?php CriRenderView('contentdashboard', array('controller' => $this, 'questions' => $questions, 'notaire' => $notaire), 'notaires') ?>
                         <?php endif; ?>
 					</div>
@@ -126,8 +126,8 @@
                     		<?php CriRenderView('contentfacturation', array('notaire' => $notaire, 'content' => $content), 'notaires') ?>
                         <?php endif; ?>
 					</div>
-					 <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == 1) ? " active " : "" ?>">
-                        <?php if ($onglet == 1) : ?>
+					 <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == 5) ? " active " : "" ?>">
+                        <?php if ($onglet == 5) : ?>
                             <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3 ), 'notaires') ?>
 
                         <?php endif; ?>

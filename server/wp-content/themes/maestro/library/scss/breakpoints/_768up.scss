@@ -66,13 +66,17 @@ HEADER STYLES
 			display: none;
 
 		}
-		.rechercher, .poser-question, .acceder-compte {
+		#rechercher,
+		.poser-question,
+		#acceder-compte {
+
 			&, &:before {
-				transition: background $duration ease, color $duration ease;
+				@include transition(all 0.3s);
 			}
+
 		}
 
-		.rechercher{
+		ul#rechercher{
 			width: 300px;
 			height: 30px;
 			background:$vert;
@@ -81,28 +85,173 @@ HEADER STYLES
 			top: 10px;
 			left: 0;
 			text-decoration: none;
+			margin: 0;
+			padding: 0;
 
-			@extend .do-sm;
-			font-size: 12px;
-			color:#FFF;
-			text-transform: uppercase;
-			line-height: 30px;
-			padding-left: 40px;
 
-			&:before{
-				display:block;
-				font-weight: normal;
-				@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
-				position:absolute;
-				top:6px;
-				left: 8px;
-			}
-			&:hover {
-				background: #fff;
-				&, &:before {
-					color: $vert;
+			>li{ 
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				position: relative;
+				display: block;
+				height: 40px;
+
+				>a{
+					@extend .do-sm;
+					font-size: 12px;
+					color:#FFF;
+					text-transform: uppercase;
+					line-height: 30px;
+					padding-left: 40px;
+					text-decoration: none;
+					display: block;
+
+					@include transition(all 0.3s ease-in);
+
+
+					&:before{
+						display:block;
+						font-weight: normal;
+						@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
+						position:absolute;
+						top:6px;
+						left: 8px;
+
+						@include transition(all 0.3s ease-in);
+					}
+					&:hover {
+						background: #fff;
+						&, &:before {
+							color: $vert;
+						}
+					}
 				}
+
+				&:hover{
+
+					> a{
+						background: #fff;
+						&, &:before {
+							color: $vert;
+						}
+					}
+				}
+
+				>ul{
+					visibility: hidden;
+    				position: absolute;
+    				width: 100%;
+    				padding: 22px 0 0 0;
+    				margin: 0 0 0 0;
+    				top: 40px;
+    				left: 0;
+    				z-index: 3000;
+
+
+    				&:after{
+    					content:'';
+
+    					width: 300px;
+						height: 120px;
+						background: #FFF;
+						box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+						-moz-box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+						-webkit-box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+
+						z-index:-10;
+						position: absolute;
+						top: 22px;
+						left: 0; 
+
+						transition:all 0.3s;
+
+    				}
+
+
+    				&:before{
+						@include svgicon('icon-angle-bottom', 18px, 18px, $rouge);
+						@include rotate(180);
+						position: absolute;
+						top: 4px;
+						left: 50%;
+						margin-left: -29px;
+						transition:all 0.3s;
+					}
+
+
+    				&.visible{
+    					visibility: visible;
+    				}
+
+    				> li{
+    					padding: 0;
+    					margin: 0;
+    					width: 100%;
+    					height: 40px;
+    					background: #FFF;
+
+
+    					
+
+
+    					&:before{
+    						content: none;
+    					}
+
+
+    					> a{
+    						display: block;
+    						height: 40px;
+    						line-height: 40px;
+    						color:#FFF;
+    						text-decoration: none;
+    						@extend .do-me;
+    						text-transform: uppercase;
+    						text-align: center;
+    						font-size: 14px;
+    						background: $rouge;
+    						border-bottom:solid 1px #FFF;
+
+    						@include transition(all 0.3s);
+    						
+
+    						&:hover{
+    							opacity: 0.9; 
+    						}
+
+    						span{
+    							font-weight: 400 !important;
+    						}
+
+    						
+
+    					}
+
+    					&:last-child{
+
+    						> a{
+    							background: #FFF;
+    							font-size: 15px;
+    							color:$rouge;
+    							text-decoration: underline;
+    							font-family: $garamond; 
+    							text-transform: none;
+
+    							&:hover{
+    								text-decoration: none;
+    							}
+    						}
+    					}
+    				}
+
+				}
+
 			}
+
+			
+
+			
 
 		}
 
@@ -149,13 +298,16 @@ HEADER STYLES
 			top: 10px;
 			left: 485px;
 
-			>li{
+
+
+			> li{
 				margin: 0;
 				padding: 0;
 				width: 100%;
 				position: relative;
 
 				a.acceder-compte{
+					@include transition(all 0.3s ease-in);
 					width: 175px;
 					height: 30px;					
 					background: #FFF;
@@ -168,6 +320,8 @@ HEADER STYLES
 					padding-left: 40px;
 					display: block;
 
+					
+
 					&:before{
 						display:block;
 						font-weight: normal;
@@ -175,9 +329,23 @@ HEADER STYLES
 						position:absolute;
 						top:4px;
 						left: 8px;
+
+						@include transition(all 0.3s ease-in);
 					}
 
 					&:hover {
+						background: $vert;
+						color:#FFF !important;
+
+						&, &:before {
+							color: #fff;
+						}
+					}
+				}
+
+				&:hover{
+
+					a.acceder-compte{
 						background: $vert;
 						color:#FFF !important;
 
@@ -193,9 +361,40 @@ HEADER STYLES
     				width: 100%;
     				padding: 0;
     				margin: 0;
-    				bottom: -30px;
+    				bottom: -75px;
     				left: 0;
-    				z-index: 3000;
+    				z-index: 3000; 
+
+    				&:before{
+						@include svgicon('icon-angle-bottom', 18px, 18px, $vj_02);
+						@include rotate(180);
+
+						position: absolute;
+						top: 17px;
+						left: 50%;
+						margin-left: -29px;
+
+						transition:all 0.3s;
+					}
+
+					&:after{
+    					content:'';
+
+    					width: 175px;
+						height: 40px;
+						background: #FFF;
+						box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+						-moz-box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+						-webkit-box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+
+						z-index:-10;
+						position: absolute;
+						top: 35px;
+						left: 0; 
+						transition:all 0.3s;
+
+    				}
+
 
     				&.visible{
     					visibility: visible;
@@ -205,9 +404,8 @@ HEADER STYLES
     					padding: 0;
     					margin: 0;
     					width: 100%;
-    					height: 30px;
-    					
-
+    					height: 40px;
+    					background: #FFF;
 
     					&:before{
     						content: none;
@@ -216,21 +414,25 @@ HEADER STYLES
 
     					> a{
     						display: block;
-    						height: 30px;
-    						line-height: 30px;
+    						height: 40px;
+    						line-height: 40px;
     						color:#FFF;
     						text-decoration: none;
-    						text-align: right;
-    						padding-right: 10px;
-    						@extend .do-el;
-    						font-size: 16px;
-    						background: $vj_03;
+    						@extend .do-me;
+    						text-transform: uppercase;
+    						text-align: center;
+    						font-size: 14px;
+    						background: $vj_02;
+							display: block;
+    						margin-top: 35px;
+    						@include transition(all 0.3s);
     						
 
     						&:hover{
-    							background: $vert;
-								color:#FFF !important;
+    							opacity: 0.9;
     						}
+
+    						
 
     					}
     				}
@@ -258,7 +460,7 @@ HEADER STYLES
 
 			#bt-nav-mobile{
 				position: absolute;
-			    top: 25px;
+			    //top: 25px; 
 			    left: 10px;
 			   
 
@@ -718,7 +920,7 @@ body.page-template-front-page{
 				margin-top: 20px;
 				float: left;
 				height: 210px;
-				margin-bottom: 40px;
+				margin-bottom: 25px;
 
 				.block {
 
@@ -824,6 +1026,35 @@ body.page-template-front-page{
 					
 				}
 			}
+
+
+			.partenaires{
+				margin-bottom: 15px;
+				clear: both;
+
+				> div{
+					font-size: 13px;
+
+					span{
+					}
+				}
+
+				ul{
+					width: 185px;
+
+					li{
+
+						&:first-child{
+						}
+
+						img{
+							height: 23px;
+						}
+					}
+				}
+			}
+
+
 
 		}
 
@@ -1076,6 +1307,7 @@ body.page-template-front-page{
 		}
 
 		.row_03{
+			padding: 40px 0;
 
 			h2{
 
@@ -1096,46 +1328,140 @@ body.page-template-front-page{
 				}
 			}
 
-			.cridon-app{
+
+			.cridonline{
+				/*width: 100%;
+				background: $rouge;
+				height: 145px;
+				position: relative;
+				padding: 25px 10px 10px 10px;
+				margin-bottom: 10px;*/
+				height: 350px;
+				padding: 50px 150px 20px 150px;
+				margin-bottom: 25px;
+
+				&:before{
+					/*
+					position: absolute;
+					left: 50%;
+					top: 0px;
+					margin-left: -24px;*/
+					@include svgicon('icon-angle-bottom', 20px, 19px, $bg-top-footer); 
+				}
+
+				&:after{
+					/*@include svgiconafter('ico-cridonline-logo', 55px, 55px, #FFF);
+
+					position: absolute;
+					left: 50%;
+					margin-left: -68px;
+					top: 25px;*/
+					top: 50px;
+					@include svgiconafter('ico-cridonline-logo', 87px, 87px, #FFF);
+					margin-left: -106px;
+
+				}
+
+				ul{
+					/*margin: 0;
+					padding: 0;
+
+					display: none;*/
+					display: block; 
+					margin-top: 115px;
+					height: 80px;
+					overflow: hidden;
+
+					li{
+						/*margin: 0;
+						padding: 0;*/
+						font-family: $garamond;
+						font-size: 21px;
+						line-height: 23px;
+						color:#FFF;
+						padding-left: 15px;
+						display: block;
+						position: relative;
+						margin-bottom: 3px;
+
+						&:before{
+							content:'';
+							border:solid 1px #FFF;
+							@include border-radius(50%);
+							height: 8px;
+							width: 8px;
+							position: absolute;
+							left: 0;
+							top: 9px;
+						}
+					}
+				}
+
+				>a{
+					/*@include lien-souligne(#FFF);
+					text-align: center;
+					margin-top: 70px;
+					font-size: 15px;*/
+					margin-top: 30px;
+
+					&:after{
+						/*left: 50%;
+						margin-left: -8px;*/
+						top: 30px;
+					}
+
+					&.link1{
+						//margin-right: 20px;
+						margin-right: 15px;
+					}
+				}
+			}
+
+
+
+			.veille-juridique{
 				width: 100%;
-				height: 175px;
-				padding:35px 0;
-				margin-bottom: 20px;
+				height: 210px;
+				padding:35px 0 20px 0;
+				margin-bottom: 25px;
+
+				&:before{
+					font-size: 46px;
+					line-height: 46px;
+					/*color:#FFF;
+					position: absolute;*/
+					top: 35px;
+					margin-left: -12px;
+
+				}
+
+				&:after{
+					/*position: absolute;
+					top: 0;
+					@include rotate(180);
+					color:$bg-top-footer;*/
+					font-size: 20px;
+					line-height: 19px;
+					margin-left: -32px;
+
+				}
+
+
 
 				.content{
 
-					.img-main{						
-						background: url(../images/origin/img-main-appli-tablette.png);
-						width: 242px;
-						height: 210px;
-						left: 0;
-						
-
-					}
-
-					.img-appli{
-						
-						background: url(../images/origin/ico-appli-tablette.png);
-						position: absolute;
-						right: 50px;
-						bottom: 20px; 
-						width: 70px;
-						height: 116px;
-						display: block;
-					}
-
 					h2{
-						width: 215px;
-						margin: 0 0 0 280px;					
+						text-align: center;	
+						width: 100%;	
+						margin-top: 60px;		
 					} 
 
 					> a{
-						
-						width: 230px;						
-						margin: 5px 0 0 280px; 
+						margin-top: 10px;
+						text-align: center;
 
 						&:after{							
-							top: 20px;
+							top: 25px;
 							/*left: 0;*/
 						}
 
@@ -1143,15 +1469,37 @@ body.page-template-front-page{
 				}
 			}
 
-			.info-flash-exclu, .veille-juridique{
+			.info-flash-exclu, .cridon-app{
 				width: 320px;
-				padding: 35px 0;				
+				padding: 35px 0;	
+
+				height: 250px;
+
+				&:before{
+					/*color:#FFF;*/
+					font-size: 50px;
+					line-height: 50px;
+					top: 32px;
+				}	
+
+				&:after{
+					/*position: absolute;
+					top: 0;
+					@include rotate(180);
+					color:$bg-top-footer;*/
+					font-size: 20px;
+					line-height: 19px;
+					margin-left: -32px;
+				}	
+
+
 
 				h2{					
 					
 				}
 				a{	
-					margin-top: 5px;
+					font-size: 20px;
+					margin-top: 10px;
 					width: 100%;
 					&:after{	
 
@@ -1160,9 +1508,14 @@ body.page-template-front-page{
 				} 
 			}
 
-			.veille-juridique{
+			.cridon-app{
+
+				h2{
+					width: 70%;
+					margin: 0 auto;
+				}
 				
-				margin-right: 20px;				
+				
 
 				a{
 					width: 100%;
@@ -1171,7 +1524,9 @@ body.page-template-front-page{
 				
 			}
 
-			.info-flash-exclu{				
+			.info-flash-exclu{
+
+			margin-right: 20px;								
 
 				h2{
 					padding: 0; 
@@ -2376,7 +2731,7 @@ FOOTER STYLES
 	}
 
 	.footer-cridon {
-		padding: 45px 0;
+		padding: 45px 0 60px 0;
 		min-height: 410px; 
 
 		.block-left {
@@ -2420,6 +2775,33 @@ FOOTER STYLES
 			.descriptif {
 				
 			}
+
+			.partenaires{
+				text-align: left;
+				margin-top: 60px;
+
+				> div{
+					
+					text-align: left;
+					font-size: 20px;
+
+					span{}
+				}
+
+				ul{
+					margin-left: 0;
+
+					li{
+						
+						&:first-child{}
+
+						img{}
+					}
+				}
+				
+				
+			}
+
 		}
 		&:after {
 			
