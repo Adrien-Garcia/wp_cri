@@ -1,6 +1,6 @@
 web:
     container_name: wp_cridon-web
-    image: registry.jetpulp.fr:5000/dev/php56-apache
+    image: registry.jetpulp.fr:5000/dev/php56-apache-oci8
     ports:
         - "80:80"
     volumes:
