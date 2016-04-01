@@ -512,7 +512,7 @@ interface DBConnect
     const CNTFNC = 'CNTFNC_0';
 
     /**
-     * @var string : ????
+     * @var string : libelle fonction
      */
     const YTXTFNC = 'YTXTFNC_0';
 

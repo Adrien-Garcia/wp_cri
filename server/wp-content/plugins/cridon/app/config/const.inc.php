@@ -722,6 +722,27 @@ if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
 if ( !defined( 'CONST_DEL_SUCCESS_MSG' ) ) {
     define( 'CONST_DEL_SUCCESS_MSG', 'Collaborateur supprimé' );
 }
+if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
+    define( 'CONST_DELCOLLAB_ERROR', 'Suppression collaborateur interrompu le : %s' );
+}
 // End of block delete collaborator
+
+// ERP YNOTAIRE table
+if ( !defined( 'CONST_DB_TABLE_YNOTAIRE' ) ) {
+    switch ($env) {
+        case PROD:
+        case PREPROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_YNOTAIRE', $prefix.'YNOTAIRE' );
+}
 
 
