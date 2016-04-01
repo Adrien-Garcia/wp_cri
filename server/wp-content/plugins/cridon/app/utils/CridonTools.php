@@ -577,5 +577,34 @@ class CridonTools {
         die();
 
     }
+
+    /**
+     * Check Collaborator office
+     *
+     * @param int    $collaborator_id
+     * @param mixed  $notary
+     * @return mixed
+     */
+    public function isSameOffice($collaborator_id = 0, $notary)
+    {
+        if (is_object($notary) && property_exists($notary, 'crpcen')) {
+            global $wpdb;
+
+            $sql = "SELECT
+                         COUNT(`cn`.`id`) nb
+                    FROM
+                        `{$wpdb->prefix}notaire` cn
+                    WHERE
+                        `cn`.`id` = %d
+                    AND
+                        `cn`.`crpcen` = %s";
+
+            $result = $wpdb->get_row($wpdb->prepare($sql, $collaborator_id, $notary->crpcen));
+
+            return $result->nb;
+        }
+
+        return false;
+    }
 }
 

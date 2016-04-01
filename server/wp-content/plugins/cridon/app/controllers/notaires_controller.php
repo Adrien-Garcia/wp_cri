@@ -553,8 +553,13 @@ class NotairesController extends BasePublicController
         // access secured
         $this->prepareSecureAccess();
 
+        // collaborator id
+        $collaborator_id = $this->params['id'];
+
         // check if user can manage collaborator
-        if (!$this->model->userCanManageCollaborator()) {
+        if (!$this->model->userCanManageCollaborator()
+            || !$this->tools->isSameOffice($collaborator_id, $this->current_notaire)
+        ) {
             // redirect to profil page
             $this->redirect(mvc_public_url(
                                 array(
@@ -564,9 +569,6 @@ class NotairesController extends BasePublicController
                             )
             );
         }
-
-        // collaborator id
-        $collaborator_id = $this->params['id'];
 
         // default message
         $flash_message = CONST_CONFIRM_DEL_MSG;
