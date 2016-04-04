@@ -495,7 +495,9 @@ if ( !defined( 'CONST_NEWSLETTER_EMAIL_FIELD' ) ) {
 if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
     define( 'CONST_NEWSLETTER_MSGBLOCK_ID', 'newsletterMsgId' );
 }
-
+if ( !defined( 'CONST_CRIDONLINE_CGV_ERROR_MSG' ) ) {
+    define( 'CONST_CRIDONLINE_CGV_ERROR_MSG', 'Vous devez acceptez les conditions générales d\'utilisations pour souscrire à l\'offre crid\'online' );
+}
 //Alert on issues without documents
 if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
     define( 'CONST_ALERT_MINUTE', 30 );

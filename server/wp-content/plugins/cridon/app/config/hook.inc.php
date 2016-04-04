@@ -122,6 +122,7 @@ function append_js_files()
                 
                 // cridonline
                 'cridonline_nonce'         => wp_create_nonce("process_cridonline_nonce"),
+                'cridonline_CGV_error'     => CONST_CRIDONLINE_CGV_ERROR_MSG
             )
         );
     }

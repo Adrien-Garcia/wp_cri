@@ -299,7 +299,37 @@ class NotairesController extends BasePublicController
             }
         }
     }
-
+    /**
+     * Notaire CridOnlineValidation Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentcridonlineetape2.php
+     *
+     * @return void
+     */
+    public function contentcridonlineetape2()
+    {
+        // access secured
+        $this->cridonlinevalidation();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentcridonlineetape2', $vars,'notaires');
+        die();
+    }
+    /**
+     * Notaire cridonline page
+     * Associated template : app/views/notaires/cridonline.php
+     *
+     * @return void
+     */
+    public function cridonlinevalidation()
+    {
+        $this->prepareSecureAccess();
+        if (!empty($_GET['level']) && !empty($_GET['price']) && !empty($_GET['crpcen'])) {
+            $this->set('level',$_GET['level']);
+            $this->set('price',$_GET['price']);
+            $this->set('crpcen',$_GET['crpcen']);
+        }
+    }
     /**
      * Cleaning data
      *
@@ -351,41 +381,41 @@ class NotairesController extends BasePublicController
     public function ajaxVeilleSubscription()
     {
         // init response
-        $ret = '';
+        $ret = 'cgvNotAccepted';
+        if ((!empty($_REQUEST['CGV'])) && ($_REQUEST['CGV'] === 'true') ){
+            // Verify that the nonce is valid.
+            if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen'])) {
+                // find the office
+                $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
+                if (!empty($_REQUEST['level']) && !empty($etude)) {
+                    // @TODO send info to Cridon (waiting for info 'How to do that'
 
-        // Verify that the nonce is valid.
-        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen']) ) {
-            // find the office
-            $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
-            if (!empty($_REQUEST['level']) && !empty($etude)) {
-                // @TODO send info to Cridon (waiting for info 'How to do that'
-
-                // Free trial date only if it's the first subscription online for that office
-                if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->end_subscription_date_veille)){
-                    $end_subscription_date_veille = date('Y-m-d', strtotime('+'. Config::$daysTrialVeille .' days'));
+                    // Free trial date only if it's the first subscription online for that office
+                    if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->end_subscription_date_veille)) {
+                        $end_subscription_date_veille = date('Y-m-d', strtotime('+' . Config::$daysTrialVeille . ' days'));
+                        $office = array(
+                            'Etude' => array(
+                                'crpcen' => $_REQUEST['crpcen'],
+                                'end_subscription_date_veille' => $end_subscription_date_veille
+                            )
+                        );
+                        mvc_model('Etude')->save($office);
+                    }
+                }
+                if (!empty($_REQUEST['price']) && !empty($etude)) {
+                    $start_subscription_date_veille = date('Y-m-d');
                     $office = array(
                         'Etude' => array(
-                            'crpcen'                         => $_REQUEST['crpcen'],
-                            'end_subscription_date_veille'   => $end_subscription_date_veille
+                            'crpcen' => $_REQUEST['crpcen'],
+                            'start_subscription_date_veille' => $start_subscription_date_veille,
+                            'subscription_price' => intval($_REQUEST['price'])
                         )
                     );
                     mvc_model('Etude')->save($office);
+                    $ret = 'success';
                 }
             }
-            if (!empty($_REQUEST['price']) && !empty($etude)) {
-                $start_subscription_date_veille = date('Y-m-d');
-                $office = array(
-                    'Etude' => array(
-                        'crpcen'            => $_REQUEST['crpcen'],
-                        'start_subscription_date_veille' => $start_subscription_date_veille,
-                        'subscription_price'     => intval($_REQUEST['price'])
-                    )
-                );
-                mvc_model('Etude')->save($office);
-                $ret = 'success';
-            }
         }
-
         echo json_encode($ret);
         die;
     }

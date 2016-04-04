@@ -12,6 +12,7 @@ App.Account = {
     accountFacturationSelector          : '-facturation',
     accountCollaborateurSelector        : '-collaborateur',
     accountCridonlineSelector           : '-cridonline',
+    accountValidationSelector           : '-validation',
 
     accountQuestionMoreSelector         : '-more',
     accountProfilSubscriptionSelector   : '-subscription',
@@ -21,10 +22,13 @@ App.Account = {
 
     accountEmailSelector                : '-email',
     accountStateSelector                : '-state',
+    accountCGVSelector                  : '-cgv',
     accountCrpcenSelector               : '-crpcen',
     accountLevelSelector                : '-level',
     accountPriceSelector                : '-price',
-
+    accountCheckboxSelector             : '-checkbox',
+    accountStep1Selector                : '-step1',
+    accountStep2Selector                : '-step2',
 
     ajaxSelector                        : '-ajax',
     ajaxPaginationSelector              : '-pagination',
@@ -39,6 +43,7 @@ App.Account = {
     accountSoldeDataSelector            : '#js-solde-data',
     accountSoldeSVGSelector             : '#solde-circle-path',
     accountPopupCridonline              : '#layer-cridonline',
+    accountCridonline                   : '#cridonline',
 
     eventAccountButtonSelector          : '-button',
 
@@ -228,31 +233,52 @@ App.Account = {
     initCridonline: function() {
         this.debug('Account : Init Cridonline');
 
+        var d = this.defaultSelector;
+
+        this.$accountCridonlineForm = $(d + this.accountCridonlineSelector + this.accountFormSelector);
+
+        this.$accountCridonlineMessage = $(d + this.accountCridonlineSelector + this.accountMessageSelector);
+        this.$accountCridonlineCrpcen  = $(d + this.accountCridonlineSelector + this.accountCrpcenSelector);
+        this.$accountCridonlineLevel   = $(d + this.accountCridonlineSelector + this.accountLevelSelector);
+        this.$accountCridonlinePrice   = $(d + this.accountCridonlineSelector + this.accountPriceSelector);
+
+        this.$cridonline                       = $(this.accountCridonline);
+
+        this.addListenersCridonline();
+
+    },
+
+    initCridonlineValidation: function() {
+        this.debug('Account : Init Cridonline Validation');
+
+        var d = this.defaultSelector;
+
         var nonce   = document.createElement('input');
         nonce.type  = 'hidden';
         nonce.name  = 'tokencridonline';
         nonce.id    = 'tokencridonline';
         nonce.value = jsvar.cridonline_nonce;
 
-        var d = this.defaultSelector;
+        this.$accountCridonlineValidationForm = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountFormSelector);
+        this.$accountCridonlineValidationForm.append(nonce);
 
-        this.$accountCridonlineSubLevelForm = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountFormSelector);
-        this.$accountCridonlineSubLevelForm.append(nonce);
+        this.$accountCridonlineValidationMessage = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountMessageSelector);
+        this.$accountCridonlineValidationCGV     = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCGVSelector);
+        this.$accountCridonlineValidationCrpcen  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCrpcenSelector);
+        this.$accountCridonlineValidationLevel   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountLevelSelector);
+        this.$accountCridonlineValidationPrice   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPriceSelector);
+        this.$accountCridonlineValidationStep1  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep1Selector);
+        this.$accountCridonlineValidationStep2  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep2Selector);
 
-        this.$accountCridonlineSubLevelMessage = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountMessageSelector);
-        this.$accountCridonlineSubLevelCrpcen  = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountCrpcenSelector);
-        this.$accountCridonlineSubLevelLevel   = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountLevelSelector);
-        this.$accountCridonlineSubLevelPrice   = $(d + this.accountCridonlineSelector + this.accountCridonlineSubLevelSelector + this.accountPriceSelector);
-
-        this.$popupCridonline                  = $(this.accountPopupCridonline);
+        this.$popupCridonline                    = $(this.accountPopupCridonline);
 
         this.popupCridonlineInit();
 
-        this.addListenersCridonline();
-
+        this.addListenersCridonlineValidation();
     },
 
     popupCridonlineInit: function() {
+        var self = this;
         this.$popupCridonline.popup({
             transition: 'all 0.3s',
             scrolllock: true,
@@ -260,6 +286,12 @@ App.Account = {
             color: '#324968',
             offsettop: 10,
             vertical: top
+        });
+        this.$accountCridonlineValidationStep1.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.$accountCridonlineValidationStep1.toggle();
+            self.$accountCridonlineValidationStep2.toggle();
         });
     },
     /*
@@ -383,8 +415,27 @@ App.Account = {
 
         this.debug("Account : addListenersCridonline");
 
-        this.$accountCridonlineSubLevelForm.on('submit', function (e) {
-            self.eventAccountCridonlineSubLevelSubmit($(this));
+        this.$accountCridonlineForm.on('submit', function (e) {
+            self.eventAccountCridonlineSubmit($(this));
+            return false;
+        });
+    },
+
+    /*
+     * Listeners for the Account Cridonline Validation (étape 2)
+     */
+
+    addListenersCridonlineValidation: function() {
+        var self = this;
+
+        this.debug("Account : addListenersCridonlineValidation");
+
+        this.$accountCridonlineValidationCGV.on('change', function (e) {
+            self.eventAccountCridonlineValidationCGV($(this));
+        });
+
+        this.$accountCridonlineValidationForm.on('submit', function (e) {
+            self.eventAccountCridonlineValidationSubmit($(this));
             return false;
         });
     },
@@ -612,33 +663,78 @@ App.Account = {
         return false;
     },
 
-    eventAccountCridonlineSubLevelSubmit: function (form) {
-        //this.$accountCridonlineSubLevelMessage.html('');
+    eventAccountCridonlineSubmit: function (form) {
+        jQuery.ajax({
+            type: 'GET',
+            url: form.data('js-ajax-validation-url'),
+            data: {
+                crpcen: form.find(this.$accountCridonlineCrpcen).val(),
+                level: form.find(this.$accountCridonlineLevel).val(),
+                price: form.find(this.$accountCridonlinePrice).val()
+            },
+            success: this.successCridonline.bind(this)
+        });
+        return false;
+    },
+
+    successCridonline: function (html) {
+        this.$cridonline.html(html);
+        this.initCridonlineValidation();
+    },
+
+    eventAccountCridonlineValidationSubmit: function (form) {
+        this.$accountCridonlineValidationMessage.html('');
         jQuery.ajax({
             type: 'POST',
             url: form.data('js-ajax-souscription-url'),
             data: {
                 token: $('#tokencridonline').val(),
-                crpcen: form.find(this.$accountCridonlineSubLevelCrpcen).val(),
-                level: form.find(this.$accountCridonlineSubLevelLevel).val(),
-                price: form.find(this.$accountCridonlineSubLevelPrice).val()
+                CGV: form.find(this.$accountCridonlineValidationCGV)[0].checked,
+                crpcen: form.find(this.$accountCridonlineValidationCrpcen).val(),
+                level: form.find(this.$accountCridonlineValidationLevel).val(),
+                price: form.find(this.$accountCridonlineValidationPrice).val()
             },
-            success: this.successCridonlineToggle.bind(this)
+            success: this.successCridonlineValidation.bind(this)
         });
         return false;
     },
 
-    successCridonlineToggle: function (data) {
-        data = JSON.parse(data);
-        if(data == 'success')
-        {
+    successCridonlineValidation: function (data) {
+         data = JSON.parse(data);
+
+         if(data == 'success')
+         {
             this.$popupCridonline.popup('show');
+         }
+         else
+         {
+            this.$accountCridonlineValidationMessage.html(jsvar.cridonline_CGV_error);
+         }
+         return false;
+    },
+
+    eventAccountCridonlineValidationCGV: function (input) {
+        var label = input.parents(
+            this.defaultSelector +
+            this.accountCridonlineSelector +
+            this.accountValidationSelector +
+            this.accountCheckboxSelector
+        ).first();
+        if (label.hasClass('select')) {
+            label.removeClass('select');
+            label.addClass('unselect');
+        } else if (label.hasClass('unselect')) {
+            label.removeClass('unselect');
+            label.addClass('select');
+        } else {
+            if (input[0].checked) {
+                label.removeClass('unselect');
+                label.addClass('select');
+            } else {
+                label.removeClass('select');
+                label.addClass('unselect');
+            }
         }
-        else
-        {
-            //this.$accountProfilNewsletterMessage.html(jsvar.newsletter_email_error);
-        }
-        return false;
     },
 
     eventQuestionFilter: function () {
