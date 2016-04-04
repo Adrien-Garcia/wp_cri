@@ -478,119 +478,154 @@ interface DBConnect
 
     /****************** Table YNOTAIRE Structure *******************/
     /**
+     * @var string : Identifiant unique
+     */
+    const YIDCOLLAB = 'YIDCOLLAB_0';
+
+    /**
      * @var string : N° CRPCEN
      */
-    const YCRPCEN = 'YCRPCEN';
+    const YCRPCEN = 'YCRPCEN_0';
 
     /**
      * @var string : Nom
      */
-    const CNTLNA = 'CNTLNA';
+    const CNTLNA = 'CNTLNA_0';
 
     /**
      * @var string : Code interlocuteur
      */
-    const CCNCRM = 'CCNCRM';
+    const CCNCRM = 'CCNCRM_0';
+
+    /**
+     * @var string : Identifiant notaire sur Site
+     */
+    const YIDNOT = 'YIDNOT_0';
 
     /**
      * @var string : Prénom
      */
-    const CNTFNA = 'CNTFNA';
+    const CNTFNA = 'CNTFNA_0';
 
     /**
      * @var string : Fonction
      */
-    const CNTFNC = 'CNTFNC';
+    const CNTFNC = 'CNTFNC_0';
+
+    /**
+     * @var string : libelle fonction
+     */
+    const YTXTFNC = 'YTXTFNC_0';
 
     /**
      * @var string : E-Mail
      */
-    const WEB = 'WEB';
+    const WEB = 'WEB_0';
 
     /**
      * @var string : Téléphone
      */
-    const TEL = 'TEL';
+    const TEL = 'TEL_0';
 
     /**
      * @var string : Portable
      */
-    const CNTMOB = 'CNTMOB';
+    const CNTMOB = 'CNTMOB_0';
 
     /**
      * @var string : Fax
      */
-    const FAX = 'FAX';
+    const FAX = 'FAX_0';
 
     /**
      * @var string : Date de fin de présence
      */
-    const YFINPRE = 'YFINPRE';
+    const YFINPRE = 'YFINPRE_0';
 
     /**
      * @var string : Mot de passe Web
      */
-    const YMDPWEB = 'YMDPWEB';
+    const YMDPWEB = 'YMDPWEB_0';
 
     /**
      * @var string : Identifiant  appel
      */
-    const ZMDPTEL = 'ZMDPTEL';
+    const ZMDPTEL = 'ZMDPTEL_0';
 
     /**
      * @var string : Adresse 1 office
      */
-    const ADDLIG1 = 'ADDLIG1';
+    const ADDLIG1 = 'ADDLIG1_0';
 
     /**
      * @var string : Adresse 2 office
      */
-    const ADDLIG2 = 'ADDLIG2';
+    const ADDLIG2 = 'ADDLIG2_0';
 
     /**
      * @var string : Adresse 3 office
      */
-    const ADDLIG3 = 'ADDLIG3';
+    const ADDLIG3 = 'ADDLIG3_0';
 
     /**
      * @var string : Code postal
      */
-    const POSCOD = 'POSCOD';
+    const POSCOD = 'POSCOD_0';
 
     /**
      * @var string : Ville
      */
-    const CTY = 'CTY';
+    const CTY = 'CTY_0';
 
     /**
      * @var string : Téléphone office
      */
-    const TELOFF = 'TELOFF';
+    const TELOFF = 'TELOFF_0';
 
     /**
      * @var string : Fax office
      */
-    const FAXOFF = 'FAXOFF';
+    const FAXOFF = 'FAXOFF_0';
 
     /**
      * @var string : E-mail office
      */
-    const WEBOFF = 'WEBOFF';
+    const WEBOFF = 'WEBOFF_0';
+
+    /**
+     * @var string : ????
+     */
+    const YSREECR = 'YSREECR_0';
+
+    /**
+     * @var string : ????
+     */
+    const YSRETEL = 'YSRETEL_0';
 
     /**
      * @var string : Statut de l’enregistrement
      */
-    const YTRAITEE = 'YTRAITEE';
+    const YTRAITEE = 'YTRAITEE_0';
+
+    /**
+     * @var string : demande MDP TEL
+     */
+    const YDDEMDPTEL = 'YDDEMDPTEL_0';
+
+    /**
+     * @var string : demande MDP WEB
+     */
+    const YDDEMDPWEB = 'YDDEMDPWEB_0';
 
     /**
      * @var string : Flag erreur
      */
-    const YERR = 'YERR';
+    const YERR = 'YERR_0';
 
     /**
      * @var string : Message de l’erreur
      */
-    const YMESSERR = 'YMESSERR';
+    const YMESSERR = 'YMESSERR_0';
     /****************** /Table YNOTAIRE Structure *******************/
 
 
