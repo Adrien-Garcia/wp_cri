@@ -727,3 +727,9 @@ if ( !defined( 'CONST_YTRAITEE_RESETPWD' ) ) {
 if ( !defined( 'CONST_RESETPWD_ERROR' ) ) {
     define( 'CONST_RESETPWD_ERROR', 'Renouvellement mot de passe interrompu le : %s' );
 }
+if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD' ) ) {
+    define( 'CONST_YDDEMDPTEL_RESETPWD', 2 );
+}
+if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD' ) ) {
+    define( 'CONST_YDDEMDPWEB_RESETPWD', 2 );
+}
