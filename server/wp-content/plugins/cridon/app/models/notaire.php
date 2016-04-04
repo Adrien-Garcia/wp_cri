@@ -583,6 +583,22 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
                                 $updateMobileValues[]      = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
 
+                            if (isset($newData[$adapter::YABONNE_YNIVEAU_0]) && $newData[$adapter::YABONNE_YNIVEAU_0] < $currentData->subscription_level){
+                                if (isset($newData[$adapter::YABONNE_YVALDEB_0]) && $newData[$adapter::YABONNE_YVALDEB_0] >= $currentData->start_subscription_date_veille){
+                                    if (!empty($newData[$adapter::YABONNE_YSTATUT_0])){
+                                        if (in_array($newData[$adapter::YABONNE_YSTATUT_0],Config::$motiveImmediateUpdate)
+                                            && isset($newData[$adapter::YABONNE_YVALFIN_0]) && isset($newData[$adapter::YABONNE_YDATECH_0])){
+                                            $updateLevelValues[]      = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::YABONNE_YNIVEAU_0]) . "' ";
+                                            $updateStartDateValues[]  = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::YABONNE_YVALDEB_0]) . "' ";
+                                            $updateEndDateValues[]  = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::YABONNE_YVALFIN_0]) . "' ";
+                                            $updateEcheanceDateValues[]  = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::YABONNE_YDATECH_0]) . "' ";
+                                        } elseif (in_array($newData[$adapter::YABONNE_YSTATUT_0],Config::$motiveAfterwardUpdate)){
+                                            $updateNextLevelValues[]  = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::YABONNE_YNIVEAU_0]) . "' ";
+                                        }
+                                    }
+                                }
+                            }
+
                             $updateDateModified[]          = " id = {$currentData->id} THEN '" . $dateModified . "' ";
                         }
                     }

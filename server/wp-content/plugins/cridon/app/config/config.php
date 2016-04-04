@@ -440,7 +440,9 @@ class Config {
         )
     );
 
-    public static $daysTrialVeille = 15;
+    public static $motiveImmediateUpdate = array(2,3,4);
+
+    public static $motiveAfterwardUpdate = array(1);
 
     // Notification for posted question
     public static $mailBodyQuestionConfirmation  = array(
