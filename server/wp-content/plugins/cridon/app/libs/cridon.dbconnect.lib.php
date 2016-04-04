@@ -475,6 +475,66 @@ interface DBConnect
      */
     const ZQUEST_ZTXTQUEST_0 = 'ZTXTQUEST_0';
 
+    /****************** Table YABONNE Structure *******************/
+    /**
+     * @var string : id unique de la table : crpcen + timestamp
+     */
+    const YABONNE_YIDABONNE_0 = 'YIDABONNE_0';
+
+    /**
+     * @var string : crpcen de l'étude
+     */
+    const YABONNE_YCRPCEN_0 = 'YCRPCEN_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YNIVEAU_0 = 'YNIVEAU_0';
+
+    /**
+     * @var string : date de début d'abonnement
+     */
+    const YABONNE_YDATE_0 = 'YDATE_0';
+
+    /**
+     * @var string : status de l'abonnement
+     */
+    const YABONNE_YSTATUT_0 = 'YSTATUT_0';
+
+    /**
+     * @var string : tarif de l'abonnement
+     */
+    const YABONNE_YTARIF_0 = 'YTARIF_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YVALDEB_0 = 'YVALDEB_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YVALFIN_0 = 'YVALFIN_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YDATECH_0 = 'YDATECH_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YTRAITEE_0 = 'YTRAITEE_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YERR_0 = 'YERR_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YMESSERR_0 = 'YMESSERR_0';
 
     /**
      * Get instance
