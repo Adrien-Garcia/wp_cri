@@ -2247,11 +2247,31 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     public function cronResetPwd()
     {
         try {
-            $notaries = mvc_model('QueryBuilder')->find(array(
-                                         'model' => 'Notaire',
-                                         'conditions' => 'renew_pwd = 1'
-                                     )
-            );
+            $notaries = $this->wpdb->get_results("
+                SELECT
+                    `cn`.*,
+                    `ce`.`adress_1`,
+                    `ce`.`adress_2`,
+                    `ce`.`adress_3`,
+                    `ce`.`city`,
+                    `ce`.`cp`,
+                    `ce`.`tel` tel_office,
+                    `ce`.`fax` fax_office,
+                    `ce`.`office_email_adress_1`,
+                    `cf`.`label` fonction
+                FROM
+                    `{$this->table}` cn
+                LEFT JOIN
+                    `{$this->wpdb->prefix}etude` ce
+                ON
+                    `ce`.`crpcen` = `cn`.`crpcen`
+                LEFT JOIN
+                    `{$this->wpdb->prefix}fonction` cf
+                ON
+                    `cf`.`id` = `cn`.`id_fonction`
+                WHERE
+                    `cn`.`renew_pwd` = 1
+            ");
 
             // verification nb notaires à traiter
             if (is_array($notaries) && count($notaries) > 0) {
@@ -2273,16 +2293,42 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // list des id notaires pour maj cri_notaire.renew_pwd apres transfert
                 $qList = array();
 
-                // requete commune
+                // requette commune
+                /**
+                 * Tous les champs de YNOTAIRE sont NOT NULL ( YNOTAIRE.sql )
+                 */
                 $query  = " INTO " . CONST_DB_TABLE_YNOTAIRE;
                 $query .= " (";
+                $query .= $adapter::YIDCOLLAB . ", "; // YIDCOLLAB
                 $query .= $adapter::YCRPCEN . ", "; // YCRPCEN
                 $query .= $adapter::CNTLNA . ", "; // CNTLNA
                 $query .= $adapter::CCNCRM . ", ";   // CCNCRM
+                $query .= $adapter::YIDNOT . ", "; // YIDNOT
                 $query .= $adapter::CNTFNA . ", ";   // CNTFNA
                 $query .= $adapter::CNTFNC . ", ";   // CNTFNC
+                $query .= $adapter::YTXTFNC . ", ";   // YTXTFNC
+                $query .= $adapter::WEB . ", ";   // WEB
+                $query .= $adapter::TEL . ", ";   // TEL
+                $query .= $adapter::CNTMOB . ", ";   // CNTMOB
+                $query .= $adapter::FAX . ", ";   // FAX
+                $query .= $adapter::YFINPRE . ", ";   // YFINPRE
+                $query .= $adapter::YMDPWEB . ", ";   // YMDPWEB
+                $query .= $adapter::ZMDPTEL . ", ";   // ZMDPTEL
+                $query .= $adapter::ADDLIG1 . ", ";   // ADDLIG1
+                $query .= $adapter::ADDLIG2 . ", ";   // ADDLIG2
+                $query .= $adapter::ADDLIG3 . ", ";   // ADDLIG3
+                $query .= $adapter::POSCOD . ", ";   // POSCOD
+                $query .= $adapter::CTY . ", ";   // CTY
+                $query .= $adapter::TELOFF . ", ";   // TELOFF
+                $query .= $adapter::FAXOFF . ", ";   // FAXOFF
+                $query .= $adapter::WEBOFF . ", ";   // WEBOFF
+                $query .= $adapter::YSREECR . ", ";   // YSREECR
+                $query .= $adapter::YSRETEL . ", ";   // YSRETEL
                 $query .= $adapter::YTRAITEE . ", ";   // YTRAITEE
-                $query .= $adapter::YERR . " ";   // YERR
+                $query .= $adapter::YDDEMDPTEL . ", ";   // YDDEMDPTEL
+                $query .= $adapter::YDDEMDPWEB . ", ";   // YDDEMDPWEB
+                $query .= $adapter::YERR . ", ";   // YERR
+                $query .= $adapter::YMESSERR . " ";   // YMESSERR
                 $query .= ") ";
                 $query .= " VALUES ";
 
@@ -2298,20 +2344,43 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         SELECT * FROM dual;
                          */
                         foreach ($notaries as $notary) {
-                            // remplit la liste des notaries
+                            // remplit la liste des notaires
                             $qList[] = $notary->id;
 
                             // value block
                             $value  = $query;
                             $value .= "(";
 
+                            $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
                             $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
                             $value .= "'" . $notary->first_name . "', "; // CNTLNA
                             $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
+                            $value .= "'" . $notary->id . "', "; // YIDNOT
                             $value .= "'" . $notary->first_name . "', "; // CNTFNA
                             $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->email_adress . "', "; // WEB
+                            $value .= "'" . $notary->tel . "', "; // TEL
+                            $value .= "'" . $notary->tel_portable . "', "; // CNTMOB
+                            $value .= "'" . $notary->fax . "', "; // FAX
+                            $value .= "' ', "; // YFINPRE
+                            $value .= "'" . $notary->web_password . "', "; // YMDPWEB
+                            $value .= "'" . $notary->tel_password . "', "; // ZMDPTEL
+                            $value .= "'" . $notary->adress_1 . "', "; // ADDLIG1
+                            $value .= "'" . $notary->adress_2 . "', "; // ADDLIG2
+                            $value .= "'" . $notary->adress_3 . "', "; // ADDLIG3
+                            $value .= "'" . $notary->cp . "', "; // POSCOD
+                            $value .= "'" . $notary->city . "', "; // CTY
+                            $value .= "'" . $notary->tel_office . "', "; // TELOFF
+                            $value .= "'" . $notary->fax_office . "', "; // FAXOFF
+                            $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
+                            $value .= "'0', "; // YSREECR
+                            $value .= "'0', "; // YSRETEL
                             $value .= "'" . CONST_YTRAITEE_RESETPWD . "', "; // YTRAITEE
-                            $value .= "'0'"; // YERR
+                            $value .= "'" . (empty($notary->tel_password) ? 0 : CONST_YDDEMDPTEL_RESETPWD) . "', "; // YDDEMDPTEL
+                            $value .= "'" . (empty($notary->web_password) ? 0 : CONST_YDDEMDPWEB_RESETPWD) . "', "; // YDDEMDPWEB
+                            $value .= "'0', "; // YERR
+                            $value .= "' '"; // YMESSERR
 
                             $value .= ")";
 
@@ -2333,13 +2402,36 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                             $value = "(";
 
+                            $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
                             $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
                             $value .= "'" . $notary->first_name . "', "; // CNTLNA
                             $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
+                            $value .= "'" . $notary->id . "', "; // YIDNOT
                             $value .= "'" . $notary->first_name . "', "; // CNTFNA
                             $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->email_adress . "', "; // WEB
+                            $value .= "'" . $notary->tel . "', "; // TEL
+                            $value .= "'" . $notary->tel_portable . "', "; // CNTMOB
+                            $value .= "'" . $notary->fax . "', "; // FAX
+                            $value .= "' ', "; // YFINPRE
+                            $value .= "'" . $notary->web_password . "', "; // YMDPWEB
+                            $value .= "'" . $notary->tel_password . "', "; // ZMDPTEL
+                            $value .= "'" . $notary->adress_1 . "', "; // ADDLIG1
+                            $value .= "'" . $notary->adress_2 . "', "; // ADDLIG2
+                            $value .= "'" . $notary->adress_3 . "', "; // ADDLIG3
+                            $value .= "'" . $notary->cp . "', "; // POSCOD
+                            $value .= "'" . $notary->city . "', "; // CTY
+                            $value .= "'" . $notary->tel_office . "', "; // TELOFF
+                            $value .= "'" . $notary->fax_office . "', "; // FAXOFF
+                            $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
+                            $value .= "'0', "; // YSREECR
+                            $value .= "'0', "; // YSRETEL
                             $value .= "'" . CONST_YTRAITEE_RESETPWD . "', "; // YTRAITEE
-                            $value .= "'0'"; // YERR
+                            $value .= "'" . (empty($notary->tel_password) ? 0 : CONST_YDDEMDPTEL_RESETPWD) . "', "; // YDDEMDPTEL
+                            $value .= "'" . (empty($notary->web_password) ? 0 : CONST_YDDEMDPWEB_RESETPWD) . "', "; // YDDEMDPWEB
+                            $value .= "'0', "; // YERR
+                            $value .= "' '"; // YMESSERR
 
                             $value .= ")";
 
