@@ -1431,7 +1431,8 @@ body.page-template-front-page{
 					/*color:#FFF;
 					position: absolute;*/
 					top: 35px;
-					margin-left: -12px;
+					margin-left: -23px;
+					left:50%;
 
 				}
 
@@ -1443,12 +1444,14 @@ body.page-template-front-page{
 					font-size: 20px;
 					line-height: 19px;
 					margin-left: -32px;
+					left:50%;
 
 				}
 
 
 
 				.content{
+					text-align: center;
 
 					h2{
 						text-align: center;	
@@ -1460,9 +1463,12 @@ body.page-template-front-page{
 						margin-top: 10px;
 						text-align: center;
 
+						display: block;
+
 						&:after{							
 							top: 25px;
 							/*left: 0;*/
+
 						}
 
 					} 
@@ -1476,20 +1482,17 @@ body.page-template-front-page{
 				height: 250px;
 
 				&:before{
-					/*color:#FFF;*/
 					font-size: 50px;
 					line-height: 50px;
 					top: 32px;
+					left:50%;
 				}	
 
 				&:after{
-					/*position: absolute;
-					top: 0;
-					@include rotate(180);
-					color:$bg-top-footer;*/
 					font-size: 20px;
 					line-height: 19px;
 					margin-left: -32px;
+					left:50%;
 				}	
 
 
@@ -1519,7 +1522,7 @@ body.page-template-front-page{
 
 				a{
 					width: 100%;
-					margin: 0 auto;
+					margin:10px auto 0 auto;
 				}
 				
 			}

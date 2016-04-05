@@ -217,9 +217,11 @@
 				</div>
 				<div class="cridon-app js-home-block-link">
 					<div class="content">						
-						<h2><?php _e('Le cridon dans ma poche'); ?> </h2>
+						<h2><?php _e('Le cridon Lyon dans ma poche'); ?> </h2>
 						<a href="/le-cridon-dans-ma-poche/" title=""><span><?php _e('Découvrir notre application !'); ?></span></a>
+						<div class="img-main"></div>
 						<div class="img-appli" ></div>
+						
 					</div>
 				</div>
 			

@@ -1684,6 +1684,10 @@ body.page-template-front-page{
 				padding: 25px 10px 10px 10px;
 				margin-bottom: 10px;
 
+				&:hover {
+					//background: $rouge + #1b1b1b;					
+				}
+
 				&:before{
 					@include svgicon('icon-angle-bottom', 15px, 15px, $bg-top-footer);
 					position: absolute;
