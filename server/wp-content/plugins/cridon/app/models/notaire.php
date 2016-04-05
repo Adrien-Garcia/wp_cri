@@ -1225,8 +1225,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $options= array(
                 'conditions' => array(
                     'OR'=>array(
-                        'subscription_level >=' => 2,
-                        'next_subscription_level >=' => 2
+                        'subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE,
+                        'next_subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE
                     )
                 )
             );

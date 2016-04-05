@@ -438,6 +438,9 @@ if ( !defined( 'CONST_QUEST_UPDATED_IN_X3' ) ) {
 if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
     define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
 }
+if ( !defined( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE' ) ) {
+    define( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE', 2 );
+}
 
 if ( !defined( 'CONST_QUEST_ANSWERED' ) ) {
     define( 'CONST_QUEST_ANSWERED', 4 );
