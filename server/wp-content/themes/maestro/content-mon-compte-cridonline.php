@@ -27,7 +27,7 @@
         <div class="en-tete"></div>
         <div class="content">
             <div class="prix">
-               <?php //echo $priceVeilleLevel2 ?>1000 <span>€/an</span>
+               <?php echo $priceVeilleLevel2 ?><span>€/an</span>
             </div>
             <ul>
                 <li>- Lorem Ipsum dolor sit amet</li>
@@ -49,7 +49,7 @@
         <div class="en-tete"></div>
         <div class="content">
             <div class="prix">
-                <?php //echo $priceVeilleLevel3 ?> 10000 <span>€/an</span>
+                <?php echo $priceVeilleLevel3 ?><span>€/an</span>
             </div>
             <ul>
                 <li>Lorem Ipsum dolor sit amet</li>

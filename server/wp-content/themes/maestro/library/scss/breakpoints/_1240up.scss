@@ -63,44 +63,142 @@ HEADER STYLES
 
 		
 
-		.logo-partenaires{
+		/* .logo-partenaires{
 			display: block; // Masquer les logos des éditeurs pour le lot 1
 			width: 259px;
 			height: 28px;
 			position: absolute;
 			left: 0;
 			top: 15px;
-
+		
 			//@include sprite($partenaire-header);
-
+		
 			a{
 				display: inline-block;
 				@include transition(all 0.3s);
-
+		
 				&:hover{
 					opacity: 0.8;
 				}
 			}
-
+		
 			
-
-		}
+		
+		} */
 
 		a.contacter{display: none;}
 
 		.rechercher{
 			width: 393px;
 			height: 40px;
-			line-height: 40px;
-			left: 365px;
-			font-size: 16px;
-			padding-left: 50px;
+			
 
 			&:before{
 				@include svgicon('icon-rechercher', 26px, 26px, #FFFFFF);
 				top:7px;
 				left: 10px;
 			}
+
+		}
+
+		ul#rechercher{
+			width: 393px;
+			height: 40px;
+			left: 365px; 
+
+
+			>li{ 
+				height: 50px;
+
+				>a{
+					@extend .do-sm;
+					line-height: 40px;
+					left: 365px;
+					font-size: 16px;
+					padding-left: 50px;
+
+
+					&:before{
+						@include svgicon('icon-rechercher', 26px, 26px, #FFFFFF);
+						top:7px;
+						left: 10px;
+					}
+					&:hover {
+					}
+				}
+
+				&:hover{
+
+					a.acceder-compte{
+						background: #fff;
+						&, &:before {
+							color: $vert;
+						}
+					}
+				}
+
+				>ul{	
+					top: 50px;		
+
+
+    				&:before{
+					}
+
+					&:after{
+						width: 393px;
+    					height: 150px;
+					}
+
+
+    				&.visible{
+    				}
+
+    				> li{
+    					height: 50px;
+    					line-height: 50px;
+
+
+    					
+
+
+    					&:before{
+    						content: none;
+    					}
+
+
+    					> a{
+    						
+    						height: 50px;
+	    					line-height: 50px;
+	    					font-size: 16px;
+
+    						&:hover{ 
+    						}
+
+    						span{
+    						}
+
+    						
+
+    					}
+
+    					&:last-child{
+
+    						> a{
+
+    							&:hover{
+    							}
+    						}
+    					}
+    				}
+
+				}
+
+			}
+
+			
+
+			
 
 		}
 
@@ -127,9 +225,8 @@ HEADER STYLES
 			height: 40px;
 			line-height: 40px;
 			right: 0;
-			left:  inherit;
-			
-			padding-left: 50px;			
+			left:  inherit;			
+			padding-left: 50px;	
 
 
 			margin: 0;
@@ -149,23 +246,28 @@ HEADER STYLES
 					&:before{				
 						@include svgicon('icon-compte', 26px, 26px, $vert);	
 						top:7px;
-						left: 10px;				
+						//left: 10px;				
 					}
 				}
 			
 
 				> ul.logout-2{
-					bottom: -40px;
-					height: 40px;
+					bottom: -50px;
+					height: 50px;
+
+					&:after{
+						width: 222px;
+    					height: 50px;
+					}
 
 					> li{
-						height: 40px;
+						height: 50px;
 						
 						> a{ 							
-							height: 40px;
-							line-height: 40px;
-							font-size: 20px;
-							padding-right: 20px;
+							height: 50px;
+							line-height: 50px;
+							font-size: 16px;
+							padding-right: 0px;
 							
 						}
 					}
@@ -722,7 +824,7 @@ body.page-template-front-page{
 				margin-top: 60px;
 				//float: left;
 				height: 380px;
-				margin-bottom: 60px;
+				margin-bottom: 50px;
 				padding: 0;
 				width: 100%;
 
@@ -820,6 +922,32 @@ body.page-template-front-page{
 						left:calc( 50% - 26px ); 
 					}
 					
+				}
+			}
+
+			.partenaires{
+				margin-bottom: 30px;
+				clear: both;
+
+				> div{
+					font-size: 22px;
+
+					span{
+					}
+				}
+
+				ul{
+					width: 305px;
+
+					li{
+
+						&:first-child{
+						}
+
+						img{
+							height: 40px;
+						}
+					}
 				}
 			}
 
@@ -950,77 +1078,97 @@ body.page-template-front-page{
 		}
 
 		
-		.row_03{padding-top:120px; 
+		.row_03{
 
-			h2{
-				/*font-size: 30px;
-				line-height: 35px;*/
 
-					
-			}
+			padding-top:0px;
+			height: 657px; 
+
+			h2{}
 
 			a{
-				/*font-size: 20px;
-				line-height: 20px;*/
+				&:after{}
 
-				&:after{
+				span{}
+			}
+
+			.cridonline{
+				width: 600px;
+				height: 585px;
+				padding: 115px 115px 80px 115px;
+				margin-left: 20px;
+				margin-bottom: 0; 
+				position: absolute;
+				right: 0;
+				top: 35px;
+
+				&:before{					
+					@include svgicon('icon-angle-bottom', 20px, 19px, $bg-top-footer); 
 				}
 
-				span{
+				&:after{					
+					top: 115px;
+					@include svgiconafter('ico-cridonline-logo', 112px, 112px, #FFF);
+					margin-left: -135px; 
+				}
+
+				ul{					
+					margin-top: 160px;
+					height: 130px;
+
+					li{						
+						padding-left: 18px;	
+						&:before{}
+					}
+				}
+
+				>a{
+					font-size: 20px;
+
+					&:after{
+						top: 30px;
+					}
+
+					&.link1{
+						margin-right: 30px;
+					}
 				}
 			}
 
-			> div{ cursor: pointer;}
+			.veille-juridique{
+				width: 585px;
+				height: 232px;
+				
+				position: absolute;
+				padding: 105px 0 0 0;
+				left: 0;
+				top: 35px;
+				margin-right: 0px;
 
-			.cridon-app{
-				width: 580px;
-				height: 175px;
-				padding: 35px 0 0 240px;
-				position: relative;
-				float: left;
-				margin-right: 30px;
-				/*padding:35px 0;
-				margin-bottom: 20px;*/
+				cursor: pointer;
 
 				&:before{
 					display:block;
-					@include svgicon('icon-appli', 40px, 40px, $gris-appli);					
-					position:absolute;
-					top:-80px;
+					@include svgicon('icon-veille', 49px, 49px, #FFF);	
+					top: 38px;
 					left: 50%;
-					margin-left: -10px;
-					;
+					margin-left: -25px;				
+					
 
 
 				}
 
 				&:after{
-					//content:'';
-					//@include sprite ($angle-before-cridon-poche);
-					display:block;
-					@include svgiconafter('icon-angle-top', 20px, 20px, $gris-appli);
+					//display:block;
+					@include svgiconafter('icon-angle-top', 20px, 19px, $bg-top-footer);
 					position: absolute;
-					top: -19px;
-					left: 50%;
+					top: 0px;
+					/*left: 50%;
 					margin-left: -32px; 
-					transition: color $duration ease;
+					transition: color $duration ease;*/
 				}
 
 				.content{
-
-					.img-main{						
-						background: url(../images/origin/img-main-appli-desktop.png);
-						width: 237px;
-						height: 210px;
-						left: -25px;					
-
-					}
-
-					.img-appli{	
-						right: 10px;
-						bottom: 18px; 
-						
-					}
 
 					h2{
 						
@@ -1033,17 +1181,22 @@ body.page-template-front-page{
 				}
 			}
 
-			.info-flash-exclu, .veille-juridique{
-				width: 280px;
-				float: left;		
+			.info-flash-exclu, .cridon-app{
+				width: 282px;
+				height: 332px;
+				position: absolute;
+				padding-top: 97px;
+
+				cursor: pointer;
+
 
 				&:before{
 					display:block;
 								
 					position:absolute;
-					top:-80px;
+					top: 32px;
 					left: 50%;
-					margin-left: -20px;
+					margin-left: -26px;
 
 				}
 
@@ -1051,36 +1204,81 @@ body.page-template-front-page{
 					//content:'';
 					display:block;
 					position: absolute;
-					top: -19px;
+					top: 0px;
 					left: 50%;
-					margin-left: -32px; 
+					margin-left: -32px;
+
+
 				}
  
 
 			}
 
-			.veille-juridique{				
-				margin-right: 30px; 
+			.cridon-app{				
+				margin-right: 30px; 				
+				top: 288px;
+				left: 303px;
+
+				h2{
+					width: 90%;
+				}
+
+				a{
+					margin-top: 10px;
+				}
 
 				&:before{					
-					@include svgicon('icon-veille', 40px, 40px, $jaune-accueil);
+					@include svgicon('icon-appli', 51px, 51px, #FFF);
+					margin-left: -14px;
 				}
 
 				&:after{					
 					//@include sprite ($angle-before-veille-juri);					
-					@include svgiconafter('icon-angle-top', 20px, 20px, $jaune-accueil);
+					@include svgiconafter('icon-angle-top', 20px, 20px, $bg-top-footer);
+				}
+
+
+				.img-main{						
+					background: url(../images/origin/img-main-appli-desktop.png);
+					background-size: 100%;
+					width: 131px;
+					height: 116px;  
+					position: absolute;
+					left: 0px;
+					bottom: 0px; 
+
+
+
+				}
+
+				.img-appli{	
+					
+
+					background: url(../images/origin/ico-appli-tablette.png);
+					background-size: 100%;
+					position: absolute;
+					right: 23px;
+					bottom: 9px; 
+
+					width: 66px;
+					height: 109px;
+					display: block;
+					
 				}
 
 			}
 
 			.info-flash-exclu{
+
+				left: 0; 
+				top: 288px;
 				&:before{					
-					@include svgicon('icon-nl', 40px, 40px, $bleu);
+					@include svgicon('icon-nl', 51px, 51px, #FFF);
 				}
 
 				&:after{					
 					//@include sprite ($angle-before-info-flash);					
-					@include svgiconafter('icon-angle-top', 20px, 20px, $bleu);
+					@include svgiconafter('icon-angle-top', 20px, 20px, $bg-top-footer); 
 				}
 
 			}
@@ -2310,6 +2508,30 @@ FOOTER STYLES
 				color:rgba(255, 255, 255, 0.6);
 				
 			}
+			.partenaires{
+				margin-top: 75px;
+
+				> div{
+					
+					
+
+					span{}
+				}
+
+				ul{
+					width: auto;
+
+					li{
+						
+						&:first-child{}
+
+						img{ height: 30px;}
+					}
+				}
+				
+				
+			}
+
 		}
 		&:after {
 		}

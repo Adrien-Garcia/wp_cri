@@ -111,7 +111,8 @@ HEADER STYLES
 
 			#bt-nav-mobile{
 				position: absolute;
-			    top: 20px;
+			    top: 50%;
+			    margin-top: -8px;
 			    left: 0;
 			    display: block;
 			    width: 20px;
@@ -1101,7 +1102,7 @@ body.page-template-front-page{
 
 			.block_03{
 
-				padding: 10px 0 40px 0;
+				padding: 10px 0 30px 0;
 
 				.block {
 
@@ -1285,6 +1286,46 @@ body.page-template-front-page{
 				}
 			}
 
+			.partenaires{
+				//margin-top: 40px;
+				margin-bottom: 35px;
+
+				> div{
+					font-size: 16px;
+					text-align:center;
+					text-transform: uppercase;
+					@extend .do-sm;
+					color:$bleu;
+
+					span{
+						@extend .do-eb;
+					}
+				}
+
+				ul{
+					margin: 0;
+					padding: 0;
+					overflow: hidden;
+					width: 235px;
+					margin:10px auto 0 auto;
+
+					li{
+						margin: 0;
+						padding: 0;
+						float: left;
+						float: left;
+
+						&:first-child{
+							margin-right: 20px;
+						}
+
+						img{
+							height: 30px;
+						}
+					}
+				}
+			}
+
 		}
 
 
@@ -1292,6 +1333,7 @@ body.page-template-front-page{
 			padding-top: 44px;
 			position: relative;
 			background: #FFF;
+			padding-bottom: 20px;
 
 			&:before{
 
@@ -1363,6 +1405,7 @@ body.page-template-front-page{
 				width: 100%;
 				clear: both;
 				float: none;
+
 
 				.accordion{
 					text-align: center;
@@ -1560,7 +1603,7 @@ body.page-template-front-page{
 					
 					> a{/*Lien toutes la veille juridique*/
 						@include lien-souligne($rouge);
-						margin: 30px 0 50px 0;
+						margin: 30px 0 23px 0;
 						&:after{
 							top: 20px;
 							left: 50%; 
@@ -1610,9 +1653,10 @@ body.page-template-front-page{
 		.row_03{
 			width: 100%;
 			background: #e6e6e6;
-			padding: 50px 0 40px 0;
+			padding: 15px 0 25px 0;
 			float: none;
 			clear: both;
+			overflow: hidden;
 
 			h2{
 				@extend .do-bo; 
@@ -1632,115 +1676,198 @@ body.page-template-front-page{
 				
 			}
 
-			.cridon-app{
+			.cridonline{
+				width: 100%;
+				background: $rouge;
+				height: 145px;
+				position: relative;
+				padding: 25px 10px 10px 10px;
+				margin-bottom: 10px;
+
+				&:hover {
+					//background: $rouge + #1b1b1b;					
+				}
+
+				&:before{
+					@include svgicon('icon-angle-bottom', 15px, 15px, $bg-top-footer);
+					position: absolute;
+					left: 50%;
+					top: 0px;
+					margin-left: -24px;
+				}
+
+				&:after{
+					@include svgiconafter('ico-cridonline-logo', 55px, 55px, #FFF);
+
+					position: absolute;
+					left: 50%;
+					margin-left: -68px;
+					top: 25px;
+
+				}
+
+				ul{
+					margin: 0;
+					padding: 0;
+
+					display: none;
+
+					li{
+						margin: 0;
+						padding: 0;
+					}
+				}
+
+				>a{
+					@include lien-souligne(#FFF);
+					text-align: center;
+					margin-top: 70px;
+					font-size: 15px;
+
+					&:after{
+						left: 50%;
+						margin-left: -8px;
+					}
+
+					&.link1{
+						margin-right: 20px;
+					}
+				}
+			}
+
+			.veille-juridique{
 				width: 100%;
 				height: 145px;
-				background: $gris-appli;
-				padding: 20px 0 0 50%;
+				background: $jaune-accueil;
+				padding: 55px 0 10px 0;
 				position: relative;
 				margin-bottom: 10px;
 				transition: background $duration ease;
 				cursor: pointer;
 
-				&:hover {
-					background: $gris-appli - #1D1D1D;
+				float: left;
+				text-align: center;
 
-					&:after{
-						color: $gris-appli - #1D1D1D;
-					}
+				&:hover {
+					background: $jaune-accueil + #1b1b1b;					
 
 					.content>a:after{
 						font-weight: bold;
 					}
 				}
 
-				&:before, &:after{display: none;}
+				&:before{
+					font-size: 24px;
+					line-height: 24px;
+					color:#FFF;
+					position: absolute;
+					top: 22px;
+					margin-left: -12px;
+
+				}
+
+				&:after{
+					position: absolute;
+					top: 0;
+					@include rotate(180);
+					color:$bg-top-footer;
+					font-size: 15px;
+					line-height: 15px;
+					margin-left: -24px;
+
+				}
 
 				.content{
 
-					.img-main{
-						position: absolute;
-						left: -60px;
-						bottom: 0;
-						width: 200px;
-						height: 175px;
-                        background: url(../images/origin/img-main-appli-mobile-2.png) top right;
-                        border:0px;
-						text-decoration: none;
-
-					}
-
-					.img-appli{display: none;}
-
 					h2{
-						width: 160px;
-						margin: 0 0 5px 0;
-						padding: 0 11px 0 0;						
+						margin:0 auto;
+						width: 150px;					
 					}
 
 					> a{
 						
-						width: 120px;						
 						margin: 0 0 0 0;
 						text-align:left;
 
 						&:after{							
-							top: 40px;
-							left: 0;
+							left: 50%;
+							margin-left: -8px;
 						}
 
 					} 
 				}
 			}
 
-			.info-flash-exclu, .veille-juridique{
+			.info-flash-exclu, .cridon-app{
 				width: 145px;
 				float: left;
 				position: relative;
 				text-align: center;
 				height: 176px;
 				padding: 25px 10px 25px 10px;
-				cursor: pointer;
+				cursor: pointer;	
 
-				&:before, &:after{display: none;}
+				&:before{
+					color:#FFF;
+					font-size: 30px;
+					line-height: 30px;
+					top: 25px;
+				}	
+
+				&:after{
+					position: absolute;
+					top: 0;
+					@include rotate(180);
+					color:$bg-top-footer;
+					font-size: 15px;
+					line-height: 15px;
+					margin-left: -24px;
+				}	
+
+				&:hover {
+				
+					.content>a:after{
+						font-weight: bold;
+
+					}
+				}	
 
 				h2{
 					
 					padding: 0;
 				}
+
 				a{	
+					font-size: 15px;
 					&:after{							
-						top: 40px;
+						top: 35px;
 						left: 50%;
 						margin-left: -9px;
 						transition: font-weight $duration/2 ease $duration/4;
 
 					}
 				} 
-
-				&:hover {
-					.content>a:after{
-						font-weight: bold;
-
-					}
-				}
 			}
 
-			.veille-juridique{
-				background: $jaune-accueil;
-				margin-right: 10px;
-				
+			.cridon-app{
+				background: $gris-appli;				
 				display: inline-block;
 
 				a{
 					width: 105px;
 					margin: 0 auto;
 				}
+				
+
 				&:hover {
-					background: $jaune-accueil + #1b1b1b;
+					background: $gris-appli - #1D1D1D;
 
 					&:after{
-						color: $jaune-accueil + #1b1b1b;
+						//color: $gris-appli - #1D1D1D;
+					}
+
+					.content>a:after{
+						font-weight: bold;
 					}
 				}
 				
@@ -1748,11 +1875,10 @@ body.page-template-front-page{
 
 			.info-flash-exclu{
 				background: $text-color;
+				margin-right: 10px;
 
-				h2{
-					padding: 0 10px;
-				}	
 
+				
 				a{
 					width: 98px;
 					margin: 0 auto;
@@ -1761,7 +1887,7 @@ body.page-template-front-page{
 					background: #26548c;
 
 					&:after{
-						color: #26548c;
+						//color: #26548c;
 					}
 
 				}
@@ -3888,6 +4014,46 @@ a.logoJP:hover{opacity: 1;
 			} 
 			.descriptif {
 				display: none;
+			}
+			.partenaires{
+				
+				margin-top: 40px;
+
+				> div{
+					font-size: 18px;
+					text-align:center;
+					@extend .do-re;
+					color:#FFF;
+
+					span{
+						@extend .do-bo;
+					}
+				}
+
+				ul{
+					margin: 0;
+					padding: 0;
+					overflow: hidden;
+					width: 262px;
+					margin:10px auto 0 auto;
+
+					li{
+						margin: 0;
+						padding: 0;
+						float: left;
+						float: left;
+
+						&:first-child{
+							margin-right: 20px;
+						}
+
+						img{
+							height: 25px;
+						}
+					}
+				}
+				
+				
 			}
 		}
 		/*&:after {
