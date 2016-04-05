@@ -286,7 +286,7 @@ class NotairesController extends BasePublicController
 
 
         // Tri du tableau de prix par clé descendante
-        foreach(Config::$pricesLevelsVeilles as $veilleLevel => $prices){
+        foreach(Config::$pricesLevelsVeilles[0] as $veilleLevel => $prices){
             //set name of variable
             $priceVeilleLevelx = 'priceVeilleLevel'.$veilleLevel;
             //Tri par pri décroissant pour chaque niveau de veille
@@ -358,11 +358,9 @@ class NotairesController extends BasePublicController
             // find the office
             $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
             if (!empty($_REQUEST['level']) && !empty($etude)) {
-                // @TODO send info to Cridon (waiting for info 'How to do that'
-
                 // Free trial date only if it's the first subscription online for that office
                 if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->end_subscription_date_veille)){
-                    $end_subscription_date_veille = date('Y-m-d', strtotime('+'. Config::$daysTrialVeille .' days'));
+                    $end_subscription_date_veille = date('Y-m-d', strtotime('+365 days'));
                     $office = array(
                         'Etude' => array(
                             'crpcen'                         => $_REQUEST['crpcen'],

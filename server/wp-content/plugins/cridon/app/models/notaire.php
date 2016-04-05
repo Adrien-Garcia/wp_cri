@@ -1214,6 +1214,69 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
     }
 
+
+    public function notaireCridonlineUpdateAnnually(){
+        try {
+            // Update prices of crid'online
+            array_shift(Config::$pricesLevelsVeilles);
+
+            // Update offices
+            $this->logs = array();
+            $options= array(
+                'conditions' => array(
+                    'OR'=>array(
+                        'subscription_level >=' => 2,
+                        'next_subscription_level >=' => 2
+                    )
+                )
+            );
+            $etudes   = mvc_model('Etude')->find($options);
+
+            if (count($etudes)>0){
+                $updateLevelValues = $updatePriceValues = [];
+                $queryStart = " UPDATE `".mvc_model('Etude')->table."` ";
+                $queryEnd   = ' END ';
+                foreach ($etudes as $etude) {
+                    if (!empty($etude->next_subscription_level)) {
+                        $updateLevelValues[] = " crpcen = {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
+                    }
+                    if (!empty($etude->tarif_suivant)) {
+                        $nextSubscriptionPrice = $etude->next_subscription_price;
+                    } else {
+                        if (!empty($etude->next_subscription_level)){
+                            $nextLevel = $etude->next_subscription_level;
+                        } else {
+                            $nextLevel = $etude->subscription_level;
+                        }
+                        $nextSubscriptionPrice = mvc_model('Etude')->getSubscriptionPrice($etude->crpcen,$nextLevel);
+                    }
+                    $updatePriceValues[] = " crpcen = {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
+                }
+                if (count($updateLevelValues)>0) {
+                    // subscription level
+                    $etudeQuery = ' SET `subscription_level` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateLevelValues);
+                    $etudeQuery .= ' ELSE `subscription_level` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                }
+                if (count($updatePriceValues)>0) {
+                    // subscription price
+                    $etudeQuery = ' SET `subscription_price` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updatePriceValues);
+                    $etudeQuery .= ' ELSE `subscription_price` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                }
+            }
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch (Exception $e) {
+            // write into logfile
+            writeLog($e, 'notaireCridonlineUpdateAnnually.log');
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur mise à jour annuelle niveau & tarif cridonline');
+        }
+    }
+
     /**
      * Hook for sanitize_user
      *
