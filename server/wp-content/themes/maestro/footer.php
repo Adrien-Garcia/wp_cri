@@ -43,6 +43,17 @@
 
 								<?php endif; ?>
 								</div>
+								<div class="partenaires">
+									<div class="">Les partenaires <span>CRIDON</span> LYON</div>
+									<ul>
+										<li>
+											<img src='/wp-content/themes/maestro/library/images/origin/logo-lexbase-footer.png' alt='lexbase'>
+										</li>
+										<li>
+											<img src='/wp-content/themes/maestro/library/images/origin/logo-woltersKluwer-footer.png' alt='Wolters Kluwer'>
+										</li>
+									</ul>
+								</div>
 							</div>
 							<div class="block-right">
 								<ul>
