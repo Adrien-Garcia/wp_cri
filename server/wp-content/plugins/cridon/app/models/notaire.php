@@ -2295,4 +2295,30 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     {
         return (is_array($options) && count($options) > 0) ? parent::find($options) : mvc_model('QueryBuilder')->findAll('notaire');
     }
+
+    /**
+     * Get list of office members
+     *
+     * @param mixed $notary
+     * @return mixed
+     * @throws Exception
+     */
+    public function listOfficeMembers($notary)
+    {
+        $options = array(
+            'conditions' => array(
+                'cn.crpcen'      => $notary->crpcen,
+                'cu.user_status' => CONST_STATUS_ENABLED
+            ),
+            'synonym'    => 'cn',
+            'join'       => array(
+                array(
+                    'table'  => 'users cu',
+                    'column' => ' cn.id_wp_user = cu.ID'
+                )
+            )
+        );
+
+        return mvc_model('QueryBuilder')->findAll('notaire', $options, 'cn.id');
+    }
 }
