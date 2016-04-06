@@ -589,13 +589,7 @@ class NotairesController extends BasePublicController
             );
         }
         //show every member of an office
-        $options = array(
-            'conditions' => array(
-                'crpcen' => $this->current_notaire->crpcen
-            )
-        );
-
-        $liste = mvc_model('QueryBuilder')->findAll('notaire',$options);
+        $liste = $this->model->listOfficeMembers($this->current_notaire);
         CriRenderView('liste',get_defined_vars(),'notaires');
         die();
     }

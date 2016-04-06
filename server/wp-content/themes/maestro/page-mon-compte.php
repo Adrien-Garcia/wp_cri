@@ -21,7 +21,7 @@
 					<nav>
 						<ul id="sel-compte">
 							<li 
-								class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : "" ?>"
+								class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : "" ?>" 
 								data-js-name="Dashboard" 
 								>
 								
@@ -76,7 +76,7 @@
 							<?php endif ?>
 							<?php if (CriCanAccessSensitiveInfo()): ?>
 							<li 
-								class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == 5) ? " active " : "" ?>"
+								class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == 5) ? " active " : "" ?>" 
 								data-js-name="Cridonline" 
 								>
 								

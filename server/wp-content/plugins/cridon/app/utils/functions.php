@@ -982,3 +982,30 @@ function CriSendPostQuestConfirmation($question) {
         }
     }
 }
+
+/**
+ * Get list of all existing roles
+ *
+ * @return array
+ */
+function CriListRoles() {
+    return Config::$notaryRoles;
+}
+
+/**
+ * Get list of roles by collaborator
+ * @param mixed $collaborator
+ * @return array
+ */
+function CriGetCollaboratorRoles($collaborator) {
+    // get collaborator associated user
+    if (is_object($collaborator) && $collaborator->id_wp_user) {
+        $user = new WP_User($collaborator->id_wp_user);
+
+        // check if user is a WP_user vs WP_error
+        if ($user instanceof WP_User && is_array($user->roles)) {
+            return $user->roles;
+        }
+    }
+    return array();
+}

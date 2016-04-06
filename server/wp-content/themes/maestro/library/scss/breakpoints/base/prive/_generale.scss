@@ -80,6 +80,10 @@
 
 								> span{
 									display: none;
+									
+								}
+
+								span{
 									@include transition(all 0.3s ease-in);
 								}
 
@@ -120,7 +124,12 @@
 								}
 							}
 							&:nth-child(5){ /* Cridonline */
-								> a{								
+								> a{		
+
+									span{
+										color:$rouge;	
+									}					
+
 									&:after{
 										@include svgiconafter('ico-cridonline', 27px, 27px, $rouge);
 
@@ -212,6 +221,7 @@
 					font-size: 20px;
 					color:$vert;
 					margin-top: 0;
+					@extend .do-me;
 				}
 
 				p{

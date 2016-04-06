@@ -22,6 +22,12 @@ if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
 if ( !defined( 'CONST_FINANCE_ROLE' ) ) {
     define( 'CONST_FINANCE_ROLE', 'accesfinances' );
 }
+if ( !defined( 'CONST_QUESTIONECRITES_ROLE' ) ) {
+    define( 'CONST_QUESTIONECRITES_ROLE', 'accesquestecrites' );
+}
+if ( !defined( 'CONST_QUESTIONTELEPHONIQUES_ROLE' ) ) {
+    define( 'CONST_QUESTIONTELEPHONIQUES_ROLE', 'accesquesttelephoniques' );
+}
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
     define( 'CONST_ADMIN_ROLE', 'administrator' );
