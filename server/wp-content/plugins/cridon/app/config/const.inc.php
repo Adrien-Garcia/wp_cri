@@ -721,4 +721,25 @@ if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
     define( 'CONST_FACTURATION_PAGE_ID', 1515 );
 }
 
+// Onglet
+if ( !defined( 'CONST_ONGLET_DASHBOARD' ) ) {
+    define( 'CONST_ONGLET_DASHBOARD', 1 );
+}
+if ( !defined( 'CONST_ONGLET_QUESTION' ) ) {
+    define( 'CONST_ONGLET_QUESTION', 2 );
+}
+if ( !defined( 'CONST_ONGLET_PROFIL' ) ) {
+    define( 'CONST_ONGLET_PROFIL', 3 );
+}
+if ( !defined( 'CONST_ONGLET_FACTURATION' ) ) {
+    define( 'CONST_ONGLET_FACTURATION', 4 );
+}
+if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
+    define( 'CONST_ONGLET_CRIDONLINE', 5 );
+}
+if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
+    define( 'CONST_ONGLET_COLLABORATEUR', 6 );
+}
+
+
 
