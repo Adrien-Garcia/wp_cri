@@ -17,6 +17,10 @@
         <input type="hidden" name="level" value="<?php echo $level; ?>" class="js-account-cridonline-validation-level">
         <input type="hidden" name="price" value="<?php echo $price ?>" class="js-account-cridonline-validation-price">
         <input type="submit" name="submit" value="<?php _e("souscrire"); ?>">
-        <div class="description js-account-cridonline-validation-message"></div>
+
+        <div class="message-erreur js-account-cridonline-validation-message">
+            
+        </div>
+
     </form>
 </div>

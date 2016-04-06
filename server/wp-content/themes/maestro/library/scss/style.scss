@@ -114,6 +114,9 @@ the other stylesheets. Remember, keep it light: Speed is Important.
 @import "breakpoints/base/prive/facturation";
 @import "breakpoints/base/prive/cridonline";
 
+/*POPUP*/
+@import "breakpoints/base/popup";  
+
 /*********************
 LARGER MOBILE DEVICES
 This is for devices like the Galaxy Note or something that's
@@ -146,6 +149,9 @@ you can add resource intensive styles.
 	@import "breakpoints/768/prive/facturation";
 	@import "breakpoints/768/prive/cridonline";
 
+	/*POPUP*/
+	@import "breakpoints/768/popup";
+
 } // end of media query
 
 /*********************
@@ -166,6 +172,9 @@ you can add resource intensive styles.
 	@import "breakpoints/1240/prive/profil";
 	@import "breakpoints/1240/prive/facturation";
 	@import "breakpoints/1240/prive/cridonline";
+
+	/*POPUP*/
+	@import "breakpoints/1240/popup";
 
 } // end of media query
 
