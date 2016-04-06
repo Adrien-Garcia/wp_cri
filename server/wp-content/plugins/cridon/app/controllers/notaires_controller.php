@@ -522,7 +522,7 @@ class NotairesController extends BasePublicController
         $this->set('collaborators', array());
 
         // tab rank
-        $this->set('onglet', 6);
+        $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
     }
 
     /**
@@ -587,7 +587,7 @@ class NotairesController extends BasePublicController
         $this->set('flash_message', $flash_message);
 
         // tab rank
-        $this->set('onglet', 6);
+        $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
     }
 
     /**

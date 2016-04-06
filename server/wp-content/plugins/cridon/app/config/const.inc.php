@@ -745,4 +745,9 @@ if ( !defined( 'CONST_DB_TABLE_YNOTAIRE' ) ) {
     define( 'CONST_DB_TABLE_YNOTAIRE', $prefix.'YNOTAIRE' );
 }
 
+// Onglet
+if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
+    define( 'CONST_ONGLET_COLLABORATEUR', '6' );
+}
+
 
