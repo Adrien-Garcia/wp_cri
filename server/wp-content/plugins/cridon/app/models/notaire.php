@@ -227,7 +227,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             }
 
             // disable notaire admin bar
-            CriDisableAdminBarForExistingNotaire();
+//            CriDisableAdminBarForExistingNotaire();
 
             // log end of import
             if (CONST_TRACE_IMPORT_NOTAIRE) {
