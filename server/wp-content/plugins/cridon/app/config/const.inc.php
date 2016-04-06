@@ -485,6 +485,12 @@ if ( !defined( 'CONST_CRIDONLINE_A_TRANSMETTRE_ERP' ) ) {
 if ( !defined( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE' ) ) {
     define( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE', 2 );
 }
+if ( !defined( 'CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS' ) ) {
+    define( 'CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS', 365 );
+}
+if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_MONTH' ) ) {
+    define( 'CONST_CRIDONLINE_ECHEANCE_MONTH', 2 );
+}
 if ( !defined( 'CONST_EXPORT_CRIDONLINE_ERROR' ) ) {
     define( 'CONST_EXPORT_CRIDONLINE_ERROR', 'Export cridonline interrompu le : %s' );
 }

@@ -357,30 +357,25 @@ class NotairesController extends BasePublicController
         if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen']) ) {
             // find the office
             $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
-            if (!empty($_REQUEST['level']) && !empty($etude)) {
+            if (!empty($etude) && !empty($_REQUEST['level']) && !empty($_REQUEST['price'])) {
                 // Free trial date only if it's the first subscription online for that office
-                if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->end_subscription_date_veille)){
-                    $end_subscription_date_veille = date('Y-m-d', strtotime('+365 days'));
+                if (intval($_REQUEST['level']) > $etude->subscription_level){
+                    $start_subscription_date_veille    = date('Y-m-d');
+                    $end_subscription_date_veille      = date('Y-m-d', strtotime('+'.CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS.'days'));
+                    $echeance_subscription_date_veille = date('Y-m-d', strtotime('$end_subscription_date_veille +'.CONST_CRIDONLINE_ECHEANCE_MONTH.'month'));
                     $office = array(
                         'Etude' => array(
-                            'crpcen'                         => $_REQUEST['crpcen'],
-                            'end_subscription_date_veille'   => $end_subscription_date_veille
+                            'crpcen'                            => $_REQUEST['crpcen'],
+                            'start_subscription_date_veille'    => $start_subscription_date_veille,
+                            'echeance_subscription_date_veille' => $echeance_subscription_date_veille,
+                            'end_subscription_date_veille'      => $end_subscription_date_veille,
+                            'subscription_price'                => intval($_REQUEST['price']),
+                            'a_transmettre'                     => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                         )
                     );
                     mvc_model('Etude')->save($office);
+                    $ret = 'success';
                 }
-            }
-            if (!empty($_REQUEST['price']) && !empty($etude)) {
-                $start_subscription_date_veille = date('Y-m-d');
-                $office = array(
-                    'Etude' => array(
-                        'crpcen'            => $_REQUEST['crpcen'],
-                        'start_subscription_date_veille' => $start_subscription_date_veille,
-                        'subscription_price'     => intval($_REQUEST['price'])
-                    )
-                );
-                mvc_model('Etude')->save($office);
-                $ret = 'success';
             }
         }
 
