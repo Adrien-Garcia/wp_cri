@@ -1,8 +1,13 @@
 div#tableau-de-bord{
 
+	.mon-solde{
+		overflow: hidden;
+	}
+
+
 	.solde-pts{
 		width: 100%;
-		height: 300px;
+		height: 230px;
 		position: relative;
 
         &.inactive {
@@ -36,8 +41,8 @@ div#tableau-de-bord{
 		svg{
 			overflow: visible;
 			//width: 300px - 13px;
-			width: 275px;
-			height: 275px;
+			width: 225px;
+			height: 225px;
 			position: relative;
 			left: 13px;
 			#solde-circle-path {
@@ -72,23 +77,27 @@ div#tableau-de-bord{
 		.point{
 			position: absolute;
 			width: 100px;
-			height: 120px;
+			height: 100px;
 			top: 50%;
-			margin-top: -60px;
+			margin-top: -50px;
 			left: 50%;
 			margin-left: -50px;
+
+			//border:solid 1px red;
 
 			.pts{
 				color:$vert;
 				@extend .do-bo;
-				font-size: 80px;
+				font-size: 70px;
 				line-height: 70px;
 				position: absolute;
+				text-align: right;
+				width: 100%;
 
 				> span{
 					display: block;
 					position: absolute;
-					top: 0px;
+					top: 7px;
 					right: -30px;
 					@extend .do-me;
 					font-size: 20px;
@@ -103,7 +112,7 @@ div#tableau-de-bord{
 				left: 0;
 				bottom: 0;
 				@extend .do-sm;
-				font-size: 18px;
+				font-size: 12px; 
 				line-height: 16px;
 				color:$bleu;
 				text-transform: uppercase;
@@ -117,16 +126,16 @@ div#tableau-de-bord{
 	.consomation{
 		margin:0;
 		width: 100%;
-		padding:10px 0 20px 70px;
+		padding:30px 0 20px 70px;
 		float: left;
 		//border-bottom: solid 4px $bg-top-footer;
 
 		.pts{
 
 			> .pts{
-				width: 50px;
-				height: 50px;
-				line-height: 50px;
+				width: 34px;
+				height: 34px;
+				line-height: 34px;
 				@include border-radius(50%);
 				background: $vj_03;
 				color:#FFF; 
@@ -134,30 +143,35 @@ div#tableau-de-bord{
 				float: left;
 				margin-right: 10px;
 				@extend .do-sm;
-				font-size: 30px;
+				font-size: 20px;
 			}
 
-			>.texte{
+			> .texte{
 				display: block;
 				width: 100px;
-				line-height: 20px;
+				line-height: 14px;
 				float: left;
 				text-transform: uppercase;
-				font-size: 18px;
+				font-size: 12px;
 				@extend .do-sm;
 				color:$vj_03;
-				height: 50px;
-				padding-top: 5px;
+				height: auto;
+				padding-top: 13px;
 
 			}
 
-			>.date{
-				margin-left: 60px;
+			> .date{
+				margin-left: 45px;
 				@extend .do-sm;
 				color:$bleu;
-				font-size: 18px;
+				font-size: 12px;
+				line-height: 14px;
 				float: left;
-				margin-top: -5px;
+				//margin-top: -10px;
+				display: block;
+
+				
+
 			}
 		}
 
@@ -175,45 +189,46 @@ div#tableau-de-bord{
 			width: 50%;
 			float: left;
 			position: relative;
-			padding-left: 80px;
+			padding-left: 40px;
 
 			@extend .do-sm;
 			color:$bleu;
-			font-size: 18px;
+			font-size: 12px;
 			line-height: 16px;
 
 			&:before{
 				
 				position: absolute;
-				top: 0;
-				left: 20px;
+				top: 4px;
+				left: 5px;
 				font-weight: normal;
 			}
 
 			span{
 				display: block;
-				font-size: 30px;
-				line-height: 24px;
+				font-size: 20px;
+				line-height: 18px;
 			}
 		}
 
 		.appel{
 
 			&:before{
-				@include svgicon('icon-tel', 39px, 39px, #324968);
+				@include svgicon('icon-tel', 26px, 26px, #324968);
 			}
 		}
 
 		.courrier{
 			&:before{
-				@include svgicon('icon-mail', 34px, 34px, #324968);
-				left: 10px;
+				@include svgicon('icon-mail', 22px, 22px, #324968);
+				left: 0px;
+				top: 5px;
 			}
 		}
 	}
 
 	.mes-questions{
-		padding-left: 20px; 
+		//padding-left: 20px; 
 
 		> ul{
 			padding: 0;
@@ -235,7 +250,7 @@ div#tableau-de-bord{
 					line-height: 18px;
 					@extend .do-sm;
 					color:$bleu;
-					height: 36px;
+					max-height: 36px;
 					overflow: hidden;
 				}
 
@@ -252,7 +267,7 @@ div#tableau-de-bord{
 				.date{
 					position: absolute;
 					top: 0;
-					left: 40px;
+					left: 0px;
 					font-family: $helvetica;
 					font-weight: 100;
 					color:$bleu;
@@ -282,6 +297,7 @@ div#tableau-de-bord{
 				    display: inline-block;
 				    padding: 0 2px;
 				    margin-bottom: 5px;
+
 				}
 
 				
@@ -340,10 +356,11 @@ div#tableau-de-bord{
 					    height: 30px;
 					    float: left;
 					    margin-right: 10px;
+					    margin-top: 25px;
 					}
 
 					> li:nth-child(2){
-						padding-top: 15px;
+						padding-top: 21px;
 
 						//width: 258px;
 						margin-left: 40px;
@@ -351,6 +368,7 @@ div#tableau-de-bord{
 
 					> li:nth-child(3){
 						margin-left: 40px;
+						margin-top: 5px;
 					}
 				}
 			}

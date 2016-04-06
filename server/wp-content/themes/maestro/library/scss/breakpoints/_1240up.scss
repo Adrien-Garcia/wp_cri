@@ -63,44 +63,142 @@ HEADER STYLES
 
 		
 
-		.logo-partenaires{
+		/* .logo-partenaires{
 			display: block; // Masquer les logos des éditeurs pour le lot 1
 			width: 259px;
 			height: 28px;
 			position: absolute;
 			left: 0;
 			top: 15px;
-
+		
 			//@include sprite($partenaire-header);
-
+		
 			a{
 				display: inline-block;
 				@include transition(all 0.3s);
-
+		
 				&:hover{
 					opacity: 0.8;
 				}
 			}
-
+		
 			
-
-		}
+		
+		} */
 
 		a.contacter{display: none;}
 
 		.rechercher{
 			width: 393px;
 			height: 40px;
-			line-height: 40px;
-			left: 365px;
-			font-size: 16px;
-			padding-left: 50px;
+			
 
 			&:before{
 				@include svgicon('icon-rechercher', 26px, 26px, #FFFFFF);
 				top:7px;
 				left: 10px;
 			}
+
+		}
+
+		ul#rechercher{
+			width: 393px;
+			height: 40px;
+			left: 365px; 
+
+
+			>li{ 
+				height: 50px;
+
+				>a{
+					@extend .do-sm;
+					line-height: 40px;
+					left: 365px;
+					font-size: 16px;
+					padding-left: 50px;
+
+
+					&:before{
+						@include svgicon('icon-rechercher', 26px, 26px, #FFFFFF);
+						top:7px;
+						left: 10px;
+					}
+					&:hover {
+					}
+				}
+
+				&:hover{
+
+					a.acceder-compte{
+						background: #fff;
+						&, &:before {
+							color: $vert;
+						}
+					}
+				}
+
+				>ul{	
+					top: 50px;		
+
+
+    				&:before{
+					}
+
+					&:after{
+						width: 393px;
+    					height: 150px;
+					}
+
+
+    				&.visible{
+    				}
+
+    				> li{
+    					height: 50px;
+    					line-height: 50px;
+
+
+    					
+
+
+    					&:before{
+    						content: none;
+    					}
+
+
+    					> a{
+    						
+    						height: 50px;
+	    					line-height: 50px;
+	    					font-size: 16px;
+
+    						&:hover{ 
+    						}
+
+    						span{
+    						}
+
+    						
+
+    					}
+
+    					&:last-child{
+
+    						> a{
+
+    							&:hover{
+    							}
+    						}
+    					}
+    				}
+
+				}
+
+			}
+
+			
+
+			
 
 		}
 
@@ -127,9 +225,8 @@ HEADER STYLES
 			height: 40px;
 			line-height: 40px;
 			right: 0;
-			left:  inherit;
-			
-			padding-left: 50px;			
+			left:  inherit;			
+			padding-left: 50px;	
 
 
 			margin: 0;
@@ -149,23 +246,28 @@ HEADER STYLES
 					&:before{				
 						@include svgicon('icon-compte', 26px, 26px, $vert);	
 						top:7px;
-						left: 10px;				
+						//left: 10px;				
 					}
 				}
 			
 
 				> ul.logout-2{
-					bottom: -40px;
-					height: 40px;
+					bottom: -50px;
+					height: 50px;
+
+					&:after{
+						width: 222px;
+    					height: 50px;
+					}
 
 					> li{
-						height: 40px;
+						height: 50px;
 						
 						> a{ 							
-							height: 40px;
-							line-height: 40px;
-							font-size: 20px;
-							padding-right: 20px;
+							height: 50px;
+							line-height: 50px;
+							font-size: 16px;
+							padding-right: 0px;
 							
 						}
 					}
@@ -217,410 +319,7 @@ HEADER STYLES
 */
 
 
-#layer-posez-question{
-	
-	width: 1200px;
-	max-width: 1200px;
-	margin:0 auto;
-	padding: 0;
 
-	.block_top{
-		padding: 20px 20px 0 20px;
-		background: #FFF;
-		//height: 623px;
-
-		> .titre{
-
-			height: 80px;
-			line-height: 80px;
-
-
-			.close_layer{				
-				right: 30px;
-				cursor: pointer;
-
-				&:before{
-					@include svgicon('icon-close-layer-question', 36px, 36px, #FFF);					
-					top: 3px;
-					left: 3px;
-				}
-
-				&:hover{
-					&:before{
-						@include svgicon('icon-close-layer-question', 36px, 36px, $bleu);
-						font-weight: 700;
-					}
-				}
-
-				
-
-			}
-
-			.texte{	
-				height: 80px;
-				line-height: 80px;		
-				font-size: 50px;	
-				padding-left: 70px;
-    			margin-left: 30px;
-
-				&:before{
-					@include svgicon('icon-consulter', 45px, 45px, #FFFFFF); 
-					margin-top: -23px;
-				}
-
-			}
-			
-		}
-
-		.onglets{
-			
-			width: 1100px;
-			margin-left: 30px;
-
-			.h2{
-				//width: 50%;				
-				font-size: 30px;
-				height: 120px; 
-				line-height: 120px;
-			}
-
-			
-		}
-
-		.details{
-			
-			width: 1100px;
-			padding-bottom: 50px;
-
-			.consultation{				
-
-				#owl-support{
-
-					-webkit-perspective: 1000px;
-						-webkit-transform-style: preserve-3d;
-						-moz-transform-style: preserve-3d;
-						transform-style: preserve-3d;
-
-					
-					.owl-item{
-						cursor: pointer;
-						@include transition(top 0.3s);
-						
-						-webkit-perspective: 1000px;
-						-webkit-transform-style: preserve-3d;
-						-moz-transform-style: preserve-3d;
-						transform-style: preserve-3d;
-						
-
-						.item{
-							
-							width: 330px;
-
-							&:before{								
-								@include transition(all 0.5s);
-							}
-
-							&:last-child{
-								margin-right: 0; 
-							}
-
-						}
-
-						a{
-							
-							font-size: 20px;
-							@include transition(all 0.3s);
-
-							&:before{
-								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
-								position: absolute;
-								left: 50%;
-								margin-left: -24px;
-								bottom:-15px;
-
-								@include transition(all 0.3s);
-							}
-
-						}
-
-						.description{							
-							text-align: justify;
-						}
-
-						&:nth-child(2){
-
-							.item{
-								margin:190px auto 0 auto;
-							}
-						}
-
-						&:nth-child(3){
-							.item{
-								float: right;
-							}							
-						}
-
-					}
-
-				}				
-
-			}
-
-			.question{
-				padding-top: 60px;
-				width: 100%;
-
-				.block_gauche{
-					display: block;
-					width: 350px;
-					float: left;
-					margin-right: 40px;
-					padding-bottom: 20px;
-
-					.img{
-
-						background: url(../images/img-layer-posez-question.jpg) center center no-repeat;
-						background-size: cover;
-						width: 350px;
-						height: 204px; 
-					}
-
-					.titre{
-						font-size: 30px;
-						line-height: 30px;
-						color:$vj_02;
-						text-transform: uppercase;
-						@extend .do-me;
-						margin: 30px 0;
-						display: inline-block;
-
-					}
-
-					>p{
-						font-family: $garamond;
-						font-size: 20px; 
-						color:$rouge;
-						line-height: 24px;
-						margin: 0;
-					}
-					
-				}
-
-				.block_droit{
-					width: 710px;
-					clear: inherit;
-					float: left;
-
-
-
-					/*clear: both;
-					border:solid 1px transparent;*/
-
-					.form{
-						/*width: 100%;
-						padding-bottom: 20px;*/
-						margin-top: 0px;
-						//margin-bottom: 40px;
-
-						input[type="text"], textarea{							
-							margin-bottom: 15px;
-
-
-						}
-
-						select{							
-							margin-bottom: 15px;
-						}
-
-						input[type="submit"]{
-
-							margin-bottom: 0;
-							@include transition(all 0.3s);
-
-							&:hover{
-
-								color:$vert;
-								background: transparent;
-
-							}
-						}
-
-						input[type="file"]{
-							
-						}
-
-						.fileUpload {
-						 
-
-						}
-						.fileUpload input.upload {						  
-						}
-
-						.sep{							
-
-						}
-
-
-
-
-						.fileUpload {
-						    
-
-                            .btn-reset {
-                                
-							    float: right;
-							    font-size: 50px;
-							    height: 35px;
-							    line-height: 18px;
-							    position: relative;
-							    top: -8px;
-							    width: 35px;
-							    z-index: 102;
-
-                            }
-                            span {
-                                display: inline-block;
-                                float: left;
-                                padding: 0 10px;
-                                height: 100%;
-                                background: #ffffff;
-                                color: #000000;
-                            }
-                            span.fileName {
-                                max-width: 400px;
-
-                            }
-                            span.fileButtonFront {
-                                float: none;
-							    position: absolute;
-							    right: 33px;
-
-                            }
-						}
-
-						.fileUpload input.upload {
-						    width: 185px; 
-						    right: 33px;
-						    z-index: 100;
-						}
-
-						.sep{
-							
-
-
-
-						}
-
-						
-					}
-				}
-
-			}		
-			
-			
-		}
-
-		
-
-	}
-
-	.block_bottom{
-		padding: 60px 50px 20px 50px;
-		height: 450px;	
-
-
-		.block_03{
-
-			width: 100%;
-			padding-top: 0;
-			margin-top: 0;
-
-
-			.block {
-				width: 330px;
-				height: 340px;
-				margin-right: 50px;
-
-				&:nth-child(3){ margin-right: 0;} 
-
-
-				&:hover {
-					.content {
-						&, &:before, &:after {
-							height: 270px;
-							background-position: 0 100%;
-						}
-					}
-				}
-
-
-				.content{
-					height: 150px;
-
-					&:before, &:after{
-						content: '';
-						width: calc(100% / 2);
-						position: absolute;
-						top: 0;
-						display: block;
-						height: 150px;
-						transition: height $duration ease, background $duration ease;
-						border:none;
-						box-sizing: border-box;
-
-						background: $vert;
-						@include gradient-opacity(transparentize($vert, 0.4),opacify($vert, 1));
-						background-size: 100% 200%;
-
-					}
-
-					&:before{
-						
-						@include border-radius(0 20px 0 0);
-						left: 0;
-					}
-
-					&:after{
-
-						@include border-radius(20px 0 0 0);
-						right: 0;
-
-
-					}
-
-										
-					.h2{ 
-						font-size: 50px;
-						line-height: 45px;
-						margin-top: 30px;
-
-						span{
-							font-size: 28px;
-							line-height: 30px;
-
-						}
-
-						&:before{
-						}
-					}
-
-					> a{
-					}
-				}
-
-				
-			}
-
-			
-			
-		}
-
-		
-
-	}
-
-	
-}
 
 
 
@@ -722,7 +421,7 @@ body.page-template-front-page{
 				margin-top: 60px;
 				//float: left;
 				height: 380px;
-				margin-bottom: 60px;
+				margin-bottom: 50px;
 				padding: 0;
 				width: 100%;
 
@@ -820,6 +519,32 @@ body.page-template-front-page{
 						left:calc( 50% - 26px ); 
 					}
 					
+				}
+			}
+
+			.partenaires{
+				margin-bottom: 30px;
+				clear: both;
+
+				> div{
+					font-size: 22px;
+
+					span{
+					}
+				}
+
+				ul{
+					width: 305px;
+
+					li{
+
+						&:first-child{
+						}
+
+						img{
+							height: 40px;
+						}
+					}
 				}
 			}
 
@@ -950,77 +675,97 @@ body.page-template-front-page{
 		}
 
 		
-		.row_03{padding-top:120px; 
+		.row_03{
 
-			h2{
-				/*font-size: 30px;
-				line-height: 35px;*/
 
-					
-			}
+			padding-top:0px;
+			height: 657px; 
+
+			h2{}
 
 			a{
-				/*font-size: 20px;
-				line-height: 20px;*/
+				&:after{}
 
-				&:after{
+				span{}
+			}
+
+			.cridonline{
+				width: 600px;
+				height: 585px;
+				padding: 115px 115px 80px 115px;
+				margin-left: 20px;
+				margin-bottom: 0; 
+				position: absolute;
+				right: 0;
+				top: 35px;
+
+				&:before{					
+					@include svgicon('icon-angle-bottom', 20px, 19px, $bg-top-footer); 
 				}
 
-				span{
+				&:after{					
+					top: 115px;
+					@include svgiconafter('ico-cridonline-logo', 112px, 112px, #FFF);
+					margin-left: -135px; 
+				}
+
+				ul{					
+					margin-top: 160px;
+					height: 130px;
+
+					li{						
+						padding-left: 18px;	
+						&:before{}
+					}
+				}
+
+				>a{
+					font-size: 20px;
+
+					&:after{
+						top: 30px;
+					}
+
+					&.link1{
+						margin-right: 30px;
+					}
 				}
 			}
 
-			> div{ cursor: pointer;}
+			.veille-juridique{
+				width: 585px;
+				height: 232px;
+				
+				position: absolute;
+				padding: 105px 0 0 0;
+				left: 0;
+				top: 35px;
+				margin-right: 0px;
 
-			.cridon-app{
-				width: 580px;
-				height: 175px;
-				padding: 35px 0 0 240px;
-				position: relative;
-				float: left;
-				margin-right: 30px;
-				/*padding:35px 0;
-				margin-bottom: 20px;*/
+				cursor: pointer;
 
 				&:before{
 					display:block;
-					@include svgicon('icon-appli', 40px, 40px, $gris-appli);					
-					position:absolute;
-					top:-80px;
+					@include svgicon('icon-veille', 49px, 49px, #FFF);	
+					top: 38px;
 					left: 50%;
-					margin-left: -10px;
-					;
+					margin-left: -25px;				
+					
 
 
 				}
 
 				&:after{
-					//content:'';
-					//@include sprite ($angle-before-cridon-poche);
-					display:block;
-					@include svgiconafter('icon-angle-top', 20px, 20px, $gris-appli);
+					//display:block;
+					@include svgiconafter('icon-angle-top', 20px, 19px, $bg-top-footer);
 					position: absolute;
-					top: -19px;
-					left: 50%;
+					top: 0px;
+					/*left: 50%;
 					margin-left: -32px; 
-					transition: color $duration ease;
+					transition: color $duration ease;*/
 				}
 
 				.content{
-
-					.img-main{						
-						background: url(../images/origin/img-main-appli-desktop.png);
-						width: 237px;
-						height: 210px;
-						left: -25px;					
-
-					}
-
-					.img-appli{	
-						right: 10px;
-						bottom: 18px; 
-						
-					}
 
 					h2{
 						
@@ -1033,17 +778,22 @@ body.page-template-front-page{
 				}
 			}
 
-			.info-flash-exclu, .veille-juridique{
-				width: 280px;
-				float: left;		
+			.info-flash-exclu, .cridon-app{
+				width: 282px;
+				height: 332px;
+				position: absolute;
+				padding-top: 97px;
+
+				cursor: pointer;
+
 
 				&:before{
 					display:block;
 								
 					position:absolute;
-					top:-80px;
+					top: 32px;
 					left: 50%;
-					margin-left: -20px;
+					margin-left: -26px;
 
 				}
 
@@ -1051,36 +801,81 @@ body.page-template-front-page{
 					//content:'';
 					display:block;
 					position: absolute;
-					top: -19px;
+					top: 0px;
 					left: 50%;
-					margin-left: -32px; 
+					margin-left: -32px;
+
+
 				}
  
 
 			}
 
-			.veille-juridique{				
-				margin-right: 30px; 
+			.cridon-app{				
+				margin-right: 30px; 				
+				top: 288px;
+				left: 303px;
+
+				h2{
+					width: 90%;
+				}
+
+				a{
+					margin-top: 10px;
+				}
 
 				&:before{					
-					@include svgicon('icon-veille', 40px, 40px, $jaune-accueil);
+					@include svgicon('icon-appli', 51px, 51px, #FFF);
+					margin-left: -14px;
 				}
 
 				&:after{					
 					//@include sprite ($angle-before-veille-juri);					
-					@include svgiconafter('icon-angle-top', 20px, 20px, $jaune-accueil);
+					@include svgiconafter('icon-angle-top', 20px, 20px, $bg-top-footer);
+				}
+
+
+				.img-main{						
+					background: url(../images/origin/img-main-appli-desktop.png);
+					background-size: 100%;
+					width: 131px;
+					height: 116px;  
+					position: absolute;
+					left: 0px;
+					bottom: 0px; 
+
+
+
+				}
+
+				.img-appli{	
+					
+
+					background: url(../images/origin/ico-appli-tablette.png);
+					background-size: 100%;
+					position: absolute;
+					right: 23px;
+					bottom: 9px; 
+
+					width: 66px;
+					height: 109px;
+					display: block;
+					
 				}
 
 			}
 
 			.info-flash-exclu{
+
+				left: 0; 
+				top: 288px;
 				&:before{					
-					@include svgicon('icon-nl', 40px, 40px, $bleu);
+					@include svgicon('icon-nl', 51px, 51px, #FFF);
 				}
 
 				&:after{					
 					//@include sprite ($angle-before-info-flash);					
-					@include svgiconafter('icon-angle-top', 20px, 20px, $bleu);
+					@include svgiconafter('icon-angle-top', 20px, 20px, $bg-top-footer); 
 				}
 
 			}
@@ -2310,6 +2105,30 @@ FOOTER STYLES
 				color:rgba(255, 255, 255, 0.6);
 				
 			}
+			.partenaires{
+				margin-top: 75px;
+
+				> div{
+					
+					
+
+					span{}
+				}
+
+				ul{
+					width: auto;
+
+					li{
+						
+						&:first-child{}
+
+						img{ height: 30px;}
+					}
+				}
+				
+				
+			}
+
 		}
 		&:after {
 		}

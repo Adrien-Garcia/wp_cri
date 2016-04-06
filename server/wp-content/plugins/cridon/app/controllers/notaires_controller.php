@@ -299,7 +299,37 @@ class NotairesController extends BasePublicController
             }
         }
     }
-
+    /**
+     * Notaire CridOnlineValidation Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentcridonlineetape2.php
+     *
+     * @return void
+     */
+    public function contentcridonlineetape2()
+    {
+        // access secured
+        $this->cridonlinevalidation();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentcridonlineetape2', $vars,'notaires');
+        die();
+    }
+    /**
+     * Notaire cridonline page
+     * Associated template : app/views/notaires/cridonline.php
+     *
+     * @return void
+     */
+    public function cridonlinevalidation()
+    {
+        $this->prepareSecureAccess();
+        if (!empty($_GET['level']) && !empty($_GET['price']) && !empty($_GET['crpcen'])) {
+            $this->set('level',$_GET['level']);
+            $this->set('price',$_GET['price']);
+            $this->set('crpcen',$_GET['crpcen']);
+        }
+    }
     /**
      * Cleaning data
      *
@@ -350,39 +380,37 @@ class NotairesController extends BasePublicController
 
     public function ajaxVeilleSubscription()
     {
-        // init response
-        $ret = '';
-
-        // Verify that the nonce is valid.
-        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen']) ) {
-            // find the office
-            $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
-            if (!empty($etude) && !empty($_REQUEST['level']) && !empty($_REQUEST['price'])) {
-                // Free trial date only if it's the first subscription online for that office
-                if (intval($_REQUEST['level']) > $etude->subscription_level){
-                    $start_subscription_date_veille    = date('Y-m-d');
-                    $end_subscription_date_veille      = date('Y-m-d', strtotime('+'.CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS.'days'));
-                    $echeance_subscription_date_veille = date('Y-m-d', strtotime('$end_subscription_date_veille +'.CONST_CRIDONLINE_ECHEANCE_MONTH.'month'));
-                    $office = array(
-                        'Etude' => array(
-                            'crpcen'                            => $_REQUEST['crpcen'],
-                            'start_subscription_date_veille'    => $start_subscription_date_veille,
-                            'echeance_subscription_date_veille' => $echeance_subscription_date_veille,
-                            'end_subscription_date_veille'      => $end_subscription_date_veille,
-                            'subscription_price'                => intval($_REQUEST['price']),
-                            'a_transmettre'                     => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
-                        )
-                    );
-                    mvc_model('Etude')->save($office);
-                    $ret = 'success';
+        $ret = 'cgvNotAccepted';
+        if ((!empty($_REQUEST['CGV'])) && ($_REQUEST['CGV'] === 'true') ) {
+            // Verify that the nonce is valid.
+            if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen'])) {
+                // find the office
+                $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
+                if (!empty($etude) && !empty($_REQUEST['level']) && !empty($_REQUEST['price'])) {
+                    // Free trial date only if it's the first subscription online for that office
+                    if (intval($_REQUEST['level']) > $etude->subscription_level) {
+                        $start_subscription_date_veille = date('Y-m-d');
+                        $end_subscription_date_veille = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+                        $echeance_subscription_date_veille = date('Y-m-d', strtotime('$end_subscription_date_veille +' . CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+                        $office = array(
+                            'Etude' => array(
+                                'crpcen' => $_REQUEST['crpcen'],
+                                'start_subscription_date_veille' => $start_subscription_date_veille,
+                                'echeance_subscription_date_veille' => $echeance_subscription_date_veille,
+                                'end_subscription_date_veille' => $end_subscription_date_veille,
+                                'subscription_price' => intval($_REQUEST['price']),
+                                'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                            )
+                        );
+                        mvc_model('Etude')->save($office);
+                        $ret = 'success';
+                    }
                 }
             }
         }
-
         echo json_encode($ret);
         die;
     }
-
 
 
     protected function prepareDashboard()
@@ -552,13 +580,7 @@ class NotairesController extends BasePublicController
             );
         }
         //show every member of an office
-        $options = array(
-            'conditions' => array(
-                'crpcen' => $this->current_notaire->crpcen
-            )
-        );
-
-        $liste = mvc_model('QueryBuilder')->findAll('notaire',$options);
+        $liste = $this->model->listOfficeMembers($this->current_notaire);
         CriRenderView('liste',get_defined_vars(),'notaires');
         die();
     }
