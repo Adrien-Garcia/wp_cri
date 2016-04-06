@@ -1215,6 +1215,120 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
 
+    protected function veillesSubscriptionManagement(){
+        try {
+            $options= array(
+                'conditions' => array(
+                    'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                )
+            );
+            $etudes   = mvc_model('Etude')->find($options);
+            if (count($etudes)>0){
+                // set adapter
+                switch (strtolower(CONST_IMPORT_OPTION)) {
+                    case self::IMPORT_ODBC_OPTION:
+                        $this->adapter = CridonODBCAdapter::getInstance();
+                        break;
+                    case self::IMPORT_OCI_OPTION:
+                        //if case above did not match, set OCI
+                        $this->adapter = CridonOCIAdapter::getInstance();
+                        break;
+                }
+                // bloc de requette
+                $queryBloc = array();
+                // adapter instance
+                $adapter = $this->adapter;
+                // list des id question pour maj cri_question apres transfert
+                $qList = array();
+
+                // requete commune
+                $query  = " INTO " . CONST_DB_TABLE_QUESTTEMP;
+                $query .= " (";
+                $query .= $adapter::YABONNE_YIDABONNE_0 . ", "; // YABONNE_YIDABONNE_0
+                $query .= $adapter::YABONNE_YCRPCEN_0 . ", "; // YABONNE_YCRPCEN_0
+                $query .= $adapter::YABONNE_YNIVEAU_0 . ", ";   // YABONNE_YNIVEAU_0
+                $query .= $adapter::YABONNE_YDATE_0 . ", ";   // YABONNE_YDATE_0
+                $query .= $adapter::YABONNE_YSTATUT_0 . ", ";   // YABONNE_YSTATUT_0
+                $query .= $adapter::YABONNE_YTARIF_0 . ", ";   // YABONNE_YTARIF_0
+                $query .= $adapter::YABONNE_YVALDEB_0 . ", ";   // YABONNE_YVALDEB_0
+                $query .= $adapter::YABONNE_YVALFIN_0 . ", ";   // YABONNE_YVALFIN_0
+                $query .= $adapter::YABONNE_YDATECH_0 . ", ";   // YABONNE_YDATECH_0
+                $query .= $adapter::YABONNE_YTRAITEE_0 . ", ";   // YABONNE_YTRAITEE_0
+                $query .= $adapter::YABONNE_YERR_0 . ", ";   // YABONNE_YERR_0
+                $query .= $adapter::YABONNE_YMESSERR_0 . ", ";   // YABONNE_YMESSERR_0
+                $query .= ") ";
+                $query .= " VALUES ";
+
+                // complement requete selon le type de BDD
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a bulk insert in Oracle SQL
+                         INSERT ALL
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                        SELECT * FROM dual;
+                         */
+                        foreach ($etudes as $etude) {
+                            // remplit la liste des études
+                            $eList[] = $etude->id;
+
+                            $value  = $query;
+                            $value .= "(";
+
+                            $value .= "'" . $etude->crpcen.date('c'). "', "; // YABONNE_YIDABONNE_0
+                            $value .= "'" . $etude->crpcen. "', "; // YABONNE_YCRPCEN_0
+                            $value .= "'" . $etude->subscription_level. "', "; // YABONNE_YNIVEAU_0
+                            $value .= "'" . $etude->start_subscription_date . "', "; // YABONNE_YDATE_0
+                            $value .= "'1',"; // YABONNE_YSTATUT_0
+                            $value .= "'" . $etude->subscription_price . "', "; // YABONNE_YTARIF_0
+                            $value .= "'" . $etude->start_subscription_date . "', "; // YABONNE_YVALDEB_0
+                            $value .= "'" . $etude->end_subscription_date . "', "; // YABONNE_YVALFIN_0
+                            $value .= "'" . $etude->echeance_subscription_date . "', "; // YABONNE_YDATECH_0
+                            $value .= "'0',"; // YABONNE_YTRAITEE_0
+                            $value .= "'0',"; // YABONNE_YERR_0
+                            $value .= "' '"; // YABONNE_YMESSERR_0
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT ALL ';
+                            $query .= implode(' ', $queryBloc);
+                            $query .= ' SELECT * FROM dual';
+                            writeLog($query, 'query_export.log');
+                        }
+                        break;
+                }
+            }
+            // execution requete
+            if (!empty($query)) {
+                if ($result = $this->adapter->execute($query) && !empty($qList)) {
+                    // update cri_question.transmis_erp
+                    $sql = " UPDATE". mvc_model('Etude')->table." SET a_transmettre = 0 WHERE id IN (" . implode(', ', $eList) . ")";
+                    $this->wpdb->query($sql);
+                } else {
+                    // log erreur
+                    $error = sprintf(CONST_EXPORT_CRIDONLINE_ERROR, date('d/m/Y à H:i:s'));
+                    writeLog($error, 'veillesSubscriptionManagement.log','Cridon - Export Cridonline');
+
+                    // send email
+                    reportError(CONST_EXPORT_CRIDONLINE_ERROR, $error);
+                }
+            }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch (Exception $e) {
+            // write into logfile
+            writeLog($e, 'veillesSubscriptionManagement.log');
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur mise à jour infos abonnement veilles');
+        }
+    }
+
     public function notaireCridonlineUpdateAnnually(){
         try {
             // Update prices of crid'online

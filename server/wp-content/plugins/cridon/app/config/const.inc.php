@@ -438,10 +438,6 @@ if ( !defined( 'CONST_QUEST_UPDATED_IN_X3' ) ) {
 if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
     define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
 }
-if ( !defined( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE' ) ) {
-    define( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE', 2 );
-}
-
 if ( !defined( 'CONST_QUEST_ANSWERED' ) ) {
     define( 'CONST_QUEST_ANSWERED', 4 );
 }
@@ -481,6 +477,16 @@ if ( !defined( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG' ) ) {
 }
 if ( !defined( 'CONST_IMPORT_GED_GENERIC_ERROR_MSG' ) ) {
     define( 'CONST_IMPORT_GED_GENERIC_ERROR_MSG', 'Erreur survenue lors de l\'import de la GED' );
+}
+// Cridonline const
+if ( !defined( 'CONST_CRIDONLINE_A_TRANSMETTRE_ERP' ) ) {
+    define( 'CONST_CRIDONLINE_A_TRANSMETTRE_ERP', 1 );
+}
+if ( !defined( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE' ) ) {
+    define( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE', 2 );
+}
+if ( !defined( 'CONST_EXPORT_CRIDONLINE_ERROR' ) ) {
+    define( 'CONST_EXPORT_CRIDONLINE_ERROR', 'Export cridonline interrompu le : %s' );
 }
 
 if (!defined('CONST_CONNECTION_FAILED')) {
