@@ -731,9 +731,9 @@ if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
 if ( !defined( 'CONST_DB_TABLE_YNOTAIRE' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
+        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
