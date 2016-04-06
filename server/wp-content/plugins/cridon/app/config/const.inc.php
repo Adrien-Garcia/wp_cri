@@ -747,7 +747,7 @@ if ( !defined( 'CONST_DB_TABLE_YNOTAIRE' ) ) {
 
 // Onglet
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
-    define( 'CONST_ONGLET_COLLABORATEUR', '6' );
+    define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
 
 
