@@ -498,6 +498,12 @@ if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
 if ( !defined( 'CONST_CRIDONLINE_CGV_ERROR_MSG' ) ) {
     define( 'CONST_CRIDONLINE_CGV_ERROR_MSG', 'Vous devez accepter les conditions générales d\'utilisations pour souscrire à l\'offre CRID\'ONLINE' );
 }
+if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
+    define( 'CONST_CRIDONLINE_LABEL_LEVEL_2', 'Premium' );
+}
+if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_3' ) ) {
+    define( 'CONST_CRIDONLINE_LABEL_LEVEL_3', 'Excellence' );
+}
 //Alert on issues without documents
 if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
     define( 'CONST_ALERT_MINUTE', 30 );
