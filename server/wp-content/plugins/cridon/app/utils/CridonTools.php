@@ -585,7 +585,7 @@ class CridonTools {
      * @param mixed  $notary
      * @return mixed
      */
-    public function isSameOffice($collaborator_id = 0, $notary)
+    public function isSameOffice($collaborator_id, $notary)
     {
         if (is_object($notary) && property_exists($notary, 'crpcen')) {
             global $wpdb;
