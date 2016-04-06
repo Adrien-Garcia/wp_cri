@@ -386,25 +386,23 @@ class NotairesController extends BasePublicController
             if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen'])) {
                 // find the office
                 $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
-                if (!empty($etude) && !empty($_REQUEST['level']) && !empty($_REQUEST['price'])) {
-                    // Free trial date only if it's the first subscription online for that office
-                    if (intval($_REQUEST['level']) > $etude->subscription_level) {
-                        $start_subscription_date_veille = date('Y-m-d');
-                        $end_subscription_date_veille = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
-                        $echeance_subscription_date_veille = date('Y-m-d', strtotime('$end_subscription_date_veille +' . CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
-                        $office = array(
-                            'Etude' => array(
-                                'crpcen' => $_REQUEST['crpcen'],
-                                'start_subscription_date_veille' => $start_subscription_date_veille,
-                                'echeance_subscription_date_veille' => $echeance_subscription_date_veille,
-                                'end_subscription_date_veille' => $end_subscription_date_veille,
-                                'subscription_price' => intval($_REQUEST['price']),
-                                'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
-                            )
-                        );
-                        mvc_model('Etude')->save($office);
-                        $ret = 'success';
-                    }
+                if (!empty($etude) && !empty($_REQUEST['level']) && intval($_REQUEST['level']) > $etude->subscription_level && !empty($_REQUEST['price'])) {
+                    $start_subscription_date = date('Y-m-d');
+                    $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+                    $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+                    $office = array(
+                        'Etude' => array(
+                            'crpcen' => $_REQUEST['crpcen'],
+                            'subscription_level' => $_REQUEST['level'],
+                            'start_subscription_date' => $start_subscription_date,
+                            'echeance_subscription_date' => $echeance_subscription_date,
+                            'end_subscription_date' => $end_subscription_date,
+                            'subscription_price' => intval($_REQUEST['price']),
+                            'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                        )
+                    );
+                    mvc_model('Etude')->save($office);
+                    $ret = 'success';
                 }
             }
         }
