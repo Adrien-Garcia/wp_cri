@@ -9,6 +9,5 @@
 
 ?>
 <?php 
-	$onglet = 4;
     include TEMPLATEPATH.'/page-mon-compte.php';
 ?>

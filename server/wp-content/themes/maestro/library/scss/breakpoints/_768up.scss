@@ -66,13 +66,17 @@ HEADER STYLES
 			display: none;
 
 		}
-		.rechercher, .poser-question, .acceder-compte {
+		#rechercher,
+		.poser-question,
+		#acceder-compte {
+
 			&, &:before {
-				transition: background $duration ease, color $duration ease;
+				@include transition(all 0.3s);
 			}
+
 		}
 
-		.rechercher{
+		ul#rechercher{
 			width: 300px;
 			height: 30px;
 			background:$vert;
@@ -81,28 +85,173 @@ HEADER STYLES
 			top: 10px;
 			left: 0;
 			text-decoration: none;
+			margin: 0;
+			padding: 0;
 
-			@extend .do-sm;
-			font-size: 12px;
-			color:#FFF;
-			text-transform: uppercase;
-			line-height: 30px;
-			padding-left: 40px;
 
-			&:before{
-				display:block;
-				font-weight: normal;
-				@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
-				position:absolute;
-				top:6px;
-				left: 8px;
-			}
-			&:hover {
-				background: #fff;
-				&, &:before {
-					color: $vert;
+			>li{ 
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				position: relative;
+				display: block;
+				height: 40px;
+
+				>a{
+					@extend .do-sm;
+					font-size: 12px;
+					color:#FFF;
+					text-transform: uppercase;
+					line-height: 30px;
+					padding-left: 40px;
+					text-decoration: none;
+					display: block;
+
+					@include transition(all 0.3s ease-in);
+
+
+					&:before{
+						display:block;
+						font-weight: normal;
+						@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
+						position:absolute;
+						top:6px;
+						left: 8px;
+
+						@include transition(all 0.3s ease-in);
+					}
+					&:hover {
+						background: #fff;
+						&, &:before {
+							color: $vert;
+						}
+					}
 				}
+
+				&:hover{
+
+					> a{
+						background: #fff;
+						&, &:before {
+							color: $vert;
+						}
+					}
+				}
+
+				>ul{
+					visibility: hidden;
+    				position: absolute;
+    				width: 100%;
+    				padding: 22px 0 0 0;
+    				margin: 0 0 0 0;
+    				top: 40px;
+    				left: 0;
+    				z-index: 3000;
+
+
+    				&:after{
+    					content:'';
+
+    					width: 300px;
+						height: 120px;
+						background: #FFF;
+						box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+						-moz-box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+						-webkit-box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+
+						z-index:-10;
+						position: absolute;
+						top: 22px;
+						left: 0; 
+
+						transition:all 0.3s;
+
+    				}
+
+
+    				&:before{
+						@include svgicon('icon-angle-bottom', 18px, 18px, $rouge);
+						@include rotate(180);
+						position: absolute;
+						top: 4px;
+						left: 50%;
+						margin-left: -29px;
+						transition:all 0.3s;
+					}
+
+
+    				&.visible{
+    					visibility: visible;
+    				}
+
+    				> li{
+    					padding: 0;
+    					margin: 0;
+    					width: 100%;
+    					height: 40px;
+    					background: #FFF;
+
+
+    					
+
+
+    					&:before{
+    						content: none;
+    					}
+
+
+    					> a{
+    						display: block;
+    						height: 40px;
+    						line-height: 40px;
+    						color:#FFF;
+    						text-decoration: none;
+    						@extend .do-me;
+    						text-transform: uppercase;
+    						text-align: center;
+    						font-size: 14px;
+    						background: $rouge;
+    						border-bottom:solid 1px #FFF;
+
+    						@include transition(all 0.3s);
+    						
+
+    						&:hover{
+    							opacity: 0.9; 
+    						}
+
+    						span{
+    							font-weight: 400 !important;
+    						}
+
+    						
+
+    					}
+
+    					&:last-child{
+
+    						> a{
+    							background: #FFF;
+    							font-size: 15px;
+    							color:$rouge;
+    							text-decoration: underline;
+    							font-family: $garamond; 
+    							text-transform: none;
+
+    							&:hover{
+    								text-decoration: none;
+    							}
+    						}
+    					}
+    				}
+
+				}
+
 			}
+
+			
+
+			
 
 		}
 
@@ -149,13 +298,16 @@ HEADER STYLES
 			top: 10px;
 			left: 485px;
 
-			>li{
+
+
+			> li{
 				margin: 0;
 				padding: 0;
 				width: 100%;
 				position: relative;
 
 				a.acceder-compte{
+					@include transition(all 0.3s ease-in);
 					width: 175px;
 					height: 30px;					
 					background: #FFF;
@@ -168,6 +320,8 @@ HEADER STYLES
 					padding-left: 40px;
 					display: block;
 
+					
+
 					&:before{
 						display:block;
 						font-weight: normal;
@@ -175,9 +329,23 @@ HEADER STYLES
 						position:absolute;
 						top:4px;
 						left: 8px;
+
+						@include transition(all 0.3s ease-in);
 					}
 
 					&:hover {
+						background: $vert;
+						color:#FFF !important;
+
+						&, &:before {
+							color: #fff;
+						}
+					}
+				}
+
+				&:hover{
+
+					a.acceder-compte{
 						background: $vert;
 						color:#FFF !important;
 
@@ -193,9 +361,40 @@ HEADER STYLES
     				width: 100%;
     				padding: 0;
     				margin: 0;
-    				bottom: -30px;
+    				bottom: -75px;
     				left: 0;
-    				z-index: 3000;
+    				z-index: 3000; 
+
+    				&:before{
+						@include svgicon('icon-angle-bottom', 18px, 18px, $vj_02);
+						@include rotate(180);
+
+						position: absolute;
+						top: 17px;
+						left: 50%;
+						margin-left: -29px;
+
+						transition:all 0.3s;
+					}
+
+					&:after{
+    					content:'';
+
+    					width: 175px;
+						height: 40px;
+						background: #FFF;
+						box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+						-moz-box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+						-webkit-box-shadow: 0px 0px 14px 2px rgba(0, 0, 0, 0.25);
+
+						z-index:-10;
+						position: absolute;
+						top: 35px;
+						left: 0; 
+						transition:all 0.3s;
+
+    				}
+
 
     				&.visible{
     					visibility: visible;
@@ -205,9 +404,8 @@ HEADER STYLES
     					padding: 0;
     					margin: 0;
     					width: 100%;
-    					height: 30px;
-    					
-
+    					height: 40px;
+    					background: #FFF;
 
     					&:before{
     						content: none;
@@ -216,21 +414,25 @@ HEADER STYLES
 
     					> a{
     						display: block;
-    						height: 30px;
-    						line-height: 30px;
+    						height: 40px;
+    						line-height: 40px;
     						color:#FFF;
     						text-decoration: none;
-    						text-align: right;
-    						padding-right: 10px;
-    						@extend .do-el;
-    						font-size: 16px;
-    						background: $vj_03;
+    						@extend .do-me;
+    						text-transform: uppercase;
+    						text-align: center;
+    						font-size: 14px;
+    						background: $vj_02;
+							display: block;
+    						margin-top: 35px;
+    						@include transition(all 0.3s);
     						
 
     						&:hover{
-    							background: $vert;
-								color:#FFF !important;
+    							opacity: 0.9;
     						}
+
+    						
 
     					}
     				}
@@ -258,7 +460,7 @@ HEADER STYLES
 
 			#bt-nav-mobile{
 				position: absolute;
-			    top: 25px;
+			    //top: 25px; 
 			    left: 10px;
 			   
 
@@ -283,360 +485,6 @@ HEADER STYLES
 			}
 		}
 	}
-	
-}
-
-
-/****
-
-  _        _ __   _______ ____    ____   ___  ____  _____ _____  _   _ _   _ _____    ___  _   _ _____ ____ _____ ___ ___  _   _ 
- | |      / \\ \ / / ____|  _ \  |  _ \ / _ \/ ___|| ____|__  / | | | | \ | | ____|  / _ \| | | | ____/ ___|_   _|_ _/ _ \| \ | |
- | |     / _ \\ V /|  _| | |_) | | |_) | | | \___ \|  _|   / /  | | | |  \| |  _|   | | | | | | |  _| \___ \ | |  | | | | |  \| |
- | |___ / ___ \| | | |___|  _ <  |  __/| |_| |___) | |___ / /_  | |_| | |\  | |___  | |_| | |_| | |___ ___) || |  | | |_| | |\  |
- |_____/_/   \_\_| |_____|_| \_\ |_|    \___/|____/|_____/____|  \___/|_| \_|_____|  \__\_\\___/|_____|____/ |_| |___\___/|_| \_|
-                                                                                                                                 
-
-*/
-
-#layer-posez-question{
-	
-	width: 660px;
-	max-width: 660px;
-	margin:0 auto;
-	padding: 0;
-	background: transparent;
-
-
-
-	.block_top{
-		padding: 10px 10px 0 10px;
-
-		background: #FFF;
-
-		> .titre{
-
-			.close_layer{
-				position: absolute;
-				right: 10px;
-				top: 50%;
-				margin-top: -20px;
-				display: block;
-				width: 40px;
-				height: 40px;
-				
-				&:before{
-					@include svgicon('icon-close-layer-question', 20px, 20px, #FFF);
-					@include rotate(-45);
-					position: absolute;
-					top: 11px;
-					left: 11px;
-				}
-
-				
-
-			}
-
-			.texte{			
-
-			//height: 18px;
-
-
-				&:before{					
-				}
-
-			}
-			
-		}
-
-		.onglets{
-
-			
-			width: 620px;
-			margin-left:10px;
-
-
-			.h2{
-				width: 50%;				
-
-				&:hover{
-					
-				}
-
-			}
-
-			.h2.open{				
-				width: 50%;
-			}
-		}
-
-		.details{
-			
-			width: 620px;
-			margin:0 auto; 
-			
-
-			.consultation{
-				
-
-				#owl-support{
-					
-
-					.owl-item{
-						
-
-						.item{
-							
-							width: 200px;
-							margin-right: 10px;
-
-							&:before{								
-								
-							}
-
-							&:last-child{
-								margin-right: 0;
-							}
-
-						}
-
-						.label{
-							
-							font-size: 20px;
-
-							&:before{
-								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
-								position: absolute;
-								left: 50%;
-								margin-left: -24px;
-								bottom:-14px;
-							}
-
-						}
-
-						.description{							
-							text-align: center;
-						}
-
-					}
-
-				}				
-
-			}
-
-			.question{
-
-				.block_gauche{
-					
-				}
-
-				.block_droit{
-					width: 100%;
-					clear: both;
-					border:solid 1px transparent;
-
-					.form{
-						width: 100%;
-						padding-bottom: 20px;
-						margin-top: 15px;
-
-						input[type="text"], textarea{							
-							margin-bottom: 15px;
-
-
-						}
-
-						select{							
-							margin-bottom: 15px;
-						}
-
-						input[type="submit"]{
-						}
-
-						input[type="file"]{
-							
-						}
-
-						.fileUpload {
-						 
-
-						}
-						.fileUpload input.upload {						  
-						}
-
-						.sep{							
-
-						}
-
-						
-					}
-				}
-
-			}
-
-			
-			
-
-			
-		}
-
-		
-
-	}
-
-	.block_bottom{
-		clear: both;
-		float: none;
-		height: 260px;
-		background: transparent;
-		width: 100%;
-
-
-		.block_03{
-			display: block;
-			padding: 10px 0 40px 0;
-			float: left;
-			width: 640px;
-			margin-top: 20px;
-
-			margin-left: 10px;
-
-			.block {
-				
-				margin-bottom: 10px;
-				background-color: #FFF;
-				position: relative;
-				cursor: pointer;
-
-				width: 206px;
-				height: 210px;
-				float: left;
-				margin-right: 10px; 
-
-				
-
-				&:nth-child(3){ margin-right: 0;} 
-
-
-				.content{
-					height: 100px;
-					//background-color: $vert;
-					position: absolute;
-					bottom: 0;
-					left: 0;
-					overflow: hidden;
-					width: 100%;
-					transition: height $duration ease;
-
-					&:before, &:after{
-						content: '';
-						width: calc(100% / 2);
-						position: absolute;
-						top: 0;
-						display: block;
-						height: 146px;
-						transition: height $duration ease, background $duration ease;
-						border:none;
-						box-sizing: border-box;
-
-						background: $vert;
-						@include gradient-opacity(transparentize($vert, 0.4),opacify($vert, 1));
-						background-size: 100% 200%;
-
-					}
-
-					&:before{
-						
-						@include border-radius(0 20px 0 0);
-						left: 0;
-					}
-
-					&:after{
-
-						@include border-radius(20px 0 0 0);
-						right: 0;
-
-
-					}
-
-										
-					.h2{ 
-						position: relative;
-						z-index: 2000;
-						@extend .do-sm;
-						color:#FFF;
-						font-size: 30px;
-						line-height: 30px;
-						text-transform: uppercase;
-						text-align: center;
-						margin: 20px 0 0 0;
-						padding: 0;
-						font-weight: normal;
-
-						span{
-							display: block;
-							font-size: 17px;
-							line-height: 18px;
-							font-family: 'EB Garamond';
-							color:#FFF;
-							text-transform: none;
-							font-weight: normal;
-
-						}
-
-						&:before{
-							/*font-weight:normal;*/
-						}
-					}
-
-					> a{
-						display: block; 
-						color:#FFF;
-						position: relative;
-						z-index: 2000;
-						text-decoration: none;
-						text-align: center;
-						@extend .do-el;
-						font-size: 40px;
-						line-height: 20px;
-						padding: 0;
-						margin: 0;
-					}
-
-					&:hover{
-
-						> a{
-							@extend .do-bo;
-						}
-					}
-				}
-
-				
-			}
-
-			.poser{
-				background: url(../images/origin/bg-poser-une-question-tel.png);
-				background-size: cover;
-			}
-
-			.demander{
-				background: url(../images/origin/bg-consulter-mobile.png);
-				background-size: cover;
-
-			}
-
-			.prendre{
-				background: url(../images/origin/bg-prendre-rdv.png);
-				background-size: cover;
-			}
-			
-		}
-
-		.block_3_mobile{
-			display: none;			
-		}
-
-	}
-
 	
 }
 
@@ -718,7 +566,7 @@ body.page-template-front-page{
 				margin-top: 20px;
 				float: left;
 				height: 210px;
-				margin-bottom: 40px;
+				margin-bottom: 25px;
 
 				.block {
 
@@ -824,6 +672,35 @@ body.page-template-front-page{
 					
 				}
 			}
+
+
+			.partenaires{
+				margin-bottom: 15px;
+				clear: both;
+
+				> div{
+					font-size: 13px;
+
+					span{
+					}
+				}
+
+				ul{
+					width: 185px;
+
+					li{
+
+						&:first-child{
+						}
+
+						img{
+							height: 23px;
+						}
+					}
+				}
+			}
+
+
 
 		}
 
@@ -1076,6 +953,7 @@ body.page-template-front-page{
 		}
 
 		.row_03{
+			padding: 40px 0;
 
 			h2{
 
@@ -1096,62 +974,181 @@ body.page-template-front-page{
 				}
 			}
 
-			.cridon-app{
+
+			.cridonline{
+				/*width: 100%;
+				background: $rouge;
+				height: 145px;
+				position: relative;
+				padding: 25px 10px 10px 10px;
+				margin-bottom: 10px;*/
+				height: 350px;
+				padding: 50px 150px 20px 150px;
+				margin-bottom: 25px;
+
+				&:before{
+					/*
+					position: absolute;
+					left: 50%;
+					top: 0px;
+					margin-left: -24px;*/
+					@include svgicon('icon-angle-bottom', 20px, 19px, $bg-top-footer); 
+				}
+
+				&:after{
+					/*@include svgiconafter('ico-cridonline-logo', 55px, 55px, #FFF);
+
+					position: absolute;
+					left: 50%;
+					margin-left: -68px;
+					top: 25px;*/
+					top: 50px;
+					@include svgiconafter('ico-cridonline-logo', 87px, 87px, #FFF);
+					margin-left: -106px;
+
+				}
+
+				ul{
+					/*margin: 0;
+					padding: 0;
+
+					display: none;*/
+					display: block; 
+					margin-top: 115px;
+					height: 80px;
+					overflow: hidden;
+
+					li{
+						/*margin: 0;
+						padding: 0;*/
+						font-family: $garamond;
+						font-size: 21px;
+						line-height: 23px;
+						color:#FFF;
+						padding-left: 15px;
+						display: block;
+						position: relative;
+						margin-bottom: 3px;
+
+						&:before{
+							content:'';
+							border:solid 1px #FFF;
+							@include border-radius(50%);
+							height: 8px;
+							width: 8px;
+							position: absolute;
+							left: 0;
+							top: 9px;
+						}
+					}
+				}
+
+				>a{
+					/*@include lien-souligne(#FFF);
+					text-align: center;
+					margin-top: 70px;
+					font-size: 15px;*/
+					margin-top: 30px;
+
+					&:after{
+						/*left: 50%;
+						margin-left: -8px;*/
+						top: 30px;
+					}
+
+					&.link1{
+						//margin-right: 20px;
+						margin-right: 15px;
+					}
+				}
+			}
+
+
+
+			.veille-juridique{
 				width: 100%;
-				height: 175px;
-				padding:35px 0;
-				margin-bottom: 20px;
+				height: 210px;
+				padding:35px 0 20px 0;
+				margin-bottom: 25px;
+
+				&:before{
+					font-size: 46px;
+					line-height: 46px;
+					/*color:#FFF;
+					position: absolute;*/
+					top: 35px;
+					margin-left: -23px;
+					left:50%;
+
+				}
+
+				&:after{
+					/*position: absolute;
+					top: 0;
+					@include rotate(180);
+					color:$bg-top-footer;*/
+					font-size: 20px;
+					line-height: 19px;
+					margin-left: -32px;
+					left:50%;
+
+				}
+
+
 
 				.content{
-
-					.img-main{						
-						background: url(../images/origin/img-main-appli-tablette.png);
-						width: 242px;
-						height: 210px;
-						left: 0;
-						
-
-					}
-
-					.img-appli{
-						
-						background: url(../images/origin/ico-appli-tablette.png);
-						position: absolute;
-						right: 50px;
-						bottom: 20px; 
-						width: 70px;
-						height: 116px;
-						display: block;
-					}
+					text-align: center;
 
 					h2{
-						width: 215px;
-						margin: 0 0 0 280px;					
+						text-align: center;	
+						width: 100%;	
+						margin-top: 60px;		
 					} 
 
 					> a{
-						
-						width: 230px;						
-						margin: 5px 0 0 280px; 
+						margin-top: 10px;
+						text-align: center;
+
+						display: block;
 
 						&:after{							
-							top: 20px;
+							top: 25px;
 							/*left: 0;*/
+
 						}
 
 					} 
 				}
 			}
 
-			.info-flash-exclu, .veille-juridique{
+			.info-flash-exclu, .cridon-app{
 				width: 320px;
-				padding: 35px 0;				
+				padding: 35px 0;	
+
+				height: 250px;
+
+				&:before{
+					font-size: 50px;
+					line-height: 50px;
+					top: 32px;
+					left:50%;
+				}	
+
+				&:after{
+					font-size: 20px;
+					line-height: 19px;
+					margin-left: -32px;
+					left:50%;
+				}	
+
+
 
 				h2{					
 					
 				}
 				a{	
-					margin-top: 5px;
+					font-size: 20px;
+					margin-top: 10px;
 					width: 100%;
 					&:after{	
 
@@ -1160,18 +1157,25 @@ body.page-template-front-page{
 				} 
 			}
 
-			.veille-juridique{
+			.cridon-app{
+
+				h2{
+					width: 70%;
+					margin: 0 auto;
+				}
 				
-				margin-right: 20px;				
+				
 
 				a{
 					width: 100%;
-					margin: 0 auto;
+					margin:10px auto 0 auto;
 				}
 				
 			}
 
-			.info-flash-exclu{				
+			.info-flash-exclu{
+
+			margin-right: 20px;								
 
 				h2{
 					padding: 0; 
@@ -1338,647 +1342,7 @@ body.page-template-front-page{
 }
 
 
-
-
-
-
-
-
-
-
-
-/*
-
-  ____                    _     _     _                   _ _ _           
- |  _ \ __ _  __ _  ___  | |   (_)___| |_ ___  __   _____(_) | | ___  ___ 
- | |_) / _` |/ _` |/ _ \ | |   | / __| __/ _ \ \ \ / / _ \ | | |/ _ \/ __|
- |  __/ (_| | (_| |  __/ | |___| \__ \ ||  __/  \ V /  __/ | | |  __/\__ \
- |_|   \__,_|\__, |\___| |_____|_|___/\__\___|   \_/ \___|_|_|_|\___||___/
-             |___/                                                        
-
-
-*/   
-
-#content.archive{
-	padding-top: 130px;
-
-	.breadcrumbs{
-		/*width: 100%;
-		background: $bg-top-footer;
-		height: 70px; */
-		display: block;
-		padding-top: 30px;
-
-		a{
-			@extend .do-re;
-			font-size: 15px;
-			color:#818181;
-			text-transform: uppercase;
-			text-decoration: none;
-			line-height: 24px;
-
-		}
-
-		span{
-			@extend .do-sm;
-			color:$bleu;
-			font-size: 15px;
-			line-height: 24px;
-		}
-	
-
-	}
-
-	#main{
-		
-		padding-top: 60px;
-
-		&:before{}
-
-		#inner-content{
-
-
-			h1{
-				
-				font-size: 50px;
-				line-height: 40px;
-				margin-top: 0;
-
-				&:before{	}
-
-
-			}
-
-			#filtres_veilles{
-				border-bottom: none;
-				height: inherit;
-
-				#tri_matiere{
-
-					>label{}
-
-					span.open{}
-					span.close{}
-
-					span{}
-
-				}
-
-				.panel{					
-
-					>a {}
-
-					ul{
-						width: 100%;
-						float: left;
-
-						>li{
-
-							width: 33%;
-							float: left;
-							margin: 3px 0;
-
-							>label{								
-
-								&:before{}
-
-								>input{}
-
-								&.select{
-
-									&:before{}
-
-								}
-
-								cursor: pointer;
-
-							    &:hover{
-
-							    	&:before{
-							    		background: $rouge;
-							    	}
-							    }
-							}
-						}
-					}
-					#bt_valider{
-						/*margin:0 0 20px 10px;*/
-						margin-bottom: 0;
-
-					}
-
-
-				}
-
-				
-
-				#bt_valider{
-					margin:0 0 20px 10px;
-				}
-
-			}
-
-			.listing{
-
-			margin-top: 50px; 
-
-				article{
-
-					margin-bottom: 60px;
-
-
-					
-
-
-					.date{
-						height: 220px;
-						width: 180px;
-						float: left;
-						margin-right: 20px;
-						padding: 50px 0;
-						margin-bottom: 0;
-
-						&:before{
-							display: none;
-
-						}
-
-						&:after{
-							@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
-							position:absolute;
-							bottom: 50%;
-							margin-bottom: -23px;
-							left: inherit;
-							right: -13px;
-							margin-left: 0px;
-							display: block;
-
-						}
-
-						span{
-							display: block;
-
-						}
-
-						span.jour{
-							font-size: 72px;
-							line-height: 60px;
-							@extend .do-el;
-						}
-						.mois{
-							font-size: 30px;
-							line-height: 40px;
-
-						}
-						.annee{
-							font-size: 18px;
-							line-height: 15px;
-						}
-
-						.sep{
-							display: block;
-							position: absolute;
-							width: 660px;
-							top: -33px;
-							left: 0;
-							border-bottom:solid 5px $bg-top-footer;
-							height: 0px;
-							line-height: 20px;
-
-
-
-							&:before{
-
-								@include svgicon('ico-sep', 18px, 18px, #e6e6e6);
-								position: absolute;
-								top: 0px;
-								background: #FFF;
-								left: 50%;
-								margin-left: -30px;
-								border:none;
-
-								 
-							}
-						}
-
-						
-					}
-
-
-					
-
-					.details{
-						float: right;
-						width: 460px; 
-
-						.block_left{
-							width: 50px;
-							margin-right: 0;
-
-							.img-cat{
-
-								height: 50px;	
-								width: 50px;			
-								margin-right: 10px;
-								
-								img{
-									width: 50px;
-									height: 50px;
-								}
-								
-							}
-
-						}
-
-						.block_right{
-							float: right;
-							width: 400px;
-							cursor: pointer;
-
-							.matiere{
-								line-height: 20px;
-								position: relative;
-								top: -3px; 
-								padding: 0 5px;
-							} 
-
-							h2{
-
-							}
-
-							.chapeau{
-								width: 100%;
-							}
-
-							.extrait{
-								width: 100%;
-							}
-
-							.mots_cles{
-
-								
-								padding: 0;
-								height: 18px;
-
-								>li{								
-									
-
-									&:before{
-										
-
-									}
-
-									&:last-child{
-										&:before{ }
-									}
-								}
-							}
-
-							> a{
-								
-								margin:10px 0 0 0;
-								height: 14px;
-							    width: 37px;
-							    font-size: 10px;
-							    line-height: 14px;
-							    clear: both;
-
-							    &:after{
-							    	border-width: 7px 0 7px 9px; 
-							    }
-
-							}
-
-						}
-					}
-
-					
-				}
-
-			} 
-
-		}
-
-	}
-
-	
-}
-
-#content.archive-cahier{
-
-	 #main #inner-content .listing article{
-
-		.details{
-			/*width: 100%;*/
-
-			.block_right{
-				width: 460px;
-				cursor: inherit;
-
-				>h2{ 
-					margin-bottom: 0px;
-				}
-
-				> a{					
-					font-size: 16px;
-					width: auto;
-					margin-top: 5px;
-					line-height: 20px;
-					height: auto;
-					@include transition(all 0.3s);
-
-					
-
-				}
-
-				> ul{					
-					padding: 0 0 0 20px;	
-
-
-				}
-			}
-		}
-
-	}  
-}
-
-#content.archive-formations{
-	#main #inner-content .listing{
-		margin-top: 20px;
-
-	}
-
-}
-
-
-/*
-
-  ____ ___ _   _  ____ _     _____  __     _______ ___ _     _     _____ ____  
- / ___|_ _| \ | |/ ___| |   | ____| \ \   / / ____|_ _| |   | |   | ____/ ___| 
- \___ \| ||  \| | |  _| |   |  _|    \ \ / /|  _|  | || |   | |   |  _| \___ \ 
-  ___) | || |\  | |_| | |___| |___    \ V / | |___ | || |___| |___| |___ ___) |
- |____/___|_| \_|\____|_____|_____|    \_/  |_____|___|_____|_____|_____|____/ 
-                                                                               
-
-
-*/
-
-
-#content.single{
-
-
-	#inner-content{
-		.titre {
-			height: auto;
-			
-			span{
-				/*margin: 20px 0;*/
-				margin-top: 34px;
-			}
-		}
-
-		.sep{
-			margin-top: 38px;
-		}
-
-
-		article{
-
-			padding-top: 20px;
-			
-
-			.date{
-
-				height: 220px;
-				width: 180px;
-				float: left;
-				margin-right: 20px;
-				padding: 50px 0;
-				margin-bottom: 0;
-
-				
-
-				&:before{
-					display: none;
-
-				}
-
-				&:after{
-					@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
-					position:absolute;
-					bottom: 50%;
-					margin-bottom: -23px;
-					left: inherit;
-					right: -13px;
-					margin-left: 0px;
-					display: block;
-
-				}
-
-				span{
-					display: block;
-
-				}
-
-				span.jour{
-					font-size: 72px;
-					line-height: 60px;
-					@extend .do-el;
-				}
-				.mois{
-					font-size: 30px;
-					line-height: 40px;
-
-				}
-				.annee{
-					font-size: 18px;
-					line-height: 15px;
-				}
-			}
-
-
-			.details{
-
-				.block_left{
-
-					width: 50px;
-
-					.img-cat{
-
-						height: 50px;	
-						width: 50px;			
-						margin-right: 10px;
-						
-						img{
-							width: 50px;
-							height: 50px;
-						}
-						
-					}					
-					
-				}
-
-				
-				.block_right{
-					
-					width: 400px;
-
-
-					.matiere{					
-
-						line-height: 20px;
-						position: relative;
-						top: -3px; 
-						padding: 0 5px;
-					}
-
-
-					h1{}
-
-					.chapeau{}
-				}
-
-				.block_full{
-
-					
-					clear: none;
-					float: right;
-					width: 460px;
-					
-
-					.content{
-						
-
-					    a{
-					    	
-
-					    	&:hover{
-					    		
-					    	}
-					    }
-
-					    s{
-							
-
-						}
-
-					    h2, h3{	}
-
-					    h2{					    	
-				    	}
-
-				    	h3{}
-
-					    >p{ }
-
-					    h3 + p { }
-
-					    >ul, ol{
-
-					    	
-
-					    	>li{		    		
-
-
-					    		&:before{
-					    			
-					    		}
-
-					    	}
-					    }
-					}
-
-					
-
-
-					.mots_cles{
-
-						margin:10px 0 0 0;
-						padding: 0;
-						height: 18px;
-
-						>li{								
-							
-
-							&:before{
-								
-
-							}
-
-							&:last-child{
-								&:before{}
-							}
-						}
-					}
-
-					.documents-liees{						
-
-						float: left;
-
-						>ul{
-							width: 100%;
-							float: left;
-
-							>li{
-
-								float: left;
-								
-
-								> a{
-									
-									font-size: 16px;
-									padding-left: 10px;
-									position: relative;	
-									margin-right: 10px;								
-									
-
-									&:before{
-										content:'';
-										position: absolute;
-										right:-10px;
-										//color:$vert;
-										width: 1px;
-										background: $bleu;
-										height: 18px;
-										z-index: 200;
-										top:2px;
-										@include transition(all 0.3s);
-										//margin-top: -9px;
-									}
-
-									&:hover{ 
-
-										text-decoration: underline;
- 
-										
-									}
-
-								}
-							}
-						}
-
-					}
- 
-
-				}
-			}
-
-		}
-
-		> a{}
-
-
-	}
-
-}
-
-#content.single-vie-cridon{
-
-	
-	#inner-content article .details .block_right {width: 460px;}
-	
-}
-
+/* CONTENT */
 
 #content.page,
 #content.archive,
@@ -2061,7 +1425,7 @@ body.single #content{
 
 
 
-#content.page-mon-compte{
+/* #content.page-mon-compte{
 
 	#main{
 
@@ -2080,648 +1444,6 @@ body.single #content{
 				
 
 				>li{
-					
-					width: 157px;
-					float: left;
-					margin-right: 10px;
-
-					&:last-child{
-						margin-right: 0;
-					}
-
-					.bt{
-
-						height: 40px;
-						font-size: 14px;
-						display: table-cell;
-						vertical-align: middle;
-						line-height: 16px; 
-						width: 157px;
-
-						@extend .do-sm; 
-
-						
-
-						&:before{}
-
-
-
-					}
-
-
-					&:first-child{
-						.bt{
-							background: $vj_03;
-							&:before{
-								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);		
-							}
-
-						}
-					}
-					&:nth-child(2){
-						.bt{
-							background: $vj_03;
-							&:before{
-								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);		
-							}
-						}
-					}
-					&:nth-child(3){
-						.bt{
-							background: $vj_03;
-							&:before{
-								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);		
-							}
-						}
-					}
-					&:last-child{
-						.bt{
-							background: $vj_03;
-							&:before{
-								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);		
-							}
-						}
-					}
-
-
-
-					div.pannel{
-						display: none;
-						padding: 40px 0;
-
-						h2{
-							
-						}
-					}
-
-					
-
-					div#tableau-de-bord{
-
-						width: 100%;
-						float: left;
-
-						.mon-solde{
-
-							width: 300px;
-							float: left;
-
-							.solde-pts{								
-
-								.point{
-									.pts{								
-
-										> span{}
-									}
-
-									> span{										
-									}
-								}
-							}
-
-							.consomation{
-								
-								.pts{
-
-									> .pts{
-										
-									}
-
-									>.texte{
-										
-
-									}
-
-									>.date{
-										
-									}
-								}
-
-							}
-
-							.appel-courrier{
-								
-
-								.appel, .courrier{
-									
-									&:before{
-										
-										
-									}
-
-									span{
-										
-									}
-								}
-
-								.appel{
-
-									&:before{}
-								}
-
-								.courrier{
-									&:before{}
-								}
-							}
-
-						}
-
-						.mes-questions{
-							width: 360px;
-							float: left;
-						}
-
-						
-
-					}
-
-					
-					/**********************
-					     QUESTIONS
-					*/
-					div#mes-questions{
-
-						ul{
-							
-
-							li{
-								
-
-								p{}
-
-								span{}
-
-								.date{}
-
-								.reponse{
-									left: 310px; 
-									top: 0; 
-
-								}
-
-								.matiere{}
-
-								.id-question{	text-transform: uppercase;
-								}
-
-								.answer{
-									
-									&:before{
-										
-									}
-								}
-
-								.status{						
-
-									&:before{}
-								}
-
-								.person{}
-
-								
-
-							}
-							li.pdf{
-								 
-								 width: 31px; 
-								 float: left;
-
-								 a{
-								 	&:hover{
-										text-decoration: underline !important;
-
-										&:before{
-											opacity: 0.8 !important;
-										}
-									}
-								 }
-
-								 
-							}
-
-							li.plusdedetails{
-								/*margin-bottom: 0;*/
-								
-								> span{
-									
-									border-bottom:solid 16px #e6e6e6;
-									padding-bottom: 20px;
-
-									&:hover{
-										//text-decoration: none;
-
-										> span{
-											border-bottom:solid 1px #FFF;
-										}
-									}
-
-
-									
-								}
-
-								.details{
-								
-									padding: 0 20px 0 40px;
-									float: left;
-
-									> ul{
-
-										padding: 20px 0;
-										
-										float: left;
-
-										>li{
-										
-											&:first-child{
-
-												width: 270px;
-												float: left;
-
-												span{}
-
-												> ul{
-										
-													> li {													
-
-														a{}
-													}
-												}
-
-											}
-
-											&:last-child{
-												
-												width: 330px;
-												float: left;
-												margin-top: 0;
-
-												>span{
-												}
-											}
-										}
-
-
-										
-									}
-								}
-
-							}
-
-						}
-
-						#questions-attentes, #historique-questions{	
-
-							>ul{
-								
-
-								> li{
-
-									>ul{										
-
-										> li{
-											
-											float: left;
-											display: table-cell;
-
-										}
-
-										li{margin-bottom: 0;}
-
-										>li:first-child{
-											width: 30px;
-											float: left;
-											margin-right: 10px;
-
-											>img{ width: 30px; height: 30px;}
-										}
-
-										> li:nth-child(2), > li:nth-child(3), > li:nth-child(6){
-											float: left;
-											width:inherit;
-										}
-
-										
-
-										> li:nth-child(4), > li:nth-child(5){
-											float: left;
-											
-											margin-left: 0;
-											text-align: center; 
-
-											span{ display: inline-block; width: 100%;}
-										}
-
-										> li:nth-child(2){
-											padding-top: 20px;
-											width: 250px;
-										}
-
-										> li:nth-child(3){
-											width: 105px;
-
-											span{
-												display:block; 
-											}
-										}
-
-										> li:nth-child(4){
-											width: 80px;
-										}
-
-										> li:nth-child(5){
-											width: 60px;
-										}
-
-										> li:nth-child(6){
-											width: 100px;
-											
-										}
-
-										> li:nth-child(7){
-										/*pdf*/
-											float: left;
-											width: 25px;
-											clear: none;										
-										}
-
-										> li:nth-child(8){											
-										}
-									}
-
-								}
-							}
-						}
-
-						#questions-attentes{
-							
-
-							
-
-							> ul{
-								> li{
-
-									> ul {
-										
-										> li:nth-child(2), > li:nth-child(3), > li:nth-child(4), > li:nth-child(5), > li:nth-child(6){
-											padding-top: 20px;
-										}
-
-									}
-								}
-							}
-						}
-
-						#historique-questions{
-
-							.filtres{
-
-								width: 100%;
-								float: left;
-
-								&:before{}
-
-								> ul{
-									float: left;
-									width: 100%;
-									
-
-									li{
-
-										float: left;
-
-										.titre{
-											margin: 0; 
-
-										}
-
-										> a{
-
-											&:hover{
-												text-decoration: none;
-											}
-
-
-										}
-
-										input{
-											margin-left: 10px;
-											margin-right: 10px;
-											//padding-top: 6px;
-											width: 140px;
-											line-height: 28px;
-											padding-left: 6px;
-										}
-
-										select{
-											width: 315px; 
-											height: 35px;
-											padding-top: 0;
-											padding-bottom: 0;
-											line-height: 15px;
-										}
-
-										.du{
-											display: inline-block;
-											margin: 0;
-											line-height: 36px;
-											float: left;
-										}
-										.au{
-											margin-left: 0px;
-											display: inline-block;
-											margin: 0;
-											float: left;
-											line-height: 36px
-										}
-
-
-									}
-
-									> li:first-child{
-										float: left;
-										width: 170px;
-									}
-
-									>li:nth-child(2){
-										width: 490px;
-										
-										.titre{
-											margin-right: 10px;
-
-											display: block;
-											float: left;
-											height: 35px;
-											line-height: 35px;
-										}
-
-										#dateto{}
-									}
-									>li:last-child{
-										.titre{
-											//margin-right: 5px;
-											margin-right: 37px;
-											margin-left: 170px;
-										}
-									}
-								}
-							}
-
-
-							> ul{ 
-
-								> li{
-
-									&.pdf{
-										width: 31px;
-									}
-
-									> ul{
-
-										li:nth-child(6){
-											width: 100px;
-											/*float: left;*/
-											margin-left: 0;
-										}
-
-										li.pdf{
-										}
-
-									}
-
-									> ul.suite-complement{
-										
-
-										> li{
-											width: 100%; 
-											text-align: right;
-                                            margin-bottom: 10px;
-                                            padding: 0 30px 0 0;
-
-                                            >a{
-
-												&:before{
-													right: -30px;
-												}
-
-
-											}
-
-											
-										}
-
-									}
-								}
-							}
-						}
-
-					}
-
-
-					div#mon-profil{
-					
-						.mes-informations{
-							
-
-							h2{}
-
-							.img-profil{
-								
-
-							}
-
-							.coordonnees{
-								padding-left: 30px;
-								width: 560px;
-
-								.notaire, .etude{
-									width: 50%;
-									float: left;
-									margin-top: 0;
-								}
-								
-
-								.nom{
-									width: 100%;
-    								margin-bottom: 25px;
-
-									span{}
-								}
-
-								.adresse, .contact, .mail{
-									
-    								margin-bottom: 25px;
-								}
-
-								> a{
-									    
-    									margin-top: 7px;
-
-
-								}
-
-							}
-						}
-
-						.mes-centres-dinterets, .newsletter{
-
-							h2{ }
-
-							.description{
-
-							}
-
-							form{
-
-								> ul{
-									clear: both;
-
-									li{
-										width: 50%;
-										float: left;
-
-										&:nth-child(even){
-											padding-right: 10px;
-										}
-
-										&:nth-child(even){
-											padding-left: 10px;
-										}
-
-										&:before{ content:none;}
-
-										label{
-
-											&:before{
-
-
-											}
-											
-											input{
-
-											}
-
-										}
-									}
-								}
-
-								a, input[type="submit"]{
-
-									margin-left: 608px;
-
-								}
-							}
-
-							
-						}
-
-						.newsletter{
-
-							> a{
-								margin-left: 568px;
-							}
-						}
-					
-					}
 
 					&.active{
 
@@ -2762,7 +1484,7 @@ body.single #content{
 	
 
 
-}
+} */
 
 
 
@@ -3018,7 +1740,7 @@ FOOTER STYLES
 	}
 
 	.footer-cridon {
-		padding: 45px 0;
+		padding: 45px 0 60px 0;
 		min-height: 410px; 
 
 		.block-left {
@@ -3062,6 +1784,33 @@ FOOTER STYLES
 			.descriptif {
 				
 			}
+
+			.partenaires{
+				text-align: left;
+				margin-top: 60px;
+
+				> div{
+					
+					text-align: left;
+					font-size: 20px;
+
+					span{}
+				}
+
+				ul{
+					margin-left: 0;
+
+					li{
+						
+						&:first-child{}
+
+						img{}
+					}
+				}
+				
+				
+			}
+
 		}
 		&:after {
 			

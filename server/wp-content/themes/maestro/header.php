@@ -61,16 +61,36 @@ echo get_template_part("content","ga");
 		<header class="header" role="banner" id="sel-header">
 			<div class="header-sup">
 				<div id="inner-header" class="wrap cf">
-					<div class="logo-partenaires">
-						<a href="http://www.lexbase.fr/" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/library/images/origin/logo-lexbase.png" alt="lexbase"></a>
-						<a href="http://www.wolterskluwerfrance.fr/" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/library/images/origin/logo-woltersKluwer.png" alt=""></a>
-					</div>
-					<a href="/rechercher-dans-les-bases-de-connaissances/" class="rechercher">
-						<?php _e('Rechercher dans les bases de connaissances'); ?>
-					</a>
-					<a class="contacter" href="#">
-						<?php _e('Contacter'); ?>
-					</a>
+					<!-- <div class="logo-partenaires">
+						
+					</div> -->
+					<ul id="rechercher">
+						<li>
+							<a href="#">
+								<?php _e('Rechercher dans les bases de connaissances'); ?>
+							</a>
+							<ul class="overlay">
+								<li>
+									<a href="/rechercher-dans-les-bases-de-connaissances/" >
+										<?php _e('Bases CRID’'); ?><span><?php _e('ONLINE'); ?></span>
+									</a>
+								</li>
+								<li>
+									<a href="#" >
+										<?php _e('Bases CRIDON'); ?> <span><?php _e('LYON'); ?></span> 
+									</a>
+								</li>
+								<li>
+									<a href="#" title="Décourvrir l’offre CRID’ONLINE +">
+										<?php _e('Décourvrir l’offre CRID’ONLINE +'); ?>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<!-- <a class="contacter" href="#">
+						<?php // _e('Contacter'); ?>
+					</a> -->
 					<a class="poser-question layer-posez-question_open js-question-open analytics_Poser_question" href="#">
 						<?php _e('Poser une question'); ?>
 					</a>

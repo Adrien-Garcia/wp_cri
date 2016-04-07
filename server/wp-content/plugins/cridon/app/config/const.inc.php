@@ -22,6 +22,12 @@ if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
 if ( !defined( 'CONST_FINANCE_ROLE' ) ) {
     define( 'CONST_FINANCE_ROLE', 'accesfinances' );
 }
+if ( !defined( 'CONST_QUESTIONECRITES_ROLE' ) ) {
+    define( 'CONST_QUESTIONECRITES_ROLE', 'accesquestecrites' );
+}
+if ( !defined( 'CONST_QUESTIONTELEPHONIQUES_ROLE' ) ) {
+    define( 'CONST_QUESTIONTELEPHONIQUES_ROLE', 'accesquesttelephoniques' );
+}
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
     define( 'CONST_ADMIN_ROLE', 'administrator' );
@@ -495,7 +501,15 @@ if ( !defined( 'CONST_NEWSLETTER_EMAIL_FIELD' ) ) {
 if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
     define( 'CONST_NEWSLETTER_MSGBLOCK_ID', 'newsletterMsgId' );
 }
-
+if ( !defined( 'CONST_CRIDONLINE_CGV_ERROR_MSG' ) ) {
+    define( 'CONST_CRIDONLINE_CGV_ERROR_MSG', 'Vous devez accepter les conditions générales d\'utilisations pour souscrire à l\'offre CRID\'ONLINE' );
+}
+if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
+    define( 'CONST_CRIDONLINE_LABEL_LEVEL_2', 'Premium' );
+}
+if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_3' ) ) {
+    define( 'CONST_CRIDONLINE_LABEL_LEVEL_3', 'Excellence' );
+}
 //Alert on issues without documents
 if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
     define( 'CONST_ALERT_MINUTE', 30 );
@@ -714,5 +728,26 @@ if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
 if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
     define( 'CONST_FACTURATION_PAGE_ID', 1515 );
 }
+
+// Onglet
+if ( !defined( 'CONST_ONGLET_DASHBOARD' ) ) {
+    define( 'CONST_ONGLET_DASHBOARD', 1 );
+}
+if ( !defined( 'CONST_ONGLET_QUESTION' ) ) {
+    define( 'CONST_ONGLET_QUESTION', 2 );
+}
+if ( !defined( 'CONST_ONGLET_PROFIL' ) ) {
+    define( 'CONST_ONGLET_PROFIL', 3 );
+}
+if ( !defined( 'CONST_ONGLET_FACTURATION' ) ) {
+    define( 'CONST_ONGLET_FACTURATION', 4 );
+}
+if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
+    define( 'CONST_ONGLET_CRIDONLINE', 5 );
+}
+if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
+    define( 'CONST_ONGLET_COLLABORATEUR', 6 );
+}
+
 
 

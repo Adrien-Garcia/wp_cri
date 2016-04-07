@@ -1,0 +1,104 @@
+#content.page-mon-compte{
+
+	.breadcrumbs{ 
+		display: block;
+		height: 80px;
+	}
+
+	#main{
+		padding-top: 0;
+
+		&:before{
+			display: block;
+		}
+
+		.header-wrap{
+			height: 160px; 
+			padding-top: 70px;
+			margin-top: 0px; 
+
+			h1{
+				font-size: 30px;
+
+				&:before{
+					bottom:-20px;
+				}
+				
+			}
+
+		}
+
+        #inner-content{
+
+        	&.wrap{width:1200px;}
+
+            overflow: hidden;
+
+
+			#sidebar_prive{
+				
+				width: 305px;
+
+				nav{
+					ul{
+						
+
+						>li{
+							
+							>a{
+								width: 305px;
+
+								&:after{
+									left: 15px;
+								}
+
+								span{								
+									font-size: 20px;
+									padding-left: 60px; 
+									text-align: left;
+
+									> span{
+										padding-left: 0;
+									}
+								}
+
+
+
+							}
+
+							&.active{
+
+								>a{
+									
+									&:before{}
+
+									&:after{
+										color:#FFF;
+									} 
+
+									span{
+										color:#FFF;
+									}
+								}
+							}
+
+						}
+					}
+				}
+
+				
+			}
+
+			>.content{
+				
+				width: 895px;
+				padding-left: 100px;
+
+				h2{
+					font-size: 30px;
+				}
+				
+			}
+		}
+	}
+}

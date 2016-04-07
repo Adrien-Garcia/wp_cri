@@ -1,0 +1,200 @@
+div#tableau-de-bord{
+
+	
+
+
+	.mon-solde{
+
+		
+
+		.solde-pts{
+			
+			width: 330px;
+		    margin-right: 50px;
+		    float: left;
+			height: 330px;
+			svg{
+				@include scale(1);
+				width: 330px;
+				height: 330px;
+				left: 0;
+			}
+			
+
+			.point{
+				width: 130px;
+				height: 130px;
+				margin-left: -65px;
+				margin-top: -65px;
+
+				.pts{
+					font-size: 95px;
+					
+
+					> span{
+						font-size: 30px;
+						right: -45px
+
+					}
+				}
+
+				> span{
+					
+				}
+			}
+		}
+
+		.consomation{
+			width: 310px;
+		    padding-left: 60px;
+		    float: left;
+		    margin-top: 65px;
+		}
+
+		.appel-courrier{
+			width: 310px; 
+		    margin: 0;
+		    float: left;
+		}
+
+	}
+
+	
+	.mes-questions{
+
+		width: 790px;
+		float: left;
+		border-top: none;
+		padding-top: 40px;
+
+		> ul{
+			/*padding: 0;
+			margin: 0;*/
+			
+			float: left;
+			width: 100%;
+
+
+			li{
+
+				p{ 
+					font-size: 18px;
+					line-height: 20px;
+					height: 40px;
+				}
+
+				span{ font-size: 18px;}
+
+				> a{
+					text-decoration: none;
+				}
+
+				.date{
+					position: relative;
+					left: 0;
+					font-size: 18px;
+					font-weight: 400;
+
+					font-family: $helvetica !important;
+					margin-bottom: 5px; 
+					display: block;
+
+				}
+
+				.reponse{
+					font-size: 18px;
+					font-weight: 400;
+
+					font-family: $helvetica !important;
+					margin-bottom: 10px; 
+
+					left: 585px;
+				}
+
+				.matiere{
+				 font-size: 15px;
+				 line-height: 17px;
+				 padding: 0 5px;
+				}
+
+				.repondu{
+					padding-left: 35px;	
+					margin-bottom: 20px; 
+					
+					&:before{
+						@include svgicon('icon-status-repondu', 24px, 24px, $vert);
+						margin-top: -12px;
+					}
+				}
+
+				.en-cours{	
+					
+					padding-left: 35px;			
+
+					&:before{
+						@include svgicon('icon-clock', 24px, 24px, $bleu);
+						margin-top: -12px;
+					}
+				}
+
+				
+			}
+
+			> li{
+
+				float: left;
+				width: 100%;
+				padding-bottom: 10px;
+
+				> ul{
+					/*margin: 0;
+					padding: 0;*/
+
+					float: left;
+					width: 100%;
+
+					> li{
+
+					}
+
+					> li:first-child{
+						margin-top: 3px;
+					}
+
+					> li:nth-child(2){
+
+						padding-top: 0;
+						//margin-bottom: 10px;
+						margin-left: 0;
+						float: left;
+						width: 555px;
+						padding-right: 20px;
+						height: 65px;
+						overflow: hidden;
+					}
+
+					> li:nth-child(3){
+						margin-left: 0;
+						padding-top: 10px; 
+						text-align: right;
+						float: left;
+						width: 175px;
+					}
+				}
+			}
+
+			
+		}
+
+		> a{
+			font-size: 20px !important;
+
+			&:after{
+				font-size: 48px !important;  
+			}
+		}
+	}
+
+	
+
+}

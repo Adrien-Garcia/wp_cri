@@ -7,11 +7,11 @@
  * 
  */
 class Config {
-    
+
     // Les modèles associés à cri_posts
     // avec les noms des tables sans les préfixes
     public static $data = array(
-        'veilles' => array(                    // Indice correspondant aux noms de fichier de controlleur 
+        'veilles' => array(                    // Indice correspondant aux noms de fichier de controlleur
             'value'             => 'veilles',  // Nécessaire à la correspondance
             'name'              => 'veille',   // Nom de la table
             'model'             => 'Veille',   // Nom du MvcModel
@@ -23,28 +23,28 @@ class Config {
             'name'              => 'flash',
             'model'             => 'Flash',
             'controller'        => 'flashes',
-            'action'            => 'index' 
+            'action'            => 'index'
         ),
         'vie_cridons' => array(
             'value'             => 'vie_cridons',
             'name'              => 'vie_cridon',
             'model'             => 'VieCridon',
             'controller'        => 'vie_cridons',
-            'action'            => 'index' 
+            'action'            => 'index'
         ),
         'formations' => array(
             'value'             => 'formations',
             'name'              => 'formation',
             'model'             => 'Formation',
             'controller'        => 'formations',
-            'action'            => 'index' 
+            'action'            => 'index'
         ),
         'cahier_cridons' => array(
             'value'             => 'cahier_cridons',
             'name'              => 'cahier_cridon',
             'model'             => 'CahierCridon',
             'controller'        => 'cahier_cridons',
-            'action'            => 'index' 
+            'action'            => 'index'
         )
     );
 
@@ -121,7 +121,7 @@ class Config {
             'victor.albert@jetpulp.fr',
         ),
     );
-    
+
     // list of persons who will receive e-mail notification for empty document
     public static $emailNotificationEmptyDocument = array(
         'to' => 'info@cridon-lyon.fr',//Client e-mail, only use it in production mode
@@ -157,7 +157,7 @@ class Config {
         CONST_SUPPORT_NON_FACTURE,
         CONST_SUPPORT_MES_DIANE
     );
-    
+
     //Notification for published post
     public static $notificationForAllNotaries = array( 'flash','viecridon' );
     public static $notificationForSubscribersNotaries = array( 'veille' );
@@ -320,10 +320,10 @@ class Config {
         'question'      => 'Sur les questions ?'
     );
     //End translation
-    
+
     //Public download URL
     public static $confPublicDownloadURL = array(
-        'pattern' => '/documents\/public\/([0-9]+)/',//Pattern à utilisé pour un test preg_match 
+        'pattern' => '/documents\/public\/([0-9]+)/',//Pattern à utilisé pour un test preg_match
         'url'     => 'documents/public/'//Sera ajouté à l'encodage, l'id sera ajouté dynamiquement (ex:documents/public/1)
     );
     //End Public download URL
@@ -459,5 +459,15 @@ class Config {
         'facturation',
         'cridonline',
         'collaborateur'
+    );
+
+    /**
+     * @var array list of notary roles : the keys must be match of the list defined in const.inc.php
+     */
+    public static $notaryRoles = array(
+        CONST_FINANCE_ROLE                 => 'Accès aux pages "compta" (finances, factures, relevée de consommation)',
+        CONST_NOTAIRE_ROLE                 => 'Accès aux bases de connaissance', // par tout le monde
+        CONST_QUESTIONECRITES_ROLE         => 'Poser des questions écrites',
+        CONST_QUESTIONTELEPHONIQUES_ROLE   => 'Poser des questions téléphoniques',
     );
 }

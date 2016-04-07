@@ -1,0 +1,152 @@
+div#cridonline{
+
+	input[type="submit"]{
+			width: 180px;
+			font-size: 16px;
+		}
+
+	.bloc-cridonline{
+		width: 100%;
+		height: 400px;
+
+		> .en-tete{
+		}
+
+		.content{
+			padding:0px 90px 15px 90px;
+			height: 262px;
+
+			.titre{
+				font-size: 19px;
+			}
+
+			.prix{
+				font-size: 57px;
+
+				span{
+					font-size: 19px;
+				}
+			}
+
+			ul{
+
+				li{
+					font-size: 15px;
+					line-height: 19px;
+
+
+				}
+			}
+
+			>a {
+				font-size: 15px;
+				margin-top: 10px;
+
+				&:after{
+				}
+			}
+
+			input[type="submit"]{
+				
+			    margin-left: -90px;
+			    width: 180px;
+			}
+
+		}
+
+		
+
+		&.niveau-1{			
+			.en-tete{				
+				background-size: 183px 85px;
+			}			
+		}
+
+		&.niveau-2{	
+			.en-tete{				
+				background-size: 183px 85px;
+			}			
+		}
+		&.niveau-3{
+			.en-tete{
+				background-size: 183px 85px;
+			}			
+		}
+
+		
+		
+	}
+
+	.wrap-link{
+		width: 100%;
+		margin-left: 0;
+		a{
+
+			font-size: 20px;
+
+			&:after{
+			}
+		}
+	} 
+
+
+
+	.message-offre{
+		font-size: 17px;
+		line-height: 20px;
+	}
+
+	
+
+	.bloc-souscription{
+		width: 100%;
+
+
+		form{
+
+			label{
+				height: 33px;
+				line-height: 24px;
+				
+
+				span{/*Message*/
+
+				    right: auto;
+				    left:0px;
+				    top: 2px;
+				}
+
+				input{ 
+				}
+
+				&:before{
+				}
+
+				&.select{
+					&:before{
+					}
+
+				}
+
+			}
+
+			>a{
+				font-size: 17px;
+
+				&:after{
+				}
+			}
+
+			input[type="submit"]{
+			}
+		}
+
+		.message-erreur{
+			font-size: 15px;
+			line-height: 18px;
+			
+		}
+
+		
+	}
+}
