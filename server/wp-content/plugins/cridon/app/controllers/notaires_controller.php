@@ -142,6 +142,9 @@ class NotairesController extends BasePublicController
         $this->set('questions', $questions);
         $notaire = CriNotaireData();
         $this->set('notaire', $notaire);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_DASHBOARD);
     }
 
     /**
@@ -187,6 +190,9 @@ class NotairesController extends BasePublicController
         $this->set('notaire',$notaire);
 
         $this->set_pagination($collection);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_QUESTION);
     }
 
     /**
@@ -216,6 +222,9 @@ class NotairesController extends BasePublicController
         $this->prepareProfil();
         $this->set('notaire', CriNotaireData());
         $this->set('matieres', getMatieresByNotaire());
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_PROFIL);
     }
 
     /**
@@ -247,6 +256,9 @@ class NotairesController extends BasePublicController
         $this->set('notaire',$notaire);
         $content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
         $this->set('content',$content);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_FACTURATION);
     }
 
     /**
@@ -298,6 +310,9 @@ class NotairesController extends BasePublicController
                 }
             }
         }
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_CRIDONLINE);
     }
     /**
      * Notaire CridOnlineValidation Content Block (AJAX Friendly)
@@ -550,7 +565,7 @@ class NotairesController extends BasePublicController
         $this->set('collaborators', array());
 
         // tab rank
-        $this->set('onglet', 6);
+        $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
     }
 
     /**

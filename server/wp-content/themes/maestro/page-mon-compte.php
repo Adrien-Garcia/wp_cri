@@ -21,7 +21,7 @@
 					<nav>
 						<ul id="sel-compte">
 							<li 
-								class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : "" ?>" 
+								class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) ? " active " : "" ?>"
 								data-js-name="Dashboard" 
 								>
 								
@@ -34,7 +34,7 @@
 								</a>
 							</li>
 							<li 
-								class="js-account-questions js-account-blocs <?php echo (!isset($onglet) || $onglet == 2) ? " active " : "" ?>" 
+								class="js-account-questions js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_QUESTION) ? " active " : "" ?>"
 								data-js-name="Questions" 
 								>
 								
@@ -47,7 +47,7 @@
 								</a>
 							</li>
 							<li 
-								class="js-account-profil js-account-blocs <?php echo (!isset($onglet) || $onglet == 3) ? " active " : "" ?>" 
+								class="js-account-profil js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_PROFIL) ? " active " : "" ?>"
 								data-js-name="Profil" 
 								>
 								
@@ -61,7 +61,7 @@
 							</li>
 							<?php if (CriCanAccessSensitiveInfo()): ?>
 							<li 
-								class="js-account-facturation js-account-blocs <?php echo (!isset($onglet) || $onglet == 4) ? " active " : "" ?>" 
+								class="js-account-facturation js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_FACTURATION) ? " active " : "" ?>"
 								data-js-name="Facturation" 
 								>
 								
@@ -76,7 +76,7 @@
 							<?php endif ?>
 							<?php if (CriCanAccessSensitiveInfo()): ?>
 							<li 
-								class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == 5) ? " active " : "" ?>" 
+								class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
 								data-js-name="Cridonline" 
 								>
 								
@@ -90,7 +90,7 @@
 							</li>
 							<?php endif ?>
 							<li 
-								class="js-account-collaborateur js-account-blocs <?php echo (!isset($onglet) || $onglet == 6) ? " active " : "" ?>" 
+								class="js-account-collaborateur js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>"
 								data-js-name="Collaborateur" 
 								>
 								
@@ -106,34 +106,34 @@
 					</nav>
 				</div>
 				<div class="content">
-					<div id="tableau-de-bord" class="pannel js-account-ajax js-account-dashboard js-account-content <?php echo (!isset($onglet) || $onglet == 1) ? " active " : "" ?>">
-                        <?php if (!isset($onglet) || $onglet == 1) : ?>
+					<div id="tableau-de-bord" class="pannel js-account-ajax js-account-dashboard js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) ? " active " : "" ?>">
+                        <?php if (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) : ?>
                             <?php CriRenderView('contentdashboard', array('controller' => $this, 'questions' => $questions, 'notaire' => $notaire), 'notaires') ?>
                         <?php endif; ?>
 					</div>
-					<div id="mes-questions" class="pannel js-account-ajax js-account-questions js-account-content <?php echo (!isset($onglet) || $onglet == 2) ? " active " : "" ?>">
-                        <?php if ($onglet == 2) : ?>
+					<div id="mes-questions" class="pannel js-account-ajax js-account-questions js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_QUESTION) ? " active " : "" ?>">
+                        <?php if ($onglet == CONST_ONGLET_QUESTION) : ?>
                             <?php CriRenderView('contentquestions', array('notaire' => $notaire, 'answered' => $answered,'pending'=> $pending,'juristesPending'=> $juristesPending,'juristesAnswered' => $juristesAnswered,'matieres' => $matieres,'controller' => $this), 'notaires') ?>
                         <?php endif; ?>
 					</div>
-					<div id="mon-profil" class="pannel js-account-ajax js-account-profil js-account-content <?php echo (!isset($onglet) || $onglet == 3) ? " active " : "" ?>">
-	                    <?php if ($onglet == 3) : ?>
+					<div id="mon-profil" class="pannel js-account-ajax js-account-profil js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_PROFIL) ? " active " : "" ?>">
+	                    <?php if ($onglet == CONST_ONGLET_PROFIL) : ?>
 	                        <?php CriRenderView('contentprofil', array('matieres' => $matieres,'notaire' => $notaire), 'notaires') ?>
 	                    <?php endif; ?>
 					</div>
-					<div id="regles-facturation" class="pannel js-account-ajax js-account-facturation js-account-content <?php echo (!isset($onglet) || $onglet == 4) ? " active " : "" ?>">
-                    	<?php if ($onglet == 4) : ?>
+					<div id="regles-facturation" class="pannel js-account-ajax js-account-facturation js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_FACTURATION) ? " active " : "" ?>">
+                    	<?php if ($onglet == CONST_ONGLET_FACTURATION) : ?>
                     		<?php CriRenderView('contentfacturation', array('notaire' => $notaire, 'content' => $content), 'notaires') ?>
                         <?php endif; ?>
 					</div>
-					 <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == 5) ? " active " : "" ?>">
-                        <?php if ($onglet == 5) : ?>
+					 <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>">
+                        <?php if ($onglet == CONST_ONGLET_CRIDONLINE) : ?>
                             <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3 ), 'notaires') ?>
 
                         <?php endif; ?>
                     </div>
-                    <div id="mes-collaborateurs" class="pannel js-account-ajax js-account-collaborateur js-account-content <?php echo (!isset($onglet) || $onglet == 6) ? " active " : "" ?>">
-                        <?php if ($onglet == 6) : ?>
+                    <div id="mes-collaborateurs" class="pannel js-account-ajax js-account-collaborateur js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>">
+                        <?php if ($onglet == CONST_ONGLET_COLLABORATEUR) : ?>
                             <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions), 'notaires') ?>
                         <?php endif; ?>
                     </div>
