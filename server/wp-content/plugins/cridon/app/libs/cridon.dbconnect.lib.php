@@ -192,7 +192,7 @@ interface DBConnect
     /**
      * @var string : office echeance date of cridonline subscription Output data
      */
-    const NOTAIRE_YVALECH_0 = 'YVALECH_0';
+    const NOTAIRE_YDATECH_0 = 'YDATECH_0';
 
     /**
      * @var string : office motive of cridonline resiliation Output data
