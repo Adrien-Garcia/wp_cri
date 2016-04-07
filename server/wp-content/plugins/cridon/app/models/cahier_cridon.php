@@ -157,14 +157,23 @@ class CahierCridon extends \App\Override\Model\CridonMvcModel
                         SELECT `c`.* FROM ' . $this->name . ' c
                         LEFT JOIN Post cp ON c.`post_id` = `cp`.`ID`
                         WHERE c.`id_parent` IS NULL
+                        ORDER BY cp.`post_date`desc
                         ' . $limit . '
                     ) [' . $this->name . '] c
                     LEFT JOIN Post p ON c.`post_id` = `p`.`ID`
                     LEFT JOIN ' . $this->name . ' ca ON ca.`id_parent` = c.id
-                    LEFT JOIN Post pca ON ca.`post_id` = `pca`.`ID`';
+                    LEFT JOIN Post pca ON ca.`post_id` = `pca`.`ID`
+                    ORDER BY pca.`post_date`desc'
+        ;
 
         $q =  new \App\Override\Model\QueryStringModel($query);
-        $total_count = $q->count();
+
+        // Total query for pagination
+        $query_count ='
+                SELECT COUNT(*) FROM ' . $this->table . ' c
+                WHERE c.`id_parent` IS NULL';
+
+        $total_count = $wpdb->get_var($query_count);
 
         // admin query
         if (is_admin()) {
