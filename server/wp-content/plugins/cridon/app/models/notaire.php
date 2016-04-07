@@ -992,7 +992,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     /**
-     * Set notaire role
+     * Set role for all notary
      *
      * @return void
      */
@@ -1054,6 +1054,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // list of existing users
                 $users = $criTools->getWpUsers();
 
+                // init list of new notary user
+                $newNotaryUsers = array();
+
                 foreach ($notaires as $notaire) {
                     // unique key
                     $uniqueKey = $notaire->crpcen . $notaire->web_password;
@@ -1082,6 +1085,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         $insertValues[] = $value;
 
+                        // fill list of new notary users
+                        $newNotaryUsers[] = $notaire;
+
                     } else { // prepare the bulk update query
                         if ($notaire->id_wp_user) {
                             // pwd
@@ -1107,6 +1113,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                     // update cri_notaire.id_wp_user
                     $this->updateCriNotaireWpUserId($notaires);
+
+                    // set new notaries roles
+                    $this->setNewNotaireRole($newNotaryUsers);
+
+                    // disable admin bar for new notaries
+                    $this->disableNotariesAdminBar($newNotaryUsers);
 
                     $this->importSuccess = true;
                 }
@@ -1149,10 +1161,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                     $this->importSuccess = true;
                 }
-
-                // set notaire role
-                // should be execute after cri_notaire.id_wp_user was set
-                $this->setNotaireRole();
             }
         } catch(Exception $e) {
             // write into logfile
@@ -1977,5 +1985,91 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     public function find($options = array())
     {
         return (is_array($options) && count($options) > 0) ? parent::find($options) : mvc_model('QueryBuilder')->findAll('notaire');
+    }
+
+    /**
+     * Set notaire role
+     *
+     * @param mixed $notaries
+     * @return void
+     */
+    public function setNewNotaireRole($notaries)
+    {
+        foreach ($notaries as $notary) {
+            if (!$notary->id_wp_user) {
+                // get user by notary_id
+                $user = $this->getAssociatedUserByNotaryId($notary->id);
+            } else {
+                // get user by id
+                $user = new WP_User($notary->id_wp_user);
+            }
+
+            // user must be an instance of WP_User vs WP_Error
+            if ($user instanceof WP_User) {
+                // default role
+                $user->add_role(CONST_NOTAIRE_ROLE);
+                /**
+                 * finance role
+                 * to be matched in list of authorized user by function
+                 *
+                 * @see \Config::$canAccessFinance
+                 */
+                if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
+                    $user->add_role(CONST_FINANCE_ROLE);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get associated user by notary id
+     *
+     * @param int $id
+     * @return void|WP_User
+     * @throws Exception
+     */
+    public function getAssociatedUserByNotaryId($id)
+    {
+        // get notary data
+        $notary = mvc_model('QueryBuilder')->findOne('notaire',
+                                                     array(
+                                                         'fields' => 'id, id_wp_user, crpcen',
+                                                         'conditions' => 'id = ' . $id,
+                                                     )
+        );
+        // get notary associated user
+        if (is_object($notary) && $notary->id_wp_user) {
+            $user = new WP_User($notary->id_wp_user);
+
+            // check if user is a WP_user vs WP_error
+            if ($user instanceof WP_User && is_array($user->roles)) {
+                return $user;
+            }
+        }
+        return;
+    }
+
+    /**
+     * Disable admin bar for notaries
+     *
+     * @param mixed $notaries
+     * @return void
+     */
+    public function disableNotariesAdminBar($notaries)
+    {
+        foreach ($notaries as $notary) {
+            // peut être que $notary->id_wp_user est encore null (cas de nouvelle insertion via bulk insert)
+            // cette valeur sera mise à jour après execution bulk update via updateCriNotaireWpUserId
+            if (!$notary->id_wp_user) {
+                $notary = mvc_model('QueryBuilder')->findOne('notaire',
+                                                             array(
+                                                                 'fields' => 'id, id_wp_user, crpcen',
+                                                                 'conditions' => 'id = ' . $notary->id,
+                                                             )
+                );
+            }
+            // insert or update user_meta
+            update_user_meta($notary->id_wp_user, 'show_admin_bar_front', 'false');
+        }
     }
 }
