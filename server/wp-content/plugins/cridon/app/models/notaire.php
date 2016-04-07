@@ -2063,7 +2063,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             if (!$notary->id_wp_user) {
                 $notary = mvc_model('QueryBuilder')->findOne('notaire',
                                                              array(
-                                                                 'fields' => 'id, id_wp_user, crpcen',
+                                                                 'fields'     => 'id_wp_user',
                                                                  'conditions' => 'id = ' . $notary->id,
                                                              )
                 );
