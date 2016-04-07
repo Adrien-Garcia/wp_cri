@@ -542,12 +542,25 @@ class NotairesController extends BasePublicController
         // access secured
         $this->prepareSecureAccess();
 
+        // set warning msg
+        $this->set('alertEmailChanged', '');
+
         // post form
         if (isset($_POST['collaborator_first_name'])
             && $_POST['collaborator_first_name']
         ) {
             // Clean $_POST before
             $data = $this->tools->clean($_POST);
+            // check emailchanged
+            if (isset($_REQUEST['collaborator_id'])
+                && $_REQUEST['collaborator_id']
+                && isset($_REQUEST['collaborator_email'])
+                && !empty($_REQUEST['collaborator_email'])
+            ) {
+                if ($this->model->isEmailChanged($_REQUEST['collaborator_id'], $_REQUEST['collaborator_email'])) {
+                    $this->set('alertEmailChanged', CONST_ALERT_EMAIL_CHANGED);
+                }
+            }
             $this->model->manageCollaborator($this->current_notaire, $data);
         }
 
