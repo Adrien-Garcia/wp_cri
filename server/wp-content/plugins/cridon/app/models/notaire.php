@@ -2321,4 +2321,26 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
         return mvc_model('QueryBuilder')->findAll('notaire', $options, 'cn.id');
     }
+
+    /**
+     * Check email changed
+     *
+     * @param int    $notary_id
+     * @param string $newEmail
+     * @return bool
+     * @throws Exception
+     */
+    public function isEmailChanged($notary_id, $newEmail)
+    {
+        $options = array(
+            'conditions' => array(
+                'cn.id'      => $notary_id
+            ),
+            'synonym'    => 'cn'
+        );
+
+        $notary = mvc_model('QueryBuilder')->findOne('notaire', $options, 'cn.id');
+
+        return (is_object($notary) && $notary->email_adress != $newEmail);
+    }
 }
