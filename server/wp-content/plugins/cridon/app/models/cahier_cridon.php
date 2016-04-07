@@ -162,7 +162,8 @@ class CahierCridon extends \App\Override\Model\CridonMvcModel
                     ) [' . $this->name . '] c
                     LEFT JOIN Post p ON c.`post_id` = `p`.`ID`
                     LEFT JOIN ' . $this->name . ' ca ON ca.`id_parent` = c.id
-                    LEFT JOIN Post pca ON ca.`post_id` = `pca`.`ID`'
+                    LEFT JOIN Post pca ON ca.`post_id` = `pca`.`ID`
+                    ORDER BY pca.`post_date`desc'
         ;
 
         $q =  new \App\Override\Model\QueryStringModel($query);
