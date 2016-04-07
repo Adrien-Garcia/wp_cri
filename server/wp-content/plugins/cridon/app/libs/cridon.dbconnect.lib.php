@@ -8,7 +8,7 @@
 
 interface DBConnect
 {
-
+    /****************** ZEXPNOTV Table structure *******************/
     /**
      * @var string : category field in Output data
      */
@@ -154,6 +154,53 @@ interface DBConnect
      */
     const NOTAIRE_OFFICEFAX  = 'FAX_0';
 
+    /**
+     * @var string : office id notaire (crpcen + space + timestamp) in Output data
+     */
+    const NOTAIRE_YIDNOT_0 = 'YIDNOT_0';
+
+    /**
+     * @var string : office level of cridonline subscription Output data
+     */
+    const NOTAIRE_YNIVEAU_0 = 'YNIVEAU_0';
+
+    /**
+     * @var string : office date of cridonline subscription Output data
+     */
+    const NOTAIRE_YDATE_0 = 'YDATE_0';
+
+    /**
+     * @var string : office statut of cridonline subscription (not used on site side) Output data
+     */
+    const NOTAIRE_YSTATUT_0 = 'YSTATUT_0';
+
+    /**
+     * @var string : office price of cridonline subscription Output data
+     */
+    const NOTAIRE_YTARIF_0 = 'YTARIF_0';
+
+    /**
+     * @var string : office date of cridonline subscription Output data
+     */
+    const NOTAIRE_YVALDEB_0 = 'YVALDEB_0';
+
+    /**
+     * @var string : office end date of cridonline subscription Output data
+     */
+    const NOTAIRE_YVALFIN_0 = 'YVALFIN_0';
+
+    /**
+     * @var string : office echeance date of cridonline subscription Output data
+     */
+    const NOTAIRE_YVALECH_0 = 'YVALECH_0';
+
+    /**
+     * @var string : office motive of cridonline resiliation Output data
+     */
+    const NOTAIRE_YMOTIF_0 = 'YMOTIF_0';
+
+
+    /****************** ZQUESTV Table structure *******************/
     /**
      * @var string : num question
      */
@@ -329,7 +376,7 @@ interface DBConnect
      */
     const QUEST_YVALSRE     = 'YVALSRE_0';
 
-    /****************** Export Table Temp Structure *******************/
+    /****************** ZQUEST Table Temp Structure *******************/
     /**
      * @var string : id question - Site
      */
@@ -475,7 +522,7 @@ interface DBConnect
      */
     const ZQUEST_ZTXTQUEST_0 = 'ZTXTQUEST_0';
 
-    /****************** Table YABONNE Structure *******************/
+    /****************** YABONNE Table Structure *******************/
     /**
      * @var string : id unique de la table : crpcen + timestamp
      */
