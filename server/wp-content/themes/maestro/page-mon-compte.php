@@ -134,7 +134,7 @@
                     </div>
                     <div id="mes-collaborateurs" class="pannel js-account-ajax js-account-collaborateur js-account-content <?php echo (!isset($onglet) || $onglet == 6) ? " active " : "" ?>">
                         <?php if ($onglet == 6) : ?>
-                            <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions), 'notaires') ?>
+                            <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions, 'alertEmailChanged' => $alertEmailChanged), 'notaires') ?>
                         <?php endif; ?>
                     </div>
 				</div>
