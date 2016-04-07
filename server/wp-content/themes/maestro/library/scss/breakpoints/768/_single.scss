@@ -1,0 +1,303 @@
+/*
+
+  ____ ___ _   _  ____ _     _____  __     _______ ___ _     _     _____ ____  
+ / ___|_ _| \ | |/ ___| |   | ____| \ \   / / ____|_ _| |   | |   | ____/ ___| 
+ \___ \| ||  \| | |  _| |   |  _|    \ \ / /|  _|  | || |   | |   |  _| \___ \ 
+  ___) | || |\  | |_| | |___| |___    \ V / | |___ | || |___| |___| |___ ___) |
+ |____/___|_| \_|\____|_____|_____|    \_/  |_____|___|_____|_____|_____|____/ 
+                                                                               
+
+
+*/
+
+
+#content.single{
+
+
+	#inner-content{
+		.titre {
+			height: auto;
+			
+			span{
+				/*margin: 20px 0;*/
+				margin-top: 34px;
+			}
+		}
+
+		.sep{
+			margin-top: 38px;
+		}
+
+
+		article{
+
+			padding-top: 20px;
+			
+
+			.date{
+
+				height: 220px;
+				width: 180px;
+				float: left;
+				margin-right: 20px;
+				padding: 50px 0;
+				margin-bottom: 0;
+
+				
+
+				&:before{
+					display: none;
+
+				}
+
+				&:after{
+					@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
+					position:absolute;
+					bottom: 50%;
+					margin-bottom: -23px;
+					left: inherit;
+					right: -13px;
+					margin-left: 0px;
+					display: block;
+
+				}
+
+				span{
+					display: block;
+
+				}
+
+				span.jour{
+					font-size: 72px;
+					line-height: 60px;
+					@extend .do-el;
+				}
+				.mois{
+					font-size: 30px;
+					line-height: 40px;
+
+				}
+				.annee{
+					font-size: 18px;
+					line-height: 15px;
+				}
+			}
+
+
+			.details{
+
+				.block_left{
+
+					width: 50px;
+
+					.img-cat{
+
+						height: 50px;	
+						width: 50px;			
+						margin-right: 10px;
+						
+						img{
+							width: 50px;
+							height: 50px;
+						}
+						
+					}					
+					
+				}
+
+				// NIVEAU DES VEILLES
+				&.niveau1{
+					.img-cat{
+						&:after{							
+							width: 50px;
+							height: 50px;
+							background-size: 50px 50px;
+							top: 60px;
+							left: 0;
+						}
+					}
+				}
+				&.niveau2{
+					.img-cat{
+						&:after{
+							width: 50px;
+							height: 50px;
+							background-size: 50px 50px;
+							top: 60px;
+							left: 0;
+						}
+					}
+				}
+				&.niveau3{
+					.img-cat{
+						&:after{
+							width: 50px;
+							height: 50px;
+							background-size: 50px 50px;
+							top: 60px;
+							left: 0;
+						}
+					}
+				}
+
+				
+				.block_right{
+					
+					width: 400px;
+					min-height: 110px;
+
+
+					.matiere{					
+
+						line-height: 20px;
+						position: relative;
+						top: -3px; 
+						padding: 0 5px;
+					}
+
+
+					h1{}
+
+					.chapeau{}
+				}
+
+				.block_full{
+
+					
+					clear: none;
+					float: right;
+					width: 460px;
+					
+
+					.content{
+						
+
+					    a{
+					    	
+
+					    	&:hover{
+					    		
+					    	}
+					    }
+
+					    s{
+							
+
+						}
+
+					    h2, h3{	}
+
+					    h2{					    	
+				    	}
+
+				    	h3{}
+
+					    >p{ }
+
+					    h3 + p { }
+
+					    >ul, ol{
+
+					    	
+
+					    	>li{		    		
+
+
+					    		&:before{
+					    			
+					    		}
+
+					    	}
+					    }
+					}
+
+					
+
+
+					.mots_cles{
+
+						margin:10px 0 0 0;
+						padding: 0;
+						height: 18px;
+
+						>li{								
+							
+
+							&:before{
+								
+
+							}
+
+							&:last-child{
+								&:before{}
+							}
+						}
+					}
+
+					.documents-liees{						
+
+						float: left;
+
+						>ul{
+							width: 100%;
+							float: left;
+
+							>li{
+
+								float: left;
+								
+
+								> a{
+									
+									font-size: 16px;
+									padding-left: 10px;
+									position: relative;	
+									margin-right: 10px;								
+									
+
+									&:before{
+										content:'';
+										position: absolute;
+										right:-10px;
+										//color:$vert;
+										width: 1px;
+										background: $bleu;
+										height: 18px;
+										z-index: 200;
+										top:2px;
+										@include transition(all 0.3s);
+										//margin-top: -9px;
+									}
+
+									&:hover{ 
+
+										text-decoration: underline;
+ 
+										
+									}
+
+								}
+							}
+						}
+
+					}
+ 
+
+				}
+			}
+
+		}
+
+		> a{}
+
+
+	}
+
+}
+
+#content.single-vie-cridon{
+
+	
+	#inner-content article .details .block_right {width: 460px;}
+	
+}
