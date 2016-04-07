@@ -106,8 +106,8 @@ div#cridonline{
 			border:solid 6px $bleu-cri;
 
 			.en-tete{
-				background: url("../images/cridonline-1.svg") no-repeat center center $bg-top-footer;
-				background-size: 174px 79px;
+				background: url("../images/logo-cridonline-reference.png") no-repeat center center $bg-top-footer;
+				background-size: auto 79px;
 			}
 
 			.prix{
@@ -123,8 +123,8 @@ div#cridonline{
 			border:solid 6px $vert-cri;
 
 			.en-tete{
-				background: url("../images/cridonline-2.svg") no-repeat center center $bg-top-footer;
-				background-size: 174px 79px;
+				background: url("../images/logo-cridonline-premium.png") no-repeat center center $bg-top-footer;
+				background-size: auto 79px;
 			}
 			.prix{
 				color:$vert-cri;
@@ -137,8 +137,8 @@ div#cridonline{
 			border:solid 6px $jaune-cri; 
 
 			.en-tete{
-				background: url("../images/cridonline-3.svg") no-repeat center center $bg-top-footer;
-				background-size: 174px 79px;
+				background: url("../images/logo-cridonline-excellence.png") no-repeat center center $bg-top-footer;
+				background-size: auto 79px;
 			}
 			.prix{
 				color:$jaune-cri;
