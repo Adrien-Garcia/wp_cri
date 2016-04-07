@@ -15,7 +15,9 @@
 		<span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,3) ?></span>
 		<span class="annee"><?php echo strftime('%Y',strtotime($current_date)) ?></span>
 	</div>
-
+	<?php if ( !empty($object->__model_name) && $object->__model_name == 'Veille' && !empty($object->level) ): ?>
+		<div class="niveau<?php echo $object->level?>"></div>
+	<?php endif; ?>
 	<div class="details">
 		<?php if (isset($object->matiere)) : ?>						
 		
