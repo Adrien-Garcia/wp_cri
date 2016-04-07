@@ -583,22 +583,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
                                 $updateMobileValues[]      = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
 
-                            if (isset($newData[$adapter::YABONNE_YNIVEAU_0]) && $newData[$adapter::YABONNE_YNIVEAU_0] < $currentData->subscription_level){
-                                if (isset($newData[$adapter::YABONNE_YVALDEB_0]) && $newData[$adapter::YABONNE_YVALDEB_0] >= $currentData->start_subscription_date_veille){
-                                    if (!empty($newData[$adapter::YABONNE_YSTATUT_0])){
-                                        if (in_array($newData[$adapter::YABONNE_YSTATUT_0],Config::$motiveImmediateUpdate)
-                                            && isset($newData[$adapter::YABONNE_YVALFIN_0]) && isset($newData[$adapter::YABONNE_YDATECH_0])){
-                                            $updateLevelValues[]      = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::YABONNE_YNIVEAU_0]) . "' ";
-                                            $updateStartDateValues[]  = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::YABONNE_YVALDEB_0]) . "' ";
-                                            $updateEndDateValues[]  = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::YABONNE_YVALFIN_0]) . "' ";
-                                            $updateEcheanceDateValues[]  = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::YABONNE_YDATECH_0]) . "' ";
-                                        } elseif (in_array($newData[$adapter::YABONNE_YSTATUT_0],Config::$motiveAfterwardUpdate)){
-                                            $updateNextLevelValues[]  = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::YABONNE_YNIVEAU_0]) . "' ";
-                                        }
-                                    }
-                                }
-                            }
-
                             $updateDateModified[]          = " id = {$currentData->id} THEN '" . $dateModified . "' ";
                         }
                     }
@@ -827,7 +811,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // init list of values to be updated
             $updateSigleValues = $updateOfficenameValues = $updateAdress1Values = $updateAdress2Values = $updateAdress3Values = array();
             $updateCpValues = $updateCityValues = $updateEmail1Values = $updateEmail2Values = $updateEmail3Values = array();
-            $updateTelValues = $updateFaxValues = array();
+            $updateTelValues = $updateFaxValues = $updateLevelValues = $updateStartDateValues = $updateEndDateValues = array();
+            $updateEcheanceDateValues = $updateNextLevelValues = array();
 
             // list of new data
             $newEtudes = $this->getNewEtudeList();
@@ -844,7 +829,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $queryStart = " UPDATE `{$etudeTable}` ";
                 $queryEnd   = ' END ';
 
-                foreach(mvc_model('etude')->find() as $currentData) {
+                $options = array('group'=>'Etude.crpcen');
+
+                foreach(mvc_model('etude')->find($options) as $currentData) {
                     $key = $currentData->crpcen;
 
                     // start optimisation
@@ -888,6 +875,21 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         if (isset($newData[$adapter::NOTAIRE_OFFICEFAX]))
                             $updateFaxValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
 
+                        if (isset($newData[$adapter::NOTAIRE_YNIVEAU_0]) && $newData[$adapter::NOTAIRE_YNIVEAU_0] < $currentData->subscription_level){
+                            if (isset($newData[$adapter::NOTAIRE_YVALDEB_0]) && date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0])) >= $currentData->start_subscription_date){
+                                if (!empty($newData[$adapter::NOTAIRE_YMOTIF_0])){
+                                    if (in_array($newData[$adapter::NOTAIRE_YMOTIF_0],Config::$motiveImmediateUpdate)
+                                        && isset($newData[$adapter::NOTAIRE_YVALFIN_0]) && isset($newData[$adapter::NOTAIRE_YDATECH_0])){
+                                        $updateLevelValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                        $updateStartDateValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0]))) . "' ";
+                                        $updateEndDateValues[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALFIN_0]))) . "' ";
+                                        $updateEcheanceDateValues[]  = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YDATECH_0]))) . "' ";
+                                    } elseif (in_array($newData[$adapter::NOTAIRE_YMOTIF_0],Config::$motiveAfterwardUpdate)){
+                                        $updateNextLevelValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                    }
+                                }
+                            }
+                        }
                     }
                     // end optimisation
                 }
@@ -955,6 +957,45 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $etudeQuery .= ' ELSE `fax` ';
                     $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
 
+                    $this->importSuccess = true;
+                }
+                if (count($updateLevelValues) > 0) {
+                    // subscription_level
+                    $etudeQuery = ' SET `subscription_level` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateLevelValues);
+                    $etudeQuery .= ' ELSE `subscription_level` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
+                if (count($updateStartDateValues) > 0) {
+                    // start_subscription_date
+                    $etudeQuery = ' SET `start_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateStartDateValues);
+                    $etudeQuery .= ' ELSE `start_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
+                if (count($updateEndDateValues) > 0) {
+                    // end_subscription_date
+                    $etudeQuery = ' SET `end_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEndDateValues);
+                    $etudeQuery .= ' ELSE `end_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
+                if (count($updateEcheanceDateValues) > 0) {
+                    // echeance_subscription_date
+                    $etudeQuery = ' SET `echeance_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEcheanceDateValues);
+                    $etudeQuery .= ' ELSE `echeance_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                }
+                if (count($updateNextLevelValues) > 0) {
+                    // next_subscription_level
+                    $etudeQuery = ' SET `next_subscription_level` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateNextLevelValues);
+                    $etudeQuery .= ' ELSE `next_subscription_level` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
                     $this->importSuccess = true;
                 }
             }
