@@ -169,10 +169,8 @@ class CahierCridon extends \App\Override\Model\CridonMvcModel
 
         // Total query for pagination
         $query_count ='
-                SELECT COUNT(*) AS count  FROM ' . $this->table . ' c
-                        LEFT JOIN ' . $wpdb->posts . ' p ON c.`post_id` = `p`.`ID`
-                        LEFT JOIN ' . $wpdb->prefix . 'matiere m ON m.`id` = `c`.`id_matiere`
-                        WHERE c.`id_parent` IS NULL';
+                SELECT COUNT(*) FROM ' . $this->table . ' c
+                WHERE c.`id_parent` IS NULL';
 
         $total_count = $wpdb->get_var($query_count);
 
