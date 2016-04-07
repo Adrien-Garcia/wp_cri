@@ -1215,12 +1215,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
 
-    protected function veillesSubscriptionManagement(){
+    public function veillesSubscriptionManagement(){
         try {
             $options= array(
                 'conditions' => array(
-                    'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
-                )
+                    'Etude.a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                ),
+                'group' => 'Etude.crpcen'
             );
             $etudes   = mvc_model('Etude')->find($options);
             if (count($etudes)>0){
@@ -1242,7 +1243,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $qList = array();
 
                 // requete commune
-                $query  = " INTO " . CONST_DB_TABLE_QUESTTEMP;
+                $query  = " INTO " . CONST_DB_TABLE_ABONNE;
                 $query .= " (";
                 $query .= $adapter::YABONNE_YIDABONNE_0 . ", "; // YABONNE_YIDABONNE_0
                 $query .= $adapter::YABONNE_YCRPCEN_0 . ", "; // YABONNE_YCRPCEN_0
@@ -1255,7 +1256,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $query .= $adapter::YABONNE_YDATECH_0 . ", ";   // YABONNE_YDATECH_0
                 $query .= $adapter::YABONNE_YTRAITEE_0 . ", ";   // YABONNE_YTRAITEE_0
                 $query .= $adapter::YABONNE_YERR_0 . ", ";   // YABONNE_YERR_0
-                $query .= $adapter::YABONNE_YMESSERR_0 . ", ";   // YABONNE_YMESSERR_0
+                $query .= $adapter::YABONNE_YMESSERR_0;    // YABONNE_YMESSERR_0
                 $query .= ") ";
                 $query .= " VALUES ";
 
@@ -1270,22 +1271,23 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                           INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
                         SELECT * FROM dual;
                          */
+                        $updateTimestamp = time();
                         foreach ($etudes as $etude) {
                             // remplit la liste des études
-                            $eList[] = $etude->id;
+                            $eList[] = $etude->crpcen;
 
                             $value  = $query;
                             $value .= "(";
 
-                            $value .= "'" . $etude->crpcen.date('c'). "', "; // YABONNE_YIDABONNE_0
+                            $value .= "'" . $etude->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
                             $value .= "'" . $etude->crpcen. "', "; // YABONNE_YCRPCEN_0
                             $value .= "'" . $etude->subscription_level. "', "; // YABONNE_YNIVEAU_0
-                            $value .= "'" . $etude->start_subscription_date . "', "; // YABONNE_YDATE_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATE_0
                             $value .= "'1',"; // YABONNE_YSTATUT_0
                             $value .= "'" . $etude->subscription_price . "', "; // YABONNE_YTARIF_0
-                            $value .= "'" . $etude->start_subscription_date . "', "; // YABONNE_YVALDEB_0
-                            $value .= "'" . $etude->end_subscription_date . "', "; // YABONNE_YVALFIN_0
-                            $value .= "'" . $etude->echeance_subscription_date . "', "; // YABONNE_YDATECH_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALDEB_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->end_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALFIN_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->echeance_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATECH_0
                             $value .= "'0',"; // YABONNE_YTRAITEE_0
                             $value .= "'0',"; // YABONNE_YERR_0
                             $value .= "' '"; // YABONNE_YMESSERR_0
@@ -1305,9 +1307,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             }
             // execution requete
             if (!empty($query)) {
-                if ($result = $this->adapter->execute($query) && !empty($qList)) {
-                    // update cri_question.transmis_erp
-                    $sql = " UPDATE". mvc_model('Etude')->table." SET a_transmettre = 0 WHERE id IN (" . implode(', ', $eList) . ")";
+                if ($result = $this->adapter->execute($query) && !empty($eList)) {
+                    // update cri_etude.a_transmettre
+                    $sql = " UPDATE ". mvc_model('Etude')->table." SET a_transmettre = 0 WHERE crpcen IN (" . implode(', ', $eList) . ")";
                     $this->wpdb->query($sql);
                 } else {
                     // log erreur
