@@ -1506,13 +1506,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // Update offices
             $options= array(
                 'conditions' => array(
-                    'end_subscription_date <=' => date('Y-m-d'),
+                    'Etude.end_subscription_date <=' => date('Y-m-d'),
                     'OR'=>array(
-                        'subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE,
-                        'next_subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE
+                        'Etude.subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE,
+                        'Etude.next_subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE
                     )
                 ),
-            'group' => 'crpcen'
+            'group' => 'Etude.crpcen'
             );
             $etudes   = mvc_model('Etude')->find($options);
 
@@ -1530,11 +1530,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     if (!empty($etude->next_subscription_level)) {
                         $updateLevelValues[] = " crpcen = {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
                     }
-                    if (!empty($etude->next_subscription_price)) {
-                        $nextSubscriptionPrice = $etude->next_subscription_price;
-                    } else {
-                        $nextSubscriptionPrice = mvc_model('Etude')->getSubscriptionPrice($etude);
-                    }
+                    $nextSubscriptionPrice = mvc_model('Etude')->getSubscriptionPrice($etude);
                     $updatePriceValues[] = " crpcen = {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
                     $updateStartDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
                     $updateEndDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
