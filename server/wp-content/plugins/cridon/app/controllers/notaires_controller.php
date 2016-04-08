@@ -31,17 +31,13 @@ class NotairesController extends BasePublicController
             // redirect user to home page
             $this->redirect(home_url());
         } elseif (isset($mvc_params['action'])
-                  && $mvc_params['action'] === 'facturation'
-                  && !$this->model->userCanAccessFinance()
-        ) { // check if is page finance && notary can access
+                  && (in_array($mvc_params['action'],Config::$protected_pages))
+                  && !$this->model->userCanAccessSensitiveInfo()
+        ) { // check if is page sensitive information && notary can access
             // redirect to profil page
-            $this->redirect(mvc_public_url(
-                                array(
-                                    'controller' => 'notaires',
-                                    'action'     => 'profil'
-                                )
-                            )
-            );
+            $url = mvc_public_url(array('controller' => 'notaires', 'action' => 'show'));
+            $url.='?error=FONCTION_NON_AUTORISE';
+            $this->redirect($url);
         }
 
         // get current notary data
@@ -142,6 +138,12 @@ class NotairesController extends BasePublicController
         $this->set('questions', $questions);
         $notaire = CriNotaireData();
         $this->set('notaire', $notaire);
+        $this->set('messageError', '');
+        if (isset($_REQUEST['error'])){
+            if ($_REQUEST['error'] == 'FONCTION_NON_AUTORISE'){
+                $this->set('messageError', "Vous n'avez pas l'autorisation pour accéder à cette page.");
+            }
+        }
 
         // tab rank
         $this->set('onglet', CONST_ONGLET_DASHBOARD);
