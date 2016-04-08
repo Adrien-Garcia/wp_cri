@@ -1,5 +1,5 @@
 <?php if (!empty($messageError)) : ?>
-    <div class="error"><?php echo $messageError ?></div>
+    <div class="message-erreur"><?php echo $messageError ?></div>
 <?php endif; ?>
 <div class="mon-solde">
 	<h2><?php _e('Mon solde'); ?></h2>

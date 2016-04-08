@@ -19,7 +19,6 @@
         <input type="submit" name="submit" value="<?php _e("souscrire"); ?>">
 
         <div class="message-erreur js-account-cridonline-validation-message">
-            
         </div>
 
     </form>
