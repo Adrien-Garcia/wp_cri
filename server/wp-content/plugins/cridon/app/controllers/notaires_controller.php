@@ -463,7 +463,7 @@ class NotairesController extends BasePublicController
             // maj profil et/ou données d'etude
             if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
                 // check emailchanged
-                if (isset($_REQUEST['notary_email_adress']) && !empty($_REQUEST['notary_email_adress'])) {
+                if ( !empty($_REQUEST['notary_email_adress']) ) {
                     if ($this->model->isEmailChanged($this->current_notaire->id, $_REQUEST['notary_email_adress'])) {
                         $this->set('alertEmailChanged', CONST_ALERT_EMAIL_CHANGED);
                     }
@@ -552,9 +552,7 @@ class NotairesController extends BasePublicController
             // Clean $_POST before
             $data = $this->tools->clean($_POST);
             // check emailchanged
-            if (isset($_REQUEST['collaborator_id'])
-                && $_REQUEST['collaborator_id']
-                && isset($_REQUEST['collaborator_email'])
+            if (!empty($_REQUEST['collaborator_id'])
                 && !empty($_REQUEST['collaborator_email'])
             ) {
                 if ($this->model->isEmailChanged($_REQUEST['collaborator_id'], $_REQUEST['collaborator_email'])) {
