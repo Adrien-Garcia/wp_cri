@@ -118,7 +118,7 @@
 					</div>
 					<div id="mon-profil" class="pannel js-account-ajax js-account-profil js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_PROFIL) ? " active " : "" ?>">
 	                    <?php if ($onglet == CONST_ONGLET_PROFIL) : ?>
-	                        <?php CriRenderView('contentprofil', array('matieres' => $matieres,'notaire' => $notaire), 'notaires') ?>
+	                        <?php CriRenderView('contentprofil', array('matieres' => $matieres,'notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3), 'notaires') ?>
 	                    <?php endif; ?>
 					</div>
 					<div id="regles-facturation" class="pannel js-account-ajax js-account-facturation js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_FACTURATION) ? " active " : "" ?>">

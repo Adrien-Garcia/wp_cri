@@ -222,9 +222,8 @@ class NotairesController extends BasePublicController
     public function profil()
     {
         $this->prepareProfil();
-        $this->set('notaire', CriNotaireData());
+        $this->cridonline();
         $this->set('matieres', getMatieresByNotaire());
-
         // tab rank
         $this->set('onglet', CONST_ONGLET_PROFIL);
     }
