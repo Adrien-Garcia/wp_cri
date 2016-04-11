@@ -1,10 +1,4 @@
-div#cridonline{
-
-	input[type="submit"]{
-			width: 180px;
-			font-size: 16px;
-		}
-
+.cridonline-offres{
 	.bloc-cridonline{
 		width: 257px;
 		height: 400px;
@@ -49,6 +43,16 @@ div#cridonline{
 		
 		
 	}
+}
+
+div#cridonline{
+
+	input[type="submit"]{
+			width: 180px;
+			font-size: 16px;
+		}
+
+	
 
 
 	.wrap-link{
@@ -106,10 +110,7 @@ div#cridonline{
 			}
 		}
 
-		.message-erreur{
-			font-size: 16px;
-			line-height: 20px;
-		}
+		
 
 		
 	}

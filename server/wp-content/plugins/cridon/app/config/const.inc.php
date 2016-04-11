@@ -731,7 +731,58 @@ if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
 
 // alert email changed
 if ( !defined( 'CONST_ALERT_EMAIL_CHANGED' ) ) {
-    define('CONST_ALERT_EMAIL_CHANGED', 'Avertissement : vous allez modifier votre adresse email');
+    define('CONST_ALERT_EMAIL_CHANGED', 'Attention : il s\'agit de votre adresse email personnelle');
 }
+
+// Start of block delete collaborator
+if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
+    define( 'CONST_CONFIRM_DEL_MSG', 'Confirmer la suppression du collaborateur ?' );
+}
+if ( !defined( 'CONST_DEL_SUCCESS_MSG' ) ) {
+    define( 'CONST_DEL_SUCCESS_MSG', 'Collaborateur supprimé' );
+}
+if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
+    define( 'CONST_DELCOLLAB_ERROR', 'Suppression collaborateur interrompu le : %s' );
+}
+// End of block delete collaborator
+
+// ERP YNOTAIRE table
+if ( !defined( 'CONST_DB_TABLE_YNOTAIRE' ) ) {
+    switch ($env) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_YNOTAIRE', $prefix.'YNOTAIRE' );
+}
+
+// Onglet
+if ( !defined( 'CONST_ONGLET_DASHBOARD' ) ) {
+    define( 'CONST_ONGLET_DASHBOARD', 1 );
+}
+if ( !defined( 'CONST_ONGLET_QUESTION' ) ) {
+    define( 'CONST_ONGLET_QUESTION', 2 );
+}
+if ( !defined( 'CONST_ONGLET_PROFIL' ) ) {
+    define( 'CONST_ONGLET_PROFIL', 3 );
+}
+if ( !defined( 'CONST_ONGLET_FACTURATION' ) ) {
+    define( 'CONST_ONGLET_FACTURATION', 4 );
+}
+if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
+    define( 'CONST_ONGLET_CRIDONLINE', 5 );
+}
+if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
+    define( 'CONST_ONGLET_COLLABORATEUR', 6 );
+}
+
 
 

@@ -79,6 +79,16 @@
 
 	</div>
 </div>
+<div class="cridonline-offres">
+	<h2><?php _e('Mon abonnement Crid\'online'); ?></h2>
+	<div class="description">
+			Lorem ipsum dolor sit amet
+	</div>
+	<?php set_query_var( 'notaire', $notaire ); ?>
+	<?php set_query_var( 'priceVeilleLevel2', $priceVeilleLevel2 ); ?>
+	<?php set_query_var( 'priceVeilleLevel3', $priceVeilleLevel3 ); ?>
+	<?php echo get_template_part("content","cridonline-offres"); ?>
+</div>
 
 <div class="mes-centres-dinterets">
 

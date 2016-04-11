@@ -1,0 +1,421 @@
+/*
+
+  ____ ___ _   _  ____ _     _____   
+ / ___|_ _| \ | |/ ___| |   | ____|  
+ \___ \| ||  \| | |  _| |   |  _|    
+  ___) | || |\  | |_| | |___| |___    
+ |____/___|_| \_|\____|_____|_____|     
+                                                                               
+
+
+*/
+
+
+body.single, #content.single {
+
+	
+	#inner-content{
+
+		.titre {
+			height: 43px;
+			
+			span{
+				margin: 20px 0;
+			}
+		}
+
+		.sep{
+			height: 4px;
+			background: #e6e6e6;
+			margin: 20px 0;
+			width: 100%;
+			clear: both;
+			position: relative;
+
+			&:before{
+
+				@include svgicon('ico-sep', 17px, 17px, #e6e6e6);
+				position: absolute;
+				top: 0;
+				background: #FFF;
+				left: 50%;
+				margin-left: -30px;
+
+
+				
+			}
+
+
+		}
+
+
+		article{
+
+			padding-top: 10px;
+			padding-bottom: 20px;
+
+			border-bottom:solid 4px #e6e6e6;
+
+			.date{
+				height: 60px;
+				font-size: 25px;
+				@extend .do-re;
+				text-transform: uppercase;
+				text-align: center;
+				background: $vert;
+				line-height: 60px;
+				color:#FFF;
+				position: relative;
+				display: block;
+				margin-bottom: 20px;
+
+				&:before{
+					@include svgicon('icon-angle-bottom', 15px, 15px, $vert);					
+					position:absolute;
+					bottom: -15px;
+					left: 50%;
+					margin-left: -24px;
+					display: block;
+
+				}
+
+				&:after{
+					display: none;
+				}
+			}
+
+
+			.details{
+
+				.block_left{
+					width: 30px;
+					height: 30px;
+					float: left;
+					
+					.img-cat{
+						width: 30px;
+						height: 30px;
+						margin-right: 20px;
+
+						img{
+							width: 30px;
+							height: 30px;
+						}
+
+					}
+				}
+
+				// NIVEAU DES VEILLES
+				&.niveau1{
+					.img-cat{
+						position: relative;
+						&:after{
+							position: absolute;
+							content:'';
+							width: 30px;
+							height: 30px;
+							background-image: url(../images/icon-cridonline-reference.png);
+							background-size: 30px 30px;
+							top: 35px;
+							left: 0;
+						}
+					}
+				}
+				&.niveau2{
+					.img-cat{
+						position: relative;
+						&:after{
+							position: absolute;
+							content:'';
+							width: 30px;
+							height: 30px;
+							background-image: url(../images/icon-cridonline-premium.png);
+							background-size: 30px 30px;
+							top: 35px;
+							left: 0;
+						}
+					}
+				}
+				&.niveau3{
+					.img-cat{
+						position: relative;
+						&:after{
+							position: absolute;
+							content:'';
+							width: 30px;
+							height: 30px;
+							background-image: url(../images/icon-cridonline-excellence.png);
+							background-size: 30px 30px;
+							top: 35px;
+							left: 0;
+						}
+					}
+				}
+
+				
+				.block_right{
+					float: right;
+					width: calc(100% - 50px);
+					min-height: 70px;
+
+					.matiere{
+						@extend .do-bo;
+						color:#FFF;
+						text-transform: uppercase;
+						font-size: 12px;
+						background: $vert;
+						display: inline-block;
+						padding: 0 2px;
+						top: -3px;
+						position: relative;
+						//margin-bottom: 5px;
+					}
+
+					h1{
+						@extend .do-me;
+						font-size: 20px;
+						line-height: 20px;
+						text-transform: uppercase;
+						color:$vert;
+						display: block;
+						margin: 0;
+						padding: 0;
+						text-align:left;
+
+						&:before{
+							display: none;
+						}
+
+					}
+
+					.chapeau{
+					    font-size: 15px;
+					    color: $rouge;
+					    font-family: $garamond;
+					    width: 100%;
+					    line-height: 18px;
+					    margin-bottom: 10px;
+					}
+				}
+
+				.block_full{
+
+					clear: both;
+					width: 100%;
+
+					
+
+					.content{
+						font-family: $helvetica;
+					    font-size: 13px;
+					    line-height: 18px;
+					    color:$bleu;
+
+					    /*a{
+					    	color:$rouge;
+					    	text-decoration: underline;
+
+					    	&:hover{
+					    		text-decoration: none;
+					    	}
+					    }
+
+					    s{
+							background: $jaune;
+							text-decoration: none;
+
+						}
+
+					    h2, h3{
+					    	
+					    	font-size: 15px;
+					    	line-height: 18px;					    	
+					    	text-transform: uppercase;
+					    	
+					    	margin: 0;
+					    	position: relative;
+
+					    	
+					    }
+
+					    h2{
+					    	color:$bleu;
+					    	@extend .do-bo;
+					    	padding: 10px 0;
+					    	&:after{
+					    		content:'';
+								width: 40px;
+								height: 1px;
+								background: $bleu;
+								position: absolute;
+								left: 0;
+								bottom: 0;
+					    	}
+				    	}
+
+				    	h3{
+				    		color:$vert;
+				    		@extend .do-me;
+				    		margin-left: 20px;
+				    	}
+
+					    >p{
+					    	margin: 15px 0;
+					    }
+
+					    h3 + p {
+					    	color:$vert;
+                            margin: 0 0 0 20px;
+                        }
+
+					    >ul, ol{
+
+					    	margin: 0;
+					    	padding: 0;
+
+					    	>li{
+					    		position: relative;
+					    		display: block;
+					    		vertical-align: middle;
+					    		line-height: 14px;
+
+					    		padding: 3px 0 0 20px;
+					    		margin: 0 0 5px 0;
+
+
+					    		&:before{
+					    			content:'';
+					    			height: 8px;
+					    			width: 8px;
+					    			border:solid 1px $rouge;
+					    			@include border-radius(25px);
+					    			display: block;
+					    			position: absolute;
+					    			left: 0;
+					    			top: 50%;
+					    			margin-top: -5px;
+
+					    		}
+
+					    	}
+					    }*/
+					}
+					.adresse{
+						font-family: $helvetica-bold;
+						font-size: 12px;
+						color:$bleu;
+						margin: 10px 0 10px 0;
+						line-height: 14px;
+					}
+
+					.mots_cles{
+
+						margin:20px 0 10px 0;
+						padding: 0;
+						height: 18px;
+
+						>li{
+							float: left;
+							padding: 0;
+							margin: 0 20px 0 0;
+							font-family: $helvetica-bold;
+							color:$bleu;
+							font-size: 10px;
+							position: relative;
+							height: 18px;
+							line-height: 18px;
+
+							&:before{
+								content:'';
+								position: absolute;
+								top: 0;
+								right: -10px;
+								width: 1px;
+								height: 18px;
+								background: $bleu;
+
+							}
+
+							&:last-child{
+								&:before{ display: none;}
+							}
+						}
+					}
+
+					.documents-liees{
+						width: 100%;
+						padding: 20px;
+						margin-top: 20px;
+						background: #e6e6e6;
+
+						>ul{
+							margin: 0;
+							padding: 0;
+
+							>li{
+								margin: 0;
+								padding: 3px 0;
+
+								>a{
+									@extend .do-re;
+									font-size: 14px;
+									color:$bleu;
+									text-decoration: none;
+									
+									&:hover{
+										//text-decoration: underline;
+										//@extend .do-me;
+									}
+
+									/* &:before{
+										content:'|';
+										position: relative;
+										left: -10px;
+									} */
+
+								}
+							}
+						}
+
+					}					
+
+				}
+			}
+
+		}
+
+		> a{
+			/*
+			background: $vert;
+			display: block;
+			color:#FFF;*/
+
+			@include bt-rectangle($vert, #FFF);
+			width: 70px;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			padding: 0;
+            margin: 20px auto 40px calc(50% - 35px);
+
+            &:before{
+    			@include svgicon('icon-angle-right', 15px, 15px, $vert);
+    			right: inherit;
+    			left: -5px;
+    			@include rotate(180);
+    		}
+		}
+
+
+	}
+
+
+
+
+}
+
+#content.single-vie-cridon{
+	
+	#inner-content article .details .block_full, #inner-content article .details .block_right {width: 100%;}
+	
+}

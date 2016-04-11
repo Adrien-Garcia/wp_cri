@@ -984,6 +984,16 @@ function CriSendPostQuestConfirmation($question) {
 }
 
 /**
+ * Check if  current user can manage Collaborator
+ *
+ * @return bool
+ * @throws Exception
+ */
+function CriCanManageCollaborator() {
+    return mvc_model('notaire')->userCanManageCollaborator();
+}
+
+/**
  * Get list of all existing roles
  *
  * @return array
