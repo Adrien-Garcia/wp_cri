@@ -31,17 +31,13 @@ class NotairesController extends BasePublicController
             // redirect user to home page
             $this->redirect(home_url());
         } elseif (isset($mvc_params['action'])
-                  && $mvc_params['action'] === 'facturation'
-                  && !$this->model->userCanAccessFinance()
-        ) { // check if is page finance && notary can access
+                  && (in_array($mvc_params['action'],Config::$protected_pages))
+                  && !$this->model->userCanAccessSensitiveInfo()
+        ) { // check if is page sensitive information && notary can access
             // redirect to profil page
-            $this->redirect(mvc_public_url(
-                                array(
-                                    'controller' => 'notaires',
-                                    'action'     => 'profil'
-                                )
-                            )
-            );
+            $url = mvc_public_url(array('controller' => 'notaires', 'action' => 'show'));
+            $url.='?error=FONCTION_NON_AUTORISE';
+            $this->redirect($url);
         }
 
         // get current notary data
@@ -49,7 +45,9 @@ class NotairesController extends BasePublicController
 
         // set notary id in params
         // needed to retrieve notary data by the MVC system
-        $this->params['id'] = $this->current_notaire->id;
+        if (!in_array($this->params['action'], Config::$exceptedActionForRedirect301)) {
+            $this->params['id'] = $this->current_notaire->id;
+        }
     }
 
     /**
@@ -142,6 +140,15 @@ class NotairesController extends BasePublicController
         $this->set('questions', $questions);
         $notaire = CriNotaireData();
         $this->set('notaire', $notaire);
+        $this->set('messageError', '');
+        if (isset($_REQUEST['error'])){
+            if ($_REQUEST['error'] == 'FONCTION_NON_AUTORISE'){
+                $this->set('messageError', "Vous n'avez pas l'autorisation pour accéder à cette page.");
+            }
+        }
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_DASHBOARD);
     }
 
     /**
@@ -187,6 +194,9 @@ class NotairesController extends BasePublicController
         $this->set('notaire',$notaire);
 
         $this->set_pagination($collection);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_QUESTION);
     }
 
     /**
@@ -214,8 +224,10 @@ class NotairesController extends BasePublicController
     public function profil()
     {
         $this->prepareProfil();
-        $this->set('notaire', CriNotaireData());
+        $this->cridonline();
         $this->set('matieres', getMatieresByNotaire());
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_PROFIL);
     }
 
     /**
@@ -247,6 +259,9 @@ class NotairesController extends BasePublicController
         $this->set('notaire',$notaire);
         $content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
         $this->set('content',$content);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_FACTURATION);
     }
 
     /**
@@ -298,6 +313,9 @@ class NotairesController extends BasePublicController
                 }
             }
         }
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_CRIDONLINE);
     }
     /**
      * Notaire CridOnlineValidation Content Block (AJAX Friendly)
@@ -446,8 +464,19 @@ class NotairesController extends BasePublicController
                 $this->model->manageInterest($this->current_notaire, $data);
             }
 
+            // set warning msg
+            $this->set('alertEmailChanged', '');
+
             // maj profil et/ou données d'etude
             if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+                // check emailchanged
+                if ( !empty($_REQUEST['notary_email_adress']) ) {
+                    if ($this->model->isEmailChanged($this->current_notaire->id, $_REQUEST['notary_email_adress'])) {
+                        $this->set('alertEmailChanged', CONST_ALERT_EMAIL_CHANGED);
+                    }
+                }
+
+                // update profil
                 $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
             }
         }
@@ -520,12 +549,23 @@ class NotairesController extends BasePublicController
         // access secured
         $this->prepareSecureAccess();
 
+        // set warning msg
+        $this->set('alertEmailChanged', '');
+
         // post form
         if (isset($_POST['collaborator_first_name'])
             && $_POST['collaborator_first_name']
         ) {
             // Clean $_POST before
             $data = $this->tools->clean($_POST);
+            // check emailchanged
+            if (!empty($_REQUEST['collaborator_id'])
+                && !empty($_REQUEST['collaborator_email'])
+            ) {
+                if ($this->model->isEmailChanged($_REQUEST['collaborator_id'], $_REQUEST['collaborator_email'])) {
+                    $this->set('alertEmailChanged', CONST_ALERT_EMAIL_CHANGED);
+                }
+            }
             $this->model->manageCollaborator($this->current_notaire, $data);
         }
 
@@ -539,7 +579,7 @@ class NotairesController extends BasePublicController
         $this->set('collaborators', array());
 
         // tab rank
-        $this->set('onglet', 6);
+        $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
     }
 
     /**
@@ -557,6 +597,54 @@ class NotairesController extends BasePublicController
         $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
         CriRenderView('contentcollaborateur', $vars,'notaires');
         die();
+    }
+
+    /**
+     * Delete Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/deletecollaborateur.php
+     *
+     * @return void
+     */
+    public function deletecollaborateur()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+
+        // collaborator id
+        $collaborator_id = $this->params['id'];
+
+        // check if user can manage collaborator
+        if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)
+            || !$this->tools->isSameOffice($collaborator_id, $this->current_notaire)
+        ) {
+            // redirect to profil page
+            $this->redirect(mvc_public_url(
+                                array(
+                                    'controller' => 'notaires',
+                                    'action'     => 'profil'
+                                )
+                            )
+            );
+        }
+
+        // default message
+        $flash_message = CONST_CONFIRM_DEL_MSG;
+
+        // submit form
+        if (isset($_REQUEST['confirmdelete'])) {
+            if ($this->model->deleteCollaborator($collaborator_id)) {
+                $flash_message = CONST_DEL_SUCCESS_MSG;
+            }
+        }
+
+        // set collaborator id
+        $this->set('collaborator_id', $collaborator_id);
+
+        // set flash message
+        $this->set('flash_message', $flash_message);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
     }
 
     /**

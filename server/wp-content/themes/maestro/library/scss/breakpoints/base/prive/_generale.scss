@@ -1,5 +1,15 @@
 #content.page-mon-compte{
 
+	.message-erreur{
+		font-family: $helvetica;
+		font-size: 12px;
+		line-height: 16px;
+		margin: 30px 0;
+		border-left:solid 5px $rouge;
+		padding: 10px 0 10px 15px;
+		color:$rouge;
+	}
+
 	#main{
 		background: linear-gradient(90deg, #e6e6e6 50%, #FFFFFF 50%);
 		padding-top: 0;

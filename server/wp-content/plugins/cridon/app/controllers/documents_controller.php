@@ -74,7 +74,7 @@ class DocumentsController extends BasePublicController
             if (in_array($object->__model_name, Config::$modelWithIdDocImplemented)){
                 $url.= '?id_doc='.$document->id;
             }
-            CriRefuseAccess('PROTECTED CONTENT',$url);
+            CriRefuseAccess('PROTECTED_CONTENT',$url);
         } elseif (empty($object) || empty($document->file_path)) { // Check if question exist, document file path is valid
             redirectTo404();
         }

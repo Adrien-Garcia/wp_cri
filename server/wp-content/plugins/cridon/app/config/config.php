@@ -265,7 +265,7 @@ class Config {
         'notaires',
         'questions'
     );
-
+    
     //Admin wp_mvc action translation
     public static $actionsWpmvcTranslation = array(
         'view'   => 'Voir',
@@ -327,9 +327,9 @@ class Config {
         'url'     => 'documents/public/'//Sera ajouté à l'encodage, l'id sera ajouté dynamiquement (ex:documents/public/1)
     );
     //End Public download URL
-
+    
     //Access documents
-
+    
     //Liste des actus dont les téléchargements de document est à restreindre au notaire connecté
     public static $accessDowloadDocument = array(
         'flash','veille'//correspond au champ type de la table cri_document
@@ -471,6 +471,22 @@ class Config {
      * @var array list of notary "function" allowed to edit profil, show office members
      */
     public static $allowedNotaryFunction = array(1, 2, 3, 6, 7, 8, 9, 10);
+
+    /**
+     * @var array list of excepted actions for redirect 301
+     */
+    public static $exceptedActionForRedirect301 = array(
+        'deletecollaborateur',
+    );
+
+    /**
+     * @var array list of protected pages allowed only for notaries with a fonction inside $allowedNotaryFunction
+     */
+    public static $protected_pages = array(
+        'facturation',
+        'cridonline',
+        'collaborateur'
+    );
 
     /**
      * @var array list of notary roles : the keys must be match of the list defined in const.inc.php

@@ -1,4 +1,8 @@
 <div>
+    <?php
+    if (!empty($alertEmailChanged)) : ?>
+        <div class="error"><?php echo $alertEmailChanged ?></div>
+    <?php endif; ?>
     <form action="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'collaborateur')); ?>" method="post">
         <p>
             <label for="collaborator_last_name">Nom</label>

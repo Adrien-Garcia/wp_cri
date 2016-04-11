@@ -115,7 +115,13 @@ the other stylesheets. Remember, keep it light: Speed is Important.
 @import "breakpoints/base/prive/cridonline";
 
 /*POPUP*/
-@import "breakpoints/base/popup";  
+@import "breakpoints/base/popup";
+
+/*LISTE*/
+@import "breakpoints/base/liste";
+
+/*SINGLE*/
+@import "breakpoints/base/single";   
 
 /*********************
 LARGER MOBILE DEVICES
@@ -151,6 +157,10 @@ you can add resource intensive styles.
 
 	/*POPUP*/
 	@import "breakpoints/768/popup";
+	/*LISTE*/
+	@import "breakpoints/768/liste"; 
+	/*SINGLE*/
+	@import "breakpoints/768/single";   
 
 } // end of media query
 
@@ -175,6 +185,10 @@ you can add resource intensive styles.
 
 	/*POPUP*/
 	@import "breakpoints/1240/popup";
+	/*LISTE*/
+	@import "breakpoints/1240/liste"; 
+	/*SINGLE*/
+	@import "breakpoints/1240/single";   
 
 } // end of media query
 
