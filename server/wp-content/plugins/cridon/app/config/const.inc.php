@@ -729,6 +729,11 @@ if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
     define( 'CONST_FACTURATION_PAGE_ID', 1515 );
 }
 
+// alert email changed
+if ( !defined( 'CONST_ALERT_EMAIL_CHANGED' ) ) {
+    define('CONST_ALERT_EMAIL_CHANGED', 'Attention : il s\'agit de votre adresse email personnelle');
+}
+
 // Start of block delete collaborator
 if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
     define( 'CONST_CONFIRM_DEL_MSG', 'Confirmer la suppression du collaborateur ?' );

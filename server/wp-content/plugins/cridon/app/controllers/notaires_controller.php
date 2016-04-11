@@ -475,8 +475,19 @@ class NotairesController extends BasePublicController
                 $this->model->manageInterest($this->current_notaire, $data);
             }
 
+            // set warning msg
+            $this->set('alertEmailChanged', '');
+
             // maj profil et/ou données d'etude
             if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+                // check emailchanged
+                if ( !empty($_REQUEST['notary_email_adress']) ) {
+                    if ($this->model->isEmailChanged($this->current_notaire->id, $_REQUEST['notary_email_adress'])) {
+                        $this->set('alertEmailChanged', CONST_ALERT_EMAIL_CHANGED);
+                    }
+                }
+
+                // update profil
                 $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
             }
         }
@@ -549,12 +560,23 @@ class NotairesController extends BasePublicController
         // access secured
         $this->prepareSecureAccess();
 
+        // set warning msg
+        $this->set('alertEmailChanged', '');
+
         // post form
         if (isset($_POST['collaborator_first_name'])
             && $_POST['collaborator_first_name']
         ) {
             // Clean $_POST before
             $data = $this->tools->clean($_POST);
+            // check emailchanged
+            if (!empty($_REQUEST['collaborator_id'])
+                && !empty($_REQUEST['collaborator_email'])
+            ) {
+                if ($this->model->isEmailChanged($_REQUEST['collaborator_id'], $_REQUEST['collaborator_email'])) {
+                    $this->set('alertEmailChanged', CONST_ALERT_EMAIL_CHANGED);
+                }
+            }
             $this->model->manageCollaborator($this->current_notaire, $data);
         }
 
