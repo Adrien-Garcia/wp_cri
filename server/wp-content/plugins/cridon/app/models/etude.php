@@ -20,7 +20,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         $level = ($isNext && !empty($etude->next_subscription_level)) ? $etude->next_subscription_level : $etude->subscription_level;
 
         $options = array('conditions' => array('crpcen' => $etude->crpcen));
-        $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
+        $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->countItems('notaire', $options));
         $prices = Config::$pricesLevelsVeilles[0][$level];
         krsort($prices);
         // Tri du tableau de prix par clé descendante
