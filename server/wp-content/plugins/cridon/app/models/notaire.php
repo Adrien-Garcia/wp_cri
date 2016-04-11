@@ -884,7 +884,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                                         $updateStartDateValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0]))) . "' ";
                                         $updateEndDateValues[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALFIN_0]))) . "' ";
                                         $updateEcheanceDateValues[]  = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YDATECH_0]))) . "' ";
-                                    } elseif (in_array($newData[$adapter::NOTAIRE_YMOTIF_0],Config::$motiveAfterwardUpdate)){
+                                    } else {
                                         $updateNextLevelValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
                                     }
                                 }

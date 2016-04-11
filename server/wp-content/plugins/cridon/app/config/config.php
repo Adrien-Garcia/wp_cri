@@ -462,8 +462,6 @@ class Config {
 
     public static $motiveImmediateUpdate = array(2,3,4);
 
-    public static $motiveAfterwardUpdate = array(1);
-
     // Notification for posted question
     public static $mailBodyQuestionConfirmation  = array(
         'subject'   => 'Prise en compte de votre question sur le site'
