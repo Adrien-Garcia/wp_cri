@@ -292,9 +292,7 @@ class Document extends \App\Override\Model\CridonMvcModel {
                 $message = sprintf(CONST_IMPORT_GED_LOG_SUCCESS_MSG, date('d/m/Y à H:i'), $listDoc);
                 writeLog($message, 'importdocs.log');
             } else { // repertoire import vide
-                // log : envoie mail
                 $message = sprintf(CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG, date('d/m/Y à H:i'));
-                reportError($message, '');
                 writeLog($message, 'importdocs.log');
             }
         } catch ( \Exception $e ){
