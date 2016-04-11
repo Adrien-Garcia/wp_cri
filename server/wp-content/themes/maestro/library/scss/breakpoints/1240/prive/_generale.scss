@@ -1,5 +1,10 @@
 #content.page-mon-compte{
 
+	.message-erreur{
+			font-size: 16px;
+			line-height: 20px;
+		}
+
 	.breadcrumbs{ 
 		display: block;
 		height: 80px;
@@ -55,6 +60,11 @@
 								span{								
 									font-size: 20px;
 									padding-left: 60px; 
+									text-align: left;
+
+									> span{
+										padding-left: 0;
+									}
 								}
 
 

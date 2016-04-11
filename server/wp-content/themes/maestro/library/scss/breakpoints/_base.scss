@@ -111,7 +111,8 @@ HEADER STYLES
 
 			#bt-nav-mobile{
 				position: absolute;
-			    top: 20px;
+			    top: 50%;
+			    margin-top: -8px;
 			    left: 0;
 			    display: block;
 			    width: 20px;
@@ -354,645 +355,7 @@ HEADER STYLES
 
 
 
-/****
 
-  _        _ __   _______ ____    ____   ___  ____  _____ _____  _   _ _   _ _____    ___  _   _ _____ ____ _____ ___ ___  _   _ 
- | |      / \\ \ / / ____|  _ \  |  _ \ / _ \/ ___|| ____|__  / | | | | \ | | ____|  / _ \| | | | ____/ ___|_   _|_ _/ _ \| \ | |
- | |     / _ \\ V /|  _| | |_) | | |_) | | | \___ \|  _|   / /  | | | |  \| |  _|   | | | | | | |  _| \___ \ | |  | | | | |  \| |
- | |___ / ___ \| | | |___|  _ <  |  __/| |_| |___) | |___ / /_  | |_| | |\  | |___  | |_| | |_| | |___ ___) || |  | | |_| | |\  |
- |_____/_/   \_\_| |_____|_| \_\ |_|    \___/|____/|_____/____|  \___/|_| \_|_____|  \__\_\\___/|_____|____/ |_| |___\___/|_| \_|
-                                                                                                                                 
-
-*/
-
-#layer-posez-question{
-	width: 100%;
-	height: auto;
-	padding: 10px 10px 0 10px;
-	background: #FFF;
-
-	.block_top{
-
-		> .titre{
-			width: 100%;
-			height: 50px;
-			background: $vert;
-			position: relative;
-			font-weight: normal;
-
-			&:before{
-				@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
-				position: absolute;
-				left: 50%;
-				margin-left: -24px;
-				bottom:-15px;
-			}
-
-			.close_layer{
-				position: absolute;
-				right: 10px;
-				top: 50%;
-				margin-top: -20px;
-				display: block;
-				width: 40px;
-				height: 40px;
-				
-				&:before{
-					@include svgicon('icon-close-layer-question', 20px, 20px, #FFF);
-					@include rotate(-45);
-					position: absolute;
-					top: 11px;
-					left: 11px;
-				}
-
-				
-
-			}
-
-			.texte{
-				@extend .do-sm;
-				font-size: 20px;
-				color:#FFF;
-				text-transform: uppercase;
-				display: inline-block;
-				height: 50px;
-				line-height: 50px;
-				margin-left: 10px;
-				padding-left: 30px;
-				position: absolute;
-
-				&:before{
-					@include svgicon('icon-consulter', 20px, 20px, #FFFFFF);
-					font-weight: normal;
-					top: 50%;
-					margin-top: -10px;
-					position: absolute;
-					left: 0;
-				}
-
-			}
-			
-		}
-
-		.onglets{
-
-			width: 100%;
-			float: left;
-			//padding-bottom: 20px;
-			border-bottom:solid 4px $vert;
-			margin-bottom: 10px;
-
-			.h2{
-				@extend .do-sm;
-				text-transform: uppercase;
-				color:$bleu;
-				font-size: 20px;
-				line-height: 80px;
-				vertical-align: middle;
-				//text-decoration: underline;
-
-				border-bottom:solid 16px #FFF;
-
-				width: 30%;
-				height: 96px;
-				overflow: hidden;
-				float: left;
-				text-align: center;
-
-				margin: 0;
-				padding: 0;
-				transition: border $duration ease, color $duration ease;
-
-				cursor: pointer;
-
-				span{
-					border-bottom:solid 1px $bleu;
-				}
-
-				/*&:hover{
-					text-decoration: none;
-					border-bottom:solid 16px $vert;
-
-					span{
-						border-bottom:solid 1px #FFF;
-					}
-				}*/
-
-			}
-
-			.h2.open{
-				color:$vert;
-				//text-decoration: none;
-				border-bottom:solid 16px $vert;
-				width: 70%;
-
-				span{
-					border-bottom:solid 1px #FFF;
-				}
-			}
-		}
-
-		.details{
-			clear: both;
-			
-
-			.consultation{
-				display: none;
-
-				#owl-support{
-					width: 100%;
-					overflow: hidden;
-
-					.owl-stage-outer{
-						z-index: 1; /**/
-					}
-					.owl-controls{
-						z-index: 0; /**/
-					}
-
-					.owl-item{
-						height: 330px;
-						//padding-top: 190px;
-
-
-                        
-
-                        
-
-						label {
-							width: 100%;
-							height: 100%;
-						}
-
-						.label{
-
-							@extend .do-sm;
-							font-size: 30px;
-							text-transform: uppercase;
-							text-align: center;
-							display: block;
-							width: 100%;
-							height: 50px;
-							line-height: 50px;
-							background: $vj_03;
-							color:#FFF;
-							position: relative;
-							margin-bottom: 30px;
-							text-decoration: none;
-
-							&:before{
-								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
-								position: absolute;
-								left: 50%;
-								margin-left: -24px;
-								bottom:-14px;
-							}
-
-						}
-
-						.description{
-							margin: 0;
-							padding: 0;
-							font-size: 15px;
-							line-height: 18px;
-                          font-family: $helvetica;
-							text-align: justify;
-							height: 54px;
-							overflow: hidden;
-						}
-
-						
-
-						.item{
-							position: relative;
-							margin-top: 190px;
-
-							&:before{
-								
-								position: absolute;
-								top: -150px;
-								left: 50%;
-								margin-left: -66px;
-							}
-
-						}
-
-						&:hover, &.selected{
-
-
-
-                            .label{
-                                background: $vert;
-
-                                &:before{
-                                  @include svgicon('icon-angle-bottom', 15px, 15px, $vert);
-                                }
-                            }
-
-                            .item{
-                            	
-
-                                &:before{
-                                    //top: -150px;
-                                    animation: bump 0.5s ease-out 0s infinite alternate;
-
-                                }
-
-                                //background: #e6e6e6;
-
-
-                            }
-
-                            &:last-child{
-                                .item:before{
-                                    //top: -140px;
-                                }
-
-                            }
-                        }
-						
-
-						&:first-child{
-							.item{
-								&:before{
-									@include svgicon('ico-support-fusee', 118px, 118px, $vj_03);								
-								}
-
-							}
-						}
-						&:nth-child(2){
-							.item{
-								&:before{
-									@include svgicon('ico-support-avion', 118px, 118px, $vj_03);								
-								}
-
-							}
-						}
-						&:last-child{
-							.item{
-								&:before{
-									@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);	
-									margin-left: -53px;	
-									top: -130px;						
-								}
-
-							}
-						}
-					}
-
-					.owl-nav{
-						position: absolute;
-						top: 80px;
-						text-align:left;
-						width: 100%;
-
-						> div{
-							background: transparent;
-							height: 30px;
-							width: 17px;
-							border-radius: 0;
-							padding: 0;
-							margin: 0;
-							position: relative;
-
-							&:before{
-								@include svgicon('icon-flech-arrow', 30px, 30px, #b7b8b8);	
-								position: absolute;
-								left: 0;
-								top: 0;
-							}
-						}
-
-						.owl-prev{
-							left: 20px;
-							@include rotate(-180);
-							z-index: 999;
-
-						}
-
-						.owl-next{
-							left: inherit;
-							float: right;
-							right: 20px;
-							z-index: 999;
-
-						}
-
-					}
-
-				}				
-
-			}
-
-			.question{
-
-				.block_gauche{
-					display: none;
-				}
-
-				.block_droit{
-
-					.form{
-						width: 100%;
-						padding-bottom: 40px;
-
-						input[type="text"], textarea{
-							height: 35px;
-							background: #FFF;
-							border:solid 3px #e6e6e6;
-							line-height: 20px;
-							color:$bleu;
-							text-transform: none;
-							padding-left: 10px;
-							margin: 0 auto 10px auto;
-							font-size: 15px;
-							display: block;
-							@extend .do-sm;
-							border-radius: 0;
-
-							max-width: 100%;
-
-
-						}
-
-						select{
-							background-color: #FFF;
-							border:solid 3px #e6e6e6;
-							line-height: 35px;
-							padding-left: 8px;
-							
-							text-transform: none;
-							width: 100%;
-							border-radius: 0;
-
-							@extend .do-sm;
-							color:$bleu;
-							font-size: 15px;
-
-							max-width: 100%;
-
-						}
-
-						input[type="submit"]{
-
-							width: 157px;
-							height: 30px;
-							background: $vert;
-							color:#FFF;
-							border:none;
-							text-align: center;
-                            font-size: 14px;
-							@extend .do-me;
-							display: block;
-							text-transform: uppercase;
-							border-radius: 0;
-
-                            margin: 50px auto 10px calc(100% - 157px);
-
-                        }
-
-						input[type="file"]{
-							border:none;
-							margin-bottom: 20px;
-							color:#FFF; 
-
-							//display: none;
-
-
-						}
-
-						#msgBlockQuestionId{
-							color:$rouge;
-							font-size: 14px;
-							line-height: 18px;
-                            .success {
-                                color: $vert;
-                                font-size: 150%;
-                            }
-						}
-
-						.fileUpload {
-						    position: relative;
-						    overflow: hidden;
-						    float: left;
-						    width: 100%;
-						    height: 30px;
-						    color:#FFF;
-						    @extend .do-me;
-						    font-size: 14px;
-						    text-transform: uppercase;
-						    line-height: 30px;
-						    text-align: left;
-						    //margin-left: calc(100% - 85px); 
-						    margin-bottom: 20px;
-
-                            .btn-reset {
-                                float: right;
-                                position: relative;
-                                z-index:1;
-                                width: 35px;
-                                background: transparent;
-                                color: #000;
-                                border:none;
-                                font-size: 50px;
-    							line-height: 0px;
-    							@include rotate(45);
-    							@extend .do-el;
-    							top: 8px;
-
-                            }
-                            span {
-                                display: inline-block;
-                                float: left;
-                                padding: 0 10px;
-                                height: 100%;
-                                background: #ffffff;
-                                color: #000000;
-                            }
-                            span.fileName {
-                                width: auto;
-                                max-width: 200px;
-                                overflow: hidden;
-
-                            }
-                            span.fileButtonFront {
-                                background: $bleu;
-                                color:#FFF;
-                                float: none;
-                                right: 33px;
-                                position: absolute;
-                            }
-						}
-
-						.fileUpload input.upload {
-						    position: absolute;
-						    top: 0;
-						    right: 65px;
-						    margin: 0;
-						    padding: 0;
-						    font-size: 20px;
-						    cursor: pointer;
-						    opacity: 0;
-						    filter: alpha(opacity=0);
-                            z-index: 1;
-						}
-
-						.sep{
-							height: 4px;
-							background: #e6e6e6;
-							margin: 20px 0;
-							width: 100%;
-							clear: both;
-
-							position: relative;
-
-							&:before{
-
-								@include svgicon('ico-sep', 16px, 16px, #e6e6e6);
-								position: absolute;
-								top: 0;
-								background: #FFF;
-								left: 50%;
-								margin-left: -26px;
-
-								
-							}
-
-
-
-						}
-
-						input, textarea{
-
-							&::-webkit-input-placeholder {
-								color:$bleu;
-							 }
-
-							&::-moz-placeholder {
-								color:$bleu;
-							  } /* firefox 19+ */
-
-							&:-ms-input-placeholder {
-								color:$bleu;
-							  } /* ie */
-
-							&input:-moz-placeholder {
-								color:$bleu;
-							  }
-						}
-					}
-				}
-
-			}
-
-			>div{
-				display: none;
-
-				&.open{
-					display: block;
-				}
-			}
-			
-
-			
-		}
-
-		
-
-	}
-
-	.block_bottom{
-		.block_03{
-			display: none;
-		}
-
-		.block_3_mobile{
-			display: block;
-			margin: 0;
-			padding: 0;
-
-			li{
-				width: 100%;
-				display: block;
-				height: 110px;
-				margin-bottom: 10px;
-				text-align: right;
-				padding: 25px 10px 10px;
-				color: $white;
-				@extend .do-bo;
-				font-size: 18px;
-				text-transform: uppercase;
-				position: relative;
-				transition: background $duration ease;
-				cursor: pointer;
-				background: $vj_02;
-
-				&:after {
-					
-
-					@include svgiconafter('icon-angle-bottom', 15px, 15px, #FFF);					
-					position:absolute;
-					top: -1px;
-					left: 50%;
-					margin-left: -24px;
-					display: block;
-					z-index: 2000;					
-
-				}
-
-				.h2{ 
-					position: relative;
-					z-index: 2000;
-					@extend .do-sm;
-					color:#FFF;
-					font-size: 30px;
-					line-height: 30px;
-					text-transform: uppercase;
-					text-align: center;
-					margin: 0 0 0 0;
-					padding: 0;
-					font-weight: normal;
-
-					span{
-						display: block;
-						font-size: 18px;
-						line-height: 18px;
-                        font-family: $garamond, Helvetica, serif;
-						color:#FFF;
-						text-transform: none;
-						font-weight: normal;
-
-					}
-
-					&:before{
-						font-weight:normal;
-					}
-				}
-
-				> a{
-					display: block; 
-					color:#FFF;
-					position: relative;
-					z-index: 2000;
-					text-decoration: none;
-					text-align: center;
-					@extend .do-el;
-					font-size: 40px;
-					font-weight: normal;
-					line-height: 27px;
-					padding: 0;
-					margin: 0;
-				}
-			}
-		}
-
-	}
-
-	
-}
-.popup_visible #posez-questions {
-  transform: scale(1);
-}
 
 
 /*
@@ -1101,7 +464,7 @@ body.page-template-front-page{
 
 			.block_03{
 
-				padding: 10px 0 40px 0;
+				padding: 10px 0 30px 0;
 
 				.block {
 
@@ -1285,6 +648,46 @@ body.page-template-front-page{
 				}
 			}
 
+			.partenaires{
+				//margin-top: 40px;
+				margin-bottom: 35px;
+
+				> div{
+					font-size: 16px;
+					text-align:center;
+					text-transform: uppercase;
+					@extend .do-sm;
+					color:$bleu;
+
+					span{
+						@extend .do-eb;
+					}
+				}
+
+				ul{
+					margin: 0;
+					padding: 0;
+					overflow: hidden;
+					width: 235px;
+					margin:10px auto 0 auto;
+
+					li{
+						margin: 0;
+						padding: 0;
+						float: left;
+						float: left;
+
+						&:first-child{
+							margin-right: 20px;
+						}
+
+						img{
+							height: 30px;
+						}
+					}
+				}
+			}
+
 		}
 
 
@@ -1292,6 +695,7 @@ body.page-template-front-page{
 			padding-top: 44px;
 			position: relative;
 			background: #FFF;
+			padding-bottom: 20px;
 
 			&:before{
 
@@ -1363,6 +767,7 @@ body.page-template-front-page{
 				width: 100%;
 				clear: both;
 				float: none;
+
 
 				.accordion{
 					text-align: center;
@@ -1560,7 +965,7 @@ body.page-template-front-page{
 					
 					> a{/*Lien toutes la veille juridique*/
 						@include lien-souligne($rouge);
-						margin: 30px 0 50px 0;
+						margin: 30px 0 23px 0;
 						&:after{
 							top: 20px;
 							left: 50%; 
@@ -1610,9 +1015,10 @@ body.page-template-front-page{
 		.row_03{
 			width: 100%;
 			background: #e6e6e6;
-			padding: 50px 0 40px 0;
+			padding: 15px 0 25px 0;
 			float: none;
 			clear: both;
+			overflow: hidden;
 
 			h2{
 				@extend .do-bo; 
@@ -1632,115 +1038,198 @@ body.page-template-front-page{
 				
 			}
 
-			.cridon-app{
+			.cridonline{
+				width: 100%;
+				background: $rouge;
+				height: 145px;
+				position: relative;
+				padding: 25px 10px 10px 10px;
+				margin-bottom: 10px;
+
+				&:hover {
+					//background: $rouge + #1b1b1b;					
+				}
+
+				&:before{
+					@include svgicon('icon-angle-bottom', 15px, 15px, $bg-top-footer);
+					position: absolute;
+					left: 50%;
+					top: 0px;
+					margin-left: -24px;
+				}
+
+				&:after{
+					@include svgiconafter('ico-cridonline-logo', 55px, 55px, #FFF);
+
+					position: absolute;
+					left: 50%;
+					margin-left: -68px;
+					top: 25px;
+
+				}
+
+				ul{
+					margin: 0;
+					padding: 0;
+
+					display: none;
+
+					li{
+						margin: 0;
+						padding: 0;
+					}
+				}
+
+				>a{
+					@include lien-souligne(#FFF);
+					text-align: center;
+					margin-top: 70px;
+					font-size: 15px;
+
+					&:after{
+						left: 50%;
+						margin-left: -8px;
+					}
+
+					&.link1{
+						margin-right: 20px;
+					}
+				}
+			}
+
+			.veille-juridique{
 				width: 100%;
 				height: 145px;
-				background: $gris-appli;
-				padding: 20px 0 0 50%;
+				background: $jaune-accueil;
+				padding: 55px 0 10px 0;
 				position: relative;
 				margin-bottom: 10px;
 				transition: background $duration ease;
 				cursor: pointer;
 
-				&:hover {
-					background: $gris-appli - #1D1D1D;
+				float: left;
+				text-align: center;
 
-					&:after{
-						color: $gris-appli - #1D1D1D;
-					}
+				&:hover {
+					background: $jaune-accueil + #1b1b1b;					
 
 					.content>a:after{
 						font-weight: bold;
 					}
 				}
 
-				&:before, &:after{display: none;}
+				&:before{
+					font-size: 24px;
+					line-height: 24px;
+					color:#FFF;
+					position: absolute;
+					top: 22px;
+					margin-left: -12px;
+
+				}
+
+				&:after{
+					position: absolute;
+					top: 0;
+					@include rotate(180);
+					color:$bg-top-footer;
+					font-size: 15px;
+					line-height: 15px;
+					margin-left: -24px;
+
+				}
 
 				.content{
 
-					.img-main{
-						position: absolute;
-						left: -60px;
-						bottom: 0;
-						width: 200px;
-						height: 175px;
-                        background: url(../images/origin/img-main-appli-mobile-2.png) top right;
-                        border:0px;
-						text-decoration: none;
-
-					}
-
-					.img-appli{display: none;}
-
 					h2{
-						width: 160px;
-						margin: 0 0 5px 0;
-						padding: 0 11px 0 0;						
+						margin:0 auto;
+						width: 150px;					
 					}
 
 					> a{
 						
-						width: 120px;						
 						margin: 0 0 0 0;
 						text-align:left;
 
 						&:after{							
-							top: 40px;
-							left: 0;
+							left: 50%;
+							margin-left: -8px;
 						}
 
 					} 
 				}
 			}
 
-			.info-flash-exclu, .veille-juridique{
+			.info-flash-exclu, .cridon-app{
 				width: 145px;
 				float: left;
 				position: relative;
 				text-align: center;
 				height: 176px;
 				padding: 25px 10px 25px 10px;
-				cursor: pointer;
+				cursor: pointer;	
 
-				&:before, &:after{display: none;}
+				&:before{
+					color:#FFF;
+					font-size: 30px;
+					line-height: 30px;
+					top: 25px;
+				}	
+
+				&:after{
+					position: absolute;
+					top: 0;
+					@include rotate(180);
+					color:$bg-top-footer;
+					font-size: 15px;
+					line-height: 15px;
+					margin-left: -24px;
+				}	
+
+				&:hover {
+				
+					.content>a:after{
+						font-weight: bold;
+
+					}
+				}	
 
 				h2{
 					
 					padding: 0;
 				}
+
 				a{	
+					font-size: 15px;
 					&:after{							
-						top: 40px;
+						top: 35px;
 						left: 50%;
 						margin-left: -9px;
 						transition: font-weight $duration/2 ease $duration/4;
 
 					}
 				} 
-
-				&:hover {
-					.content>a:after{
-						font-weight: bold;
-
-					}
-				}
 			}
 
-			.veille-juridique{
-				background: $jaune-accueil;
-				margin-right: 10px;
-				
+			.cridon-app{
+				background: $gris-appli;				
 				display: inline-block;
 
 				a{
 					width: 105px;
 					margin: 0 auto;
 				}
+				
+
 				&:hover {
-					background: $jaune-accueil + #1b1b1b;
+					background: $gris-appli - #1D1D1D;
 
 					&:after{
-						color: $jaune-accueil + #1b1b1b;
+						//color: $gris-appli - #1D1D1D;
+					}
+
+					.content>a:after{
+						font-weight: bold;
 					}
 				}
 				
@@ -1748,11 +1237,10 @@ body.page-template-front-page{
 
 			.info-flash-exclu{
 				background: $text-color;
+				margin-right: 10px;
 
-				h2{
-					padding: 0 10px;
-				}	
 
+				
 				a{
 					width: 98px;
 					margin: 0 auto;
@@ -1761,7 +1249,7 @@ body.page-template-front-page{
 					background: #26548c;
 
 					&:after{
-						color: #26548c;
+						//color: #26548c;
 					}
 
 				}
@@ -1952,995 +1440,12 @@ body.page-template-front-page{
 
 
 
-/*   
+  
 
-                   _     _             _ _     _                              
-    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___ 
-   / _ \ | '__/ __| '_ \| \ \ / / _ \ | | / __| __/ _ \
-  / ___ \| | | (__| | | | |\ V /  __/ | | \__ \ ||  __/
- /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___| 
-                                                                                   
 
-*/   
 
-#content.archive{
-	padding-top: 60px;
 
-	
-
-	#main{		
-
-		#inner-content{			
-
-			#filtres_veilles{
-
-				width: 100%;
-				border-bottom:solid 5px $bg-top-footer;
-				height: auto; 
-				cursor: pointer;
-				//margin-bottom: 20px;
-
-				#tri_matiere{
-					position: relative;
-					line-height: 30px;
-					height: 30px;
-					margin-bottom: 20px;
-
-					>label{
-						color: #b9003f;
-					    font-size: 16px;
-					    text-transform: uppercase;
-					    @extend .do-bo;
-					    line-height: 30px;
-					    vertical-align: middle;
-					}
-
-					span.open{						
-					    color: #2e4867;
-					    display:block;
-					    transform: rotate(90deg);
-					    font-size: 30px;
-					    position: absolute;
-					    right: 0;
-					    top: 0;
-					}
-					span.close{						
-					    color: #2e4867;
-					    display:block;
-					    transform: rotate(45deg) !important;
-					    font-size: 30px;
-					    position: absolute;
-					    right: 0;
-					    top: 0;
-
-					}
-
-					span{
-						visibility: hidden;
-
-						&.active{
-							visibility: visible;
-						}
-					}
-
-				}
-
-				.panel{
-
-					display: none;
-
-					>a {
-						color:$rouge;
-						font-family: $garamond;
-						font-size: 18px;
-						text-decoration: none;
-						border-bottom:solid 1px $rouge;
-						@include transition(all 0.3s);
-
-						&:hover{
-							border-bottom:solid 1px #FFF;
-						}
-					}
-
-					ul{
-						margin: 10px 0 20px 10px;
-						padding: 0;
-
-						>li{
-							margin: 10px 0;
-							padding: 0;
-
-							>label{
-								@extend .do-re;
-								color:$bleu;
-								font-size: 18px;
-
-								&:before{
-									content: '';
-								    width: 10px;
-								    height: 10px;
-								    border: solid 1px #b9003f;
-								    margin-right: 5px;
-								    position: absolute;
-								    display: inline-block;
-								    top: 50%;
-								    margin-top: -5px;
-								    cursor: pointer;
-								    z-index: 2;
-	    							background: transparent;
-	    							@include border-radius(50%);
-	    							@include transition(all 0.3s);
-
-								}
-
-								>input{
-									opacity: 0;
-								}
-
-								&.select{
-
-									&:before{
-										border: solid 1px #b9003f;
-										background: $rouge;
-									}
-
-								}
-							}
-						}
-					}
-					#bt_valider{
-						margin:0 0 20px 10px;
-					}
-
-
-				}
-
-				
-
-				#bt_valider{
-					margin:0 0 20px 10px;
-				}
-
-				
-
-			}
-
-			#filtres_formations{
-
-				width: 100%;
-				float: left;
-				//padding-bottom: 20px;
-				border-bottom:solid 4px $vert;
-				margin-bottom: 10px;
-
-				>div{
-					@extend .do-sm;
-					text-transform: uppercase;
-					color:$bleu;
-					font-size: 20px;
-					line-height: 60px;
-					vertical-align: middle;
-					/*text-decoration: underline;*/
-
-					border-bottom:solid 16px #FFF;
-
-					width: 50%;
-					float: left;
-					text-align: center;
-
-					margin: 0;
-					padding: 0;
-					transition: border $duration ease, color $duration ease;
-
-					cursor: pointer;
-
-					span{
-						border-bottom:solid 1px $bleu;
-					}
-
-					&:hover{
-						text-decoration: none;
-						border-bottom:solid 16px $vert;
-
-						span{
-							border-bottom:solid 1px #FFF;
-						}
-					}
-
-				}
-
-				>div.open{
-					color:$vert;
-					//text-decoration: none;
-					border-bottom:solid 16px $vert;
-
-					span{
-						border-bottom:solid 1px #FFF;
-					}
-				}
-
-
-			}
-
-			.listing{
-
-				margin-top: 40px;
-
-				article{
-
-					margin-bottom: 20px;  
-					//overflow: hidden;
-					
-
-
-					.date{
-						height: 60px;
-						font-size: 25px;
-						@extend .do-re;
-						text-transform: uppercase;
-						text-align: center;
-						background: $vert;
-						line-height: 60px;
-						color:#FFF;
-						position: relative;
-						display: block;
-						margin-bottom: 20px;
-
-						&:before{
-							@include svgicon('icon-angle-bottom', 15px, 15px, $vert);					
-							position:absolute;
-							bottom: -15px;
-							left: 50%;
-							margin-left: -24px;
-							display: block;
-
-						}
-
-						&:after{
-							display: none;
-						}
-
-						.sep{
-
-							display: none;
-						}
-						
-					}
-
-					
-
-					.details{
-
-						float: left;
-						
-
-						.block_left{
-							width: 30px;
-							height: 100px;
-							float: left;
-							
-							/**/
-							margin-right: 20px;
-							
-							.img-cat{
-								width: 30px;
-								height: 30px;
-								margin-right: 20px;
-
-								img{
-									width: 30px;
-									height: 30px;
-								}
-
-							}
-						}
-
-						
-						.block_right{
-							float: right;
-							width: 250px;
-							//overflow: hidden;
-
-							.matiere{
-								@extend .do-bo;
-								color:#FFF;
-								text-transform: uppercase;
-								font-size: 12px;
-								background: $vert;
-								display: inline-block;
-								padding: 0 2px;
-								//margin-bottom: 5px;
-							}
-
-							h2{
-								@extend .do-me;
-								font-size: 22px;
-								line-height: 24px;
-								text-transform: uppercase;
-								color:$vert;
-								display: block;
-								margin: 0;
-								padding: 0;
-
-							}
-
-							.chapeau{
-							    font-size: 15px;
-							    color: $rouge;
-							    font-family: $garamond;
-							    width: 250px;
-							    overflow: hidden;
-							    line-height: 18px;
-							    
-
-							    >a{ display: none;}
-							}
-
-							.extrait{
-								font-family: $helvetica;
-							    font-size: 13px;
-							    line-height: 18px;
-							    width: 250px;
-							    overflow: hidden;
-							    margin-top: 10px;
-							}
-
-							.adresse{
-								
-								font-family: $helvetica-bold;
-								font-size: 12px;
-								color:$bleu;
-								margin: 10px 0 10px 0;
-								line-height: 14px;
-							}
-
-							.mots_cles{
-
-								margin:20px 0 10px 0;
-								padding: 0;
-								height: 18px;
-
-								>li{
-									float: left;
-									padding: 0;
-									margin: 0 20px 0 0;
-									font-family: $helvetica-bold;
-									color:$bleu;
-									font-size: 10px;
-									position: relative;
-									height: 18px;
-									line-height: 18px;
-
-									&:before{
-										content:'';
-										position: absolute;
-										top: 0;
-										right: -10px;
-										width: 1px;
-										height: 18px;
-										background: $bleu;
-
-									}
-
-									&:last-child{
-										&:before{ display: none;}
-									}
-								}
-							}
-
-							>a{
-
-							@include bt-crayon($vert, #FFFFFF);
-							float: left;
-							margin:10px 0 0 0;
-
-						}
-
-						}
-						
-					}
-
-					
-				}
-
-
-			} 
-
-		}
-
-	}
-
-	
-}
-
-#content.archive-vie-cridon{
-	.block_right {width: 100% !important;}
-}
-
-
-#content.archive-cahier{
-
-	 #main #inner-content .listing article{
-
-		.details{
-			width: 100%;
-
-			.block_right{
-				width: 100%;
-
-
-				>h2{ margin-bottom: 5px;}
-
-				> a{
-					color:$rouge;
-					background: none;
-					display: inline-block;
-					width: auto;
-					text-transform: none;
-					font-size: 14px;
-					@extend .do-el;
-					float: none;
-					margin: 0;
-					padding: 0;
-					text-align: left;
-					border-bottom:solid 1px $rouge;
-					height: auto;
-					line-height: 18px;
-
-					&:after{ display: none;}
-
-					&:hover{
-						border-bottom:solid 1px #FFF;
-						color:$rouge;
-					}
-				}
-
-				> ul{
-					width: 100%;
-					margin: 20px 0 0 0;
-					padding: 0 0 0 10px;
-
-					>li{
-						width: 100%;
-						clear: both;
-						//margin: 15px 0;
-						padding: 0;
-
-						line-height: 30px;
-						height: auto;
-
-						display: block;
-
-
-
-						> div{
-							display: inline !important;
-						}
-
-						div.img-cat{
-							width: 30px;
-							height: 30px;
-							margin-right: 10px;
-
-							img{
-								width: 30px;
-								height: 30px;
-								vertical-align: middle;
-							}
-
-						}
-
-						.matiere{
-							top: 0;
-							display: inline-block;
-						}
-
-						> h3{
-							@extend .do-me;
-							color:$bleu;
-							font-size: 14px;
-							//text-transform: uppercase;
-							margin: 0 10px;
-							line-height: 18px;
-							display: block;
-							margin: 0 0 0 44px;
-							text-transform: lowercase;
-
-							&:first-letter{
-								text-transform: uppercase;
-							}
-						}
-
-						>a{
-						 	width: 16px;
-						 	height: 16px;
-						 	position: relative;
-						 	margin-left: 44px;
-						 	display: inline-block;
-						 	text-decoration: none !important;
-
-						 	&:before{
-						 		@include svgicon('icon-pdf', 16px, 16px, $rouge);
-						 		position: absolute;
-						 		top: 0;
-						 		left: 0;
-						 		text-decoration: none!important;
-						 	}
-
-						 	&:hover{
-						 		&:before{
-						 			@include svgicon('icon-pdf', 16px, 16px, $rouge);
-							 		opacity: 0.8;
-							 	}
-						 	}
-						 }
-
-
-					}
-				}
-			}
-		}
-
-	}  
-}
-
-#content.archive-formations{
-	#main #inner-content .listing{
-		margin-top: 10px;
-
-		article:first-of-type .date .sep{
-			display: none;
-
-		}
-
-		&.tab {
-			display: none;
-			&.open {
-				display: block;
-			}
-		}
-
-	}
-
-
-}
-
-.pagination{
-					
-	border-top:solid 4px #e6e6e6;
-	padding: 40px 0;
-	margin: 0;
-
-	a, span{
-		height: 30px;
-		width: 30px;
-		line-height: 30px;
-		padding: 0;
-		margin: 0 10px 0 0;
-
-		@extend .do-me;
-		font-size: 14px;
-		color:$bleu;
-
-		display: inline-block;
-
-		&:hover, &:focus{
-			background: #e6e6e6;
-			color:$bleu;
-			border: none;
-		}
-	}
-
-	a.page-numbers{
-	}
-
-	a.next, a.prev{
-		width: auto;
-		display: none;
-	}
-
-	span.current{
-
-		background: $vert;
-		color:#FFF;
-		position: relative;
-
-		&:before{
-			@include svgicon('icon-angle-right', 15px, 15px, $vert);
-			position: absolute;
-			right: -4px;
-			top: 50%;
-			margin-top: -7px;
-		}
-
-		&:hover{
-			background: $vert;
-			color:#FFF;
-		}
-		
-
-	}
-
-
-}
-
-
-/*
-
-  ____ ___ _   _  ____ _     _____   
- / ___|_ _| \ | |/ ___| |   | ____|  
- \___ \| ||  \| | |  _| |   |  _|    
-  ___) | || |\  | |_| | |___| |___    
- |____/___|_| \_|\____|_____|_____|     
-                                                                               
-
-
-*/
-
-
-body.single, #content.single {
-
-	
-	#inner-content{
-
-		.titre {
-			height: 43px;
-			
-			span{
-				margin: 20px 0;
-			}
-		}
-
-		.sep{
-			height: 4px;
-			background: #e6e6e6;
-			margin: 20px 0;
-			width: 100%;
-			clear: both;
-			position: relative;
-
-			&:before{
-
-				@include svgicon('ico-sep', 17px, 17px, #e6e6e6);
-				position: absolute;
-				top: 0;
-				background: #FFF;
-				left: 50%;
-				margin-left: -30px;
-
-
-				
-			}
-
-
-		}
-
-
-		article{
-
-			padding-top: 10px;
-			padding-bottom: 20px;
-
-			border-bottom:solid 4px #e6e6e6;
-
-			.date{
-				height: 60px;
-				font-size: 25px;
-				@extend .do-re;
-				text-transform: uppercase;
-				text-align: center;
-				background: $vert;
-				line-height: 60px;
-				color:#FFF;
-				position: relative;
-				display: block;
-				margin-bottom: 20px;
-
-				&:before{
-					@include svgicon('icon-angle-bottom', 15px, 15px, $vert);					
-					position:absolute;
-					bottom: -15px;
-					left: 50%;
-					margin-left: -24px;
-					display: block;
-
-				}
-
-				&:after{
-					display: none;
-				}
-			}
-
-
-			.details{
-
-				.block_left{
-					width: 30px;
-					height: 30px;
-					float: left;
-					
-					.img-cat{
-						width: 30px;
-						height: 30px;
-						margin-right: 20px;
-
-						img{
-							width: 30px;
-							height: 30px;
-						}
-
-					}
-				}
-
-				
-				.block_right{
-					float: right;
-					width: calc(100% - 50px);
-
-					.matiere{
-						@extend .do-bo;
-						color:#FFF;
-						text-transform: uppercase;
-						font-size: 12px;
-						background: $vert;
-						display: inline-block;
-						padding: 0 2px;
-						top: -3px;
-						position: relative;
-						//margin-bottom: 5px;
-					}
-
-					h1{
-						@extend .do-me;
-						font-size: 20px;
-						line-height: 20px;
-						text-transform: uppercase;
-						color:$vert;
-						display: block;
-						margin: 0;
-						padding: 0;
-						text-align:left;
-
-						&:before{
-							display: none;
-						}
-
-					}
-
-					.chapeau{
-					    font-size: 15px;
-					    color: $rouge;
-					    font-family: $garamond;
-					    width: 100%;
-					    line-height: 18px;
-					    margin-bottom: 10px;
-					}
-				}
-
-				.block_full{
-
-					clear: both;
-					width: 100%;
-
-					
-
-					.content{
-						font-family: $helvetica;
-					    font-size: 13px;
-					    line-height: 18px;
-					    color:$bleu;
-
-					    /*a{
-					    	color:$rouge;
-					    	text-decoration: underline;
-
-					    	&:hover{
-					    		text-decoration: none;
-					    	}
-					    }
-
-					    s{
-							background: $jaune;
-							text-decoration: none;
-
-						}
-
-					    h2, h3{
-					    	
-					    	font-size: 15px;
-					    	line-height: 18px;					    	
-					    	text-transform: uppercase;
-					    	
-					    	margin: 0;
-					    	position: relative;
-
-					    	
-					    }
-
-					    h2{
-					    	color:$bleu;
-					    	@extend .do-bo;
-					    	padding: 10px 0;
-					    	&:after{
-					    		content:'';
-								width: 40px;
-								height: 1px;
-								background: $bleu;
-								position: absolute;
-								left: 0;
-								bottom: 0;
-					    	}
-				    	}
-
-				    	h3{
-				    		color:$vert;
-				    		@extend .do-me;
-				    		margin-left: 20px;
-				    	}
-
-					    >p{
-					    	margin: 15px 0;
-					    }
-
-					    h3 + p {
-					    	color:$vert;
-                            margin: 0 0 0 20px;
-                        }
-
-					    >ul, ol{
-
-					    	margin: 0;
-					    	padding: 0;
-
-					    	>li{
-					    		position: relative;
-					    		display: block;
-					    		vertical-align: middle;
-					    		line-height: 14px;
-
-					    		padding: 3px 0 0 20px;
-					    		margin: 0 0 5px 0;
-
-
-					    		&:before{
-					    			content:'';
-					    			height: 8px;
-					    			width: 8px;
-					    			border:solid 1px $rouge;
-					    			@include border-radius(25px);
-					    			display: block;
-					    			position: absolute;
-					    			left: 0;
-					    			top: 50%;
-					    			margin-top: -5px;
-
-					    		}
-
-					    	}
-					    }*/
-					}
-					.adresse{
-						font-family: $helvetica-bold;
-						font-size: 12px;
-						color:$bleu;
-						margin: 10px 0 10px 0;
-						line-height: 14px;
-					}
-
-					.mots_cles{
-
-						margin:20px 0 10px 0;
-						padding: 0;
-						height: 18px;
-
-						>li{
-							float: left;
-							padding: 0;
-							margin: 0 20px 0 0;
-							font-family: $helvetica-bold;
-							color:$bleu;
-							font-size: 10px;
-							position: relative;
-							height: 18px;
-							line-height: 18px;
-
-							&:before{
-								content:'';
-								position: absolute;
-								top: 0;
-								right: -10px;
-								width: 1px;
-								height: 18px;
-								background: $bleu;
-
-							}
-
-							&:last-child{
-								&:before{ display: none;}
-							}
-						}
-					}
-
-					.documents-liees{
-						width: 100%;
-						padding: 20px;
-						margin-top: 20px;
-						background: #e6e6e6;
-
-						>ul{
-							margin: 0;
-							padding: 0;
-
-							>li{
-								margin: 0;
-								padding: 3px 0;
-
-								>a{
-									@extend .do-re;
-									font-size: 14px;
-									color:$bleu;
-									text-decoration: none;
-									
-									&:hover{
-										//text-decoration: underline;
-										//@extend .do-me;
-									}
-
-									/* &:before{
-										content:'|';
-										position: relative;
-										left: -10px;
-									} */
-
-								}
-							}
-						}
-
-					}					
-
-				}
-			}
-
-		}
-
-		> a{
-			/*
-			background: $vert;
-			display: block;
-			color:#FFF;*/
-
-			@include bt-rectangle($vert, #FFF);
-			width: 70px;
-			height: 30px;
-			line-height: 30px;
-			text-align: center;
-			padding: 0;
-            margin: 20px auto 40px calc(50% - 35px);
-
-            &:before{
-    			@include svgicon('icon-angle-right', 15px, 15px, $vert);
-    			right: inherit;
-    			left: -5px;
-    			@include rotate(180);
-    		}
-		}
-
-
-	}
-
-
-
-
-}
-
-#content.single-vie-cridon{
-	
-	#inner-content article .details .block_full, #inner-content article .details .block_right {width: 100%;}
-	
-}
-
-
-
+/* CONTENU */
 
 #content.page,
 #content.archive,
@@ -3794,12 +2299,7 @@ a.logoJP:hover{opacity: 1;
 				}
 
 				&:after {
-					/*content: "";
-					position: absolute;
-					top: 0;
-					left: 50px;
-					display: block;
-					@include sprite($angle-before-links-footer-mobile);*/
+					
 
 					@include svgiconafter('icon-angle-bottom', 15px, 15px, #e6e6e6);					
 					position:absolute;
@@ -3889,6 +2389,46 @@ a.logoJP:hover{opacity: 1;
 			.descriptif {
 				display: none;
 			}
+			.partenaires{
+				
+				margin-top: 40px;
+
+				> div{
+					font-size: 18px;
+					text-align:center;
+					@extend .do-re;
+					color:#FFF;
+
+					span{
+						@extend .do-bo;
+					}
+				}
+
+				ul{
+					margin: 0;
+					padding: 0;
+					overflow: hidden;
+					width: 262px;
+					margin:10px auto 0 auto;
+
+					li{
+						margin: 0;
+						padding: 0;
+						float: left;
+						float: left;
+
+						&:first-child{
+							margin-right: 20px;
+						}
+
+						img{
+							height: 25px;
+						}
+					}
+				}
+				
+				
+			}
 		}
 		/*&:after {
 			content: "";
@@ -3960,89 +2500,27 @@ a.logoJP:hover{opacity: 1;
 
 }
 
-	/*
-	if you checked out the link above:
-	http://www.alistapart.com/articles/organizing-mobile/
-	you'll want to style the footer nav
-	a bit more in-depth. Remember to keep
-	it simple because you'll have to
-	override these styles for the desktop
-	view.
-	*/
-	.footer-links {
-
-		ul {
-
-			li {}
-
-		}
-
-	} /* end .footer-links */
+	
 
 
-	.copyright {
-		color: $white;
-		margin: 0;
-		@extend .do-re;
-		b {
-			@extend .do-bo;
-		}
-		b, span {
-			text-transform: uppercase;
-		}
-		a:hover{
+.copyright {
+	color: $white;
+	margin: 0;
+	@extend .do-re;
+	b {
+		@extend .do-bo;
+	}
+	b, span {
+		text-transform: uppercase;
+	}
+	a:hover{
 
-			
-
-		}
+		
 
 	}
 
-	
+}
 
-	
-
-
-/*************************************************************************************************************
-WORDPRESS BODY CLASSES
-style a page via class
-*************************************************************************************************************/
-
-.rtl {}                           /* for sites that are read right to left (i.e. hebrew) */
-.home {}                          /* home page */
-.blog {}                          /* blog template page */
-.archive {}                       /* archive page */
-.date {}                          /* date archive page */
-	.date-paged-1 {}                /* replace the number to the corresponding page number */
-.search {}                        /* search page */
-	.search-results {}              /* search result page */
-	.search-no-results {}           /* no results search page */
-	.search-paged-1 {}              /* individual paged search (i.e. body.search-paged-3) */
-.error404 {}                      /* 404 page */
-.single {}                        /* single post page */
-	.postid-1 {}                    /* individual post page by id (i.e. body.postid-73) */
-	.single-paged-1 {}              /* individual paged single (i.e. body.single-paged-3) */
-.attachment {}                    /* attatchment page */
-	.attachmentid-1 {}              /* individual attatchment page (i.e. body.attachmentid-763) */
-	.attachment-mime-type {}        /* style mime type pages */
-.author {}                        /* author page */
-	.author-nicename {}             /* user nicename (i.e. body.author-samueladams) */
-	.author-paged-1 {}              /* paged author archives (i.e. body.author-paged-4) for page 4 */
-.category {}                      /* category page */
-	.category-1 {}                  /* individual category page (i.e. body.category-6) */
-	.category-paged-1 {}            /* replace the number to the corresponding page number */
-.tag {}                           /* tag page */
-	.tag-slug {}                    /* individual tag page (i.e. body.tag-news) */
-	.tag-paged-1 {}                 /* replace the number to the corresponding page number */
-.page-template {}                 /* custom page template page */
-	.page-template-page-php {}      /* individual page template (i.e. body.page-template-contact-php */
-	.page-paged-1 {}                /* replace the number to the corresponding page number */
-	.page-parent {}                 /* parent page template */
-	.page-child {}                  /* child page template */
-	.parent-pageid-1 {}             /* replace the number to the corresponding page number */
-.logged-in {}                     /* if user is logged in */
-.paged {}                         /* paged items like search results or archives */
-	.paged-1 {}                     /* individual paged (i.e. body.paged-3) */
 
 
 

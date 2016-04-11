@@ -1969,6 +1969,25 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
     public function manageCollaborator($notary, $data)
     {
+        // check id collaborator
+        if (isset($data['collaborator_id']) && intval($data['collaborator_id']) > 0) { // update
+            $this->updateCollaborator($data);
+        } else { // create
+            $this->addCollaborator($notary, $data);
+        }
+
+    }
+
+    /**
+     * Add new collaborator
+     *
+     * @param mixed $notary
+     * @param array $data
+     * @return void
+     * @throws Exception
+     */
+    public function addCollaborator($notary, $data)
+    {
         global $cri_container;
 
         // collaborator data
@@ -2020,8 +2039,93 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $collaborator->id = $collaboratorId;
             $collaborator->crpcen = $notary->crpcen;
             $this->updateCriNotaireWpUserId(array($collaborator));
-        }
 
+            // manage roles
+            $user = $this->getAssociatedUserByNotaryId($collaboratorId);
+            // add posted roles from data
+            foreach (Config::$notaryRoles as $role => $label) {
+                if (isset($data[$role])) {
+                    $user->add_role($role);
+                }
+            }
+            // add default role (Acs : accès aux bases de connaissance (par défaut par tout le monde))
+            $user->add_role(CONST_NOTAIRE_ROLE);
+        }
+    }
+
+    /**
+     * Update collaborator data
+     *
+     * @param array $data
+     * @return void
+     */
+    public function updateCollaborator($data)
+    {
+        // collaborator data
+        $collaborator                              = array();
+        $collaborator['first_name']                = isset($data['collaborator_first_name']) ? esc_sql($data['collaborator_first_name']) : '';
+        $collaborator['last_name']                 = isset($data['collaborator_last_name']) ? esc_sql($data['collaborator_last_name']) : '';
+        $collaborator['email_adress']              = isset($data['collaborator_email']) ? esc_sql($data['collaborator_email']) : '';
+        $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
+        $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
+        $collaborator['id_fonction_collaborateur'] = isset($data['collaborator_function']) ? esc_sql($data['collaborator_function']) : 0;
+
+        // update cri_notaire data
+        $collaborator['id'] = $data['collaborator_id'];
+        if ($this->save($collaborator)) { // successful update
+            // manage roles
+            $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
+            // reset all roles
+            $this->resetUserRoles($user);
+
+            // add new posted roles in data
+            foreach (Config::$notaryRoles as $role => $label) {
+                if (isset($data[$role])) {
+                    $user->add_role($role);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get associated user by notary id
+     *
+     * @param int $id
+     * @return void|WP_User
+     * @throws Exception
+     */
+    public function getAssociatedUserByNotaryId($id)
+    {
+        // get notary data
+        $notary = mvc_model('QueryBuilder')->findOne('notaire',
+                                                     array(
+                                                         'fields' => 'id, id_wp_user, crpcen',
+                                                         'conditions' => 'id = ' . $id,
+                                                     )
+        );
+        // get notary associated user
+        if (is_object($notary) && $notary->id_wp_user) {
+            $user = new WP_User($notary->id_wp_user);
+
+            // check if user is a WP_user vs WP_error
+            if ($user instanceof WP_User && is_array($user->roles)) {
+                return $user;
+            }
+        }
+        return;
+    }
+
+    /**
+     * Rest all user roles defined in \Config::$notaryRoles
+     *
+     * @param mixed $user
+     * @return void
+     */
+    protected function resetUserRoles($user)
+    {
+        foreach (Config::$notaryRoles as $role => $label) {
+            $user->remove_role($role);
+        }
     }
 
     /**
@@ -2206,34 +2310,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
 
         return false;
-    }
-
-    /**
-     * Get associated user by notary id
-     *
-     * @param int $id
-     * @return void|WP_User
-     * @throws Exception
-     */
-    public function getAssociatedUserByNotaryId($id)
-    {
-        // get notary data
-        $notary = mvc_model('QueryBuilder')->findOne('notaire',
-                                                     array(
-                                                         'fields' => 'id, id_wp_user, crpcen',
-                                                         'conditions' => 'id = ' . $id,
-                                                     )
-        );
-        // get notary associated user
-        if (is_object($notary) && $notary->id_wp_user) {
-            $user = new WP_User($notary->id_wp_user);
-
-            // check if user is a WP_user vs WP_error
-            if ($user instanceof WP_User && is_array($user->roles)) {
-                return $user;
-            }
-        }
-        return;
     }
 
     /**
@@ -2509,5 +2585,31 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // status code
             return CONST_STATUS_CODE_GONE;
         }
+    }
+
+    /**
+     * Get list of office members
+     *
+     * @param mixed $notary
+     * @return mixed
+     * @throws Exception
+     */
+    public function listOfficeMembers($notary)
+    {
+        $options = array(
+            'conditions' => array(
+                'cn.crpcen'      => $notary->crpcen,
+                'cu.user_status' => CONST_STATUS_ENABLED
+            ),
+            'synonym'    => 'cn',
+            'join'       => array(
+                array(
+                    'table'  => 'users cu',
+                    'column' => ' cn.id_wp_user = cu.ID'
+                )
+            )
+        );
+
+        return mvc_model('QueryBuilder')->findAll('notaire', $options, 'cn.id');
     }
 }
