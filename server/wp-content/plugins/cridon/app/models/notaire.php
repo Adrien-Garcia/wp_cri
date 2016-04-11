@@ -730,10 +730,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                 // prepare multi rows data values
                 foreach ($newNotaires as $notaire) {
-                    // import only authorized category
-                    // @see https://trello.com/c/P81yRyRM/21-s-43-import-des-notaires-et-creation-des-etudes-il-y-a-deux-notaires-avec-le-meme-crpcen-qui-n-ont-pas-les-memes-infos-pour-l-et
-                    if (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG])
-                        && !in_array(strtolower($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]), Config::$notImportedList)) {
+                    // import only if empty YIDNOT_0 : to be sure for new Notary data
+                    if (empty($this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT])) {
 
                         // format date
                         $dateModified = '0000-00-00';
