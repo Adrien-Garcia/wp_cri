@@ -45,7 +45,9 @@ class NotairesController extends BasePublicController
 
         // set notary id in params
         // needed to retrieve notary data by the MVC system
-        $this->params['id'] = $this->current_notaire->id;
+        if (!in_array($this->params['action'], Config::$exceptedActionForRedirect301)) {
+            $this->params['id'] = $this->current_notaire->id;
+        }
     }
 
     /**
@@ -584,6 +586,54 @@ class NotairesController extends BasePublicController
         $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
         CriRenderView('contentcollaborateur', $vars,'notaires');
         die();
+    }
+
+    /**
+     * Delete Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/deletecollaborateur.php
+     *
+     * @return void
+     */
+    public function deletecollaborateur()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+
+        // collaborator id
+        $collaborator_id = $this->params['id'];
+
+        // check if user can manage collaborator
+        if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)
+            || !$this->tools->isSameOffice($collaborator_id, $this->current_notaire)
+        ) {
+            // redirect to profil page
+            $this->redirect(mvc_public_url(
+                                array(
+                                    'controller' => 'notaires',
+                                    'action'     => 'profil'
+                                )
+                            )
+            );
+        }
+
+        // default message
+        $flash_message = CONST_CONFIRM_DEL_MSG;
+
+        // submit form
+        if (isset($_REQUEST['confirmdelete'])) {
+            if ($this->model->deleteCollaborator($collaborator_id)) {
+                $flash_message = CONST_DEL_SUCCESS_MSG;
+            }
+        }
+
+        // set collaborator id
+        $this->set('collaborator_id', $collaborator_id);
+
+        // set flash message
+        $this->set('flash_message', $flash_message);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
     }
 
     /**

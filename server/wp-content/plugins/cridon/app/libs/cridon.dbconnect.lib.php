@@ -475,6 +475,158 @@ interface DBConnect
      */
     const ZQUEST_ZTXTQUEST_0 = 'ZTXTQUEST_0';
 
+    /****************** Table YNOTAIRE Structure *******************/
+    /**
+     * @var string : Identifi unique
+     */
+    const YIDCOLLAB = 'YIDCOLLAB_0';
+
+    /**
+     * @var string : N° CRPCEN
+     */
+    const YCRPCEN = 'YCRPCEN_0';
+
+    /**
+     * @var string : Nom
+     */
+    const CNTLNA = 'CNTLNA_0';
+
+    /**
+     * @var string : Code interlocuteur
+     */
+    const CCNCRM = 'CCNCRM_0';
+
+    /**
+     * @var string : Identifiant notaire sur Site
+     */
+    const YIDNOT = 'YIDNOT_0';
+
+    /**
+     * @var string : Prénom
+     */
+    const CNTFNA = 'CNTFNA_0';
+
+    /**
+     * @var string : Fonction
+     */
+    const CNTFNC = 'CNTFNC_0';
+
+    /**
+     * @var string : libelle fonction
+     */
+    const YTXTFNC = 'YTXTFNC_0';
+
+    /**
+     * @var string : E-Mail
+     */
+    const WEB = 'WEB_0';
+
+    /**
+     * @var string : Téléphone
+     */
+    const TEL = 'TEL_0';
+
+    /**
+     * @var string : Portable
+     */
+    const CNTMOB = 'CNTMOB_0';
+
+    /**
+     * @var string : Fax
+     */
+    const FAX = 'FAX_0';
+
+    /**
+     * @var string : Date de fin de présence
+     */
+    const YFINPRE = 'YFINPRE_0';
+
+    /**
+     * @var string : Mot de passe Web
+     */
+    const YMDPWEB = 'YMDPWEB_0';
+
+    /**
+     * @var string : Identifiant  appel
+     */
+    const ZMDPTEL = 'ZMDPTEL_0';
+
+    /**
+     * @var string : Adresse 1 office
+     */
+    const ADDLIG1 = 'ADDLIG1_0';
+
+    /**
+     * @var string : Adresse 2 office
+     */
+    const ADDLIG2 = 'ADDLIG2_0';
+
+    /**
+     * @var string : Adresse 3 office
+     */
+    const ADDLIG3 = 'ADDLIG3_0';
+
+    /**
+     * @var string : Code postal
+     */
+    const POSCOD = 'POSCOD_0';
+
+    /**
+     * @var string : Ville
+     */
+    const CTY = 'CTY_0';
+
+    /**
+     * @var string : Téléphone office
+     */
+    const TELOFF = 'TELOFF_0';
+
+    /**
+     * @var string : Fax office
+     */
+    const FAXOFF = 'FAXOFF_0';
+
+    /**
+     * @var string : E-mail office
+     */
+    const WEBOFF = 'WEBOFF_0';
+
+    /**
+     * @var string : ????
+     */
+    const YSREECR = 'YSREECR_0';
+
+    /**
+     * @var string : ????
+     */
+    const YSRETEL = 'YSRETEL_0';
+
+    /**
+     * @var string : Statut de l’enregistrement
+     */
+    const YTRAITEE = 'YTRAITEE_0';
+
+    /**
+     * @var string : ????
+     */
+    const YDDEMDPTEL = 'YDDEMDPTEL_0';
+
+    /**
+     * @var string : ????
+     */
+    const YDDEMDPWEB = 'YDDEMDPWEB_0';
+
+    /**
+     * @var string : Flag erreur
+     */
+    const YERR = 'YERR_0';
+
+    /**
+     * @var string : Message de l’erreur
+     */
+    const YMESSERR = 'YMESSERR_0';
+    /****************** /Table YNOTAIRE Structure *******************/
+
 
     /**
      * Get instance

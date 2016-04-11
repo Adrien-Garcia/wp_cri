@@ -729,6 +729,36 @@ if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
     define( 'CONST_FACTURATION_PAGE_ID', 1515 );
 }
 
+// Start of block delete collaborator
+if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
+    define( 'CONST_CONFIRM_DEL_MSG', 'Confirmer la suppression du collaborateur ?' );
+}
+if ( !defined( 'CONST_DEL_SUCCESS_MSG' ) ) {
+    define( 'CONST_DEL_SUCCESS_MSG', 'Collaborateur supprimé' );
+}
+if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
+    define( 'CONST_DELCOLLAB_ERROR', 'Suppression collaborateur interrompu le : %s' );
+}
+// End of block delete collaborator
+
+// ERP YNOTAIRE table
+if ( !defined( 'CONST_DB_TABLE_YNOTAIRE' ) ) {
+    switch ($env) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_YNOTAIRE', $prefix.'YNOTAIRE' );
+}
+
 // Onglet
 if ( !defined( 'CONST_ONGLET_DASHBOARD' ) ) {
     define( 'CONST_ONGLET_DASHBOARD', 1 );

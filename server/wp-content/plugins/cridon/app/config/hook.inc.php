@@ -404,7 +404,7 @@ function custom_redirect_301($wp)
             && isset($vars['mvc_action'])
             && isset($vars['mvc_id']) // id notary is set
             && $vars['mvc_controller'] == 'notaires' // controller "notaires"
-            && $vars['mvc_action']
+            && $vars['mvc_action'] && !in_array($vars['mvc_action'], Config::$exceptedActionForRedirect301)
         ) {
             // redirect 301 for an url like [site_url]/notaires/{id} to [site_url]/notaires
             // and [site_url]/notaires/{id}/{action} to [site_url]/notaires/{action}

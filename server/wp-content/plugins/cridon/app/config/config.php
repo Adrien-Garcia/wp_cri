@@ -453,6 +453,13 @@ class Config {
     public static $allowedNotaryFunction = array(1, 2, 3, 6, 7, 8, 9, 10);
 
     /**
+     * @var array list of excepted actions for redirect 301
+     */
+    public static $exceptedActionForRedirect301 = array(
+        'deletecollaborateur',
+    );
+
+    /**
      * @var array list of protected pages allowed only for notaries with a fonction inside $allowedNotaryFunction
      */
     public static $protected_pages = array(
