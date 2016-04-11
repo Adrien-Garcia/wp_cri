@@ -428,19 +428,39 @@ class Config {
     );
 
     public static $pricesLevelsVeilles = array(
-        '2' => array(
-            '5' => 7900,
-            '2' => 4800,
-            '1' => 2500,
+        0 => array(
+            '1' => array(
+                0
+            ),
+            '2' => array(
+                '5' => 7900,
+                '2' => 4800,
+                '1' => 2500,
+            ),
+            '3' => array (
+                '5' => 9900,
+                '2' => 5900,
+                '1' => 3500,
+            )
         ),
-        '3' => array (
-            '5' => 9900,
-            '2' => 5900,
-            '1' => 3500,
+        1 => array(
+            '1' => array(
+                0
+            ),
+            '2' => array(
+                '5' => 9000,
+                '2' => 5000,
+                '1' => 3000,
+            ),
+            '3' => array (
+                '5' => 10000,
+                '2' => 6000,
+                '1' => 4000,
+            )
         )
     );
 
-    public static $daysTrialVeille = 15;
+    public static $motiveImmediateUpdate = array(2,3,4);
 
     // Notification for posted question
     public static $mailBodyQuestionConfirmation  = array(

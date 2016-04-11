@@ -164,6 +164,23 @@ if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
     }
     define( 'CONST_DB_TABLE_NOTAIRE', $prefix.'ZEXPNOTV' );
 }
+if ( !defined( 'CONST_DB_TABLE_ABONNE' ) ) {
+    switch ($env) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_ABONNE', $prefix.'YABONNE' );
+}
+
 
 // import CSV notaire file path
 if ( !defined( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH' ) ) {
@@ -427,7 +444,6 @@ if ( !defined( 'CONST_QUEST_UPDATED_IN_X3' ) ) {
 if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
     define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
 }
-
 if ( !defined( 'CONST_QUEST_ANSWERED' ) ) {
     define( 'CONST_QUEST_ANSWERED', 4 );
 }
@@ -460,13 +476,32 @@ if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG', 'Import GED du %s : le fichier PDF associé au CSV de la question "%s" est illisible' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG' ) ) {
-    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : repertoire d\'import vide' );
+    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : Aucun document traité' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG', 'Import GED du %s : aucune question n\'est associée au document suivant "%s"' );
 }
 if ( !defined( 'CONST_IMPORT_GED_GENERIC_ERROR_MSG' ) ) {
     define( 'CONST_IMPORT_GED_GENERIC_ERROR_MSG', 'Erreur survenue lors de l\'import de la GED' );
+}
+// Cridonline const
+if ( !defined( 'CONST_CRIDONLINE_A_TRANSMETTRE_ERP' ) ) {
+    define( 'CONST_CRIDONLINE_A_TRANSMETTRE_ERP', 1 );
+}
+if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_A_TRANSMETTRE_ERP' ) ) {
+    define( 'CONST_CRIDONLINE_ECHEANCE_A_TRANSMETTRE_ERP', 0 );
+}
+if ( !defined( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE' ) ) {
+    define( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE', 2 );
+}
+if ( !defined( 'CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS' ) ) {
+    define( 'CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS', 365 );
+}
+if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_MONTH' ) ) {
+    define( 'CONST_CRIDONLINE_ECHEANCE_MONTH', 2 );
+}
+if ( !defined( 'CONST_EXPORT_CRIDONLINE_ERROR' ) ) {
+    define( 'CONST_EXPORT_CRIDONLINE_ERROR', 'Export cridonline interrompu le : %s' );
 }
 
 if (!defined('CONST_CONNECTION_FAILED')) {

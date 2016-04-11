@@ -811,7 +811,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // init list of values to be updated
             $updateSigleValues = $updateOfficenameValues = $updateAdress1Values = $updateAdress2Values = $updateAdress3Values = array();
             $updateCpValues = $updateCityValues = $updateEmail1Values = $updateEmail2Values = $updateEmail3Values = array();
-            $updateTelValues = $updateFaxValues = array();
+            $updateTelValues = $updateFaxValues = $updateLevelValues = $updateStartDateValues = $updateEndDateValues = array();
+            $updateEcheanceDateValues = $updateNextLevelValues = array();
 
             // list of new data
             $newEtudes = $this->getNewEtudeList();
@@ -828,7 +829,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $queryStart = " UPDATE `{$etudeTable}` ";
                 $queryEnd   = ' END ';
 
-                foreach(mvc_model('etude')->find() as $currentData) {
+                $options = array('group'=>'Etude.crpcen');
+
+                foreach(mvc_model('etude')->find($options) as $currentData) {
                     $key = $currentData->crpcen;
 
                     // start optimisation
@@ -872,6 +875,21 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         if (isset($newData[$adapter::NOTAIRE_OFFICEFAX]))
                             $updateFaxValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
 
+                        if (isset($newData[$adapter::NOTAIRE_YNIVEAU_0]) && $newData[$adapter::NOTAIRE_YNIVEAU_0] < $currentData->subscription_level){
+                            if (isset($newData[$adapter::NOTAIRE_YVALDEB_0]) && date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0])) >= $currentData->start_subscription_date){
+                                if (!empty($newData[$adapter::NOTAIRE_YMOTIF_0])){
+                                    if (in_array($newData[$adapter::NOTAIRE_YMOTIF_0],Config::$motiveImmediateUpdate)
+                                        && isset($newData[$adapter::NOTAIRE_YVALFIN_0]) && isset($newData[$adapter::NOTAIRE_YDATECH_0])){
+                                        $updateLevelValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                        $updateStartDateValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0]))) . "' ";
+                                        $updateEndDateValues[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALFIN_0]))) . "' ";
+                                        $updateEcheanceDateValues[]  = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YDATECH_0]))) . "' ";
+                                    } else {
+                                        $updateNextLevelValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                    }
+                                }
+                            }
+                        }
                     }
                     // end optimisation
                 }
@@ -941,6 +959,45 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                     $this->importSuccess = true;
                 }
+                if (count($updateLevelValues) > 0) {
+                    // subscription_level
+                    $etudeQuery = ' SET `subscription_level` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateLevelValues);
+                    $etudeQuery .= ' ELSE `subscription_level` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
+                if (count($updateStartDateValues) > 0) {
+                    // start_subscription_date
+                    $etudeQuery = ' SET `start_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateStartDateValues);
+                    $etudeQuery .= ' ELSE `start_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
+                if (count($updateEndDateValues) > 0) {
+                    // end_subscription_date
+                    $etudeQuery = ' SET `end_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEndDateValues);
+                    $etudeQuery .= ' ELSE `end_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
+                if (count($updateEcheanceDateValues) > 0) {
+                    // echeance_subscription_date
+                    $etudeQuery = ' SET `echeance_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEcheanceDateValues);
+                    $etudeQuery .= ' ELSE `echeance_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                }
+                if (count($updateNextLevelValues) > 0) {
+                    // next_subscription_level
+                    $etudeQuery = ' SET `next_subscription_level` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateNextLevelValues);
+                    $etudeQuery .= ' ELSE `next_subscription_level` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
             }
 
             // insert new data
@@ -992,7 +1049,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     /**
-     * Set notaire role
+     * Set role for all notary
      *
      * @return void
      */
@@ -1054,6 +1111,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // list of existing users
                 $users = $criTools->getWpUsers();
 
+                // init list of new notary user
+                $newNotaryUsers = array();
+
                 foreach ($notaires as $notaire) {
                     // unique key
                     $uniqueKey = $notaire->crpcen . $notaire->web_password;
@@ -1082,6 +1142,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         $insertValues[] = $value;
 
+                        // fill list of new notary users
+                        $newNotaryUsers[] = $notaire;
+
                     } else { // prepare the bulk update query
                         if ($notaire->id_wp_user) {
                             // pwd
@@ -1107,6 +1170,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                     // update cri_notaire.id_wp_user
                     $this->updateCriNotaireWpUserId($notaires);
+
+                    // set new notaries roles
+                    $this->setNewNotaireRole($newNotaryUsers);
+
+                    // disable admin bar for new notaries
+                    $this->disableNotariesAdminBar($newNotaryUsers);
 
                     $this->importSuccess = true;
                 }
@@ -1149,10 +1218,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                     $this->importSuccess = true;
                 }
-
-                // set notaire role
-                // should be execute after cri_notaire.id_wp_user was set
-                $this->setNotaireRole();
             }
         } catch(Exception $e) {
             // write into logfile
@@ -1195,6 +1260,336 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             writeLog($e, 'notaire.log');
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur mise à jour id_wp_user');
+        }
+    }
+
+
+    public function veillesSubscriptionManagement(){
+        try {
+            $options= array(
+                'conditions' => array(
+                    'Etude.a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                ),
+                'group' => 'Etude.crpcen'
+            );
+            $etudes   = mvc_model('Etude')->find($options);
+            if (count($etudes)>0){
+                // set adapter
+                switch (strtolower(CONST_IMPORT_OPTION)) {
+                    case self::IMPORT_ODBC_OPTION:
+                        $this->adapter = CridonODBCAdapter::getInstance();
+                        break;
+                    case self::IMPORT_OCI_OPTION:
+                        //if case above did not match, set OCI
+                        $this->adapter = CridonOCIAdapter::getInstance();
+                        break;
+                }
+                // bloc de requette
+                $queryBloc = array();
+                // adapter instance
+                $adapter = $this->adapter;
+                // list des id question pour maj cri_question apres transfert
+                $eList = array();
+
+                // requete commune
+                $queryStart  = " INTO " . CONST_DB_TABLE_ABONNE;
+                $queryStart .= " (";
+                $queryStart .= $adapter::YABONNE_YIDABONNE_0 . ", "; // YABONNE_YIDABONNE_0
+                $queryStart .= $adapter::YABONNE_YCRPCEN_0 . ", "; // YABONNE_YCRPCEN_0
+                $queryStart .= $adapter::YABONNE_YNIVEAU_0 . ", ";   // YABONNE_YNIVEAU_0
+                $queryStart .= $adapter::YABONNE_YDATE_0 . ", ";   // YABONNE_YDATE_0
+                $queryStart .= $adapter::YABONNE_YSTATUT_0 . ", ";   // YABONNE_YSTATUT_0
+                $queryStart .= $adapter::YABONNE_YTARIF_0 . ", ";   // YABONNE_YTARIF_0
+                $queryStart .= $adapter::YABONNE_YVALDEB_0 . ", ";   // YABONNE_YVALDEB_0
+                $queryStart .= $adapter::YABONNE_YVALFIN_0 . ", ";   // YABONNE_YVALFIN_0
+                $queryStart .= $adapter::YABONNE_YDATECH_0 . ", ";   // YABONNE_YDATECH_0
+                $queryStart .= $adapter::YABONNE_YTRAITEE_0 . ", ";   // YABONNE_YTRAITEE_0
+                $queryStart .= $adapter::YABONNE_YERR_0 . ", ";   // YABONNE_YERR_0
+                $queryStart .= $adapter::YABONNE_YMESSERR_0;    // YABONNE_YMESSERR_0
+                $queryStart .= ") ";
+                $queryStart .= " VALUES ";
+
+                // complement requete selon le type de BDD
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a bulk insert in Oracle SQL
+                         INSERT ALL
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                        SELECT * FROM dual;
+                         */
+                        $updateTimestamp = time();
+                        foreach ($etudes as $etude) {
+                            // remplit la liste des études
+                            $eList[] = $etude->crpcen;
+
+                            $value  = $queryStart;
+                            $value .= "(";
+
+                            $value .= "'" . $etude->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
+                            $value .= "'" . $etude->crpcen. "', "; // YABONNE_YCRPCEN_0
+                            $value .= "'" . $etude->subscription_level. "', "; // YABONNE_YNIVEAU_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATE_0
+                            $value .= "'1',"; // YABONNE_YSTATUT_0
+                            $value .= "'" . $etude->subscription_price . "', "; // YABONNE_YTARIF_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALDEB_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->end_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALFIN_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->echeance_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATECH_0
+                            $value .= "'0',"; // YABONNE_YTRAITEE_0
+                            $value .= "'0',"; // YABONNE_YERR_0
+                            $value .= "' '"; // YABONNE_YMESSERR_0
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT ALL ';
+                            $query .= implode(' ', $queryBloc);
+                            $query .= ' SELECT * FROM dual';
+                            writeLog($query, 'query_export.log');
+                        }
+                        break;
+                }
+            }
+            // execution requete
+            if (!empty($query)) {
+                if ($result = $this->adapter->execute($query) && !empty($eList)) {
+                    // update cri_etude.a_transmettre
+                    $sql = " UPDATE ". mvc_model('Etude')->table." SET a_transmettre = 0 WHERE crpcen IN (" . implode(', ', $eList) . ")";
+                    $this->wpdb->query($sql);
+                } else {
+                    // log erreur
+                    $error = sprintf(CONST_EXPORT_CRIDONLINE_ERROR, date('d/m/Y à H:i:s'));
+                    writeLog($error, 'veillesSubscriptionManagement.log','Cridon - Export Cridonline');
+
+                    // send email
+                    reportError(CONST_EXPORT_CRIDONLINE_ERROR, $error);
+                }
+            }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch (Exception $e) {
+            // write into logfile
+            writeLog($e, 'veillesSubscriptionManagement.log');
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur mise à jour infos abonnement veilles');
+        }
+    }
+
+    public function cridonlineEcheance (){
+        try {
+            $options= array(
+                'conditions' => array(
+                    'Etude.transmis_echeance' => CONST_CRIDONLINE_ECHEANCE_A_TRANSMETTRE_ERP,
+                    'Etude.echeance_subscription_date <=' => date('Y-m-d')
+                ),
+                'group' => 'Etude.crpcen'
+            );
+            $etudes   = mvc_model('Etude')->find($options);
+            if (count($etudes)>0){
+                // set adapter
+                switch (strtolower(CONST_IMPORT_OPTION)) {
+                    case self::IMPORT_ODBC_OPTION:
+                        $this->adapter = CridonODBCAdapter::getInstance();
+                        break;
+                    case self::IMPORT_OCI_OPTION:
+                        //if case above did not match, set OCI
+                        $this->adapter = CridonOCIAdapter::getInstance();
+                        break;
+                }
+                // bloc de requette
+                $queryBloc = array();
+                // adapter instance
+                $adapter = $this->adapter;
+                // list des id question pour maj cri_question apres transfert
+                $eList = array();
+
+                // requete commune
+                $queryStart  = " INTO " . CONST_DB_TABLE_ABONNE;
+                $queryStart .= " (";
+                $queryStart .= $adapter::YABONNE_YIDABONNE_0 . ", "; // YABONNE_YIDABONNE_0
+                $queryStart .= $adapter::YABONNE_YCRPCEN_0 . ", "; // YABONNE_YCRPCEN_0
+                $queryStart .= $adapter::YABONNE_YNIVEAU_0 . ", ";   // YABONNE_YNIVEAU_0
+                $queryStart .= $adapter::YABONNE_YDATE_0 . ", ";   // YABONNE_YDATE_0
+                $queryStart .= $adapter::YABONNE_YSTATUT_0 . ", ";   // YABONNE_YSTATUT_0
+                $queryStart .= $adapter::YABONNE_YTARIF_0 . ", ";   // YABONNE_YTARIF_0
+                $queryStart .= $adapter::YABONNE_YVALDEB_0 . ", ";   // YABONNE_YVALDEB_0
+                $queryStart .= $adapter::YABONNE_YVALFIN_0 . ", ";   // YABONNE_YVALFIN_0
+                $queryStart .= $adapter::YABONNE_YDATECH_0 . ", ";   // YABONNE_YDATECH_0
+                $queryStart .= $adapter::YABONNE_YTRAITEE_0 . ", ";   // YABONNE_YTRAITEE_0
+                $queryStart .= $adapter::YABONNE_YERR_0 . ", ";   // YABONNE_YERR_0
+                $queryStart .= $adapter::YABONNE_YMESSERR_0;    // YABONNE_YMESSERR_0
+                $queryStart .= ") ";
+                $queryStart .= " VALUES ";
+
+                // complement requete selon le type de BDD
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a bulk insert in Oracle SQL
+                         INSERT ALL
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                        SELECT * FROM dual;
+                         */
+                        $updateTimestamp = time();
+                        foreach ($etudes as $etude) {
+                            // remplit la liste des études
+                            $eList[] = $etude->crpcen;
+
+                            // Récupération niveau suivant + calcul tarif suivant le cas échéant
+                            if (!empty($etude->next_subscription_level)){
+                                $next_subscription_level = $etude->next_subscription_level;
+                            } else {
+                                $next_subscription_level = $etude->subscription_level;
+                            }
+                            $next_subscription_price = mvc_model('Etude')->getSubscriptionPrice($etude);
+
+                            $start_subscription_date = date('Y-m-d', strtotime($etude->end_subscription_date));
+                            $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+                            $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+
+                            $value  = $queryStart;
+                            $value .= "(";
+
+                            $value .= "'" . $etude->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
+                            $value .= "'" . $etude->crpcen. "', "; // YABONNE_YCRPCEN_0
+                            $value .= "'" . $next_subscription_level. "', "; // YABONNE_YNIVEAU_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATE_0
+                            $value .= "'1',"; // YABONNE_YSTATUT_0
+                            $value .= "'" . $next_subscription_price . "', "; // YABONNE_YTARIF_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALDEB_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($end_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALFIN_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($echeance_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATECH_0
+                            $value .= "'0',"; // YABONNE_YTRAITEE_0
+                            $value .= "'0',"; // YABONNE_YERR_0
+                            $value .= "' '"; // YABONNE_YMESSERR_0
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT ALL ';
+                            $query .= implode(' ', $queryBloc);
+                            $query .= ' SELECT * FROM dual';
+                            writeLog($query, 'query_export.log');
+                        }
+                        break;
+                }
+            }
+            // execution requete
+            if (!empty($query)) {
+                if ($result = $this->adapter->execute($query) && !empty($eList)) {
+                    // update cri_etude.transmis_echeance
+                    $sql = " UPDATE ". mvc_model('Etude')->table." SET transmis_echeance = 1 WHERE crpcen IN (" . implode(', ', $eList) . ")";
+                    $this->wpdb->query($sql);
+                } else {
+                    // log erreur
+                    $error = sprintf(CONST_EXPORT_CRIDONLINE_ERROR, date('d/m/Y à H:i:s'));
+                    writeLog($error, 'cridonlineEcheance.log','Cridon - Export Cridonline');
+
+                    // send email
+                    reportError(CONST_EXPORT_CRIDONLINE_ERROR, $error);
+                }
+            }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch (Exception $e) {
+            // write into logfile
+            writeLog($e, 'cridonlineEcheance.log');
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur échéance infos abonnement veilles');
+        }
+    }
+
+    public function notaireCridonlineUpdateAnnually(){
+        try {
+            // Update offices
+            $options= array(
+                'conditions' => array(
+                    'Etude.end_subscription_date <=' => date('Y-m-d'),
+                    'OR'=>array(
+                        'Etude.subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE,
+                        'Etude.next_subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE
+                    )
+                ),
+            'group' => 'Etude.crpcen'
+            );
+            $etudes   = mvc_model('Etude')->find($options);
+
+            if (count($etudes)>0){
+                $updateLevelValues = $updatePriceValues = $updateStartDateValues = $updateEndDateValues = $updateEcheanceDateValues = $updateNextLevelValues = array();
+                $updateTransmisEcheanceValues = array();
+                $queryStart = " UPDATE `".mvc_model('Etude')->table."` ";
+                $queryEnd   = ' END ';
+                foreach ($etudes as $etude) {
+
+                    $start_subscription_date = date('Y-m-d', strtotime($etude->end_subscription_date));
+                    $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+                    $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+
+                    if (!empty($etude->next_subscription_level)) {
+                        $updateLevelValues[] = " crpcen = {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
+                    }
+                    $nextSubscriptionPrice = mvc_model('Etude')->getSubscriptionPrice($etude);
+                    $updatePriceValues[] = " crpcen = {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
+                    $updateStartDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
+                    $updateEndDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
+                    $updateEcheanceDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $echeance_subscription_date . "' ";
+                    $updateTransmisEcheanceValues[] = " crpcen = {$etude->crpcen} THEN '0' ";
+                }
+                if (count($updateLevelValues)>0) {
+                    // subscription level
+                    $etudeQuery = ' SET `subscription_level` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateLevelValues);
+                    $etudeQuery .= ' ELSE `subscription_level` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    // subscription price
+                    $etudeQuery = ' SET `subscription_price` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updatePriceValues);
+                    $etudeQuery .= ' ELSE `subscription_price` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    // subscription start date
+                    $etudeQuery = ' SET `start_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateStartDateValues);
+                    $etudeQuery .= ' ELSE `start_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    // subscription end date
+                    $etudeQuery = ' SET `end_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEndDateValues);
+                    $etudeQuery .= ' ELSE `end_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    // subscription echeance date
+                    $etudeQuery = ' SET `echeance_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEcheanceDateValues);
+                    $etudeQuery .= ' ELSE `echeance_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    // subscription transmis echeance
+                    $etudeQuery = ' SET `transmis_echeance` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateTransmisEcheanceValues);
+                    $etudeQuery .= ' ELSE `transmis_echeance` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                }
+            }
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch (Exception $e) {
+            // write into logfile
+            writeLog($e, 'notaireCridonlineUpdateAnnually.log');
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur mise à jour annuelle niveau & tarif cridonline');
         }
     }
 
@@ -2098,10 +2493,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     {
         // get notary data
         $notary = mvc_model('QueryBuilder')->findOne('notaire',
-                                                     array(
-                                                         'fields' => 'id, id_wp_user, crpcen',
-                                                         'conditions' => 'id = ' . $id,
-                                                     )
+            array(
+                'fields' => 'id, id_wp_user, crpcen',
+                'conditions' => 'id = ' . $id,
+            )
         );
         // get notary associated user
         if (is_object($notary) && $notary->id_wp_user) {
@@ -2611,6 +3006,64 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         );
 
         return mvc_model('QueryBuilder')->findAll('notaire', $options, 'cn.id');
+    }
+
+    /**
+     * Set notaire role
+     *
+     * @param mixed $notaries
+     * @return void
+     */
+    public function setNewNotaireRole($notaries)
+    {
+        foreach ($notaries as $notary) {
+            if (!$notary->id_wp_user) {
+                // get user by notary_id
+                $user = $this->getAssociatedUserByNotaryId($notary->id);
+            } else {
+                // get user by id
+                $user = new WP_User($notary->id_wp_user);
+            }
+
+            // user must be an instance of WP_User vs WP_Error
+            if ($user instanceof WP_User) {
+                // default role
+                $user->add_role(CONST_NOTAIRE_ROLE);
+                /**
+                 * finance role
+                 * to be matched in list of authorized user by function
+                 *
+                 * @see \Config::$canAccessFinance
+                 */
+                if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
+                    $user->add_role(CONST_FINANCE_ROLE);
+                }
+            }
+        }
+    }
+
+    /**
+     * Disable admin bar for notaries
+     *
+     * @param mixed $notaries
+     * @return void
+     */
+    public function disableNotariesAdminBar($notaries)
+    {
+        foreach ($notaries as $notary) {
+            // peut être que $notary->id_wp_user est encore null (cas de nouvelle insertion via bulk insert)
+            // cette valeur sera mise à jour après execution bulk update via updateCriNotaireWpUserId
+            if (!$notary->id_wp_user) {
+                $notary = mvc_model('QueryBuilder')->findOne('notaire',
+                                                             array(
+                                                                 'fields'     => 'id_wp_user',
+                                                                 'conditions' => 'id = ' . $notary->id,
+                                                             )
+                );
+            }
+            // insert or update user_meta
+            update_user_meta($notary->id_wp_user, 'show_admin_bar_front', 'false');
+        }
     }
 
     /**
