@@ -14,18 +14,14 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         'Sigle' => array('foreign_key' => 'id_sigle')
     );
 
-    public function getSubscriptionPrice($etude,$whichPrice = 'next'){
+    public function getSubscriptionPrice($etude,$isNext = true){
 
-        $nextLevel = $etude->subscription_level;
-        if ($whichPrice == 'next') {
-            if (!empty($etude->next_subscription_level)) {
-                $nextLevel = $etude->next_subscription_level;
-            }
-        }
+
+        $level = ($isNext && !empty($etude->next_subscription_level)) ? $etude->next_subscription_level : $etude->subscription_level;
 
         $options = array('conditions' => array('crpcen' => $etude->crpcen));
         $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
-        $prices = Config::$pricesLevelsVeilles[0][$nextLevel];
+        $prices = Config::$pricesLevelsVeilles[0][$level];
         krsort($prices);
         // Tri du tableau de prix par clé descendante
         foreach($prices as $nbCollaborator => $price) {
