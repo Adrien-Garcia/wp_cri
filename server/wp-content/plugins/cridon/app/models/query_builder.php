@@ -298,6 +298,22 @@ class QueryBuilder{
         $sql .= $table.' ON '.$option['column'].' ';
         return $sql;
     }
+
+    /**
+     * Count on query, before creating any objects
+     *
+     * @param string $table Table name
+     * @param array $options Contain keys where specified sql clauses (join,where,...)
+     * @param string $primaryKey The primary key for table
+     * @return array
+     */
+    public function countItems( $table , $options = array() ,$primaryKey = 'id' ){
+        $options['count'] = true;
+        $sql = $this->buildQuery($table, $options, $primaryKey);
+
+        return $this->wpdb->get_results( $sql );
+    }
+
     /**
      * Find more elements in table
      *
@@ -307,6 +323,7 @@ class QueryBuilder{
      * @return array
      */
     public function findAll( $table , $options = array() ,$primaryKey = 'id' ){
+        $options['count'] = false;
         $sql = $this->buildQuery($table, $options, $primaryKey);
         return $this->wpdb->get_results( $sql );
     }
@@ -322,7 +339,10 @@ class QueryBuilder{
     public function buildQuery( $table , $options = array() ,$primaryKey = 'id' ){
         $table = $this->wpdb->prefix.$table;
         $sql = 'SELECT ';
-        if( isset( $options['fields'] ) ){
+
+        if( isset( $options['count'] ) && $options['count'] ) {
+            $sql .= ' COUNT(*) as nb ';
+        } elseif( isset( $options['fields'] ) ){
             if( is_array( $options['fields'] ) ){
                 $sql .= implode( ', ',$options['fields'] );
             }
