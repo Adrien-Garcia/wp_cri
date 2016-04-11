@@ -118,9 +118,10 @@ class UIContainer extends UIFields{
      * @return string
      */
     protected function createLeft(){
-        //Fill with 30 elements
-        $data = $this->database->find( array( 'limit' => 30, 'conditions' => array(
+        //Fill with not associated documents
+        $data = $this->database->find( array('conditions' => array(
             'type' => $this->type,
+            'id_externe' => 0,
         ) ) );
         $this->left = $this->createItems($data);;
         $ul = new UIList();
