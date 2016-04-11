@@ -2493,10 +2493,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     {
         // get notary data
         $notary = mvc_model('QueryBuilder')->findOne('notaire',
-                                                     array(
-                                                         'fields' => 'id, id_wp_user, crpcen',
-                                                         'conditions' => 'id = ' . $id,
-                                                     )
+            array(
+                'fields' => 'id, id_wp_user, crpcen',
+                'conditions' => 'id = ' . $id,
+            )
         );
         // get notary associated user
         if (is_object($notary) && $notary->id_wp_user) {
@@ -2749,34 +2749,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 }
             }
         }
-    }
-
-    /**
-     * Get associated user by notary id
-     *
-     * @param int $id
-     * @return void|WP_User
-     * @throws Exception
-     */
-    public function getAssociatedUserByNotaryId($id)
-    {
-        // get notary data
-        $notary = mvc_model('QueryBuilder')->findOne('notaire',
-                                                     array(
-                                                         'fields' => 'id, id_wp_user, crpcen',
-                                                         'conditions' => 'id = ' . $id,
-                                                     )
-        );
-        // get notary associated user
-        if (is_object($notary) && $notary->id_wp_user) {
-            $user = new WP_User($notary->id_wp_user);
-
-            // check if user is a WP_user vs WP_error
-            if ($user instanceof WP_User && is_array($user->roles)) {
-                return $user;
-            }
-        }
-        return;
     }
 
     /**
