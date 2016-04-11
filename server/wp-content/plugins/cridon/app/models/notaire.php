@@ -1289,25 +1289,25 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // adapter instance
                 $adapter = $this->adapter;
                 // list des id question pour maj cri_question apres transfert
-                $qList = array();
+                $eList = array();
 
                 // requete commune
-                $query  = " INTO " . CONST_DB_TABLE_ABONNE;
-                $query .= " (";
-                $query .= $adapter::YABONNE_YIDABONNE_0 . ", "; // YABONNE_YIDABONNE_0
-                $query .= $adapter::YABONNE_YCRPCEN_0 . ", "; // YABONNE_YCRPCEN_0
-                $query .= $adapter::YABONNE_YNIVEAU_0 . ", ";   // YABONNE_YNIVEAU_0
-                $query .= $adapter::YABONNE_YDATE_0 . ", ";   // YABONNE_YDATE_0
-                $query .= $adapter::YABONNE_YSTATUT_0 . ", ";   // YABONNE_YSTATUT_0
-                $query .= $adapter::YABONNE_YTARIF_0 . ", ";   // YABONNE_YTARIF_0
-                $query .= $adapter::YABONNE_YVALDEB_0 . ", ";   // YABONNE_YVALDEB_0
-                $query .= $adapter::YABONNE_YVALFIN_0 . ", ";   // YABONNE_YVALFIN_0
-                $query .= $adapter::YABONNE_YDATECH_0 . ", ";   // YABONNE_YDATECH_0
-                $query .= $adapter::YABONNE_YTRAITEE_0 . ", ";   // YABONNE_YTRAITEE_0
-                $query .= $adapter::YABONNE_YERR_0 . ", ";   // YABONNE_YERR_0
-                $query .= $adapter::YABONNE_YMESSERR_0;    // YABONNE_YMESSERR_0
-                $query .= ") ";
-                $query .= " VALUES ";
+                $queryStart  = " INTO " . CONST_DB_TABLE_ABONNE;
+                $queryStart .= " (";
+                $queryStart .= $adapter::YABONNE_YIDABONNE_0 . ", "; // YABONNE_YIDABONNE_0
+                $queryStart .= $adapter::YABONNE_YCRPCEN_0 . ", "; // YABONNE_YCRPCEN_0
+                $queryStart .= $adapter::YABONNE_YNIVEAU_0 . ", ";   // YABONNE_YNIVEAU_0
+                $queryStart .= $adapter::YABONNE_YDATE_0 . ", ";   // YABONNE_YDATE_0
+                $queryStart .= $adapter::YABONNE_YSTATUT_0 . ", ";   // YABONNE_YSTATUT_0
+                $queryStart .= $adapter::YABONNE_YTARIF_0 . ", ";   // YABONNE_YTARIF_0
+                $queryStart .= $adapter::YABONNE_YVALDEB_0 . ", ";   // YABONNE_YVALDEB_0
+                $queryStart .= $adapter::YABONNE_YVALFIN_0 . ", ";   // YABONNE_YVALFIN_0
+                $queryStart .= $adapter::YABONNE_YDATECH_0 . ", ";   // YABONNE_YDATECH_0
+                $queryStart .= $adapter::YABONNE_YTRAITEE_0 . ", ";   // YABONNE_YTRAITEE_0
+                $queryStart .= $adapter::YABONNE_YERR_0 . ", ";   // YABONNE_YERR_0
+                $queryStart .= $adapter::YABONNE_YMESSERR_0;    // YABONNE_YMESSERR_0
+                $queryStart .= ") ";
+                $queryStart .= " VALUES ";
 
                 // complement requete selon le type de BDD
                 switch (CONST_DB_TYPE) {
@@ -1325,7 +1325,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             // remplit la liste des études
                             $eList[] = $etude->crpcen;
 
-                            $value  = $query;
+                            $value  = $queryStart;
                             $value .= "(";
 
                             $value .= "'" . $etude->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
@@ -1409,22 +1409,22 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $eList = array();
 
                 // requete commune
-                $query  = " INTO " . CONST_DB_TABLE_ABONNE;
-                $query .= " (";
-                $query .= $adapter::YABONNE_YIDABONNE_0 . ", "; // YABONNE_YIDABONNE_0
-                $query .= $adapter::YABONNE_YCRPCEN_0 . ", "; // YABONNE_YCRPCEN_0
-                $query .= $adapter::YABONNE_YNIVEAU_0 . ", ";   // YABONNE_YNIVEAU_0
-                $query .= $adapter::YABONNE_YDATE_0 . ", ";   // YABONNE_YDATE_0
-                $query .= $adapter::YABONNE_YSTATUT_0 . ", ";   // YABONNE_YSTATUT_0
-                $query .= $adapter::YABONNE_YTARIF_0 . ", ";   // YABONNE_YTARIF_0
-                $query .= $adapter::YABONNE_YVALDEB_0 . ", ";   // YABONNE_YVALDEB_0
-                $query .= $adapter::YABONNE_YVALFIN_0 . ", ";   // YABONNE_YVALFIN_0
-                $query .= $adapter::YABONNE_YDATECH_0 . ", ";   // YABONNE_YDATECH_0
-                $query .= $adapter::YABONNE_YTRAITEE_0 . ", ";   // YABONNE_YTRAITEE_0
-                $query .= $adapter::YABONNE_YERR_0 . ", ";   // YABONNE_YERR_0
-                $query .= $adapter::YABONNE_YMESSERR_0;    // YABONNE_YMESSERR_0
-                $query .= ") ";
-                $query .= " VALUES ";
+                $queryStart  = " INTO " . CONST_DB_TABLE_ABONNE;
+                $queryStart .= " (";
+                $queryStart .= $adapter::YABONNE_YIDABONNE_0 . ", "; // YABONNE_YIDABONNE_0
+                $queryStart .= $adapter::YABONNE_YCRPCEN_0 . ", "; // YABONNE_YCRPCEN_0
+                $queryStart .= $adapter::YABONNE_YNIVEAU_0 . ", ";   // YABONNE_YNIVEAU_0
+                $queryStart .= $adapter::YABONNE_YDATE_0 . ", ";   // YABONNE_YDATE_0
+                $queryStart .= $adapter::YABONNE_YSTATUT_0 . ", ";   // YABONNE_YSTATUT_0
+                $queryStart .= $adapter::YABONNE_YTARIF_0 . ", ";   // YABONNE_YTARIF_0
+                $queryStart .= $adapter::YABONNE_YVALDEB_0 . ", ";   // YABONNE_YVALDEB_0
+                $queryStart .= $adapter::YABONNE_YVALFIN_0 . ", ";   // YABONNE_YVALFIN_0
+                $queryStart .= $adapter::YABONNE_YDATECH_0 . ", ";   // YABONNE_YDATECH_0
+                $queryStart .= $adapter::YABONNE_YTRAITEE_0 . ", ";   // YABONNE_YTRAITEE_0
+                $queryStart .= $adapter::YABONNE_YERR_0 . ", ";   // YABONNE_YERR_0
+                $queryStart .= $adapter::YABONNE_YMESSERR_0;    // YABONNE_YMESSERR_0
+                $queryStart .= ") ";
+                $queryStart .= " VALUES ";
 
                 // complement requete selon le type de BDD
                 switch (CONST_DB_TYPE) {
@@ -1454,7 +1454,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
                             $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
 
-                            $value  = $query;
+                            $value  = $queryStart;
                             $value .= "(";
 
                             $value .= "'" . $etude->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
