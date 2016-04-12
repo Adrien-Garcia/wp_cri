@@ -1,1 +1,0 @@
-ALTER TABLE `cri_notaire` ADD COLUMN `sendmail_pwd` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL; 
