@@ -511,9 +511,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // list of new data
             $newNotaires = $this->getNewNotaireList();
 
-            // list of notary to be notified by new changed PWD
-            $notariesChangedPwd = $this->getNotaryForEmailPwd();
-
             // list of data for update
             $updateNotaireList = $this->getNotaireToBeUpdated();
 
@@ -771,15 +768,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         $value .= ")";
 
                         $insertValues[] = $value;
-                    } elseif (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL])
-                              && isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB])
-                              && in_array($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL], $notariesChangedPwd)
-                    ) { // changement de mot de passe
-                        $key      = array_search($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL], $notariesChangedPwd, true);
+                    } else { // changement de mot de passe
+                        $notaryId = $this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT];
                         $newPwd   = $this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB];
-                        $this->updatePwd($key, $newPwd);
+                        $this->updatePwd($notaryId, $newPwd);
                         // free vars
-                        unset($key);
                         unset($newPwd);
                     }
                 }
@@ -2225,7 +2218,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $notary                            = array();
         $notary['Notaire']['id']           = $notaryId;
         $notary['Notaire']['renew_pwd']    = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronResetPwd" )
-        $notary['Notaire']['sendmail_pwd'] = ($action == 'on') ? 1 : 0; // flag pour identification sur Site ( lors du cron de maj )
         $this->save($notary);
     }
 
@@ -2459,59 +2451,27 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     /**
-     * Get list of notaries needed to be notified with new pwd
-     *
-     * @return mixed
-     * @throws Exception
-     */
-    public function getNotaryForEmailPwd()
-    {
-        // init data
-        $notaries = array();
-
-        // get from db
-        $items = mvc_model('QueryBuilder')->find(array(
-                                                   'attributes' => array('id, id_wp_user, email_adress'),
-                                                   'model'      => 'Notaire',
-                                                   'conditions' => 'sendmail_pwd = 1'
-                                               )
-        );
-
-        // prepare data
-        if (is_array($items) && count($items) > 0) {
-            foreach ($items as $item) {
-                if (filter_var($item->email_adress, FILTER_VALIDATE_EMAIL)) {
-                    $notaries[$item->id . '~' . $item->id_wp_user] = $item->email_adress;
-                }
-            }
-        }
-
-        // returning data
-        return $notaries;
-    }
-
-    /**
      * Update notary PWD
      *
-     * @param string $key : sous la forme "id~id_wp_user"
+     * @param int $notaryId
      * @param string $newPwd
      */
-    public function updatePwd($key, $newPwd)
+    public function updatePwd($notaryId, $newPwd)
     {
-        // recuperation id et id_wp_user
-        $keys = explode('~', $key);
-        if (is_array($keys) && count($keys) == 2) {
+        // recuperation wp_user associé
+        $user = $this->getAssociatedUserByNotaryId($notaryId);
+        if ($user instanceof WP_User) {
             // mettre à jour la table notaire
             $query = " UPDATE {$this->table}
                        SET web_password = %s
                        WHERE id = %d ";
-            $this->wpdb->query($this->wpdb->prepare($query, $newPwd, $keys[0]));
+            $this->wpdb->query($this->wpdb->prepare($query, $newPwd, $notaryId));
 
             // mettre à jour cri_users
-            wp_set_password($newPwd, $keys[1]);
+            wp_set_password($newPwd, $user->ID);
 
             // envoie email
-            $this->sendEmailForPwdChanged($keys[0], $newPwd);
+            $this->sendEmailForPwdChanged($notaryId, $newPwd);
 
         }
         unset($keys);
@@ -2580,5 +2540,33 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
         // free vars
         unset($notary);
+    }
+
+    /**
+     * Get associated user by notary id
+     *
+     * @param int $id
+     * @return void|WP_User
+     * @throws Exception
+     */
+    public function getAssociatedUserByNotaryId($id)
+    {
+        // get notary data
+        $notary = mvc_model('QueryBuilder')->findOne('notaire',
+                                                     array(
+                                                         'fields' => 'id, id_wp_user, crpcen',
+                                                         'conditions' => 'id = ' . $id,
+                                                     )
+        );
+        // get notary associated user
+        if (is_object($notary) && $notary->id_wp_user) {
+            $user = new WP_User($notary->id_wp_user);
+
+            // check if user is a WP_user vs WP_error
+            if ($user instanceof WP_User && is_array($user->roles)) {
+                return $user;
+            }
+        }
+        return;
     }
 }
