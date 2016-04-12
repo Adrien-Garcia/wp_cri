@@ -733,20 +733,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                 // prepare multi rows data values
                 foreach ($newNotaires as $notaire) {
-                    // import only authorized category
-                    // @see https://trello.com/c/P81yRyRM/21-s-43-import-des-notaires-et-creation-des-etudes-il-y-a-deux-notaires-avec-le-meme-crpcen-qui-n-ont-pas-les-memes-infos-pour-l-et
-
-                    /**
-                     * vue qu'on a comme identifiant unique "crpcen + mdp" (faute de manque d'identifiant unique côté ERP)
-                     * si mdp a changé donc l'user sera dans la liste des $newNotaires
-                     * dans ce cas la seule facon de pouvoir l'identier c'est son email perso via la comparaison de celle
-                     * fournie par ERP et celle du site pour le cas de changement de MDP
-                     * in_array($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL], $notariesChangedPwd)
-                     */
-                    if (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG])
-                        && !in_array(strtolower($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]), Config::$notImportedList)
-                        && !in_array($this->erpNotaireData[$notaire][$adapter::NOTAIRE_EMAIL], $notariesChangedPwd)
-                    ) {
+                    // import only if empty YIDNOT_0 : to be sure for new Notary data
+                    if (empty(trim($this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT]))) {
 
                         // format date
                         $dateModified = '0000-00-00';
