@@ -21,7 +21,4 @@ $model = mvc_model('notaire');
 // call import action
 $code = $model->importIntoWpUsers($force);
 
-// call reset action
-$code = $model->cronResetPwd();
-
 echo $code;
