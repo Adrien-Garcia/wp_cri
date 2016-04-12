@@ -108,7 +108,7 @@
 				<div class="content">
 					<div id="tableau-de-bord" class="pannel js-account-ajax js-account-dashboard js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) ? " active " : "" ?>">
                         <?php if (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) : ?>
-                            <?php CriRenderView('contentdashboard', array('controller' => $this, 'questions' => $questions, 'notaire' => $notaire), 'notaires') ?>
+                            <?php CriRenderView('contentdashboard', array('controller' => $this, 'questions' => $questions, 'notaire' => $notaire, 'messageError' => $messageError), 'notaires') ?>
                         <?php endif; ?>
 					</div>
 					<div id="mes-questions" class="pannel js-account-ajax js-account-questions js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_QUESTION) ? " active " : "" ?>">
