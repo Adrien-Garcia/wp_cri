@@ -27,7 +27,7 @@ class NotairesController extends BasePublicController
             || !in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)
         ) {
             // logout current user
-            //wp_logout();
+            wp_logout();
             // redirect user to home page
             $this->redirect(home_url());
         } elseif (isset($mvc_params['action'])
