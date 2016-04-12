@@ -213,7 +213,11 @@ class CriCustomWalker extends Walker_Nav_Menu
                                     </div>
                                 </li>';
                     break;
-                case 2: // Bloc Commander
+                case 2:
+                case 3:
+                    
+                    break;
+                case 4: // Bloc Commander
                     $output .= '<li>
                                     <div class="block acceder js-home-block-link">
                                         <div class="content">
@@ -226,7 +230,7 @@ class CriCustomWalker extends Walker_Nav_Menu
                                     </div>
                                 </li>';
                     break;
-                case 3: // Bloc Connaitre
+                case 5: // Bloc Connaitre
                     $output .= '<li>
                                     <div class="block consulter layer-posez-question_open js-question-open" >
                                         <div class="content">

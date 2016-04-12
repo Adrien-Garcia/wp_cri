@@ -173,7 +173,7 @@ HEADER STYLES
 						@include svgicon('icon-angle-bottom', 18px, 18px, $rouge);
 						@include rotate(180);
 						position: absolute;
-						top: 4px;
+						top: 6px;
 						left: 50%;
 						margin-left: -29px;
 						transition:all 0.3s;
@@ -370,7 +370,7 @@ HEADER STYLES
 						@include rotate(180);
 
 						position: absolute;
-						top: 17px;
+						top: 20px;
 						left: 50%;
 						margin-left: -29px;
 
