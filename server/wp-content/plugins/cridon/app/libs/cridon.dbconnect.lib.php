@@ -292,6 +292,11 @@ interface DBConnect
     const QUEST_YRESUME  = 'YRESUME_0';
 
     /**
+     * @var string : object
+     */
+    const QUEST_YCONTENT  = 'ZTXTQUEST_0';
+
+    /**
      * @var string : affectation
      */
     const QUEST_YSREASS    = 'YSREASS_0';
