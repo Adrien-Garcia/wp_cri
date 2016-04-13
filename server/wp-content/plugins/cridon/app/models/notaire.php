@@ -659,9 +659,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // execute prepared query
                 /**
                  * Sous la forme :
-                 * UPDATE tablename SET
-                    col1 = CASE name WHEN 'name1' THEN 5 WHEN 'name2' THEN 3 ELSE 0 END,
-                    col2 = CASE name WHEN 'name1' THEN '' WHEN 'name2' THEN 'whatever' ELSE '' END;
+                 * UPDATE cri_notaire SET
+                    `category` = CASE id WHEN id1 THEN 'OFF' WHEN id2 THEN 'DIV' ELSE `category` END,
+                    `code_interlocuteur` = CASE id WHEN id1 THEN 'code1' WHEN id2 THEN 'whatever' ELSE `code_interlocuteur` END;
                  * @see http://stackoverflow.com/questions/13673890/mysql-case-to-update-multiple-columns
                  */
                 if (count($notaireQuery) > 0) {
@@ -781,7 +781,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // update
             if (count($updateEtudeList) > 0) {
                 // start/end query block
-                $queryStart = " UPDATE `{$etudeTable}` ";
+                $queryStart = " UPDATE `{$etudeTable}` SET ";
                 $queryEnd   = ' END ';
 
                 $options = array('group'=>'Etude.crpcen');
@@ -795,52 +795,52 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         // prepare all update   query
                         if (isset($newData[$adapter::NOTAIRE_SIGLE]))
-                            $updateSigleValues[]        = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_SIGLE]) . "' ";
+                            $updateSigleValues[]        = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_SIGLE]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_OFFICENAME]))
-                            $updateOfficenameValues[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICENAME]) . "' ";
+                            $updateOfficenameValues[]    = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICENAME]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_ADRESS1]))
-                            $updateAdress1Values[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS1]) . "' ";
+                            $updateAdress1Values[]    = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS1]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_ADRESS2]))
-                            $updateAdress2Values[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS2]) . "' ";
+                            $updateAdress2Values[]     = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS2]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_ADRESS3]))
-                            $updateAdress3Values[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS3]) . "' ";
+                            $updateAdress3Values[]       = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS3]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_CP]))
-                            $updateCpValues[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CP]) . "' ";
+                            $updateCpValues[]    = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CP]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_CITY]))
-                            $updateCityValues[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CITY]) . "' ";
+                            $updateCityValues[]       = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CITY]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_MAIL1]))
-                            $updateEmail1Values[]        = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL1]) . "' ";
+                            $updateEmail1Values[]        = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL1]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_MAIL2]))
-                            $updateEmail2Values[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL2]) . "' ";
+                            $updateEmail2Values[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL2]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_MAIL3]))
-                            $updateEmail3Values[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL3]) . "' ";
+                            $updateEmail3Values[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL3]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_OFFICETEL]))
-                            $updateTelValues[]      = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICETEL]) . "' ";
+                            $updateTelValues[]      = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICETEL]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_OFFICEFAX]))
-                            $updateFaxValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
+                            $updateFaxValues[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_YNIVEAU_0]) && $newData[$adapter::NOTAIRE_YNIVEAU_0] < $currentData->subscription_level){
                             if (isset($newData[$adapter::NOTAIRE_YVALDEB_0]) && date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0])) >= $currentData->start_subscription_date){
                                 if (!empty($newData[$adapter::NOTAIRE_YMOTIF_0])){
                                     if (in_array($newData[$adapter::NOTAIRE_YMOTIF_0],Config::$motiveImmediateUpdate)
                                         && isset($newData[$adapter::NOTAIRE_YVALFIN_0]) && isset($newData[$adapter::NOTAIRE_YDATECH_0])){
-                                        $updateLevelValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
-                                        $updateStartDateValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0]))) . "' ";
-                                        $updateEndDateValues[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALFIN_0]))) . "' ";
-                                        $updateEcheanceDateValues[]  = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YDATECH_0]))) . "' ";
+                                        $updateLevelValues[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                        $updateStartDateValues[]     = " {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0]))) . "' ";
+                                        $updateEndDateValues[]       = " {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALFIN_0]))) . "' ";
+                                        $updateEcheanceDateValues[]  = " {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YDATECH_0]))) . "' ";
                                     } else {
-                                        $updateNextLevelValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                        $updateNextLevelValues[]     = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
                                     }
                                 }
                             }
@@ -850,107 +850,70 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 }
 
                 // execute update query
+                $etudeQuery = array();
                 if (count($updateSigleValues) > 0) {
                     // id_sigle
-                    $etudeQuery = ' SET `id_sigle` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateSigleValues);
-                    $etudeQuery .= ' ELSE `id_sigle` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `id_sigle` = CASE crpcen WHEN ' . implode(' WHEN ', $updateSigleValues) . ' ELSE `id_sigle` ';
                     // office_name
-                    $etudeQuery = ' SET `office_name` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateOfficenameValues);
-                    $etudeQuery .= ' ELSE `office_name` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `office_name` = CASE crpcen WHEN ' . implode(' WHEN ', $updateOfficenameValues) . ' ELSE `office_name` ';
                     // adress_1
-                    $etudeQuery = ' SET `adress_1` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateAdress1Values);
-                    $etudeQuery .= ' ELSE `adress_1` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `adress_1` = CASE crpcen WHEN ' . implode(' WHEN ', $updateAdress1Values) . ' ELSE `adress_1` ';
                     // adress_2
-                    $etudeQuery = ' SET `adress_2` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateAdress2Values);
-                    $etudeQuery .= ' ELSE `adress_2` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `adress_2` = CASE crpcen WHEN ' . implode(' WHEN ', $updateAdress2Values) . ' ELSE `adress_2` ';
                     // adress_3
-                    $etudeQuery = ' SET `adress_3` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateAdress3Values);
-                    $etudeQuery .= ' ELSE `adress_3` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `adress_3` = CASE crpcen WHEN ' . implode(' WHEN ', $updateAdress3Values) . ' ELSE `adress_3` ';
                     // cp
-                    $etudeQuery = ' SET `cp` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateCpValues);
-                    $etudeQuery .= ' ELSE `cp` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `cp` = CASE crpcen WHEN ' . implode(' WHEN ', $updateCpValues) . ' ELSE `cp` ';
                     // city
-                    $etudeQuery = ' SET `city` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateCityValues);
-                    $etudeQuery .= ' ELSE `city` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `city` = CASE crpcen WHEN ' . implode(' WHEN ', $updateCityValues) . ' ELSE `city` ';
                     // office_email_adress_1
-                    $etudeQuery = ' SET `office_email_adress_1` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEmail1Values);
-                    $etudeQuery .= ' ELSE `office_email_adress_1` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `office_email_adress_1` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEmail1Values) . ' ELSE `office_email_adress_1` ';
                     // office_email_adress_2
-                    $etudeQuery = ' SET `office_email_adress_2` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEmail2Values);
-                    $etudeQuery .= ' ELSE `office_email_adress_2` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `office_email_adress_2` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEmail2Values) . ' ELSE `office_email_adress_2` ';
                     // office_email_adress_3
-                    $etudeQuery = ' SET `office_email_adress_3` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEmail3Values);
-                    $etudeQuery .= ' ELSE `office_email_adress_3` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `office_email_adress_3` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEmail3Values) . ' ELSE `office_email_adress_3` ';
                     // tel
-                    $etudeQuery = ' SET `tel` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateTelValues);
-                    $etudeQuery .= ' ELSE `tel` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `tel` = CASE crpcen WHEN ' . implode(' WHEN ', $updateTelValues) . ' ELSE `tel` ';
                     // fax
-                    $etudeQuery = ' SET `fax` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateFaxValues);
-                    $etudeQuery .= ' ELSE `fax` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $etudeQuery[] = ' `fax` = CASE crpcen WHEN ' . implode(' WHEN ', $updateFaxValues) . ' ELSE `fax` ';
                 }
                 if (count($updateLevelValues) > 0) {
                     // subscription_level
-                    $etudeQuery = ' SET `subscription_level` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateLevelValues);
-                    $etudeQuery .= ' ELSE `subscription_level` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
-                    $this->importSuccess = true;
+                    $etudeQuery[] = ' `subscription_level` = CASE crpcen WHEN ' . implode(' WHEN ', $updateLevelValues) . ' ELSE `subscription_level` ';
                 }
                 if (count($updateStartDateValues) > 0) {
                     // start_subscription_date
-                    $etudeQuery = ' SET `start_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateStartDateValues);
-                    $etudeQuery .= ' ELSE `start_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
-                    $this->importSuccess = true;
+                    $etudeQuery[] = ' `start_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateStartDateValues) . ' ELSE `start_subscription_date` ';
                 }
                 if (count($updateEndDateValues) > 0) {
                     // end_subscription_date
-                    $etudeQuery = ' SET `end_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEndDateValues);
-                    $etudeQuery .= ' ELSE `end_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
-                    $this->importSuccess = true;
+                    $etudeQuery[] = ' `end_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEndDateValues) . ' ELSE `end_subscription_date` ';
                 }
                 if (count($updateEcheanceDateValues) > 0) {
                     // echeance_subscription_date
-                    $etudeQuery = ' SET `echeance_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEcheanceDateValues);
-                    $etudeQuery .= ' ELSE `echeance_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `echeance_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEcheanceDateValues) . ' ELSE `echeance_subscription_date` ';
                 }
                 if (count($updateNextLevelValues) > 0) {
                     // next_subscription_level
-                    $etudeQuery = ' SET `next_subscription_level` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateNextLevelValues);
-                    $etudeQuery .= ' ELSE `next_subscription_level` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `next_subscription_level` = CASE crpcen WHEN ' . implode(' WHEN ', $updateNextLevelValues) . ' ELSE `next_subscription_level` ';
+                }
+
+                // execute prepared query
+                /**
+                 * Sous la forme :
+                 * UPDATE cri_etude SET
+                `id_sigle` = CASE crpcen WHEN 'crpcen1' THEN 5 WHEN 'crpcen2' THEN 3 ELSE `id_sigle` END,
+                `subscription_level` = CASE crpcen WHEN 'crpcen1' THEN '' WHEN 'crpcen2' THEN 'whatever' ELSE `subscription_level` END;
+                 * @see http://stackoverflow.com/questions/13673890/mysql-case-to-update-multiple-columns
+                 */
+                if (count($etudeQuery) > 0) {
+                    $this->wpdb->query($queryStart . implode(' END, ', $etudeQuery) . $queryEnd);
+
+                    // log query
+                    if (getenv('ENV') != PROD) {
+                        writeLog($queryStart . implode(' END, ', $etudeQuery) . $queryEnd, '$etudeQuery.log');
+                    }
+
                     $this->importSuccess = true;
                 }
             }
