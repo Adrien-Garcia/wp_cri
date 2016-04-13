@@ -71,7 +71,7 @@ echo get_template_part("content","ga");
 							</a>
 							<ul class="overlay">
 								<li>
-									<a href="#" >
+									<a href="#" id="js-cridonline-link" >
 										<?php _e('Bases CRID’'); ?><span><?php _e('ONLINE'); ?></span>
 									</a>
 								</li>
