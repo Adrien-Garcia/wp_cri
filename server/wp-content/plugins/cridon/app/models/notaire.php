@@ -1434,60 +1434,47 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             if (count($etudes)>0){
                 $updateLevelValues = $updatePriceValues = $updateStartDateValues = $updateEndDateValues = $updateEcheanceDateValues = $updateNextLevelValues = array();
                 $updateTransmisEcheanceValues = array();
-                $queryStart = " UPDATE `".mvc_model('Etude')->table."` ";
+                $queryStart = " UPDATE `".mvc_model('Etude')->table."` SET ";
                 $queryEnd   = ' END ';
                 foreach ($etudes as $etude) {
 
-                    $start_subscription_date = date('Y-m-d', strtotime($etude->end_subscription_date));
-                    $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
-                    $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+                    $start_subscription_date    = date('Y-m-d', strtotime($etude->end_subscription_date));
+                    $end_subscription_date      = date('Y-m-d', strtotime($start_subscription_date . '+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+                    $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date . '-' . CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
 
                     if (!empty($etude->next_subscription_level)) {
-                        $updateLevelValues[] = " crpcen = {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
+                        $updateLevelValues[] = " {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
                     }
-                    $nextSubscriptionPrice = mvc_model('Etude')->getSubscriptionPrice($etude);
-                    $updatePriceValues[] = " crpcen = {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
-                    $updateStartDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
-                    $updateEndDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
-                    $updateEcheanceDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $echeance_subscription_date . "' ";
-                    $updateTransmisEcheanceValues[] = " crpcen = {$etude->crpcen} THEN '0' ";
+                    $nextSubscriptionPrice          = mvc_model('Etude')->getSubscriptionPrice($etude);
+                    $updatePriceValues[]            = " {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
+                    $updateStartDateValues[]        = " {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
+                    $updateEndDateValues[]          = " {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
+                    $updateEcheanceDateValues[]     = " {$etude->crpcen} THEN '" . $echeance_subscription_date . "' ";
+                    $updateTransmisEcheanceValues[] = " {$etude->crpcen} THEN '0' ";
                 }
+
+                $etudeQuery = array();
                 if (count($updateLevelValues)>0) {
                     // subscription level
-                    $etudeQuery = ' SET `subscription_level` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateLevelValues);
-                    $etudeQuery .= ' ELSE `subscription_level` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `subscription_level` = CASE crpcen WHEN ' . implode(' WHEN ', $updateLevelValues) . ' ELSE `subscription_level` ';
 
                     // subscription price
-                    $etudeQuery = ' SET `subscription_price` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updatePriceValues);
-                    $etudeQuery .= ' ELSE `subscription_price` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `subscription_price` = CASE crpcen WHEN ' . implode(' WHEN ', $updatePriceValues) . ' ELSE `subscription_price` ';
 
                     // subscription start date
-                    $etudeQuery = ' SET `start_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateStartDateValues);
-                    $etudeQuery .= ' ELSE `start_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `start_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateStartDateValues) . ' ELSE `start_subscription_date` ';
 
                     // subscription end date
-                    $etudeQuery = ' SET `end_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEndDateValues);
-                    $etudeQuery .= ' ELSE `end_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `end_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEndDateValues) . ' ELSE `end_subscription_date` ';
 
                     // subscription echeance date
-                    $etudeQuery = ' SET `echeance_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEcheanceDateValues);
-                    $etudeQuery .= ' ELSE `echeance_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `echeance_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEcheanceDateValues) . ' ELSE `echeance_subscription_date` ';
 
                     // subscription transmis echeance
-                    $etudeQuery = ' SET `transmis_echeance` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateTransmisEcheanceValues);
-                    $etudeQuery .= ' ELSE `transmis_echeance` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `transmis_echeance` = CASE crpcen WHEN ' . implode(' WHEN ', $updateTransmisEcheanceValues) . ' ELSE `transmis_echeance` ';
+
+                    // exec query block
+                    $this->wpdb->query($queryStart . implode(' END, ', $etudeQuery) . $queryEnd);
                 }
             }
             // status code
