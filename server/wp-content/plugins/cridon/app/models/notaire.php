@@ -1066,15 +1066,15 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     } else { // prepare the bulk update query
                         if ($notaire->id_wp_user) {
                             // pwd
-                            $bulkPwdUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . wp_hash_password($notaire->web_password) . "' ";
+                            $bulkPwdUpdate[] = " {$notaire->id_wp_user} THEN '" . wp_hash_password($notaire->web_password) . "' ";
                             // nicename
-                            $bulkNiceNameUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . sanitize_title($displayName) . "' ";
+                            $bulkNiceNameUpdate[] = " {$notaire->id_wp_user} THEN '" . sanitize_title($displayName) . "' ";
                             // status
-                            $bulkStatusUpdate[] = " ID = {$notaire->id_wp_user} THEN " . $userStatus . " ";
+                            $bulkStatusUpdate[] = " {$notaire->id_wp_user} THEN " . $userStatus . " ";
                             // email
-                            $bulkEmailUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . $notaire->email_adress . "' ";
+                            $bulkEmailUpdate[] = " {$notaire->id_wp_user} THEN '" . $notaire->email_adress . "' ";
                             // display name
-                            $bulkDisplayNameUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . esc_sql($displayName) . "' ";
+                            $bulkDisplayNameUpdate[] = " {$notaire->id_wp_user} THEN '" . esc_sql($displayName) . "' ";
                         }
                     }
                 }
@@ -1099,40 +1099,29 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 }
 
                 // execute the bulk update query
+                $blockQuery = array();
                 if (count($bulkPwdUpdate) > 0) {
                     // start/end query block
-                    $queryStart = " UPDATE `{$this->wpdb->users}` ";
+                    $queryStart = " UPDATE `{$this->wpdb->users}` SET ";
                     $queryEnd   = ' END ';
 
                     // pwd
-                    $queryPwd = ' SET `user_pass` = CASE ';
-                    $queryPwd .= ' WHEN ' . implode(' WHEN ', $bulkPwdUpdate);
-                    $queryPwd .= ' ELSE `user_pass` ';
-                    $this->wpdb->query($queryStart . $queryPwd . $queryEnd);
+                    $blockQuery[] = ' `user_pass` = CASE ID WHEN ' . implode(' WHEN ', $bulkPwdUpdate) . ' ELSE `user_pass` ';
 
                     // nicename
-                    $queryNicename = ' SET `user_nicename` = CASE ';
-                    $queryNicename .= ' WHEN ' . implode(' WHEN ', $bulkNiceNameUpdate);
-                    $queryNicename .= ' ELSE `user_nicename` ';
-                    $this->wpdb->query($queryStart . $queryNicename . $queryEnd);
+                    $blockQuery[] = ' `user_nicename` = CASE ID WHEN ' . implode(' WHEN ', $bulkNiceNameUpdate) . ' ELSE `user_nicename` ';
 
                     // status
-                    $queryStatus = ' SET `user_status` = CASE ';
-                    $queryStatus .= ' WHEN ' . implode(' WHEN ', $bulkStatusUpdate);
-                    $queryStatus .= ' ELSE `user_status` ';
-                    $this->wpdb->query($queryStart . $queryStatus . $queryEnd);
+                    $blockQuery[] = ' `user_status` = CASE ID WHEN ' . implode(' WHEN ', $bulkStatusUpdate) . ' ELSE `user_status` ';
 
                     // email
-                    $queryEmail = ' SET `user_email` = CASE ';
-                    $queryEmail .= ' WHEN ' . implode(' WHEN ', $bulkEmailUpdate);
-                    $queryEmail .= ' ELSE `user_email` ';
-                    $this->wpdb->query($queryStart . $queryEmail . $queryEnd);
+                    $blockQuery[] = ' `user_email` = CASE ID WHEN ' . implode(' WHEN ', $bulkEmailUpdate) . ' ELSE `user_email` ';
 
                     // display name
-                    $queryDisplayName = ' SET `display_name` = CASE ';
-                    $queryDisplayName .= ' WHEN ' . implode(' WHEN ', $bulkDisplayNameUpdate);
-                    $queryDisplayName .= ' ELSE `display_name` ';
-                    $this->wpdb->query($queryStart . $queryDisplayName . $queryEnd);
+                    $blockQuery[] = ' `display_name` = CASE ID WHEN ' . implode(' WHEN ', $bulkDisplayNameUpdate) . ' ELSE `display_name` ';
+
+                    // exec query block
+                    $this->wpdb->query($queryStart . implode(' END, ', $blockQuery) . $queryEnd);
 
                     $this->importSuccess = true;
                 }
