@@ -689,7 +689,7 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
         $request = !empty($url) ? $url : urlencode($_GET['requestUrl']);
     } else {
         $referer = $_SERVER['HTTP_REFERER'];
-        $request = !empty($url) ? $url : "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+        $request = !empty($url) ? $url : "{$_SERVER['REQUEST_URI']}";
     }
 
     if (! empty($referer) /*&& strripos( $request , $referer)*/ ){
@@ -715,6 +715,7 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
     $redirect .= "openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . $request;
 
     wp_redirect($redirect);
+    exit;
 }
 
 /**
