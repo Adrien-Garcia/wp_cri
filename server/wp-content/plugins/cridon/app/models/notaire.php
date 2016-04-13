@@ -1806,7 +1806,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         // update
         if (count($updateSoldeList) > 0) {
             // start/end query block
-            $queryStart = " UPDATE `{$this->wpdb->prefix}solde` ";
+            $queryStart = " UPDATE `{$this->wpdb->prefix}solde` SET ";
             $queryEnd   = ' END ';
 
             // only update if erpData.date_arret > cri_solde.date_arret
@@ -1824,7 +1824,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         // convert date to mysql format
                         if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $dateArret)) {
-                            $dateTime = date_create_from_format('d/m/Y', $dateArret);
+                            $dateTime  = date_create_from_format('d/m/Y', $dateArret);
                             $dateArret = $dateTime->format('Y-m-d');
                         }
                     }
@@ -1834,16 +1834,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $oldDate = $oldDate->format('Ymd');
                     if ($newDate > $oldDate) {
                         // prepare all update   query
-                        if (isset($newData[$parser::SOLDE_QUOTA]))
-                            $updateQuotaValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_QUOTA]) . "' ";
+                        if (isset($newData[$parser::SOLDE_QUOTA])) {
+                            $updateQuotaValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_QUOTA]) . "' ";
+                        }
 
-                        if (isset($newData[$parser::SOLDE_NOMBRE]))
-                            $updateNombreValues[]   = " id = {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_NOMBRE]) . "' ";
+                        if (isset($newData[$parser::SOLDE_NOMBRE])) {
+                            $updateNombreValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_NOMBRE]) . "' ";
+                        }
 
-                        if (isset($newData[$parser::SOLDE_POINTS]))
-                            $updatePointsValues[]   = " id = {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_POINTS]) . "' ";
+                        if (isset($newData[$parser::SOLDE_POINTS])) {
+                            $updatePointsValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_POINTS]) . "' ";
+                        }
 
-                        $updateDateArret[]          = " id = {$currentData->id} THEN '" . $dateArret . "' ";
+                        $updateDateArret[] = " {$currentData->id} THEN '" . $dateArret . "' ";
                     }
                 }
 
@@ -1851,27 +1854,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             }
 
             // execute update query
+            $soldeQuery = array();
             if (count($updateQuotaValues) > 0) {
                 // quota
-                $soldeQuery = ' SET `quota` = CASE ';
-                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updateQuotaValues);
-                $soldeQuery .= ' ELSE `quota` ';
-                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                $soldeQuery[] = ' `quota` = CASE id WHEN ' . implode(' WHEN ', $updateQuotaValues) . ' ELSE `quota` ';
                 // nombre
-                $soldeQuery = ' SET `nombre` = CASE ';
-                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updateNombreValues);
-                $soldeQuery .= ' ELSE `nombre` ';
-                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                $soldeQuery[] = ' `nombre` = CASE id WHEN ' . implode(' WHEN ', $updateNombreValues) . ' ELSE `nombre` ';
                 // points
-                $soldeQuery = ' SET `points` = CASE ';
-                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updatePointsValues);
-                $soldeQuery .= ' ELSE `points` ';
-                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                $soldeQuery[] = ' `points` = CASE id WHEN ' . implode(' WHEN ', $updatePointsValues) . ' ELSE `points` ';
                 // date_arret
-                $soldeQuery = ' SET `date_arret` = CASE ';
-                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updateDateArret);
-                $soldeQuery .= ' ELSE `date_arret` ';
-                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                $soldeQuery[] = ' `date_arret` = CASE id WHEN ' . implode(' WHEN ', $updateDateArret) . ' ELSE `date_arret` ';
+
+                // exec query block
+                $this->wpdb->query($queryStart . implode(' END, ', $soldeQuery) . $queryEnd);
 
                 $this->importSuccess = true;
             }
