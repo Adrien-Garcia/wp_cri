@@ -517,7 +517,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // update
             if (count($updateNotaireList) > 0) {
                 // start/end query block
-                $queryStart = " UPDATE `{$this->table}` ";
+                $queryStart = " UPDATE `{$this->table}` SET ";
                 $queryEnd   = ' END ';
 
                 // only update if erpData.date_modified > cri_notaire.date_modified
@@ -548,174 +548,129 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         if ($force || ($newDate > $oldDate)) {
                             // prepare all update   query
                             if (isset($newData[$adapter::NOTAIRE_CATEG]))
-                                $updateCategValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CATEG]) . "' ";
+                                $updateCategValues[]        = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CATEG]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_NUMCLIENT]))
-                                $updateNumclientValues[]    = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_NUMCLIENT]) . "' ";
+                                $updateNumclientValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_NUMCLIENT]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FNAME]))
-                                $updateFirstnameValues[]    = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FNAME]) . "' ";
+                                $updateFirstnameValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FNAME]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_LNAME]))
-                                $updateLastnameValues[]     = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_LNAME]) . "' ";
+                                $updateLastnameValues[]     = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_LNAME]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_PWDTEL]))
-                                $updatePwdtelValues[]       = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
+                                $updatePwdtelValues[]       = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_INTERCODE]))
-                                $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_INTERCODE]) . "' ";
+                                $updateInterCodeValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_INTERCODE]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_CIVILIT]))
-                                $updateCivlitValues[]       = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CIVILIT]) . "' ";
+                                $updateCivlitValues[]       = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CIVILIT]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_EMAIL]))
-                                $updateEmailValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_EMAIL]) . "' ";
+                                $updateEmailValues[]        = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_EMAIL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FONC]))
-                                $updateFoncValues[]         = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FONC]) . "' ";
+                                $updateFoncValues[]         = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FONC]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_TEL]))
-                                $updateTelValues[]         = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_TEL]) . "' ";
+                                $updateTelValues[]         = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_TEL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FAX]))
-                                $updateFaxValues[]         = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
+                                $updateFaxValues[]         = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
-                                $updateMobileValues[]      = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
+                                $updateMobileValues[]      = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
 
-                            $updateDateModified[]          = " id = {$currentData->id} THEN '" . $dateModified . "' ";
+                            $updateDateModified[]          = " {$currentData->id} THEN '" . $dateModified . "' ";
                         }
                     }
                     // end optimisation
                 }
 
                 // execute update query
+                $notaireQuery = array();
                 if (count($updateCategValues) > 0) {
                     // category
-                    $notaireQuery = ' SET `category` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateCategValues);
-                    $notaireQuery .= ' ELSE `category` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `category` = CASE id WHEN ' . implode(' WHEN ', $updateCategValues) . ' ELSE `category` ';
                 }
 
                 if (count($updateNumclientValues) > 0) {
                     // client_number
-                    $notaireQuery = ' SET `client_number` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateNumclientValues);
-                    $notaireQuery .= ' ELSE `client_number` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `client_number` = CASE id WHEN ' . implode(' WHEN ', $updateNumclientValues) . ' ELSE `client_number` ';
                 }
 
                 if (count($updateFirstnameValues) > 0) {
                     // first_name
-                    $notaireQuery = ' SET `first_name` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFirstnameValues);
-                    $notaireQuery .= ' ELSE `first_name` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `first_name` = CASE id WHEN ' . implode(' WHEN ', $updateFirstnameValues) . ' ELSE `first_name` ';
                 }
 
                 if (count($updateLastnameValues) > 0) {
                     // last_name
-                    $notaireQuery = ' SET `last_name` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateLastnameValues);
-                    $notaireQuery .= ' ELSE `last_name` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `last_name` = CASE id WHEN ' . implode(' WHEN ', $updateLastnameValues) . ' ELSE `last_name` ';
                 }
 
                 if (count($updatePwdtelValues) > 0) {
                     // tel_password
-                    $notaireQuery = ' SET `tel_password` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updatePwdtelValues);
-                    $notaireQuery .= ' ELSE `tel_password` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `tel_password` = CASE id WHEN ' . implode(' WHEN ', $updatePwdtelValues) . ' ELSE `tel_password` ';
                 }
 
                 if (count($updateInterCodeValues) > 0) {
                     // code_interlocuteur
-                    $notaireQuery = ' SET `code_interlocuteur` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateInterCodeValues);
-                    $notaireQuery .= ' ELSE `code_interlocuteur` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `code_interlocuteur` = CASE id WHEN ' . implode(' WHEN ', $updateInterCodeValues) . ' ELSE `code_interlocuteur` ';
                 }
 
                 if (count($updateCivlitValues) > 0) {
                     // id_civilite
-                    $notaireQuery = ' SET `id_civilite` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateCivlitValues);
-                    $notaireQuery .= ' ELSE `id_civilite` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `id_civilite` = CASE id WHEN ' . implode(' WHEN ', $updateCivlitValues) . ' ELSE `id_civilite` ';
                 }
 
                 if (count($updateEmailValues) > 0) {
                     // email_adress
-                    $notaireQuery = ' SET `email_adress` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateEmailValues);
-                    $notaireQuery .= ' ELSE `email_adress` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `email_adress` = CASE id WHEN ' . implode(' WHEN ', $updateEmailValues) . ' ELSE `email_adress` ';
                 }
 
                 if (count($updateFoncValues) > 0) {
                     // id_fonction
-                    $notaireQuery = ' SET `id_fonction` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFoncValues);
-                    $notaireQuery .= ' ELSE `id_fonction` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `id_fonction` = CASE id WHEN ' . implode(' WHEN ', $updateFoncValues) . ' ELSE `id_fonction` ';
                 }
 
                 if (count($updateTelValues) > 0) {
                     // tel
-                    $notaireQuery = ' SET `tel` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateTelValues);
-                    $notaireQuery .= ' ELSE `tel` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `tel` = CASE id WHEN ' . implode(' WHEN ', $updateTelValues) . ' ELSE `tel` ';
                 }
 
                 if (count($updateFaxValues) > 0) {
                     // fax
-                    $notaireQuery = ' SET `fax` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFaxValues);
-                    $notaireQuery .= ' ELSE `fax` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `fax` = CASE id WHEN ' . implode(' WHEN ', $updateFaxValues) . ' ELSE `fax` ';
                 }
 
                 if (count($updateMobileValues) > 0) {
                     // tel_portable
-                    $notaireQuery = ' SET `tel_portable` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateMobileValues);
-                    $notaireQuery .= ' ELSE `tel_portable` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `tel_portable` = CASE id WHEN ' . implode(' WHEN ', $updateMobileValues) . ' ELSE `tel_portable` ';
                 }
 
                 if (count($updateDateModified) > 0) {
                     // date_modified
-                    $notaireQuery = ' SET `date_modified` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateDateModified);
-                    $notaireQuery .= ' ELSE `date_modified` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    $notaireQuery[] = ' `date_modified` = CASE id WHEN ' . implode(' WHEN ', $updateDateModified) . ' ELSE `date_modified` ';
+                }
+
+                // execute prepared query
+                /**
+                 * Sous la forme :
+                 * UPDATE tablename SET
+                    col1 = CASE name WHEN 'name1' THEN 5 WHEN 'name2' THEN 3 ELSE 0 END,
+                    col2 = CASE name WHEN 'name1' THEN '' WHEN 'name2' THEN 'whatever' ELSE '' END;
+                 * @see http://stackoverflow.com/questions/13673890/mysql-case-to-update-multiple-columns
+                 */
+                if (count($notaireQuery) > 0) {
+                    $this->wpdb->query($queryStart . implode(' END, ', $notaireQuery) . $queryEnd);
+
+                    // log query
+                    if (getenv('ENV') != PROD) {
+                        writeLog($queryStart . implode(' END, ', $notaireQuery) . $queryEnd, '$notaireQuery.log');
+                    }
 
                     $this->importSuccess = true;
                 }
