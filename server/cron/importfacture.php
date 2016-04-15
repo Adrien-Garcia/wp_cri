@@ -16,6 +16,6 @@ require_once '../wp-load.php';
  */
 $model = mvc_model('etude');
 // call export action
-$code = $model->exportFacture();
+$code = $model->importFacture();
 
 echo $code;
