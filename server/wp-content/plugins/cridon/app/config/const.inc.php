@@ -819,5 +819,27 @@ if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
 
-
+// Start of block Import Facture
+if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
+    define( 'CONST_TYPEFACTURE_CG', 'CG' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CS' ) ) { // cotisation supplementaire
+    define( 'CONST_TYPEFACTURE_CS', 'CS' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_TRAD' ) ) { // traduction
+    define( 'CONST_TYPEFACTURE_TRAD', 'TRAD' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_SAF' ) ) { // service d'assistance fiscale
+    define( 'CONST_TYPEFACTURE_SAF', 'SAF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CONF' ) ) { // formation
+    define( 'CONST_TYPEFACTURE_CONF', 'CONF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CO' ) ) { // offre éditeur CridOnline
+    define( 'CONST_TYPEFACTURE_CO', 'CO' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
+    define( 'BROCHNST_TYPEFACTURE_BROCH', 'BROCH' );
+}
+// End of block Import Facture
 
