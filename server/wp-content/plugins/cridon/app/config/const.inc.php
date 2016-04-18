@@ -819,5 +819,25 @@ if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
 
+// Start of block Import Releveconso
+if ( !defined( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
+    $uploadDir = wp_upload_dir();
+    if (!file_exists($uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/')) {
+        wp_mkdir_p($uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/');
+    }
+    define( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH', $uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/' );
+}
+if ( !defined( 'CONST_IMPORT_RELEVECONSO_PATH' ) ) { // emplacement definitif 
+    $uploadDir = wp_upload_dir();
+    if (!file_exists($uploadDir['basedir'] . '/releveconso/')) {
+        wp_mkdir_p($uploadDir['basedir'] . '/releveconso/');
+    }
+    define( 'CONST_IMPORT_RELEVECONSO_PATH', $uploadDir['basedir'] . '/releveconso/' );
+}
+if ( !defined( 'CONST_DOC_TYPE_RELEVECONSO' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_RELEVECONSO', 'releveconso' );
+}
+// End of block Import Releveconso
+
 
 

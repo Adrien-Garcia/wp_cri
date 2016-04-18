@@ -502,4 +502,11 @@ class Config {
         CONST_QUESTIONECRITES_ROLE         => 'Poser des questions écrites',
         CONST_QUESTIONTELEPHONIQUES_ROLE   => 'Poser des questions téléphoniques',
     );
+
+    /**
+     * Selon la regle de nommage des fichiers factures à importer
+     * <CRPCEN_releveconso_AAAAMMJJ>.pdf
+     * @var string
+     */
+    public static $importRelevePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.([a-zA-Z]+)/';
 }
