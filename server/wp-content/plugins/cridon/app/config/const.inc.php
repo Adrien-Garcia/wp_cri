@@ -841,5 +841,19 @@ if ( !defined( 'CONST_TYPEFACTURE_CO' ) ) { // offre éditeur CridOnline
 if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
     define( 'BROCHNST_TYPEFACTURE_BROCH', 'BROCH' );
 }
+if ( !defined( 'CONST_IMPORT_FACTURE_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFACTURETemp/' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
+    $uploadDir = wp_upload_dir();
+    if (!file_exists($uploadDir['basedir'] . '/factures/')) {
+        wp_mkdir_p($uploadDir['basedir'] . '/factures/');
+    }
+    define( 'CONST_IMPORT_FACTURE_PATH', $uploadDir['basedir'] . '/factures/' );
+}
+if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_FACTURE', 'facture' );
+}
 // End of block Import Facture
 
