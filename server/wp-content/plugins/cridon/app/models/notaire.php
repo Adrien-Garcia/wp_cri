@@ -517,7 +517,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // update
             if (count($updateNotaireList) > 0) {
                 // start/end query block
-                $queryStart = " UPDATE `{$this->table}` ";
+                $queryStart = " UPDATE `{$this->table}` SET ";
                 $queryEnd   = ' END ';
 
                 // only update if erpData.date_modified > cri_notaire.date_modified
@@ -548,174 +548,129 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         if ($force || ($newDate > $oldDate)) {
                             // prepare all update   query
                             if (isset($newData[$adapter::NOTAIRE_CATEG]))
-                                $updateCategValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CATEG]) . "' ";
+                                $updateCategValues[]        = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CATEG]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_NUMCLIENT]))
-                                $updateNumclientValues[]    = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_NUMCLIENT]) . "' ";
+                                $updateNumclientValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_NUMCLIENT]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FNAME]))
-                                $updateFirstnameValues[]    = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FNAME]) . "' ";
+                                $updateFirstnameValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FNAME]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_LNAME]))
-                                $updateLastnameValues[]     = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_LNAME]) . "' ";
+                                $updateLastnameValues[]     = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_LNAME]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_PWDTEL]))
-                                $updatePwdtelValues[]       = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
+                                $updatePwdtelValues[]       = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_INTERCODE]))
-                                $updateInterCodeValues[]    = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_INTERCODE]) . "' ";
+                                $updateInterCodeValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_INTERCODE]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_CIVILIT]))
-                                $updateCivlitValues[]       = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CIVILIT]) . "' ";
+                                $updateCivlitValues[]       = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CIVILIT]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_EMAIL]))
-                                $updateEmailValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_EMAIL]) . "' ";
+                                $updateEmailValues[]        = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_EMAIL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FONC]))
-                                $updateFoncValues[]         = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FONC]) . "' ";
+                                $updateFoncValues[]         = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FONC]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_TEL]))
-                                $updateTelValues[]         = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_TEL]) . "' ";
+                                $updateTelValues[]         = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_TEL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FAX]))
-                                $updateFaxValues[]         = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
+                                $updateFaxValues[]         = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
-                                $updateMobileValues[]      = " id = {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
+                                $updateMobileValues[]      = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
 
-                            $updateDateModified[]          = " id = {$currentData->id} THEN '" . $dateModified . "' ";
+                            $updateDateModified[]          = " {$currentData->id} THEN '" . $dateModified . "' ";
                         }
                     }
                     // end optimisation
                 }
 
                 // execute update query
+                $notaireQuery = array();
                 if (count($updateCategValues) > 0) {
                     // category
-                    $notaireQuery = ' SET `category` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateCategValues);
-                    $notaireQuery .= ' ELSE `category` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `category` = CASE id WHEN ' . implode(' WHEN ', $updateCategValues) . ' ELSE `category` ';
                 }
 
                 if (count($updateNumclientValues) > 0) {
                     // client_number
-                    $notaireQuery = ' SET `client_number` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateNumclientValues);
-                    $notaireQuery .= ' ELSE `client_number` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `client_number` = CASE id WHEN ' . implode(' WHEN ', $updateNumclientValues) . ' ELSE `client_number` ';
                 }
 
                 if (count($updateFirstnameValues) > 0) {
                     // first_name
-                    $notaireQuery = ' SET `first_name` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFirstnameValues);
-                    $notaireQuery .= ' ELSE `first_name` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `first_name` = CASE id WHEN ' . implode(' WHEN ', $updateFirstnameValues) . ' ELSE `first_name` ';
                 }
 
                 if (count($updateLastnameValues) > 0) {
                     // last_name
-                    $notaireQuery = ' SET `last_name` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateLastnameValues);
-                    $notaireQuery .= ' ELSE `last_name` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `last_name` = CASE id WHEN ' . implode(' WHEN ', $updateLastnameValues) . ' ELSE `last_name` ';
                 }
 
                 if (count($updatePwdtelValues) > 0) {
                     // tel_password
-                    $notaireQuery = ' SET `tel_password` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updatePwdtelValues);
-                    $notaireQuery .= ' ELSE `tel_password` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `tel_password` = CASE id WHEN ' . implode(' WHEN ', $updatePwdtelValues) . ' ELSE `tel_password` ';
                 }
 
                 if (count($updateInterCodeValues) > 0) {
                     // code_interlocuteur
-                    $notaireQuery = ' SET `code_interlocuteur` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateInterCodeValues);
-                    $notaireQuery .= ' ELSE `code_interlocuteur` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `code_interlocuteur` = CASE id WHEN ' . implode(' WHEN ', $updateInterCodeValues) . ' ELSE `code_interlocuteur` ';
                 }
 
                 if (count($updateCivlitValues) > 0) {
                     // id_civilite
-                    $notaireQuery = ' SET `id_civilite` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateCivlitValues);
-                    $notaireQuery .= ' ELSE `id_civilite` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `id_civilite` = CASE id WHEN ' . implode(' WHEN ', $updateCivlitValues) . ' ELSE `id_civilite` ';
                 }
 
                 if (count($updateEmailValues) > 0) {
                     // email_adress
-                    $notaireQuery = ' SET `email_adress` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateEmailValues);
-                    $notaireQuery .= ' ELSE `email_adress` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `email_adress` = CASE id WHEN ' . implode(' WHEN ', $updateEmailValues) . ' ELSE `email_adress` ';
                 }
 
                 if (count($updateFoncValues) > 0) {
                     // id_fonction
-                    $notaireQuery = ' SET `id_fonction` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFoncValues);
-                    $notaireQuery .= ' ELSE `id_fonction` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `id_fonction` = CASE id WHEN ' . implode(' WHEN ', $updateFoncValues) . ' ELSE `id_fonction` ';
                 }
 
                 if (count($updateTelValues) > 0) {
                     // tel
-                    $notaireQuery = ' SET `tel` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateTelValues);
-                    $notaireQuery .= ' ELSE `tel` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `tel` = CASE id WHEN ' . implode(' WHEN ', $updateTelValues) . ' ELSE `tel` ';
                 }
 
                 if (count($updateFaxValues) > 0) {
                     // fax
-                    $notaireQuery = ' SET `fax` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateFaxValues);
-                    $notaireQuery .= ' ELSE `fax` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `fax` = CASE id WHEN ' . implode(' WHEN ', $updateFaxValues) . ' ELSE `fax` ';
                 }
 
                 if (count($updateMobileValues) > 0) {
                     // tel_portable
-                    $notaireQuery = ' SET `tel_portable` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateMobileValues);
-                    $notaireQuery .= ' ELSE `tel_portable` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $notaireQuery[] = ' `tel_portable` = CASE id WHEN ' . implode(' WHEN ', $updateMobileValues) . ' ELSE `tel_portable` ';
                 }
 
                 if (count($updateDateModified) > 0) {
                     // date_modified
-                    $notaireQuery = ' SET `date_modified` = CASE ';
-                    $notaireQuery .= ' WHEN ' . implode(' WHEN ', $updateDateModified);
-                    $notaireQuery .= ' ELSE `date_modified` ';
-                    $this->wpdb->query($queryStart . $notaireQuery . $queryEnd);
+                    $notaireQuery[] = ' `date_modified` = CASE id WHEN ' . implode(' WHEN ', $updateDateModified) . ' ELSE `date_modified` ';
+                }
+
+                // execute prepared query
+                /**
+                 * Sous la forme :
+                 * UPDATE cri_notaire SET
+                    `category` = CASE id WHEN id1 THEN 'OFF' WHEN id2 THEN 'DIV' ELSE `category` END,
+                    `code_interlocuteur` = CASE id WHEN id1 THEN 'code1' WHEN id2 THEN 'whatever' ELSE `code_interlocuteur` END;
+                 * @see http://stackoverflow.com/questions/13673890/mysql-case-to-update-multiple-columns
+                 */
+                if (count($notaireQuery) > 0) {
+                    $this->wpdb->query($queryStart . implode(' END, ', $notaireQuery) . $queryEnd);
+
+                    // log query
+                    if (getenv('ENV') != PROD) {
+                        writeLog($queryStart . implode(' END, ', $notaireQuery) . $queryEnd, '$notaireQuery.log');
+                    }
 
                     $this->importSuccess = true;
                 }
@@ -826,7 +781,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // update
             if (count($updateEtudeList) > 0) {
                 // start/end query block
-                $queryStart = " UPDATE `{$etudeTable}` ";
+                $queryStart = " UPDATE `{$etudeTable}` SET ";
                 $queryEnd   = ' END ';
 
                 $options = array('group'=>'Etude.crpcen');
@@ -840,52 +795,52 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         // prepare all update   query
                         if (isset($newData[$adapter::NOTAIRE_SIGLE]))
-                            $updateSigleValues[]        = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_SIGLE]) . "' ";
+                            $updateSigleValues[]        = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_SIGLE]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_OFFICENAME]))
-                            $updateOfficenameValues[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICENAME]) . "' ";
+                            $updateOfficenameValues[]    = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICENAME]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_ADRESS1]))
-                            $updateAdress1Values[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS1]) . "' ";
+                            $updateAdress1Values[]    = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS1]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_ADRESS2]))
-                            $updateAdress2Values[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS2]) . "' ";
+                            $updateAdress2Values[]     = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS2]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_ADRESS3]))
-                            $updateAdress3Values[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS3]) . "' ";
+                            $updateAdress3Values[]       = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS3]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_CP]))
-                            $updateCpValues[]    = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CP]) . "' ";
+                            $updateCpValues[]    = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CP]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_CITY]))
-                            $updateCityValues[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CITY]) . "' ";
+                            $updateCityValues[]       = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CITY]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_MAIL1]))
-                            $updateEmail1Values[]        = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL1]) . "' ";
+                            $updateEmail1Values[]        = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL1]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_MAIL2]))
-                            $updateEmail2Values[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL2]) . "' ";
+                            $updateEmail2Values[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL2]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_MAIL3]))
-                            $updateEmail3Values[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL3]) . "' ";
+                            $updateEmail3Values[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL3]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_OFFICETEL]))
-                            $updateTelValues[]      = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICETEL]) . "' ";
+                            $updateTelValues[]      = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICETEL]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_OFFICEFAX]))
-                            $updateFaxValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
+                            $updateFaxValues[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_YNIVEAU_0]) && $newData[$adapter::NOTAIRE_YNIVEAU_0] < $currentData->subscription_level){
                             if (isset($newData[$adapter::NOTAIRE_YVALDEB_0]) && date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0])) >= $currentData->start_subscription_date){
                                 if (!empty($newData[$adapter::NOTAIRE_YMOTIF_0])){
                                     if (in_array($newData[$adapter::NOTAIRE_YMOTIF_0],Config::$motiveImmediateUpdate)
                                         && isset($newData[$adapter::NOTAIRE_YVALFIN_0]) && isset($newData[$adapter::NOTAIRE_YDATECH_0])){
-                                        $updateLevelValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
-                                        $updateStartDateValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0]))) . "' ";
-                                        $updateEndDateValues[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALFIN_0]))) . "' ";
-                                        $updateEcheanceDateValues[]  = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YDATECH_0]))) . "' ";
+                                        $updateLevelValues[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                        $updateStartDateValues[]     = " {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0]))) . "' ";
+                                        $updateEndDateValues[]       = " {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALFIN_0]))) . "' ";
+                                        $updateEcheanceDateValues[]  = " {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YDATECH_0]))) . "' ";
                                     } else {
-                                        $updateNextLevelValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                        $updateNextLevelValues[]     = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
                                     }
                                 }
                             }
@@ -895,107 +850,70 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 }
 
                 // execute update query
+                $etudeQuery = array();
                 if (count($updateSigleValues) > 0) {
                     // id_sigle
-                    $etudeQuery = ' SET `id_sigle` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateSigleValues);
-                    $etudeQuery .= ' ELSE `id_sigle` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `id_sigle` = CASE crpcen WHEN ' . implode(' WHEN ', $updateSigleValues) . ' ELSE `id_sigle` ';
                     // office_name
-                    $etudeQuery = ' SET `office_name` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateOfficenameValues);
-                    $etudeQuery .= ' ELSE `office_name` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `office_name` = CASE crpcen WHEN ' . implode(' WHEN ', $updateOfficenameValues) . ' ELSE `office_name` ';
                     // adress_1
-                    $etudeQuery = ' SET `adress_1` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateAdress1Values);
-                    $etudeQuery .= ' ELSE `adress_1` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `adress_1` = CASE crpcen WHEN ' . implode(' WHEN ', $updateAdress1Values) . ' ELSE `adress_1` ';
                     // adress_2
-                    $etudeQuery = ' SET `adress_2` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateAdress2Values);
-                    $etudeQuery .= ' ELSE `adress_2` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `adress_2` = CASE crpcen WHEN ' . implode(' WHEN ', $updateAdress2Values) . ' ELSE `adress_2` ';
                     // adress_3
-                    $etudeQuery = ' SET `adress_3` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateAdress3Values);
-                    $etudeQuery .= ' ELSE `adress_3` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `adress_3` = CASE crpcen WHEN ' . implode(' WHEN ', $updateAdress3Values) . ' ELSE `adress_3` ';
                     // cp
-                    $etudeQuery = ' SET `cp` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateCpValues);
-                    $etudeQuery .= ' ELSE `cp` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `cp` = CASE crpcen WHEN ' . implode(' WHEN ', $updateCpValues) . ' ELSE `cp` ';
                     // city
-                    $etudeQuery = ' SET `city` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateCityValues);
-                    $etudeQuery .= ' ELSE `city` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `city` = CASE crpcen WHEN ' . implode(' WHEN ', $updateCityValues) . ' ELSE `city` ';
                     // office_email_adress_1
-                    $etudeQuery = ' SET `office_email_adress_1` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEmail1Values);
-                    $etudeQuery .= ' ELSE `office_email_adress_1` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `office_email_adress_1` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEmail1Values) . ' ELSE `office_email_adress_1` ';
                     // office_email_adress_2
-                    $etudeQuery = ' SET `office_email_adress_2` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEmail2Values);
-                    $etudeQuery .= ' ELSE `office_email_adress_2` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `office_email_adress_2` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEmail2Values) . ' ELSE `office_email_adress_2` ';
                     // office_email_adress_3
-                    $etudeQuery = ' SET `office_email_adress_3` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEmail3Values);
-                    $etudeQuery .= ' ELSE `office_email_adress_3` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `office_email_adress_3` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEmail3Values) . ' ELSE `office_email_adress_3` ';
                     // tel
-                    $etudeQuery = ' SET `tel` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateTelValues);
-                    $etudeQuery .= ' ELSE `tel` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `tel` = CASE crpcen WHEN ' . implode(' WHEN ', $updateTelValues) . ' ELSE `tel` ';
                     // fax
-                    $etudeQuery = ' SET `fax` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateFaxValues);
-                    $etudeQuery .= ' ELSE `fax` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
-
-                    $this->importSuccess = true;
+                    $etudeQuery[] = ' `fax` = CASE crpcen WHEN ' . implode(' WHEN ', $updateFaxValues) . ' ELSE `fax` ';
                 }
                 if (count($updateLevelValues) > 0) {
                     // subscription_level
-                    $etudeQuery = ' SET `subscription_level` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateLevelValues);
-                    $etudeQuery .= ' ELSE `subscription_level` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
-                    $this->importSuccess = true;
+                    $etudeQuery[] = ' `subscription_level` = CASE crpcen WHEN ' . implode(' WHEN ', $updateLevelValues) . ' ELSE `subscription_level` ';
                 }
                 if (count($updateStartDateValues) > 0) {
                     // start_subscription_date
-                    $etudeQuery = ' SET `start_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateStartDateValues);
-                    $etudeQuery .= ' ELSE `start_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
-                    $this->importSuccess = true;
+                    $etudeQuery[] = ' `start_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateStartDateValues) . ' ELSE `start_subscription_date` ';
                 }
                 if (count($updateEndDateValues) > 0) {
                     // end_subscription_date
-                    $etudeQuery = ' SET `end_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEndDateValues);
-                    $etudeQuery .= ' ELSE `end_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
-                    $this->importSuccess = true;
+                    $etudeQuery[] = ' `end_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEndDateValues) . ' ELSE `end_subscription_date` ';
                 }
                 if (count($updateEcheanceDateValues) > 0) {
                     // echeance_subscription_date
-                    $etudeQuery = ' SET `echeance_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEcheanceDateValues);
-                    $etudeQuery .= ' ELSE `echeance_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `echeance_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEcheanceDateValues) . ' ELSE `echeance_subscription_date` ';
                 }
                 if (count($updateNextLevelValues) > 0) {
                     // next_subscription_level
-                    $etudeQuery = ' SET `next_subscription_level` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateNextLevelValues);
-                    $etudeQuery .= ' ELSE `next_subscription_level` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `next_subscription_level` = CASE crpcen WHEN ' . implode(' WHEN ', $updateNextLevelValues) . ' ELSE `next_subscription_level` ';
+                }
+
+                // execute prepared query
+                /**
+                 * Sous la forme :
+                 * UPDATE cri_etude SET
+                `id_sigle` = CASE crpcen WHEN 'crpcen1' THEN 5 WHEN 'crpcen2' THEN 3 ELSE `id_sigle` END,
+                `subscription_level` = CASE crpcen WHEN 'crpcen1' THEN '' WHEN 'crpcen2' THEN 'whatever' ELSE `subscription_level` END;
+                 * @see http://stackoverflow.com/questions/13673890/mysql-case-to-update-multiple-columns
+                 */
+                if (count($etudeQuery) > 0) {
+                    $this->wpdb->query($queryStart . implode(' END, ', $etudeQuery) . $queryEnd);
+
+                    // log query
+                    if (getenv('ENV') != PROD) {
+                        writeLog($queryStart . implode(' END, ', $etudeQuery) . $queryEnd, '$etudeQuery.log');
+                    }
+
                     $this->importSuccess = true;
                 }
             }
@@ -1148,15 +1066,15 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     } else { // prepare the bulk update query
                         if ($notaire->id_wp_user) {
                             // pwd
-                            $bulkPwdUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . wp_hash_password($notaire->web_password) . "' ";
+                            $bulkPwdUpdate[] = " {$notaire->id_wp_user} THEN '" . wp_hash_password($notaire->web_password) . "' ";
                             // nicename
-                            $bulkNiceNameUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . sanitize_title($displayName) . "' ";
+                            $bulkNiceNameUpdate[] = " {$notaire->id_wp_user} THEN '" . sanitize_title($displayName) . "' ";
                             // status
-                            $bulkStatusUpdate[] = " ID = {$notaire->id_wp_user} THEN " . $userStatus . " ";
+                            $bulkStatusUpdate[] = " {$notaire->id_wp_user} THEN " . $userStatus . " ";
                             // email
-                            $bulkEmailUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . $notaire->email_adress . "' ";
+                            $bulkEmailUpdate[] = " {$notaire->id_wp_user} THEN '" . $notaire->email_adress . "' ";
                             // display name
-                            $bulkDisplayNameUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . esc_sql($displayName) . "' ";
+                            $bulkDisplayNameUpdate[] = " {$notaire->id_wp_user} THEN '" . esc_sql($displayName) . "' ";
                         }
                     }
                 }
@@ -1181,40 +1099,29 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 }
 
                 // execute the bulk update query
+                $blockQuery = array();
                 if (count($bulkPwdUpdate) > 0) {
                     // start/end query block
-                    $queryStart = " UPDATE `{$this->wpdb->users}` ";
+                    $queryStart = " UPDATE `{$this->wpdb->users}` SET ";
                     $queryEnd   = ' END ';
 
                     // pwd
-                    $queryPwd = ' SET `user_pass` = CASE ';
-                    $queryPwd .= ' WHEN ' . implode(' WHEN ', $bulkPwdUpdate);
-                    $queryPwd .= ' ELSE `user_pass` ';
-                    $this->wpdb->query($queryStart . $queryPwd . $queryEnd);
+                    $blockQuery[] = ' `user_pass` = CASE ID WHEN ' . implode(' WHEN ', $bulkPwdUpdate) . ' ELSE `user_pass` ';
 
                     // nicename
-                    $queryNicename = ' SET `user_nicename` = CASE ';
-                    $queryNicename .= ' WHEN ' . implode(' WHEN ', $bulkNiceNameUpdate);
-                    $queryNicename .= ' ELSE `user_nicename` ';
-                    $this->wpdb->query($queryStart . $queryNicename . $queryEnd);
+                    $blockQuery[] = ' `user_nicename` = CASE ID WHEN ' . implode(' WHEN ', $bulkNiceNameUpdate) . ' ELSE `user_nicename` ';
 
                     // status
-                    $queryStatus = ' SET `user_status` = CASE ';
-                    $queryStatus .= ' WHEN ' . implode(' WHEN ', $bulkStatusUpdate);
-                    $queryStatus .= ' ELSE `user_status` ';
-                    $this->wpdb->query($queryStart . $queryStatus . $queryEnd);
+                    $blockQuery[] = ' `user_status` = CASE ID WHEN ' . implode(' WHEN ', $bulkStatusUpdate) . ' ELSE `user_status` ';
 
                     // email
-                    $queryEmail = ' SET `user_email` = CASE ';
-                    $queryEmail .= ' WHEN ' . implode(' WHEN ', $bulkEmailUpdate);
-                    $queryEmail .= ' ELSE `user_email` ';
-                    $this->wpdb->query($queryStart . $queryEmail . $queryEnd);
+                    $blockQuery[] = ' `user_email` = CASE ID WHEN ' . implode(' WHEN ', $bulkEmailUpdate) . ' ELSE `user_email` ';
 
                     // display name
-                    $queryDisplayName = ' SET `display_name` = CASE ';
-                    $queryDisplayName .= ' WHEN ' . implode(' WHEN ', $bulkDisplayNameUpdate);
-                    $queryDisplayName .= ' ELSE `display_name` ';
-                    $this->wpdb->query($queryStart . $queryDisplayName . $queryEnd);
+                    $blockQuery[] = ' `display_name` = CASE ID WHEN ' . implode(' WHEN ', $bulkDisplayNameUpdate) . ' ELSE `display_name` ';
+
+                    // exec query block
+                    $this->wpdb->query($queryStart . implode(' END, ', $blockQuery) . $queryEnd);
 
                     $this->importSuccess = true;
                 }
@@ -1527,60 +1434,47 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             if (count($etudes)>0){
                 $updateLevelValues = $updatePriceValues = $updateStartDateValues = $updateEndDateValues = $updateEcheanceDateValues = $updateNextLevelValues = array();
                 $updateTransmisEcheanceValues = array();
-                $queryStart = " UPDATE `".mvc_model('Etude')->table."` ";
+                $queryStart = " UPDATE `".mvc_model('Etude')->table."` SET ";
                 $queryEnd   = ' END ';
                 foreach ($etudes as $etude) {
 
-                    $start_subscription_date = date('Y-m-d', strtotime($etude->end_subscription_date));
-                    $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
-                    $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+                    $start_subscription_date    = date('Y-m-d', strtotime($etude->end_subscription_date));
+                    $end_subscription_date      = date('Y-m-d', strtotime($start_subscription_date . '+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+                    $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date . '-' . CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
 
                     if (!empty($etude->next_subscription_level)) {
-                        $updateLevelValues[] = " crpcen = {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
+                        $updateLevelValues[] = " {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
                     }
-                    $nextSubscriptionPrice = mvc_model('Etude')->getSubscriptionPrice($etude);
-                    $updatePriceValues[] = " crpcen = {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
-                    $updateStartDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
-                    $updateEndDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
-                    $updateEcheanceDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $echeance_subscription_date . "' ";
-                    $updateTransmisEcheanceValues[] = " crpcen = {$etude->crpcen} THEN '0' ";
+                    $nextSubscriptionPrice          = mvc_model('Etude')->getSubscriptionPrice($etude);
+                    $updatePriceValues[]            = " {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
+                    $updateStartDateValues[]        = " {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
+                    $updateEndDateValues[]          = " {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
+                    $updateEcheanceDateValues[]     = " {$etude->crpcen} THEN '" . $echeance_subscription_date . "' ";
+                    $updateTransmisEcheanceValues[] = " {$etude->crpcen} THEN '0' ";
                 }
+
+                $etudeQuery = array();
                 if (count($updateLevelValues)>0) {
                     // subscription level
-                    $etudeQuery = ' SET `subscription_level` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateLevelValues);
-                    $etudeQuery .= ' ELSE `subscription_level` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `subscription_level` = CASE crpcen WHEN ' . implode(' WHEN ', $updateLevelValues) . ' ELSE `subscription_level` ';
 
                     // subscription price
-                    $etudeQuery = ' SET `subscription_price` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updatePriceValues);
-                    $etudeQuery .= ' ELSE `subscription_price` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `subscription_price` = CASE crpcen WHEN ' . implode(' WHEN ', $updatePriceValues) . ' ELSE `subscription_price` ';
 
                     // subscription start date
-                    $etudeQuery = ' SET `start_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateStartDateValues);
-                    $etudeQuery .= ' ELSE `start_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `start_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateStartDateValues) . ' ELSE `start_subscription_date` ';
 
                     // subscription end date
-                    $etudeQuery = ' SET `end_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEndDateValues);
-                    $etudeQuery .= ' ELSE `end_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `end_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEndDateValues) . ' ELSE `end_subscription_date` ';
 
                     // subscription echeance date
-                    $etudeQuery = ' SET `echeance_subscription_date` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEcheanceDateValues);
-                    $etudeQuery .= ' ELSE `echeance_subscription_date` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `echeance_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEcheanceDateValues) . ' ELSE `echeance_subscription_date` ';
 
                     // subscription transmis echeance
-                    $etudeQuery = ' SET `transmis_echeance` = CASE ';
-                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateTransmisEcheanceValues);
-                    $etudeQuery .= ' ELSE `transmis_echeance` ';
-                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $etudeQuery[] = ' `transmis_echeance` = CASE crpcen WHEN ' . implode(' WHEN ', $updateTransmisEcheanceValues) . ' ELSE `transmis_echeance` ';
+
+                    // exec query block
+                    $this->wpdb->query($queryStart . implode(' END, ', $etudeQuery) . $queryEnd);
                 }
             }
             // status code
@@ -1912,7 +1806,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         // update
         if (count($updateSoldeList) > 0) {
             // start/end query block
-            $queryStart = " UPDATE `{$this->wpdb->prefix}solde` ";
+            $queryStart = " UPDATE `{$this->wpdb->prefix}solde` SET ";
             $queryEnd   = ' END ';
 
             // only update if erpData.date_arret > cri_solde.date_arret
@@ -1930,7 +1824,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         // convert date to mysql format
                         if (preg_match("/^(\d+)\/(\d+)\/(\d+)$/", $dateArret)) {
-                            $dateTime = date_create_from_format('d/m/Y', $dateArret);
+                            $dateTime  = date_create_from_format('d/m/Y', $dateArret);
                             $dateArret = $dateTime->format('Y-m-d');
                         }
                     }
@@ -1940,16 +1834,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $oldDate = $oldDate->format('Ymd');
                     if ($newDate > $oldDate) {
                         // prepare all update   query
-                        if (isset($newData[$parser::SOLDE_QUOTA]))
-                            $updateQuotaValues[]        = " id = {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_QUOTA]) . "' ";
+                        if (isset($newData[$parser::SOLDE_QUOTA])) {
+                            $updateQuotaValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_QUOTA]) . "' ";
+                        }
 
-                        if (isset($newData[$parser::SOLDE_NOMBRE]))
-                            $updateNombreValues[]   = " id = {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_NOMBRE]) . "' ";
+                        if (isset($newData[$parser::SOLDE_NOMBRE])) {
+                            $updateNombreValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_NOMBRE]) . "' ";
+                        }
 
-                        if (isset($newData[$parser::SOLDE_POINTS]))
-                            $updatePointsValues[]   = " id = {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_POINTS]) . "' ";
+                        if (isset($newData[$parser::SOLDE_POINTS])) {
+                            $updatePointsValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_POINTS]) . "' ";
+                        }
 
-                        $updateDateArret[]          = " id = {$currentData->id} THEN '" . $dateArret . "' ";
+                        $updateDateArret[] = " {$currentData->id} THEN '" . $dateArret . "' ";
                     }
                 }
 
@@ -1957,27 +1854,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             }
 
             // execute update query
+            $soldeQuery = array();
             if (count($updateQuotaValues) > 0) {
                 // quota
-                $soldeQuery = ' SET `quota` = CASE ';
-                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updateQuotaValues);
-                $soldeQuery .= ' ELSE `quota` ';
-                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                $soldeQuery[] = ' `quota` = CASE id WHEN ' . implode(' WHEN ', $updateQuotaValues) . ' ELSE `quota` ';
                 // nombre
-                $soldeQuery = ' SET `nombre` = CASE ';
-                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updateNombreValues);
-                $soldeQuery .= ' ELSE `nombre` ';
-                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                $soldeQuery[] = ' `nombre` = CASE id WHEN ' . implode(' WHEN ', $updateNombreValues) . ' ELSE `nombre` ';
                 // points
-                $soldeQuery = ' SET `points` = CASE ';
-                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updatePointsValues);
-                $soldeQuery .= ' ELSE `points` ';
-                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                $soldeQuery[] = ' `points` = CASE id WHEN ' . implode(' WHEN ', $updatePointsValues) . ' ELSE `points` ';
                 // date_arret
-                $soldeQuery = ' SET `date_arret` = CASE ';
-                $soldeQuery .= ' WHEN ' . implode(' WHEN ', $updateDateArret);
-                $soldeQuery .= ' ELSE `date_arret` ';
-                $this->wpdb->query($queryStart . $soldeQuery . $queryEnd);
+                $soldeQuery[] = ' `date_arret` = CASE id WHEN ' . implode(' WHEN ', $updateDateArret) . ' ELSE `date_arret` ';
+
+                // exec query block
+                $this->wpdb->query($queryStart . implode(' END, ', $soldeQuery) . $queryEnd);
 
                 $this->importSuccess = true;
             }
