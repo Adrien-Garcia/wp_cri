@@ -128,7 +128,7 @@
 					</div>
 					 <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>">
                         <?php if ($onglet == CONST_ONGLET_CRIDONLINE) : ?>
-                            <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3 ), 'notaires') ?>
+                            <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3, 'messageError' => $messageError ), 'notaires') ?>
 
                         <?php endif; ?>
                     </div>

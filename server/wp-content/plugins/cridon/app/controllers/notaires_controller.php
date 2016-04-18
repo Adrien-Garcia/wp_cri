@@ -314,6 +314,12 @@ class NotairesController extends BasePublicController
             }
         }
 
+        if (isset($_REQUEST['error'])){
+            if ($_REQUEST['error'] == 'NIVEAU_VEILLE_INSUFFISANT'){
+                $this->set('messageError', CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT);
+            }
+        }
+
         // tab rank
         $this->set('onglet', CONST_ONGLET_CRIDONLINE);
     }
