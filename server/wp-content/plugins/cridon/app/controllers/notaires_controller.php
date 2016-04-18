@@ -292,28 +292,16 @@ class NotairesController extends BasePublicController
         $notaire = CriNotaireData();
         $this->set('notaire', $notaire);
 
-        $options = array(
-            'conditions' => array(
-                'crpcen' => $notaire->crpcen
-            )
-        );
-        $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
-
-
-        // Tri du tableau de prix par clé descendante
-        foreach(Config::$pricesLevelsVeilles[0] as $veilleLevel => $prices){
-            //set name of variable
-            $priceVeilleLevelx = 'priceVeilleLevel'.$veilleLevel;
-            //Tri par pri décroissant pour chaque niveau de veille
-            krsort($prices);
-            foreach($prices as $nbCollaborator => $price) {
-                if ($nbCollaboratorEtude >= $nbCollaborator) {
-                    $this->set($priceVeilleLevelx, $price);
-                    break;
-                }
+        $options = array('conditions' => array('crpcen' => $notaire->crpcen));
+        $etude   = mvc_model('Etude')->find_one($options);
+        $subscriptionInfos = mvc_model('Etude')->getSubscriptionprice($etude,false,true);
+        if (is_array($subscriptionInfos) && count($subscriptionInfos) > 0) {
+            foreach ($subscriptionInfos as $subscriptionInfo) {
+                //set name of variable
+                $priceVeilleLevelx = 'priceVeilleLevel' . $subscriptionInfo['level'];
+                $this->set($priceVeilleLevelx, $subscriptionInfo['price']);
             }
         }
-
         // tab rank
         $this->set('onglet', CONST_ONGLET_CRIDONLINE);
     }

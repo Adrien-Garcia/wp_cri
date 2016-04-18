@@ -147,6 +147,20 @@ class Config {
         CONST_NOTAIRE_ADMIN,
     );
 
+    // list of notaire functions used to calculate cridonline prices
+    public static $functionsPricesCridonline = array(
+        CONST_NOTAIRE_FONCTION,
+        CONST_NOTAIRE_ASSOCIE,
+        CONST_NOTAIRE_ASSOCIEE,
+        CONST_NOTAIRE_SALARIE,
+        CONST_NOTAIRE_SALARIEE,
+        CONST_NOTAIRE_GERANT,
+        CONST_NOTAIRE_GERANTE,
+        CONST_NOTAIRE_SUPLEANT,
+        CONST_NOTAIRE_SUPLEANTE,
+        CONST_NOTAIRE_ADMIN,
+    );
+
     public static $titleMetaboxDocument = 'Associer des documents';// Titre du metabox pour l'ajout de document
 
     // list of accepted question supports
@@ -428,35 +442,18 @@ class Config {
     );
 
     public static $pricesLevelsVeilles = array(
-        0 => array(
-            '1' => array(
-                0
-            ),
-            '2' => array(
-                '5' => 7900,
-                '2' => 4800,
-                '1' => 2500,
-            ),
-            '3' => array (
-                '5' => 9900,
-                '2' => 5900,
-                '1' => 3500,
-            )
+        '1' => array(
+            0
         ),
-        1 => array(
-            '1' => array(
-                0
-            ),
-            '2' => array(
-                '5' => 9000,
-                '2' => 5000,
-                '1' => 3000,
-            ),
-            '3' => array (
-                '5' => 10000,
-                '2' => 6000,
-                '1' => 4000,
-            )
+        '2' => array(
+            '5' => 7900,
+            '2' => 4800,
+            '1' => 2500,
+        ),
+        '3' => array (
+            '5' => 9900,
+            '2' => 5900,
+            '1' => 3500,
         )
     );
 
