@@ -143,7 +143,7 @@ class NotairesController extends BasePublicController
         $this->set('messageError', '');
         if (isset($_REQUEST['error'])){
             if ($_REQUEST['error'] == 'FONCTION_NON_AUTORISE'){
-                $this->set('messageError', "Vous n'avez pas l'autorisation pour accéder à cette page.");
+                $this->set('messageError', CONST_ERROR_MSG_FONCTION_NON_AUTORISE);
             }
         }
 
