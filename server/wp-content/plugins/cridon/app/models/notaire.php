@@ -2701,7 +2701,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if (is_user_logged_in()) {
             $notary = $this->getUserConnectedData();
 
-            return (is_object($notary) && in_array($notary->id_fonction, Config::$allowedNotaryFunction));
+            return (is_object($notary) && in_array(CONST_FINANCE_ROLE, (array) $notary->roles));
         }
 
         return false;
