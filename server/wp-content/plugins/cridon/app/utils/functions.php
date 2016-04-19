@@ -632,7 +632,6 @@ function CriListSupport($expertise)
             's.displayed' => 1,
             'es.id_expertise' => $expertise
         ),
-        'order'      => 's.order ASC',
         'limit'      => 3
     );
 

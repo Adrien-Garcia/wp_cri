@@ -428,7 +428,7 @@ class QueryBuilder{
         }
         $sql .= ' ORDER BY '.$primaryKey;
         if( isset( $options['order'] ) ){
-            $sql .= ', '.$options['order'];
+            $sql .= ' '.$options['order'];
         }else{
             $sql .= ' ASC';
         }
