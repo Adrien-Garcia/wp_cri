@@ -702,6 +702,7 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
         preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 &&
         preg_match("/.*?[\?\&]messageLogin=" . $error_code . ".*?/", $referer) === 1
     ) {
+        $redirect = get_home_url() . "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . $_SERVER['REQUEST_URI'];
         wp_redirect($redirect);
         return;
     }
