@@ -30,7 +30,8 @@
 		}
 
 		span{
-			@extend .do-sm;
+			font-family: $dosis;
+    		font-weight: 600;
 			color:$bleu;
 			font-size: 15px;
 			line-height: 24px;

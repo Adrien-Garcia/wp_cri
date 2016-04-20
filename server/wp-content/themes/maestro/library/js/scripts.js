@@ -221,6 +221,7 @@ jQuery(document).ready(function($) {
     
 
     /* ANNIM MENU RECHERCHER DANS LES BASES DE CONNAISSANCES */
+
     $("#rechercher > li > a").mouseenter(function(){
       $("#rechercher .overlay").addClass('visible');
     });
@@ -249,6 +250,36 @@ jQuery(document).ready(function($) {
 
 
 
+
+
+    /* POPUP AJOUT COLLABS */
+
+    $("#mes-collaborateurs .bt-ajout").click(function(){
+        //console.log('ah coucou');
+        $('#layer-add-collabs').popup('show');
+    });
+
+    $(".close_layer").click(function(){
+        //console.log('ah coucou');
+        $('#layer-add-collabs').popup('hide');
+    });
+
+    
+
+    
+    /* POPUP Trash collab */
+
+    $("#mes-collaborateurs .trash").click(function(){
+        //console.log('ah coucou');
+        $('#layer-sup-collabs').popup('show');
+    });
+
+    $(".close_layer").click(function(){
+        //console.log('ah coucou');
+        $('#layer-sup-collabs').popup('hide');
+    });
+
+
     /* POPUP update profil */
     $("#mon-profil .update-etude").click(function(){
         //console.log('ah coucou');
@@ -271,8 +302,6 @@ jQuery(document).ready(function($) {
         //console.log('ah coucou');
         $('#layer-update-etude').popup('hide');
     });
-
-
 
 
 }); /* end of as page load scripts */
