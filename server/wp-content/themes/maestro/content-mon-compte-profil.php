@@ -1,14 +1,16 @@
 <div class="mes-informations" id="sel-compte-profil">
 
-	<h2>Mes informations</h2>
+	<h2><?php _e('Mes informations'); ?></h2>
 
 	<div class="img-profil">
 	</div>
+	
 	<div class="coordonnees">
 		<div class="etude">
 			<div class="nom">
 				<span><?php echo $notaire->etude->office_name ?></span>
 			</div>
+
 			<div class="adresse">
                 <?php if (!empty($notaire->etude->adress_1)): ?>
 				<span><?php echo $notaire->etude->adress_1 ?></span>
@@ -21,19 +23,28 @@
 				<?php endif ?>				
 				<span><?php echo $notaire->etude->cp.' '.$notaire->etude->city ?></span>
 			</div>
+
 			<div class="mail">
 				<span id="sel-compte-mail"><?php echo $notaire->etude->office_email_adress_1 ?></span>
 			</div>
+
             <?php if (!empty($notaire->etude->tel) || !empty($notaire->etude->fax)): ?>
+
 			<div class="contact">
+
                 <?php if (!empty($notaire->etude->tel) && preg_match("/\+?\d{6,}/", $notaire->etude->tel) ): ?>
-				<span>Tel <?php echo $notaire->etude->tel ?></span>
+				<span>Tel <a href="tel:<?php echo $notaire->etude->tel ?>"><?php echo $notaire->etude->tel ?></a></span>
                 <?php endif; ?>
+
                 <?php if (!empty($notaire->etude->fax) && preg_match("/\+?\d{6,}/", $notaire->etude->fax)): ?>
-				<span>Fax <?php echo $notaire->etude->fax ?></span>
+				<span>Fax <a href="tel:<?php echo $notaire->etude->fax ?>"><?php echo $notaire->etude->fax ?></a></span>
                 <?php endif; ?>
 			</div>
+
             <?php endif; ?>
+
+            <div class="update update-etude"><?php _e('Modifier les informations de l\'étude'); ?></div>
+
 		</div>
 		<div class="notaire">
 			<div class="nom">
@@ -74,7 +85,10 @@
 				<?php if (!empty($notaire->fax) && preg_match("/\+?\d{6,}/", $notaire->fax)): ?>
 					<span>Fax <?php echo $notaire->fax ?></span>
 				<?php endif ?>
-			</div>			
+			</div>	
+
+			<div class="update update-profil"><?php _e('Modifier mes informations'); ?></div>
+
 		</div>
 
 	</div>
@@ -140,4 +154,11 @@
         <div id="newsletterMsgId" class="js-account-profil-newsletter-message">
         </div>
 
+</div>
+
+<div class="update-etude">
+    <?php echo get_template_part("content","update-etude-popup"); ?>
+</div>
+<div class="update-etude">
+    <?php echo get_template_part("content","update-profil-popup"); ?>
 </div>

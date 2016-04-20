@@ -359,12 +359,12 @@ Lien bouton Mon compte rectangle
 @mixin bt-rectangle($fond, $color) {
 
   display: inline-block;
-  padding: 3px 5px; 
+  padding: 4px 8px; 
   background: $fond;
   color:#FFF;
   text-transform: uppercase;
-  font-size: 11px;
-  @extend .do-sm;
+  font-size: 12px;
+  @extend .do-me;
   position: relative;
   text-decoration: none; 
   transition: all $duration;
