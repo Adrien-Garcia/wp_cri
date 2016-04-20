@@ -17,6 +17,13 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         'Sigle' => array('foreign_key' => 'id_sigle')
     );
 
+    /**
+     * list facture by crpcen
+     *
+     * @var array
+     */
+    var $listDocs = array();
+
     public function getSubscriptionPrice($etude,$isNext = true){
 
 
@@ -52,9 +59,13 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         // date
         $date = date('Ym');
 
+        // document entity
         $documentModel = mvc_model('Document');
 
         $this->importPdf($documents, $Iterator, $limit, $date, $documentModel);
+
+        // send email to notary
+        $this->sendEmailFacture();
     }
 
     /**
@@ -84,8 +95,8 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                             }
                             // CRPCEN present
                             if (!empty($matches[1][0]) && copy($document[0], $path . $fileInfo['basename'])) {
-                                $crpcen      = $matches[1][0];
-                                $typeFact    = $matches[3][0];
+                                $crpcen   = $matches[1][0];
+                                $typeFact = $matches[3][0];
 
                                 // donnees document
                                 $docData = array(
@@ -112,6 +123,12 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                                         )
                                     );
                                     $documentModel->save($docData);
+
+                                    // regroupement doc par etude
+                                    $docs                    = new \stdClass();
+                                    $docs->name              = $fileInfo['basename'];
+                                    $docs->download_url      = get_home_url() . $docData['Document']['download_url'];
+                                    $this->listDocs[$crpcen] = clone $docs;
 
                                     // archivage fichier
                                     $archivePath = CONST_IMPORT_FACTURE_TEMP_PATH . DIRECTORY_SEPARATOR . 'archives/' . $date . '/';
@@ -155,6 +172,109 @@ class Etude extends \App\Override\Model\CridonMvcModel {
             $documents->rewind();
             $this->importPdf($documents, $Iterator, $limit, $date, $documentModel);
         }
+    }
+
+    /**
+     * Envoie email de notification
+     */
+    public function sendEmailFacture()
+    {
+        // list doc non vide
+        if (count($this->listDocs) > 0) {
+            // en-tete email
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            // parse liste doc
+            foreach ($this->listDocs as $crpcen => $facture) {
+                // list des notaires à notifier par etude
+                $notary = $this->listNotaryToBeNotified($crpcen);
+
+                $dest        = array();
+                $office_name = '';
+                if (is_array($notary) && count($notary) > 0) {
+                    foreach ($notary as $item) {
+                        if (filter_var($item->email_adress, FILTER_VALIDATE_EMAIL)) {
+                            $dest[] = $item->email_adress;
+                        } elseif (filter_var($item->office_email_adress_1, FILTER_VALIDATE_EMAIL)) {
+                            $dest[] = $item->office_email_adress_1;
+                        } elseif (filter_var($item->office_email_adress_2, FILTER_VALIDATE_EMAIL)) {
+                            $dest[] = $item->etude->office_email_adress_2;
+                        } elseif (filter_var($item->office_email_adress_3, FILTER_VALIDATE_EMAIL)) {
+                            $dest[] = $item->office_email_adress_3;
+                        }
+
+                        // nom de l'etude concernée
+                        $office_name = $item->office_name;
+                    }
+                }
+
+                // destinataire non vide
+                if (count($dest) > 0) {
+                    $vars    = array(
+                        'office_name' => $office_name,
+                        'doc_url'     => $facture->download_url,
+                    );
+                    $message = CriRenderView('mail_notification_facture', $vars, 'custom', false);
+
+                    $env = getenv('ENV');
+                    if (empty($env) || ($env !== PROD)) {
+                        wp_mail(Config::$notificationAddressPreprod, Config::$mailSubjectNotifFacture[0], $message,
+                                $headers);
+                    } else {
+                        /**
+                         * wp_mail : envoie mail destinataire multiple
+                         *
+                         * @see wp-includes/pluggable.php : 228
+                         * @param string|array $to Array or comma-separated list of email addresses to send message.
+                         */
+                        wp_mail($dest, Config::$mailSubjectNotifFacture[0], $message, $headers);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Recuperation liste des notaires associés
+     *
+     * @param string $crpcen
+     * @return array|null|object
+     */
+    protected function listNotaryToBeNotified($crpcen)
+    {
+        global $wpdb;
+
+        // Collaborateur comptable
+        $collaborator_comptable = implode(', ', Config::$notaryFunctionCollaboratorComptableId);
+
+        // Notaire fonction
+        $notary_fonction = implode(', ', Config::$allowedNotaryFunction);
+
+        // requette
+        $query = "  SELECT
+                      `cn`.`email_adress`,
+                      `ce`.`office_name`,
+                      `ce`.`office_email_adress_1`,
+                      `ce`.`office_email_adress_2`,
+                      `ce`.`office_email_adress_3`
+                    FROM
+                      `{$wpdb->prefix}notaire` cn
+                    LEFT JOIN
+                      `{$wpdb->prefix}fonction_collaborateur` cfc
+                      ON
+                        `cfc`.`id` = `cn`.`id_fonction_collaborateur`
+                    LEFT JOIN
+                      {$wpdb->prefix}etude ce
+                      ON
+                        ce.crpcen = `cn`.`crpcen`
+                    WHERE
+                      `cn`.`crpcen` = %s
+                    AND (
+                          `cn`.`id_fonction_collaborateur` IN ({$collaborator_comptable})
+                          OR
+                          `cn`.`id_fonction` IN ({$notary_fonction})
+                    ) ";
+
+        return $wpdb->get_results($wpdb->prepare($query, $crpcen));
     }
 
 }
