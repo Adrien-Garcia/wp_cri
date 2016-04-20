@@ -1,5 +1,5 @@
 
-<div id="layer-sup-collabs" style="display:none;">
+<div id="layer-sup-collabs" class="popup" style="display:none;">
 
     <div class="titre">
         <span class="close_layer layer-cridonline_close"></span>

@@ -40,7 +40,7 @@ div#mon-profil{
 
 			width: 100%;
 			float: left;
-			@extend .do-sm;
+			@extend .do-me;
 			color:$bleu;
 			font-size: 16px;
 
@@ -78,7 +78,6 @@ div#mon-profil{
 
 				a{ text-decoration: none;
 					color:$bleu;
-					font-weight: bold;
 
 					position: absolute;
 				    top: 0px;

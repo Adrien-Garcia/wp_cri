@@ -280,8 +280,10 @@ jQuery(document).ready(function($) {
     });
 
 
+
+
     /* POPUP update profil */
-    $("#mon-profil .update-etude").click(function(){
+    $("#mon-profil .update-profil").click(function(){
         //console.log('ah coucou');
         $('#layer-update-profil').popup('show');
     });
@@ -293,7 +295,7 @@ jQuery(document).ready(function($) {
 
 
     /* POPUP update etude */
-    $("#mon-profil .update-profil").click(function(){
+    $("#mon-profil .update-etude").click(function(){
         //console.log('ah coucou');
         $('#layer-update-etude').popup('show');
     });

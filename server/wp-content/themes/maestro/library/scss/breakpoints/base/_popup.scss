@@ -638,14 +638,16 @@
 
 
 
-#layer-cridonline, #layer-add-collabs, #layer-sup-collabs, .popup{
+#layer-cridonline,
+#layer-add-collabs,
+#layer-sup-collabs,
+.popup{
 
 
 /* POPUP CRIDONLINE */
  
 	width: 100%;
 	height: auto;
-	padding: 20px;
 	background: #FFF;
 
 	>.titre{
@@ -715,6 +717,8 @@
 		text-align: center;
 		min-height: 200px;
 
+		padding: 20px;
+
 		p{
 			@extend .do-bo;
 			font-size: 20px;
@@ -739,6 +743,8 @@
 
 	>form{
 		margin: 35px 0;
+
+		padding: 20px;
 
 		input[type="text"]{
 
