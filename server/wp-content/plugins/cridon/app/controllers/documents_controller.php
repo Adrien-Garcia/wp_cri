@@ -23,15 +23,19 @@ class DocumentsController extends BasePublicController
         } else {
             $notaire = null;//for User Cridon BO and a user not connected
         }
-        $model = mvc_model($document->type);
-        //No model check
-        if (empty($model)) {
-            redirectTo404();
-        }
-        if (($model->name == 'Question') || in_array($document->type, Config::$accessDowloadDocument)) {
-            $object = $model->find_one_by_id($document->id_externe);
-            //Check user access
-            $this->checkAccess($object, $notaire, $document);
+
+        // filter type of document for model associations
+        if (!in_array($document->type, Config::$exceptedDocTypeForModel)) {
+            $model = mvc_model($document->type);
+            //No model check
+            if (empty($model)) {
+                redirectTo404();
+            }
+            if (($model->name == 'Question') || in_array($document->type, Config::$accessDowloadDocument)) {
+                $object = $model->find_one_by_id($document->id_externe);
+                //Check user access
+                $this->checkAccess($object, $notaire, $document);
+            }
         }
         //Let's begin download
         $uploadDir = wp_upload_dir();
