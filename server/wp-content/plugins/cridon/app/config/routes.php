@@ -40,6 +40,9 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/contentfacturation', array('cont
 MvcRouter::public_connect('notaires/{:id:[\d]+}', array('controller' => 'notaires', 'action' => 'show'));
 // Fin bloc ancienne url
 
+// default
+MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
+
 // nouvelle regle de routage notaire
 MvcRouter::public_connect('notaires/questions', array('controller' => 'notaires', 'action' => 'questions'));
 MvcRouter::public_connect('notaires/profil', array('controller' => 'notaires', 'action' => 'profil'));
@@ -51,7 +54,7 @@ MvcRouter::public_connect('notaires/contentquestions', array('controller' => 'no
 MvcRouter::public_connect('notaires/contentprofil', array('controller' => 'notaires', 'action' => 'contentprofil'));
 MvcRouter::public_connect('notaires/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
 MvcRouter::public_connect('notaires/contentcollaborateur', array('controller' => 'notaires', 'action' => 'contentcollaborateur'));
-MvcRouter::public_connect('notaires/deletecollaborateur/{:id:[\d]+}', array('controller' => 'notaires', 'action' => 'deletecollaborateur'));
+MvcRouter::public_connect('notaires/deletecollaborateur/{:id:[\d]+}', array('controller' => 'notaires', 'action' => 'ajaxdeletecollaborateur'));
 MvcRouter::public_connect('notaires/liste', array('controller' => 'notaires', 'action' => 'liste'));
 MvcRouter::public_connect('notaires/contentcridonline', array('controller' => 'notaires', 'action' => 'contentcridonline'));
 MvcRouter::public_connect('notaires/contentcridonlineetape2', array('controller' => 'notaires', 'action' => 'contentcridonlineetape2'));
@@ -78,9 +81,6 @@ MvcRouter::public_connect('veilles/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' 
 MvcRouter::public_connect('cahier_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'cahier_cridons', 'action' => 'show'));
 MvcRouter::public_connect('vie_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'vie_cridons', 'action' => 'show'));
 MvcRouter::public_connect('matieres/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'matieres', 'action' => 'show'));
-
-// default
-MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
 
 //Ajax admin
 MvcRouter::admin_ajax_connect(array('controller' => 'admin_documents', 'action' => 'search'));

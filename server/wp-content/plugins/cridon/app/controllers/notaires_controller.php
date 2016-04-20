@@ -607,46 +607,37 @@ class NotairesController extends BasePublicController
      *
      * @return void
      */
-    public function deletecollaborateur()
+    public function ajaxdeletecollaborateur()
     {
-        // access secured
-        $this->prepareSecureAccess();
-
+        $ret = 'invalidToken';
         // collaborator id
         $collaborator_id = $this->params['id'];
-
-        // check if user can manage collaborator
-        if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)
-            || !$this->tools->isSameOffice($collaborator_id, $this->current_notaire)
-        ) {
-            // redirect to profil page
-            $this->redirect(mvc_public_url(
-                                array(
-                                    'controller' => 'notaires',
-                                    'action'     => 'profil'
-                                )
+        //notaire
+        $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+        if (!empty ($collaborator_id)) {
+            if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_collaborateur_delete_nonce')) {
+                // check if user can manage collaborator
+                if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)
+                    || !$this->tools->isSameOffice($collaborator_id, $this->current_notaire)
+                ) {
+                    // redirect to profil page
+                    $this->redirect(mvc_public_url(
+                            array(
+                                'controller' => 'notaires',
+                                'action' => 'profil'
                             )
-            );
-        }
+                        )
+                    );
+                }
 
-        // default message
-        $flash_message = CONST_CONFIRM_DEL_MSG;
-
-        // submit form
-        if (isset($_REQUEST['confirmdelete'])) {
-            if ($this->model->deleteCollaborator($collaborator_id)) {
-                $flash_message = CONST_DEL_SUCCESS_MSG;
+                // submit form
+                if ($this->model->deleteCollaborator($collaborator_id)) {
+                    $ret = 'success';
+                }
             }
         }
-
-        // set collaborator id
-        $this->set('collaborator_id', $collaborator_id);
-
-        // set flash message
-        $this->set('flash_message', $flash_message);
-
-        // tab rank
-        $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
+        echo json_encode($ret);
+        die;
     }
 
     /**

@@ -18,6 +18,8 @@ App.Account = {
     accountProfilSubscriptionSelector   : '-subscription',
     accountProfilNewsletterSelector     : '-newsletter',
     accountCridonlineSubLevelSelector   : '-sublevel',
+    accountCollaborateurDeleteSelector  : '-delete',
+    accountCollaborateurAddSelector     : '-add',
     accountFormSelector                 : '-form',
 
     accountEmailSelector                : '-email',
@@ -29,6 +31,7 @@ App.Account = {
     accountCheckboxSelector             : '-checkbox',
     accountStep1Selector                : '-step1',
     accountStep2Selector                : '-step2',
+    accountIdSelector                   : '-id',
 
     ajaxSelector                        : '-ajax',
     ajaxPaginationSelector              : '-pagination',
@@ -44,6 +47,7 @@ App.Account = {
     accountSoldeSVGSelector             : '#solde-circle-path',
     accountPopupCridonline              : '#layer-cridonline',
     accountCridonline                   : '#cridonline',
+    accountPopupCollaborateurDelete     : '#layer-collaborateur-delete',
 
     eventAccountButtonSelector          : '-button',
 
@@ -79,9 +83,7 @@ App.Account = {
     $accountProfilNewsletterEmail       : null,
     $accountProfilNewsletterState       : null,
 
-    $accountCridonlineSubLevelForm      : null,
-    $accountCridonlineSubLevelMessage   : null,
-    $accountCridonlineSubLevelState     : null,
+    $accountCollaborateurDeleteId       : null,
 
     $formQuestionFilter                 : null,
     $dateQuestionFilterDu               : null,
@@ -91,6 +93,8 @@ App.Account = {
     $accountQuestionPagination          : null,
 
     $popupCridonline                    : null,
+    $popupCollaborateurDelete           : null,
+    $popupCollaborateurAdd              : null,
 
     $accountSoldeData                   : null,
     $accountSoldeSVG                    : null,
@@ -226,8 +230,40 @@ App.Account = {
 
     initCollaborateur: function() {
         this.debug('Account : Init Collaborateur');
-        this.addListenersCollaborateur();
 
+        var d = this.defaultSelector;
+
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'tokencollaborateur';
+        nonce.id    = 'tokencollaborateur';
+        nonce.value = jsvar.collaborateur_delete_nonce;
+
+        this.$accountCollaborateurDeleteValidationForm    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountValidationSelector + this.accountFormSelector);
+        this.$accountCollaborateurDeleteValidationForm.append(nonce);
+        this.$accountCollaborateurDeleteValidationId      = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountValidationSelector + this.accountIdSelector);
+        this.$accountCollaborateurDeleteValidationMessage = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountValidationSelector + this.accountMessageSelector);
+
+        this.$accountCollaborateurDeleteForm = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountFormSelector);
+        this.$accountCollaborateurDeleteId   = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountIdSelector);
+
+        this.$popupCollaborateurDelete       = $(this.accountPopupCollaborateurDelete);
+
+        this.popupCollaborateurDeleteInit();
+
+        this.addListenersCollaborateur();
+    },
+
+    popupCollaborateurDeleteInit: function() {
+        var self = this;
+        this.$popupCollaborateurDelete.popup({
+            transition: 'all 0.3s',
+            scrolllock: true,
+            opacity: 0.8,
+            color: '#324968',
+            offsettop: 10,
+            vertical: top
+        });
     },
 
     initCridonline: function() {
@@ -235,14 +271,14 @@ App.Account = {
 
         var d = this.defaultSelector;
 
-        this.$accountCridonlineForm = $(d + this.accountCridonlineSelector + this.accountFormSelector);
+        this.$accountCridonlineForm    = $(d + this.accountCridonlineSelector + this.accountFormSelector);
 
         this.$accountCridonlineMessage = $(d + this.accountCridonlineSelector + this.accountMessageSelector);
         this.$accountCridonlineCrpcen  = $(d + this.accountCridonlineSelector + this.accountCrpcenSelector);
         this.$accountCridonlineLevel   = $(d + this.accountCridonlineSelector + this.accountLevelSelector);
         this.$accountCridonlinePrice   = $(d + this.accountCridonlineSelector + this.accountPriceSelector);
 
-        this.$cridonline                       = $(this.accountCridonline);
+        this.$cridonline               = $(this.accountCridonline);
 
         this.addListenersCridonline();
 
@@ -259,7 +295,7 @@ App.Account = {
         nonce.id    = 'tokencridonline';
         nonce.value = jsvar.cridonline_nonce;
 
-        this.$accountCridonlineValidationForm = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountFormSelector);
+        this.$accountCridonlineValidationForm    = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountFormSelector);
         this.$accountCridonlineValidationForm.append(nonce);
 
         this.$accountCridonlineValidationMessage = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountMessageSelector);
@@ -267,8 +303,8 @@ App.Account = {
         this.$accountCridonlineValidationCrpcen  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCrpcenSelector);
         this.$accountCridonlineValidationLevel   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountLevelSelector);
         this.$accountCridonlineValidationPrice   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPriceSelector);
-        this.$accountCridonlineValidationStep1  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep1Selector);
-        this.$accountCridonlineValidationStep2  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep2Selector);
+        this.$accountCridonlineValidationStep1   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep1Selector);
+        this.$accountCridonlineValidationStep2   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep2Selector);
 
         this.$popupCridonline                    = $(this.accountPopupCridonline);
 
@@ -449,6 +485,15 @@ App.Account = {
 
         this.debug("Account : addListenersCollaborateur");
 
+        this.$accountCollaborateurDeleteForm.on('submit', function (e) {
+            self.eventAccountCollaborateurDeleteSubmit($(this));
+            return false;
+        });
+
+        this.$accountCollaborateurDeleteValidationForm.on('submit', function (e) {
+            self.eventAccountCollaborateurDeleteValidationSubmit($(this));
+            return false;
+        });
 
     },
 
@@ -680,6 +725,40 @@ App.Account = {
     successCridonline: function (html) {
         this.$cridonline.html(html);
         this.initCridonlineValidation();
+    },
+
+    eventAccountCollaborateurDeleteSubmit: function (form) {
+
+        this.$accountCollaborateurDeleteValidationId.value = form.find(this.$accountCollaborateurDeleteId).val();
+
+        this.$popupCollaborateurDelete.popup('show');
+    },
+
+    eventAccountCollaborateurDeleteValidationSubmit: function(form){
+        this.$accountCollaborateurDeleteValidationMessage.html('');
+        jQuery.ajax({
+            type: 'POST',
+            url: form.data('js-ajax-delete-validation-url') + this.$accountCollaborateurDeleteValidationId.value,
+            data: {
+                token: $('#tokencollaborateur').val()
+            },
+            success: this.successCollaborateurDelete.bind(this)
+        });
+        return false;
+    },
+
+    successCollaborateurDelete: function (data) {
+        data = JSON.parse(data);
+
+        if(data == 'success')
+        {
+            this.$accountCollaborateurDeleteValidationMessage.html(jsvar.collaborateur_delete_success);
+        }
+        else
+        {
+            this.$accountCollaborateurDeleteValidationMessage.html(jsvar.collaborateur_delete_fail);
+        }
+        return false;
     },
 
     eventAccountCridonlineValidationSubmit: function (form) {

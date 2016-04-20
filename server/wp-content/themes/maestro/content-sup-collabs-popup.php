@@ -1,5 +1,5 @@
 
-<div id="layer-sup-collabs" style="display:none;">
+<div id="layer-collaborateur-delete" style="display:none;">
 
     <div class="titre">
         <span class="close_layer layer-cridonline_close"></span>
@@ -10,15 +10,13 @@
     </div>
 
     <div class="block">
-        <p>Confirmer la suppression du collaborateur ? </p>    
+        <p>Confirmer la suppression du collaborateur ? </p>
 
-        <form>
-            <input type="submit" name="submit" value="<?php _e("supprimer"); ?>">
-        </form>    
+        <form class ="js-account-collaborateur-delete-validation-form" data-js-ajax-delete-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'deletecollaborateur', 'id' => '')); ?>">
+            <input type="hidden" value="" class="js-account-collaborateur-delete-validation-id" />
+            <p class="js-account-collaborateur-delete-validation-message"></p>
+            <input type="submit" value="<?php _e("supprimer"); ?>">
+        </form>
     </div>
-
-    
-
-    
 </div>
 

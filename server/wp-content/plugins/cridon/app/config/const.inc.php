@@ -545,6 +545,14 @@ if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
 if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_3' ) ) {
     define( 'CONST_CRIDONLINE_LABEL_LEVEL_3', 'Excellence' );
 }
+// Collaborateur form
+if ( !defined( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG', 'Le profil du collaborateur a bien été supprimé.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_DELETE_FAIL_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_DELETE_FAIL_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+
 //Alert on issues without documents
 if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
     define( 'CONST_ALERT_MINUTE', 30 );

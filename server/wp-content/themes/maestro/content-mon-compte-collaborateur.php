@@ -13,8 +13,9 @@
        
             <li>
                 <div class="trash">
-                    <form action="content-mon-compte-collaborateur_submit" method="get" accept-charset="utf-8">
-                        <input type="button" name="sup" value="sup">
+                    <form accept-charset="utf-8" class="js-account-collaborateur-delete-form" data-js-ajax-delete-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentdeletecollaborateur'));?>">
+                        <input type="hidden" value="<?php echo $member->id; ?>" class="js-account-collaborateur-delete-id">
+                        <input type="submit" value="submit">
                     </form>
                 </div>
                 <div class="block_01">

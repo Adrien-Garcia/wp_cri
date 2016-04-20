@@ -267,12 +267,12 @@ jQuery(document).ready(function($) {
 
     $("#mes-collaborateurs .trash").click(function(){
         //console.log('ah coucou');
-        $('#layer-sup-collabs').popup('show');
+        $('#llayer-collaborateur-delete').popup('show');
     });
 
     $(".close_layer").click(function(){
         //console.log('ah coucou');
-        $('#layer-sup-collabs').popup('hide');
+        $('#layer-collaborateur-delete').popup('hide');
     });
     
 
