@@ -74,13 +74,16 @@ and more scalable.
 			position: relative;
 			@include transition(color 0.3s);
 
-			span{
+			> span{
 				display: block;
-				@extend .do-sm;
+				font-family: $dosis;
+    			font-weight: 600;
 				color:$bleu;
 				font-size: 30px;
 				line-height: 24px;
 				text-transform: uppercase;
+
+
 			}
 
 			&:before{

@@ -158,7 +158,8 @@
 				margin-bottom: 10px;
 
 				>div{
-					@extend .do-sm;
+					font-family: $dosis;
+    				font-weight: 600;
 					text-transform: uppercase;
 					color:$bleu;
 					font-size: 20px;
