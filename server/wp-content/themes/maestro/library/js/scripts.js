@@ -253,12 +253,12 @@ jQuery(document).ready(function($) {
 
     $("#mes-collaborateurs .bt-ajout").click(function(){
         //console.log('ah coucou');
-        $('#layer-add-collabs').popup('show');
+        $('#layer-collaborateur-add').popup('show');
     });
 
     $(".close_layer").click(function(){
         //console.log('ah coucou');
-        $('#layer-add-collabs').popup('hide');
+        $('#layer-collaborateur-add').popup('hide');
     });
 
     

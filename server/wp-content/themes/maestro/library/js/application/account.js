@@ -17,7 +17,6 @@ App.Account = {
     accountQuestionMoreSelector         : '-more',
     accountProfilSubscriptionSelector   : '-subscription',
     accountProfilNewsletterSelector     : '-newsletter',
-    accountCridonlineSubLevelSelector   : '-sublevel',
     accountCollaborateurDeleteSelector  : '-delete',
     accountCollaborateurAddSelector     : '-add',
     accountFormSelector                 : '-form',
@@ -32,6 +31,11 @@ App.Account = {
     accountStep1Selector                : '-step1',
     accountStep2Selector                : '-step2',
     accountIdSelector                   : '-id',
+    accountFirstnameSelector            : '-firstname',
+    accountLastnameSelector             : '-lastname',
+    accountPhoneSelector                : '-phone',
+    accountMobilephoneSelector          : '-mobilephone',
+    accountFunctionSelector             : '-function',
 
     ajaxSelector                        : '-ajax',
     ajaxPaginationSelector              : '-pagination',
@@ -48,6 +52,7 @@ App.Account = {
     accountPopupCridonline              : '#layer-cridonline',
     accountCridonline                   : '#cridonline',
     accountPopupCollaborateurDelete     : '#layer-collaborateur-delete',
+    accountPopupCollaborateurAdd        : '#layer-collaborateur-add',
 
     eventAccountButtonSelector          : '-button',
 
@@ -247,9 +252,22 @@ App.Account = {
         this.$accountCollaborateurDeleteForm = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountFormSelector);
         this.$accountCollaborateurDeleteId   = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountIdSelector);
 
+        this.$accountCollaborateurAddForm        = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFormSelector);
+        this.$accountCollaborateurAddFirstname   = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFirstnameSelector);
+        this.$accountCollaborateurAddLastname    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountLastnameSelector);
+        this.$accountCollaborateurAddPhone       = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountPhoneSelector);
+        this.$accountCollaborateurAddMobilephone = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountMobilephoneSelector);
+        this.$accountCollaborateurAddEmail       = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountEmailSelector);
+        this.$accountCollaborateurAddFunction    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFunctionSelector);
+        this.$accountCollaborateurAddMessage     = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountMessageSelector);
+
         this.$popupCollaborateurDelete       = $(this.accountPopupCollaborateurDelete);
+        this.$popupCollaborateurAdd       = $(this.accountPopupCollaborateurAdd);
 
         this.popupCollaborateurDeleteInit();
+        this.popupCollaborateurAddInit();
+
+        this.$accountCollaborateurAddButton = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.eventAccountButtonSelector);
 
         this.addListenersCollaborateur();
     },
@@ -257,6 +275,18 @@ App.Account = {
     popupCollaborateurDeleteInit: function() {
         var self = this;
         this.$popupCollaborateurDelete.popup({
+            transition: 'all 0.3s',
+            scrolllock: true,
+            opacity: 0.8,
+            color: '#324968',
+            offsettop: 10,
+            vertical: top
+        });
+    },
+
+    popupCollaborateurAddInit: function() {
+        var self = this;
+        this.$popupCollaborateurAdd.popup({
             transition: 'all 0.3s',
             scrolllock: true,
             opacity: 0.8,
@@ -495,8 +525,16 @@ App.Account = {
             return false;
         });
 
-    },
+        this.$accountCollaborateurAddButton.on('click', function (e) {
+            self.$popupCollaborateurAdd.popup('show');
+        });
 
+        this.$accountCollaborateurAddForm.on('submit', function (e) {
+            self.eventAccountCollaborateurAddSubmit($(this));
+            return false;
+        });
+
+    },
 
     /*
      * Event for Opening the dashboard (Ultimately AJAX)
@@ -725,6 +763,7 @@ App.Account = {
     successCridonline: function (html) {
         this.$cridonline.html(html);
         this.initCridonlineValidation();
+        App.Utils.scrollTop(undefined, "#cridonline-validation-popup");
     },
 
     eventAccountCollaborateurDeleteSubmit: function (form) {
@@ -757,6 +796,38 @@ App.Account = {
         else
         {
             this.$accountCollaborateurDeleteValidationMessage.html(jsvar.collaborateur_delete_fail);
+        }
+        return false;
+    },
+
+    eventAccountCollaborateurAddSubmit: function(form) {
+        this.$accountCollaborateurAddMessage.html('');
+        jQuery.ajax({
+            type: 'POST',
+            url: form.data('js-ajax-add-url'),
+            data: {
+                token: $('#tokencollaborateur').val(),
+                collaborator_first_name: form.find(this.$accountCollaborateurAddFirstname).val(),
+                collaborator_last_name: form.find(this.$accountCollaborateurAddLastname).val(),
+                collaborator_tel: form.find(this.$accountCollaborateurAddPhone).val(),
+                collaborator_tel_portable: form.find(this.$accountCollaborateurAddMobilephone).val(),
+                collaborator_email: form.find(this.$accountCollaborateurAddEmail).val(),
+                collaborator_function: form.find(this.$accountCollaborateurAddFunction).val()
+            },
+            success: this.successCollaborateurAdd.bind(this)
+        });
+        return false;
+    },
+
+    successCollaborateurAdd: function (data) {
+        data = JSON.parse(data);
+        if(data == 'success')
+        {
+            this.$accountCollaborateurAddMessage.html(jsvar.cridonline_add_success);
+        }
+        else
+        {
+            this.$accountCollaborateurAddMessage.html(jsvar.cridonline_add_error);
         }
         return false;
     },

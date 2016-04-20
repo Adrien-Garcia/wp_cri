@@ -2,7 +2,7 @@
 
 <h2><?php _e("Ma liste de collaborateur"); ?></h2>
 
-<div class="bt-ajout"><?php _e("Ajouter un collaborateur"); ?></div>
+<div class="bt-ajout js-account-collaborateur-add-button"><?php _e("Ajouter un collaborateur"); ?></div>
 
 
 <ul class="list-collab">
@@ -46,10 +46,11 @@
 </ul>
 
 <div class="add-collabs">
+    <?php set_query_var( 'collaborator_functions', $collaborator_functions ); ?>
     <?php echo get_template_part("content","add-collabs-popup"); ?>
 </div>
 <div class="supp-collabs">
     <?php echo get_template_part("content","sup-collabs-popup"); ?>
 </div>
 
-<div class="bt-ajout"><?php _e("Ajouter un collaborateur"); ?></div>
+<div class="bt-ajout js-account-collaborateur-add-button"><?php _e("Ajouter un collaborateur"); ?></div>

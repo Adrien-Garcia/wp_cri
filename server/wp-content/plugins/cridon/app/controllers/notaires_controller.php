@@ -575,7 +575,6 @@ class NotairesController extends BasePublicController
         // set list of collaborator functions
         $this->set('collaborator_functions', $collaborator_functions);
 
-        //@todo set list of existing collaborators
         //show every member of an office
         $liste = $this->model->listOfficeMembers($this->current_notaire);
         $this->set('liste', $liste);
