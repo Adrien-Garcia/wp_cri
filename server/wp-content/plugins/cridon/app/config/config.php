@@ -516,4 +516,17 @@ class Config {
      * @var string
      */
     public static $importFacturePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.([a-zA-Z]+)/';
+
+    // Notification pour une nouvelle facture
+    public static $mailSubjectNotifFacture = array(
+        'Notification de nouvelle facture'
+    );
+
+    /**
+     * @var array : liste de type de document non liés aux models de WPMVC
+     * @TODO : à completer avec type relevé de consommation
+     */
+    public static $exceptedDocTypeForModel = array(
+        CONST_DOC_TYPE_FACTURE
+    );
 }
