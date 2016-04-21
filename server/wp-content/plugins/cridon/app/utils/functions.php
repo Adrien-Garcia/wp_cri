@@ -673,9 +673,21 @@ function CriRecursiveFindingFileInDirectory($path, $file)
     return $fileSource;
 }
 
-function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
-    $referer = $_SERVER['HTTP_REFERER'];
-    $request = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+/**
+ * Redirect to non protected page in order to connect
+ * Will redirect to the asked page if connected
+ * @param string $error_code
+ * @param mixed $url
+ */
+function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
+    if (isset($_GET['requestUrl'] ) ) {
+        $referer = get_home_url();
+        $request = !empty($url) ? $url : urlencode($_GET['requestUrl']);
+    } else {
+        $referer = $_SERVER['HTTP_REFERER'];
+        $request = !empty($url) ? $url : urlencode($_SERVER['REQUEST_URI']);
+    }
+
     if (! empty($referer) /*&& strripos( $request , $referer)*/ ){
         $redirect = $referer;
     } else {
@@ -692,7 +704,8 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
         preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 &&
         preg_match("/.*?[\?\&]messageLogin=" . $error_code . ".*?/", $referer) === 1
     ) {
-        wp_redirect($redirect);
+        $redirect = get_home_url() . "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . urlencode($_SERVER['REQUEST_URI']);
+        wp_safe_redirect($redirect);
         return;
     }
 
@@ -702,11 +715,23 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
         $redirect .= "?";
     }
 
-    $redirect .= "openLogin=1&messageLogin=" . $error_code;
-    if ($request) {
-        $redirect .= "&requestUrl=" . $request;
+    $redirect .= "openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . $request;
+
+    wp_safe_redirect($redirect);
+    exit;
+}
+
+/**
+ * Redirect to non protected page in order to connect
+ * Will redirect to the asked page if connected
+ * @param mixed $post
+ * @param string $error_code
+ */
+function CriRefusePrivateAccess($post, $error_code = "PROTECTED_CONTENT") {
+    if (empty($_GET['requestUrl'])) {
+        $redirect = get_the_permalink($post->ID) . "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . urlencode($_SERVER['REQUEST_URI']);
     }
-    wp_redirect($redirect);
+    wp_safe_redirect($redirect);
 }
 
 /**
@@ -893,4 +918,100 @@ function CriVeilleWithUriFilters()
     }
 
     return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
+}
+
+/**
+ * Send confirmation to notary for posted question
+ *
+ * @param array $question
+ * @throws Exception
+ */
+function CriSendPostQuestConfirmation($question) {
+    // get connected user
+    global $current_user;
+
+    // set meail headers
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+    // retrieve notary data
+    $notary = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
+    if (is_object($notary) && property_exists($notary, 'email_adress')) {
+        // default dest for DEV ENV
+        $dest = Config::$notificationAddressPreprod;
+
+        // check environnement
+        $env = getenv('ENV');
+        if ($env === 'PROD') {
+            $dest = $notary->email_adress;
+            if (!$dest) { // notary email is empty
+                // send email to the office
+                $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+                if (is_object($offices) && $offices->office_email_adress_1) {
+                    $dest = $offices->office_email_adress_1;
+                } elseif (is_object($offices) && $offices->office_email_adress_2) {
+                    $dest = $offices->office_email_adress_2;
+                } elseif (is_object($offices) && $offices->office_email_adress_3) {
+                    $dest = $offices->office_email_adress_3;
+                }
+            }
+        }
+
+        // dest must be set
+        if ($dest) {
+            // prepare message
+            $subject = Config::$mailSubjectQuestionStatusChange['1'];
+            $vars    = array(
+                'resume'          => $question['resume'],
+                'content'         => $question['content'],
+                'matiere'         => $question['matiere'],
+                'competence'      => $question['competence'],
+                'support'         => $question['support'],
+                'creation_date'   => $question['dateSoumission'],
+                'date'            => $question['dateSoumission'],
+                'notaire'         => $notary,
+                'type_question'   => '1',
+            );
+            $message = CriRenderView('mail_notification_question', $vars, 'custom', false);
+
+            // send email
+            wp_mail($dest, $subject, $message, $headers);
+        }
+    }
+}
+
+/**
+ * Check if  current user can manage Collaborator
+ *
+ * @return bool
+ * @throws Exception
+ */
+function CriCanManageCollaborator() {
+    return mvc_model('notaire')->userCanManageCollaborator();
+}
+
+/**
+ * Get list of all existing roles
+ *
+ * @return array
+ */
+function CriListRoles() {
+    return Config::$notaryRoles;
+}
+
+/**
+ * Get list of roles by collaborator
+ * @param mixed $collaborator
+ * @return array
+ */
+function CriGetCollaboratorRoles($collaborator) {
+    // get collaborator associated user
+    if (is_object($collaborator) && $collaborator->id_wp_user) {
+        $user = new WP_User($collaborator->id_wp_user);
+
+        // check if user is a WP_user vs WP_error
+        if ($user instanceof WP_User && is_array($user->roles)) {
+            return $user->roles;
+        }
+    }
+    return array();
 }

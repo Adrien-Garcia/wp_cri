@@ -467,3 +467,32 @@ function addClassesAnalytics($atts, $item, $args, $depth){
     return $atts;
 }
 add_filter( 'nav_menu_link_attributes', 'addClassesAnalytics',10,4 );
+
+/**
+ * Hook for private content 404 redirection
+ */
+function private_content_redirect() {
+    global $wp_query,$wpdb, $post;
+    if (is_404()) {
+        $post = $wpdb->get_row($wp_query->request);
+        if( 'private' == $post->post_status  ) {
+            status_header( 403 );
+            $wp_query->is_404 = false;
+            add_filter('wp_title','custom_private_page_title', 65000,2);
+            CriRefusePrivateAccess($post);
+        }
+    }
+}
+
+/**
+ * Hook pour garder le titre par defaut de la page qui est ecrasé par le processus de 404
+ *
+ * @param string $title
+ * @param string $sep
+ * @return string
+ */
+function custom_private_page_title($title='',$sep='') {
+    global $post;
+    return $post->post_title . " " . $sep . " ".get_bloginfo('name');
+}
+add_action('template_redirect', 'private_content_redirect', 1);
