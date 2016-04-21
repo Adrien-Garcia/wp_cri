@@ -74,13 +74,16 @@ and more scalable.
 			position: relative;
 			@include transition(color 0.3s);
 
-			span{
+			> span{
 				display: block;
-				@extend .do-sm;
+				font-family: $dosis;
+    			font-weight: 600;
 				color:$bleu;
 				font-size: 30px;
 				line-height: 24px;
 				text-transform: uppercase;
+
+
 			}
 
 			&:before{
@@ -464,10 +467,8 @@ and more scalable.
 
 			>li:last-child{ /* IMAGE RECHERCHE */
 
-				border-right:none;
-				border-left:none;
-
-				>div.block{
+				
+				> div.block{
 					background: url(../images/origin/bg-rechercher-mobile_02.png);
 
 					.content{
@@ -492,7 +493,7 @@ and more scalable.
 
 	}
 
-	> li:nth-child(2){ /* MENU COMMANDER */
+	> li:nth-child(4){ /* MENU COMMANDER */
 
 		> ul.sub-menu{
 
@@ -546,8 +547,9 @@ and more scalable.
 				border-right: none;
 			}
 
-			> li:last-child{/*IMAGE*/
+			> li:last-child{ /*IMAGE*/
 
+				
 				overflow: inherit;
 				border-right: none;
 				//border-left:solid 1px $rouge;

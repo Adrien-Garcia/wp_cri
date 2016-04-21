@@ -515,7 +515,8 @@ body.page-template-front-page{
 						h2{ 
 							position: relative;
 							z-index: 2000;
-							@extend .do-sm;
+							font-family: $dosis;
+    						font-weight: 600;
 							color:#FFF;
 							font-size: 32px;
 							line-height: 30px;
@@ -656,7 +657,8 @@ body.page-template-front-page{
 					font-size: 16px;
 					text-align:center;
 					text-transform: uppercase;
-					@extend .do-sm;
+					font-family: $dosis;
+    				font-weight: 600;
 					color:$bleu;
 
 					span{
@@ -717,7 +719,8 @@ body.page-template-front-page{
 				margin-bottom: 10px;
 
 				h3{
-					@extend .do-sm;
+					font-family: $dosis;
+    				font-weight: 600;
 					text-transform: uppercase;
 					color:$bleu;
 					font-size: 20px;
@@ -1279,7 +1282,8 @@ body.page-template-front-page{
 			}
 
 			h2{
-				@extend .do-sm; 
+				font-family: $dosis;
+    			font-weight: 600;
 				font-size: 32px;
 				line-height: 24px;
 				color:$bleu;
@@ -1491,7 +1495,8 @@ body.single #content {
 			}
 
 			span{
-				@extend .do-sm;
+				font-family: $dosis;
+    			font-weight: 600;
 				color:$bleu;
 				font-size: 15px;
 				line-height: 24px;
@@ -1520,7 +1525,8 @@ body.single #content {
 		
 
 		.h1, h1{
-			@extend .do-sm;
+			font-family: $dosis;
+    		font-weight: 600;
 			font-size: 30px;
 			line-height: 30px;
 			margin-bottom: 40px;
@@ -1697,7 +1703,8 @@ body.single #content {
 					font-size: 14px;
 					color:$bleu;
 					margin: 5px 0;
-					@extend .do-sm;
+					font-family: $dosis;
+    				font-weight: 600;
 				}
 
 				.ginput_container{
@@ -1882,7 +1889,8 @@ body.single #content {
 									border:none;
 									padding:12px 0;
 									vertical-align: top;
-									@extend .do-sm;
+									font-family: $dosis;
+    								font-weight: 600;
 									color:$bleu;
 									font-size: 14px;
 									line-height: 16px;

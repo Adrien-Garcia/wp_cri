@@ -755,6 +755,20 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 
 // End of block for mobile
 
+// Reset pwd value to be inserted in YNOTAIRE
+if ( !defined( 'CONST_YTRAITEE_RESETPWD' ) ) {
+    define( 'CONST_YTRAITEE_RESETPWD', 3 );
+}
+if ( !defined( 'CONST_RESETPWD_ERROR' ) ) {
+    define( 'CONST_RESETPWD_ERROR', 'Renouvellement mot de passe interrompu le : %s' );
+}
+if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD' ) ) {
+    define( 'CONST_YDDEMDPTEL_RESETPWD', 2 );
+}
+if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD' ) ) {
+    define( 'CONST_YDDEMDPWEB_RESETPWD', 2 );
+}
+
 // id of collaborator on cri_fonction
 if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
     define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );

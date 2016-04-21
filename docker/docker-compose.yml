@@ -9,8 +9,8 @@ web:
         - ./web/php.ini:/usr/local/etc/php/php.ini
     environment:
         - ALLOW_OVERRIDE=true
-        - SERVER_NAME=wp_cridon.$JETPULP_USERNAME.jetpulp.dev
-        - VIRTUAL_HOST=wp_cridon.$JETPULP_USERNAME.jetpulp.dev
+        - SERVER_NAME=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
+        - VIRTUAL_HOST=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
         - USER_UID
         - USER_GROUP
     links:
@@ -28,7 +28,7 @@ db:
     environment:
         - MYSQL_ROOT_PASSWORD=root
         - MYSQL_DATABASE=wp_cridon
-        - SERVER_NAME=wp_cridon.$JETPULP_USERNAME.jetpulp.dev
+        - SERVER_NAME=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
 mailhog:
     container_name: wp_cridon-mailhog
     image: mailhog/mailhog

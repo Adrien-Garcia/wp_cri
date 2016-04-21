@@ -403,6 +403,11 @@ class Config {
     // question pending status
     public static $questionPendingStatus = array(1,2,3);
 
+    // Notification for password changed
+    public static $mailPasswordChange = array(
+        'subject' => 'Changement du mot de passe de %s',
+    );
+
     // Content qualified by a "Niveau"
     public static $contentWithLevel = array(
         'veilles',
@@ -488,6 +493,11 @@ class Config {
         'collaborateur'
     );
 
+    public static $authCridonOnline = array(
+        1 => 'tvwYZMJ3rqrxmIAFKrwMy0x7AX',
+        2 => 'tbxZABKYrprvmIZMJ7wKykwTZH',
+        3 => 'ykwYZWJYrirnmIAGKTwqywxYZK',
+    );
     /**
      * @var array list of notary roles : the keys must be match of the list defined in const.inc.php
      */

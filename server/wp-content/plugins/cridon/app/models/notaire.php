@@ -685,10 +685,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                 // prepare multi rows data values
                 foreach ($newNotaires as $notaire) {
-                    // import only authorized category
-                    // @see https://trello.com/c/P81yRyRM/21-s-43-import-des-notaires-et-creation-des-etudes-il-y-a-deux-notaires-avec-le-meme-crpcen-qui-n-ont-pas-les-memes-infos-pour-l-et
-                    if (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG])
-                        && !in_array(strtolower($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CATEG]), Config::$notImportedList)) {
+                    // import only if empty YIDNOT_0 : to be sure for new Notary data
+                    if (empty(trim($this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT]))) {
 
                         // format date
                         $dateModified = '0000-00-00';
@@ -725,6 +723,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         $value .= ")";
 
                         $insertValues[] = $value;
+                    } else { // changement de mot de passe
+                        $notaryId = $this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT];
+                        $newPwd   = $this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB];
+                        $this->updatePwd($notaryId, $newPwd);
+                        // free vars
+                        unset($newPwd);
                     }
                 }
 
@@ -2975,5 +2979,364 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $notary = mvc_model('QueryBuilder')->findOne('notaire', $options, 'cn.id');
 
         return (is_object($notary) && $notary->email_adress != $new_email);
+    }
+
+    /**
+     * Check if users can reset password
+     *
+     * @return bool
+     */
+    public function userCanResetPwd()
+    {
+        $object = $this->getUserConnectedData();
+
+        /**
+         * ACs :
+         * - notaire connecté dispose d'une adresse email perso
+         * - Seuls les notaires de fonctions 1, 2, 3, 6, 7, 8, 9, 10 peuvent accéder à la fonction
+         */
+        return (is_object($object)
+                && property_exists($object, 'email_adress')
+                && !empty($object->email_adress) && filter_var($object->email_adress, FILTER_VALIDATE_EMAIL)
+                && property_exists($object, 'id_fonction')
+                && in_array($object->id_fonction, Config::$allowedNotaryFunction)
+        ) ? true : false;
+    }
+
+    /**
+     * Set reset pwd flag
+     *
+     * @param int $notaryId
+     * @param string $action
+     *
+     * @return void
+     */
+    public function resetPwd($notaryId, $action = 'on')
+    {
+        $notary                            = array();
+        $notary['Notaire']['id']           = $notaryId;
+        $notary['Notaire']['renew_pwd']    = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronResetPwd" )
+        $this->save($notary);
+    }
+
+    /**
+     * @return array|null|object
+     */
+    public function cronResetPwd()
+    {
+        try {
+            $notaries = $this->wpdb->get_results("
+                SELECT
+                    `cn`.*,
+                    `ce`.`adress_1`,
+                    `ce`.`adress_2`,
+                    `ce`.`adress_3`,
+                    `ce`.`city`,
+                    `ce`.`cp`,
+                    `ce`.`tel` tel_office,
+                    `ce`.`fax` fax_office,
+                    `ce`.`office_email_adress_1`,
+                    `cf`.`label` fonction
+                FROM
+                    `{$this->table}` cn
+                LEFT JOIN
+                    `{$this->wpdb->prefix}etude` ce
+                ON
+                    `ce`.`crpcen` = `cn`.`crpcen`
+                LEFT JOIN
+                    `{$this->wpdb->prefix}fonction` cf
+                ON
+                    `cf`.`id` = `cn`.`id_fonction`
+                WHERE
+                    `cn`.`renew_pwd` = 1
+            ");
+
+            // verification nb notaires à traiter
+            if (is_array($notaries) && count($notaries) > 0) {
+                // set adapter
+                switch (strtolower(CONST_IMPORT_OPTION)) {
+                    case self::IMPORT_ODBC_OPTION:
+                        $this->adapter = CridonODBCAdapter::getInstance();
+                        break;
+                    case self::IMPORT_OCI_OPTION:
+                        //if case above did not match, set OCI
+                        $this->adapter = CridonOCIAdapter::getInstance();
+                        break;
+                }
+
+                // bloc de requette
+                $queryBloc = array();
+                // adapter instance
+                $adapter = $this->adapter;
+                // list des id notaires pour maj cri_notaire.renew_pwd apres transfert
+                $qList = array();
+
+                // requette commune
+                /**
+                 * Tous les champs de YNOTAIRE sont NOT NULL ( YNOTAIRE.sql )
+                 */
+                $query  = " INTO " . CONST_DB_TABLE_YNOTAIRE;
+                $query .= " (";
+                $query .= $adapter::YIDCOLLAB . ", "; // YIDCOLLAB
+                $query .= $adapter::YCRPCEN . ", "; // YCRPCEN
+                $query .= $adapter::CNTLNA . ", "; // CNTLNA
+                $query .= $adapter::CCNCRM . ", ";   // CCNCRM
+                $query .= $adapter::YIDNOT . ", "; // YIDNOT
+                $query .= $adapter::CNTFNA . ", ";   // CNTFNA
+                $query .= $adapter::CNTFNC . ", ";   // CNTFNC
+                $query .= $adapter::YTXTFNC . ", ";   // YTXTFNC
+                $query .= $adapter::WEB . ", ";   // WEB
+                $query .= $adapter::TEL . ", ";   // TEL
+                $query .= $adapter::CNTMOB . ", ";   // CNTMOB
+                $query .= $adapter::FAX . ", ";   // FAX
+                $query .= $adapter::YFINPRE . ", ";   // YFINPRE
+                $query .= $adapter::YMDPWEB . ", ";   // YMDPWEB
+                $query .= $adapter::ZMDPTEL . ", ";   // ZMDPTEL
+                $query .= $adapter::ADDLIG1 . ", ";   // ADDLIG1
+                $query .= $adapter::ADDLIG2 . ", ";   // ADDLIG2
+                $query .= $adapter::ADDLIG3 . ", ";   // ADDLIG3
+                $query .= $adapter::POSCOD . ", ";   // POSCOD
+                $query .= $adapter::CTY . ", ";   // CTY
+                $query .= $adapter::TELOFF . ", ";   // TELOFF
+                $query .= $adapter::FAXOFF . ", ";   // FAXOFF
+                $query .= $adapter::WEBOFF . ", ";   // WEBOFF
+                $query .= $adapter::YSREECR . ", ";   // YSREECR
+                $query .= $adapter::YSRETEL . ", ";   // YSRETEL
+                $query .= $adapter::YTRAITEE . ", ";   // YTRAITEE
+                $query .= $adapter::YDDEMDPTEL . ", ";   // YDDEMDPTEL
+                $query .= $adapter::YDDEMDPWEB . ", ";   // YDDEMDPWEB
+                $query .= $adapter::YERR . ", ";   // YERR
+                $query .= $adapter::YMESSERR . " ";   // YMESSERR
+                $query .= ") ";
+                $query .= " VALUES ";
+
+                // complement requete selon le type de BDD
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a bulk insert in Oracle SQL
+                         INSERT ALL
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                        SELECT * FROM dual;
+                         */
+                        foreach ($notaries as $notary) {
+                            // remplit la liste des notaires
+                            $qList[] = $notary->id;
+
+                            // value block
+                            $value  = $query;
+                            $value .= "(";
+
+                            $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
+                            $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
+                            $value .= "'" . $notary->first_name . "', "; // CNTLNA
+                            $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
+                            $value .= "'" . $notary->id . "', "; // YIDNOT
+                            $value .= "'" . $notary->first_name . "', "; // CNTFNA
+                            $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->email_adress . "', "; // WEB
+                            $value .= "'" . $notary->tel . "', "; // TEL
+                            $value .= "'" . $notary->tel_portable . "', "; // CNTMOB
+                            $value .= "'" . $notary->fax . "', "; // FAX
+                            $value .= "' ', "; // YFINPRE
+                            $value .= "'" . $notary->web_password . "', "; // YMDPWEB
+                            $value .= "'" . $notary->tel_password . "', "; // ZMDPTEL
+                            $value .= "'" . $notary->adress_1 . "', "; // ADDLIG1
+                            $value .= "'" . $notary->adress_2 . "', "; // ADDLIG2
+                            $value .= "'" . $notary->adress_3 . "', "; // ADDLIG3
+                            $value .= "'" . $notary->cp . "', "; // POSCOD
+                            $value .= "'" . $notary->city . "', "; // CTY
+                            $value .= "'" . $notary->tel_office . "', "; // TELOFF
+                            $value .= "'" . $notary->fax_office . "', "; // FAXOFF
+                            $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
+                            $value .= "'0', "; // YSREECR
+                            $value .= "'0', "; // YSRETEL
+                            $value .= "'" . CONST_YTRAITEE_RESETPWD . "', "; // YTRAITEE
+                            $value .= "'" . (empty($notary->tel_password) ? 0 : CONST_YDDEMDPTEL_RESETPWD) . "', "; // YDDEMDPTEL
+                            $value .= "'" . (empty($notary->web_password) ? 0 : CONST_YDDEMDPWEB_RESETPWD) . "', "; // YDDEMDPWEB
+                            $value .= "'0', "; // YERR
+                            $value .= "' '"; // YMESSERR
+
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT ALL ';
+                            $query .= implode(' ', $queryBloc);
+                            $query .= ' SELECT * FROM dual';
+                            writeLog($query, 'query_resetpwd.log');
+                        }
+                        break;
+                    case CONST_DB_DEFAULT:
+                    default:
+                        foreach ($notaries as $notary) {
+                            // remplit la liste des notaires
+                            $qList[] = $notary->id;
+
+                            $value = "(";
+
+                            $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
+                            $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
+                            $value .= "'" . $notary->first_name . "', "; // CNTLNA
+                            $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
+                            $value .= "'" . $notary->id . "', "; // YIDNOT
+                            $value .= "'" . $notary->first_name . "', "; // CNTFNA
+                            $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->email_adress . "', "; // WEB
+                            $value .= "'" . $notary->tel . "', "; // TEL
+                            $value .= "'" . $notary->tel_portable . "', "; // CNTMOB
+                            $value .= "'" . $notary->fax . "', "; // FAX
+                            $value .= "' ', "; // YFINPRE
+                            $value .= "'" . $notary->web_password . "', "; // YMDPWEB
+                            $value .= "'" . $notary->tel_password . "', "; // ZMDPTEL
+                            $value .= "'" . $notary->adress_1 . "', "; // ADDLIG1
+                            $value .= "'" . $notary->adress_2 . "', "; // ADDLIG2
+                            $value .= "'" . $notary->adress_3 . "', "; // ADDLIG3
+                            $value .= "'" . $notary->cp . "', "; // POSCOD
+                            $value .= "'" . $notary->city . "', "; // CTY
+                            $value .= "'" . $notary->tel_office . "', "; // TELOFF
+                            $value .= "'" . $notary->fax_office . "', "; // FAXOFF
+                            $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
+                            $value .= "'0', "; // YSREECR
+                            $value .= "'0', "; // YSRETEL
+                            $value .= "'" . CONST_YTRAITEE_RESETPWD . "', "; // YTRAITEE
+                            $value .= "'" . (empty($notary->tel_password) ? 0 : CONST_YDDEMDPTEL_RESETPWD) . "', "; // YDDEMDPTEL
+                            $value .= "'" . (empty($notary->web_password) ? 0 : CONST_YDDEMDPWEB_RESETPWD) . "', "; // YDDEMDPWEB
+                            $value .= "'0', "; // YERR
+                            $value .= "' '"; // YMESSERR
+
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT' . $query . implode(', ', $queryBloc);
+                            writeLog($query, 'query_resetpwd.log');
+                        }
+                        break;
+                }
+            }
+
+            // execution requete
+            if (!empty($query)) {
+                if ($result = $this->adapter->execute($query) && !empty($qList)) {
+                    // update cri_notaire.renew_pwd
+                    $sql = " UPDATE {$this->table} SET renew_pwd = 0 WHERE id IN (" . implode(', ', $qList) . ")";
+                    $this->wpdb->query($sql);
+                } else {
+                    // log erreur
+                    $error = sprintf(CONST_RESETPWD_ERROR, date('d/m/Y à H:i:s'));
+                    writeLog($error, 'resetnotarypasswd.log', 'Cridon - demande de renouvellement de mot de passe');
+                }
+            }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch(\Exception $e) {
+            // write into logfile
+            writeLog($e, 'resetnotarypasswd.log');
+
+            // status code
+            return CONST_STATUS_CODE_GONE;
+        }
+    }
+
+    /**
+     * Update notary PWD
+     *
+     * @param int $notaryId
+     * @param string $newPwd
+     */
+    public function updatePwd($notaryId, $newPwd)
+    {
+        // recuperation wp_user associé
+        $user = $this->getAssociatedUserByNotaryId($notaryId);
+        if ($user instanceof WP_User) {
+            // mettre à jour la table notaire
+            $query = " UPDATE {$this->table}
+                       SET web_password = %s
+                       WHERE id = %d ";
+            $this->wpdb->query($this->wpdb->prepare($query, $newPwd, $notaryId));
+
+            // mettre à jour cri_users
+            wp_set_password($newPwd, $user->ID);
+
+            // envoie email
+            $this->sendEmailForPwdChanged($notaryId, $newPwd);
+
+        }
+        unset($keys);
+    }
+
+    /**
+     * Sending new PWDto notary  by email
+     *
+     * @param int    $id
+     * @param string $newPwd
+     * @throws Exception
+     */
+    protected function sendEmailForPwdChanged($id, $newPwd)
+    {
+        $notary = mvc_model('QueryBuilder')->findOne('notaire',
+                                                     array(
+                                                         'fields' => 'id, first_name, last_name, crpcen, email_adress',
+                                                         'conditions' => 'id = ' . $id,
+                                                     )
+        );
+
+        if (is_object($notary)) {
+
+            // default dest for DEV ENV
+            $dest = Config::$notificationAddressPreprod;
+
+            // email headers
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+
+            // check environnement
+            $env = getenv('ENV');
+            if ($env === 'PROD') {
+                $dest = $notary->email_adress;
+                if (!$dest) { // notary email is empty
+                    // send email to the office
+                    $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+                    if (is_object($offices) && $offices->office_email_adress_1) {
+                        $dest = $offices->office_email_adress_1;
+                    } elseif (is_object($offices) && $offices->office_email_adress_2) {
+                        $dest = $offices->office_email_adress_2;
+                    } elseif (is_object($offices) && $offices->office_email_adress_3) {
+                        $dest = $offices->office_email_adress_3;
+                    }
+                    unset($offices);
+                }
+            }
+
+            // dest must be set
+            if ($dest) {
+                // prepare message
+                $subject = sprintf(Config::$mailPasswordChange['subject'], $notary->first_name . ' ' . $notary->last_name);
+                $vars    = array(
+                    'password' => $newPwd,
+                    'notaire'  => $notary,
+                );
+                $message = CriRenderView('mail_notification_password', $vars, 'custom', false);
+
+                // send email
+                if (wp_mail($dest, $subject, $message, $headers)) {
+                    // reset all flag
+                    $this->resetPwd($notary->id, 'off');
+                } else {
+                    writeLog($notary, 'majnotarypwd.log');
+                }
+            }
+        }
+        // free vars
+        unset($notary);
     }
 }

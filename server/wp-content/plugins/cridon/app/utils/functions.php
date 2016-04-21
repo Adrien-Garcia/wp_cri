@@ -998,3 +998,12 @@ function CriGetCollaboratorRoles($collaborator) {
     }
     return array();
 }
+
+/**
+ * Check if notaire can reset password
+ *
+ * @return bool
+ */
+function CriCanResetPwd() {
+    return mvc_model('notaire')->userCanResetPwd();
+}

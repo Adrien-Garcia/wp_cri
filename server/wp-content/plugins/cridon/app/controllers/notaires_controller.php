@@ -434,6 +434,7 @@ class NotairesController extends BasePublicController
         $this->prepareSecureAccess();
 
         // set template vars
+        // @TODO to be completed with others notaire dynamic data
         $vars = $this->get_object();
         $this->set_vars($vars);
         return $vars;
@@ -478,6 +479,19 @@ class NotairesController extends BasePublicController
 
                 // update profil
                 $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
+
+                /**
+                 * Renouvellement mot de passe :
+                 * - notaire connecté dispose d'une adresse email perso
+                 * - seuls les notaires de fonctions 1, 2, 3, 6, 7, 8, 9, 10 peuvent accéder à la fonction
+                 * @see \Config::$allowedNotaryFunction
+                 */
+                if (isset($_POST['reset_pwd'])
+                    && !empty($this->current_notaire->email_adress)
+                    && filter_var($this->current_notaire->email_adress, FILTER_VALIDATE_EMAIL)
+                ) {
+                    $this->model->resetPwd($this->current_notaire->id);
+                }
             }
         }
         // set template vars
@@ -576,7 +590,9 @@ class NotairesController extends BasePublicController
         $this->set('collaborator_functions', $collaborator_functions);
 
         //@todo set list of existing collaborators
-        $this->set('collaborators', array());
+        //show every member of an office
+        $liste = $this->model->listOfficeMembers($this->current_notaire);
+        $this->set('liste', $liste);
 
         // tab rank
         $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
