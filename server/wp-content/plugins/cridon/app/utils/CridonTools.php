@@ -533,5 +533,78 @@ class CridonTools {
 
         return $clean_input;
     }
+
+    /**
+     * Renvoie une / toutes fonction(s) collaborateur
+     *
+     * @param int $id
+     * @return array|null|object
+     */
+    public function getFunctionCollaborator($id = 0)
+    {
+        global $wpdb;
+
+        $sql = " SELECT * FROM `{$wpdb->prefix}fonction_collaborateur` ";
+        if (intval($id) > 0) {
+            $sql .= $wpdb->prepare(' WHERE `id` = %d ', $id);
+        }
+
+        return $wpdb->get_results($sql);
+    }
+
+    /**
+     * Redirect by escaping header already send by...
+     * useful outside the mvc_controller block
+     *
+     * @see MvcController::redirect
+     * @param string $location the url to be redirected
+     * @param int    $status
+     */
+    public function redirect($location = '', $status=302)
+    {
+        // MvcDispatcher::dispatch() doesn't run until after the WP has already begun to print out HTML, unfortunately, so
+        // this will almost always be done with JS instead of wp_redirect().
+        if (headers_sent()) {
+            $html = '
+                <script type="text/javascript">
+                    window.location = "'.$location.'";
+                </script>';
+            echo $html;
+        } else {
+            wp_redirect($location, $status);
+        }
+
+        die();
+
+    }
+
+    /**
+     * Check Collaborator office
+     *
+     * @param int    $collaborator_id
+     * @param mixed  $notary
+     * @return mixed
+     */
+    public function isSameOffice($collaborator_id, $notary)
+    {
+        if (is_object($notary) && property_exists($notary, 'crpcen')) {
+            global $wpdb;
+
+            $sql = "SELECT
+                         COUNT(`cn`.`id`) nb
+                    FROM
+                        `{$wpdb->prefix}notaire` cn
+                    WHERE
+                        `cn`.`id` = %d
+                    AND
+                        `cn`.`crpcen` = %s";
+
+            $result = $wpdb->get_row($wpdb->prepare($sql, $collaborator_id, $notary->crpcen));
+
+            return $result->nb;
+        }
+
+        return false;
+    }
 }
 

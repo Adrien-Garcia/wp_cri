@@ -119,11 +119,33 @@ function append_js_files()
                 'newsletter_empty_error'   => CONST_NEWSLETTER_EMPTY_ERROR_MSG,
                 'newsletter_success_msg'   => CONST_NEWSLETTER_SUCCESS_MSG,
                 'newsletter_email_error'   => CONST_NEWSLETTER_EMAIL_ERROR_MSG,
+
+                // cridonline
+                'cridonline_nonce'         => wp_create_nonce("process_cridonline_nonce"),
+                'cridonline_CGV_error'     => CONST_CRIDONLINE_CGV_ERROR_MSG
             )
         );
     }
 }
 add_action('wp_enqueue_scripts', 'append_js_files', 99);
+
+function cridonline_access()
+{
+    if (CriIsNotaire()) {
+        $oNotaire = CriNotaireData();
+        $lvl = Config::$authCridonOnline[(int) $oNotaire->etude->subscription_level];
+        wp_enqueue_script('cridonline', esc_url_raw('http://abo.prod.wkf.fr/auth/autologin.js?'.
+        'auth='.$lvl.
+        '&cid='.$oNotaire->id.
+        '&clname='.$oNotaire->last_name.
+        '&cfname='.$oNotaire->first_name.
+        '&cemail='.$oNotaire->email_adress.
+        '&pid=CRIDON')
+            , array());
+
+    }
+}
+add_action('wp_enqueue_scripts', 'cridonline_access', 50);
 
 /**
  * hook for connection
@@ -230,17 +252,6 @@ function custom_mvc_menu_position( $menu_position ){
     return $new_menu_position ;
 }
 //End Hook for Mvc_menu_position
-/**
- * hook for newsletter subscription
- */
-function newsletter()
-{
-    require_once WP_PLUGIN_DIR . '/cridon/app/controllers/notaires_controller.php';
-    $controller = new NotairesController();
-    $controller->newsletterSubscription();
-}
-add_action( 'wp_ajax_newsletter',   'newsletter' );
-add_action( 'wp_ajax_nopriv_newsletter',   'newsletter' );
 
 /**
  * Suppression option "show admin bar" sur fiche notaire en admin
@@ -411,7 +422,7 @@ function custom_redirect_301($wp)
             && isset($vars['mvc_action'])
             && isset($vars['mvc_id']) // id notary is set
             && $vars['mvc_controller'] == 'notaires' // controller "notaires"
-            && $vars['mvc_action']
+            && $vars['mvc_action'] && !in_array($vars['mvc_action'], Config::$exceptedActionForRedirect301)
         ) {
             // redirect 301 for an url like [site_url]/notaires/{id} to [site_url]/notaires
             // and [site_url]/notaires/{id}/{action} to [site_url]/notaires/{action}
@@ -441,3 +452,29 @@ function append_query_string($url) {
     return add_query_arg($_GET, $url);
 }
 add_filter('the_permalink', 'append_query_string');
+
+/**
+ * Hook permettant d'ajouter les classes `analytics` au tag anchor <a>
+ * @param array $atts {
+ *     The HTML attributes applied to the menu item's `<a>` element, empty strings are ignored.
+ *
+ *     @type string $title  Title attribute.
+ *     @type string $target Target attribute.
+ *     @type string $rel    The rel attribute.
+ *     @type string $href   The href attribute.
+ * }
+ * @param object $item  The current menu item.
+ * @param array  $args  An array of {@see wp_nav_menu()} arguments.
+ * @param int    $depth Depth of menu item. Used for padding.
+ *
+ * @return array $att
+ */
+function addClassesAnalytics($atts, $item, $args, $depth){
+    foreach($item->classes as $class) {
+        if (preg_match('/analytics/', $class)) {
+            $atts['class'] = $class;
+        }
+    }
+    return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'addClassesAnalytics',10,4 );

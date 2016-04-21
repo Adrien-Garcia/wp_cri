@@ -1,0 +1,660 @@
+/*   
+
+                   _     _             _ _     _                              
+    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___ 
+   / _ \ | '__/ __| '_ \| \ \ / / _ \ | | / __| __/ _ \
+  / ___ \| | | (__| | | | |\ V /  __/ | | \__ \ ||  __/
+ /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___| 
+                                                                                   
+
+*/ 
+
+#content.archive{
+	padding-top: 60px;
+
+	#main{		
+
+		#inner-content{			
+
+			#filtres_veilles{
+
+				width: 100%;
+				border-bottom:solid 5px $bg-top-footer;
+				height: auto; 
+				cursor: pointer;
+				//margin-bottom: 20px;
+
+				#tri_matiere{
+					position: relative;
+					line-height: 30px;
+					height: 30px;
+					margin-bottom: 20px;
+
+					>label{
+						color: #b9003f;
+					    font-size: 16px;
+					    text-transform: uppercase;
+					    @extend .do-bo;
+					    line-height: 30px;
+					    vertical-align: middle;
+					}
+
+					span.open{						
+					    color: #2e4867;
+					    display:block;
+					    transform: rotate(90deg);
+					    font-size: 30px;
+					    position: absolute;
+					    right: 0;
+					    top: 0;
+					}
+					span.close{						
+					    color: #2e4867;
+					    display:block;
+					    transform: rotate(45deg) !important;
+					    font-size: 30px;
+					    position: absolute;
+					    right: 0;
+					    top: 0;
+
+					}
+
+					span{
+						visibility: hidden;
+
+						&.active{
+							visibility: visible;
+						}
+					}
+
+				}
+
+				.panel{
+
+					display: none;
+
+					>a {
+						color:$rouge;
+						font-family: $garamond;
+						font-size: 18px;
+						text-decoration: none;
+						border-bottom:solid 1px $rouge;
+						@include transition(all 0.3s);
+
+						&:hover{
+							border-bottom:solid 1px #FFF;
+						}
+					}
+
+					ul{
+						margin: 10px 0 20px 10px;
+						padding: 0;
+
+						>li{
+							margin: 10px 0;
+							padding: 0;
+
+							>label{
+								@extend .do-re;
+								color:$bleu;
+								font-size: 18px;
+
+								&:before{
+									content: '';
+								    width: 10px;
+								    height: 10px;
+								    border: solid 1px #b9003f;
+								    margin-right: 5px;
+								    position: absolute;
+								    display: inline-block;
+								    top: 50%;
+								    margin-top: -5px;
+								    cursor: pointer;
+								    z-index: 2;
+	    							background: transparent;
+	    							@include border-radius(50%);
+	    							@include transition(all 0.3s);
+
+								}
+
+								>input{
+									opacity: 0;
+								}
+
+								&.select{
+
+									&:before{
+										border: solid 1px #b9003f;
+										background: $rouge;
+									}
+
+								}
+							}
+						}
+					}
+					#bt_valider{
+						margin:0 0 20px 10px;
+					}
+
+
+				}
+
+				
+
+				#bt_valider{
+					margin:0 0 20px 10px;
+				}
+
+				
+
+			}
+
+			#filtres_formations{
+
+				width: 100%;
+				float: left;
+				//padding-bottom: 20px;
+				border-bottom:solid 4px $vert;
+				margin-bottom: 10px;
+
+				>div{
+					font-family: $dosis;
+    				font-weight: 600;
+					text-transform: uppercase;
+					color:$bleu;
+					font-size: 20px;
+					line-height: 60px;
+					vertical-align: middle;
+					/*text-decoration: underline;*/
+
+					border-bottom:solid 16px #FFF;
+
+					width: 50%;
+					float: left;
+					text-align: center;
+
+					margin: 0;
+					padding: 0;
+					transition: border $duration ease, color $duration ease;
+
+					cursor: pointer;
+
+					span{
+						border-bottom:solid 1px $bleu;
+					}
+
+					&:hover{
+						text-decoration: none;
+						border-bottom:solid 16px $vert;
+
+						span{
+							border-bottom:solid 1px #FFF;
+						}
+					}
+
+				}
+
+				>div.open{
+					color:$vert;
+					//text-decoration: none;
+					border-bottom:solid 16px $vert;
+
+					span{
+						border-bottom:solid 1px #FFF;
+					}
+				}
+
+
+			}
+
+			.listing{
+
+				margin-top: 40px;
+
+				article{
+
+					margin-bottom: 20px;  
+					//overflow: hidden;
+					
+
+
+					.date{
+						height: 60px;
+						font-size: 25px;
+						@extend .do-re;
+						text-transform: uppercase;
+						text-align: center;
+						background: $vert;
+						line-height: 60px;
+						color:#FFF;
+						position: relative;
+						display: block;
+						margin-bottom: 20px;
+
+						&:before{
+							@include svgicon('icon-angle-bottom', 15px, 15px, $vert);					
+							position:absolute;
+							bottom: -15px;
+							left: 50%;
+							margin-left: -24px;
+							display: block;
+
+						}
+
+						&:after{
+							display: none;
+						}
+
+						.sep{
+
+							display: none;
+						}
+						
+					}
+
+					
+
+					.details{
+
+						float: left;
+
+
+						
+
+						.block_left{
+							width: 30px;
+							height: 100px;
+							float: left;
+							
+							/**/
+							margin-right: 20px;
+							
+							.img-cat{
+								width: 30px;
+								height: 30px;
+								margin-right: 20px;
+
+								img{
+									width: 30px;
+									height: 30px;
+								}
+
+							}
+						}
+
+
+						// NIVEAU DES VEILLES
+						&.niveau1{
+							.img-cat{
+								position: relative;
+								&:after{
+									position: absolute;
+									content:'';
+									width: 30px;
+									height: 30px;
+									background-image: url(../images/icon-cridonline-reference.png);
+									background-size: 30px 30px;
+									top: 35px;
+									left: 0;
+								}
+							}
+						}
+						&.niveau2{
+							.img-cat{
+								position: relative;
+								&:after{
+									position: absolute;
+									content:'';
+									width: 30px;
+									height: 30px;
+									background-image: url(../images/icon-cridonline-premium.png);
+									background-size: 30px 30px;
+									top: 35px;
+									left: 0;
+								}
+							}
+						}
+						&.niveau3{
+							.img-cat{
+								position: relative;
+								&:after{
+									position: absolute;
+									content:'';
+									width: 30px;
+									height: 30px;
+									background-image: url(../images/icon-cridonline-excellence.png);
+									background-size: 30px 30px;
+									top: 35px;
+									left: 0;
+								}
+							}
+						}
+
+						
+						.block_right{
+							float: right;
+							width: 250px;
+							//overflow: hidden;
+
+							.matiere{
+								@extend .do-bo;
+								color:#FFF;
+								text-transform: uppercase;
+								font-size: 12px;
+								background: $vert;
+								display: inline-block;
+								padding: 0 2px;
+								//margin-bottom: 5px;
+							}
+
+							h2{
+								@extend .do-me;
+								font-size: 22px;
+								line-height: 24px;
+								text-transform: uppercase;
+								color:$vert;
+								display: block;
+								margin: 0;
+								padding: 0;
+
+							}
+
+							.chapeau{
+							    font-size: 15px;
+							    color: $rouge;
+							    font-family: $garamond;
+							    width: 250px;
+							    overflow: hidden;
+							    line-height: 18px;
+							    
+
+							    >a{ display: none;}
+							}
+
+							.extrait{
+								font-family: $helvetica;
+							    font-size: 13px;
+							    line-height: 18px;
+							    width: 250px;
+							    overflow: hidden;
+							    margin-top: 10px;
+							}
+
+							.adresse{
+								
+								font-family: $helvetica-bold;
+								font-size: 12px;
+								color:$bleu;
+								margin: 10px 0 10px 0;
+								line-height: 14px;
+							}
+
+							.mots_cles{
+
+								margin:20px 0 10px 0;
+								padding: 0;
+								height: 18px;
+
+								>li{
+									float: left;
+									padding: 0;
+									margin: 0 20px 0 0;
+									font-family: $helvetica-bold;
+									color:$bleu;
+									font-size: 10px;
+									position: relative;
+									height: 18px;
+									line-height: 18px;
+
+									&:before{
+										content:'';
+										position: absolute;
+										top: 0;
+										right: -10px;
+										width: 1px;
+										height: 18px;
+										background: $bleu;
+
+									}
+
+									&:last-child{
+										&:before{ display: none;}
+									}
+								}
+							}
+
+							>a{
+
+							@include bt-crayon($vert, #FFFFFF);
+							float: left;
+							margin:10px 0 0 0;
+
+						}
+
+						}
+						
+					}
+
+					
+				}
+
+
+			} 
+
+		}
+
+	}
+
+	
+}
+
+#content.archive-vie-cridon{
+	.block_right {width: 100% !important;}
+}
+
+
+#content.archive-cahier{
+
+	 #main #inner-content .listing article{
+
+		.details{
+			width: 100%;
+
+			.block_right{
+				width: 100%;
+
+
+				>h2{ margin-bottom: 5px;}
+
+				> a{
+					color:$rouge;
+					background: none;
+					display: inline-block;
+					width: auto;
+					text-transform: none;
+					font-size: 14px;
+					@extend .do-el;
+					float: none;
+					margin: 0;
+					padding: 0;
+					text-align: left;
+					border-bottom:solid 1px $rouge;
+					height: auto;
+					line-height: 18px;
+
+					&:after{ display: none;}
+
+					&:hover{
+						border-bottom:solid 1px #FFF;
+						color:$rouge;
+					}
+				}
+
+				> ul{
+					width: 100%;
+					margin: 20px 0 0 0;
+					padding: 0 0 0 10px;
+
+					>li{
+						width: 100%;
+						clear: both;
+						//margin: 15px 0;
+						padding: 0;
+
+						line-height: 30px;
+						height: auto;
+
+						display: block;
+
+
+
+						> div{
+							display: inline !important;
+						}
+
+						div.img-cat{
+							width: 30px;
+							height: 30px;
+							margin-right: 10px;
+
+							img{
+								width: 30px;
+								height: 30px;
+								vertical-align: middle;
+							}
+
+						}
+
+						.matiere{
+							top: 0;
+							display: inline-block;
+						}
+
+						> h3{
+							@extend .do-me;
+							color:$bleu;
+							font-size: 14px;
+							//text-transform: uppercase;
+							margin: 0 10px;
+							line-height: 18px;
+							display: block;
+							margin: 0 0 0 44px;
+							text-transform: lowercase;
+
+							&:first-letter{
+								text-transform: uppercase;
+							}
+						}
+
+						>a{
+						 	width: 16px;
+						 	height: 16px;
+						 	position: relative;
+						 	margin-left: 44px;
+						 	display: inline-block;
+						 	text-decoration: none !important;
+
+						 	&:before{
+						 		@include svgicon('icon-pdf', 16px, 16px, $rouge);
+						 		position: absolute;
+						 		top: 0;
+						 		left: 0;
+						 		text-decoration: none!important;
+						 	}
+
+						 	&:hover{
+						 		&:before{
+						 			@include svgicon('icon-pdf', 16px, 16px, $rouge);
+							 		opacity: 0.8;
+							 	}
+						 	}
+						 }
+
+
+					}
+				}
+			}
+		}
+
+	}  
+}
+
+#content.archive-formations{
+	#main #inner-content .listing{
+		margin-top: 10px;
+
+		article:first-of-type .date .sep{
+			display: none;
+
+		}
+
+		&.tab {
+			display: none;
+			&.open {
+				display: block;
+			}
+		}
+
+	}
+
+
+}
+
+.pagination{
+					
+	border-top:solid 4px #e6e6e6;
+	padding: 40px 0;
+	margin: 0;
+
+	a, span{
+		height: 30px;
+		width: 30px;
+		line-height: 30px;
+		padding: 0;
+		margin: 0 10px 0 0;
+
+		@extend .do-me;
+		font-size: 14px;
+		color:$bleu;
+
+		display: inline-block;
+
+		&:hover, &:focus{
+			background: #e6e6e6;
+			color:$bleu;
+			border: none;
+		}
+	}
+
+	a.page-numbers{
+	}
+
+	a.next, a.prev{
+		width: auto;
+		display: none;
+	}
+
+	span.current{
+
+		background: $vert;
+		color:#FFF;
+		position: relative;
+
+		&:before{
+			@include svgicon('icon-angle-right', 15px, 15px, $vert);
+			position: absolute;
+			right: -4px;
+			top: 50%;
+			margin-top: -7px;
+		}
+
+		&:hover{
+			background: $vert;
+			color:#FFF;
+		}
+		
+
+	}
+
+
+}

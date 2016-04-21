@@ -479,15 +479,15 @@ function getMatieresByNotaire(){
 }
 
 /**
- * Check if notaire can access finances
+ * Check if notaire can access sensitive informations
  *
  * @return bool
  */
-function CriCanAccessFinance() {
+function CriCanAccessSensitiveInfo() {
     // check if user connected is notaire
     if (CriIsNotaire()) {
         // user data
-        return mvc_model('notaire')->userCanAccessFinance();
+        return mvc_model('notaire')->userCanAccessSensitiveInfo();
     }
     return false;
 }
@@ -651,30 +651,9 @@ function CriListSupport()
  */
 
 function CriDisableAdminBarForExistingNotaire() {
-    // start/end query block
-    global $wpdb;
-
-    $queryStart = " UPDATE `{$wpdb->usermeta}` ";
-    $queryEnd   = ' END ';
-    $updateMetaKey = $updateMetaValue = array();
     foreach (mvc_model('notaire')->find() as $notaire) {
-        $updateMetaKey[] = " user_id = {$notaire->id_wp_user} THEN 'show_admin_bar_front' ";
-        $updateMetaValue[] = " user_id = {$notaire->id_wp_user} THEN 'false' ";
-    }
-
-    // execute update query
-    if (count($updateMetaKey) > 0) {
-        // meta_key
-        $query = ' SET `meta_key` = CASE ';
-        $query .= ' WHEN ' . implode(' WHEN ', $updateMetaKey);
-        $query .= ' ELSE `meta_key` ';
-        $wpdb->query($queryStart . $query . $queryEnd);
-
-        // meta_value
-        $query = ' SET `meta_value` = CASE ';
-        $query .= ' WHEN ' . implode(' WHEN ', $updateMetaValue);
-        $query .= ' ELSE `meta_value` ';
-        $wpdb->query($queryStart . $query . $queryEnd);
+        // insert or update user_meta
+        update_user_meta($notaire->id_wp_user, 'show_admin_bar_front', 'false');
     }
 }
 
@@ -698,19 +677,25 @@ function CriRecursiveFindingFileInDirectory($path, $file)
     return $fileSource;
 }
 
-function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
-    $referer = $_SERVER['HTTP_REFERER'];
-    $request = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+/**
+ * Redirect to non protected page in order to connect
+ * Will redirect to the asked page if connected
+ * @param string $error_code
+ * @param mixed $url
+ */
+function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
+    if (isset($_GET['requestUrl'] ) ) {
+        $referer = get_home_url();
+        $request = !empty($url) ? $url : urlencode($_GET['requestUrl']);
+    } else {
+        $referer = $_SERVER['HTTP_REFERER'];
+        $request = !empty($url) ? $url : "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    }
+
     if (! empty($referer) /*&& strripos( $request , $referer)*/ ){
         $redirect = $referer;
     } else {
         $redirect = get_home_url();
-    }
-
-    $request = urlencode(htmlspecialchars("//" . $request, ENT_QUOTES, "UTF-8"));
-
-    if( empty($request) ) {
-        $request = false;
     }
 
     if (
@@ -727,10 +712,8 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
         $redirect .= "?";
     }
 
-    $redirect .= "openLogin=1&messageLogin=" . $error_code;
-    if ($request) {
-        $redirect .= "&requestUrl=" . $request;
-    }
+    $redirect .= "openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . $request;
+
     wp_redirect($redirect);
 }
 
@@ -873,7 +856,7 @@ function getAffectation($id){
 }
 
 function getMatieresByQuestionNotaire(){
-    return mvc_model('Matiere')->getMatieresByNotaireQuestion();
+    return mvc_model('Matiere')->getMatieresByNotaireQuestionAnswered();
 }
 /**
  * Redirect to 404
@@ -918,6 +901,102 @@ function CriVeilleWithUriFilters()
     }
 
     return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
+}
+
+/**
+ * Send confirmation to notary for posted question
+ *
+ * @param array $question
+ * @throws Exception
+ */
+function CriSendPostQuestConfirmation($question) {
+    // get connected user
+    global $current_user;
+
+    // set meail headers
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+    // retrieve notary data
+    $notary = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
+    if (is_object($notary) && property_exists($notary, 'email_adress')) {
+        // default dest for DEV ENV
+        $dest = Config::$notificationAddressPreprod;
+
+        // check environnement
+        $env = getenv('ENV');
+        if ($env === 'PROD') {
+            $dest = $notary->email_adress;
+            if (!$dest) { // notary email is empty
+                // send email to the office
+                $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+                if (is_object($offices) && $offices->office_email_adress_1) {
+                    $dest = $offices->office_email_adress_1;
+                } elseif (is_object($offices) && $offices->office_email_adress_2) {
+                    $dest = $offices->office_email_adress_2;
+                } elseif (is_object($offices) && $offices->office_email_adress_3) {
+                    $dest = $offices->office_email_adress_3;
+                }
+            }
+        }
+
+        // dest must be set
+        if ($dest) {
+            // prepare message
+            $subject = Config::$mailSubjectQuestionStatusChange['1'];
+            $vars    = array(
+                'resume'          => $question['resume'],
+                'content'         => $question['content'],
+                'matiere'         => $question['matiere'],
+                'competence'      => $question['competence'],
+                'support'         => $question['support'],
+                'creation_date'   => $question['dateSoumission'],
+                'date'            => $question['dateSoumission'],
+                'notaire'         => $notary,
+                'type_question'   => '1',
+            );
+            $message = CriRenderView('mail_notification_question', $vars, 'custom', false);
+
+            // send email
+            wp_mail($dest, $subject, $message, $headers);
+        }
+    }
+}
+
+/**
+ * Check if  current user can manage Collaborator
+ *
+ * @return bool
+ * @throws Exception
+ */
+function CriCanManageCollaborator() {
+    return mvc_model('notaire')->userCanManageCollaborator();
+}
+
+/**
+ * Get list of all existing roles
+ *
+ * @return array
+ */
+function CriListRoles() {
+    return Config::$notaryRoles;
+}
+
+/**
+ * Get list of roles by collaborator
+ * @param mixed $collaborator
+ * @return array
+ */
+function CriGetCollaboratorRoles($collaborator) {
+    // get collaborator associated user
+    if (is_object($collaborator) && $collaborator->id_wp_user) {
+        $user = new WP_User($collaborator->id_wp_user);
+
+        // check if user is a WP_user vs WP_error
+        if ($user instanceof WP_User && is_array($user->roles)) {
+            return $user->roles;
+        }
+    }
+    return array();
 }
 
 /**

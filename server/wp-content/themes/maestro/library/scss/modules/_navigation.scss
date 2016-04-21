@@ -59,6 +59,10 @@ and more scalable.
 
 		//height: 120px;
 
+		&.bases{
+			display: none;
+		}
+
 		> a{ /* Lien 1ere niveau*/
 			height: 120px;
 			display: block;
@@ -70,13 +74,16 @@ and more scalable.
 			position: relative;
 			@include transition(color 0.3s);
 
-			span{
+			> span{
 				display: block;
-				@extend .do-sm;
+				font-family: $dosis;
+    			font-weight: 600;
 				color:$bleu;
 				font-size: 30px;
 				line-height: 24px;
 				text-transform: uppercase;
+
+
 			}
 
 			&:before{
@@ -460,10 +467,8 @@ and more scalable.
 
 			>li:last-child{ /* IMAGE RECHERCHE */
 
-				border-right:none;
-				border-left:none;
-
-				>div.block{
+				
+				> div.block{
 					background: url(../images/origin/bg-rechercher-mobile_02.png);
 
 					.content{
@@ -488,7 +493,7 @@ and more scalable.
 
 	}
 
-	> li:nth-child(2){ /* MENU COMMANDER */
+	> li:nth-child(4){ /* MENU COMMANDER */
 
 		> ul.sub-menu{
 
@@ -542,8 +547,9 @@ and more scalable.
 				border-right: none;
 			}
 
-			> li:last-child{/*IMAGE*/
+			> li:last-child{ /*IMAGE*/
 
+				
 				overflow: inherit;
 				border-right: none;
 				//border-left:solid 1px $rouge;
@@ -720,8 +726,12 @@ nav#menu_mobile{
 	}
 
 	.mm-navbar-bottom{
-		background: $vj_01;
+		//background: $vj_01;
 		height: 50px;
+		bottom: auto;
+		top: 205px;
+		border:0px;
+		background: transparent !important;
 
 		> a{
 			width: auto;
@@ -729,6 +739,10 @@ nav#menu_mobile{
 
 			&:hover{
 				opacity: 0.6;
+			}
+
+			>img{
+				height: 30px;
 			}
 		}
 
@@ -773,6 +787,58 @@ nav#menu_mobile{
 
 				}
 
+				&.bases{
+
+					display: block;
+					position: relative;
+					
+					&:first-of-type{
+						margin-top: 20px;
+					}
+
+
+					>a{
+						color:$rouge;
+						@extend.do-sm;
+						text-transform: uppercase;
+						height: 30px; 
+						padding-top: 0;
+						padding-bottom: 0;
+						padding-left: 40px;
+						line-height: 30px;
+						display: block;
+						position: relative;
+
+						>span{
+							@extend.do-re; 
+							display: inline;
+							color:$rouge;
+							font-size: 16px;
+						}
+
+						&:before{
+							content:'';
+							height: 8px;
+							width: 8px;
+							border:solid 1px $rouge;
+							@include border-radius(50%);
+							position:absolute;
+							top: 10px;
+						    left: 20px;
+						    opacity: 1;
+						}
+
+						&:hover{
+
+							color:$bleu !important;
+
+							>span{
+								//color:$bleu;
+							}
+						}
+					}
+				}
+
 				.mm-next{
 
 					&:after{
@@ -786,6 +852,41 @@ nav#menu_mobile{
 							border-color: rgba(185, 0, 63, 1) !important;
 						}
 
+					}
+				}
+
+				&:first-child{
+					margin-bottom: 20px;
+				}
+
+				&:nth-child(3){
+					margin-bottom: 70px;
+					position: relative;
+					display: block;
+
+					&:before{
+						content:'';
+						height: 30px;
+						width: 98px;
+						position: absolute;
+						left: 20px;
+						top: 45px;
+						background: url('../images/origin/logo-lexbase-2.png') no-repeat center center;
+    					background-size: 97.5px 30px;
+    					display: block;
+    					border: none;
+					}
+
+					&:after{
+						content:'';
+						height: 30px;
+						width: 115px;
+						position: absolute;
+						left: 134px;
+						top: 45px;
+						background: url('../images/origin/logo-woltersKluwer-2.png') no-repeat center center;
+    					background-size: 114.5px 30px;
+    					border: none;
 					}
 				}
 

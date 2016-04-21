@@ -79,6 +79,16 @@
 
 	</div>
 </div>
+<div class="cridonline-offres">
+	<h2><?php _e('Mon abonnement Crid\'online'); ?></h2>
+	<div class="description">
+			Lorem ipsum dolor sit amet
+	</div>
+	<?php set_query_var( 'notaire', $notaire ); ?>
+	<?php set_query_var( 'priceVeilleLevel2', $priceVeilleLevel2 ); ?>
+	<?php set_query_var( 'priceVeilleLevel3', $priceVeilleLevel3 ); ?>
+	<?php echo get_template_part("content","cridonline-offres"); ?>
+</div>
 
 <div class="mes-centres-dinterets">
 
@@ -122,7 +132,7 @@
             <?php _e('Vous êtes inscrit à notre newsletter selon vos centres d\'intérêts.'); ?>
             <?php endif; ?>
         </div>
-        <form action="/notaires/<?php echo $notaire->id ?>/profil" method="post" accept-charset="utf-8" id="newsletterFormId1" class="form-newsletter js-account-profil-newsletter-form">
+        <form method="post" accept-charset="utf-8" id="newsletterFormId1" class="form-newsletter js-account-profil-newsletter-form" data-js-ajax-newsletter-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionnewsletter'));?>">
             <input type="hidden" name="userEmail" value="<?php echo $notaire->email_adress ?>" class="js-account-profil-newsletter-email" id="userEmail" placeholder="<?php _e('Votre adresse email'); ?>">
             <input type="hidden" name="state" value="<?php echo $notaire->newsletter == 1 ? "0" : "1"; ?>" class="js-account-profil-newsletter-state">
             <input type="submit" name="submit" value="<?php _e( ($notaire->newsletter == 0 ? "S'inscrire" : "Me désinscrire" ) ); ?>">

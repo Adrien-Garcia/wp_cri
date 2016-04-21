@@ -7,7 +7,7 @@ Stylesheet: Variables
 Here is where we declare all our variables like colors, fonts,
 base values, and defaults. We want to make sure this file ONLY
 contains variables that way our files don't get all messy.
-No one likes a mess.
+No one likes a mess. 
 
 ******************************************************************/
 
@@ -79,3 +79,10 @@ $bg-bottom-footer: #0b1828;
 /* Transition */
 
 $duration: 0.3s;
+
+
+
+/* CRIDONLINE */
+$bleu-cri: #36496b;
+$vert-cri: #199b9f;
+$jaune-cri: #fab719; 

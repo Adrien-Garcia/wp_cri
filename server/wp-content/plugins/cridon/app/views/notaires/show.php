@@ -8,7 +8,6 @@
  */
 
 ?>
-<?php 
-	$onglet = 1;
+<?php
     include TEMPLATEPATH.'/page-mon-compte.php';
 ?>

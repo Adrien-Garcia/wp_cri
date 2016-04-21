@@ -43,7 +43,17 @@
 				
 
 				<?php get_template_part("content","3-block-home"); ?>
-
+				<div class="partenaires">
+					<div class="">Partenaires exclusifs du <span>CRIDON</span> LYON</div>
+					<ul>
+						<li>
+							<img src='/wp-content/themes/maestro/library/images/origin/logo-lexbase-2.png' alt='lexbase'>
+						</li>
+						<li>
+							<img src='/wp-content/themes/maestro/library/images/origin/logo-woltersKluwer-2.png' alt='Wolters Kluwer'>
+						</li>
+					</ul>
+				</div>
 				
    			</div>
    		</div>
@@ -165,14 +175,27 @@
 
 		<div class="row_03">
 			<div id="inner-content" class="wrap cf">
-				<div class="cridon-app js-home-block-link">
-					<div class="content">
-						<div class="img-main"></div>
-						<h2><?php _e('Le cridon dans ma poche'); ?> </h2>
-						<a href="/le-cridon-dans-ma-poche/" title=""><span><?php _e('Découvrir notre application !'); ?></span></a>
-						<div class="img-appli" ></div>
-					</div>
+
+				<div class="cridonline">
+					<ul>
+						<li>Lorem ipsum dolor sit amet, consectetur</li>
+						<li>adipisicing elit, sed do eiusmod</li>
+						<li>didunt ut labore et dolore magna</li>
+						<li>atem accusantium doloremque laudantium</li>
+						<li>totam rem aperiam, eaque</li>
+					</ul>
+					<a href="#" title="Découvrir nos offres crid'online" class="link1"><span><?php _e('Découvrir nos offres !'); ?></span></a>
+
+					<a title="Découvrir nos offres crid'online" class="link2 <?php if(!CriIsNotaire()) : ?>js-panel-connexion-open<?php endif; ?>" 
+						<?php if(CriIsNotaire()) : ?> href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>" 
+						<?php else : ?> href="#" data-login-message="PROTECTED_CONTENT" <?php endif; ?> 
+						>
+						<span><?php _e('Souscrire à nos offres !'); ?></span>
+					</a>
 				</div>
+
+
+				
 				<div class="veille-juridique <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
@@ -190,6 +213,15 @@
 						<a <?php if(CriIsNotaire()) : ?> href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
 							<span><?php _e('Consulter les flash infos'); ?></span>
 						</a>						
+					</div>
+				</div>
+				<div class="cridon-app js-home-block-link">
+					<div class="content">						
+						<h2><?php _e('Le cridon Lyon dans ma poche'); ?> </h2>
+						<a href="/le-cridon-dans-ma-poche/" title=""><span><?php _e('Découvrir notre application !'); ?></span></a>
+						<div class="img-main"></div>
+						<div class="img-appli" ></div>
+						
 					</div>
 				</div>
 			

@@ -1,0 +1,165 @@
+div#mon-profil{
+
+	position: relative;
+
+	.mes-informations{
+		
+		height: auto;
+
+		h2{}
+		
+
+
+		.coordonnees{
+			padding-left: 30px;
+			width: 790px;
+			font-size: 18px;
+
+			
+
+			.notaire, .etude{
+				width: 260px;
+			}
+			
+
+			.nom{
+				width: 100%;
+				margin-bottom: 25px;
+				line-height: 20px; 
+
+				span{}
+			}
+
+			.adresse, .contact{
+				width: 260px;
+				float: left;
+				line-height: 20px;  
+			}
+
+			> a{
+				    float: right;
+					margin-top: 7px;
+					font-weight: normal;
+					width: 180px;
+					text-align: center;
+
+
+			}
+
+		}
+	}
+
+	.cridonline-offres{
+		width: 100%;
+		float: left;
+	}
+
+	
+
+	.mes-centres-dinterets, .newsletter{
+
+
+
+		h2{ }
+
+		.description{
+			width: 100%;
+			font-size: 20px;
+			line-height: 24px;
+
+		}
+
+        .form-newsletter {
+            width: 490px;
+            margin-right: 0px;
+
+            input[type="submit"] {
+                margin-left: 0;
+            }
+        }
+
+		form {
+			width: 630px;	 							
+			margin-right: 30px;
+
+			> ul{
+				clear: both;
+
+				li{
+					width: 50%;
+					float: left;
+					;
+
+					&:nth-child(even){
+						padding-right: 10px;
+					}
+
+					&:nth-child(even){
+						padding-left: 10px;
+					}
+
+					&:before{ content:none;}
+
+					label{
+						font-size: 20px;
+						line-height: 20px;
+
+						&:before{
+							
+							top:-1px; 
+
+						}
+						
+						input{
+
+
+
+						}
+
+					}
+				}
+			}
+
+			input[type="submit"]{ 
+
+				margin-left: 0px;
+				margin-top: 40px;
+				width: 110px;
+				font-weight: normal;
+
+			}
+		}
+
+		
+	}
+
+	.mes-centres-dinterets{
+		width: 630px;
+
+		.description{
+			margin-bottom: 60px;
+
+		}
+	}
+
+	.newsletter{
+		width: 490px;
+		position: static;
+		right: 0;
+		top: 440px;
+
+		.description{
+			margin-bottom: 20px;
+
+		}
+
+		> a{
+			margin-left: 0px;
+			margin-top: 0;
+			width: 110px;
+			text-align: center;
+			font-weight: normal;
+		}
+	}
+
+}

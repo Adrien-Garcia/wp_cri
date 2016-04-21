@@ -19,6 +19,15 @@ define('PREPROD', 'PREPROD');
 if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
     define( 'CONST_NOTAIRE_ROLE', 'notaire' );
 }
+if ( !defined( 'CONST_FINANCE_ROLE' ) ) {
+    define( 'CONST_FINANCE_ROLE', 'accesfinances' );
+}
+if ( !defined( 'CONST_QUESTIONECRITES_ROLE' ) ) {
+    define( 'CONST_QUESTIONECRITES_ROLE', 'accesquestecrites' );
+}
+if ( !defined( 'CONST_QUESTIONTELEPHONIQUES_ROLE' ) ) {
+    define( 'CONST_QUESTIONTELEPHONIQUES_ROLE', 'accesquesttelephoniques' );
+}
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
     define( 'CONST_ADMIN_ROLE', 'administrator' );
@@ -62,9 +71,9 @@ if ( !defined( 'CONST_DB_TYPE' ) ) {
 if ( !defined( 'CONST_DB_HOST' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $host = '10.115.100.192';
             break;
+        case PREPROD:
         case DEV:
             $host = '10.115.100.26';
             break;
@@ -142,9 +151,9 @@ if ( !defined( 'CONST_DB_DATABASE' ) ) {
 if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
+        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
@@ -155,6 +164,23 @@ if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
     }
     define( 'CONST_DB_TABLE_NOTAIRE', $prefix.'ZEXPNOTV' );
 }
+if ( !defined( 'CONST_DB_TABLE_ABONNE' ) ) {
+    switch ($env) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_ABONNE', $prefix.'YABONNE' );
+}
+
 
 // import CSV notaire file path
 if ( !defined( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH' ) ) {
@@ -284,7 +310,7 @@ if ( !defined( 'CONST_EMAIL_ERROR_CORRUPTED_FILE' ) ) {
 
 // Error reporting for Exception
 if ( !defined( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION' ) ) {
-    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exception a été levée avec le message d\'erreur suivant : "%s"' );
+    define( 'CONST_EMAIL_ERROR_CATCH_EXCEPTION', 'Une exception a été levée avec le message d\'erreur suivante : "%s"' );
 }
 // Appel && Courrier support id
 if ( !defined( 'CONST_SUPPORT_APPEL_ID' ) ) {
@@ -393,9 +419,9 @@ if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
 if ( !defined( 'CONST_ODBC_TABLE_QUEST' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
+        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
@@ -418,7 +444,6 @@ if ( !defined( 'CONST_QUEST_UPDATED_IN_X3' ) ) {
 if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
     define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
 }
-
 if ( !defined( 'CONST_QUEST_ANSWERED' ) ) {
     define( 'CONST_QUEST_ANSWERED', 4 );
 }
@@ -451,13 +476,32 @@ if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG', 'Import GED du %s : le fichier PDF associé au CSV de la question "%s" est illisible' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG' ) ) {
-    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : repertoire d\'import vide' );
+    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : Aucun document traité' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG', 'Import GED du %s : aucune question n\'est associée au document suivant "%s"' );
 }
 if ( !defined( 'CONST_IMPORT_GED_GENERIC_ERROR_MSG' ) ) {
     define( 'CONST_IMPORT_GED_GENERIC_ERROR_MSG', 'Erreur survenue lors de l\'import de la GED' );
+}
+// Cridonline const
+if ( !defined( 'CONST_CRIDONLINE_A_TRANSMETTRE_ERP' ) ) {
+    define( 'CONST_CRIDONLINE_A_TRANSMETTRE_ERP', 1 );
+}
+if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_A_TRANSMETTRE_ERP' ) ) {
+    define( 'CONST_CRIDONLINE_ECHEANCE_A_TRANSMETTRE_ERP', 0 );
+}
+if ( !defined( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE' ) ) {
+    define( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE', 2 );
+}
+if ( !defined( 'CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS' ) ) {
+    define( 'CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS', 365 );
+}
+if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_MONTH' ) ) {
+    define( 'CONST_CRIDONLINE_ECHEANCE_MONTH', 2 );
+}
+if ( !defined( 'CONST_EXPORT_CRIDONLINE_ERROR' ) ) {
+    define( 'CONST_EXPORT_CRIDONLINE_ERROR', 'Export cridonline interrompu le : %s' );
 }
 
 if (!defined('CONST_CONNECTION_FAILED')) {
@@ -492,7 +536,15 @@ if ( !defined( 'CONST_NEWSLETTER_EMAIL_FIELD' ) ) {
 if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
     define( 'CONST_NEWSLETTER_MSGBLOCK_ID', 'newsletterMsgId' );
 }
-
+if ( !defined( 'CONST_CRIDONLINE_CGV_ERROR_MSG' ) ) {
+    define( 'CONST_CRIDONLINE_CGV_ERROR_MSG', 'Vous devez accepter les conditions générales d\'utilisations pour souscrire à l\'offre CRID\'ONLINE' );
+}
+if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
+    define( 'CONST_CRIDONLINE_LABEL_LEVEL_2', 'Premium' );
+}
+if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_3' ) ) {
+    define( 'CONST_CRIDONLINE_LABEL_LEVEL_3', 'Excellence' );
+}
 //Alert on issues without documents
 if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
     define( 'CONST_ALERT_MINUTE', 30 );
@@ -544,9 +596,9 @@ if ( !defined( 'CONST_STATUS_CODE_GONE' ) ) {
 if ( !defined( 'CONST_DB_TABLE_QUESTTEMP' ) ) {
     switch ($env) {
         case PROD:
-        case PREPROD:
             $prefix = 'CLCRIDON.';
             break;
+        case PREPROD:
         case DEV:
             $prefix = 'CLCRITST.';
             break;
@@ -703,23 +755,6 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 
 // End of block for mobile
 
-// ERP YNOTAIRE table
-if ( !defined( 'CONST_DB_TABLE_YNOTAIRE' ) ) {
-    switch ($env) {
-        case PROD:
-        case PREPROD:
-            $prefix = 'CLCRIDON.';
-            break;
-        case DEV:
-            $prefix = 'CLCRITST.';
-            break;
-        case LOCAL:
-        default:
-            $prefix = '';
-            break;
-    }
-    define( 'CONST_DB_TABLE_YNOTAIRE', $prefix.'YNOTAIRE' );
-}
 // Reset pwd value to be inserted in YNOTAIRE
 if ( !defined( 'CONST_YTRAITEE_RESETPWD' ) ) {
     define( 'CONST_YTRAITEE_RESETPWD', 3 );
@@ -733,3 +768,70 @@ if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD' ) ) {
 if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD' ) ) {
     define( 'CONST_YDDEMDPWEB_RESETPWD', 2 );
 }
+
+// id of collaborator on cri_fonction
+if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
+    define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );
+}
+
+if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
+    define( 'CONST_FACTURATION_PAGE_ID', 1515 );
+}
+
+// alert email changed
+if ( !defined( 'CONST_ALERT_EMAIL_CHANGED' ) ) {
+    define('CONST_ALERT_EMAIL_CHANGED', 'Attention : il s\'agit de votre adresse email personnelle');
+}
+
+// Start of block delete collaborator
+if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
+    define( 'CONST_CONFIRM_DEL_MSG', 'Confirmer la suppression du collaborateur ?' );
+}
+if ( !defined( 'CONST_DEL_SUCCESS_MSG' ) ) {
+    define( 'CONST_DEL_SUCCESS_MSG', 'Collaborateur supprimé' );
+}
+if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
+    define( 'CONST_DELCOLLAB_ERROR', 'Suppression collaborateur interrompu le : %s' );
+}
+// End of block delete collaborator
+
+// ERP YNOTAIRE table
+if ( !defined( 'CONST_DB_TABLE_YNOTAIRE' ) ) {
+    switch ($env) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_YNOTAIRE', $prefix.'YNOTAIRE' );
+}
+
+// Onglet
+if ( !defined( 'CONST_ONGLET_DASHBOARD' ) ) {
+    define( 'CONST_ONGLET_DASHBOARD', 1 );
+}
+if ( !defined( 'CONST_ONGLET_QUESTION' ) ) {
+    define( 'CONST_ONGLET_QUESTION', 2 );
+}
+if ( !defined( 'CONST_ONGLET_PROFIL' ) ) {
+    define( 'CONST_ONGLET_PROFIL', 3 );
+}
+if ( !defined( 'CONST_ONGLET_FACTURATION' ) ) {
+    define( 'CONST_ONGLET_FACTURATION', 4 );
+}
+if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
+    define( 'CONST_ONGLET_CRIDONLINE', 5 );
+}
+if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
+    define( 'CONST_ONGLET_COLLABORATEUR', 6 );
+}
+
+
+

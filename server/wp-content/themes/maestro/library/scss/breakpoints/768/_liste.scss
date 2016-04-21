@@ -1,0 +1,398 @@
+/*   
+
+                   _     _             _ _     _                              
+    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___ 
+   / _ \ | '__/ __| '_ \| \ \ / / _ \ | | / __| __/ _ \
+  / ___ \| | | (__| | | | |\ V /  __/ | | \__ \ ||  __/
+ /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___| 
+                                                                                   
+
+*/ 
+
+#content.archive{
+	padding-top: 130px; 
+
+	.breadcrumbs{
+		/*width: 100%;
+		background: $bg-top-footer;
+		height: 70px; */ 
+		display: block;
+		padding-top: 30px;
+
+		a{
+			@extend .do-re;
+			font-size: 15px;
+			color:#818181;
+			text-transform: uppercase;
+			text-decoration: none;
+			line-height: 24px;
+
+		}
+
+		span{
+			font-family: $dosis;
+    		font-weight: 600;
+			color:$bleu;
+			font-size: 15px;
+			line-height: 24px;
+		}
+	
+
+	}
+
+	#main{
+		
+		padding-top: 60px;
+
+		&:before{}
+
+		#inner-content{
+
+
+			h1{
+				
+				font-size: 50px;
+				line-height: 40px;
+				margin-top: 0;
+
+				&:before{	}
+
+
+			}
+
+			#filtres_veilles{
+				border-bottom: none;
+				height: inherit;
+
+				#tri_matiere{
+
+					>label{}
+
+					span.open{}
+					span.close{}
+
+					span{}
+
+				}
+
+				.panel{					
+
+					>a {}
+
+					ul{
+						width: 100%;
+						float: left;
+
+						>li{
+
+							width: 33%;
+							float: left;
+							margin: 3px 0;
+
+							>label{								
+
+								&:before{}
+
+								>input{}
+
+								&.select{
+
+									&:before{}
+
+								}
+
+								cursor: pointer;
+
+							    &:hover{
+
+							    	&:before{
+							    		background: $rouge;
+							    	}
+							    }
+							}
+						}
+					}
+					#bt_valider{
+						/*margin:0 0 20px 10px;*/
+						margin-bottom: 0;
+
+					}
+
+
+				}
+
+				
+
+				#bt_valider{
+					margin:0 0 20px 10px;
+				}
+
+			}
+
+			.listing{
+
+			margin-top: 50px; 
+
+				article{
+
+					margin-bottom: 60px;
+
+
+					
+
+
+					.date{
+						height: 220px;
+						width: 180px;
+						float: left;
+						margin-right: 20px;
+						padding: 50px 0;
+						margin-bottom: 0;
+
+						&:before{
+							display: none;
+
+						}
+
+						&:after{
+							@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
+							position:absolute;
+							bottom: 50%;
+							margin-bottom: -23px;
+							left: inherit;
+							right: -13px;
+							margin-left: 0px;
+							display: block;
+
+						}
+
+						span{
+							display: block;
+
+						}
+
+						span.jour{
+							font-size: 72px;
+							line-height: 60px;
+							@extend .do-el;
+						}
+						.mois{
+							font-size: 30px;
+							line-height: 40px;
+
+						}
+						.annee{
+							font-size: 18px;
+							line-height: 15px;
+						}
+
+						.sep{
+							display: block;
+							position: absolute;
+							width: 660px;
+							top: -33px;
+							left: 0;
+							border-bottom:solid 5px $bg-top-footer;
+							height: 0px;
+							line-height: 20px;
+
+
+
+							&:before{
+
+								@include svgicon('ico-sep', 18px, 18px, #e6e6e6);
+								position: absolute;
+								top: 0px;
+								background: #FFF;
+								left: 50%;
+								margin-left: -30px;
+								border:none;
+
+								 
+							}
+						}
+
+						
+					}
+
+
+					
+
+					.details{
+						float: right;
+						width: 460px; 
+
+						.block_left{
+							width: 50px;
+							margin-right: 0;
+
+							.img-cat{
+
+								height: 50px;	
+								width: 50px;			
+								margin-right: 10px;
+								
+								img{
+									width: 50px;
+									height: 50px;
+								}
+								
+							}
+
+						}
+
+						// NIVEAU DES VEILLES
+						&.niveau1{
+							.img-cat{								
+								&:after{
+									
+									width: 50px;
+									height: 50px;									
+									top: 60px;
+									left: 0;
+									background-size: 50px 50px;
+								}
+							}
+						}
+						&.niveau2{
+							.img-cat{
+								&:after{
+									width: 50px;
+									height: 50px;									
+									top: 60px;
+									left: 0;
+									background-size: 50px 50px;
+								}
+							}
+						}
+						&.niveau3{
+							.img-cat{
+								&:after{
+									width: 50px;
+									height: 50px;									
+									top: 60px;
+									left: 0;
+									background-size: 50px 50px;
+								}
+							}
+						}
+
+						.block_right{
+							float: right;
+							width: 400px;
+							cursor: pointer;
+
+							.matiere{
+								line-height: 20px;
+								position: relative;
+								top: -3px; 
+								padding: 0 5px;
+							} 
+
+							h2{
+
+							}
+
+							.chapeau{
+								width: 100%;
+							}
+
+							.extrait{
+								width: 100%;
+							}
+
+							.mots_cles{
+
+								
+								padding: 0;
+								height: 18px;
+
+								>li{								
+									
+
+									&:before{
+										
+
+									}
+
+									&:last-child{
+										&:before{ }
+									}
+								}
+							}
+
+							> a{
+								
+								margin:10px 0 0 0;
+								height: 14px;
+							    width: 37px;
+							    font-size: 10px;
+							    line-height: 14px;
+							    clear: both;
+
+							    &:after{
+							    	border-width: 7px 0 7px 9px; 
+							    }
+
+							}
+
+						}
+					}
+
+					
+				}
+
+			} 
+
+		}
+
+	}
+
+	
+}
+
+#content.archive-cahier{
+
+	 #main #inner-content .listing article{
+
+		.details{
+			/*width: 100%;*/
+
+			.block_right{
+				width: 460px;
+				cursor: inherit;
+
+				>h2{ 
+					margin-bottom: 0px;
+				}
+
+				> a{					
+					font-size: 16px;
+					width: auto;
+					margin-top: 5px;
+					line-height: 20px;
+					height: auto;
+					@include transition(all 0.3s);
+
+					
+
+				}
+
+				> ul{					
+					padding: 0 0 0 20px;	
+
+
+				}
+			}
+		}
+
+	}  
+}
+
+#content.archive-formations{
+	#main #inner-content .listing{
+		margin-top: 20px;
+
+	}
+
+}

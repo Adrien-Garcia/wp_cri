@@ -94,7 +94,7 @@ class CridonLoader extends MvcPluginLoader
                                         }
                                     }
                                 }
-                            } elseif( preg_match_all( "|INSERT ([a-zA-Z0-9`_\s(),':\";\-éèà@ùê&]*)|", $sql, $matches ) ) { // insert
+                            } elseif( preg_match_all( "|INSERT ([a-zA-Z0-9`_\s(),':\";\-\/\\\\éèà@ùê&]*)|", $sql, $matches ) ) { // insert
                                 if( !empty( $matches[0] ) ){
                                     foreach( $matches[0] as $query ){
                                         if ($query)  {
@@ -131,16 +131,13 @@ class CridonLoader extends MvcPluginLoader
 
         $roles = get_option('cri_user_roles');
         foreach ( $roles as $k=>$v ){
-            $exceptions = array( 'notaire',CONST_OFFICES_ROLE,CONST_ORGANISMES_ROLE,CONST_CLIENTDIVERS_ROLE );
+            $exceptions = array( CONST_OFFICES_ROLE,CONST_ORGANISMES_ROLE,CONST_CLIENTDIVERS_ROLE );
             if( in_array($k, $exceptions) ) {
                 $role = get_role($k);
                 $role->remove_cap( 'read' );
                 $role->remove_cap( 'level_0' );
             }
         }
-        // @TODO to be removed if we use specific plugin like "user-role-editor"
-        // remove  notaire role
-        remove_role( CONST_NOTAIRE_ROLE );
 
         // remove specific role
         remove_role( CONST_OFFICES_ROLE );

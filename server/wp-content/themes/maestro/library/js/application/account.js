@@ -3,53 +3,73 @@ App.Account = {
     defaultSelector                     :'.js-account',
 
     accountBlocksSelector               : '-blocs',
+    accountContentBlocksSelector        : '-content',
     accountMessageSelector              : '-message',
 
     accountDashboardSelector            : '-dashboard',
     accountQuestionSelector             : '-questions',
     accountProfilSelector               : '-profil',
     accountFacturationSelector          : '-facturation',
+    accountCollaborateurSelector        : '-collaborateur',
+    accountCridonlineSelector           : '-cridonline',
+    accountValidationSelector           : '-validation',
 
     accountQuestionMoreSelector         : '-more',
     accountProfilSubscriptionSelector   : '-subscription',
     accountProfilNewsletterSelector     : '-newsletter',
+    accountCridonlineSubLevelSelector   : '-sublevel',
     accountFormSelector                 : '-form',
 
     accountEmailSelector                : '-email',
     accountStateSelector                : '-state',
-
+    accountCGVSelector                  : '-cgv',
+    accountCrpcenSelector               : '-crpcen',
+    accountLevelSelector                : '-level',
+    accountPriceSelector                : '-price',
+    accountCheckboxSelector             : '-checkbox',
+    accountStep1Selector                : '-step1',
+    accountStep2Selector                : '-step2',
 
     ajaxSelector                        : '-ajax',
     ajaxPaginationSelector              : '-pagination',
     paginationSelector                  : '.page-numbers',
 
-    accountFilterFormSelector          : '-form',
-    accountFilterSelector              : '-filter',
-    accountFilterDateDuSelector        : '-du',
-    accountFilterDateAuSelector        : '-au',
-    accountFilterSelectMatiereSelector : '-matiere',
+    accountFilterFormSelector           : '-form',
+    accountFilterSelector               : '-filter',
+    accountFilterDateDuSelector         : '-du',
+    accountFilterDateAuSelector         : '-au',
+    accountFilterSelectMatiereSelector  : '-matiere',
 
     accountSoldeDataSelector            : '#js-solde-data',
     accountSoldeSVGSelector             : '#solde-circle-path',
+    accountPopupCridonline              : '#layer-cridonline',
+    accountCridonline                   : '#cridonline',
 
     eventAccountButtonSelector          : '-button',
 
 
     $accountBlocks                      : null,
+    $accountContentBlocks               : null,
 
     $accountDashboard                   : null,
     $accountQuestion                    : null,
     $accountProfil                      : null,
     $accountFacturation                 : null,
+    $accountCollaborateur               : null,
+    $accountCridonline                  : null,
     $accountDashboardAjax               : null,
     $accountQuestionAjax                : null,
     $accountProfilAjax                  : null,
     $accountFacturationAjax             : null,
+    $accountCridonlineAjax              : null,
+    $accountCollaborateurAjax           : null,
 
     $accountDashboardButton             : null,
     $accountQuestionButton              : null,
     $accountProfilButton                : null,
     $accountFacturationButton           : null,
+    $accountCollaborateurButton         : null,
+    $accountCridonlineButton            : null,
 
     $accountQuestionMoreButton          : null,
 
@@ -59,12 +79,18 @@ App.Account = {
     $accountProfilNewsletterEmail       : null,
     $accountProfilNewsletterState       : null,
 
+    $accountCridonlineSubLevelForm      : null,
+    $accountCridonlineSubLevelMessage   : null,
+    $accountCridonlineSubLevelState     : null,
+
     $formQuestionFilter                 : null,
     $dateQuestionFilterDu               : null,
     $dateQuestionFilterAu               : null,
     $selectQuestionFilterMatiere        : null,
 
     $accountQuestionPagination          : null,
+
+    $popupCridonline                    : null,
 
     $accountSoldeData                   : null,
     $accountSoldeSVG                    : null,
@@ -83,22 +109,29 @@ App.Account = {
         var b = this.eventAccountButtonSelector;
         var a = this.ajaxSelector;
 
-        this.$accountBlocks             = $(d + this.accountBlocksSelector);
+        this.$accountBlocks              = $(d + this.accountBlocksSelector);
+        this.$accountContentBlocks       = $(d + this.accountContentBlocksSelector);
 
-        this.$accountDashboardButton    = $(d + this.accountDashboardSelector + b);
-        this.$accountQuestionButton     = $(d + this.accountQuestionSelector + b);
-        this.$accountProfilButton       = $(d + this.accountProfilSelector + b);
-        this.$accountFacturationButton  = $(d + this.accountFacturationSelector + b);
+        this.$accountDashboardButton     = $(d + this.accountDashboardSelector + b);
+        this.$accountQuestionButton      = $(d + this.accountQuestionSelector + b);
+        this.$accountProfilButton        = $(d + this.accountProfilSelector + b);
+        this.$accountFacturationButton   = $(d + this.accountFacturationSelector + b);
+        this.$accountCollaborateurButton = $(d + this.accountCollaborateurSelector + b);
+        this.$accountCridonlineButton    = $(d + this.accountCridonlineSelector + b);
 
-        this.$accountDashboard          = $(d + this.accountDashboardSelector);
-        this.$accountQuestion           = $(d + this.accountQuestionSelector);
-        this.$accountProfil             = $(d + this.accountProfilSelector);
-        this.$accountFacturation        = $(d + this.accountFacturationSelector);
+        this.$accountDashboard           = $(d + this.accountDashboardSelector);
+        this.$accountQuestion            = $(d + this.accountQuestionSelector);
+        this.$accountProfil              = $(d + this.accountProfilSelector);
+        this.$accountFacturation         = $(d + this.accountFacturationSelector);
+        this.$accountCollaborateur       = $(d + this.accountCollaborateurSelector);
+        this.$accountCridonline          = $(d + this.accountCridonlineSelector);
 
-        this.$accountDashboardAjax      = this.$accountDashboard.find(d + a);
-        this.$accountQuestionAjax       = this.$accountQuestion.find(d + a);
-        this.$accountProfilAjax         = this.$accountProfil.find(d + a);
-        this.$accountFacturationAjax    = this.$accountFacturation.find(d + a);
+        this.$accountDashboardAjax       = this.$accountDashboard.find(d + a);
+        this.$accountQuestionAjax        = this.$accountQuestion.find(d + a);
+        this.$accountProfilAjax          = this.$accountProfil.find(d + a);
+        this.$accountFacturationAjax     = this.$accountFacturation.find(d + a);
+        this.$accountCollaborateurAjax   = this.$accountCollaborateur.find(d + a);
+        this.$accountCridonlineAjax      = this.$accountCridonline.find(d + a);
 
         this.$accountBlocks.each(function(i, e) {
             if ($(e).hasClass('active')) {
@@ -147,12 +180,16 @@ App.Account = {
             $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).css('height', h);
         }).bind(this));
 
-        $.datepicker.setDefaults({
-            dateFormat: "dd/mm/yy"
-        });
-        $( ".datepicker" ).datepicker();
-        $( ".datepicker" ).datepicker("option", "dateFormat" , "dd/mm/yy");
+        if(Modernizr.inputtypes.date){
 
+        }
+        else{
+            $.datepicker.setDefaults({
+                dateFormat: "dd/mm/yy"
+            });
+            $( ".datepicker" ).datepicker();
+            $( ".datepicker" ).datepicker("option", "dateFormat" , "dd/mm/yy");
+        }
 
         this.addListenersQuestions();
     },
@@ -187,6 +224,76 @@ App.Account = {
 
     },
 
+    initCollaborateur: function() {
+        this.debug('Account : Init Collaborateur');
+        this.addListenersCollaborateur();
+
+    },
+
+    initCridonline: function() {
+        this.debug('Account : Init Cridonline');
+
+        var d = this.defaultSelector;
+
+        this.$accountCridonlineForm = $(d + this.accountCridonlineSelector + this.accountFormSelector);
+
+        this.$accountCridonlineMessage = $(d + this.accountCridonlineSelector + this.accountMessageSelector);
+        this.$accountCridonlineCrpcen  = $(d + this.accountCridonlineSelector + this.accountCrpcenSelector);
+        this.$accountCridonlineLevel   = $(d + this.accountCridonlineSelector + this.accountLevelSelector);
+        this.$accountCridonlinePrice   = $(d + this.accountCridonlineSelector + this.accountPriceSelector);
+
+        this.$cridonline                       = $(this.accountCridonline);
+
+        this.addListenersCridonline();
+
+    },
+
+    initCridonlineValidation: function() {
+        this.debug('Account : Init Cridonline Validation');
+
+        var d = this.defaultSelector;
+
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'tokencridonline';
+        nonce.id    = 'tokencridonline';
+        nonce.value = jsvar.cridonline_nonce;
+
+        this.$accountCridonlineValidationForm = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountFormSelector);
+        this.$accountCridonlineValidationForm.append(nonce);
+
+        this.$accountCridonlineValidationMessage = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountMessageSelector);
+        this.$accountCridonlineValidationCGV     = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCGVSelector);
+        this.$accountCridonlineValidationCrpcen  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCrpcenSelector);
+        this.$accountCridonlineValidationLevel   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountLevelSelector);
+        this.$accountCridonlineValidationPrice   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPriceSelector);
+        this.$accountCridonlineValidationStep1  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep1Selector);
+        this.$accountCridonlineValidationStep2  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep2Selector);
+
+        this.$popupCridonline                    = $(this.accountPopupCridonline);
+
+        this.popupCridonlineInit();
+
+        this.addListenersCridonlineValidation();
+    },
+
+    popupCridonlineInit: function() {
+        var self = this;
+        this.$popupCridonline.popup({
+            transition: 'all 0.3s',
+            scrolllock: true,
+            opacity: 0.8,
+            color: '#324968',
+            offsettop: 10,
+            vertical: top
+        });
+        this.$accountCridonlineValidationStep1.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.$accountCridonlineValidationStep1.toggle();
+            self.$accountCridonlineValidationStep2.toggle();
+        });
+    },
     /*
      * Listeners for the Account page events
      */
@@ -215,6 +322,16 @@ App.Account = {
             e.returnValue = false;
             e.preventDefault();
             self.eventAccountFacturationOpen($(this));
+        });
+        this.$accountCollaborateurButton.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountCollaborateurOpen($(this));
+        });
+        this.$accountCridonlineButton.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountCridonlineOpen($(this));
         });
 
         this.debug("Account : addListeners end");
@@ -287,6 +404,50 @@ App.Account = {
         var self = this;
 
         this.debug("Account : addListenersFacturation");
+    },
+
+    /*
+     * Listeners for the Account Cridonline
+     */
+
+    addListenersCridonline: function() {
+        var self = this;
+
+        this.debug("Account : addListenersCridonline");
+
+        this.$accountCridonlineForm.on('submit', function (e) {
+            self.eventAccountCridonlineSubmit($(this));
+            return false;
+        });
+    },
+
+    /*
+     * Listeners for the Account Cridonline Validation (étape 2)
+     */
+
+    addListenersCridonlineValidation: function() {
+        var self = this;
+
+        this.debug("Account : addListenersCridonlineValidation");
+
+        this.$accountCridonlineValidationCGV.on('change', function (e) {
+            self.eventAccountCridonlineValidationCGV($(this));
+        });
+
+        this.$accountCridonlineValidationForm.on('submit', function (e) {
+            self.eventAccountCridonlineValidationSubmit($(this));
+            return false;
+        });
+    },
+
+    /*
+     * Listeners for the Account Collaborateur
+     */
+
+    addListenersCollaborateur: function() {
+        var self = this;
+
+        this.debug("Account : addListenersCollaborateur");
 
 
     },
@@ -295,15 +456,18 @@ App.Account = {
     /*
      * Event for Opening the dashboard (Ultimately AJAX)
      */
-    eventAccountDashboardOpen: function() {
+    eventAccountDashboardOpen: function(link) {
         var self = this;
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountDashboard.addClass("active");
         $.ajax({
-            url: this.$accountDashboard.data('js-ajax-src'),
+            url: link.data('js-ajax-src'),
             success: function(data)
             {
-                self.$accountDashboardAjax.html(data);
+                $('#'+targetid).html(data);
+                // $('#'+targetid).html(data);
                 self.debug('Account Dashboard Loaded');
                 self.initDashboard();
             }
@@ -314,15 +478,18 @@ App.Account = {
     /*
      * Event for Opening the Question (Ultimately AJAX)
      */
-    eventAccountQuestionOpen: function() {
+    eventAccountQuestionOpen: function(link) {
         var self = this;
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountQuestion.addClass("active");
         $.ajax({
-            url: this.$accountQuestion.data('js-ajax-src'),
+            url: link.data('js-ajax-src'),
             success: function(data)
             {
-                self.$accountQuestionAjax.html(data);
+                $('#'+targetid).html(data);
+                // self.$accountQuestionAjax.html(data);
                 self.debug('Account Question Loaded');
                 self.initQuestions();
             }
@@ -334,15 +501,18 @@ App.Account = {
     /*
      * Event for Opening the Profil (Ultimately AJAX)
      */
-    eventAccountProfilOpen: function() {
+    eventAccountProfilOpen: function(link) {
         var self = this;
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountProfil.addClass("active");
         $.ajax({
-            url: this.$accountProfil.data('js-ajax-src'),
+            url: link.data('js-ajax-src'),
             success: function(data)
             {
-                self.$accountProfilAjax.html(data);
+                $('#'+targetid).html(data);
+                // self.$accountProfilAjax.html(data);
                 self.debug('Account Profil Loaded');
                 self.initProfil();
             }
@@ -354,17 +524,66 @@ App.Account = {
     /*
      * Event for Opening the Facturation (Ultimately AJAX)
      */
-    eventAccountFacturationOpen: function() {
+    eventAccountFacturationOpen: function(link) {
         var self = this;
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountFacturation.addClass("active");
         $.ajax({
-            url: this.$accountFacturation.data('js-ajax-src'),
+            url: link.data('js-ajax-src'),
             success: function(data)
             {
-                self.$accountFacturationAjax.html(data);
+                $('#'+targetid).html(data);
+                // self.$accountFacturationAjax.html(data);
                 self.debug('Account Facturation Loaded');
                 self.initFacturation();
+            }
+        });
+        App.Utils.scrollTop();
+
+    },
+
+    /*
+     * Event for Opening the Collaborateur (AJAX)
+     */
+    eventAccountCollaborateurOpen: function(link) {
+        var self = this;
+        var targetid = link.data('js-target-id');
+        this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
+        this.$accountCollaborateur.addClass("active");
+        $.ajax({
+            url: link.data('js-ajax-src'),
+            success: function(data)
+            {
+                $('#'+targetid).html(data);
+                // self.$accountCollaborateurAjax.html(data);
+                self.debug('Account Collaborateur Loaded');
+                self.initCollaborateur();
+            }
+        });
+        App.Utils.scrollTop();
+
+    },
+
+    /*
+     * Event for Opening the Cridonline (Ultimately AJAX)
+     */
+    eventAccountCridonlineOpen: function(link) {
+        var self = this;
+        var targetid = link.data('js-target-id');
+        this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
+        this.$accountCridonline.addClass("active");
+        $.ajax({
+            url: link.data('js-ajax-src'),
+            success: function(data)
+            {
+                $('#'+targetid).html(data);
+                // self.$accountCridonlineAjax.html(data);
+                self.debug('Account Cridonline Loaded');
+                self.initCridonline();
             }
         });
         App.Utils.scrollTop();
@@ -376,13 +595,16 @@ App.Account = {
         var url = link.attr('href');
 
 
+        var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
         this.$accountQuestion.addClass("active");
         $.ajax({
             url: url,
             success: function(data)
             {
-                self.$accountQuestionAjax.html(data);
+                $('#'+targetid).html(data);
+                // self.$accountQuestionAjax.html(data);
                 self.debug('Account Question Pagination Loaded');
                 self.initQuestions();
                 App.Utils.scrollTop(undefined, "#historique-questions");
@@ -420,17 +642,16 @@ App.Account = {
         }
     },
 
-    eventAccountProfilNewsletterSubmit: function () {
+    eventAccountProfilNewsletterSubmit: function (form) {
         this.$accountProfilNewsletterMessage.html('');
         var email = this.$accountProfilNewsletterEmail.val();
         if (email != '') {
             jQuery.ajax({
                 type: 'POST',
-                url: jsvar.ajaxurl,
+                url: form.data('js-ajax-newsletter-url'),
                 data: {
-                    action: 'newsletter',
-                    email: email,
                     token: $('#tokennewsletter').val(),
+                    email: email,
                     state: this.$accountProfilNewsletterState.val()
                 },
                 success: this.successNewsletterToggle.bind(this)
@@ -440,6 +661,80 @@ App.Account = {
         }
 
         return false;
+    },
+
+    eventAccountCridonlineSubmit: function (form) {
+        jQuery.ajax({
+            type: 'GET',
+            url: form.data('js-ajax-validation-url'),
+            data: {
+                crpcen: form.find(this.$accountCridonlineCrpcen).val(),
+                level: form.find(this.$accountCridonlineLevel).val(),
+                price: form.find(this.$accountCridonlinePrice).val()
+            },
+            success: this.successCridonline.bind(this)
+        });
+        return false;
+    },
+
+    successCridonline: function (html) {
+        this.$cridonline.html(html);
+        this.initCridonlineValidation();
+    },
+
+    eventAccountCridonlineValidationSubmit: function (form) {
+        this.$accountCridonlineValidationMessage.html('');
+        jQuery.ajax({
+            type: 'POST',
+            url: form.data('js-ajax-souscription-url'),
+            data: {
+                token: $('#tokencridonline').val(),
+                CGV: form.find(this.$accountCridonlineValidationCGV)[0].checked,
+                crpcen: form.find(this.$accountCridonlineValidationCrpcen).val(),
+                level: form.find(this.$accountCridonlineValidationLevel).val(),
+                price: form.find(this.$accountCridonlineValidationPrice).val()
+            },
+            success: this.successCridonlineValidation.bind(this)
+        });
+        return false;
+    },
+
+    successCridonlineValidation: function (data) {
+         data = JSON.parse(data);
+
+         if(data == 'success')
+         {
+            this.$popupCridonline.popup('show');
+         }
+         else
+         {
+            this.$accountCridonlineValidationMessage.html(jsvar.cridonline_CGV_error);
+         }
+         return false;
+    },
+
+    eventAccountCridonlineValidationCGV: function (input) {
+        var label = input.parents(
+            this.defaultSelector +
+            this.accountCridonlineSelector +
+            this.accountValidationSelector +
+            this.accountCheckboxSelector
+        ).first();
+        if (label.hasClass('select')) {
+            label.removeClass('select');
+            label.addClass('unselect');
+        } else if (label.hasClass('unselect')) {
+            label.removeClass('unselect');
+            label.addClass('select');
+        } else {
+            if (input[0].checked) {
+                label.removeClass('unselect');
+                label.addClass('select');
+            } else {
+                label.removeClass('select');
+                label.addClass('unselect');
+            }
+        }
     },
 
     eventQuestionFilter: function () {

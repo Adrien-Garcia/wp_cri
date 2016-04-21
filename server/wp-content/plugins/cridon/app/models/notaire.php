@@ -815,7 +815,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // init list of values to be updated
             $updateSigleValues = $updateOfficenameValues = $updateAdress1Values = $updateAdress2Values = $updateAdress3Values = array();
             $updateCpValues = $updateCityValues = $updateEmail1Values = $updateEmail2Values = $updateEmail3Values = array();
-            $updateTelValues = $updateFaxValues = array();
+            $updateTelValues = $updateFaxValues = $updateLevelValues = $updateStartDateValues = $updateEndDateValues = array();
+            $updateEcheanceDateValues = $updateNextLevelValues = array();
 
             // list of new data
             $newEtudes = $this->getNewEtudeList();
@@ -832,7 +833,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $queryStart = " UPDATE `{$etudeTable}` ";
                 $queryEnd   = ' END ';
 
-                foreach(mvc_model('etude')->find() as $currentData) {
+                $options = array('group'=>'Etude.crpcen');
+
+                foreach(mvc_model('etude')->find($options) as $currentData) {
                     $key = $currentData->crpcen;
 
                     // start optimisation
@@ -876,6 +879,21 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         if (isset($newData[$adapter::NOTAIRE_OFFICEFAX]))
                             $updateFaxValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
 
+                        if (isset($newData[$adapter::NOTAIRE_YNIVEAU_0]) && $newData[$adapter::NOTAIRE_YNIVEAU_0] < $currentData->subscription_level){
+                            if (isset($newData[$adapter::NOTAIRE_YVALDEB_0]) && date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0])) >= $currentData->start_subscription_date){
+                                if (!empty($newData[$adapter::NOTAIRE_YMOTIF_0])){
+                                    if (in_array($newData[$adapter::NOTAIRE_YMOTIF_0],Config::$motiveImmediateUpdate)
+                                        && isset($newData[$adapter::NOTAIRE_YVALFIN_0]) && isset($newData[$adapter::NOTAIRE_YDATECH_0])){
+                                        $updateLevelValues[]         = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                        $updateStartDateValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0]))) . "' ";
+                                        $updateEndDateValues[]       = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALFIN_0]))) . "' ";
+                                        $updateEcheanceDateValues[]  = " crpcen = {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YDATECH_0]))) . "' ";
+                                    } else {
+                                        $updateNextLevelValues[]     = " crpcen = {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                    }
+                                }
+                            }
+                        }
                     }
                     // end optimisation
                 }
@@ -945,6 +963,45 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                     $this->importSuccess = true;
                 }
+                if (count($updateLevelValues) > 0) {
+                    // subscription_level
+                    $etudeQuery = ' SET `subscription_level` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateLevelValues);
+                    $etudeQuery .= ' ELSE `subscription_level` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
+                if (count($updateStartDateValues) > 0) {
+                    // start_subscription_date
+                    $etudeQuery = ' SET `start_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateStartDateValues);
+                    $etudeQuery .= ' ELSE `start_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
+                if (count($updateEndDateValues) > 0) {
+                    // end_subscription_date
+                    $etudeQuery = ' SET `end_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEndDateValues);
+                    $etudeQuery .= ' ELSE `end_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
+                if (count($updateEcheanceDateValues) > 0) {
+                    // echeance_subscription_date
+                    $etudeQuery = ' SET `echeance_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEcheanceDateValues);
+                    $etudeQuery .= ' ELSE `echeance_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                }
+                if (count($updateNextLevelValues) > 0) {
+                    // next_subscription_level
+                    $etudeQuery = ' SET `next_subscription_level` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateNextLevelValues);
+                    $etudeQuery .= ' ELSE `next_subscription_level` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                    $this->importSuccess = true;
+                }
             }
 
             // insert new data
@@ -996,72 +1053,29 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     /**
-     * Set notaire role
+     * Set role for all notary
      *
      * @return void
      */
     public function setNotaireRole()
     {
-        global $cri_container;
-
-        // block query
-        $roleQuery             = $roleUpdateQuery = array();
-        $options               = array();
-        $options['table']      = 'usermeta';
-        $options['attributes'] = 'user_id, meta_key, meta_value';
-
-        // instance of cridonTools
-        $cridonTools = $cri_container->get('tools');
-
-        // existing user roles
-        $users = $cridonTools->getExistingUserRoles();
-
-        foreach ($this->find() as $notaire) {
-            // role by group
-            // if not is set the category, use default role
-            $role = ($notaire->category) ? strtolower($notaire->category) : CONST_NOTAIRE_ROLE;
-
-            // recognized role format by WP
-            $roleValue = serialize(
-                array($role => true)
-            );
-            // prepare query
-            if ($notaire->id_wp_user) {
-                if (!in_array($notaire->id_wp_user, $users)) { // insert query
-                    $value = "(";
-                    $value .= "'" . $notaire->id_wp_user . "', ";
-                    $value .= "'" . $this->wpdb->prefix . "capabilities', ";
-                    $value .= "'" . $roleValue . "'";
-                    $value .= ")";
-
-                    $roleQuery[] = $value;
-                } else { // update query
-                    $roleUpdateQuery[] = " user_id = {$notaire->id_wp_user} AND meta_key = '{$this->wpdb->prefix}capabilities' THEN '{$roleValue}' ";
+        foreach ($this->find() as $notary) {
+            // get user by id
+            $user = new WP_User($notary->id_wp_user);
+            // user must be an instance of WP_User vs WP_Error
+            if ($user instanceof WP_User) {
+                // default role
+                $user->add_role(CONST_NOTAIRE_ROLE);
+                /**
+                 * finance role
+                 * to be matched in list of authorized user by function
+                 *
+                 * @see \Config::$canAccessFinance
+                 */
+                if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
+                    $user->add_role(CONST_FINANCE_ROLE);
                 }
-
             }
-        }
-
-        // execute prepared insert query
-        if (count($roleQuery) > 0) {
-            $queryBulder       = mvc_model('QueryBuilder');
-            $options['values'] = implode(', ', $roleQuery);
-            // bulk insert
-            $queryBulder->insertMultiRows($options);
-        }
-
-        // execute prepared update query
-        if (count($roleUpdateQuery) > 0) {
-            // start/end query block
-            $queryStart = " UPDATE `{$this->wpdb->prefix}usermeta` ";
-            $queryEnd   = ' END ';
-
-            // query
-            $query = ' SET `meta_value` = CASE ';
-            $query .= ' WHEN ' . implode(' WHEN ', $roleUpdateQuery);
-            $query .= ' ELSE `meta_value` ';
-
-            $this->wpdb->query($queryStart . $query . $queryEnd);
         }
     }
 
@@ -1101,6 +1115,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // list of existing users
                 $users = $criTools->getWpUsers();
 
+                // init list of new notary user
+                $newNotaryUsers = array();
+
                 foreach ($notaires as $notaire) {
                     // unique key
                     $uniqueKey = $notaire->crpcen . $notaire->web_password;
@@ -1129,6 +1146,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         $insertValues[] = $value;
 
+                        // fill list of new notary users
+                        $newNotaryUsers[] = $notaire;
+
                     } else { // prepare the bulk update query
                         if ($notaire->id_wp_user) {
                             // pwd
@@ -1154,6 +1174,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                     // update cri_notaire.id_wp_user
                     $this->updateCriNotaireWpUserId($notaires);
+
+                    // set new notaries roles
+                    $this->setNewNotaireRole($newNotaryUsers);
+
+                    // disable admin bar for new notaries
+                    $this->disableNotariesAdminBar($newNotaryUsers);
 
                     $this->importSuccess = true;
                 }
@@ -1196,10 +1222,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                     $this->importSuccess = true;
                 }
-
-                // set notaire role
-                // should be execute after cri_notaire.id_wp_user was set
-                $this->setNotaireRole();
             }
         } catch(Exception $e) {
             // write into logfile
@@ -1242,6 +1264,336 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             writeLog($e, 'notaire.log');
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur mise à jour id_wp_user');
+        }
+    }
+
+
+    public function veillesSubscriptionManagement(){
+        try {
+            $options= array(
+                'conditions' => array(
+                    'Etude.a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                ),
+                'group' => 'Etude.crpcen'
+            );
+            $etudes   = mvc_model('Etude')->find($options);
+            if (count($etudes)>0){
+                // set adapter
+                switch (strtolower(CONST_IMPORT_OPTION)) {
+                    case self::IMPORT_ODBC_OPTION:
+                        $this->adapter = CridonODBCAdapter::getInstance();
+                        break;
+                    case self::IMPORT_OCI_OPTION:
+                        //if case above did not match, set OCI
+                        $this->adapter = CridonOCIAdapter::getInstance();
+                        break;
+                }
+                // bloc de requette
+                $queryBloc = array();
+                // adapter instance
+                $adapter = $this->adapter;
+                // list des id question pour maj cri_question apres transfert
+                $eList = array();
+
+                // requete commune
+                $queryStart  = " INTO " . CONST_DB_TABLE_ABONNE;
+                $queryStart .= " (";
+                $queryStart .= $adapter::YABONNE_YIDABONNE_0 . ", "; // YABONNE_YIDABONNE_0
+                $queryStart .= $adapter::YABONNE_YCRPCEN_0 . ", "; // YABONNE_YCRPCEN_0
+                $queryStart .= $adapter::YABONNE_YNIVEAU_0 . ", ";   // YABONNE_YNIVEAU_0
+                $queryStart .= $adapter::YABONNE_YDATE_0 . ", ";   // YABONNE_YDATE_0
+                $queryStart .= $adapter::YABONNE_YSTATUT_0 . ", ";   // YABONNE_YSTATUT_0
+                $queryStart .= $adapter::YABONNE_YTARIF_0 . ", ";   // YABONNE_YTARIF_0
+                $queryStart .= $adapter::YABONNE_YVALDEB_0 . ", ";   // YABONNE_YVALDEB_0
+                $queryStart .= $adapter::YABONNE_YVALFIN_0 . ", ";   // YABONNE_YVALFIN_0
+                $queryStart .= $adapter::YABONNE_YDATECH_0 . ", ";   // YABONNE_YDATECH_0
+                $queryStart .= $adapter::YABONNE_YTRAITEE_0 . ", ";   // YABONNE_YTRAITEE_0
+                $queryStart .= $adapter::YABONNE_YERR_0 . ", ";   // YABONNE_YERR_0
+                $queryStart .= $adapter::YABONNE_YMESSERR_0;    // YABONNE_YMESSERR_0
+                $queryStart .= ") ";
+                $queryStart .= " VALUES ";
+
+                // complement requete selon le type de BDD
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a bulk insert in Oracle SQL
+                         INSERT ALL
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                        SELECT * FROM dual;
+                         */
+                        $updateTimestamp = time();
+                        foreach ($etudes as $etude) {
+                            // remplit la liste des études
+                            $eList[] = $etude->crpcen;
+
+                            $value  = $queryStart;
+                            $value .= "(";
+
+                            $value .= "'" . $etude->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
+                            $value .= "'" . $etude->crpcen. "', "; // YABONNE_YCRPCEN_0
+                            $value .= "'" . $etude->subscription_level. "', "; // YABONNE_YNIVEAU_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATE_0
+                            $value .= "'1',"; // YABONNE_YSTATUT_0
+                            $value .= "'" . $etude->subscription_price . "', "; // YABONNE_YTARIF_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALDEB_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->end_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALFIN_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->echeance_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATECH_0
+                            $value .= "'0',"; // YABONNE_YTRAITEE_0
+                            $value .= "'0',"; // YABONNE_YERR_0
+                            $value .= "' '"; // YABONNE_YMESSERR_0
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT ALL ';
+                            $query .= implode(' ', $queryBloc);
+                            $query .= ' SELECT * FROM dual';
+                            writeLog($query, 'query_export.log');
+                        }
+                        break;
+                }
+            }
+            // execution requete
+            if (!empty($query)) {
+                if ($result = $this->adapter->execute($query) && !empty($eList)) {
+                    // update cri_etude.a_transmettre
+                    $sql = " UPDATE ". mvc_model('Etude')->table." SET a_transmettre = 0 WHERE crpcen IN (" . implode(', ', $eList) . ")";
+                    $this->wpdb->query($sql);
+                } else {
+                    // log erreur
+                    $error = sprintf(CONST_EXPORT_CRIDONLINE_ERROR, date('d/m/Y à H:i:s'));
+                    writeLog($error, 'veillesSubscriptionManagement.log','Cridon - Export Cridonline');
+
+                    // send email
+                    reportError(CONST_EXPORT_CRIDONLINE_ERROR, $error);
+                }
+            }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch (Exception $e) {
+            // write into logfile
+            writeLog($e, 'veillesSubscriptionManagement.log');
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur mise à jour infos abonnement veilles');
+        }
+    }
+
+    public function cridonlineEcheance (){
+        try {
+            $options= array(
+                'conditions' => array(
+                    'Etude.transmis_echeance' => CONST_CRIDONLINE_ECHEANCE_A_TRANSMETTRE_ERP,
+                    'Etude.echeance_subscription_date <=' => date('Y-m-d')
+                ),
+                'group' => 'Etude.crpcen'
+            );
+            $etudes   = mvc_model('Etude')->find($options);
+            if (count($etudes)>0){
+                // set adapter
+                switch (strtolower(CONST_IMPORT_OPTION)) {
+                    case self::IMPORT_ODBC_OPTION:
+                        $this->adapter = CridonODBCAdapter::getInstance();
+                        break;
+                    case self::IMPORT_OCI_OPTION:
+                        //if case above did not match, set OCI
+                        $this->adapter = CridonOCIAdapter::getInstance();
+                        break;
+                }
+                // bloc de requette
+                $queryBloc = array();
+                // adapter instance
+                $adapter = $this->adapter;
+                // list des id question pour maj cri_question apres transfert
+                $eList = array();
+
+                // requete commune
+                $queryStart  = " INTO " . CONST_DB_TABLE_ABONNE;
+                $queryStart .= " (";
+                $queryStart .= $adapter::YABONNE_YIDABONNE_0 . ", "; // YABONNE_YIDABONNE_0
+                $queryStart .= $adapter::YABONNE_YCRPCEN_0 . ", "; // YABONNE_YCRPCEN_0
+                $queryStart .= $adapter::YABONNE_YNIVEAU_0 . ", ";   // YABONNE_YNIVEAU_0
+                $queryStart .= $adapter::YABONNE_YDATE_0 . ", ";   // YABONNE_YDATE_0
+                $queryStart .= $adapter::YABONNE_YSTATUT_0 . ", ";   // YABONNE_YSTATUT_0
+                $queryStart .= $adapter::YABONNE_YTARIF_0 . ", ";   // YABONNE_YTARIF_0
+                $queryStart .= $adapter::YABONNE_YVALDEB_0 . ", ";   // YABONNE_YVALDEB_0
+                $queryStart .= $adapter::YABONNE_YVALFIN_0 . ", ";   // YABONNE_YVALFIN_0
+                $queryStart .= $adapter::YABONNE_YDATECH_0 . ", ";   // YABONNE_YDATECH_0
+                $queryStart .= $adapter::YABONNE_YTRAITEE_0 . ", ";   // YABONNE_YTRAITEE_0
+                $queryStart .= $adapter::YABONNE_YERR_0 . ", ";   // YABONNE_YERR_0
+                $queryStart .= $adapter::YABONNE_YMESSERR_0;    // YABONNE_YMESSERR_0
+                $queryStart .= ") ";
+                $queryStart .= " VALUES ";
+
+                // complement requete selon le type de BDD
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a bulk insert in Oracle SQL
+                         INSERT ALL
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                        SELECT * FROM dual;
+                         */
+                        $updateTimestamp = time();
+                        foreach ($etudes as $etude) {
+                            // remplit la liste des études
+                            $eList[] = $etude->crpcen;
+
+                            // Récupération niveau suivant + calcul tarif suivant le cas échéant
+                            if (!empty($etude->next_subscription_level)){
+                                $next_subscription_level = $etude->next_subscription_level;
+                            } else {
+                                $next_subscription_level = $etude->subscription_level;
+                            }
+                            $next_subscription_price = mvc_model('Etude')->getSubscriptionPrice($etude);
+
+                            $start_subscription_date = date('Y-m-d', strtotime($etude->end_subscription_date));
+                            $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+                            $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+
+                            $value  = $queryStart;
+                            $value .= "(";
+
+                            $value .= "'" . $etude->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
+                            $value .= "'" . $etude->crpcen. "', "; // YABONNE_YCRPCEN_0
+                            $value .= "'" . $next_subscription_level. "', "; // YABONNE_YNIVEAU_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATE_0
+                            $value .= "'1',"; // YABONNE_YSTATUT_0
+                            $value .= "'" . $next_subscription_price . "', "; // YABONNE_YTARIF_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALDEB_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($end_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALFIN_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($echeance_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATECH_0
+                            $value .= "'0',"; // YABONNE_YTRAITEE_0
+                            $value .= "'0',"; // YABONNE_YERR_0
+                            $value .= "' '"; // YABONNE_YMESSERR_0
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT ALL ';
+                            $query .= implode(' ', $queryBloc);
+                            $query .= ' SELECT * FROM dual';
+                            writeLog($query, 'query_export.log');
+                        }
+                        break;
+                }
+            }
+            // execution requete
+            if (!empty($query)) {
+                if ($result = $this->adapter->execute($query) && !empty($eList)) {
+                    // update cri_etude.transmis_echeance
+                    $sql = " UPDATE ". mvc_model('Etude')->table." SET transmis_echeance = 1 WHERE crpcen IN (" . implode(', ', $eList) . ")";
+                    $this->wpdb->query($sql);
+                } else {
+                    // log erreur
+                    $error = sprintf(CONST_EXPORT_CRIDONLINE_ERROR, date('d/m/Y à H:i:s'));
+                    writeLog($error, 'cridonlineEcheance.log','Cridon - Export Cridonline');
+
+                    // send email
+                    reportError(CONST_EXPORT_CRIDONLINE_ERROR, $error);
+                }
+            }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch (Exception $e) {
+            // write into logfile
+            writeLog($e, 'cridonlineEcheance.log');
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur échéance infos abonnement veilles');
+        }
+    }
+
+    public function notaireCridonlineUpdateAnnually(){
+        try {
+            // Update offices
+            $options= array(
+                'conditions' => array(
+                    'Etude.end_subscription_date <=' => date('Y-m-d'),
+                    'OR'=>array(
+                        'Etude.subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE,
+                        'Etude.next_subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE
+                    )
+                ),
+            'group' => 'Etude.crpcen'
+            );
+            $etudes   = mvc_model('Etude')->find($options);
+
+            if (count($etudes)>0){
+                $updateLevelValues = $updatePriceValues = $updateStartDateValues = $updateEndDateValues = $updateEcheanceDateValues = $updateNextLevelValues = array();
+                $updateTransmisEcheanceValues = array();
+                $queryStart = " UPDATE `".mvc_model('Etude')->table."` ";
+                $queryEnd   = ' END ';
+                foreach ($etudes as $etude) {
+
+                    $start_subscription_date = date('Y-m-d', strtotime($etude->end_subscription_date));
+                    $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+                    $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+
+                    if (!empty($etude->next_subscription_level)) {
+                        $updateLevelValues[] = " crpcen = {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
+                    }
+                    $nextSubscriptionPrice = mvc_model('Etude')->getSubscriptionPrice($etude);
+                    $updatePriceValues[] = " crpcen = {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
+                    $updateStartDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
+                    $updateEndDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
+                    $updateEcheanceDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $echeance_subscription_date . "' ";
+                    $updateTransmisEcheanceValues[] = " crpcen = {$etude->crpcen} THEN '0' ";
+                }
+                if (count($updateLevelValues)>0) {
+                    // subscription level
+                    $etudeQuery = ' SET `subscription_level` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateLevelValues);
+                    $etudeQuery .= ' ELSE `subscription_level` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    // subscription price
+                    $etudeQuery = ' SET `subscription_price` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updatePriceValues);
+                    $etudeQuery .= ' ELSE `subscription_price` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    // subscription start date
+                    $etudeQuery = ' SET `start_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateStartDateValues);
+                    $etudeQuery .= ' ELSE `start_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    // subscription end date
+                    $etudeQuery = ' SET `end_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEndDateValues);
+                    $etudeQuery .= ' ELSE `end_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    // subscription echeance date
+                    $etudeQuery = ' SET `echeance_subscription_date` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateEcheanceDateValues);
+                    $etudeQuery .= ' ELSE `echeance_subscription_date` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+
+                    // subscription transmis echeance
+                    $etudeQuery = ' SET `transmis_echeance` = CASE ';
+                    $etudeQuery .= ' WHEN ' . implode(' WHEN ', $updateTransmisEcheanceValues);
+                    $etudeQuery .= ' ELSE `transmis_echeance` ';
+                    $this->wpdb->query($queryStart . $etudeQuery . $queryEnd);
+                }
+            }
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch (Exception $e) {
+            // write into logfile
+            writeLog($e, 'notaireCridonlineUpdateAnnually.log');
+            // send email
+            reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Données notaire - Erreur mise à jour annuelle niveau & tarif cridonline');
         }
     }
 
@@ -1291,23 +1643,21 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function findByLoginAndEmail($login, $email)
     {
-        $items = $this->find(array(
-                'selects'    => array(
-                    'Notaire.id',
-                    'Notaire.web_password',
-                    'Notaire.email_adress',
-                    'Notaire.crpcen',
-                    'Notaire.id_civilite',
-                    'Notaire.id_fonction'
-                ),
-                'conditions' => array(
-                    'crpcen'       => $login,
-                    'email_adress' => $email
-                )
-            )
-        );
+        // base query
+        $query = " SELECT `n`.`id`, `n`.`web_password`, `n`.`email_adress`, `n`.`crpcen`, `n`.`code_interlocuteur`,
+                    `n`.`client_number`, `n`.`id_civilite`, `n`.`id_fonction`,
+                    `n`.`first_name` AS prenom, `n`.`last_name` AS nom, `c`.`label` AS civilite FROM {$this->table} n ";
+        $query .= " INNER JOIN `{$this->wpdb->users}` u ON u.`ID` = n.`id_wp_user`
+                    LEFT JOIN `{$this->wpdb->prefix}civilite` c ON `c`.`id` = `n`.`id_civilite` ";
+        $query .= " WHERE `crpcen` = %s
+                    AND `email_adress` = %s
+                    AND `user_status` = " . CONST_STATUS_ENABLED;
 
-        return $items;
+        // prepare query
+        $query = $this->wpdb->prepare($query, $login, $email);
+
+        // exec query and return result
+        return $this->wpdb->get_row($query);
     }
 
     /**
@@ -1348,16 +1698,16 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if( self::$userConnectedData !== null && is_object(self::$userConnectedData) && self::$userConnectedData instanceof MvcModelObject ){
             $object = self::$userConnectedData;
         } else {
-            /**
-             * get current notary data
-             *
-             * already optimized
-             * @see \App\Override\Model\CridonMvcModel::find_one
-             */
-            $object = $this->find_one_by_id_wp_user($current_user->ID);
-
-            // set current notary data
-            self::$userConnectedData = is_object($object) ? $object : self::$userConnectedData;
+            $idWPoptions = array(
+                'conditions' => array(
+                    'Notaire.id_wp_user' => $current_user->ID,
+                ),
+                'joins' => array(
+                    'Etude'
+                ),
+            );
+            // exec query and return result as object
+            $object = $this->find_one($idWPoptions);
         }
 
         if (is_object($object) && property_exists($object, 'client_number')) {
@@ -1703,18 +2053,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     /**
-     * Check if users can access finances
+     * Check if users can access sensitive informations
      *
      * @return bool
      */
-    public function userCanAccessFinance()
+    public function userCanAccessSensitiveInfo()
     {
+        global $current_user;
+
         $object = $this->getUserConnectedData();
 
         return (isset($object->category)
                 && (strcasecmp($object->category, CONST_OFFICES_ROLE) === 0)
-                && isset($object->id_fonction)
-                && in_array($object->id_fonction, Config::$canAccessFinance)
+                && in_array(CONST_FINANCE_ROLE, (array) $current_user->roles)
         ) ? true : false;
     }
 
@@ -2015,16 +2366,165 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
     //End FRONT
 
+    public function manageCollaborator($notary, $data)
+    {
+        // check id collaborator
+        if (isset($data['collaborator_id']) && intval($data['collaborator_id']) > 0) { // update
+            $this->updateCollaborator($data);
+        } else { // create
+            $this->addCollaborator($notary, $data);
+        }
+
+    }
+
     /**
-     * Find all notary by optimized query
+     * Add new collaborator
      *
-     * @param array $options
-     * @return mixed
+     * @param mixed $notary
+     * @param array $data
+     * @return void
      * @throws Exception
      */
-    public function find($options = array())
+    public function addCollaborator($notary, $data)
     {
-        return (is_array($options) && count($options) > 0) ? parent::find($options) : mvc_model('QueryBuilder')->findAll('notaire');
+        global $cri_container;
+
+        // collaborator data
+        $collaborator                              = array();
+        $collaborator['first_name']                = isset($data['collaborator_first_name']) ? esc_sql($data['collaborator_first_name']) : '';
+        $collaborator['last_name']                 = isset($data['collaborator_last_name']) ? esc_sql($data['collaborator_last_name']) : '';
+        $collaborator['email_adress']              = isset($data['collaborator_email']) ? esc_sql($data['collaborator_email']) : '';
+        $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
+        $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
+        $collaborator['id_fonction_collaborateur'] = isset($data['collaborator_function']) ? esc_sql($data['collaborator_function']) : 0;
+        $collaborator['id_fonction']               = CONST_NOTAIRE_COLLABORATEUR;
+
+        // @todo data from notary to be confirmed
+        $collaborator['client_number'] = $notary->client_number;
+        $collaborator['crpcen']        = $notary->crpcen;
+
+        // insert into cri_notaire
+        $collaboratorId = $this->create($collaborator);
+
+        /**
+         * insert into cri_users
+         */
+        // check if user already exist
+        $existingUsers = $cri_container->get('tools')->getWpUsers();
+        $userName      = $notary->crpcen . CONST_LOGIN_SEPARATOR . $collaboratorId;
+        $displayName   = $collaborator['first_name'] . ' ' . $collaborator['last_name'];
+
+        if (!in_array($userName, $existingUsers['username'])) {
+            // query builder options
+            $options               = array();
+            $options['table']      = 'users';
+            $options['attributes'] = 'user_login, user_nicename, user_email, user_registered, user_status,  display_name';
+
+            // prepare values
+            $value = "'" . esc_sql($userName) . "', ";
+            $value .= "'" . sanitize_title($displayName) . "', ";
+            $value .= "'" . $collaborator['email_adress'] . "', ";
+            $value .= "'" . date('Y-m-d H:i:s') . "', ";
+            $value .= CONST_STATUS_ENABLED . ", ";
+            $value .= "'" . esc_sql($displayName) . "'";
+
+            $options['values'] = $value;
+
+            // insert data into cri_users
+            mvc_model('QueryBuilder')->insert($options);
+
+            // update id_wp_user
+            $collaborator = new stdClass();
+            $collaborator->id = $collaboratorId;
+            $collaborator->crpcen = $notary->crpcen;
+            $this->updateCriNotaireWpUserId(array($collaborator));
+
+            // manage roles
+            $user = $this->getAssociatedUserByNotaryId($collaboratorId);
+            // add posted roles from data
+            foreach (Config::$notaryRoles as $role => $label) {
+                if (isset($data[$role])) {
+                    $user->add_role($role);
+                }
+            }
+            // add default role (Acs : accès aux bases de connaissance (par défaut par tout le monde))
+            $user->add_role(CONST_NOTAIRE_ROLE);
+        }
+    }
+
+    /**
+     * Update collaborator data
+     *
+     * @param array $data
+     * @return void
+     */
+    public function updateCollaborator($data)
+    {
+        // collaborator data
+        $collaborator                              = array();
+        $collaborator['first_name']                = isset($data['collaborator_first_name']) ? esc_sql($data['collaborator_first_name']) : '';
+        $collaborator['last_name']                 = isset($data['collaborator_last_name']) ? esc_sql($data['collaborator_last_name']) : '';
+        $collaborator['email_adress']              = isset($data['collaborator_email']) ? esc_sql($data['collaborator_email']) : '';
+        $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
+        $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
+        $collaborator['id_fonction_collaborateur'] = isset($data['collaborator_function']) ? esc_sql($data['collaborator_function']) : 0;
+
+        // update cri_notaire data
+        $collaborator['id'] = $data['collaborator_id'];
+        if ($this->save($collaborator)) { // successful update
+            // manage roles
+            $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
+            // reset all roles
+            $this->resetUserRoles($user);
+
+            // add new posted roles in data
+            foreach (Config::$notaryRoles as $role => $label) {
+                if (isset($data[$role])) {
+                    $user->add_role($role);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get associated user by notary id
+     *
+     * @param int $id
+     * @return void|WP_User
+     * @throws Exception
+     */
+    public function getAssociatedUserByNotaryId($id)
+    {
+        // get notary data
+        $notary = mvc_model('QueryBuilder')->findOne('notaire',
+            array(
+                'fields' => 'id, id_wp_user, crpcen',
+                'conditions' => 'id = ' . $id,
+            )
+        );
+        // get notary associated user
+        if (is_object($notary) && $notary->id_wp_user) {
+            $user = new WP_User($notary->id_wp_user);
+
+            // check if user is a WP_user vs WP_error
+            if ($user instanceof WP_User && is_array($user->roles)) {
+                return $user;
+            }
+        }
+        return;
+    }
+
+    /**
+     * Rest all user roles defined in \Config::$notaryRoles
+     *
+     * @param mixed $user
+     * @return void
+     */
+    protected function resetUserRoles($user)
+    {
+        foreach (Config::$notaryRoles as $role => $label) {
+            $user->remove_role($role);
+        }
     }
 
     /**
@@ -2181,6 +2681,415 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
         //Put in DB
         $this->save($insert);
+    }
+
+    /**
+     * Find all notary by optimized query
+     *
+     * @param array $options
+     * @return mixed
+     * @throws Exception
+     */
+    public function find($options = array())
+    {
+        return (is_array($options) && count($options) > 0) ? parent::find($options) : mvc_model('QueryBuilder')->findAll('notaire');
+    }
+
+    /**
+     * Check if user can manage collaborator
+     *
+     * @return bool
+     */
+    public function userCanManageCollaborator()
+    {
+        if (is_user_logged_in()) {
+            $notary = $this->getUserConnectedData();
+
+            return (is_object($notary) && in_array($notary->id_fonction, Config::$allowedNotaryFunction));
+        }
+
+        return false;
+    }
+
+    /**
+     * Delete collaborator
+     *
+     * @param int $id
+     * @return boolean
+     */
+    public function deleteCollaborator($id)
+    {
+        // get associated WP_User
+        $associated_wp_user = $this->getAssociatedUserByNotaryId($id);
+
+        // check user data
+        if ($associated_wp_user && $associated_wp_user->ID) {
+            // set 'cron_delete' flag to on
+            $this->manageCronFlag($id);
+
+            // change user status to disabled
+            $this->wpdb->update($this->wpdb->users,
+                                array('user_status' => CONST_STATUS_DISABLED),
+                                array(
+                                    'ID' => $associated_wp_user->ID
+                                )
+            );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Manage cron_delete flag
+     *
+     * @param int $notaryId
+     * @param string $action
+     *
+     * @return void
+     */
+    public function manageCronFlag($notaryId, $action = 'on')
+    {
+        $notary                           = array();
+        $notary['Notaire']['id']          = $notaryId;
+        $notary['Notaire']['cron_delete'] = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronDeleteCollaborator" )
+        $this->save($notary);
+    }
+
+    /**
+     * @return array|null|object
+     */
+    public function cronDeleteCollaborator()
+    {
+        try {
+            $notaries = $this->wpdb->get_results("
+                SELECT
+                    `cn`.*,
+                    `ce`.`adress_1`,
+                    `ce`.`adress_2`,
+                    `ce`.`adress_3`,
+                    `ce`.`city`,
+                    `ce`.`cp`,
+                    `ce`.`tel` tel_office,
+                    `ce`.`fax` fax_office,
+                    `ce`.`office_email_adress_1`,
+                    `cf`.`label` fonction
+                FROM
+                    `{$this->table}` cn
+                LEFT JOIN
+                    `{$this->wpdb->prefix}etude` ce
+                ON
+                    `ce`.`crpcen` = `cn`.`crpcen`
+                LEFT JOIN
+                    `{$this->wpdb->prefix}fonction` cf
+                ON
+                    `cf`.`id` = `cn`.`id_fonction`
+                WHERE
+                    `cn`.`cron_delete` = 1
+            ");
+
+            // verification nb notaires à traiter
+            if (is_array($notaries) && count($notaries) > 0) {
+                // set adapter
+                switch (strtolower(CONST_IMPORT_OPTION)) {
+                    case self::IMPORT_ODBC_OPTION:
+                        $this->adapter = CridonODBCAdapter::getInstance();
+                        break;
+                    case self::IMPORT_OCI_OPTION:
+                        //if case above did not match, set OCI
+                        $this->adapter = CridonOCIAdapter::getInstance();
+                        break;
+                }
+
+                // bloc de requette
+                $queryBloc = array();
+                // adapter instance
+                $adapter = $this->adapter;
+                // list des id notaires pour maj cri_notaire.cron_delete apres transfert
+                $qList = array();
+
+                // requette commune
+                /**
+                 * Tous les champs de YNOTAIRE sont NOT NULL ( YNOTAIRE.sql )
+                 */
+                $query  = " INTO " . CONST_DB_TABLE_YNOTAIRE;
+                $query .= " (";
+                $query .= $adapter::YIDCOLLAB . ", "; // YIDCOLLAB
+                $query .= $adapter::YCRPCEN . ", "; // YCRPCEN
+                $query .= $adapter::CNTLNA . ", "; // CNTLNA
+                $query .= $adapter::CCNCRM . ", ";   // CCNCRM
+                $query .= $adapter::YIDNOT . ", "; // YIDNOT
+                $query .= $adapter::CNTFNA . ", ";   // CNTFNA
+                $query .= $adapter::CNTFNC . ", ";   // CNTFNC
+                $query .= $adapter::YTXTFNC . ", ";   // YTXTFNC
+                $query .= $adapter::WEB . ", ";   // WEB
+                $query .= $adapter::TEL . ", ";   // TEL
+                $query .= $adapter::CNTMOB . ", ";   // CNTMOB
+                $query .= $adapter::FAX . ", ";   // FAX
+                $query .= $adapter::YFINPRE . ", ";   // YFINPRE
+                $query .= $adapter::YMDPWEB . ", ";   // YMDPWEB
+                $query .= $adapter::ZMDPTEL . ", ";   // ZMDPTEL
+                $query .= $adapter::ADDLIG1 . ", ";   // ADDLIG1
+                $query .= $adapter::ADDLIG2 . ", ";   // ADDLIG2
+                $query .= $adapter::ADDLIG3 . ", ";   // ADDLIG3
+                $query .= $adapter::POSCOD . ", ";   // POSCOD
+                $query .= $adapter::CTY . ", ";   // CTY
+                $query .= $adapter::TELOFF . ", ";   // TELOFF
+                $query .= $adapter::FAXOFF . ", ";   // FAXOFF
+                $query .= $adapter::WEBOFF . ", ";   // WEBOFF
+                $query .= $adapter::YSREECR . ", ";   // YSREECR
+                $query .= $adapter::YSRETEL . ", ";   // YSRETEL
+                $query .= $adapter::YTRAITEE . ", ";   // YTRAITEE
+                $query .= $adapter::YDDEMDPTEL . ", ";   // YDDEMDPTEL
+                $query .= $adapter::YDDEMDPWEB . ", ";   // YDDEMDPWEB
+                $query .= $adapter::YERR . ", ";   // YERR
+                $query .= $adapter::YMESSERR . " ";   // YMESSERR
+                $query .= ") ";
+                $query .= " VALUES ";
+
+                // complement requete selon le type de BDD
+                switch (CONST_DB_TYPE) {
+                    case CONST_DB_ORACLE:
+                        /*
+                         * How to write a bulk insert in Oracle SQL
+                         INSERT ALL
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
+                        SELECT * FROM dual;
+                         */
+                        foreach ($notaries as $notary) {
+                            // remplit la liste des notaires
+                            $qList[] = $notary->id;
+
+                            // value block
+                            $value  = $query;
+                            $value .= "(";
+
+                            $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
+                            $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
+                            $value .= "'" . $notary->first_name . "', "; // CNTLNA
+                            $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
+                            $value .= "'" . $notary->id . "', "; // YIDNOT
+                            $value .= "'" . $notary->first_name . "', "; // CNTFNA
+                            $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->email_adress . "', "; // WEB
+                            $value .= "'" . $notary->tel . "', "; // TEL
+                            $value .= "'" . $notary->tel_portable . "', "; // CNTMOB
+                            $value .= "'" . $notary->fax . "', "; // FAX
+                            $value .= "TO_DATE('" . date('Y-m-d') . "', 'dd/mm/yyyy'), "; // YFINPRE
+                            $value .= "'" . $notary->web_password . "', "; // YFINPRE
+                            $value .= "'" . $notary->tel_password . "', "; // ZMDPTEL
+                            $value .= "'" . $notary->adress_1 . "', "; // ADDLIG1
+                            $value .= "'" . $notary->adress_2 . "', "; // ADDLIG2
+                            $value .= "'" . $notary->adress_3 . "', "; // ADDLIG3
+                            $value .= "'" . $notary->cp . "', "; // POSCOD
+                            $value .= "'" . $notary->city . "', "; // CTY
+                            $value .= "'" . $notary->tel_office . "', "; // TELOFF
+                            $value .= "'" . $notary->fax_office . "', "; // FAXOFF
+                            $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
+                            $value .= "'0', "; // YSREECR
+                            $value .= "'0', "; // YSRETEL
+                            $value .= "'0', "; // YTRAITEE
+                            $value .= "'0', "; // YDDEMDPTEL
+                            $value .= "'0', "; // YDDEMDPWEB
+                            $value .= "'0', "; // YERR
+                            $value .= "' '"; // YMESSERR
+
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT ALL ';
+                            $query .= implode(' ', $queryBloc);
+                            $query .= ' SELECT * FROM dual';
+                            writeLog($query, 'query_deletecollaborator.log');
+                        }
+                        break;
+                    case CONST_DB_DEFAULT:
+                    default:
+                        foreach ($notaries as $notary) {
+                            // remplit la liste des notaires
+                            $qList[] = $notary->id;
+
+                            $value = "(";
+
+                            $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
+                            $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
+                            $value .= "'" . $notary->first_name . "', "; // CNTLNA
+                            $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
+                            $value .= "'" . $notary->id . "', "; // YIDNOT
+                            $value .= "'" . $notary->first_name . "', "; // CNTFNA
+                            $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
+                            $value .= "' ', "; // YTXTFNC
+                            $value .= "'" . $notary->email_adress . "', "; // WEB
+                            $value .= "'" . $notary->tel . "', "; // TEL
+                            $value .= "'" . $notary->tel_portable . "', "; // CNTMOB
+                            $value .= "'" . $notary->fax . "', "; // FAX
+                            $value .= "'" . date('Y-m-d') . "', "; // YFINPRE
+                            $value .= "'" . $notary->web_password . "', "; // YFINPRE
+                            $value .= "'" . $notary->tel_password . "', "; // ZMDPTEL
+                            $value .= "'" . $notary->adress_1 . "', "; // ADDLIG1
+                            $value .= "'" . $notary->adress_2 . "', "; // ADDLIG2
+                            $value .= "'" . $notary->adress_3 . "', "; // ADDLIG3
+                            $value .= "'" . $notary->cp . "', "; // POSCOD
+                            $value .= "'" . $notary->city . "', "; // CTY
+                            $value .= "'" . $notary->tel_office . "', "; // TELOFF
+                            $value .= "'" . $notary->fax_office . "', "; // FAXOFF
+                            $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
+                            $value .= "'0', "; // YSREECR
+                            $value .= "'0', "; // YSRETEL
+                            $value .= "'0', "; // YTRAITEE
+                            $value .= "'0', "; // YDDEMDPTEL
+                            $value .= "'0', "; // YDDEMDPWEB
+                            $value .= "'0', "; // YERR
+                            $value .= "' '"; // YMESSERR
+
+                            $value .= ")";
+
+                            $queryBloc[] = $value;
+                        }
+                        // preparation requete en masse
+                        if (count($queryBloc) > 0) {
+                            $query = 'INSERT' . $query . implode(', ', $queryBloc);
+                            writeLog($query, 'query_deletecollaborator.log');
+                        }
+                        break;
+                }
+            }
+
+            // execution requete
+            if (!empty($query)) {
+                if ($result = $this->adapter->execute($query) && !empty($qList)) {
+                    // update cri_notaire.cron_delete
+                    $sql = " UPDATE {$this->table} SET cron_delete = 0 WHERE id IN (" . implode(', ', $qList) . ")";
+                    $this->wpdb->query($sql);
+                } else {
+                    // log erreur
+                    $error = sprintf(CONST_DELCOLLAB_ERROR, date('d/m/Y à H:i:s'));
+                    writeLog($error, 'deletecollaborator.log', 'Cridon - Cron de suppression collaborateur');
+                }
+            }
+
+            // status code
+            return CONST_STATUS_CODE_OK;
+        } catch(\Exception $e) {
+            // write into logfile
+            writeLog($e, 'deletecollaborator.log');
+
+            // status code
+            return CONST_STATUS_CODE_GONE;
+        }
+    }
+
+    /**
+     * Get list of office members
+     *
+     * @param mixed $notary
+     * @return mixed
+     * @throws Exception
+     */
+    public function listOfficeMembers($notary)
+    {
+        $options = array(
+            'conditions' => array(
+                'cn.crpcen'      => $notary->crpcen,
+                'cu.user_status' => CONST_STATUS_ENABLED
+            ),
+            'synonym'    => 'cn',
+            'join'       => array(
+                array(
+                    'table'  => 'users cu',
+                    'column' => ' cn.id_wp_user = cu.ID'
+                )
+            )
+        );
+
+        return mvc_model('QueryBuilder')->findAll('notaire', $options, 'cn.id');
+    }
+
+    /**
+     * Set notaire role
+     *
+     * @param mixed $notaries
+     * @return void
+     */
+    public function setNewNotaireRole($notaries)
+    {
+        foreach ($notaries as $notary) {
+            if (!$notary->id_wp_user) {
+                // get user by notary_id
+                $user = $this->getAssociatedUserByNotaryId($notary->id);
+            } else {
+                // get user by id
+                $user = new WP_User($notary->id_wp_user);
+            }
+
+            // user must be an instance of WP_User vs WP_Error
+            if ($user instanceof WP_User) {
+                // default role
+                $user->add_role(CONST_NOTAIRE_ROLE);
+                /**
+                 * finance role
+                 * to be matched in list of authorized user by function
+                 *
+                 * @see \Config::$canAccessFinance
+                 */
+                if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
+                    $user->add_role(CONST_FINANCE_ROLE);
+                }
+            }
+        }
+    }
+
+    /**
+     * Disable admin bar for notaries
+     *
+     * @param mixed $notaries
+     * @return void
+     */
+    public function disableNotariesAdminBar($notaries)
+    {
+        foreach ($notaries as $notary) {
+            // peut être que $notary->id_wp_user est encore null (cas de nouvelle insertion via bulk insert)
+            // cette valeur sera mise à jour après execution bulk update via updateCriNotaireWpUserId
+            if (!$notary->id_wp_user) {
+                $notary = mvc_model('QueryBuilder')->findOne('notaire',
+                                                             array(
+                                                                 'fields'     => 'id_wp_user',
+                                                                 'conditions' => 'id = ' . $notary->id,
+                                                             )
+                );
+            }
+            // insert or update user_meta
+            update_user_meta($notary->id_wp_user, 'show_admin_bar_front', 'false');
+        }
+    }
+
+    /**
+     * Check email changed
+     *
+     * @param int    $notary_id
+     * @param string $new_email
+     * @return bool
+     * @throws Exception
+     */
+    public function isEmailChanged($notary_id, $new_email)
+    {
+        $options = array(
+            'conditions' => array(
+                'cn.id'      => $notary_id
+            ),
+            'synonym'    => 'cn'
+        );
+
+        $notary = mvc_model('QueryBuilder')->findOne('notaire', $options, 'cn.id');
+
+        return (is_object($notary) && $notary->email_adress != $new_email);
     }
 
     /**
@@ -2540,33 +3449,5 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
         // free vars
         unset($notary);
-    }
-
-    /**
-     * Get associated user by notary id
-     *
-     * @param int $id
-     * @return void|WP_User
-     * @throws Exception
-     */
-    public function getAssociatedUserByNotaryId($id)
-    {
-        // get notary data
-        $notary = mvc_model('QueryBuilder')->findOne('notaire',
-                                                     array(
-                                                         'fields' => 'id, id_wp_user, crpcen',
-                                                         'conditions' => 'id = ' . $id,
-                                                     )
-        );
-        // get notary associated user
-        if (is_object($notary) && $notary->id_wp_user) {
-            $user = new WP_User($notary->id_wp_user);
-
-            // check if user is a WP_user vs WP_error
-            if ($user instanceof WP_User && is_array($user->roles)) {
-                return $user;
-            }
-        }
-        return;
     }
 }

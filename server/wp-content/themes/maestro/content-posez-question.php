@@ -23,7 +23,7 @@
 				</div>
 				<div id="owl-support" class="owl-carousel">
 				<?php foreach ($supports as $key => $support): ?>
-		            <div class="item">
+		            <div class="item analytics_<?php echo $support->label_front; ?>_question">
 		            	<input title="support hidden" id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" data-value="<?php echo $support->value ; ?>" class="hidden js-question-support-radio">
 		              	<span class="label"><?php echo $support->label_front; ?></span>
 		              	<p class="description">
@@ -87,7 +87,7 @@
 
 						<div class="sep"></div>
 						<div id="msgBlockQuestionId" class="js-question-error"></div>
-						<input class="js-question-submit" type="submit" name="Envoyer ma question" value="Envoyer ma question">
+						<input class="js-question-submit analytics_Envoyer_question" type="submit" name="Envoyer ma question" value="Envoyer ma question">
 					    
                     </div>
 					
@@ -136,7 +136,7 @@
 				</div>						
 			</div>
 
-			<div class="block demander js-question-documentation-button">
+			<div class="block demander js-question-documentation-button analytics_Demande_doc">
 				<div class="content">
 					<div class="h2">
 						<?php _e('Demander'); ?>
@@ -146,7 +146,7 @@
 				</div>						
 			</div>
 
-			<div class="block prendre js-home-block-link">
+			<div class="block prendre js-home-block-link analytics_Demande_rdv">
 				<div class="content">
 					<div class="h2">
 						<?php _e('Prendre'); ?>

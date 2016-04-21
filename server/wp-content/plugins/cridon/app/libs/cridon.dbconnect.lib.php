@@ -162,6 +162,53 @@ interface DBConnect
     /****************** /Table ZEXPNOTV Structure *******************/
 
     /**
+     * @var string : office id notaire (crpcen + space + timestamp) in Output data
+     */
+    const NOTAIRE_YIDNOT_0 = 'YIDNOT_0';
+
+    /**
+     * @var string : office level of cridonline subscription Output data
+     */
+    const NOTAIRE_YNIVEAU_0 = 'YNIVEAU_0';
+
+    /**
+     * @var string : office date of cridonline subscription Output data
+     */
+    const NOTAIRE_YDATE_0 = 'YDATE_0';
+
+    /**
+     * @var string : office statut of cridonline subscription (not used on site side) Output data
+     */
+    const NOTAIRE_YSTATUT_0 = 'YSTATUT_0';
+
+    /**
+     * @var string : office price of cridonline subscription Output data
+     */
+    const NOTAIRE_YTARIF_0 = 'YTARIF_0';
+
+    /**
+     * @var string : office date of cridonline subscription Output data
+     */
+    const NOTAIRE_YVALDEB_0 = 'YVALDEB_0';
+
+    /**
+     * @var string : office end date of cridonline subscription Output data
+     */
+    const NOTAIRE_YVALFIN_0 = 'YVALFIN_0';
+
+    /**
+     * @var string : office echeance date of cridonline subscription Output data
+     */
+    const NOTAIRE_YDATECH_0 = 'YDATECH_0';
+
+    /**
+     * @var string : office motive of cridonline resiliation Output data
+     */
+    const NOTAIRE_YMOTIF_0 = 'YMOTIF_0';
+
+
+    /****************** ZQUESTV Table structure *******************/
+    /**
      * @var string : num question
      */
     const QUEST_SRENUM      = 'SRENUM_0';
@@ -252,6 +299,11 @@ interface DBConnect
     const QUEST_YRESUME  = 'YRESUME_0';
 
     /**
+     * @var string : object
+     */
+    const QUEST_YCONTENT  = 'ZTXTQUEST_0';
+
+    /**
      * @var string : affectation
      */
     const QUEST_YSREASS    = 'YSREASS_0';
@@ -336,7 +388,7 @@ interface DBConnect
      */
     const QUEST_YVALSRE     = 'YVALSRE_0';
 
-    /****************** Export Table Temp Structure *******************/
+    /****************** ZQUEST Table Temp Structure *******************/
     /**
      * @var string : id question - Site
      */
@@ -481,11 +533,70 @@ interface DBConnect
      * @var string : Contenu de la question
      */
     const ZQUEST_ZTXTQUEST_0 = 'ZTXTQUEST_0';
-    /****************** /Export Table Temp Structure *******************/
 
+    /****************** YABONNE Table Structure *******************/
+    /**
+     * @var string : id unique de la table : crpcen + timestamp
+     */
+    const YABONNE_YIDABONNE_0 = 'YIDABONNE_0';
+
+    /**
+     * @var string : crpcen de l'étude
+     */
+    const YABONNE_YCRPCEN_0 = 'YCRPCEN_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YNIVEAU_0 = 'YNIVEAU_0';
+
+    /**
+     * @var string : date de début d'abonnement
+     */
+    const YABONNE_YDATE_0 = 'YDATE_0';
+
+    /**
+     * @var string : status de l'abonnement
+     */
+    const YABONNE_YSTATUT_0 = 'YSTATUT_0';
+
+    /**
+     * @var string : tarif de l'abonnement
+     */
+    const YABONNE_YTARIF_0 = 'YTARIF_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YVALDEB_0 = 'YVALDEB_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YVALFIN_0 = 'YVALFIN_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YDATECH_0 = 'YDATECH_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YTRAITEE_0 = 'YTRAITEE_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YERR_0 = 'YERR_0';
+
+    /**
+     * @var string : niveau de l'abonnement
+     */
+    const YABONNE_YMESSERR_0 = 'YMESSERR_0';
     /****************** Table YNOTAIRE Structure *******************/
     /**
-     * @var string : Identifiant unique
+     * @var string : Identifi unique
      */
     const YIDCOLLAB = 'YIDCOLLAB_0';
 
@@ -615,12 +726,12 @@ interface DBConnect
     const YTRAITEE = 'YTRAITEE_0';
 
     /**
-     * @var string : demande MDP TEL
+     * @var string : ????
      */
     const YDDEMDPTEL = 'YDDEMDPTEL_0';
 
     /**
-     * @var string : demande MDP WEB
+     * @var string : ????
      */
     const YDDEMDPWEB = 'YDDEMDPWEB_0';
 
