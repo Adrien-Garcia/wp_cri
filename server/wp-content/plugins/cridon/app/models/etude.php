@@ -44,7 +44,10 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         // documents
         $Directory  = new RecursiveDirectoryIterator(CONST_IMPORT_FACTURE_TEMP_PATH);
         $Iterator   = new RecursiveIteratorIterator($Directory);
-        $documents  = new RegexIterator($Iterator, '/^.+\.pdf$/i', RecursiveRegexIterator::GET_MATCH);
+        // filtre les fichiers selon la regle de nommage predefinie
+        // ACs : <CRPCEN_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
+        // @see \Config::$importFactureParserPattern
+        $documents  = new RegexIterator($Iterator, Config::$importFactureParserPattern, RecursiveRegexIterator::GET_MATCH);
 
         // offset block
         $limit      = 1000;
@@ -72,65 +75,63 @@ class Etude extends \App\Override\Model\CridonMvcModel {
             try {
                 if (!empty($document[0])) { // document existe
                     $fileInfo = pathinfo($document[0]);
-                    if (!empty($fileInfo['basename'])) {
-                        // filtre les fichiers selon la regle de nommage predefinie
-                        // ACs : <CRPCEN_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
-                        // @see \Config::$importFacturePattern
-                        if (preg_match_all(Config::$importFacturePattern, $fileInfo['basename'], $matches)) {
-                            $path = CONST_IMPORT_FACTURE_PATH . $date . DIRECTORY_SEPARATOR;
-                            if (!file_exists($path)) { // repertoire manquant
-                                // creation du nouveau repertoire
-                                wp_mkdir_p($path);
-                            }
-                            // CRPCEN present
-                            if (!empty($matches[1][0]) && copy($document[0], $path . $fileInfo['basename'])) {
-                                $crpcen      = $matches[1][0];
-                                $typeFact    = $matches[3][0];
+                    if (!empty($fileInfo['basename']) && preg_match_all(Config::$importFacturePattern, $fileInfo['basename'], $matches)) {
+                        $path = CONST_IMPORT_FACTURE_PATH . $date . DIRECTORY_SEPARATOR;
+                        if (!file_exists($path)) { // repertoire manquant
+                            // creation du nouveau repertoire
+                            wp_mkdir_p($path);
+                        }
+                        // CRPCEN present
+                        if (!empty($matches[1][0]) && copy($document[0], $path . $fileInfo['basename'])) {
+                            $crpcen      = $matches[1][0];
+                            $typeFact    = $matches[3][0];
 
-                                // donnees document
+                            // donnees document
+                            $docData = array(
+                                'Document' => array(
+                                    'file_path'     => '/factures/' . $date . '/' . $fileInfo['basename'],
+                                    'download_url'  => '/documents/download/' . $crpcen,
+                                    'date_modified' => date('Y-m-d H:i:s'),
+                                    'type'          => CONST_DOC_TYPE_FACTURE,
+                                    'id_externe'    => $crpcen,
+                                    'name'          => $fileInfo['basename'],
+                                    'label'         => $typeFact
+                                )
+                            );
+
+                            // insertion données
+                            $documentId = $documentModel->create($docData);
+
+                            // maj download_url
+                            if ($documentId) {
                                 $docData = array(
                                     'Document' => array(
-                                        'file_path'     => '/factures/' . $date . '/' . $fileInfo['basename'],
-                                        'download_url'  => '/documents/download/' . $crpcen,
-                                        'date_modified' => date('Y-m-d H:i:s'),
-                                        'type'          => CONST_DOC_TYPE_FACTURE,
-                                        'id_externe'    => $crpcen,
-                                        'name'          => $fileInfo['basename'],
-                                        'label'         => $typeFact
+                                        'id'           => $documentId,
+                                        'download_url' => '/documents/download/' . $documentId
                                     )
                                 );
+                                $documentModel->save($docData);
 
-                                // insertion données
-                                $documentId = $documentModel->create($docData);
-
-                                // maj download_url
-                                if ($documentId) {
-                                    $docData = array(
-                                        'Document' => array(
-                                            'id'           => $documentId,
-                                            'download_url' => '/documents/download/' . $documentId
-                                        )
-                                    );
-                                    $documentModel->save($docData);
-
-                                    // archivage fichier
-                                    $archivePath = CONST_IMPORT_FACTURE_TEMP_PATH . DIRECTORY_SEPARATOR . 'archives/' . $date . '/';
-                                    if (!file_exists($archivePath)) { // repertoire manquant
-                                        // creation du nouveau repertoire
-                                        wp_mkdir_p($archivePath);
-                                    }
-                                    rename($document[0], $archivePath . $fileInfo['basename'] . '.' . $date);
+                                // archivage fichier
+                                $archivePath = CONST_IMPORT_FACTURE_TEMP_PATH . DIRECTORY_SEPARATOR . 'archives/' . $date . '/';
+                                if (!file_exists($archivePath)) { // repertoire manquant
+                                    // creation du nouveau repertoire
+                                    wp_mkdir_p($archivePath);
                                 }
+                                rename($document[0], $archivePath . $fileInfo['basename'] . '.' . $date);
+
+                                // liberation des variables
+                                unset($archivePath);
+                                unset($crpcen);
+                                unset($typeFact);
                             }
                         }
+                        // liberation de variables
+                        unset($matches);
                     }
                     // liberation des variables
                     unset($fileInfo);
                     unset($document);
-                    unset($archivePath);
-                    unset($matches);
-                    unset($crpcen);
-                    unset($typeFact);
                 }
             } catch(Exception $e) {
                 // renommage fichier d'erreur
@@ -146,7 +147,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
             }
         }
 
-        $documents  = new RegexIterator($Iterator, '/^.+\.pdf$/i', RecursiveRegexIterator::GET_MATCH);
+        $documents  = new RegexIterator($Iterator, Config::$importFactureParserPattern, RecursiveRegexIterator::GET_MATCH);
         // test s'il y a encore de fichier
         $documents->next();
         $doc = $documents->current();
