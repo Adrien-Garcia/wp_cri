@@ -2879,26 +2879,54 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * Get list of office members
      *
      * @param mixed $notary
+     * @param array $options
      * @return mixed
      * @throws Exception
      */
-    public function listOfficeMembers($notary)
+    public function listOfficeMembers($notary, $options)
     {
-        $options = array(
-            'conditions' => array(
-                'cn.crpcen'      => $notary->crpcen,
-                'cu.user_status' => CONST_STATUS_ENABLED
-            ),
-            'synonym'    => 'cn',
-            'join'       => array(
-                array(
-                    'table'  => 'users cu',
-                    'column' => ' cn.id_wp_user = cu.ID'
-                )
-            )
-        );
+        // page options
+        $options['page']     = empty($options['page']) ? 1 : intval($options['page']);
+        $options['per_page'] = !empty($options['per_page']) ? $options['per_page'] : DEFAULT_POST_PER_PAGE;
 
-        return mvc_model('QueryBuilder')->findAll('notaire', $options, 'cn.id');
+        // formation bloc limit
+        $limit = $this->db_adapter->get_limit_sql($options);
+
+        // query
+        $query = "
+                    SELECT
+                          *
+                    FROM {$this->table} AS cn
+                    INNER JOIN {$this->wpdb->users} cu
+                        ON cn.id_wp_user = cu.ID
+                    WHERE cn.crpcen = %s
+                        AND cn.id != %d
+                        AND cu.user_status = %d
+                    ORDER BY cn.last_name, cn.first_name ASC
+        ";
+        if ($limit) {
+            $query .= $limit;
+        }
+        $objects = $this->wpdb->get_results($this->wpdb->prepare($query, $notary->crpcen, $notary->id, CONST_STATUS_ENABLED));
+
+        // Nombre total d'enregitrement
+        $query_count = "
+                        SELECT
+                            COUNT(*) AS count
+                        FROM {$this->table} AS cn
+                        INNER JOIN {$this->wpdb->users} AS cu
+                            ON cu.ID = cn.id_wp_user
+                        WHERE cn.crpcen = %s
+                            AND cn.id != %d
+                            AND cu.user_status = %d";
+        $total_count = $this->wpdb->get_var($this->wpdb->prepare($query_count, $notary->crpcen, $notary->id, CONST_STATUS_ENABLED));
+
+        return array(
+            'objects'       => $objects,
+            'total_objects' => $total_count,
+            'total_pages'   => ceil($total_count / $options['per_page']),
+            'page'          => $options['page']
+        );
     }
 
     /**
