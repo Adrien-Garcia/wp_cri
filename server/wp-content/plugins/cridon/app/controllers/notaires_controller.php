@@ -591,7 +591,7 @@ class NotairesController extends BasePublicController
 
         //@todo set list of existing collaborators
         //show every member of an office
-        $liste = $this->model->listOfficeMembers($this->current_notaire);
+        $liste = $this->model->listOfficeMembers($this->current_notaire, $this->params);
         $this->set('liste', $liste);
 
         // tab rank
@@ -682,7 +682,7 @@ class NotairesController extends BasePublicController
             );
         }
         //show every member of an office
-        $liste = $this->model->listOfficeMembers($this->current_notaire);
+        $liste = $this->model->listOfficeMembers($this->current_notaire, $this->params);
         CriRenderView('liste',get_defined_vars(),'notaires');
         die();
     }
