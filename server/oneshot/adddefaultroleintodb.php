@@ -21,5 +21,13 @@ add_role( CONST_FINANCE_ROLE, 'Accès finances' );
 add_role( CONST_QUESTIONECRITES_ROLE, 'Poser des questions écrites' );
 // add  access add question role
 add_role( CONST_QUESTIONTELEPHONIQUES_ROLE, 'Poser des questions téléphoniques' );
+// add notary specific role
+add_role( CONST_NOTAIRE_DIV_ROLE, 'Notaires DIV' );
+add_role( CONST_NOTAIRE_ORG_ROLE, 'Notaires ORG' );
+
+// add default capabilities for "Notary" role (access_solde, access_level_1)
+$notaryRole = get_role( CONST_NOTAIRE_ROLE );
+$notaryRole->add_cap(CONST_ACCESS_SOLDE);
+$notaryRole->add_cap(CONST_ACCESS_LEVEL_1);
 
 echo 'Init role done';
