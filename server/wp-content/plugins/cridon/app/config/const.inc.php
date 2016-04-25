@@ -824,6 +824,9 @@ if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
-
+// Displayed
+if ( !defined( 'CONST_DISPLAYED' ) ) {
+    define( 'CONST_DISPLAYED', 1 );
+}
 
 
