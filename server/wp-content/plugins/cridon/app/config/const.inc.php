@@ -550,7 +550,16 @@ if ( !defined( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG' ) ) {
     define( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG', 'Le profil du collaborateur a bien été supprimé.' );
 }
 if ( !defined( 'CONST_COLLABORATEUR_DELETE_FAIL_MSG' ) ) {
-    define( 'CONST_COLLABORATEUR_DELETE_FAIL_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+    define( 'CONST_COLLABORATEUR_DELETE_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_ADD_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_ADD_SUCCESS_MSG', 'Le collaborateur a bien été ajouté à votre étude.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_ADD_ERROR_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_ADD_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_MODIFY_ERROR_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_MODIFY_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
 }
 
 //Alert on issues without documents
@@ -765,7 +774,7 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 
 // id of collaborator on cri_fonction
 if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
-    define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );
+    define( 'CONST_NOTAIRE_COLLABORATEUR', 27 );
 }
 
 if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
@@ -775,17 +784,6 @@ if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
 // alert email changed
 if ( !defined( 'CONST_ALERT_EMAIL_CHANGED' ) ) {
     define('CONST_ALERT_EMAIL_CHANGED', 'Attention : il s\'agit de votre adresse email personnelle');
-}
-
-// Start of block delete collaborator
-if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
-    define( 'CONST_CONFIRM_DEL_MSG', 'Confirmer la suppression du collaborateur ?' );
-}
-if ( !defined( 'CONST_DEL_SUCCESS_MSG' ) ) {
-    define( 'CONST_DEL_SUCCESS_MSG', 'Collaborateur supprimé' );
-}
-if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
-    define( 'CONST_DELCOLLAB_ERROR', 'Suppression collaborateur interrompu le : %s' );
 }
 // End of block delete collaborator
 
