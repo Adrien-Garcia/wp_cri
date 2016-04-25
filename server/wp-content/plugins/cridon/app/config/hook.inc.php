@@ -129,8 +129,11 @@ function append_js_files()
                 'collaborateur_delete_success' => CONST_COLLABORATEUR_DELETE_SUCCESS_MSG,
                 'collaborateur_delete_error' => CONST_COLLABORATEUR_DELETE_ERROR_MSG,
 
-                'collaborateur_add_success' => CONST_COLLABORATEUR_ADD_SUCCESS_MSG,
                 'collaborateur_add_error' => CONST_COLLABORATEUR_ADD_ERROR_MSG,
+
+                'collaborateur_create_user' => CONST_CREATE_USER,
+                'collaborateur_modify_user' => CONST_MODIFY_USER,
+                'collaborateur_delete_user' => CONST_DELETE_USER
 
             )
         );

@@ -1,5 +1,6 @@
-
-
+<?php if (!empty($message)) : ?>
+    <div class="message-erreur"><?php echo $message ?></div>
+<?php endif; ?>
 <h2><?php _e("Ma liste de collaborateur"); ?></h2>
 
 <div class="bt-ajout js-account-collaborateur-add-button" data-js-ajax-add-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">

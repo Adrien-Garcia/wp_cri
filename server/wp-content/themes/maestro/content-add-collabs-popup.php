@@ -8,6 +8,7 @@
 
     <form class="js-account-collaborateur-add-form" data-js-ajax-add-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
         <input type="hidden" name="collaborator_id" class="js-account-collaborateur-modify-id" value="<?php echo empty($collaborator['id']) ? '' : $collaborator['id'] ?>">
+        <input type="hidden" name="action" class="js-account-collaborateur-action" value="<?php echo empty($collaborator['action']) ? '' : $collaborator['action'] ?>">
         <div>
             <!-- <label for="collaborator_last_name">Nom</label> -->
             <input type="text" name="collaborator_last_name" placeholder="<?php _e('Nom *'); ?>" id="collaborator_last_name" class="js-account-collaborateur-add-lastname" value="<?php echo empty($collaborator['lastname']) ? '' : $collaborator['lastname'] ?>" required>
@@ -68,7 +69,6 @@
                 <span><?php _e("Accès aux bases de connaissance"); ?></span>
             </label>
         </div>
-        <div class="message-erreur js-account-collaborateur-add-message"></div>
         <div class="submit">
             <input type="submit" value="Enregistrer">
         </div>

@@ -37,6 +37,7 @@ App.Account = {
     accountPhoneSelector                : '-phone',
     accountMobilephoneSelector          : '-mobilephone',
     accountFunctionSelector             : '-function',
+    accountActionSelector               : '-action',
 
     ajaxSelector                        : '-ajax',
     ajaxPaginationSelector              : '-pagination',
@@ -265,7 +266,7 @@ App.Account = {
         this.$accountCollaborateurAddEmail       = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountEmailSelector);
         this.$accountCollaborateurAddFunction    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFunctionSelector);
         this.$accountCollaborateurAddMessage     = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountMessageSelector);
-
+        this.$accountCollaborateurAction         = $(d + this.accountCollaborateurSelector + this.accountActionSelector);
         this.$accountCollaborateurModify         = $(d + this.accountCollaborateurSelector + this.accountCollaborateurModifySelector);
         this.$accountCollaborateurModifyId       = $(d + this.accountCollaborateurSelector + this.accountCollaborateurModifySelector + this.accountIdSelector);
 
@@ -795,7 +796,7 @@ App.Account = {
             type: 'POST',
             url: form.data('js-ajax-delete-validation-url'),
             data: {
-                action: 'delete_user',
+                action: jsvar.collaborateur_delete_user,
                 collaborator_id: this.$accountCollaborateurDeleteValidationId.value,
                 token: $('#tokencollaborateur').val()
             },
@@ -807,20 +808,17 @@ App.Account = {
     successCollaborateurDelete: function (data) {
         data = JSON.parse(data);
         // create message block
-        var content = $(document.createElement('ul'));
-        content.append($(document.createElement('li')));
         if (data != undefined && data.error != undefined) {
+            var content = $(document.createElement('ul'));
+            content.append($(document.createElement('li')));
             var message = jsvar.collaborateur_delete_error;
+            this.$accountCollaborateurDeleteValidationMessage.html('');
+            this.$accountCollaborateurDeleteValidationMessage.append(content);
             content.find('li').last().text(message);
         } else {
-            var message = jsvar.collaborateur_delete_success;
-            content.find('li').last().addClass('success').text(message);
-            window.setTimeout((function () {
-                window.location.href = data.view;
-            }).bind(this), 1500);
+            window.location.href = data.view;
         }
-        this.$accountCollaborateurDeleteValidationMessage.html('');
-        this.$accountCollaborateurDeleteValidationMessage.append(content);
+
         return false;
     },
 
@@ -829,7 +827,7 @@ App.Account = {
             type: 'GET',
             url: form.data('js-ajax-add-url'),
             data: {
-                action: 'create_user'
+                action: jsvar.collaborateur_create_user
             },
             success: this.successCollaborateurAddPopup.bind(this)
         });
@@ -841,7 +839,7 @@ App.Account = {
             type: 'GET',
             url: div.data('js-ajax-modify-url'),
             data: {
-                action: 'modify_user',
+                action: jsvar.collaborateur_modify_user,
                 collaborator_id: div.data('js-ajax-id'),
                 collaborator_lastname: div.data('js-ajax-lastname'),
                 collaborator_firstname: div.data('js-ajax-firstname'),
@@ -866,8 +864,8 @@ App.Account = {
             type: 'POST',
             url: form.data('js-ajax-add-url'),
             data: {
-                action: 'create_user',
                 token: $('#tokencollaborateur').val(),
+                action: form.find(this.$accountCollaborateurAction.selector).val(),
                 collaborator_id: form.find(this.$accountCollaborateurModifyId.selector).val(),
                 collaborator_first_name: form.find(this.$accountCollaborateurAddFirstname.selector).val(),
                 collaborator_last_name: form.find(this.$accountCollaborateurAddLastname.selector).val(),
@@ -884,19 +882,15 @@ App.Account = {
     successCollaborateurAdd: function (data) {
         data = JSON.parse(data);
         // create message block
-        var content = $(document.createElement('ul'));
-        content.append($(document.createElement('li')));
         if (data != undefined && data.error != undefined) {
+            var content = $(document.createElement('ul'));
+            content.append($(document.createElement('li')));
             var message = jsvar.collaborateur_add_error;
             content.find('li').last().text(message);
+            $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
         } else {
-            var message = jsvar.collaborateur_add_success;
-            content.find('li').last().addClass('success').text(message);
-            window.setTimeout((function () {
-                window.location.href = data.view;
-            }).bind(this), 1500);
+            window.location.href = data.view;
         }
-        $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
         return false;
     },
 

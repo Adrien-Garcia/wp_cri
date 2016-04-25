@@ -551,7 +551,17 @@ class NotairesController extends BasePublicController
         //show every member of an office
         $liste = $this->model->listOfficeMembers($this->current_notaire);
         $this->set('liste', $liste);
-
+        $message = '';
+        if (isset($_REQUEST['message'])){
+            if ($_REQUEST['message'] == 'add'){
+                $message = CONST_COLLABORATEUR_ADD_SUCCESS_MSG;
+            } elseif ($_REQUEST['message'] == 'modify'){
+                $message = CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG;
+            } elseif ($_REQUEST['message'] == 'delete'){
+                $message = CONST_COLLABORATEUR_DELETE_SUCCESS_MSG;
+            }
+        }
+        $this->set('message', $message);
         // tab rank
         $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
     }
@@ -586,6 +596,7 @@ class NotairesController extends BasePublicController
 
             $collaborator = array();
             $collaborator['id'] = empty($_GET['collaborator_id']) ? '' : $_GET['collaborator_id'] ;
+            $collaborator['action'] = empty($_GET['action']) ? '' : $_GET['action'] ;
             $collaborator['lastname'] = empty($_GET['collaborator_lastname']) ? '' : $_GET['collaborator_lastname'] ;
             $collaborator['firstname'] = empty($_GET['collaborator_firstname']) ? '' : $_GET['collaborator_firstname'] ;
             $collaborator['phone'] = empty($_GET['collaborator_phone']) ? '' : $_GET['collaborator_phone'] ;
@@ -614,17 +625,22 @@ class NotairesController extends BasePublicController
                 //get current notaire
                 $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
                 switch ($_POST['action']){
-                    case 'create_user':
+                    case CONST_CREATE_USER:
                         $this->addCollaborateur($this->current_notaire,$data);
+                        $message='add';
                         break;
-                    case 'modify_user':
+                    case CONST_MODIFY_USER:
                         $this->modifyCollaborateur($this->current_notaire,$data);
+                        $message='modify';
                         break;
-                    case 'delete_user':
+                    case CONST_DELETE_USER:
                         $this->deleteCollaborateur($this->current_notaire,$data);
+                        $message='delete';
                         break;
                 }
-                echo json_encode(array('view' => mvc_public_url(array('controller' => 'notaires','action' => 'collaborateur'))));
+                $url = mvc_public_url(array('controller' => 'notaires','action' => 'collaborateur'));
+                $url.='?message='.$message;
+                echo json_encode(array('view' => $url));
                 die();
             }
         }
