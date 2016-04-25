@@ -470,4 +470,12 @@ class Config {
         CONST_QUESTIONECRITES_ROLE         => 'Poser des questions écrites',
         CONST_QUESTIONTELEPHONIQUES_ROLE   => 'Poser des questions téléphoniques',
     );
+
+    /**
+     * @var array : liste des autres categories de notaires sans etude officielle
+     */
+    public static $notaryNoDefaultOffice = array(
+        CONST_ORGANISMES_CATEG,
+        CONST_CLIENTDIVERS_CATEG,
+    );
 }

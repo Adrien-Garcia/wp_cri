@@ -768,6 +768,16 @@ if ( !defined( 'CONST_ACCESS_LEVEL_3' ) ) {
 if ( !defined( 'CONST_ACCESS_SOLDE' ) ) {
     define( 'CONST_ACCESS_SOLDE', 'access_solde' );
 }
+// liste des categories notaires
+if ( !defined( 'CONST_OFFICES_CATEG' ) ) {
+    define( 'CONST_OFFICES_CATEG', 'OFF' );
+}
+if ( !defined( 'CONST_ORGANISMES_CATEG' ) ) {
+    define( 'CONST_ORGANISMES_CATEG', 'ORG' );
+}
+if ( !defined( 'CONST_CLIENTDIVERS_CATEG' ) ) {
+    define( 'CONST_CLIENTDIVERS_CATEG', 'DIV' );
+}
 
 
 
