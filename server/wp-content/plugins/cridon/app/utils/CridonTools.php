@@ -537,17 +537,20 @@ class CridonTools {
     /**
      * Renvoie une / toutes fonction(s) collaborateur
      *
-     * @param int $id
      * @return array|null|object
      */
-    public function getFunctionCollaborator($id = 0)
+    public function getFunctionCollaborator()
     {
         global $wpdb;
 
-        $sql = " SELECT * FROM `{$wpdb->prefix}fonction_collaborateur` ";
-        if (intval($id) > 0) {
-            $sql .= $wpdb->prepare(' WHERE `id` = %d ', $id);
-        }
+        $sql = " SELECT f.`id` as `id_fonction`,f.`label` as `notaire_fonction_label`,fc.`id` as `id_fonction_collaborateur`,fc.`label` as `collaborateur_fonction_label`
+        FROM `{$wpdb->prefix}fonction` f
+        LEFT JOIN ( SELECT * FROM `{$wpdb->prefix}fonction_collaborateur` WHERE displayed = ".CONST_DISPLAYED." ) fc ON f.`id` = fc.`id_fonction_notaire`
+        WHERE f.`displayed` =".CONST_DISPLAYED."
+        AND f.`id` in (  ".CONST_NOTAIRE_SALARIE."
+                        ,".CONST_NOTAIRE_SALARIEE."
+                        ,".CONST_NOTAIRE_COLLABORATEUR.")";
+
 
         return $wpdb->get_results($sql);
     }
