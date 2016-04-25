@@ -686,7 +686,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // prepare multi rows data values
                 foreach ($newNotaires as $notaire) {
                     // import only if empty YIDNOT_0 : to be sure for new Notary data
-                    if (empty(trim($this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT]))) {
+                    $notaryId = trim($this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT]);
+                    if (empty($notaryId)) {
 
                         // format date
                         $dateModified = '0000-00-00';
@@ -724,7 +725,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         $insertValues[] = $value;
                     } else { // changement de mot de passe
-                        $notaryId = $this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT];
                         $newPwd   = $this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB];
                         $this->updatePwd($notaryId, $newPwd);
                         // free vars
