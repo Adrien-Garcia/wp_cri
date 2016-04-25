@@ -51,7 +51,7 @@
                     ?>
 
 
-                    <span class="status"><?php echo $status ; ?></span>
+                    <span class="status"><span><?php echo $status ; ?></span></span>
 				</li>
 				<li>
 					<span class="delai"><?php echo $question->support->label; ?></span>

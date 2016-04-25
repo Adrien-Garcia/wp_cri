@@ -7,9 +7,11 @@ div#mes-questions{
 			
 
 			p{ 
-				font-size: 18px;
-				line-height: 20px;
-				height: 40px;
+				font-size: 18px !important;
+				line-height: 20px !important;
+				max-height: 60px;
+				height:auto;
+				min-height: 20px;
 			}
 
 			span{ font-size: 18px;}
@@ -21,7 +23,7 @@ div#mes-questions{
 				font-weight: 400;
 
 				font-family: $helvetica !important;
-				margin-bottom: 10px; 
+				margin-bottom: 0px; 
 				display: block;
 			}
 
@@ -36,8 +38,8 @@ div#mes-questions{
 			}
 
 			.matiere{
-			 font-size: 15px;
-			 line-height: 17px;
+			 font-size: 16px;
+			 line-height: 18px;
 			 padding: 0 5px;
 			}
 
@@ -100,7 +102,7 @@ div#mes-questions{
 					padding-bottom: 24px;
 
 					font-size: 16px;
-					margin-top: 30px;
+					margin-top: 0px;
 					
 				}
 
@@ -122,7 +124,7 @@ div#mes-questions{
 								float: left;
 
 								span{
-									font-size: 16px;
+									font-size: 18px;
 
 						
 								}
@@ -135,7 +137,7 @@ div#mes-questions{
 										margin-right: 20px;
 										
 
-										a{font-size: 16px;
+										a{font-size: 18px;
 											position: relative;
 
 											&:after{
@@ -195,12 +197,14 @@ div#mes-questions{
 				padding-bottom: 20px;
 				border-bottom:solid 4px #e6e6e6;
 				margin-bottom: 30px;
+				padding-top: 15px;
 
 				&:last-child{
 					margin-bottom: 30px;
 				}
 
-				>ul{										
+				>ul{	
+				position: relative;									
 
 					> li{
 						
@@ -219,26 +223,35 @@ div#mes-questions{
 						>img{ width: 30px; height: 30px;}
 					}
 
-					> li:nth-child(2), > li:nth-child(3), > li:nth-child(6){
+					/* > li:nth-child(3), > li:nth-child(6){
 						float: left;
 						width:inherit;
 					}
-
 					
-
+					
+					
 					> li:nth-child(4), > li:nth-child(5){
 						float: left;
 						
 						margin-left: 0;
 						text-align: left; 
-
+					
 						span{ display: inline-block; width: 100%;}
 					}
+					
+					 */
 
 					> li:nth-child(2){
 						padding-top: 0px;
-						width: 510px; 
+						width: 270px; 
 						margin-bottom: 0;
+						float: none;
+						clear: both;
+					}
+
+					>li:nth-child(4), >li:nth-child(5), >li:nth-child(6), >li:nth-child(7){
+						position: absolute;
+						top: 23px;
 					}
 
 					> li:nth-child(3){
@@ -250,21 +263,25 @@ div#mes-questions{
 					}
 
 					> li:nth-child(4){
-						width: 120px; 
+						width: 135px; 
+						left: 310px;
 					}
 
 					> li:nth-child(5){
-						width: 90px;
+						width: 125px;
+						left: 485px;
 					}
 
 					> li:nth-child(6){
 						width: 130px;
+						left: 610px;
 						padding-right: 0;
 						
 					}
 
 					> li:nth-child(7){
 					width: 50px;
+					left: 740px;
 					padding-right: 0;
 						
 					}
@@ -272,6 +289,9 @@ div#mes-questions{
 					> li:nth-child(8){
 						padding-right: 0;
 						
+					}
+					>li.plusdedetails{
+						margin-top: 10px;
 					}
 				}
 
@@ -282,6 +302,10 @@ div#mes-questions{
 	#questions-attentes{
 		margin-bottom: 40px; 
 		float: left;
+
+		h2{
+			margin-bottom: 30px;
+		}
 
 		>ul{
 			
@@ -296,6 +320,8 @@ div#mes-questions{
 	#historique-questions{
 
 		.filtres{
+			padding-bottom: 40px;
+			margin-bottom: 50px;
 
 
 			&:before{}
@@ -312,7 +338,12 @@ div#mes-questions{
 					.titre{
 						font-size: 20px;
 						margin-right: 20px;
+						margin-bottom: 5px;
 
+					}
+
+					>div{
+						width: 180px;
 					}
 
 					> a{
@@ -321,7 +352,7 @@ div#mes-questions{
 
 					input{
 						margin: 0 10px 0 5px;
-						width: 165px;
+						width: 150px !important;
 						line-height: 25px;
 						padding: 0 0 0 6px;
 					}
@@ -330,15 +361,20 @@ div#mes-questions{
 						width: 360px;
 					}
 
+					.au{
+						margin-left: 10px;
+					}
+
 
 				}
 
 				> li:first-child{
-					width: 225px;
+					width: 100%;
+					clear: both;
 				}
 
 				>li:nth-child(2){
-					width: 510px;
+					width: 425px;
 					
 					.titre{
 						margin-right: 20px;
@@ -347,8 +383,8 @@ div#mes-questions{
 					#dateto{}
 				}
 				>li:last-child{
-					width: 465px;
-					text-align: right;
+					width: 365px;
+					text-align: left;
 					.titre{
 						margin-right: 25px;
 						margin-left: 0;

@@ -1,7 +1,7 @@
 div#mes-questions{
 
 	h2{
-		margin-bottom: 40px;
+		margin-bottom: 10px;
 		span{
 			display: inline-block;			
 		}
@@ -46,8 +46,14 @@ div#mes-questions{
 			}
 
 			.status{						
+				line-height: 24px;
+				padding-left: 30px;
 
-				&:before{}
+				&:before{
+					font-size: 24px;
+					line-height: 24px;
+					margin-top: -12px;
+				}
 			}
 
 			.person{}
@@ -152,6 +158,11 @@ div#mes-questions{
 
 				padding-top: 20px;
 
+				&:before{
+					content:'';
+					width: 215px;
+				}
+
 				>ul{										
 
 					> li{
@@ -240,6 +251,10 @@ div#mes-questions{
 	}
 
 	#questions-attentes{
+
+		h2{
+			margin-bottom: 40px;
+		}
 		
 
 		
@@ -264,6 +279,7 @@ div#mes-questions{
 
 			width: 100%;
 			float: left;
+			margin-bottom: 60px;
 
 			&:before{}
 
@@ -274,14 +290,21 @@ div#mes-questions{
 
 				li{
 
-					float: left;
+					float: left; 
 
 					.titre{
-						margin: 0; 
+						margin: 0 0 5px 0; 
+						font-size: 18px;
+						line-height: 33px;
+						width: 100%;
+						clear: both;
+						display: block;
 
 					}
 
 					> a{
+						font-size: 20px;
+						line-height: 24px;
 
 						&:hover{
 							text-decoration: none;
@@ -300,11 +323,22 @@ div#mes-questions{
 					}
 
 					select{
-						width: 315px; 
+						width: 100%;
+						max-width: 100%; 
 						height: 35px;
 						padding-top: 0;
 						padding-bottom: 0;
 						line-height: 15px;
+					}
+					>div{
+						width: 200px;
+						font-size: 16px;
+
+						input{
+							width: 170px;
+							margin: 0;
+							margin-left: 10px;
+						}
 					}
 
 					.du{
@@ -318,7 +352,8 @@ div#mes-questions{
 						display: inline-block;
 						margin: 0;
 						float: left;
-						line-height: 36px
+						line-height: 36px;
+						margin-left: 25px;
 					}
 
 
@@ -341,13 +376,11 @@ div#mes-questions{
 						line-height: 35px;
 					}
 
-					#dateto{}
+					#dateto{ margin-top: 0;}
 				}
 				>li:last-child{
+					width: 100%;
 					.titre{
-						//margin-right: 5px;
-						margin-right: 37px;
-						margin-left: 170px;
 					}
 				}
 			}
