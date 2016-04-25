@@ -249,6 +249,9 @@ jQuery(document).ready(function($) {
     });
 
 
+
+
+
     /* POPUP AJOUT COLLABS */
 
     $("#mes-collaborateurs .bt-ajout").click(function(){
@@ -264,6 +267,7 @@ jQuery(document).ready(function($) {
     
 
     
+    /* POPUP Trash collab */
 
     $("#mes-collaborateurs .trash").click(function(){
         //console.log('ah coucou');
@@ -274,17 +278,32 @@ jQuery(document).ready(function($) {
         //console.log('ah coucou');
         $('#layer-collaborateur-delete').popup('hide');
     });
-    
 
 
 
 
+    /* POPUP update profil */
+    $("#mon-profil .update-profil").click(function(){
+        //console.log('ah coucou');
+        $('#layer-update-profil').popup('show');
+    });
+
+    $(".close_layer").click(function(){
+        //console.log('ah coucou');
+        $('#layer-update-profil').popup('hide');
+    });
 
 
+    /* POPUP update etude */
+    $("#mon-profil .update-etude").click(function(){
+        //console.log('ah coucou');
+        $('#layer-update-etude').popup('show');
+    });
 
-
-
-
+    $(".close_layer").click(function(){
+        //console.log('ah coucou');
+        $('#layer-update-etude').popup('hide');
+    });
 
 
 }); /* end of as page load scripts */

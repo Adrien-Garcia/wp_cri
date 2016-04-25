@@ -637,17 +637,15 @@
 
 
 
-
+#layer-cridonline,
+#layer-collaborateur-add,
+#layer-collaborateur-delete,
+.popup{
 
 /* POPUP CRIDONLINE */
-
-
-
-#layer-cridonline, #layer-collaborateur-add, #layer-collaborateur-delete{
  
 	width: 100%;
 	height: auto;
-	padding: 20px;
 	background: #FFF;
 
 	>.titre{
@@ -717,6 +715,8 @@
 		text-align: center;
 		min-height: 200px;
 
+		padding: 20px;
+
 		p{
 			@extend .do-bo;
 			font-size: 20px;
@@ -741,6 +741,8 @@
 
 	>form{
 		margin: 35px 0;
+
+		padding: 20px;
 
 		input[type="text"]{
 

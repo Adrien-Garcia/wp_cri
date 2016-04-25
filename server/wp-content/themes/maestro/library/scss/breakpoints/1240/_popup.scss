@@ -404,7 +404,10 @@
 }
 
 
-#layer-cridonline, #layer-collaborateur-add, #layer-collaborateur-delete{
+#layer-cridonline,
+#layer-collaborateur-add,
+#layer-collaborateur-delete,
+.popup{
 	
 	width: 1200px;
 	max-width: 1200px;
@@ -553,6 +556,71 @@
 
 				}
 			}
+		}
+	}
+}
+
+#layer-update-profil{
+
+	> form{
+
+		div{
+			&.tel, &.mobile, &.fax{
+				width: 33.33%;
+				margin: 0 0 20px 0;
+			}
+			&.tel{
+				padding-right: 30px;
+			}
+			&.fax{
+				padding-left: 30px;
+			}
+
+			&.submit{
+				input{width: 150px;}
+			}
+
+		}
+	}
+
+}
+
+#layer-update-etude{
+
+	> form{
+
+		div{
+			width: 33.33%;
+			float: left;
+			margin: 0;
+			margin-bottom: 30px;
+
+			input[type="text"], select{
+				margin-bottom: 0;
+			}
+
+			&.adresse, &.email{
+				padding-right: 30px;
+			}
+			&.ville, &.fax{
+				padding-left: 30px;
+			}
+
+			&.nom{
+				width: 100%;
+				float: none;
+				clear: both;
+			}
+
+			&.submit{
+				width: 100%;
+
+				input{
+					width: 150px;
+				}
+
+			}
+
 		}
 	}
 }
