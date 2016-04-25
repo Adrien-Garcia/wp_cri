@@ -548,33 +548,6 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->prepareSecureAccess();
-
-        // set warning msg
-        $this->set('alertEmailChanged', '');
-
-        // post form
-        if (isset($_POST['collaborator_first_name'])
-            && $_POST['collaborator_first_name']
-        ) {
-            // Clean $_POST before
-            $data = $this->tools->clean($_POST);
-            // check emailchanged
-            if (!empty($_REQUEST['collaborator_id'])
-                && !empty($_REQUEST['collaborator_email'])
-            ) {
-                if ($this->model->isEmailChanged($_REQUEST['collaborator_id'], $_REQUEST['collaborator_email'])) {
-                    $this->set('alertEmailChanged', CONST_ALERT_EMAIL_CHANGED);
-                }
-            }
-            $this->model->manageCollaborator($this->current_notaire, $data);
-        }
-
-        // list of function
-        $collaborator_functions = $this->tools->getFunctionCollaborator();
-
-        // set list of collaborator functions
-        $this->set('collaborator_functions', $collaborator_functions);
-
         //show every member of an office
         $liste = $this->model->listOfficeMembers($this->current_notaire);
         $this->set('liste', $liste);
@@ -596,71 +569,126 @@ class NotairesController extends BasePublicController
         $vars = $this->view_vars;
         $vars['is_ajax'] = true;
         $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
-        CriRenderView('contentcollaborateur', $vars,'notaires');
+        $data = CriRenderView('contentcollaborateur', $vars,'notaires',false);
+        $json = array(
+            'view' => $data,
+        );
+        echo json_encode($json);
         die();
+    }
+
+    public function gestioncollaborateur(){
+        if (!empty($_GET['action']) ) {
+            // list of function
+            $collaborator_functions = $this->tools->getFunctionCollaborator();
+            // set list of collaborator functions
+            $this->set('collaborator_functions', $collaborator_functions);
+
+            $collaborator = array();
+            $collaborator['id'] = empty($_GET['collaborator_id']) ? '' : $_GET['collaborator_id'] ;
+            $collaborator['lastname'] = empty($_GET['collaborator_lastname']) ? '' : $_GET['collaborator_lastname'] ;
+            $collaborator['firstname'] = empty($_GET['collaborator_firstname']) ? '' : $_GET['collaborator_firstname'] ;
+            $collaborator['phone'] = empty($_GET['collaborator_phone']) ? '' : $_GET['collaborator_phone'] ;
+            $collaborator['mobilephone'] = empty($_GET['collaborator_mobilephone']) ? '' : $_GET['collaborator_mobilephone'] ;
+            $collaborator['notairefunction'] = empty($_GET['collaborator_notairefunction']) ? '' : $_GET['collaborator_notairefunction'] ;
+            $collaborator['collaboratorfunction'] = empty($_GET['collaborator_collaboratorfunction']) ? '' : $_GET['collaborator_collaboratorfunction'] ;
+            $collaborator['emailaddress'] = empty($_GET['collaborator_emailaddress']) ? '' : $_GET['collaborator_emailaddress'] ;
+            $this->set('collaborator',$collaborator);
+
+            $vars = $this->view_vars;
+            $vars['is_ajax'] = true;
+            $vars['controller'] = $vars['this'];
+
+            $data = CriRenderView('collaborateurajoutpopup', $vars,'notaires', false);
+            $json = array(
+                'view' => $data,
+            );
+            echo json_encode($json);
+            die();
+        }
+        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_collaborateur_nonce')) {
+            // post form
+            if (!empty($_POST['action'])){
+                // Clean $_POST before
+                $data = $this->tools->clean($_POST);
+                //get current notaire
+                $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+                switch ($_POST['action']){
+                    case 'create_user':
+                        $this->addCollaborateur($this->current_notaire,$data);
+                        break;
+                    case 'modify_user':
+                        $this->modifyCollaborateur($this->current_notaire,$data);
+                        break;
+                    case 'delete_user':
+                        $this->deleteCollaborateur($this->current_notaire,$data);
+                        break;
+                }
+                echo json_encode(array('view' => mvc_public_url(array('controller' => 'notaires','action' => 'collaborateur'))));
+                die();
+            }
+        }
+    }
+
+    /**
+     * Add new Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/collaborateurajoutpopup.php
+     * @param object Notaire $current_notaire
+     * @param array $data data of collaborator to modify
+     *
+     * @return void
+     */
+    public function addCollaborateur($current_notaire,$data){
+        if(!$this->model->manageCollaborator($current_notaire, $data)){
+            echo json_encode(array('error' => CONST_COLLABORATEUR_ADD_ERROR_MSG));
+            die();
+        };
+    }
+    /**
+     * Modify Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/collaborateurajoutpopup.php
+     * @param object Notaire $current_notaire
+     * @param array $data data of collaborator to modify
+     *
+     * @return void
+     */
+    public function modifyCollaborateur($current_notaire,$data){
+        if(!$this->model->manageCollaborator($current_notaire, $data)){
+            echo json_encode(array('error' => CONST_COLLABORATEUR_MODIFY_ERROR_MSG));
+            die();
+        };
     }
 
     /**
      * Delete Notaire Collaborator Content Block (AJAX Friendly)
      * Associated template : app/views/notaires/deletecollaborateur.php
+     * @param object Notaire $current_notaire
+     * @param array $data id of collaborator to delete
      *
      * @return void
      */
-    public function ajaxdeletecollaborateur()
+    public function deleteCollaborateur($current_notaire,$data)
     {
-        $ret = 'invalidToken';
-        // collaborator id
-        $collaborator_id = $this->params['id'];
-        //notaire
-        $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
-        if (!empty ($collaborator_id)) {
-            if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_collaborateur_delete_nonce')) {
-                // check if user can manage collaborator
-                if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)
-                    || !$this->tools->isSameOffice($collaborator_id, $this->current_notaire)
-                ) {
-                    // redirect to profil page
-                    $this->redirect(mvc_public_url(
-                            array(
-                                'controller' => 'notaires',
-                                'action' => 'profil'
-                            )
+        $collaborator_id = $data['collaborator_id'];
+        if (!empty ($collaborator_id) && isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_collaborateur_nonce')) {
+            // check if user can manage collaborator
+            if (!in_array($current_notaire->id_fonction, Config::$allowedNotaryFunction)
+                || !$this->tools->isSameOffice($collaborator_id, $current_notaire)
+            ) {
+                // redirect to profil page
+                $this->redirect(mvc_public_url(
+                        array(
+                            'controller' => 'notaires',
+                            'action' => 'profil'
                         )
-                    );
-                }
-
-                // submit form
-                if ($this->model->deleteCollaborator($collaborator_id)) {
-                    $ret = 'success';
-                }
+                    )
+                );
+            }
+            if (!$this->model->deleteCollaborator($collaborator_id)) {
+                $json = array('error' => CONST_COLLABORATEUR_DELETE_ERROR_MSG);
+                echo json_encode($json);
+                die();
             }
         }
-        echo json_encode($ret);
-        die;
     }
-
-    /**
-     * Show every member of the office
-     */
-    public function liste(){
-        // access secured
-        $this->prepareSecureAccess();
-
-        // check notary function
-        if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
-            // redirect to dashboard page
-            $this->redirect(mvc_public_url(
-                    array(
-                        'controller' => 'notaires',
-                        'action'     => 'show'
-                    )
-                )
-            );
-        }
-        //show every member of an office
-        $liste = $this->model->listOfficeMembers($this->current_notaire);
-        CriRenderView('liste',get_defined_vars(),'notaires');
-        die();
-    }
-
 }

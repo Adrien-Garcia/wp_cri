@@ -125,9 +125,12 @@ function append_js_files()
                 'cridonline_CGV_error'     => CONST_CRIDONLINE_CGV_ERROR_MSG,
 
                 // collaborateur
-                'collaborateur_delete_nonce' => wp_create_nonce("process_collaborateur_delete_nonce"),
+                'collaborateur_nonce' => wp_create_nonce("process_collaborateur_nonce"),
                 'collaborateur_delete_success' => CONST_COLLABORATEUR_DELETE_SUCCESS_MSG,
-                'collaborateur_delete_fail' => CONST_COLLABORATEUR_DELETE_FAIL_MSG,
+                'collaborateur_delete_error' => CONST_COLLABORATEUR_DELETE_ERROR_MSG,
+
+                'collaborateur_add_success' => CONST_COLLABORATEUR_ADD_SUCCESS_MSG,
+                'collaborateur_add_error' => CONST_COLLABORATEUR_ADD_ERROR_MSG,
 
             )
         );

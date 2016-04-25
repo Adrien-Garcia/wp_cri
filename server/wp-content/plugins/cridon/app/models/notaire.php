@@ -2366,11 +2366,15 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     {
         // check id collaborator
         if (isset($data['collaborator_id']) && intval($data['collaborator_id']) > 0) { // update
-            $this->updateCollaborator($data);
+            if($this->updateCollaborator($data)){
+                return true;
+            };
         } else { // create
-            $this->addCollaborator($notary, $data);
+            if($this->addCollaborator($notary, $data)){
+                return true;
+            };
         }
-
+        return false;
     }
 
     /**
@@ -2378,7 +2382,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      *
      * @param mixed $notary
      * @param array $data
-     * @return void
+     * @return bool
      * @throws Exception
      */
     public function addCollaborator($notary, $data)
@@ -2392,8 +2396,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $collaborator['email_adress']              = isset($data['collaborator_email']) ? esc_sql($data['collaborator_email']) : '';
         $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
         $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
-        $collaborator['id_fonction_collaborateur'] = isset($data['collaborator_function']) ? esc_sql($data['collaborator_function']) : 0;
-        $collaborator['id_fonction']               = CONST_NOTAIRE_COLLABORATEUR;
+        if (!empty($data['collaborator_function'])) {
+            list($id_fonction, $id_fonction_collaborateur) = explode("-", esc_sql($data['collaborator_function']), 2);
+            $collaborator['id_fonction'] = esc_sql($id_fonction);
+            if (!empty($id_fonction_collaborateur)) {
+                $collaborator['id_fonction_collaborateur'] = esc_sql($id_fonction_collaborateur);
+            }
+        };
 
         // @todo data from notary to be confirmed
         $collaborator['client_number'] = $notary->client_number;
@@ -2445,6 +2454,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             }
             // add default role (Acs : accès aux bases de connaissance (par défaut par tout le monde))
             $user->add_role(CONST_NOTAIRE_ROLE);
+            return true;
         }
     }
 
@@ -2452,7 +2462,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * Update collaborator data
      *
      * @param array $data
-     * @return void
+     * @return bool
      */
     public function updateCollaborator($data)
     {
@@ -2463,7 +2473,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $collaborator['email_adress']              = isset($data['collaborator_email']) ? esc_sql($data['collaborator_email']) : '';
         $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
         $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
-        $collaborator['id_fonction_collaborateur'] = isset($data['collaborator_function']) ? esc_sql($data['collaborator_function']) : 0;
+        if (!empty($data['collaborator_function'])) {
+            list($id_fonction, $id_fonction_collaborateur) = explode("-", esc_sql($data['collaborator_function']), 2);
+            $collaborator['id_fonction'] = esc_sql($id_fonction);
+            $collaborator['id_fonction_collaborateur'] = empty($id_fonction_collaborateur) ? 0 : esc_sql($id_fonction_collaborateur);
+        };
 
         // update cri_notaire data
         $collaborator['id'] = $data['collaborator_id'];
@@ -2479,7 +2493,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $user->add_role($role);
                 }
             }
+            return true;
         }
+        return false;
     }
 
     /**
@@ -2992,15 +3008,35 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     public function listOfficeMembers($notary)
     {
         $options = array(
+            'fields'     => array('cn.*','cu.*','cf.label as notaire_fonction_label','cfc.label as collaborator_fonction_label'),
             'conditions' => array(
                 'cn.crpcen'      => $notary->crpcen,
-                'cu.user_status' => CONST_STATUS_ENABLED
+                'cu.user_status' => CONST_STATUS_ENABLED,
+            ),
+            'not' => array(
+                'cn.id'          => $notary->id,
+            ),
+            'in' => array(
+                'cn.id_fonction'    => array(
+                    CONST_NOTAIRE_SALARIE,
+                    CONST_NOTAIRE_SALARIEE,
+                    CONST_NOTAIRE_COLLABORATEUR
+                )
             ),
             'synonym'    => 'cn',
             'join'       => array(
                 array(
                     'table'  => 'users cu',
                     'column' => ' cn.id_wp_user = cu.ID'
+                ),
+                array(
+                    'table'  => 'fonction cf',
+                    'column' => ' cn.id_fonction = cf.id'
+                ),
+                array(
+                    'type'   => 'left',
+                    'table'  => 'fonction_collaborateur cfc',
+                    'column' => ' cn.id_fonction_collaborateur = cfc.id'
                 )
             )
         );

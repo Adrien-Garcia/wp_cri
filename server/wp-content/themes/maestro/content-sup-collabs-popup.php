@@ -12,9 +12,9 @@
     <div class="block">
         <p>Confirmer la suppression du collaborateur ? </p>
 
-        <form class ="js-account-collaborateur-delete-validation-form" data-js-ajax-delete-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'deletecollaborateur', 'id' => '')); ?>">
+        <form class="js-account-collaborateur-delete-validation-form" data-js-ajax-delete-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
             <input type="hidden" value="" class="js-account-collaborateur-delete-validation-id" />
-            <p class="js-account-collaborateur-delete-validation-message"></p>
+            <div class="message-erreur js-account-collaborateur-delete-validation-message"></div>
             <input type="submit" value="<?php _e("supprimer"); ?>">
         </form>
     </div>

@@ -19,6 +19,7 @@ App.Account = {
     accountProfilNewsletterSelector     : '-newsletter',
     accountCollaborateurDeleteSelector  : '-delete',
     accountCollaborateurAddSelector     : '-add',
+    accountCollaborateurModifySelector  : '-modify',
     accountFormSelector                 : '-form',
 
     accountEmailSelector                : '-email',
@@ -242,7 +243,7 @@ App.Account = {
         nonce.type  = 'hidden';
         nonce.name  = 'tokencollaborateur';
         nonce.id    = 'tokencollaborateur';
-        nonce.value = jsvar.collaborateur_delete_nonce;
+        nonce.value = jsvar.collaborateur_nonce;
 
         this.$accountCollaborateurDeleteValidationForm    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountValidationSelector + this.accountFormSelector);
         this.$accountCollaborateurDeleteValidationForm.append(nonce);
@@ -252,6 +253,10 @@ App.Account = {
         this.$accountCollaborateurDeleteForm = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountFormSelector);
         this.$accountCollaborateurDeleteId   = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountIdSelector);
 
+        this.$popupCollaborateurDelete           = $(this.accountPopupCollaborateurDelete);
+        this.$popupCollaborateurAdd              = $(this.accountPopupCollaborateurAdd);
+
+        // Initialisation des variables liés à la popup.
         this.$accountCollaborateurAddForm        = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFormSelector);
         this.$accountCollaborateurAddFirstname   = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFirstnameSelector);
         this.$accountCollaborateurAddLastname    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountLastnameSelector);
@@ -261,8 +266,8 @@ App.Account = {
         this.$accountCollaborateurAddFunction    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFunctionSelector);
         this.$accountCollaborateurAddMessage     = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountMessageSelector);
 
-        this.$popupCollaborateurDelete       = $(this.accountPopupCollaborateurDelete);
-        this.$popupCollaborateurAdd       = $(this.accountPopupCollaborateurAdd);
+        this.$accountCollaborateurModify         = $(d + this.accountCollaborateurSelector + this.accountCollaborateurModifySelector);
+        this.$accountCollaborateurModifyId       = $(d + this.accountCollaborateurSelector + this.accountCollaborateurModifySelector + this.accountIdSelector);
 
         this.popupCollaborateurDeleteInit();
         this.popupCollaborateurAddInit();
@@ -516,22 +521,33 @@ App.Account = {
         this.debug("Account : addListenersCollaborateur");
 
         this.$accountCollaborateurDeleteForm.on('submit', function (e) {
+            e.returnValue = false;
+            e.preventDefault();
             self.eventAccountCollaborateurDeleteSubmit($(this));
-            return false;
         });
 
-        this.$accountCollaborateurDeleteValidationForm.on('submit', function (e) {
+        this.$accountCollaborateurDeleteValidationForm.on('submit',function(e){
+            e.returnValue = false;
+            e.preventDefault();
             self.eventAccountCollaborateurDeleteValidationSubmit($(this));
-            return false;
         });
 
         this.$accountCollaborateurAddButton.on('click', function (e) {
-            self.$popupCollaborateurAdd.popup('show');
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountCollaborateurAddPopup($(this));
         });
 
-        this.$accountCollaborateurAddForm.on('submit', function (e) {
+        this.$accountCollaborateurModify.on('click', function (e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountCollaborateurModifyPopup($(this));
+        });
+
+        $(document).on('submit',this.$accountCollaborateurAddForm.selector, function (e) {
+            e.returnValue = false;
+            e.preventDefault();
             self.eventAccountCollaborateurAddSubmit($(this));
-            return false;
         });
 
     },
@@ -640,7 +656,8 @@ App.Account = {
             url: link.data('js-ajax-src'),
             success: function(data)
             {
-                $('#'+targetid).html(data);
+                data = JSON.parse(data);
+                $('#'+targetid).html(data.view);
                 // self.$accountCollaborateurAjax.html(data);
                 self.debug('Account Collaborateur Loaded');
                 self.initCollaborateur();
@@ -774,11 +791,12 @@ App.Account = {
     },
 
     eventAccountCollaborateurDeleteValidationSubmit: function(form){
-        this.$accountCollaborateurDeleteValidationMessage.html('');
         jQuery.ajax({
             type: 'POST',
-            url: form.data('js-ajax-delete-validation-url') + this.$accountCollaborateurDeleteValidationId.value,
+            url: form.data('js-ajax-delete-validation-url'),
             data: {
+                action: 'delete_user',
+                collaborator_id: this.$accountCollaborateurDeleteValidationId.value,
                 token: $('#tokencollaborateur').val()
             },
             success: this.successCollaborateurDelete.bind(this)
@@ -788,31 +806,75 @@ App.Account = {
 
     successCollaborateurDelete: function (data) {
         data = JSON.parse(data);
-
-        if(data == 'success')
-        {
-            this.$accountCollaborateurDeleteValidationMessage.html(jsvar.collaborateur_delete_success);
+        // create message block
+        var content = $(document.createElement('ul'));
+        content.append($(document.createElement('li')));
+        if (data != undefined && data.error != undefined) {
+            var message = jsvar.collaborateur_delete_error;
+            content.find('li').last().text(message);
+        } else {
+            var message = jsvar.collaborateur_delete_success;
+            content.find('li').last().addClass('success').text(message);
+            window.setTimeout((function () {
+                window.location.href = data.view;
+            }).bind(this), 1500);
         }
-        else
-        {
-            this.$accountCollaborateurDeleteValidationMessage.html(jsvar.collaborateur_delete_fail);
-        }
+        this.$accountCollaborateurDeleteValidationMessage.html('');
+        this.$accountCollaborateurDeleteValidationMessage.append(content);
         return false;
     },
 
+    eventAccountCollaborateurAddPopup: function(form){
+        jQuery.ajax({
+            type: 'GET',
+            url: form.data('js-ajax-add-url'),
+            data: {
+                action: 'create_user'
+            },
+            success: this.successCollaborateurAddPopup.bind(this)
+        });
+        return false;
+    },
+
+    eventAccountCollaborateurModifyPopup: function(div){
+        jQuery.ajax({
+            type: 'GET',
+            url: div.data('js-ajax-modify-url'),
+            data: {
+                action: 'modify_user',
+                collaborator_id: div.data('js-ajax-id'),
+                collaborator_lastname: div.data('js-ajax-lastname'),
+                collaborator_firstname: div.data('js-ajax-firstname'),
+                collaborator_phone: div.data('js-ajax-phone'),
+                collaborator_mobilephone: div.data('js-ajax-mobilephone'),
+                collaborator_notairefunction: div.data('js-ajax-notairefunction'),
+                collaborator_collaboratorfunction: div.data('js-ajax-collaboratorfunction'),
+                collaborator_emailaddress: div.data('js-ajax-emailaddress')
+            },
+            success: this.successCollaborateurAddPopup.bind(this)
+        });
+        return false;
+    },
+
+    successCollaborateurAddPopup: function(data){
+        data = JSON.parse(data);
+        this.$popupCollaborateurAdd.html(data.view).popup('show');
+    },
+
     eventAccountCollaborateurAddSubmit: function(form) {
-        this.$accountCollaborateurAddMessage.html('');
         jQuery.ajax({
             type: 'POST',
             url: form.data('js-ajax-add-url'),
             data: {
+                action: 'create_user',
                 token: $('#tokencollaborateur').val(),
-                collaborator_first_name: form.find(this.$accountCollaborateurAddFirstname).val(),
-                collaborator_last_name: form.find(this.$accountCollaborateurAddLastname).val(),
-                collaborator_tel: form.find(this.$accountCollaborateurAddPhone).val(),
-                collaborator_tel_portable: form.find(this.$accountCollaborateurAddMobilephone).val(),
-                collaborator_email: form.find(this.$accountCollaborateurAddEmail).val(),
-                collaborator_function: form.find(this.$accountCollaborateurAddFunction).val()
+                collaborator_id: form.find(this.$accountCollaborateurModifyId.selector).val(),
+                collaborator_first_name: form.find(this.$accountCollaborateurAddFirstname.selector).val(),
+                collaborator_last_name: form.find(this.$accountCollaborateurAddLastname.selector).val(),
+                collaborator_tel: form.find(this.$accountCollaborateurAddPhone.selector).val(),
+                collaborator_tel_portable: form.find(this.$accountCollaborateurAddMobilephone.selector).val(),
+                collaborator_email: form.find(this.$accountCollaborateurAddEmail.selector).val(),
+                collaborator_function: form.find(this.$accountCollaborateurAddFunction.selector).val()
             },
             success: this.successCollaborateurAdd.bind(this)
         });
@@ -821,14 +883,20 @@ App.Account = {
 
     successCollaborateurAdd: function (data) {
         data = JSON.parse(data);
-        if(data == 'success')
-        {
-            this.$accountCollaborateurAddMessage.html(jsvar.cridonline_add_success);
+        // create message block
+        var content = $(document.createElement('ul'));
+        content.append($(document.createElement('li')));
+        if (data != undefined && data.error != undefined) {
+            var message = jsvar.collaborateur_add_error;
+            content.find('li').last().text(message);
+        } else {
+            var message = jsvar.collaborateur_add_success;
+            content.find('li').last().addClass('success').text(message);
+            window.setTimeout((function () {
+                window.location.href = data.view;
+            }).bind(this), 1500);
         }
-        else
-        {
-            this.$accountCollaborateurAddMessage.html(jsvar.cridonline_add_error);
-        }
+        $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
         return false;
     },
 
