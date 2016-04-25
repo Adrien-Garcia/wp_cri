@@ -30,4 +30,8 @@ $notaryRole = get_role( CONST_NOTAIRE_ROLE );
 $notaryRole->add_cap(CONST_ACCESS_SOLDE);
 $notaryRole->add_cap(CONST_ACCESS_LEVEL_1);
 
+// add default capability for "Notary ORG" role (access_level_1)
+$notaryRole = get_role( CONST_NOTAIRE_ORG_ROLE );
+$notaryRole->add_cap(CONST_ACCESS_LEVEL_1);
+
 echo 'Init role done';
