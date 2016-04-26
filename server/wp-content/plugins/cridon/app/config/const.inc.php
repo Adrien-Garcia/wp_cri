@@ -771,7 +771,7 @@ if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD' ) ) {
 
 // id of collaborator on cri_fonction
 if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
-    define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );
+    define( 'CONST_NOTAIRE_COLLABORATEUR', 27 );
 }
 
 if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
@@ -832,6 +832,11 @@ if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
+
+if ( !defined( 'CONST_DISPLAYED' ) ) {
+    define( 'CONST_DISPLAYED', 1 );
+}
+
 
 
 
