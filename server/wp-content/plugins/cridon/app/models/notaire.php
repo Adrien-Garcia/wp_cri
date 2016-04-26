@@ -1359,7 +1359,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             } else {
                                 $next_subscription_level = $etude->subscription_level;
                             }
-                            $next_subscription_price = mvc_model('Etude')->getSubscriptionPrice($etude);
+                            $next_subscription_price = mvc_model('Etude')->getSubscriptionPrice($etude, true);
 
                             $start_subscription_date = date('Y-m-d', strtotime($etude->end_subscription_date));
                             $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
@@ -1449,7 +1449,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     if (!empty($etude->next_subscription_level)) {
                         $updateLevelValues[] = " {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
                     }
-                    $nextSubscriptionPrice          = mvc_model('Etude')->getSubscriptionPrice($etude);
+                    $nextSubscriptionPrice          = mvc_model('Etude')->getSubscriptionPrice($etude, true);
                     $updatePriceValues[]            = " {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
                     $updateStartDateValues[]        = " {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
                     $updateEndDateValues[]          = " {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
@@ -2594,7 +2594,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if (is_user_logged_in()) {
             $notary = $this->getUserConnectedData();
 
-            return (is_object($notary) && in_array($notary->id_fonction, Config::$allowedNotaryFunction));
+            return (is_object($notary) && in_array(CONST_FINANCE_ROLE, (array) $notary->roles));
         }
 
         return false;

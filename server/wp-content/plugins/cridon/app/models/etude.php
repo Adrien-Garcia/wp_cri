@@ -17,21 +17,32 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         'Sigle' => array('foreign_key' => 'id_sigle')
     );
 
-    public function getSubscriptionPrice($etude,$isNext = true){
+    public function getRelatedPrices($etude) {
 
+        // get number of members of the office
+        $options = array('conditions' => array('crpcen' => $etude->crpcen, 'id_fonction' => Config::$functionsPricesCridonline));
+        $nbCollaboratorEtude = mvc_model('QueryBuilder')->countItems('notaire', $options);
 
-        $level = ($isNext && !empty($etude->next_subscription_level)) ? $etude->next_subscription_level : $etude->subscription_level;
-
-        $options = array('conditions' => array('crpcen' => $etude->crpcen));
-        $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->countItems('notaire', $options));
-        $prices = Config::$pricesLevelsVeilles[0][$level];
-        krsort($prices);
-        // Tri du tableau de prix par clé descendante
-        foreach($prices as $nbCollaborator => $price) {
-            if ($nbCollaboratorEtude >= $nbCollaborator) {
-                return $price;
+        $subscriptionInfos = array();
+        foreach (Config::$pricesLevelsVeilles as $level => $grille) {
+            $prices = $grille[$level];
+            // Tri du tableau de prix par clé descendante
+            krsort($prices);
+            foreach ($prices as $nbCollaborator => $price) {
+                if ($nbCollaboratorEtude >= $nbCollaborator) {
+                    $subscriptionInfos[$level] = $price;
+                    break;
+                }
             }
         }
+
+        return $subscriptionInfos;
+    }
+
+    public function getSubscriptionPrice($etude, $isNextLevel = false){
+        $level = ($isNextLevel && !empty($etude->next_subscription_level)) ? $etude->next_subscription_level : $etude->subscription_level;
+        $prices = $this->getRelatedPrices($etude);
+        return $prices[$level];
     }
 
     /**

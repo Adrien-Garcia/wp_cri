@@ -292,25 +292,15 @@ class NotairesController extends BasePublicController
         $notaire = CriNotaireData();
         $this->set('notaire', $notaire);
 
-        $options = array(
-            'conditions' => array(
-                'crpcen' => $notaire->crpcen
-            )
-        );
-        $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
-
-
-        // Tri du tableau de prix par clé descendante
-        foreach(Config::$pricesLevelsVeilles[0] as $veilleLevel => $prices){
-            //set name of variable
-            $priceVeilleLevelx = 'priceVeilleLevel'.$veilleLevel;
-            //Tri par pri décroissant pour chaque niveau de veille
-            krsort($prices);
-            foreach($prices as $nbCollaborator => $price) {
-                if ($nbCollaboratorEtude >= $nbCollaborator) {
-                    $this->set($priceVeilleLevelx, $price);
-                    break;
-                }
+        $options = array('conditions' => array('crpcen' => $notaire->crpcen));
+        /** @var $etude Etude*/
+        $etude   = mvc_model('Etude')->find_one($options);
+        $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
+        if (is_array($subscriptionInfos) && count($subscriptionInfos) > 0) {
+            foreach ($subscriptionInfos as $level => $price) {
+                //set name of variable
+                $priceVeilleLevelx = 'priceVeilleLevel' . $level;
+                $this->set($priceVeilleLevelx, $price);
             }
         }
 
@@ -459,6 +449,7 @@ class NotairesController extends BasePublicController
             && !empty($_POST)
             && !empty($this->current_notaire)
         ) {
+            global $current_user;
             // newsletter
             if(isset($_POST['disabled'])) {
                 $this->model->newsletterSubscription($this->current_notaire);
@@ -475,7 +466,7 @@ class NotairesController extends BasePublicController
             $this->set('alertEmailChanged', '');
 
             // maj profil et/ou données d'etude
-            if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+            if (in_array(CONST_FINANCE_ROLE, (array) $current_user->roles)) {
                 // check emailchanged
                 if ( !empty($_REQUEST['notary_email_adress']) ) {
                     if ($this->model->isEmailChanged($this->current_notaire->id, $_REQUEST['notary_email_adress'])) {
@@ -635,8 +626,9 @@ class NotairesController extends BasePublicController
         // collaborator id
         $collaborator_id = $this->params['id'];
 
+        global $current_user;
         // check if user can manage collaborator
-        if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)
+        if (!in_array(CONST_FINANCE_ROLE, (array) $current_user->roles)
             || !$this->tools->isSameOffice($collaborator_id, $this->current_notaire)
         ) {
             // redirect to profil page
@@ -676,16 +668,14 @@ class NotairesController extends BasePublicController
         // access secured
         $this->prepareSecureAccess();
 
+        global $current_user;
+
         // check notary function
-        if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+        if (!in_array(CONST_FINANCE_ROLE, (array) $current_user->roles)) {
+            $url = mvc_public_url(array('controller' => 'notaires','action'=> 'show'));
+            $url.='?error=FONCTION_NON_AUTORISE';
             // redirect to dashboard page
-            $this->redirect(mvc_public_url(
-                    array(
-                        'controller' => 'notaires',
-                        'action'     => 'show'
-                    )
-                )
-            );
+            $this->redirect($url);
         }
         //show every member of an office
         $liste = $this->model->listOfficeMembers($this->current_notaire);
