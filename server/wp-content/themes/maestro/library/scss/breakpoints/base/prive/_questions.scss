@@ -8,6 +8,11 @@ div#mes-questions{
 	color:$bleu;
 	@extend .do-re;
 
+	h2 span{
+		display: block;
+		line-height: 20px;
+	}
+
 
 
 	a.pdf{
@@ -38,11 +43,13 @@ div#mes-questions{
 			p{
 				margin: 0;
 				padding: 0;
-				font-size: 14px;
-				line-height: 18px;
-				@extend .do-sm;
+				font-size: 14px !important;
+				line-height: 16px !important;
+				font-family: $dosis !important;
+				font-weight: 600;
+				//@extend .do-sm;
 				color:$bleu;
-				height: 36px;
+				height: 32px;
 				overflow: hidden;
 			}
 
@@ -54,13 +61,13 @@ div#mes-questions{
 			}
 
 			.date{
-				position: absolute;
+				/*position: absolute;
 				top: 0;
-				left: 40px;
+				left: 40px;*/
 				font-family: $helvetica;
 				font-weight: 100;
 				color:$bleu;
-				font-size: 14px;
+				font-size: 15px;
 				text-transform: uppercase;
 			}
 
@@ -80,11 +87,13 @@ div#mes-questions{
 				@extend .do-sm;
 				color: #FFF;
 			    text-transform: uppercase;
-			    font-size: 12px;
+			    font-size: 13px;
 			    background: #009999;
 			    display: inline-block;
 			    padding: 0 2px;
 			    margin-bottom: 5px;
+			    height: 13px;
+			    line-height: 13px;
 			}
 
 			.id-question{
@@ -127,7 +136,7 @@ div#mes-questions{
 			}
 
 			.person{
-				padding-left: 20px;
+				//padding-left: 20px;
 			}
 
 			&:before{display: none;}
@@ -156,6 +165,7 @@ div#mes-questions{
 				padding-bottom: 15px;
 				border-bottom:solid 8px #e6e6e6;
 				cursor: pointer;
+				padding-right: 20px;
 				//text-decoration: underline;
 
 				> span{
@@ -167,7 +177,7 @@ div#mes-questions{
 					content:'>';
 					font-weight: normal;
 					position: absolute;
-					right:-20px;
+					right:0px;
 					top:0px;
 					color:$rouge;
 					font-size: 30px;
@@ -185,7 +195,7 @@ div#mes-questions{
 						content:'+';
 						font-weight: normal;
 						position: absolute;
-						right:-20px;
+						right:0px;
 						top:-3px;
 						color:$rouge;
 						font-size: 34px;
@@ -285,7 +295,9 @@ div#mes-questions{
 			width: 100%;
 
 			> li{
-				
+
+				padding-top: 10px;
+				border-top:solid 2px $bleu;				
 				position: relative;
 				width: 100%;
 				float: left;
@@ -294,6 +306,44 @@ div#mes-questions{
 
 				//padding-bottom: 10px;
 				border-bottom:solid 2px #e6e6e6;
+
+
+				/* CODE COULEUR ETAT QUESTION */
+
+				&:before{
+					content:'';
+					width: 120px;
+					height: 7px;
+					background: $bleu;
+					position: absolute;
+					top: -7px;
+					left: 0;
+					display: block;
+				}
+
+				&.traitement{
+					border-top:solid 2px $jaune;
+					&:before{
+						background: $jaune;
+					}
+				}
+
+				&.repondue{
+					border-top:solid 2px $vert;
+					&:before{
+						background: $vert;
+					}
+				}
+
+				&.suspendue{
+					border-top:solid 2px #818181;
+					&:before{
+						background: #818181;
+					}
+				}
+
+
+				/* FIN */
 
 				&:last-child{
 					margin-bottom: 40px;
@@ -304,6 +354,7 @@ div#mes-questions{
 				>ul{
 					width: 100%;
 					float: left;
+					margin-top: 7px;
 
 					li{margin-bottom: 10px;}
 
@@ -325,11 +376,11 @@ div#mes-questions{
 
 					> li:nth-child(4), > li:nth-child(5){
 						float: left;
-						width: 42%;
+						width: 95px;
 					}
 
 					> li:nth-child(2){
-						padding-top: 20px;
+						//padding-top: 20px;
 					}
 
 					> li:nth-child(3){
@@ -340,6 +391,10 @@ div#mes-questions{
 
 					> li:nth-child(4){
 						margin-left: 40px;
+					}
+
+					> li:nth-child(5){
+						text-align: right;
 					}
 
 					> li:nth-child(8){
@@ -369,7 +424,7 @@ div#mes-questions{
 				> ul {
 					
 					> li:nth-child(2){
-						padding-top: 40px;
+						//padding-top: 40px;
 					}
 
 				}
@@ -414,14 +469,16 @@ div#mes-questions{
                     @extend .do-sm;
 					font-size: 14px;
 					color:$bleu;
-					line-height: 35px;
+					line-height: 20px;
 
 					.titre{
-						font-family: $garamond;
-						font-size: 16px;
-						color:$rouge;
+						@extend .do-re;
+						font-size: 15px;
+						color:$bleu;
 						font-weight: normal;
 						display: inline-block;
+						margin-top: 10px;
+						margin-bottom: 5px;
 						//margin: 20px 0;
 
 					}
@@ -437,30 +494,38 @@ div#mes-questions{
 
 					}
 
-					.du{
-						display: inline-block;
-						margin: 7px 0;
-					}
-					.au{
+					>div{
+						width: 100%;
+						overflow: hidden;
 						
-						margin: 7px 0 7px 72px;
+						label{
+							display: block;
+							float: left;
+							line-height: 35px;
+						}
+						input{
+							float: left;
+							width: 209px;
+						}
 					}
 
+					
+
 					input{
-						width: 130px;
+						width: 100px;
 						display: inline;
 						height: 35px;
 						line-height: 30px;
 						border:solid 3px #e6e6e6;
 						@include border-radius(0);
                         padding:0;
-                        margin: 0 20px 0 10px;
+                        margin: 0 0 0 10px;
                         vertical-align: middle;
                     }
 
 					select{
 						display: inline-block;
-						width: 210px;
+						width: 235px;
 						border:solid 3px #e6e6e6;
 						@include border-radius(0);
 					}
@@ -478,7 +543,7 @@ div#mes-questions{
 						margin-right: 16px;
 					}
 
-					#dateto{margin-right: 0;}
+					#dateto{margin-top: 6px;}
 				}
 				>li:last-child{
 					.titre{
@@ -507,7 +572,7 @@ div#mes-questions{
 					li.pdf{
 						display: inline-block;
 						float: left;
-						width: 134px;
+						width: 68px;
 					}
 
 				}
@@ -555,6 +620,76 @@ div#mes-questions{
 
 
 		
+	}
+
+	.legende{
+
+		ul{
+			margin: 0;
+			padding: 0;
+
+			li{
+				margin: 0;
+				padding: 0;	
+				position: relative;
+				line-height: 22px;
+				padding-left: 30px;
+				margin-bottom: 10px;
+				@extend .do-re;
+				font-size: 12px;
+				text-transform: uppercase;
+				color:#818181;
+
+				&:before{
+					@include svgicon('icon-angle-right', 18px, 18px, $bleu);
+					position: absolute;
+					left: 22px;
+					top: 50%;
+					margin-top: -9px;
+					display: block;
+				}
+
+				&:after{
+					content:'';
+					width: 22px;
+					height: 22px;
+					background: $bleu;
+					position: absolute;
+					left: 0;
+					top: 0;
+				}
+
+				&.traitement{
+
+					&:before{
+						@include svgicon('icon-angle-right', 18px, 18px, $jaune);
+					}
+					&:after{
+						background: $jaune;
+					}
+				}
+
+				&.repondue{
+					&:before{
+						@include svgicon('icon-angle-right', 18px, 18px, $vert);
+					}
+					&:after{
+						background: $vert;
+					}
+				}
+
+				&.suspendue{
+					margin-bottom: 0;
+					&:before{
+						@include svgicon('icon-angle-right', 18px, 18px, #818181);
+					}
+					&:after{
+						background: #818181;
+					}
+
+				}
+			}
+		}
 	}
 
 

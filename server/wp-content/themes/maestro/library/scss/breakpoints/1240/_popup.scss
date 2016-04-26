@@ -404,7 +404,7 @@
 }
 
 
-#layer-cridonline{
+#layer-cridonline, #layer-add-collabs, #layer-sup-collabs{
 	
 	width: 1200px;
 	max-width: 1200px;
@@ -469,7 +469,7 @@
 			width: 100%;
 		}
 
-		a{
+		a, form{
 			/*margin-top: 60px;
 			position: relative;
 			display: inline-block;
@@ -487,6 +487,71 @@
 				left: 50%;
 				margin-left: -550px;
 				content:'';
+			}
+		}
+	}
+
+
+	>form{
+		overflow: hidden;
+
+		>div{
+			width: 530px;
+			float: left;
+			margin-right: 30px;
+			margin-bottom: 20px;
+
+			&:nth-of-type(2n){
+				margin-right: 0;
+			}
+
+		}
+
+
+
+		input[type="text"], select{
+				max-width: 100%;
+				margin-bottom: 14px;
+			}
+
+		div.submit{
+			width: 100%;
+			clear: both;
+		}
+
+		p.chps_obli{
+			clear: both;
+		}
+
+
+		.droit-collaborateur{
+			margin-bottom: 60px;
+
+			
+
+			label{
+				
+				
+
+				span{
+				}
+
+				input{ opacity: 0;
+
+					
+
+				}
+
+				&:before{
+					
+				}
+
+				&.select{
+					&:before{
+						
+					}
+
+				}
 			}
 		}
 	}

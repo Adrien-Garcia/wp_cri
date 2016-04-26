@@ -22,10 +22,10 @@ class NotairesController extends BasePublicController
     {
         global $mvc_params;
 
-        // check if user is logged in and must be a notary
-        if (!is_user_logged_in()
-            || !in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)
-        ) {
+        // check if user is logged in
+        if (!is_user_logged_in()) { // need to be redirected to the right page after login
+            CriRefuseAccess();
+        } elseif (!in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)) { // user is not allowed to access the content
             // logout current user
             wp_logout();
             // redirect user to home page
@@ -143,7 +143,7 @@ class NotairesController extends BasePublicController
         $this->set('messageError', '');
         if (isset($_REQUEST['error'])){
             if ($_REQUEST['error'] == 'FONCTION_NON_AUTORISE'){
-                $this->set('messageError', "Vous n'avez pas l'autorisation pour accéder à cette page.");
+                $this->set('messageError', CONST_ERROR_MSG_FONCTION_NON_AUTORISE);
             }
         }
 
@@ -303,6 +303,13 @@ class NotairesController extends BasePublicController
                 $this->set($priceVeilleLevelx, $price);
             }
         }
+
+        if (isset($_REQUEST['error'])){
+            if ($_REQUEST['error'] == 'NIVEAU_VEILLE_INSUFFISANT'){
+                $this->set('messageError', CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT);
+            }
+        }
+
         // tab rank
         $this->set('onglet', CONST_ONGLET_CRIDONLINE);
     }
@@ -423,6 +430,7 @@ class NotairesController extends BasePublicController
         $this->prepareSecureAccess();
 
         // set template vars
+        // @TODO to be completed with others notaire dynamic data
         $vars = $this->get_object();
         $this->set_vars($vars);
         return $vars;
@@ -468,6 +476,19 @@ class NotairesController extends BasePublicController
 
                 // update profil
                 $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
+
+                /**
+                 * Renouvellement mot de passe :
+                 * - notaire connecté dispose d'une adresse email perso
+                 * - seuls les notaires de fonctions 1, 2, 3, 6, 7, 8, 9, 10 peuvent accéder à la fonction
+                 * @see \Config::$allowedNotaryFunction
+                 */
+                if (isset($_POST['reset_pwd'])
+                    && !empty($this->current_notaire->email_adress)
+                    && filter_var($this->current_notaire->email_adress, FILTER_VALIDATE_EMAIL)
+                ) {
+                    $this->model->resetPwd($this->current_notaire->id);
+                }
             }
         }
         // set template vars
@@ -566,7 +587,9 @@ class NotairesController extends BasePublicController
         $this->set('collaborator_functions', $collaborator_functions);
 
         //@todo set list of existing collaborators
-        $this->set('collaborators', array());
+        //show every member of an office
+        $liste = $this->model->listOfficeMembers($this->current_notaire);
+        $this->set('liste', $liste);
 
         // tab rank
         $this->set('onglet', CONST_ONGLET_COLLABORATEUR);

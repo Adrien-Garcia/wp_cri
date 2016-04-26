@@ -503,6 +503,12 @@ if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_MONTH' ) ) {
 if ( !defined( 'CONST_EXPORT_CRIDONLINE_ERROR' ) ) {
     define( 'CONST_EXPORT_CRIDONLINE_ERROR', 'Export cridonline interrompu le : %s' );
 }
+if ( !defined( 'CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT' ) ) {
+    define( 'CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT', "Merci de souscrire à l'offre Crid'Online afin d'accéder à ce contenu." );
+}
+if ( !defined( 'CONST_ERROR_MSG_FONCTION_NON_AUTORISE' ) ) {
+    define( 'CONST_ERROR_MSG_FONCTION_NON_AUTORISE', "Vous n'avez pas l'autorisation pour accéder à cette page." );
+}
 
 if (!defined('CONST_CONNECTION_FAILED')) {
     define('CONST_CONNECTION_FAILED', 'La connexion à la base Oracle a échoué');
@@ -755,6 +761,20 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 
 // End of block for mobile
 
+// Reset pwd value to be inserted in YNOTAIRE
+if ( !defined( 'CONST_YTRAITEE_RESETPWD' ) ) {
+    define( 'CONST_YTRAITEE_RESETPWD', 3 );
+}
+if ( !defined( 'CONST_RESETPWD_ERROR' ) ) {
+    define( 'CONST_RESETPWD_ERROR', 'Renouvellement mot de passe interrompu le : %s' );
+}
+if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD' ) ) {
+    define( 'CONST_YDDEMDPTEL_RESETPWD', 2 );
+}
+if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD' ) ) {
+    define( 'CONST_YDDEMDPWEB_RESETPWD', 2 );
+}
+
 // id of collaborator on cri_fonction
 if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
     define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );
@@ -819,5 +839,38 @@ if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
 
-
+// Start of block Import Facture
+if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
+    define( 'CONST_TYPEFACTURE_CG', 'CG' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CS' ) ) { // cotisation supplementaire
+    define( 'CONST_TYPEFACTURE_CS', 'CS' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_TRAD' ) ) { // traduction
+    define( 'CONST_TYPEFACTURE_TRAD', 'TRAD' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_SAF' ) ) { // service d'assistance fiscale
+    define( 'CONST_TYPEFACTURE_SAF', 'SAF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CONF' ) ) { // formation
+    define( 'CONST_TYPEFACTURE_CONF', 'CONF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CO' ) ) { // offre éditeur CridOnline
+    define( 'CONST_TYPEFACTURE_CO', 'CO' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
+    define( 'BROCHNST_TYPEFACTURE_BROCH', 'BROCH' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFACTURETemp/' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_PATH', $uploadDir['basedir'] . '/factures/' );
+}
+if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_FACTURE', 'facture' );
+}
+// End of block Import Facture
 
