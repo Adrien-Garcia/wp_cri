@@ -135,13 +135,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 }
             } catch(Exception $e) {
                 // renommage fichier d'erreur
-                rename($document[0],
-                       str_replace(
-                           array('.pdf', '.PDF', '.Pdf'),
-                           array('.pdf.error', '.PDF.error', '.Pdf.error'),
-                           $document[0]
-                       )
-                );
+                rename($document[0],$document[0].'.error');
 
                 writeLog($e, 'importfactures.log');
             }
