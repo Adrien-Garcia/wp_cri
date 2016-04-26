@@ -63,7 +63,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     /**
      * Import des fichiers de façon iteratif
      *
-     * @param array $documents
+     * @param Iterator $documents
      * @param mixed $Iterator
      * @param int $limit
      * @param string $date
@@ -75,16 +75,16 @@ class Etude extends \App\Override\Model\CridonMvcModel {
             try {
                 if (!empty($document[0])) { // document existe
                     $fileInfo = pathinfo($document[0]);
-                    if (!empty($fileInfo['basename']) && preg_match_all(Config::$importFacturePattern, $fileInfo['basename'], $matches)) {
+                    if (!empty($fileInfo['basename']) && preg_match(Config::$importFacturePattern, $fileInfo['basename'], $matches)) {
                         $path = CONST_IMPORT_FACTURE_PATH . $date . DIRECTORY_SEPARATOR;
                         if (!file_exists($path)) { // repertoire manquant
                             // creation du nouveau repertoire
                             wp_mkdir_p($path);
                         }
                         // CRPCEN present
-                        if (!empty($matches[1][0]) && copy($document[0], $path . $fileInfo['basename'])) {
-                            $crpcen      = $matches[1][0];
-                            $typeFact    = $matches[3][0];
+                        if (!empty($matches[1]) && copy($document[0], $path . $fileInfo['basename'])) {
+                            $crpcen      = $matches[1];
+                            $typeFact    = $matches[3];
 
                             // donnees document
                             $docData = array(
