@@ -293,13 +293,14 @@ class NotairesController extends BasePublicController
         $this->set('notaire', $notaire);
 
         $options = array('conditions' => array('crpcen' => $notaire->crpcen));
+        /** @var $etude Etude*/
         $etude   = mvc_model('Etude')->find_one($options);
-        $subscriptionInfos = mvc_model('Etude')->getSubscriptionprice($etude,false,true);
+        $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
         if (is_array($subscriptionInfos) && count($subscriptionInfos) > 0) {
-            foreach ($subscriptionInfos as $subscriptionInfo) {
+            foreach ($subscriptionInfos as $level => $price) {
                 //set name of variable
-                $priceVeilleLevelx = 'priceVeilleLevel' . $subscriptionInfo['level'];
-                $this->set($priceVeilleLevelx, $subscriptionInfo['price']);
+                $priceVeilleLevelx = 'priceVeilleLevel' . $level;
+                $this->set($priceVeilleLevelx, $price);
             }
         }
         // tab rank

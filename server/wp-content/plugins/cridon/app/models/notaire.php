@@ -1448,7 +1448,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             } else {
                                 $next_subscription_level = $etude->subscription_level;
                             }
-                            $next_subscription_price = mvc_model('Etude')->getSubscriptionPrice($etude);
+                            $next_subscription_price = mvc_model('Etude')->getSubscriptionPrice($etude, true);
 
                             $start_subscription_date = date('Y-m-d', strtotime($etude->end_subscription_date));
                             $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
@@ -1538,7 +1538,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     if (!empty($etude->next_subscription_level)) {
                         $updateLevelValues[] = " crpcen = {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
                     }
-                    $nextSubscriptionPrice = mvc_model('Etude')->getSubscriptionPrice($etude);
+                    $nextSubscriptionPrice = mvc_model('Etude')->getSubscriptionPrice($etude, true);
                     $updatePriceValues[] = " crpcen = {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
                     $updateStartDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
                     $updateEndDateValues[] = " crpcen = {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
