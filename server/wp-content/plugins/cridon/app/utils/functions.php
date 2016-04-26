@@ -1009,18 +1009,3 @@ function CriGetCollaboratorRoles($collaborator) {
 function CriCanResetPwd() {
     return mvc_model('notaire')->userCanResetPwd();
 }
-
-/**
- * Get list of functions
- *
- * @param int|array $ids
- * @return mixed
- * @throws Exception
- */
-function CriListFunctions($ids = null) {
-    global $cri_container;
-    $tools = $cri_container->get( 'tools' );
-
-    return $tools->getFunctions($ids);
-
-}
