@@ -553,48 +553,6 @@ class CridonTools {
     }
 
     /**
-     * Recuperation liste fonction
-     *
-     * @param int|array $ids
-     * @return array|null|object
-     */
-    public function getFunctions($ids = null)
-    {
-        global $wpdb;
-
-        if (!empty($ids)) { // recuperation par list d'id
-            if (is_array($ids) && count($ids) > 0){
-                $ids = implode(',',esc_sql($ids));
-            }
-
-            $sql = " SELECT
-                            f.`id` as `id_fonction`,f.`label` as `notaire_fonction_label`,
-                            fc.`id` as `id_fonction_collaborateur`,
-                            fc.`label` as `collaborateur_fonction_label`
-                     FROM
-                            `{$wpdb->prefix}fonction` f
-                     LEFT JOIN
-                              ( SELECT * FROM `{$wpdb->prefix}fonction_collaborateur` WHERE displayed = ".CONST_DISPLAYED." ) fc
-                        ON
-                              f.`id` = fc.`id_fonction_notaire`
-                     WHERE
-                            f.`displayed` =".CONST_DISPLAYED."
-                        AND
-                            f.`id` in (  ". $ids .")";
-
-        } else { // recuperation de toutes les fonctions notaires
-            $sql = " SELECT
-                            f.`id` as `id_fonction`,
-                            f.`label` as `notaire_fonction_label`
-                     FROM
-                          `{$wpdb->prefix}fonction` f
-                    ";
-        }
-
-        return $wpdb->get_results($sql);
-    }
-
-    /**
      * Redirect by escaping header already send by...
      * useful outside the mvc_controller block
      *
