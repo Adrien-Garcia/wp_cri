@@ -503,6 +503,12 @@ if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_MONTH' ) ) {
 if ( !defined( 'CONST_EXPORT_CRIDONLINE_ERROR' ) ) {
     define( 'CONST_EXPORT_CRIDONLINE_ERROR', 'Export cridonline interrompu le : %s' );
 }
+if ( !defined( 'CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT' ) ) {
+    define( 'CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT', "Merci de souscrire à l'offre Crid'Online afin d'accéder à ce contenu." );
+}
+if ( !defined( 'CONST_ERROR_MSG_FONCTION_NON_AUTORISE' ) ) {
+    define( 'CONST_ERROR_MSG_FONCTION_NON_AUTORISE', "Vous n'avez pas l'autorisation pour accéder à cette page." );
+}
 
 if (!defined('CONST_CONNECTION_FAILED')) {
     define('CONST_CONNECTION_FAILED', 'La connexion à la base Oracle a échoué');
