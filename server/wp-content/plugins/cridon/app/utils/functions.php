@@ -692,7 +692,7 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
         $request = !empty($url) ? $url : "{$_SERVER['REQUEST_URI']}";
     }
 
-    if (! empty($referer) /*&& strripos( $request , $referer)*/ ){
+    if (! empty($referer) ){
         $redirect = $referer;
     } else {
         $redirect = get_home_url();
