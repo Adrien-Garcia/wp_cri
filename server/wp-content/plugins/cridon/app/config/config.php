@@ -507,4 +507,12 @@ class Config {
         CONST_QUESTIONECRITES_ROLE         => 'Poser des questions écrites',
         CONST_QUESTIONTELEPHONIQUES_ROLE   => 'Poser des questions téléphoniques',
     );
+
+    /**
+     * Selon la regle de nommage des fichiers factures à importer
+     * <CRPCEN_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
+     * @var string
+     */
+    public static $importFacturePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/i';
+    public static $importFactureParserPattern = '/^.*([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
 }
