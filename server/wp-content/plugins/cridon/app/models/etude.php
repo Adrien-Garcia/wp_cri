@@ -24,8 +24,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         $nbCollaboratorEtude = mvc_model('QueryBuilder')->countItems('notaire', $options);
 
         $subscriptionInfos = array();
-        foreach (Config::$pricesLevelsVeilles as $level => $grille) {
-            $prices = $grille[$level];
+        foreach (Config::$pricesLevelsVeilles as $level => $prices) {
             // Tri du tableau de prix par clé descendante
             krsort($prices);
             foreach ($prices as $nbCollaborator => $price) {
