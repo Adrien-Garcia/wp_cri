@@ -26,8 +26,8 @@
                      data-js-ajax-firstname="<?php echo $member->first_name; ?>"
                      data-js-ajax-phone="<?php echo $member->tel; ?>"
                      data-js-ajax-mobilephone="<?php echo $member->tel_portable; ?>"
-                     data-js-ajax-notairefunction="<?php echo $member->notaire_fonction_label; ?>"
-                     data-js-ajax-collaboratorfunction="<?php echo $member->collaborator_fonction_label; ?>"
+                     data-js-ajax-notairefunction="<?php echo $member->id_fonction; ?>"
+                     data-js-ajax-collaboratorfunction="<?php echo $member->id_fonction_collaborateur; ?>"
                      data-js-ajax-emailaddress="<?php echo $member->email_adress; ?>"
                      data-js-ajax-modify-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
                         <span class="nom"><?php echo $member->last_name ?> <?php echo $member->first_name ?></span>

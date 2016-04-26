@@ -2389,22 +2389,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     {
         global $cri_container;
 
-        // collaborator data
-        $collaborator                              = array();
-        $collaborator['first_name']                = isset($data['collaborator_first_name']) ? esc_sql($data['collaborator_first_name']) : '';
-        $collaborator['last_name']                 = isset($data['collaborator_last_name']) ? esc_sql($data['collaborator_last_name']) : '';
-        $collaborator['email_adress']              = isset($data['collaborator_email']) ? esc_sql($data['collaborator_email']) : '';
-        $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
-        $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
-        if (!empty($data['collaborator_function'])) {
-            list($id_fonction, $id_fonction_collaborateur) = explode("-", esc_sql($data['collaborator_function']), 2);
-            $collaborator['id_fonction'] = esc_sql($id_fonction);
-            if (!empty($id_fonction_collaborateur)) {
-                $collaborator['id_fonction_collaborateur'] = esc_sql($id_fonction_collaborateur);
-            }
-        };
-
-        // @todo data from notary to be confirmed
+        $collaborator = $this->fillCollaborator($data);
         $collaborator['client_number'] = $notary->client_number;
         $collaborator['crpcen']        = $notary->crpcen;
 
@@ -2466,36 +2451,46 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function updateCollaborator($data)
     {
-        // collaborator data
-        $collaborator                              = array();
-        $collaborator['first_name']                = isset($data['collaborator_first_name']) ? esc_sql($data['collaborator_first_name']) : '';
-        $collaborator['last_name']                 = isset($data['collaborator_last_name']) ? esc_sql($data['collaborator_last_name']) : '';
-        $collaborator['email_adress']              = isset($data['collaborator_email']) ? esc_sql($data['collaborator_email']) : '';
-        $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
-        $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
-        if (!empty($data['collaborator_function'])) {
-            list($id_fonction, $id_fonction_collaborateur) = explode("-", esc_sql($data['collaborator_function']), 2);
-            $collaborator['id_fonction'] = esc_sql($id_fonction);
-            $collaborator['id_fonction_collaborateur'] = empty($id_fonction_collaborateur) ? 0 : esc_sql($id_fonction_collaborateur);
-        };
+        $collaborator = $this->fillCollaborator($data);
 
         // update cri_notaire data
-        $collaborator['id'] = $data['collaborator_id'];
-        if ($this->save($collaborator)) { // successful update
+        $collaborator['id'] = isset($data['collaborator_id']) ? esc_sql($data['collaborator_id']) : '';
+        if (!empty($collaborator['id']) && $this->save($collaborator)) { // successful update
             // manage roles
             $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
             // reset all roles
-            $this->resetUserRoles($user);
+
+            /*$this->resetUserRoles($user);
 
             // add new posted roles in data
             foreach (Config::$notaryRoles as $role => $label) {
                 if (isset($data[$role])) {
                     $user->add_role($role);
                 }
-            }
+            }*/
             return true;
         }
         return false;
+    }
+
+    public function fillCollaborator($data){
+        $collaborator                              = array();
+        $collaborator['first_name']                = isset($data['collaborator_first_name']) ? esc_sql($data['collaborator_first_name']) : '';
+        $collaborator['last_name']                 = isset($data['collaborator_last_name']) ? esc_sql($data['collaborator_last_name']) : '';
+        $collaborator['email_adress']              = isset($data['collaborator_email']) ? esc_sql($data['collaborator_email']) : '';
+        $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
+        $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
+        $collaborator['fax']                       = isset($data['collaborator_fax']) ? esc_sql($data['collaborator_fax']) : '';
+        if (!empty($data['collaborator_id_function_notaire'])){
+            $collaborator['id_fonction'] = esc_sql($data['collaborator_id_function_notaire']);
+        }
+        if (!empty($data['collaborator_id_function_collaborator'])){
+            $collaborator['id_fonction_collaborateur'] = esc_sql($data['collaborator_id_function_collaborator']);
+        } elseif (!empty($data['collaborator_id_function_notaire']) && $data['collaborator_id_function_notaire'] != CONST_NOTAIRE_COLLABORATEUR){
+            $collaborator['id_fonction_collaborateur'] = 0;
+        }
+
+        return $collaborator;
     }
 
     /**
@@ -3015,13 +3010,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             ),
             'not' => array(
                 'cn.id'          => $notary->id,
-            ),
-            'in' => array(
-                'cn.id_fonction'    => array(
-                    CONST_NOTAIRE_SALARIE,
-                    CONST_NOTAIRE_SALARIEE,
-                    CONST_NOTAIRE_COLLABORATEUR
-                )
             ),
             'synonym'    => 'cn',
             'join'       => array(

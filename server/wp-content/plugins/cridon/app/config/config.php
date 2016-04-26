@@ -502,4 +502,13 @@ class Config {
         CONST_QUESTIONECRITES_ROLE         => 'Poser des questions écrites',
         CONST_QUESTIONTELEPHONIQUES_ROLE   => 'Poser des questions téléphoniques',
     );
+
+    /**
+     * @var array list of actions specific to collaborateur tab
+     */
+    public static $collaborateurActions = array(
+        CONST_CREATE_USER,
+        CONST_MODIFY_USER,
+        CONST_DELETE_USER
+    );
 }

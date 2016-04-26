@@ -26,22 +26,33 @@
             <input type="text" name="collaborator_tel_portable" placeholder="<?php _e('Téléphone mobile'); ?>" id="collaborator_tel_portable" class="js-account-collaborateur-add-mobilephone" value="<?php echo empty($collaborator['mobilephone']) ? '' : $collaborator['mobilephone'] ?>">
         </div>
         <div>
-            <!-- <label for="collaborator_function">Fonction</label> -->
-            <select name="collaborator_function" placeholder="<?php _e('Fonction'); ?>" id="collaborator_function" class="js-account-collaborateur-add-function" value="" required>
+            <!-- <label for="notaire_function">Fonction</label> -->
+            <select name="notaire_function" id="notaire_function" class="js-account-collaborateur-add-function" required>
                 <option value="" disabled selected><?php _e('Fonction *'); ?></option>
-                <?php if(is_array($collaborator_functions) && count($collaborator_functions) > 0): ?>
-                    <?php foreach($collaborator_functions as $item): ?>
-                        <?php $selected = ''; ?>
-                        <?php if (!empty($collaborator['collaboratorfunction'])) : ?>
-                            <?php if ($item->collaborateur_fonction_label == $collaborator['collaboratorfunction']){$selected = 'selected';}  ?>
-                        <?php elseif (!empty($collaborator['notairefunction']) && $item->notaire_fonction_label == $collaborator['notairefunction']) : $selected = 'selected' ?>
-                        <?php endif; ?>
-                        <option value="<?php echo $item->id_fonction.'-'.$item->id_fonction_collaborateur; ?>" <?php echo $selected ?>>
-                            <?php echo $item->id_fonction == CONST_NOTAIRE_COLLABORATEUR ? $item->collaborateur_fonction_label : $item->notaire_fonction_label ; ?>
+                <?php if(is_array($notaire_functions) && count($notaire_functions) > 0): ?>
+                    <?php foreach($notaire_functions as $item) : ?>
+                        <?php $selected = !empty($collaborator['notairefunction']) && $item->id_fonction_notaire == $collaborator['notairefunction'] ? 'selected' : ''; ?>
+                        <option value="<?php echo $item->id_fonction_notaire; ?>" <?php echo $selected ?>>
+                            <?php echo $item->notaire_fonction_label; ?>
                         </option>
                     <?php endforeach; ?>
                 <?php endif ?>
             </select>
+        </div>
+        <!-- <label for="collaborator_function">Fonction</label> -->
+        <select name="collaborator_function" id="collaborator_function" class="js-account-collaborateur-add-functioncollaborator <?php echo empty($collaborator['collaboratorfunction']) ? 'hidden' : '' ?>">
+            <option value="" disabled selected><?php _e('Fonction Collaborateur'); ?></option>
+            <?php if(is_array($collaborateur_functions) && count($collaborateur_functions) > 0): ?>
+                <?php foreach($collaborateur_functions as $item): ?>
+                    <?php $selected = !empty($collaborator['collaboratorfunction']) && $item->id_fonction_collaborateur == $collaborator['collaboratorfunction'] ? 'selected' : ''; ?>
+                    <option value="<?php echo $item->id_fonction_collaborateur; ?>" <?php echo $selected ?>>
+                        <?php echo $item->collaborateur_fonction_label; ?>
+                    </option>
+                <?php endforeach; ?>
+            <?php endif ?>
+        </select>
+        <div>
+
         </div>
         <div>
             <!-- <label for="collaborator_email">E-mail</label> -->

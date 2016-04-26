@@ -283,11 +283,6 @@ jQuery(document).ready(function($) {
 
 
     /* POPUP update profil */
-    $("#mon-profil .update-profil").click(function(){
-        //console.log('ah coucou');
-        $('#layer-update-profil').popup('show');
-    });
-
     $(".close_layer").click(function(){
         //console.log('ah coucou');
         $('#layer-update-profil').popup('hide');

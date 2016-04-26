@@ -87,7 +87,18 @@
 				<?php endif ?>
 			</div>	
 
-			<div class="update update-profil"><?php _e('Modifier mes informations'); ?></div>
+			<div class="update update-profil js-account-profil-modify"
+				 data-js-ajax-id="<?php echo $notaire->id; ?>"
+				 data-js-ajax-lastname="<?php echo $notaire->last_name; ?>"
+				 data-js-ajax-firstname="<?php echo $notaire->first_name; ?>"
+				 data-js-ajax-phone="<?php echo $notaire->tel; ?>"
+				 data-js-ajax-mobilephone="<?php echo $notaire->tel_portable; ?>"
+				 data-js-ajax-fax="<?php echo $notaire->fax; ?>"
+				 data-js-ajax-notairefunction="<?php echo $notaire->id_fonction; ?>"
+				 data-js-ajax-collaboratorfunction="<?php echo $notaire->id_fonction_collaborateur; ?>"
+				 data-js-ajax-emailaddress="<?php echo $notaire->email_adress; ?>"
+				 data-js-ajax-modify-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
+			><?php _e('Modifier mes informations'); ?></div>
 
 		</div>
 

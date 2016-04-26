@@ -561,12 +561,18 @@ if ( !defined( 'CONST_COLLABORATEUR_ADD_ERROR_MSG' ) ) {
 if ( !defined( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG' ) ) {
     define( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG', 'Le collaborateur a bien été modifié.' );
 }
+if ( !defined( 'CONST_PROFIL_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_MODIFY_SUCCESS_MSG', 'Votre profil a bien été modifié.' );
+}
 
 if ( !defined( 'CONST_CREATE_USER' ) ) {
     define( 'CONST_CREATE_USER', 'create_user' );
 }
 if ( !defined( 'CONST_MODIFY_USER' ) ) {
     define( 'CONST_MODIFY_USER', 'modify_user' );
+}
+if ( !defined( 'CONST_PROFIL_MODIFY_USER' ) ) {
+    define( 'CONST_PROFIL_MODIFY_USER', 'profil_modify_user' );
 }
 if ( !defined( 'CONST_DELETE_USER' ) ) {
     define( 'CONST_DELETE_USER', 'delete_user' );

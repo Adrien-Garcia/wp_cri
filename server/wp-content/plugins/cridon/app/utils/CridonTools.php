@@ -535,25 +535,40 @@ class CridonTools {
     }
 
     /**
-     * Renvoie une / toutes fonction(s) collaborateur
+     * Renvoie une / plusieurs /toutes les fonctions notaires
      *
+     * @param array $ids of functions wanted
      * @return array|null|object
      */
-    public function getFunctionCollaborator()
+    public function getNotaireFunctions()
     {
         global $wpdb;
 
-        $sql = " SELECT f.`id` as `id_fonction`,f.`label` as `notaire_fonction_label`,fc.`id` as `id_fonction_collaborateur`,fc.`label` as `collaborateur_fonction_label`
+        $sql = " SELECT f.`id` as `id_fonction_notaire`,f.`label` as `notaire_fonction_label`
         FROM `{$wpdb->prefix}fonction` f
-        LEFT JOIN ( SELECT * FROM `{$wpdb->prefix}fonction_collaborateur` WHERE displayed = ".CONST_DISPLAYED." ) fc ON f.`id` = fc.`id_fonction_notaire`
-        WHERE f.`displayed` =".CONST_DISPLAYED."
-        AND f.`id` in (  ".CONST_NOTAIRE_SALARIE."
-                        ,".CONST_NOTAIRE_SALARIEE."
-                        ,".CONST_NOTAIRE_COLLABORATEUR.")";
-
+        WHERE f.`displayed` =".CONST_DISPLAYED;
 
         return $wpdb->get_results($sql);
     }
+
+
+    /**
+     * Renvoie une / plusieurs / toutes les fonctions collaborateur
+     *
+     * @param array $ids of functions wanted
+     * @return array|null|object
+     */
+    public function getCollaboratorFunctions()
+    {
+        global $wpdb;
+
+        $sql = " SELECT fc.`id` as `id_fonction_collaborateur`,fc.`label` as `collaborateur_fonction_label`
+        FROM `{$wpdb->prefix}fonction_collaborateur` fc
+        WHERE fc.`displayed` =".CONST_DISPLAYED;
+
+        return $wpdb->get_results($sql);
+    }
+
 
     /**
      * Redirect by escaping header already send by...

@@ -19,7 +19,7 @@ App.Account = {
     accountProfilNewsletterSelector     : '-newsletter',
     accountCollaborateurDeleteSelector  : '-delete',
     accountCollaborateurAddSelector     : '-add',
-    accountCollaborateurModifySelector  : '-modify',
+    accountModifySelector               : '-modify',
     accountFormSelector                 : '-form',
 
     accountEmailSelector                : '-email',
@@ -36,7 +36,9 @@ App.Account = {
     accountLastnameSelector             : '-lastname',
     accountPhoneSelector                : '-phone',
     accountMobilephoneSelector          : '-mobilephone',
+    accountFaxSelector                  : '-fax',
     accountFunctionSelector             : '-function',
+    accountFunctioncollaborateurSelector: '-functioncollaborator',
     accountActionSelector               : '-action',
 
     ajaxSelector                        : '-ajax',
@@ -52,9 +54,11 @@ App.Account = {
     accountSoldeDataSelector            : '#js-solde-data',
     accountSoldeSVGSelector             : '#solde-circle-path',
     accountPopupCridonline              : '#layer-cridonline',
+    accountProfil                       : '#profil',
     accountCridonline                   : '#cridonline',
     accountPopupCollaborateurDelete     : '#layer-collaborateur-delete',
     accountPopupCollaborateurAdd        : '#layer-collaborateur-add',
+    accountPopupProfilModify            : '#layer-update-profil',
 
     eventAccountButtonSelector          : '-button',
 
@@ -89,6 +93,7 @@ App.Account = {
     $accountProfilNewsletterMessage     : null,
     $accountProfilNewsletterEmail       : null,
     $accountProfilNewsletterState       : null,
+    $accountProfilModifyAccount         : null,
 
     $accountCollaborateurDeleteId       : null,
 
@@ -102,6 +107,7 @@ App.Account = {
     $popupCridonline                    : null,
     $popupCollaborateurDelete           : null,
     $popupCollaborateurAdd              : null,
+    $popupProfilModify                  : null,
 
     $accountSoldeData                   : null,
     $accountSoldeSVG                    : null,
@@ -219,20 +225,45 @@ App.Account = {
         this.$accountProfilNewsletterForm = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountFormSelector);
         this.$accountProfilNewsletterForm.append(nonce);
 
+        this.$accountProfilModifyForm = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFormSelector);
+
         this.$accountProfilNewsletterMessage = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountMessageSelector);
-        this.$accountProfilNewsletterEmail = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountEmailSelector);
-        this.$accountProfilNewsletterState = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountStateSelector);
+        this.$accountProfilNewsletterEmail   = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountEmailSelector);
+        this.$accountProfilNewsletterState   = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountStateSelector);
+        this.$accountProfilModify            = $(d + this.accountProfilSelector + this.accountModifySelector);
 
+        this.$accountProfilModifyId          = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountIdSelector);
+        this.$accountProfilAction            = $(d + this.accountProfilSelector + this.accountActionSelector);
+        this.$accountProfilModifyFirstname   = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFirstnameSelector);
+        this.$accountProfilModifyLastname    = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountLastnameSelector);
+        this.$accountProfilModifyPhone       = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountPhoneSelector);
+        this.$accountProfilModifyMobilephone = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountMobilephoneSelector);
+        this.$accountProfilModifyFax         = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFaxSelector);
+        this.$accountProfilModifyEmail       = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountEmailSelector);
 
-        this.$accountProfilSubscription = $(d + this.accountProfilSelector + this.accountProfilSubscriptionSelector);
+        this.$popupProfilModify              = $(this.accountPopupProfilModify);
+        this.$accountProfilSubscription      = $(d + this.accountProfilSelector + this.accountProfilSubscriptionSelector);
+
+        this.popupProfilModifyInit();
 
         this.addListenersProfil();
+    },
+
+    popupProfilModifyInit: function() {
+        var self = this;
+        this.$popupProfilModify.popup({
+            transition: 'all 0.3s',
+            scrolllock: true,
+            opacity: 0.8,
+            color: '#324968',
+            offsettop: 10,
+            vertical: top
+        });
     },
 
     initFacturation: function() {
         this.debug('Account : Init Facturation');
         this.addListenersFacturation();
-
     },
 
     initCollaborateur: function() {
@@ -242,9 +273,9 @@ App.Account = {
 
         var nonce   = document.createElement('input');
         nonce.type  = 'hidden';
-        nonce.name  = 'tokencollaborateur';
-        nonce.id    = 'tokencollaborateur';
-        nonce.value = jsvar.collaborateur_nonce;
+        nonce.name  = 'tokencrud';
+        nonce.id    = 'tokencrud';
+        nonce.value = jsvar.crud_nonce;
 
         this.$accountCollaborateurDeleteValidationForm    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurDeleteSelector + this.accountValidationSelector + this.accountFormSelector);
         this.$accountCollaborateurDeleteValidationForm.append(nonce);
@@ -266,9 +297,10 @@ App.Account = {
         this.$accountCollaborateurAddEmail       = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountEmailSelector);
         this.$accountCollaborateurAddFunction    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFunctionSelector);
         this.$accountCollaborateurAddMessage     = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountMessageSelector);
+        this.$accountCollaborateurAddFunctioncollaborateur = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFunctioncollaborateurSelector);
         this.$accountCollaborateurAction         = $(d + this.accountCollaborateurSelector + this.accountActionSelector);
-        this.$accountCollaborateurModify         = $(d + this.accountCollaborateurSelector + this.accountCollaborateurModifySelector);
-        this.$accountCollaborateurModifyId       = $(d + this.accountCollaborateurSelector + this.accountCollaborateurModifySelector + this.accountIdSelector);
+        this.$accountCollaborateurModify         = $(d + this.accountCollaborateurSelector + this.accountModifySelector);
+        this.$accountCollaborateurModifyId       = $(d + this.accountCollaborateurSelector + this.accountModifySelector + this.accountIdSelector);
 
         this.popupCollaborateurDeleteInit();
         this.popupCollaborateurAddInit();
@@ -466,6 +498,17 @@ App.Account = {
             self.eventAccountProfilNewsletterSubmit($(this));
             return false;
         });
+
+        this.$accountProfilModify.on('click', function (e) {
+            self.eventAccountProfilModifyPopup($(this));
+            return false;
+        });
+
+        $(document).on('submit',this.$accountProfilModifyForm.selector, function (e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountProfilModifySubmit($(this));
+        });
     },
 
     /*
@@ -543,6 +586,10 @@ App.Account = {
             e.returnValue = false;
             e.preventDefault();
             self.eventAccountCollaborateurModifyPopup($(this));
+        });
+
+        $(document).on('change',this.$accountCollaborateurAddFunction.selector, function(e){
+            self.eventAccountCollaborateurChangeFunction($(this));
         });
 
         $(document).on('submit',this.$accountCollaborateurAddForm.selector, function (e) {
@@ -764,6 +811,74 @@ App.Account = {
         return false;
     },
 
+    eventAccountProfilModifyPopup: function(div){
+        jQuery.ajax({
+            type: 'GET',
+            url: div.data('js-ajax-modify-url'),
+            data: {
+                action: jsvar.profil_modify_user,
+                collaborator_id: div.data('js-ajax-id'),
+                collaborator_lastname: div.data('js-ajax-lastname'),
+                collaborator_firstname: div.data('js-ajax-firstname'),
+                collaborator_phone: div.data('js-ajax-phone'),
+                collaborator_mobilephone: div.data('js-ajax-mobilephone'),
+                collaborator_fax: div.data('js-ajax-fax'),
+                collaborator_notairefunction: div.data('js-ajax-notairefunction'),
+                collaborator_collaboratorfunction: div.data('js-ajax-collaboratorfunction'),
+                collaborator_emailaddress: div.data('js-ajax-emailaddress')
+            },
+            success: this.successProfilModifyPopup.bind(this)
+        });
+        return false;
+    },
+
+    successProfilModifyPopup: function(data){
+        data = JSON.parse(data);
+
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'tokencrud';
+        nonce.id    = 'tokencrud';
+        nonce.value = jsvar.crud_nonce;
+
+        this.$popupProfilModify.html(data.view).append(nonce).popup('show');
+    },
+
+    eventAccountProfilModifySubmit: function(form) {
+        jQuery.ajax({
+            type: 'POST',
+            url: form.data('js-ajax-modify-url'),
+            data: {
+                token: $('#tokencrud').val(),
+                action: form.find(this.$accountProfilAction.selector).val(),
+                collaborator_id: form.find(this.$accountProfilModifyId.selector).val(),
+                collaborator_first_name: form.find(this.$accountProfilModifyFirstname.selector).val(),
+                collaborator_last_name: form.find(this.$accountProfilModifyLastname.selector).val(),
+                collaborator_tel: form.find(this.$accountProfilModifyPhone.selector).val(),
+                collaborator_tel_portable: form.find(this.$accountProfilModifyMobilephone.selector).val(),
+                collaborator_tel_fax: form.find(this.$accountProfilModifyFax.selector).val(),
+                collaborator_email: form.find(this.$accountProfilModifyEmail.selector).val()
+            },
+            success: this.successProfilModify.bind(this)
+        });
+        return false;
+    },
+
+    successProfilModify: function (data) {
+        data = JSON.parse(data);
+        // create message block
+        if (data != undefined && data.error != undefined) {
+            var content = $(document.createElement('ul'));
+            content.append($(document.createElement('li')));
+            var message = jsvar.collaborateur_modify_error;
+            content.find('li').last().text(message);
+            $(this.$accountProfilModifyMessage.selector).html('').append(content);
+        } else {
+            window.location.href = data.view;
+        }
+        return false;
+    },
+
     eventAccountCridonlineSubmit: function (form) {
         jQuery.ajax({
             type: 'GET',
@@ -798,7 +913,7 @@ App.Account = {
             data: {
                 action: jsvar.collaborateur_delete_user,
                 collaborator_id: this.$accountCollaborateurDeleteValidationId.value,
-                token: $('#tokencollaborateur').val()
+                token: $('#tokencrud').val()
             },
             success: this.successCollaborateurDelete.bind(this)
         });
@@ -859,12 +974,20 @@ App.Account = {
         this.$popupCollaborateurAdd.html(data.view).popup('show');
     },
 
+    eventAccountCollaborateurChangeFunction: function(data){
+        if (data.find(':selected').val() == jsvar.collaborateur_id_function){
+            $(this.$accountCollaborateurAddFunctioncollaborateur.selector).removeClass('hidden');
+        } else {
+            $(this.$accountCollaborateurAddFunctioncollaborateur.selector).addClass('hidden');
+        }
+    },
+
     eventAccountCollaborateurAddSubmit: function(form) {
         jQuery.ajax({
             type: 'POST',
             url: form.data('js-ajax-add-url'),
             data: {
-                token: $('#tokencollaborateur').val(),
+                token: $('#tokencrud').val(),
                 action: form.find(this.$accountCollaborateurAction.selector).val(),
                 collaborator_id: form.find(this.$accountCollaborateurModifyId.selector).val(),
                 collaborator_first_name: form.find(this.$accountCollaborateurAddFirstname.selector).val(),
@@ -872,7 +995,8 @@ App.Account = {
                 collaborator_tel: form.find(this.$accountCollaborateurAddPhone.selector).val(),
                 collaborator_tel_portable: form.find(this.$accountCollaborateurAddMobilephone.selector).val(),
                 collaborator_email: form.find(this.$accountCollaborateurAddEmail.selector).val(),
-                collaborator_function: form.find(this.$accountCollaborateurAddFunction.selector).val()
+                collaborator_id_function_notaire: form.find(this.$accountCollaborateurAddFunction.selector).val(),
+                collaborator_id_function_collaborator: form.find(this.$accountCollaborateurAddFunctioncollaborateur.selector).val()
             },
             success: this.successCollaborateurAdd.bind(this)
         });

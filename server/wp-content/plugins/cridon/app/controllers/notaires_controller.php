@@ -372,7 +372,7 @@ class NotairesController extends BasePublicController
         $ret = 'invalidemail';
 
         // Verify that the nonce is valid.
-        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_newsletter_nonce') && isset($_REQUEST['email'])) {
+        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_profil_nonce') && isset($_REQUEST['email'])) {
             // find the notaire email
             $notaire = $this->model->find_one_by_email_adress($_REQUEST['email']);
 
@@ -559,6 +559,8 @@ class NotairesController extends BasePublicController
                 $message = CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG;
             } elseif ($_REQUEST['message'] == 'delete'){
                 $message = CONST_COLLABORATEUR_DELETE_SUCCESS_MSG;
+            } elseif ($_REQUEST['message'] == 'modifyprofil'){
+                $message = CONST_PROFIL_MODIFY_SUCCESS_MSG;
             }
         }
         $this->set('message', $message);
@@ -589,41 +591,57 @@ class NotairesController extends BasePublicController
 
     public function gestioncollaborateur(){
         if (!empty($_GET['action']) ) {
-            // list of function
-            $collaborator_functions = $this->tools->getFunctionCollaborator();
-            // set list of collaborator functions
-            $this->set('collaborator_functions', $collaborator_functions);
 
             $collaborator = array();
             $collaborator['id'] = empty($_GET['collaborator_id']) ? '' : $_GET['collaborator_id'] ;
             $collaborator['action'] = empty($_GET['action']) ? '' : $_GET['action'] ;
             $collaborator['lastname'] = empty($_GET['collaborator_lastname']) ? '' : $_GET['collaborator_lastname'] ;
             $collaborator['firstname'] = empty($_GET['collaborator_firstname']) ? '' : $_GET['collaborator_firstname'] ;
-            $collaborator['phone'] = empty($_GET['collaborator_phone']) ? '' : $_GET['collaborator_phone'] ;
-            $collaborator['mobilephone'] = empty($_GET['collaborator_mobilephone']) ? '' : $_GET['collaborator_mobilephone'] ;
-            $collaborator['notairefunction'] = empty($_GET['collaborator_notairefunction']) ? '' : $_GET['collaborator_notairefunction'] ;
-            $collaborator['collaboratorfunction'] = empty($_GET['collaborator_collaboratorfunction']) ? '' : $_GET['collaborator_collaboratorfunction'] ;
+            $collaborator['phone'] = empty($_GET['collaborator_phone']) ? '' : trim($_GET['collaborator_phone']) ;
+            $collaborator['mobilephone'] = empty($_GET['collaborator_mobilephone']) ? '' : trim($_GET['collaborator_mobilephone']) ;
             $collaborator['emailaddress'] = empty($_GET['collaborator_emailaddress']) ? '' : $_GET['collaborator_emailaddress'] ;
+            $collaborator['notairefunction'] = empty($_GET['collaborator_notairefunction']) ? '' : $_GET['collaborator_notairefunction'];
+            $collaborator['collaboratorfunction'] = empty($_GET['collaborator_collaboratorfunction']) ? '' : $_GET['collaborator_collaboratorfunction'];
+
+            $notaire_functions = $this->tools->getNotaireFunctions();
+            // set list of notaire functions
+            $this->set('notaire_functions', $notaire_functions);
+
+            $collaborateur_functions = $this->tools->getCollaboratorFunctions();
+            // set list of collaborator functions
+            $this->set('collaborateur_functions', $collaborateur_functions);
+
+            if (!in_array($_GET['action'],Config::$collaborateurActions)){
+                $collaborator['fax'] = empty($_GET['collaborator_fax']) ? '' : trim($_GET['collaborator_fax']) ;
+            }
+
             $this->set('collaborator',$collaborator);
+
 
             $vars = $this->view_vars;
             $vars['is_ajax'] = true;
             $vars['controller'] = $vars['this'];
 
-            $data = CriRenderView('collaborateurajoutpopup', $vars,'notaires', false);
+            if (in_array($_GET['action'],Config::$collaborateurActions)) {
+                $data = CriRenderView('collaborateurajoutpopup', $vars, 'notaires', false);
+            } else {
+                $data = CriRenderView('contentupdateprofilpopup', $vars, 'notaires', false);
+            }
+
             $json = array(
                 'view' => $data,
             );
             echo json_encode($json);
             die();
         }
-        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_collaborateur_nonce')) {
+        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_crud_nonce')) {
             // post form
             if (!empty($_POST['action'])){
                 // Clean $_POST before
                 $data = $this->tools->clean($_POST);
                 //get current notaire
                 $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+                $action = 'collaborateur';
                 switch ($_POST['action']){
                     case CONST_CREATE_USER:
                         $this->addCollaborateur($this->current_notaire,$data);
@@ -637,8 +655,13 @@ class NotairesController extends BasePublicController
                         $this->deleteCollaborateur($this->current_notaire,$data);
                         $message='delete';
                         break;
+                    case CONST_PROFIL_MODIFY_USER:
+                        $this->modifyCollaborateur($this->current_notaire,$data);
+                        $message='modifyprofil';
+                        $action = 'profil';
+                        break;
                 }
-                $url = mvc_public_url(array('controller' => 'notaires','action' => 'collaborateur'));
+                $url = mvc_public_url(array('controller' => 'notaires','action' => $action));
                 $url.='?message='.$message;
                 echo json_encode(array('view' => $url));
                 die();
@@ -686,7 +709,7 @@ class NotairesController extends BasePublicController
     public function deleteCollaborateur($current_notaire,$data)
     {
         $collaborator_id = $data['collaborator_id'];
-        if (!empty ($collaborator_id) && isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_collaborateur_nonce')) {
+        if (!empty ($collaborator_id)) {
             // check if user can manage collaborator
             if (!in_array($current_notaire->id_fonction, Config::$allowedNotaryFunction)
                 || !$this->tools->isSameOffice($collaborator_id, $current_notaire)
