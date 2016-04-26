@@ -2341,7 +2341,34 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 }
                 // add notary capability by level
                 if (property_exists($notary, 'level') && intval($notary->level) > 0) {
-                    $user->add_cap('access_level_' . intval($notary->level));
+                    switch (intval($notary->level)) {
+                        case 3 :
+                            // add cap for level 3
+                            $user->add_cap(CONST_ACCESS_LEVEL_3);
+                            // add cap for level 2
+                            $user->add_cap(CONST_ACCESS_LEVEL_2);
+                            // add cap for level 1
+                            $user->add_cap(CONST_ACCESS_LEVEL_1);
+                            break;
+
+                        case 2 :
+                            // remove cap for level 3
+                            $user->remove_cap(CONST_ACCESS_LEVEL_3);
+                            // add cap for level 2
+                            $user->add_cap(CONST_ACCESS_LEVEL_2);
+                            // add cap for level 1
+                            $user->add_cap(CONST_ACCESS_LEVEL_1);
+                            break;
+
+                        default:
+                            // remove cap for level 3
+                            $user->remove_cap(CONST_ACCESS_LEVEL_3);
+                            // remove cap for level 2
+                            $user->remove_cap(CONST_ACCESS_LEVEL_2);
+                            // add cap for level 1
+                            $user->add_cap(CONST_ACCESS_LEVEL_1);
+                            break;
+                    }
                 }
                 /**
                  * finance role
@@ -2378,10 +2405,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             && intval($notary->level) > 0
         ) {
             // update capability
-            switch ($notary->level) {
+            switch (intval($notary->level)) {
                 case 3 :
                     // add cap for level 3
                     $user->add_cap(CONST_ACCESS_LEVEL_3);
+                    // add cap for level 2
+                    $user->add_cap(CONST_ACCESS_LEVEL_2);
+                    // add cap for level 1
+                    $user->add_cap(CONST_ACCESS_LEVEL_1);
                     break;
 
                 case 2 :
@@ -2389,6 +2420,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $user->remove_cap(CONST_ACCESS_LEVEL_3);
                     // add cap for level 2
                     $user->add_cap(CONST_ACCESS_LEVEL_2);
+                    // add cap for level 1
+                    $user->add_cap(CONST_ACCESS_LEVEL_1);
                     break;
 
                 default:

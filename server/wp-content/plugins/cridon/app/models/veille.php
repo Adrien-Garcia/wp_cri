@@ -74,9 +74,16 @@ class Veille extends \App\Override\Model\CridonMvcModel {
             $notaryData = mvc_model('Notaire')->getUserConnectedData();
             // veilles data
             $veille     = $this->associatePostWithDocumentByPostName($object->params['id']);
-
+            // get user cap level
+            $capLevel    = 'access_level_' . $veille->level;
             // subscription_level must be >= veille_level
-            return ($notaryData->etude->subscription_level >= $veille->level || $notaryData->etude->end_subscription_date_veille >= date('Y-m-d'));
+            if (!in_array($notaryData->category, Config::$notaryNoDefaultOffice)
+                && ($notaryData->etude->subscription_level >= $veille->level || $notaryData->etude->end_subscription_date_veille >= date('Y-m-d'))
+            ) { // Categ OFF
+                return (current_user_can($capLevel));
+            } else { // Categ DIV or ORG
+                return (current_user_can($capLevel));
+            }
         } else {
             return false;
         }
