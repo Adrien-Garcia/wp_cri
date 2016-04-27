@@ -36,13 +36,13 @@ foreach ($conso as $key => $item) {
     if (!empty($item->aaaammdd)) {
         // recuperation de l'annee AAAA
         $year = substr($item->aaaammdd, 0, 4);
-        if ($key == 0) { // premiere iteration
-            $crpcenTemp = $item->crpcen;
-            $yearTemp   = $year;
-            $dateTemp   = $item->aaaammdd;
+        if ($key == 0) { // L'année la plus récente (cf ORDER BY) est conservée
+            $crpcenLast = $item->crpcen;
+            $yearLast   = $year;
+            $dateLast   = $item->aaaammdd;
         } else { // prochaines iterations
-            if ($crpcenTemp == $item->crpcen) { // meme crpcen
-                if ($yearTemp == $year && $item->aaaammdd < $dateTemp) { // document meme annee
+            if ($crpcenLast == $item->crpcen) { // meme crpcen
+                if ($yearLast == $year && $item->aaaammdd < $dateLast) { // document meme annee
                     $file = $uploadDir['basedir'] . $item->file_path;
 
                     // suppression enregistrement de la BDD
@@ -51,14 +51,14 @@ foreach ($conso as $key => $item) {
                     // supression physique du fichier correspondant
                     @unlink($file);
                 } else { // on change d'annee
-                    $crpcenTemp = $item->crpcen;
-                    $yearTemp   = $year;
-                    $dateTemp   = $item->aaaammdd;
+                    $crpcenLast = $item->crpcen;
+                    $yearLast   = $year;
+                    $dateLast   = $item->aaaammdd;
                 }
             } else { // on passe au prochain crpcen
-                $crpcenTemp = $item->crpcen;
-                $yearTemp   = $year;
-                $dateTemp   = $item->aaaammdd;
+                $crpcenLast = $item->crpcen;
+                $yearLast   = $year;
+                $dateLast   = $item->aaaammdd;
             }
         }
     }

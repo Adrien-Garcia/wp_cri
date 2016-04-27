@@ -152,6 +152,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      *
      * @param string $type
      * @throws Exception
+     * @return int
      */
     protected function importByType($type = 'facture')
     {
