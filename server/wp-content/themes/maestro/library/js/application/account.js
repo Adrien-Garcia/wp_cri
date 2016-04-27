@@ -240,6 +240,7 @@ App.Account = {
         this.$accountProfilModifyMobilephone = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountMobilephoneSelector);
         this.$accountProfilModifyFax         = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFaxSelector);
         this.$accountProfilModifyEmail       = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountEmailSelector);
+        this.$accountProfilModifyMessage     = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountMessageSelector);
 
         this.$popupProfilModify              = $(this.accountPopupProfilModify);
         this.$accountProfilSubscription      = $(d + this.accountProfilSelector + this.accountProfilSubscriptionSelector);
@@ -508,6 +509,10 @@ App.Account = {
             e.returnValue = false;
             e.preventDefault();
             self.eventAccountProfilModifySubmit($(this));
+        });
+
+        $(document).on('change',this.$accountProfilModifyEmail.selector, function (e) {
+            self.eventAccountProfilModifyEmail();
         });
     },
 
@@ -844,6 +849,13 @@ App.Account = {
         this.$popupProfilModify.html(data.view).append(nonce).popup('show');
     },
 
+    eventAccountProfilModifyEmail: function() {
+        var message = jsvar.profil_modify_email;
+        var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+        $(this.$accountProfilModifyMessage.selector).html('').append(content);
+        return false;
+    },
+
     eventAccountProfilModifySubmit: function(form) {
         jQuery.ajax({
             type: 'POST',
@@ -868,11 +880,9 @@ App.Account = {
         data = JSON.parse(data);
         // create message block
         if (data != undefined && data.error != undefined) {
-            var content = $(document.createElement('ul'));
-            content.append($(document.createElement('li')));
             var message = jsvar.collaborateur_modify_error;
-            content.find('li').last().text(message);
-            $(this.$accountProfilModifyMessage.selector).html('').append(content);
+            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            this.$accountProfilModifyMessage.html('').append(content);
         } else {
             window.location.href = data.view;
         }

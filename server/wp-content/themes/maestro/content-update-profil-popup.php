@@ -40,7 +40,7 @@
         <div class="fax">
             <input type="text" name="profil_fax" placeholder="<?php _e('Téléphone Fax'); ?>" id="profil_fax" class="js-account-profil-modify-mobilephone" value="<?php echo empty($collaborator['mobilephone']) ? '' : $collaborator['mobilephone'] ?>">
         </div>
-        
+        <div class="message-erreur js-account-profil-modify-message"></div>
         <div class="submit">
             <input type="submit" value="Enregistrer">
         </div>

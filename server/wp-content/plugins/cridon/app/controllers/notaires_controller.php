@@ -464,18 +464,8 @@ class NotairesController extends BasePublicController
                 $this->model->manageInterest($this->current_notaire, $data);
             }
 
-            // set warning msg
-            $this->set('alertEmailChanged', '');
-
-            // maj profil et/ou données d'etude
+            // maj données d'etude
             if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
-                // check emailchanged
-                if ( !empty($_REQUEST['notary_email_adress']) ) {
-                    if ($this->model->isEmailChanged($this->current_notaire->id, $_REQUEST['notary_email_adress'])) {
-                        $this->set('alertEmailChanged', CONST_ALERT_EMAIL_CHANGED);
-                    }
-                }
-
                 // update profil
                 $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
             }

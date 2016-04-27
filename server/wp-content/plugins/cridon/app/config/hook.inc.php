@@ -132,11 +132,12 @@ function append_js_files()
                 'collaborateur_add_error'      => CONST_COLLABORATEUR_ADD_ERROR_MSG,
                 'collaborateur_function_error' => CONST_COLLABORATEUR_FUNCTION_ERROR_MSG,
 
-                'collaborateur_create_user' => CONST_CREATE_USER,
-                'collaborateur_modify_user' => CONST_MODIFY_USER,
-                'collaborateur_delete_user' => CONST_DELETE_USER,
+                'collaborateur_create_user'    => CONST_CREATE_USER,
+                'collaborateur_modify_user'    => CONST_MODIFY_USER,
+                'collaborateur_delete_user'    => CONST_DELETE_USER,
 
-                'profil_modify_user' => CONST_PROFIL_MODIFY_USER
+                'profil_modify_user'           => CONST_PROFIL_MODIFY_USER,
+                'profil_modify_email'          => CONST_ALERT_EMAIL_CHANGED
 
             )
         );
