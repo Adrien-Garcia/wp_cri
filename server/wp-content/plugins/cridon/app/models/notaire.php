@@ -2481,13 +2481,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $collaborator['tel']                       = isset($data['collaborator_tel']) ? esc_sql($data['collaborator_tel']) : '';
         $collaborator['tel_portable']              = isset($data['collaborator_tel_portable']) ? esc_sql($data['collaborator_tel_portable']) : '';
         $collaborator['fax']                       = isset($data['collaborator_fax']) ? esc_sql($data['collaborator_fax']) : '';
+        if (!empty($data['collaborator_id_function_collaborator'])) {
+            $collaborator['id_fonction_collaborateur'] = esc_sql($data['collaborator_id_function_collaborator']);
+        }
         if (!empty($data['collaborator_id_function_notaire'])){
             $collaborator['id_fonction'] = esc_sql($data['collaborator_id_function_notaire']);
-        }
-        if (!empty($data['collaborator_id_function_collaborator'])){
-            $collaborator['id_fonction_collaborateur'] = esc_sql($data['collaborator_id_function_collaborator']);
-        } elseif (!empty($data['collaborator_id_function_notaire']) && $data['collaborator_id_function_notaire'] != CONST_NOTAIRE_COLLABORATEUR){
-            $collaborator['id_fonction_collaborateur'] = 0;
+            if ($data['collaborator_id_function_notaire'] != CONST_NOTAIRE_COLLABORATEUR){
+                $collaborator['id_fonction_collaborateur'] = 0;
+            }
         }
 
         return $collaborator;
