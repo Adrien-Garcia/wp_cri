@@ -819,19 +819,48 @@ if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
 
+// Start of block Import Facture
+if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
+    define( 'CONST_TYPEFACTURE_CG', 'CG' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CS' ) ) { // cotisation supplementaire
+    define( 'CONST_TYPEFACTURE_CS', 'CS' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_TRAD' ) ) { // traduction
+    define( 'CONST_TYPEFACTURE_TRAD', 'TRAD' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_SAF' ) ) { // service d'assistance fiscale
+    define( 'CONST_TYPEFACTURE_SAF', 'SAF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CONF' ) ) { // formation
+    define( 'CONST_TYPEFACTURE_CONF', 'CONF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CO' ) ) { // offre éditeur CridOnline
+    define( 'CONST_TYPEFACTURE_CO', 'CO' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
+    define( 'BROCHNST_TYPEFACTURE_BROCH', 'BROCH' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFACTURETemp/' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_PATH', $uploadDir['basedir'] . '/factures/' );
+}
+if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_FACTURE', 'facture' );
+}
+// End of block Import Facture
+
 // Start of block Import Releveconso
 if ( !defined( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
     $uploadDir = wp_upload_dir();
-    if (!file_exists($uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/')) {
-        wp_mkdir_p($uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/');
-    }
     define( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH', $uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/' );
 }
 if ( !defined( 'CONST_IMPORT_RELEVECONSO_PATH' ) ) { // emplacement definitif 
     $uploadDir = wp_upload_dir();
-    if (!file_exists($uploadDir['basedir'] . '/releveconso/')) {
-        wp_mkdir_p($uploadDir['basedir'] . '/releveconso/');
-    }
     define( 'CONST_IMPORT_RELEVECONSO_PATH', $uploadDir['basedir'] . '/releveconso/' );
 }
 if ( !defined( 'CONST_DOC_TYPE_RELEVECONSO' ) ) { // valeur du champ cri_document.type
