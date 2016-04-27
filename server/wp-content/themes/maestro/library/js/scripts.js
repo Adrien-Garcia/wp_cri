@@ -251,36 +251,17 @@ jQuery(document).ready(function($) {
 
 
 
-
     /* POPUP AJOUT COLLABS */
-
-    $("#mes-collaborateurs .bt-ajout").click(function(){
-        //console.log('ah coucou');
-        $('#layer-collaborateur-add').popup('show');
-    });
-
     $(".close_layer").click(function(){
         //console.log('ah coucou');
         $('#layer-collaborateur-add').popup('hide');
     });
 
-    
-
-    
     /* POPUP Trash collab */
-
-    $("#mes-collaborateurs .trash").click(function(){
-        //console.log('ah coucou');
-        $('#llayer-collaborateur-delete').popup('show');
-    });
-
     $(".close_layer").click(function(){
         //console.log('ah coucou');
         $('#layer-collaborateur-delete').popup('hide');
     });
-
-
-
 
     /* POPUP update profil */
     $(".close_layer").click(function(){
@@ -288,13 +269,7 @@ jQuery(document).ready(function($) {
         $('#layer-update-profil').popup('hide');
     });
 
-
     /* POPUP update etude */
-    $("#mon-profil .update-etude").click(function(){
-        //console.log('ah coucou');
-        $('#layer-update-etude').popup('show');
-    });
-
     $(".close_layer").click(function(){
         //console.log('ah coucou');
         $('#layer-update-etude').popup('hide');

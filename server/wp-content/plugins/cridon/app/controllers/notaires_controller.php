@@ -229,6 +229,8 @@ class NotairesController extends BasePublicController
         if (isset($_REQUEST['message'])){
             if ($_REQUEST['message'] == 'modifyprofil'){
                 $message = CONST_PROFIL_MODIFY_SUCCESS_MSG;
+            } elseif ($_REQUEST['message'] == 'modifyoffice') {
+                $message = CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG;
             }
         }
         $this->set('message', $message);
@@ -470,12 +472,6 @@ class NotairesController extends BasePublicController
                 $data = $this->clean($_POST);
                 $this->model->manageInterest($this->current_notaire, $data);
             }
-
-            // maj données d'etude
-            if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
-                // update profil
-                $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
-            }
         }
         // set template vars
         $vars = $this->get_object();
@@ -588,7 +584,6 @@ class NotairesController extends BasePublicController
 
     public function gestioncollaborateur(){
         if (!empty($_GET['action']) ) {
-
             $collaborator = array();
             $collaborator['id'] = empty($_GET['collaborator_id']) ? '' : $_GET['collaborator_id'] ;
             $collaborator['action'] = empty($_GET['action']) ? '' : $_GET['action'] ;
@@ -631,9 +626,8 @@ class NotairesController extends BasePublicController
             echo json_encode($json);
             die();
         }
-        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_crud_nonce')) {
-            // post form
-            if (!empty($_POST['action'])){
+        if (!empty($_POST['action'])){
+            if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_crud_nonce')) {
                 // Clean $_POST before
                 $data = $this->tools->clean($_POST);
                 //get current notaire
@@ -660,6 +654,59 @@ class NotairesController extends BasePublicController
                 }
                 $url = mvc_public_url(array('controller' => 'notaires','action' => $action));
                 $url.='?message='.$message;
+                echo json_encode(array('view' => $url));
+                die();
+            }
+        }
+    }
+
+
+    public function gestionetude(){
+        if (!empty($_GET['office_crpcen']) ) {
+            $office = array();
+            $office['office_crpcen'] = empty($_GET['office_crpcen']) ? '' : trim($_GET['office_crpcen']) ;
+            $office['office_name'] = empty($_GET['office_name']) ? '' : trim($_GET['office_name']) ;
+            $office['office_address_1'] = empty($_GET['office_address_1']) ? '' : trim($_GET['office_address_1']) ;
+            $office['office_address_2'] = empty($_GET['office_address_2']) ? '' : trim($_GET['office_address_2']) ;
+            $office['office_address_3'] = empty($_GET['office_address_3']) ? '' : trim($_GET['office_address_3']) ;
+            $office['office_postalcode'] = empty($_GET['office_postalcode']) ? '' : trim($_GET['office_postalcode']) ;
+            $office['office_city'] = empty($_GET['office_city']) ? '' : trim($_GET['office_city']) ;
+            $office['office_email'] = empty($_GET['office_email']) ? '' : trim($_GET['office_email']) ;
+            $office['office_phone'] = empty($_GET['office_phone']) ? '' : trim($_GET['office_phone']);
+            $office['office_fax'] = empty($_GET['office_fax']) ? '' : trim($_GET['office_fax']);
+
+            $this->set('office',$office);
+
+            $vars = $this->view_vars;
+            $vars['is_ajax'] = true;
+            $vars['controller'] = $vars['this'];
+
+            $data = CriRenderView('contentupdateetudepopup', $vars, 'notaires', false);
+
+            $json = array(
+                'view' => $data,
+            );
+            echo json_encode($json);
+            die();
+        }
+        if (!empty($_POST['office_crpcen'])){
+            if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_office_crud_nonce')) {
+                // Clean $_POST before
+                $data = $this->tools->clean($_POST);
+
+                // get current notary data
+                $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+                // maj données d'etude
+                if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+                    // update profil
+                    if (!$this->model->updateOffice($data)){
+                        echo json_encode(array('error' => CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG));
+                        die();
+                    };
+                }
+
+                $url = mvc_public_url(array('controller' => 'notaires','action' => 'profil'));
+                $url.='?message=modifyoffice';
                 echo json_encode(array('view' => $url));
                 die();
             }

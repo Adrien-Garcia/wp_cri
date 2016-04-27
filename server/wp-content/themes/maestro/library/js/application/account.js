@@ -12,7 +12,6 @@ App.Account = {
     accountFacturationSelector          : '-facturation',
     accountCollaborateurSelector        : '-collaborateur',
     accountCridonlineSelector           : '-cridonline',
-    accountValidationSelector           : '-validation',
 
     accountQuestionMoreSelector         : '-more',
     accountProfilSubscriptionSelector   : '-subscription',
@@ -21,7 +20,7 @@ App.Account = {
     accountCollaborateurAddSelector     : '-add',
     accountModifySelector               : '-modify',
     accountFormSelector                 : '-form',
-
+    accountValidationSelector           : '-validation',
     accountEmailSelector                : '-email',
     accountStateSelector                : '-state',
     accountCGVSelector                  : '-cgv',
@@ -40,6 +39,13 @@ App.Account = {
     accountFunctionSelector             : '-function',
     accountFunctioncollaborateurSelector: '-functioncollaborator',
     accountActionSelector               : '-action',
+    accountOfficeSelector               : '-office',
+    accountNameSelector                 : '-name',
+    accountAddress1Selector             : '-address-1',
+    accountAddress2Selector             : '-address-2',
+    accountAddress3Selector             : '-address-3',
+    accountPostalcodeSelector           : '-postalcode',
+    accountCitySelector                 : '-city',
 
     ajaxSelector                        : '-ajax',
     ajaxPaginationSelector              : '-pagination',
@@ -59,6 +65,7 @@ App.Account = {
     accountPopupCollaborateurDelete     : '#layer-collaborateur-delete',
     accountPopupCollaborateurAdd        : '#layer-collaborateur-add',
     accountPopupProfilModify            : '#layer-update-profil',
+    accountPopupProfilOfficeModify      : '#layer-update-etude',
 
     eventAccountButtonSelector          : '-button',
 
@@ -222,30 +229,44 @@ App.Account = {
 
         var d = this.defaultSelector;
 
-        this.$accountProfilNewsletterForm = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountFormSelector);
+        this.$accountProfilNewsletterForm          = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountFormSelector);
         this.$accountProfilNewsletterForm.append(nonce);
+        this.$accountProfilSubscription            = $(d + this.accountProfilSelector + this.accountProfilSubscriptionSelector);
+        this.$accountProfilNewsletterMessage       = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountMessageSelector);
+        this.$accountProfilNewsletterEmail         = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountEmailSelector);
+        this.$accountProfilNewsletterState         = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountStateSelector);
 
-        this.$accountProfilModifyForm = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFormSelector);
+        this.$accountProfilModify                  = $(d + this.accountProfilSelector + this.accountModifySelector);
+        this.$accountProfilModifyForm              = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFormSelector);
+        this.$accountProfilModifyId                = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountIdSelector);
+        this.$accountProfilAction                  = $(d + this.accountProfilSelector + this.accountActionSelector);
+        this.$accountProfilModifyFirstname         = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFirstnameSelector);
+        this.$accountProfilModifyLastname          = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountLastnameSelector);
+        this.$accountProfilModifyPhone             = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountPhoneSelector);
+        this.$accountProfilModifyMobilephone       = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountMobilephoneSelector);
+        this.$accountProfilModifyFax               = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFaxSelector);
+        this.$accountProfilModifyEmail             = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountEmailSelector);
+        this.$accountProfilModifyMessage           = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountMessageSelector);
 
-        this.$accountProfilNewsletterMessage = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountMessageSelector);
-        this.$accountProfilNewsletterEmail   = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountEmailSelector);
-        this.$accountProfilNewsletterState   = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountStateSelector);
-        this.$accountProfilModify            = $(d + this.accountProfilSelector + this.accountModifySelector);
+        this.$popupProfilModify                    = $(this.accountPopupProfilModify);
 
-        this.$accountProfilModifyId          = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountIdSelector);
-        this.$accountProfilAction            = $(d + this.accountProfilSelector + this.accountActionSelector);
-        this.$accountProfilModifyFirstname   = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFirstnameSelector);
-        this.$accountProfilModifyLastname    = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountLastnameSelector);
-        this.$accountProfilModifyPhone       = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountPhoneSelector);
-        this.$accountProfilModifyMobilephone = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountMobilephoneSelector);
-        this.$accountProfilModifyFax         = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFaxSelector);
-        this.$accountProfilModifyEmail       = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountEmailSelector);
-        this.$accountProfilModifyMessage     = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountMessageSelector);
+        this.$accountProfilOfficeModify            = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector);
+        this.$accountProfilOfficeModifyForm        = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountFormSelector);
+        this.$accountProfilOfficeModifyCrpcen      = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountCrpcenSelector);
+        this.$accountProfilOfficeModifyName        = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountNameSelector);
+        this.$accountProfilOfficeModifyAddress1    = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountAddress1Selector);
+        this.$accountProfilOfficeModifyAddress2    = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountAddress2Selector);
+        this.$accountProfilOfficeModifyAddress3    = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountAddress3Selector);
+        this.$accountProfilOfficeModifyPostalcode  = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountPostalcodeSelector);
+        this.$accountProfilOfficeModifyCity        = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountCitySelector);
+        this.$accountProfilOfficeModifyEmail       = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountEmailSelector);
+        this.$accountProfilOfficeModifyPhone       = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountPhoneSelector);
+        this.$accountProfilOfficeModifyFax         = $(d + this.accountProfilSelector + this.accountOfficeSelector + this.accountModifySelector + this.accountFaxSelector);
 
-        this.$popupProfilModify              = $(this.accountPopupProfilModify);
-        this.$accountProfilSubscription      = $(d + this.accountProfilSelector + this.accountProfilSubscriptionSelector);
+        this.$popupProfilOfficeModify              = $(this.accountPopupProfilOfficeModify);
 
         this.popupProfilModifyInit();
+        this.popupProfilOfficeModifyInit();
 
         this.addListenersProfil();
     },
@@ -253,6 +274,18 @@ App.Account = {
     popupProfilModifyInit: function() {
         var self = this;
         this.$popupProfilModify.popup({
+            transition: 'all 0.3s',
+            scrolllock: true,
+            opacity: 0.8,
+            color: '#324968',
+            offsettop: 10,
+            vertical: top
+        });
+    },
+
+    popupProfilOfficeModifyInit: function() {
+        var self = this;
+        this.$popupProfilOfficeModify.popup({
             transition: 'all 0.3s',
             scrolllock: true,
             opacity: 0.8,
@@ -505,6 +538,11 @@ App.Account = {
             return false;
         });
 
+        this.$accountProfilOfficeModify.on('click', function (e) {
+            self.eventAccountProfilOfficeModifyPopup($(this));
+            return false;
+        });
+
         $(document).on('submit',this.$accountProfilModifyForm.selector, function (e) {
             e.returnValue = false;
             e.preventDefault();
@@ -513,6 +551,12 @@ App.Account = {
 
         $(document).on('change',this.$accountProfilModifyEmail.selector, function (e) {
             self.eventAccountProfilModifyEmail();
+        });
+
+        $(document).on('submit',this.$accountProfilOfficeModifyForm.selector, function (e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountProfilOfficeModifySubmit($(this));
         });
     },
 
@@ -881,6 +925,74 @@ App.Account = {
         // create message block
         if (data != undefined && data.error != undefined) {
             var message = jsvar.collaborateur_modify_error;
+            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            this.$accountProfilModifyMessage.html('').append(content);
+        } else {
+            window.location.href = data.view;
+        }
+        return false;
+    },
+
+    eventAccountProfilOfficeModifyPopup: function (div) {
+        jQuery.ajax({
+            type: 'GET',
+            url: div.data('js-ajax-modify-office-url'),
+            data: {
+                office_crpcen: div.data('js-ajax-crpcen'),
+                office_name: div.data('js-ajax-name'),
+                office_address_1: div.data('js-ajax-address-1'),
+                office_address_2: div.data('js-ajax-address-2'),
+                office_address_3: div.data('js-ajax-address-3'),
+                office_postalcode: div.data('js-ajax-postalcode'),
+                office_city: div.data('js-ajax-city'),
+                office_email: div.data('js-ajax-email'),
+                office_phone: div.data('js-ajax-phone'),
+                office_fax: div.data('js-ajax-fax')
+            },
+            success: this.successProfilOfficeModifyPopup.bind(this)
+        });
+        return false;
+    },
+
+    successProfilOfficeModifyPopup: function(data){
+        data = JSON.parse(data);
+
+        var nonce   = document.createElement('input');
+        nonce.type  = 'hidden';
+        nonce.name  = 'tokenofficecrud';
+        nonce.id    = 'tokenofficecrud';
+        nonce.value = jsvar.office_crud_nonce;
+
+        this.$popupProfilOfficeModify.html(data.view).append(nonce).popup('show');
+    },
+
+    eventAccountProfilOfficeModifySubmit: function(form) {
+        jQuery.ajax({
+            type: 'POST',
+            url: form.data('js-ajax-modify-office-url'),
+            data: {
+                token: $('#tokenofficecrud').val(),
+                office_crpcen: form.find(this.$accountProfilOfficeModifyCrpcen.selector).val(),
+                office_name: form.find(this.$accountProfilOfficeModifyName.selector).val(),
+                office_address_1: form.find(this.$accountProfilOfficeModifyAddress1.selector).val(),
+                office_address_2: form.find(this.$accountProfilOfficeModifyAddress2.selector).val(),
+                office_address_3: form.find(this.$accountProfilOfficeModifyAddress3.selector).val(),
+                office_postalcode: form.find(this.$accountProfilOfficeModifyPostalcode.selector).val(),
+                office_city: form.find(this.$accountProfilOfficeModifyCity.selector).val(),
+                office_email: form.find(this.$accountProfilOfficeModifyEmail.selector).val(),
+                office_phone: form.find(this.$accountProfilOfficeModifyPhone.selector).val(),
+                office_fax: form.find(this.$accountProfilOfficeModifyFax.selector).val()
+            },
+            success: this.successProfilOfficeModify.bind(this)
+        });
+        return false;
+    },
+
+    successProfilOfficeModify: function(data) {
+        data = JSON.parse(data);
+        // create message block
+        if (data != undefined && data.error != undefined) {
+            var message = jsvar.profil_office_modify_error;
             var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
             this.$accountProfilModifyMessage.html('').append(content);
         } else {

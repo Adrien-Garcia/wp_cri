@@ -567,7 +567,12 @@ if ( !defined( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG' ) ) {
 if ( !defined( 'CONST_PROFIL_MODIFY_SUCCESS_MSG' ) ) {
     define( 'CONST_PROFIL_MODIFY_SUCCESS_MSG', 'Votre profil a bien été modifié.' );
 }
-
+if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG', 'Les données de votre étude ont bien été modifiées.' );
+}
 if ( !defined( 'CONST_CREATE_USER' ) ) {
     define( 'CONST_CREATE_USER', 'create_user' );
 }
