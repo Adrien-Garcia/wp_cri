@@ -1018,5 +1018,11 @@ function CriCanResetPwd() {
  * @return array
  */
 function CriListRolesByFunction($type, $idFonction) {
-    return (!empty(Config::$notaryRolesByFunction[$type][$idFonction]) ? Config::$notaryRolesByFunction[$type][$idFonction] : array());
+    $roles = array();
+    if (!empty(Config::$notaryRolesByFunction[$type][$idFonction])) {
+        foreach (Config::$notaryRolesByFunction[$type][$idFonction] as $role) {
+            $roles[$role] = Config::getRoleLabel($role);
+        }
+    }
+    return $roles;
 }
