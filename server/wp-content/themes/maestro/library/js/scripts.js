@@ -306,4 +306,17 @@ jQuery(document).ready(function($) {
     });
 
 
+    /* POPUP update Mot de passe */
+    $("#mon-profil .update-mdp").click(function(){
+        //console.log('ah coucou');
+        $('#layer-update-mdp').popup('show');
+    });
+
+    $(".close_layer").click(function(){
+        //console.log('ah coucou');
+        $('#layer-update-mdp').popup('hide');
+    });
+
+
+
 }); /* end of as page load scripts */

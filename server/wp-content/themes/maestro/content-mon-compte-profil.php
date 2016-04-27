@@ -87,7 +87,8 @@
 				<?php endif ?>
 			</div>	
 
-			<div class="update update-profil"><?php _e('Modifier mes informations'); ?></div>
+			<div class="update update-profil"><?php _e('Modifier mes informations'); ?></div><br />
+			<div class="update update-mdp"><?php _e('Modifier mon mot de passe'); ?></div>
 
 		</div>
 
@@ -159,6 +160,9 @@
 <div class="update-etude">
     <?php echo get_template_part("content","update-etude-popup"); ?>
 </div>
-<div class="update-etude">
+<div class="update-profil">
     <?php echo get_template_part("content","update-profil-popup"); ?>
+</div>
+<div class="update-mdp">
+    <?php echo get_template_part("content","update-mdp-popup"); ?>
 </div>
