@@ -225,6 +225,13 @@ class NotairesController extends BasePublicController
     {
         $this->prepareProfil();
         $this->cridonline();
+        $message = '';
+        if (isset($_REQUEST['message'])){
+            if ($_REQUEST['message'] == 'modifyprofil'){
+                $message = CONST_PROFIL_MODIFY_SUCCESS_MSG;
+            }
+        }
+        $this->set('message', $message);
         $this->set('matieres', getMatieresByNotaire());
         // tab rank
         $this->set('onglet', CONST_ONGLET_PROFIL);

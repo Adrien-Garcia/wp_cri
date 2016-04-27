@@ -1,3 +1,6 @@
+<?php if (!empty($message)) : ?>
+	<div class="message-erreur"><?php echo $message ?></div>
+<?php endif; ?>
 <div class="mes-informations" id="sel-compte-profil">
 
 	<h2><?php _e('Mes informations'); ?></h2>
