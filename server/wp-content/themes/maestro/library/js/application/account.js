@@ -924,12 +924,9 @@ App.Account = {
         data = JSON.parse(data);
         // create message block
         if (data != undefined && data.error != undefined) {
-            var content = $(document.createElement('ul'));
-            content.append($(document.createElement('li')));
             var message = jsvar.collaborateur_delete_error;
-            this.$accountCollaborateurDeleteValidationMessage.html('');
-            this.$accountCollaborateurDeleteValidationMessage.append(content);
-            content.find('li').last().text(message);
+            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            this.$accountCollaborateurDeleteValidationMessage.html('').append(content);
         } else {
             window.location.href = data.view;
         }
@@ -983,23 +980,31 @@ App.Account = {
     },
 
     eventAccountCollaborateurAddSubmit: function(form) {
-        jQuery.ajax({
-            type: 'POST',
-            url: form.data('js-ajax-add-url'),
-            data: {
-                token: $('#tokencrud').val(),
-                action: form.find(this.$accountCollaborateurAction.selector).val(),
-                collaborator_id: form.find(this.$accountCollaborateurModifyId.selector).val(),
-                collaborator_first_name: form.find(this.$accountCollaborateurAddFirstname.selector).val(),
-                collaborator_last_name: form.find(this.$accountCollaborateurAddLastname.selector).val(),
-                collaborator_tel: form.find(this.$accountCollaborateurAddPhone.selector).val(),
-                collaborator_tel_portable: form.find(this.$accountCollaborateurAddMobilephone.selector).val(),
-                collaborator_email: form.find(this.$accountCollaborateurAddEmail.selector).val(),
-                collaborator_id_function_notaire: form.find(this.$accountCollaborateurAddFunction.selector).val(),
-                collaborator_id_function_collaborator: form.find(this.$accountCollaborateurAddFunctioncollaborateur.selector).val()
-            },
-            success: this.successCollaborateurAdd.bind(this)
-        });
+        var id_function_notaire      = form.find(this.$accountCollaborateurAddFunction.selector).val();
+        var id_function_collaborator = form.find(this.$accountCollaborateurAddFunctioncollaborateur.selector).val();
+        if (id_function_notaire == jsvar.collaborateur_id_function && !$.isNumeric(id_function_collaborator)){
+            var message = jsvar.collaborateur_function_error;
+            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
+        } else {
+            jQuery.ajax({
+                type: 'POST',
+                url: form.data('js-ajax-add-url'),
+                data: {
+                    token: $('#tokencrud').val(),
+                    action: form.find(this.$accountCollaborateurAction.selector).val(),
+                    collaborator_id: form.find(this.$accountCollaborateurModifyId.selector).val(),
+                    collaborator_first_name: form.find(this.$accountCollaborateurAddFirstname.selector).val(),
+                    collaborator_last_name: form.find(this.$accountCollaborateurAddLastname.selector).val(),
+                    collaborator_tel: form.find(this.$accountCollaborateurAddPhone.selector).val(),
+                    collaborator_tel_portable: form.find(this.$accountCollaborateurAddMobilephone.selector).val(),
+                    collaborator_email: form.find(this.$accountCollaborateurAddEmail.selector).val(),
+                    collaborator_id_function_notaire: id_function_notaire,
+                    collaborator_id_function_collaborator: id_function_collaborator
+                },
+                success: this.successCollaborateurAdd.bind(this)
+            });
+        }
         return false;
     },
 
@@ -1007,10 +1012,8 @@ App.Account = {
         data = JSON.parse(data);
         // create message block
         if (data != undefined && data.error != undefined) {
-            var content = $(document.createElement('ul'));
-            content.append($(document.createElement('li')));
             var message = jsvar.collaborateur_add_error;
-            content.find('li').last().text(message);
+            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
             $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
         } else {
             window.location.href = data.view;

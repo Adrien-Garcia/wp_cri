@@ -80,6 +80,7 @@
                 <span><?php _e("Accès aux bases de connaissance"); ?></span>
             </label>
         </div>
+        <div class="message-erreur js-account-collaborateur-add-message"></div>
         <div class="submit">
             <input type="submit" value="Enregistrer">
         </div>

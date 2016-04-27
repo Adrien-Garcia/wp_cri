@@ -558,6 +558,9 @@ if ( !defined( 'CONST_COLLABORATEUR_ADD_SUCCESS_MSG' ) ) {
 if ( !defined( 'CONST_COLLABORATEUR_ADD_ERROR_MSG' ) ) {
     define( 'CONST_COLLABORATEUR_ADD_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
 }
+if ( !defined( 'CONST_COLLABORATEUR_FUNCTION_ERROR_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_FUNCTION_ERROR_MSG', 'Merci de remplir la fonction collaborateur.' );
+}
 if ( !defined( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG' ) ) {
     define( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG', 'Le collaborateur a bien été modifié.' );
 }
