@@ -40,9 +40,6 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}/contentfacturation', array('cont
 MvcRouter::public_connect('notaires/{:id:[\d]+}', array('controller' => 'notaires', 'action' => 'show'));
 // Fin bloc ancienne url
 
-// default
-MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
-
 // nouvelle regle de routage notaire
 MvcRouter::public_connect('notaires/questions', array('controller' => 'notaires', 'action' => 'questions'));
 MvcRouter::public_connect('notaires/profil', array('controller' => 'notaires', 'action' => 'profil'));
