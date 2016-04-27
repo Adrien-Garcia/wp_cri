@@ -1009,3 +1009,14 @@ function CriGetCollaboratorRoles($collaborator) {
 function CriCanResetPwd() {
     return mvc_model('notaire')->userCanResetPwd();
 }
+
+/**
+ * Get list of all existing roles by function
+ *
+ * @param string $type : notaries|collaborators
+ * @param int $idFonction
+ * @return array
+ */
+function CriListRolesByFunction($type, $idFonction) {
+    return (!empty(Config::$notaryRolesByFunction[$type][$idFonction]) ? Config::$notaryRolesByFunction[$type][$idFonction] : array());
+}
