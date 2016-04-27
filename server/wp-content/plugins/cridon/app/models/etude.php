@@ -58,8 +58,6 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     {
         // destination
         $pathDest      = CONST_IMPORT_FACTURE_PATH;
-        // source (echange avec ERP)
-        $tempPath      = CONST_IMPORT_FACTURE_TEMP_PATH;
         // pattern import (recuperation des infos par nom de fichier)
         $pattern       = Config::$importFacturePattern;
         // patter de parsage de fichier dans repertoire source
@@ -72,7 +70,6 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         // reafectation variable selon le type de traitement
         if ($type == 'releveconso') {
             $pathDest      = CONST_IMPORT_RELEVECONSO_PATH;
-            $tempPath      = CONST_IMPORT_RELEVECONSO_TEMP_PATH;
             $pattern       = Config::$importRelevePattern;
             $parserPattern = Config::$importReleveParserPattern;
             $filePath      = '/releveconso/';
@@ -90,7 +87,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                             wp_mkdir_p($path);
                         }
                         // CRPCEN present
-                        if (!empty($matches[1]) && copy($document[0], $path . $fileInfo['basename'])) {
+                        if (!empty($matches[1]) && rename($document[0], $path . $fileInfo['basename'])) {
                             $crpcen   = $matches[1];
                             $typeFact = (!empty($matches[3])) ? $matches[3] : ' '; // vide pour autres que facture
 
@@ -120,16 +117,6 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                                 );
                                 $documentModel->save($docData);
 
-                                // archivage fichier
-                                $archivePath = $tempPath . DIRECTORY_SEPARATOR . 'archives/' . $date . '/';
-                                if (!file_exists($archivePath)) { // repertoire manquant
-                                    // creation du nouveau repertoire
-                                    wp_mkdir_p($archivePath);
-                                }
-                                rename($document[0], $archivePath . $fileInfo['basename'] . '.' . $date);
-
-                                // liberation des variables
-                                unset($archivePath);
                                 unset($crpcen);
                                 unset($typeFact);
                             }
