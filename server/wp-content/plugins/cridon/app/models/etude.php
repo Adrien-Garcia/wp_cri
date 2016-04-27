@@ -89,7 +89,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                         // CRPCEN present
                         if (!empty($matches[1]) && rename($document[0], $path . $fileInfo['basename'])) {
                             $crpcen   = $matches[1];
-                            $typeFact = (!empty($matches[3])) ? $matches[3] : ' '; // vide pour autres que facture
+                            $typeFact = (!empty($matches[3])) ? $matches[3] : ' ';
 
                             // donnees document
                             $docData = array(
