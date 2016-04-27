@@ -119,7 +119,7 @@ function append_js_files()
                 'newsletter_empty_error'   => CONST_NEWSLETTER_EMPTY_ERROR_MSG,
                 'newsletter_success_msg'   => CONST_NEWSLETTER_SUCCESS_MSG,
                 'newsletter_email_error'   => CONST_NEWSLETTER_EMAIL_ERROR_MSG,
-                
+
                 // cridonline
                 'cridonline_nonce'         => wp_create_nonce("process_cridonline_nonce"),
                 'cridonline_CGV_error'     => CONST_CRIDONLINE_CGV_ERROR_MSG,

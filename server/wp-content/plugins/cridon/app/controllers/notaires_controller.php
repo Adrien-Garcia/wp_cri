@@ -472,6 +472,22 @@ class NotairesController extends BasePublicController
                 $data = $this->clean($_POST);
                 $this->model->manageInterest($this->current_notaire, $data);
             }
+
+            if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+
+                /**
+                 * Renouvellement mot de passe :
+                 * - notaire connecté dispose d'une adresse email perso
+                 * - seuls les notaires de fonctions 1, 2, 3, 6, 7, 8, 9, 10 peuvent accéder à la fonction
+                 * @see \Config::$allowedNotaryFunction
+                 */
+                if (isset($_POST['reset_pwd'])
+                    && !empty($this->current_notaire->email_adress)
+                    && filter_var($this->current_notaire->email_adress, FILTER_VALIDATE_EMAIL)
+                ) {
+                    $this->model->resetPwd($this->current_notaire->id);
+                }
+            }
         }
         // set template vars
         $vars = $this->get_object();
@@ -542,8 +558,8 @@ class NotairesController extends BasePublicController
         // access secured
         $this->prepareSecureAccess();
         //show every member of an office
-        $liste = $this->model->listOfficeMembers($this->current_notaire);
-        $this->set('liste', $liste);
+        $collection = $this->model->listOfficeMembers($this->current_notaire, $this->params);
+        $this->set('liste', $collection['objects']);
         $message = '';
         if (isset($_REQUEST['message'])){
             if ($_REQUEST['message'] == 'add'){

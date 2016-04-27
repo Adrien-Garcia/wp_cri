@@ -403,6 +403,11 @@ class Config {
     // question pending status
     public static $questionPendingStatus = array(1,2,3);
 
+    // Notification for password changed
+    public static $mailPasswordChange = array(
+        'subject' => 'Changement du mot de passe de %s',
+    );
+
     // Content qualified by a "Niveau"
     public static $contentWithLevel = array(
         'veilles',
