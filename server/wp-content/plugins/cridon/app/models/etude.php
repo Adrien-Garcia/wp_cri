@@ -189,6 +189,8 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         }
         // import documents
         $this->importPdf($documents, $Iterator, $limit, $date, $documentModel, $type);
+
+        return CONST_STATUS_CODE_OK;
     }
 
 
