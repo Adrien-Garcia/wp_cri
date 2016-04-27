@@ -21,5 +21,7 @@ add_role( CONST_FINANCE_ROLE, 'Accès finances' );
 add_role( CONST_QUESTIONECRITES_ROLE, 'Poser des questions écrites' );
 // add  access add question role
 add_role( CONST_QUESTIONTELEPHONIQUES_ROLE, 'Poser des questions téléphoniques' );
+// add  access "connaissance" role
+add_role( CONST_CONNAISANCE_ROLE, 'Accès aux bases de connaissance' );
 
 echo 'Init role done';
