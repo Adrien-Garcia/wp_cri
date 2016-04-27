@@ -9,6 +9,7 @@ App.Question = {
 
     zoneQuestionSupportSelector         : '.js-question-support-zone',
     radioQuestionSupportSelector        : '.js-question-support-radio',
+    //radioQuestionExpertiseSelector        : '.js-question-expertise-radio',     A CABLER 
     fileQuestionSelector                : '.js-question-file',
     fileQuestionResetSelector           : '.js-file-reset',
     fileQuestionNameSelector            : '.js-file-name',
@@ -17,8 +18,10 @@ App.Question = {
 
     selectQuestionCompetenceName        : 'question_competence',
 
+    tabQuestionExpertiseSelector        : '.js-question-tab-expertise',
     tabQuestionConsultationSelector     : '.js-question-tab-consultation',
     tabQuestionMaQuestionSelector       : '.js-question-tab-ma-question',
+    buttonQuestionExpertiseSelector     : '.js-question-button-expertise',
     buttonQuestionConsultationSelector  : '.js-question-button-consultation',
     buttonQuestionMaQuestionSelector    : '.js-question-button-ma-question',
     submitQuestionSelector              : '.js-question-submit',
@@ -29,6 +32,10 @@ App.Question = {
     buttonQuestionSupportNSelector      : 'js-question-support-shortcut-',
 
     owlCarouselSelector                 : "#owl-support",
+
+    owlCarouselSelector2                 : "#owl-niveau-expertise",
+
+
     popupOverlaySelector                : "#layer-posez-question",
 
     selectedClass                       : 'selected',
@@ -58,6 +65,7 @@ App.Question = {
     $blockQuestionError                 : null,
 
     $owlCarousel                        : null,
+    $owlCarousel2                       : null,
     $popupOverlay                       : null,
 
 
@@ -77,8 +85,10 @@ App.Question = {
             self.$selectQuestionCompetenceArray[$(this).data('matiere-id')] = $(this);
         });
 
+        this.$tabQuestionExpertise                 = $(this.tabQuestionExpertiseSelector);
         this.$tabQuestionConsultation               = $(this.tabQuestionConsultationSelector);
         this.$tabQuestionMaQuestion                 = $(this.tabQuestionMaQuestionSelector);
+        this.$buttonQuestionExpertise            = $(this.buttonQuestionExpertiseSelector);
         this.$buttonQuestionConsultation            = $(this.buttonQuestionConsultationSelector);
         this.$buttonQuestionMaQuestion              = $(this.buttonQuestionMaQuestionSelector);
 
@@ -97,6 +107,7 @@ App.Question = {
         this.$messageQuestionField                  = $(this.messageQuestionFieldSelector);
 
         this.$owlCarousel                           = $(this.owlCarouselSelector);
+        this.$owlCarousel2                           = $(this.owlCarouselSelector2);
         this.$popupOverlay                          = $(this.popupOverlaySelector);
 
         this.$submitQuestion                        = $(this.submitQuestionSelector);
@@ -141,7 +152,7 @@ App.Question = {
             pagination: false,
             dots: false,
             navText: false,
-            itemClass: 'owl-item ' + this.zoneQuestionSupportSelector.substr(1),
+            itemClass: 'owl-item ' + this.zoneQuestionSupportSelector.substr(1), // de étape 2 à étape 3
             onInitialized: this.addListenersAfterOwl.bind(this),
             responsive:{
                 0 : {
@@ -149,6 +160,33 @@ App.Question = {
                     dots:true,
                     nav:true,
 
+                },
+                // breakpoint from 480 up
+                768 : {
+                    items:3,
+                    dots:false,
+                },
+                // breakpoint from 768 up
+                1200 : {
+                    items:3,
+                    dots:false,
+                }
+            }
+
+        });
+
+        this.$owlCarousel2.owlCarousel({
+
+            pagination: false,
+            dots: false,
+            navText: false,
+            itemClass: 'owl-item ' + this.zoneQuestionSupportSelector.substr(1), // TODO : de étape 1 vers étape 2
+            onInitialized: this.addListenersAfterOwl.bind(this), // TODO : Initialisation différente ?
+            responsive:{
+                0 : {
+                    items:1,
+                    dots:false,
+                    nav:true,
                 },
                 // breakpoint from 480 up
                 768 : {
@@ -370,11 +408,23 @@ App.Question = {
 
     },
 
+     openTabQuestionExpertise: function(button) {
+        this.$buttonQuestionExpertise.addClass('open');
+        this.$tabQuestionExpertise.addClass('open');
+        this.$buttonQuestionConsultation.removeClass('open');
+        this.$tabQuestionConsultation.removeClass('open');
+        this.$buttonQuestionMaQuestion.removeClass('open');
+        this.$tabQuestionMaQuestion.removeClass('open');
+    },
+
+
     openTabQuestionConsultation: function(button) {
         this.$buttonQuestionConsultation.addClass('open');
         this.$tabQuestionConsultation.addClass('open');
         this.$buttonQuestionMaQuestion.removeClass('open');
         this.$tabQuestionMaQuestion.removeClass('open');
+        this.$buttonQuestionExpertise.removeClass('open');
+        this.$tabQuestionExpertise.removeClass('open');
     },
 
     openTabQuestionMaQuestion: function(button) {
@@ -382,6 +432,8 @@ App.Question = {
         this.$tabQuestionConsultation.removeClass('open');
         this.$buttonQuestionMaQuestion.addClass('open');
         this.$tabQuestionMaQuestion.addClass('open');
+        this.$buttonQuestionExpertise.removeClass('open');
+        this.$tabQuestionExpertise.removeClass('open');
     },
 
     eventSubmitQuestion: function(form) {

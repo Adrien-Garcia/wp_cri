@@ -274,16 +274,6 @@ jQuery(document).ready(function($) {
         //console.log('ah coucou');
         $('#layer-sup-collabs').popup('hide');
     });
-    
-
-
-
-
-
-
-
-
-
 
 
 
