@@ -381,7 +381,7 @@ class NotairesController extends BasePublicController
         $ret = 'invalidemail';
 
         // Verify that the nonce is valid.
-        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_profil_nonce') && isset($_REQUEST['email'])) {
+        if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_newsletter_nonce') && isset($_REQUEST['email'])) {
             // find the notaire email
             $notaire = $this->model->find_one_by_email_adress($_REQUEST['email']);
 
