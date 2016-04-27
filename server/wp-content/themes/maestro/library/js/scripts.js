@@ -249,31 +249,4 @@ jQuery(document).ready(function($) {
     });
 
 
-
-
-    /* POPUP AJOUT COLLABS */
-    $(".close_layer").click(function(){
-        //console.log('ah coucou');
-        $('#layer-collaborateur-add').popup('hide');
-    });
-
-    /* POPUP Trash collab */
-    $(".close_layer").click(function(){
-        //console.log('ah coucou');
-        $('#layer-collaborateur-delete').popup('hide');
-    });
-
-    /* POPUP update profil */
-    $(".close_layer").click(function(){
-        //console.log('ah coucou');
-        $('#layer-update-profil').popup('hide');
-    });
-
-    /* POPUP update etude */
-    $(".close_layer").click(function(){
-        //console.log('ah coucou');
-        $('#layer-update-etude').popup('hide');
-    });
-
-
 }); /* end of as page load scripts */

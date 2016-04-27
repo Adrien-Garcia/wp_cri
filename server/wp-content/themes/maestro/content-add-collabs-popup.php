@@ -1,5 +1,5 @@
     <div class="titre">
-        <span class="close_layer layer-collaborateur_close"></span>
+        <span class="close_layer layer-collaborateur-add_close"></span>
         <span class="texte">
             <?php empty($collaborator['id']) ? _e('Ajouter') : _e('Modifier') ; ?>
             <span><?php _e('un collaborateur'); ?></span>

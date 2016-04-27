@@ -1,7 +1,5 @@
-<div id="layer-update-profil" class="popup">
-
     <div class="titre">
-        <span class="close_layer layer-cridonline_close"></span>
+        <span class="close_layer layer-update-profil_close"></span>
         <span class="texte">
             <?php _e('Modifier'); ?>
             <span><?php _e('mes informations'); ?></span>
@@ -46,6 +44,3 @@
         </div>
         
     </form>
-
-    
-</div>

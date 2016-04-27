@@ -2,7 +2,7 @@
 <div id="layer-collaborateur-delete" style="display:none;">
 
     <div class="titre">
-        <span class="close_layer layer-cridonline_close"></span>
+        <span class="close_layer layer-collaborateur-delete_close"></span>
         <span class="texte">
             <?php _e('Suppression'); ?>
             <span><?php _e('d\'un collaborateur'); ?></span>

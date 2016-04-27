@@ -183,8 +183,10 @@
 </div>
 
 <div class="update-etude">
-    <?php echo get_template_part("content","update-etude-popup"); ?>
+    <div id="layer-update-etude" class="popup">
+    </div>
 </div>
 <div class="update-etude">
-    <?php echo get_template_part("content","update-profil-popup"); ?>
+    <div id="layer-update-profil" class="popup">
+    </div>
 </div>

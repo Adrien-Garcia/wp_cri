@@ -1,7 +1,5 @@
-<div id="layer-update-etude" class="popup">
-
     <div class="titre">
-        <span class="close_layer layer-cridonline_close"></span>
+        <span class="close_layer layer-update-etude_close"></span>
         <span class="texte">
             <?php _e('Modifier'); ?>
             <span><?php _e('les informations de l\'étude'); ?></span>
@@ -44,6 +42,3 @@
         </div>
         
     </form>
-
-    
-</div>

@@ -2486,6 +2486,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
         if (!empty($data['collaborator_id_function_notaire'])){
             $collaborator['id_fonction'] = esc_sql($data['collaborator_id_function_notaire']);
+            // set the id_fonction_collaborateur to 0 if the id_fonction is not the collaborateur id.
             if ($data['collaborator_id_function_notaire'] != CONST_NOTAIRE_COLLABORATEUR){
                 $collaborator['id_fonction_collaborateur'] = 0;
             }
