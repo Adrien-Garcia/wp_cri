@@ -626,15 +626,13 @@ App.Account = {
         });
 
         this.$accountCollaborateurAddButton.on('click', function (e) {
-            e.returnValue = false;
-            e.preventDefault();
             self.eventAccountCollaborateurAddPopup($(this));
+            return false;
         });
 
         this.$accountCollaborateurModify.on('click', function (e) {
-            e.returnValue = false;
-            e.preventDefault();
             self.eventAccountCollaborateurModifyPopup($(this));
+            return false;
         });
 
         $(document).on('change',this.$accountCollaborateurAddFunction.selector, function(e){
