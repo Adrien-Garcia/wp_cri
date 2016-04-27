@@ -40,6 +40,17 @@
 		&.niveau-3{
 			margin-right: 0;
 		}
+
+		&.on{
+			width: 257px;
+			height: 420px;
+			top: -10px;
+			left: 0px;		   
+		}
+
+		&.off{
+			margin-left: 0px;
+		}
 		
 		
 	}

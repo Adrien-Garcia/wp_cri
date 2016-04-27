@@ -1,4 +1,4 @@
-<div class="bloc-cridonline niveau-1">
+<div class="bloc-cridonline niveau-1 on">
     <div class="en-tete"></div>
     <div class="content">
         <div class="titre">
@@ -9,11 +9,11 @@
             <li>- Consectur alt</li>
             <li>- Sed do erusmad tempor</li>
         </ul>
-        <a href="" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="#" title="plus de detail"><?php _e("Plus de detail"); ?></a>
     </div>
 </div>
 
-<div class="bloc-cridonline niveau-2">
+<div class="bloc-cridonline niveau-2 off">
     <div class="en-tete"></div>
     <div class="content">
         <?php if ($notaire->etude->subscription_level < 2 ):?>
@@ -34,7 +34,7 @@
             <li>- Consectur alt</li>
             <li>- Sed do erusmad tempor</li>
         </ul>
-        <a href="" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="#" title="plus de detail"><?php _e("Plus de detail"); ?></a>
         <?php if ($notaire->etude->subscription_level < 2 && $subscription ):?>
             <form method="get" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2'));?>">
                 <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">
@@ -45,7 +45,7 @@
         <?php endif;?>
     </div>
 </div>
-<div class="bloc-cridonline niveau-3">
+<div class="bloc-cridonline niveau-3 off">
     <div class="en-tete"></div>
     <div class="content">
         <?php if ($notaire->etude->subscription_level < 3 ):?>
@@ -62,7 +62,7 @@
             <li>Consectur alt</li>
             <li>Sed do erusmad tempor</li>
         </ul>
-        <a href="" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="#" title="plus de detail"><?php _e("Plus de detail"); ?></a>
         <?php if ($notaire->etude->subscription_level < 3 && $subscription ):?>
         <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2'));?>">
             <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">
