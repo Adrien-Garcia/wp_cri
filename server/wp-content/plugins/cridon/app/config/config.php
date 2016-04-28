@@ -503,6 +503,14 @@ class Config {
     );
 
     /**
+     * @var array : liste des autres categories de notaires sans etude officielle
+     */
+    public static $notaryNoDefaultOffice = array(
+        CONST_ORGANISMES_CATEG,
+        CONST_CLIENTDIVERS_CATEG,
+    );
+
+    /**
      * Selon la regle de nommage des fichiers factures à importer
      * <CRPCEN_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
      * @var string

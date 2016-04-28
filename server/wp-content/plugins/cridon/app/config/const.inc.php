@@ -28,6 +28,12 @@ if ( !defined( 'CONST_QUESTIONECRITES_ROLE' ) ) {
 if ( !defined( 'CONST_QUESTIONTELEPHONIQUES_ROLE' ) ) {
     define( 'CONST_QUESTIONTELEPHONIQUES_ROLE', 'accesquesttelephoniques' );
 }
+if ( !defined( 'CONST_NOTAIRE_DIV_ROLE' ) ) {
+    define( 'CONST_NOTAIRE_DIV_ROLE', 'notaire_div' );
+}
+if ( !defined( 'CONST_NOTAIRE_ORG_ROLE' ) ) {
+    define( 'CONST_NOTAIRE_ORG_ROLE', 'notaire_org' );
+}
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
     define( 'CONST_ADMIN_ROLE', 'administrator' );
@@ -838,6 +844,31 @@ if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
+// capabilités pour les niveaux d'accès
+if ( !defined( 'CONST_ACCESS_LEVEL_1' ) ) {
+    define( 'CONST_ACCESS_LEVEL_1', 'access_level_1' );
+}
+if ( !defined( 'CONST_ACCESS_LEVEL_2' ) ) {
+    define( 'CONST_ACCESS_LEVEL_2', 'access_level_2' );
+}
+if ( !defined( 'CONST_ACCESS_LEVEL_3' ) ) {
+    define( 'CONST_ACCESS_LEVEL_3', 'access_level_3' );
+}
+// capabilités d'aceès au solde
+if ( !defined( 'CONST_ACCESS_SOLDE' ) ) {
+    define( 'CONST_ACCESS_SOLDE', 'access_solde' );
+}
+// liste des categories notaires
+if ( !defined( 'CONST_OFFICES_CATEG' ) ) {
+    define( 'CONST_OFFICES_CATEG', 'OFF' );
+}
+if ( !defined( 'CONST_ORGANISMES_CATEG' ) ) {
+    define( 'CONST_ORGANISMES_CATEG', 'ORG' );
+}
+if ( !defined( 'CONST_CLIENTDIVERS_CATEG' ) ) {
+    define( 'CONST_CLIENTDIVERS_CATEG', 'DIV' );
+}
+
 
 // Start of block Import Facture
 if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
