@@ -298,6 +298,24 @@ class QueryBuilder{
         $sql .= $table.' ON '.$option['column'].' ';
         return $sql;
     }
+
+    /**
+     * Count on query, before creating any objects
+     *
+     * @param string $table Table name
+     * @param array $options Contain keys where specified sql clauses (join,where,...)
+     * @param string $primaryKey The primary key for table
+     * @return array
+     */
+    public function countItems( $table , $options = array() ,$primaryKey = 'id' ){
+        $options['count'] = true;
+        $sql = $this->buildQuery($table, $options, $primaryKey);
+        $result = $this->wpdb->get_results( $sql );
+        if (is_array($result) && count($result) == 1){
+            return $result[0]->nb;
+        }
+    }
+
     /**
      * Find more elements in table
      *
@@ -307,9 +325,26 @@ class QueryBuilder{
      * @return array
      */
     public function findAll( $table , $options = array() ,$primaryKey = 'id' ){
+        $options['count'] = false;
+        $sql = $this->buildQuery($table, $options, $primaryKey);
+        return $this->wpdb->get_results( $sql );
+    }
+
+    /**
+     * Build sample query
+     *
+     * @param string $table Table name
+     * @param array $options Contain keys where specified sql clauses (join,where,...)
+     * @param string $primaryKey The primary key for table
+     * @return array
+     */
+    public function buildQuery( $table , $options = array() ,$primaryKey = 'id' ){
         $table = $this->wpdb->prefix.$table;
         $sql = 'SELECT ';
-        if( isset( $options['fields'] ) ){
+
+        if( isset( $options['count'] ) && $options['count'] ) {
+            $sql .= ' COUNT(*) as nb ';
+        } elseif( isset( $options['fields'] ) ){
             if( is_array( $options['fields'] ) ){
                 $sql .= implode( ', ',$options['fields'] );
             }
@@ -343,10 +378,23 @@ class QueryBuilder{
             else{
                 $cond = array();
                 foreach( $options['conditions'] as $k=>$v ){
-                    if( !is_numeric( $v ) ){
-                        $v = '"'.mysqli_real_escape_string( $v ).'"'; //clean
+                    if (is_array($v) && count($v) > 1){
+                        $condition = "$k IN (";
+                        foreach ($v as $value){
+                            if (!is_numeric($value)) {
+                                $value = '"' . mysqli_real_escape_string($value) . '"'; //clean
+                            }
+                            $condition.= $value.',';
+                        }
+                        //Delete the last commas
+                        $condition = substr($condition,0,-1).')';
+                        $cond[] = $condition;
+                    } else {
+                        if (!is_numeric($v)) {
+                            $v = '"' . mysqli_real_escape_string($v) . '"'; //clean
+                        }
+                        $cond[] = "$k = $v";
                     }
-                    $cond[] = "$k = $v";
                 }
                 $sql .= implode( ' AND ',$cond );
             }
@@ -385,109 +433,6 @@ class QueryBuilder{
                     }
                     $sql .= $k.' IN ('.implode(' ,',$cond).' )';
                 }
-                if( count( $options['in']) > 1 ){
-                    $sql .= ' AND ';
-                }
-            }
-        }
-        if( isset( $options['group'] ) ){
-            $sql .= ' GROUP BY '.$options['group'];
-        }
-        $sql .= ' ORDER BY '.$primaryKey;
-        if( isset( $options['order'] ) ){
-            $sql .= ' '.$options['order'];
-        }else{
-            $sql .= ' ASC';
-        }
-        if( isset( $options['limit'] ) ){
-            $sql .= ' LIMIT '.$options['limit'];
-        }
-        return $this->wpdb->get_results( $sql );
-    }
-
-    /**
-     * Build sample query
-     *
-     * @param string $table Table name
-     * @param array $options Contain keys where specified sql clauses (join,where,...)
-     * @param string $primaryKey The primary key for table
-     * @return array
-     */
-    public function buildQuery( $table , $options = array() ,$primaryKey = 'id' ){
-        $table = $this->wpdb->prefix.$table;
-        $sql = 'SELECT ';
-        if( isset( $options['fields'] ) ){
-            if( is_array( $options['fields'] ) ){
-                $sql .= implode( ', ',$options['fields'] );
-            }
-            else{
-                $sql .= $options['fields'];
-            }
-        }
-        else{
-            $sql .='*';
-        }
-        if (isset($options['synonym'])) {
-            $synonym = $options['synonym'];
-        } else {
-            $synonym = $table;
-        }
-        $sql .= ' FROM '.$table.' as '.$synonym.' ';
-        //construnct join
-        if( isset( $options['join'] ) ){
-            if( is_array( $options['join'] ) ){
-                foreach( $options['join'] as $option ){
-                    $sql .= $this->constructJoin( $option );
-                }
-            }
-        }
-        //construct conditions
-        if( isset( $options['conditions'] ) ){
-            $sql .= 'WHERE ';
-            if( !is_array( $options['conditions'] ) ){
-                $sql .= $options['conditions'];
-            }
-            else{
-                $cond = array();
-                foreach( $options['conditions'] as $k=>$v ){
-                    if( !is_numeric( $v ) ){
-                        $v = '"'.mysqli_real_escape_string( $v ).'"'; //clean
-                    }
-                    $cond[] = "$k = $v";
-                }
-                $sql .= implode( ' AND ',$cond );
-            }
-        }
-        if( isset( $options['not'] ) ){
-            if ( !isset($options['conditions'] ) ) {
-                $sql .= 'WHERE ';
-            } else {
-                $sql .= ' AND ';
-            }
-            $cond = array();
-            foreach( $options['not'] as $k=>$v ){
-                if( !is_numeric($v) ){
-                    $v = '"'.mysqli_real_escape_string($v).'"'; //clean
-                }
-                $cond[] = "$k <> $v";
-            }
-            $sql .= implode( ' AND ',$cond );
-        }
-        if( isset( $options['in'] ) && !empty( $options['in'] ) ){
-            if ( !isset($options['conditions'] ) && !isset( $options['not'] )) {
-                $sql .= 'WHERE ';
-            }else{
-                $sql .= ' AND ';
-            }
-            $cond = array();
-            foreach( $options['in'] as $k => $v ){
-                foreach( $v as $l=>$w ){
-                    if( !is_numeric( $w ) ){
-                        $w = '"'.mysqli_real_escape_string( $w ).'"'; //clean
-                    }
-                    $cond[] = "$w";
-                }
-                $sql .= $k.' IN ('.implode(' ,',$cond).' )';
                 if( count( $options['in']) > 1 ){
                     $sql .= ' AND ';
                 }

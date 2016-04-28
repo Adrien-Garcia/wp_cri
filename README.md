@@ -50,6 +50,23 @@ setenv("DEV=DEV");
 $_SERVER('ENV');
 ```
 
+# Utilisation
+
+## Debug des crons
+
+Pour utiliser XDEBUG en CLI :
+
+* Configurer PhpStorm : [ici](https://confluence.jetbrains.com/display/PhpStorm/Debugging+PHP+CLI+scripts+with+PhpStorm)
+* Configuration dans le terminal : [ici](http://code-chronicle.blogspot.fr/2014/07/web-and-cli-debugging-with-phpstorm.html)
+
+Exemple d'export de variable d'environnement ci-dessous :
+
+
+```
+export PHP_IDE_CONFIG="serverName=wp-cridon.username.jetpulp.dev"
+export XDEBUG_CONFIG="remote_enable=1 remote_mode=req remote_port=9000 remote_host=10.0.2.1 remote_connect_back=0 idekey=PHPSTORM"
+```
+
 # Choix d'implémentation
 
 ## Soldes des notaires
@@ -59,3 +76,15 @@ Lorsque le type de support vaut 0, il s'agit du nombre de points initiaux d'une 
 
 Il doit donc y avoir autant de lignes avec support 0 que d'étude,
 alors qu'il n'y a pas de ligne avec un support autre tant qu'il n'y a pas eu de consommation de points.
+
+# Migrations SQL
+
+Ce Wordpress se base sur des Models custom, ayant chacun leur propre table. Cela permet de faire évoluer le model par étape, sans opération manuelle en BO.
+On écrit pour ce faire, des migrations SQL disponibles dans le dossier idoine du plugin Cridon.
+
+Ces migrations peuvent être exécutées en CLI dans le dossier `server` via la commande suivante :
+````
+php oneshot/executeMigrationsSQL.php
+````
+
+L'état des migrations est consultable dans la table `cri_plugin_migrations`.

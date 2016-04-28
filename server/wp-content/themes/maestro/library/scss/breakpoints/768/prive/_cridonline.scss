@@ -1,7 +1,7 @@
 .cridonline-offres{
 
 	.bloc-cridonline{
-		width: 100%;
+		width: 400px;
 		height: 400px;
 
 		> .en-tete{
@@ -28,8 +28,6 @@
 				li{
 					font-size: 15px;
 					line-height: 19px;
-
-
 				}
 			}
 
@@ -37,12 +35,13 @@
 				font-size: 15px;
 				margin-top: 10px;
 
+				margin-left: 8px;
+
 				&:after{
 				}
 			}
 
-			input[type="submit"]{
-				
+			input[type="submit"]{				
 			    margin-left: -90px;
 			    width: 180px;
 			}
@@ -66,6 +65,16 @@
 			.en-tete{
 				background-size: 183px 85px;
 			}			
+		}
+
+
+		&.on{
+			width: 430px;
+			left: -10px;		   
+		}
+
+		&.off{
+			margin-left: 8px;
 		}
 
 		

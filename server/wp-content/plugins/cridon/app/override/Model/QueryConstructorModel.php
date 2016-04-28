@@ -197,20 +197,6 @@ class QueryConstructorModel {
             if (is_array($conditions)) {
                 $sql_clauses = array();
                 foreach ($conditions as $key => $value) {
-                    if (strpos($key, '.') === false && $use_table_alias) {
-                        $key = substr(strtolower($this->model->name),0,1 ).'.'.$key;
-                    }else{
-                        if(!$this->hasAndBelongsToMany){
-                            //e.g: Notaire.id = n.id
-                            if(preg_match_all('/([\w]+[.]{1}[\w]+)/',$key,$matches)){
-                                foreach($matches[1] as $v ){
-                                    $tmp = explode('.',$v);
-                                    $new = substr(strtolower($tmp[0]),0,1 ).'.'.$tmp[1];
-                                    $key = preg_replace("/(\b{$v}\b)/",$new,$key);
-                                }
-                            }
-                        }
-                    }
                     if (is_array($value)) {
                         if (is_string($key) && !in_array($key, array('OR', 'AND'))) {
                             $values = array();
@@ -225,6 +211,20 @@ class QueryConstructorModel {
                             $sql_clauses[] = '('.implode($logical_operator, $clauses).')';
                         }
                         continue;
+                    }
+                    if (strpos($key, '.') === false && $use_table_alias) {
+                        $key = substr(strtolower($this->model->name),0,1 ).'.'.$key;
+                    }else{
+                        if(!$this->hasAndBelongsToMany){
+                            //e.g: Notaire.id = n.id
+                            if(preg_match_all('/([\w]+[.]{1}[\w]+)/',$key,$matches)){
+                                foreach($matches[1] as $v ){
+                                    $tmp = explode('.',$v);
+                                    $new = substr(strtolower($tmp[0]),0,1 ).'.'.$tmp[1];
+                                    $key = preg_replace("/(\b{$v}\b)/",$new,$key);
+                                }
+                            }
+                        }
                     }
                     if (!is_null($value)) {
                         $operator = preg_match('/\s+(<|>|<=|>=|<>|\!=|[\w\s]+)/', $key) ? ' ' : ' = ';

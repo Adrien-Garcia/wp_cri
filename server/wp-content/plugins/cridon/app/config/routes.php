@@ -51,6 +51,7 @@ MvcRouter::public_connect('notaires/contentquestions', array('controller' => 'no
 MvcRouter::public_connect('notaires/contentprofil', array('controller' => 'notaires', 'action' => 'contentprofil'));
 MvcRouter::public_connect('notaires/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
 MvcRouter::public_connect('notaires/contentcollaborateur', array('controller' => 'notaires', 'action' => 'contentcollaborateur'));
+MvcRouter::public_connect('notaires/deletecollaborateur/{:id:[\d]+}', array('controller' => 'notaires', 'action' => 'deletecollaborateur'));
 MvcRouter::public_connect('notaires/liste', array('controller' => 'notaires', 'action' => 'liste'));
 MvcRouter::public_connect('notaires/contentcridonline', array('controller' => 'notaires', 'action' => 'contentcridonline'));
 MvcRouter::public_connect('notaires/contentcridonlineetape2', array('controller' => 'notaires', 'action' => 'contentcridonlineetape2'));

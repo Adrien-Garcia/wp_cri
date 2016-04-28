@@ -170,6 +170,23 @@ if ( !defined( 'CONST_DB_TABLE_NOTAIRE' ) ) {
     }
     define( 'CONST_DB_TABLE_NOTAIRE', $prefix.'ZEXPNOTV' );
 }
+if ( !defined( 'CONST_DB_TABLE_ABONNE' ) ) {
+    switch ($env) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_ABONNE', $prefix.'YABONNE' );
+}
+
 
 // import CSV notaire file path
 if ( !defined( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH' ) ) {
@@ -433,7 +450,6 @@ if ( !defined( 'CONST_QUEST_UPDATED_IN_X3' ) ) {
 if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
     define( 'CONST_QUEST_TRANSMIS_ERP', 1 );
 }
-
 if ( !defined( 'CONST_QUEST_ANSWERED' ) ) {
     define( 'CONST_QUEST_ANSWERED', 4 );
 }
@@ -466,13 +482,38 @@ if ( !defined( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_CORRUPTED_PDF_MSG', 'Import GED du %s : le fichier PDF associé au CSV de la question "%s" est illisible' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG' ) ) {
-    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : repertoire d\'import vide' );
+    define( 'CONST_IMPORT_GED_LOG_EMPTY_DIR_MSG', 'Import GED du %s : Aucun document traité' );
 }
 if ( !defined( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG' ) ) {
     define( 'CONST_IMPORT_GED_LOG_DOC_WITHOUT_QUESTION_MSG', 'Import GED du %s : aucune question n\'est associée au document suivant "%s"' );
 }
 if ( !defined( 'CONST_IMPORT_GED_GENERIC_ERROR_MSG' ) ) {
     define( 'CONST_IMPORT_GED_GENERIC_ERROR_MSG', 'Erreur survenue lors de l\'import de la GED' );
+}
+// Cridonline const
+if ( !defined( 'CONST_CRIDONLINE_A_TRANSMETTRE_ERP' ) ) {
+    define( 'CONST_CRIDONLINE_A_TRANSMETTRE_ERP', 1 );
+}
+if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_A_TRANSMETTRE_ERP' ) ) {
+    define( 'CONST_CRIDONLINE_ECHEANCE_A_TRANSMETTRE_ERP', 0 );
+}
+if ( !defined( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE' ) ) {
+    define( 'CONST_LOWEST_PAID_LEVEL_CRIDONLINE', 2 );
+}
+if ( !defined( 'CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS' ) ) {
+    define( 'CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS', 365 );
+}
+if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_MONTH' ) ) {
+    define( 'CONST_CRIDONLINE_ECHEANCE_MONTH', 2 );
+}
+if ( !defined( 'CONST_EXPORT_CRIDONLINE_ERROR' ) ) {
+    define( 'CONST_EXPORT_CRIDONLINE_ERROR', 'Export cridonline interrompu le : %s' );
+}
+if ( !defined( 'CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT' ) ) {
+    define( 'CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT', "Merci de souscrire à l'offre Crid'Online afin d'accéder à ce contenu." );
+}
+if ( !defined( 'CONST_ERROR_MSG_FONCTION_NON_AUTORISE' ) ) {
+    define( 'CONST_ERROR_MSG_FONCTION_NON_AUTORISE', "Vous n'avez pas l'autorisation pour accéder à cette page." );
 }
 
 if (!defined('CONST_CONNECTION_FAILED')) {
@@ -726,6 +767,20 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 
 // End of block for mobile
 
+// Reset pwd value to be inserted in YNOTAIRE
+if ( !defined( 'CONST_YTRAITEE_RESETPWD' ) ) {
+    define( 'CONST_YTRAITEE_RESETPWD', 3 );
+}
+if ( !defined( 'CONST_RESETPWD_ERROR' ) ) {
+    define( 'CONST_RESETPWD_ERROR', 'Renouvellement mot de passe interrompu le : %s' );
+}
+if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD' ) ) {
+    define( 'CONST_YDDEMDPTEL_RESETPWD', 2 );
+}
+if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD' ) ) {
+    define( 'CONST_YDDEMDPWEB_RESETPWD', 2 );
+}
+
 // id of collaborator on cri_fonction
 if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
     define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );
@@ -733,6 +788,41 @@ if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
 
 if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
     define( 'CONST_FACTURATION_PAGE_ID', 1515 );
+}
+
+// alert email changed
+if ( !defined( 'CONST_ALERT_EMAIL_CHANGED' ) ) {
+    define('CONST_ALERT_EMAIL_CHANGED', 'Attention : il s\'agit de votre adresse email personnelle');
+}
+
+// Start of block delete collaborator
+if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
+    define( 'CONST_CONFIRM_DEL_MSG', 'Confirmer la suppression du collaborateur ?' );
+}
+if ( !defined( 'CONST_DEL_SUCCESS_MSG' ) ) {
+    define( 'CONST_DEL_SUCCESS_MSG', 'Collaborateur supprimé' );
+}
+if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
+    define( 'CONST_DELCOLLAB_ERROR', 'Suppression collaborateur interrompu le : %s' );
+}
+// End of block delete collaborator
+
+// ERP YNOTAIRE table
+if ( !defined( 'CONST_DB_TABLE_YNOTAIRE' ) ) {
+    switch ($env) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_YNOTAIRE', $prefix.'YNOTAIRE' );
 }
 
 // Onglet
@@ -780,5 +870,38 @@ if ( !defined( 'CONST_CLIENTDIVERS_CATEG' ) ) {
 }
 
 
-
+// Start of block Import Facture
+if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
+    define( 'CONST_TYPEFACTURE_CG', 'CG' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CS' ) ) { // cotisation supplementaire
+    define( 'CONST_TYPEFACTURE_CS', 'CS' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_TRAD' ) ) { // traduction
+    define( 'CONST_TYPEFACTURE_TRAD', 'TRAD' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_SAF' ) ) { // service d'assistance fiscale
+    define( 'CONST_TYPEFACTURE_SAF', 'SAF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CONF' ) ) { // formation
+    define( 'CONST_TYPEFACTURE_CONF', 'CONF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CO' ) ) { // offre éditeur CridOnline
+    define( 'CONST_TYPEFACTURE_CO', 'CO' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
+    define( 'BROCHNST_TYPEFACTURE_BROCH', 'BROCH' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFACTURETemp/' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_PATH', $uploadDir['basedir'] . '/factures/' );
+}
+if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_FACTURE', 'facture' );
+}
+// End of block Import Facture
 

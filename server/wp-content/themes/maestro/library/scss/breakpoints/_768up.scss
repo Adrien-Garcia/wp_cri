@@ -98,7 +98,8 @@ HEADER STYLES
 				height: 40px;
 
 				>a{
-					@extend .do-sm;
+					font-family: $dosis;
+    				font-weight: 600;
 					font-size: 12px;
 					color:#FFF;
 					text-transform: uppercase;
@@ -173,7 +174,7 @@ HEADER STYLES
 						@include svgicon('icon-angle-bottom', 18px, 18px, $rouge);
 						@include rotate(180);
 						position: absolute;
-						top: 4px;
+						top: 6px;
 						left: 50%;
 						margin-left: -29px;
 						transition:all 0.3s;
@@ -264,7 +265,8 @@ HEADER STYLES
 			background: $vj_03;
 			text-decoration: none;
 
-			@extend .do-sm;
+			font-family: $dosis;
+    		font-weight: 600;
 			font-size: 12px;
 			color:#FFF;
 			text-transform: uppercase;
@@ -312,7 +314,8 @@ HEADER STYLES
 					height: 30px;					
 					background: #FFF;
 					text-decoration: none;
-					@extend .do-sm;
+					font-family: $dosis;
+    				font-weight: 600;
 					font-size: 12px;
 					color:$vert !important;
 					text-transform: uppercase;
@@ -370,7 +373,7 @@ HEADER STYLES
 						@include rotate(180);
 
 						position: absolute;
-						top: 17px;
+						top: 20px;
 						left: 50%;
 						margin-left: -29px;
 
@@ -1367,7 +1370,8 @@ body.single #content{
 		}
 
 		span{
-			@extend .do-sm;
+			font-family: $dosis;
+    		font-weight: 600;
 			color:$bleu;
 			font-size: 15px;
 			line-height: 24px;

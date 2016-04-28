@@ -108,7 +108,7 @@
 				<div class="content">
 					<div id="tableau-de-bord" class="pannel js-account-ajax js-account-dashboard js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) ? " active " : "" ?>">
                         <?php if (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) : ?>
-                            <?php CriRenderView('contentdashboard', array('controller' => $this, 'questions' => $questions, 'notaire' => $notaire), 'notaires') ?>
+                            <?php CriRenderView('contentdashboard', array('controller' => $this, 'questions' => $questions, 'notaire' => $notaire, 'messageError' => $messageError), 'notaires') ?>
                         <?php endif; ?>
 					</div>
 					<div id="mes-questions" class="pannel js-account-ajax js-account-questions js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_QUESTION) ? " active " : "" ?>">
@@ -118,7 +118,7 @@
 					</div>
 					<div id="mon-profil" class="pannel js-account-ajax js-account-profil js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_PROFIL) ? " active " : "" ?>">
 	                    <?php if ($onglet == CONST_ONGLET_PROFIL) : ?>
-	                        <?php CriRenderView('contentprofil', array('matieres' => $matieres,'notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3), 'notaires') ?>
+	                        <?php CriRenderView('contentprofil', array('matieres' => $matieres,'notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3, 'alertEmailChanged' => $alertEmailChanged), 'notaires') ?>
 	                    <?php endif; ?>
 					</div>
 					<div id="regles-facturation" class="pannel js-account-ajax js-account-facturation js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_FACTURATION) ? " active " : "" ?>">
@@ -128,13 +128,13 @@
 					</div>
 					 <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>">
                         <?php if ($onglet == CONST_ONGLET_CRIDONLINE) : ?>
-                            <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3 ), 'notaires') ?>
+                            <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3, 'messageError' => $messageError ), 'notaires') ?>
 
                         <?php endif; ?>
                     </div>
                     <div id="mes-collaborateurs" class="pannel js-account-ajax js-account-collaborateur js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>">
                         <?php if ($onglet == CONST_ONGLET_COLLABORATEUR) : ?>
-                            <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions), 'notaires') ?>
+                            <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions, 'alertEmailChanged' => $alertEmailChanged, 'liste' => $liste), 'notaires') ?>
                         <?php endif; ?>
                     </div>
 				</div>

@@ -1,1 +1,0 @@
-ALTER TABLE `cri_matiere` ADD COLUMN `question` TINYINT(1) DEFAULT 0 NOT NULL AFTER `virtual_name`; 

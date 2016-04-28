@@ -22,10 +22,10 @@ class NotairesController extends BasePublicController
     {
         global $mvc_params;
 
-        // check if user is logged in and must be a notary
-        if (!is_user_logged_in()
-            || !in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)
-        ) {
+        // check if user is logged in
+        if (!is_user_logged_in()) { // need to be redirected to the right page after login
+            CriRefuseAccess();
+        } elseif (!in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)) { // user is not allowed to access the content
             // logout current user
             wp_logout();
             // redirect user to home page
@@ -45,7 +45,9 @@ class NotairesController extends BasePublicController
 
         // set notary id in params
         // needed to retrieve notary data by the MVC system
-        $this->params['id'] = $this->current_notaire->id;
+        if (!in_array($this->params['action'], Config::$exceptedActionForRedirect301)) {
+            $this->params['id'] = $this->current_notaire->id;
+        }
     }
 
     /**
@@ -141,7 +143,7 @@ class NotairesController extends BasePublicController
         $this->set('messageError', '');
         if (isset($_REQUEST['error'])){
             if ($_REQUEST['error'] == 'FONCTION_NON_AUTORISE'){
-                $this->set('messageError', "Vous n'avez pas l'autorisation pour accéder à cette page.");
+                $this->set('messageError', CONST_ERROR_MSG_FONCTION_NON_AUTORISE);
             }
         }
 
@@ -290,25 +292,21 @@ class NotairesController extends BasePublicController
         $notaire = CriNotaireData();
         $this->set('notaire', $notaire);
 
-        $options = array(
-            'conditions' => array(
-                'crpcen' => $notaire->crpcen
-            )
-        );
-        $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
+        $options = array('conditions' => array('crpcen' => $notaire->crpcen));
+        /** @var $etude Etude*/
+        $etude   = mvc_model('Etude')->find_one($options);
+        $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
+        if (is_array($subscriptionInfos) && count($subscriptionInfos) > 0) {
+            foreach ($subscriptionInfos as $level => $price) {
+                //set name of variable
+                $priceVeilleLevelx = 'priceVeilleLevel' . $level;
+                $this->set($priceVeilleLevelx, $price);
+            }
+        }
 
-
-        // Tri du tableau de prix par clé descendante
-        foreach(Config::$pricesLevelsVeilles as $veilleLevel => $prices){
-            //set name of variable
-            $priceVeilleLevelx = 'priceVeilleLevel'.$veilleLevel;
-            //Tri par pri décroissant pour chaque niveau de veille
-            krsort($prices);
-            foreach($prices as $nbCollaborator => $price) {
-                if ($nbCollaboratorEtude >= $nbCollaborator) {
-                    $this->set($priceVeilleLevelx, $price);
-                    break;
-                }
+        if (isset($_REQUEST['error'])){
+            if ($_REQUEST['error'] == 'NIVEAU_VEILLE_INSUFFISANT'){
+                $this->set('messageError', CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT);
             }
         }
 
@@ -396,35 +394,25 @@ class NotairesController extends BasePublicController
 
     public function ajaxVeilleSubscription()
     {
-        // init response
         $ret = 'cgvNotAccepted';
-        if ((!empty($_REQUEST['CGV'])) && ($_REQUEST['CGV'] === 'true') ){
+        if ((!empty($_REQUEST['CGV'])) && ($_REQUEST['CGV'] === 'true') ) {
             // Verify that the nonce is valid.
             if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen'])) {
                 // find the office
                 $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
-                if (!empty($_REQUEST['level']) && !empty($etude)) {
-                    // @TODO send info to Cridon (waiting for info 'How to do that'
-
-                    // Free trial date only if it's the first subscription online for that office
-                    if (intval($_REQUEST['level']) > $etude->subscription_level && empty($etude->end_subscription_date_veille)) {
-                        $end_subscription_date_veille = date('Y-m-d', strtotime('+' . Config::$daysTrialVeille . ' days'));
-                        $office = array(
-                            'Etude' => array(
-                                'crpcen' => $_REQUEST['crpcen'],
-                                'end_subscription_date_veille' => $end_subscription_date_veille
-                            )
-                        );
-                        mvc_model('Etude')->save($office);
-                    }
-                }
-                if (!empty($_REQUEST['price']) && !empty($etude)) {
-                    $start_subscription_date_veille = date('Y-m-d');
+                if (!empty($etude) && !empty($_REQUEST['level']) && intval($_REQUEST['level']) > $etude->subscription_level && !empty($_REQUEST['price'])) {
+                    $start_subscription_date = date('Y-m-d');
+                    $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+                    $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
                     $office = array(
                         'Etude' => array(
                             'crpcen' => $_REQUEST['crpcen'],
-                            'start_subscription_date_veille' => $start_subscription_date_veille,
-                            'subscription_price' => intval($_REQUEST['price'])
+                            'subscription_level' => $_REQUEST['level'],
+                            'start_subscription_date' => $start_subscription_date,
+                            'echeance_subscription_date' => $echeance_subscription_date,
+                            'end_subscription_date' => $end_subscription_date,
+                            'subscription_price' => intval($_REQUEST['price']),
+                            'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                         )
                     );
                     mvc_model('Etude')->save($office);
@@ -437,12 +425,12 @@ class NotairesController extends BasePublicController
     }
 
 
-
     protected function prepareDashboard()
     {
         $this->prepareSecureAccess();
 
         // set template vars
+        // @TODO to be completed with others notaire dynamic data
         $vars = $this->get_object();
         $this->set_vars($vars);
         return $vars;
@@ -461,6 +449,7 @@ class NotairesController extends BasePublicController
             && !empty($_POST)
             && !empty($this->current_notaire)
         ) {
+            global $current_user;
             // newsletter
             if(isset($_POST['disabled'])) {
                 $this->model->newsletterSubscription($this->current_notaire);
@@ -473,9 +462,33 @@ class NotairesController extends BasePublicController
                 $this->model->manageInterest($this->current_notaire, $data);
             }
 
+            // set warning msg
+            $this->set('alertEmailChanged', '');
+
             // maj profil et/ou données d'etude
-            if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+            if (in_array(CONST_FINANCE_ROLE, (array) $current_user->roles)) {
+                // check emailchanged
+                if ( !empty($_REQUEST['notary_email_adress']) ) {
+                    if ($this->model->isEmailChanged($this->current_notaire->id, $_REQUEST['notary_email_adress'])) {
+                        $this->set('alertEmailChanged', CONST_ALERT_EMAIL_CHANGED);
+                    }
+                }
+
+                // update profil
                 $this->model->updateProfil($this->current_notaire->id, $this->current_notaire->crpcen);
+
+                /**
+                 * Renouvellement mot de passe :
+                 * - notaire connecté dispose d'une adresse email perso
+                 * - seuls les notaires de fonctions 1, 2, 3, 6, 7, 8, 9, 10 peuvent accéder à la fonction
+                 * @see \Config::$allowedNotaryFunction
+                 */
+                if (isset($_POST['reset_pwd'])
+                    && !empty($this->current_notaire->email_adress)
+                    && filter_var($this->current_notaire->email_adress, FILTER_VALIDATE_EMAIL)
+                ) {
+                    $this->model->resetPwd($this->current_notaire->id);
+                }
             }
         }
         // set template vars
@@ -547,12 +560,23 @@ class NotairesController extends BasePublicController
         // access secured
         $this->prepareSecureAccess();
 
+        // set warning msg
+        $this->set('alertEmailChanged', '');
+
         // post form
         if (isset($_POST['collaborator_first_name'])
             && $_POST['collaborator_first_name']
         ) {
             // Clean $_POST before
             $data = $this->tools->clean($_POST);
+            // check emailchanged
+            if (!empty($_REQUEST['collaborator_id'])
+                && !empty($_REQUEST['collaborator_email'])
+            ) {
+                if ($this->model->isEmailChanged($_REQUEST['collaborator_id'], $_REQUEST['collaborator_email'])) {
+                    $this->set('alertEmailChanged', CONST_ALERT_EMAIL_CHANGED);
+                }
+            }
             $this->model->manageCollaborator($this->current_notaire, $data);
         }
 
@@ -563,7 +587,9 @@ class NotairesController extends BasePublicController
         $this->set('collaborator_functions', $collaborator_functions);
 
         //@todo set list of existing collaborators
-        $this->set('collaborators', array());
+        //show every member of an office
+        $liste = $this->model->listOfficeMembers($this->current_notaire);
+        $this->set('liste', $liste);
 
         // tab rank
         $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
@@ -587,22 +613,69 @@ class NotairesController extends BasePublicController
     }
 
     /**
+     * Delete Notaire Collaborator Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/deletecollaborateur.php
+     *
+     * @return void
+     */
+    public function deletecollaborateur()
+    {
+        // access secured
+        $this->prepareSecureAccess();
+
+        // collaborator id
+        $collaborator_id = $this->params['id'];
+
+        global $current_user;
+        // check if user can manage collaborator
+        if (!in_array(CONST_FINANCE_ROLE, (array) $current_user->roles)
+            || !$this->tools->isSameOffice($collaborator_id, $this->current_notaire)
+        ) {
+            // redirect to profil page
+            $this->redirect(mvc_public_url(
+                                array(
+                                    'controller' => 'notaires',
+                                    'action'     => 'profil'
+                                )
+                            )
+            );
+        }
+
+        // default message
+        $flash_message = CONST_CONFIRM_DEL_MSG;
+
+        // submit form
+        if (isset($_REQUEST['confirmdelete'])) {
+            if ($this->model->deleteCollaborator($collaborator_id)) {
+                $flash_message = CONST_DEL_SUCCESS_MSG;
+            }
+        }
+
+        // set collaborator id
+        $this->set('collaborator_id', $collaborator_id);
+
+        // set flash message
+        $this->set('flash_message', $flash_message);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
+    }
+
+    /**
      * Show every member of the office
      */
     public function liste(){
         // access secured
         $this->prepareSecureAccess();
 
+        global $current_user;
+
         // check notary function
-        if (!in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
+        if (!in_array(CONST_FINANCE_ROLE, (array) $current_user->roles)) {
+            $url = mvc_public_url(array('controller' => 'notaires','action'=> 'show'));
+            $url.='?error=FONCTION_NON_AUTORISE';
             // redirect to dashboard page
-            $this->redirect(mvc_public_url(
-                    array(
-                        'controller' => 'notaires',
-                        'action'     => 'show'
-                    )
-                )
-            );
+            $this->redirect($url);
         }
         //show every member of an office
         $liste = $this->model->listOfficeMembers($this->current_notaire);

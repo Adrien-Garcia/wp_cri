@@ -689,10 +689,10 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
         $request = !empty($url) ? $url : urlencode($_GET['requestUrl']);
     } else {
         $referer = $_SERVER['HTTP_REFERER'];
-        $request = !empty($url) ? $url : "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+        $request = !empty($url) ? $url : "{$_SERVER['REQUEST_URI']}";
     }
 
-    if (! empty($referer) /*&& strripos( $request , $referer)*/ ){
+    if (! empty($referer) ){
         $redirect = $referer;
     } else {
         $redirect = get_home_url();
@@ -702,6 +702,7 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
         preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 &&
         preg_match("/.*?[\?\&]messageLogin=" . $error_code . ".*?/", $referer) === 1
     ) {
+        $redirect = get_home_url() . "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . $_SERVER['REQUEST_URI'];
         wp_redirect($redirect);
         return;
     }
@@ -715,6 +716,7 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
     $redirect .= "openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . $request;
 
     wp_redirect($redirect);
+    exit;
 }
 
 /**
@@ -963,6 +965,16 @@ function CriSendPostQuestConfirmation($question) {
 }
 
 /**
+ * Check if  current user can manage Collaborator
+ *
+ * @return bool
+ * @throws Exception
+ */
+function CriCanManageCollaborator() {
+    return mvc_model('notaire')->userCanManageCollaborator();
+}
+
+/**
  * Get list of all existing roles
  *
  * @return array
@@ -987,4 +999,13 @@ function CriGetCollaboratorRoles($collaborator) {
         }
     }
     return array();
+}
+
+/**
+ * Check if notaire can reset password
+ *
+ * @return bool
+ */
+function CriCanResetPwd() {
+    return mvc_model('notaire')->userCanResetPwd();
 }

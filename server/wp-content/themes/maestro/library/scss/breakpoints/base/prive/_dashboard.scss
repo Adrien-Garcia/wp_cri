@@ -88,7 +88,7 @@ div#tableau-de-bord{
 			.pts{
 				color:$vert;
 				@extend .do-bo;
-				font-size: 70px;
+				font-size: 64px;
 				line-height: 70px;
 				position: absolute;
 				text-align: right;
@@ -111,7 +111,8 @@ div#tableau-de-bord{
 				position: absolute;
 				left: 0;
 				bottom: 0;
-				@extend .do-sm;
+				font-family: $dosis;
+    			font-weight: 600;
 				font-size: 12px; 
 				line-height: 16px;
 				color:$bleu;
@@ -142,7 +143,8 @@ div#tableau-de-bord{
 				text-align: center;
 				float: left;
 				margin-right: 10px;
-				@extend .do-sm;
+				font-family: $dosis;
+    			font-weight: 600;
 				font-size: 20px;
 			}
 
@@ -153,7 +155,8 @@ div#tableau-de-bord{
 				float: left;
 				text-transform: uppercase;
 				font-size: 12px;
-				@extend .do-sm;
+				font-family: $dosis;
+    font-weight: 600;
 				color:$vj_03;
 				height: auto;
 				padding-top: 13px;
@@ -162,7 +165,8 @@ div#tableau-de-bord{
 
 			> .date{
 				margin-left: 45px;
-				@extend .do-sm;
+				font-family: $dosis;
+    font-weight: 600;
 				color:$bleu;
 				font-size: 12px;
 				line-height: 14px;
@@ -191,7 +195,8 @@ div#tableau-de-bord{
 			position: relative;
 			padding-left: 40px;
 
-			@extend .do-sm;
+			font-family: $dosis;
+    font-weight: 600;
 			color:$bleu;
 			font-size: 12px;
 			line-height: 16px;
@@ -248,7 +253,8 @@ div#tableau-de-bord{
 					padding: 0;
 					font-size: 14px;
 					line-height: 18px;
-					@extend .do-sm;
+					font-family: $dosis;
+    font-weight: 600;
 					color:$bleu;
 					max-height: 36px;
 					overflow: hidden;
@@ -257,7 +263,8 @@ div#tableau-de-bord{
 				span{
 					font-size: 14px;
 					line-height: 18px;
-					@extend .do-sm;
+					font-family: $dosis;
+    font-weight: 600;
 					color:$bleu;
 					display: block; 
 
@@ -289,7 +296,8 @@ div#tableau-de-bord{
 				}
 
 				.matiere{
-					@extend .do-sm;
+					font-family: $dosis;
+    font-weight: 600;
 					color: #FFF;
 				    text-transform: uppercase;
 				    font-size: 12px;

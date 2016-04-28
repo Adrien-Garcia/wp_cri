@@ -15,9 +15,12 @@ div#mon-profil{
 			background: $vj_03;
 			float: left;
 			position: relative;
+			display: none;
+
+
 
 			&:before{
-				display:block;
+				display:none;
 				font-weight: normal;
 				@include svgicon('icon-compte', 72px, 72px, #FFF);	 				
 				position:absolute;

@@ -71,12 +71,12 @@ echo get_template_part("content","ga");
 							</a>
 							<ul class="overlay">
 								<li>
-									<a href="/rechercher-dans-les-bases-de-connaissances/" >
+									<a href="#" id="js-cridonline-link" >
 										<?php _e('Bases CRID’'); ?><span><?php _e('ONLINE'); ?></span>
 									</a>
 								</li>
 								<li>
-									<a href="#" >
+									<a href="/rechercher-dans-les-bases-de-connaissances/" >
 										<?php _e('Bases CRIDON'); ?> <span><?php _e('LYON'); ?></span> 
 									</a>
 								</li>

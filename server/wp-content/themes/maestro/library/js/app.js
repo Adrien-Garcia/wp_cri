@@ -21,4 +21,5 @@ jQuery(document).ready(function($) {
     }
     App.Question.init();
     App.Formation.init();
+    App.Cridonline.init();
 });

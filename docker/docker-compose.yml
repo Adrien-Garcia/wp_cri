@@ -1,0 +1,42 @@
+web:
+    container_name: wp_cridon-web
+    image: registry.jetpulp.fr:5000/dev/php56-apache-oci8
+    ports:
+        - "80:80"
+    volumes:
+        - ../server:/var/www/wp_cridon/server
+        - ./web/vhost.conf:/etc/apache2/sites-enabled/vhost.conf
+        - ./web/php.ini:/usr/local/etc/php/php.ini
+    environment:
+        - ALLOW_OVERRIDE=true
+        - SERVER_NAME=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
+        - VIRTUAL_HOST=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
+        - USER_UID
+        - USER_GROUP
+    links:
+        - db:db
+        - mailhog:mailhog
+        - blackfire:blackfire
+db:
+    container_name: wp_cridon-db
+    image: mariadb:10.0
+    ports:
+        - "3306:3306"
+    volumes:
+        - /var/lib/boot2docker/mysql_wp_cridon:/var/lib/mysql
+        - ./db:/docker-entrypoint-initdb.d
+    environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=wp_cridon
+        - SERVER_NAME=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
+mailhog:
+    container_name: wp_cridon-mailhog
+    image: mailhog/mailhog
+    ports:
+        - "8025:8025"
+blackfire:
+    container_name: wp_cridon-blackfire
+    image: blackfire/blackfire
+    environment:
+        - BLACKFIRE_SERVER_ID
+        - BLACKFIRE_SERVER_TOKEN
