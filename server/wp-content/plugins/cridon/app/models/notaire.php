@@ -3022,7 +3022,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     /**
      * @return array|null|object
      */
-    public function cronResetPwd()
+    public function cronExportNotary()
     {
         try {
             $notaries = $this->wpdb->get_results("
@@ -3048,7 +3048,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 ON
                     `cf`.`id` = `cn`.`id_fonction`
                 WHERE
-                    `cn`.`renew_pwd` = 1
+                    `cn`.`renew_pwd` = 1 OR `cn`.`cron_update` = 1
+
             ");
 
             // verification nb notaires à traiter
@@ -3068,13 +3069,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $queryBloc = array();
                 // adapter instance
                 $adapter = $this->adapter;
-                // list des id notaires pour maj cri_notaire.renew_pwd apres transfert
-                $qList = array();
+                // list des id notaires pour maj cri_notaire apres export
+                $qListResetPWD = $qListCRUD = array();
 
                 // requette commune
-                /**
-                 * Tous les champs de YNOTAIRE sont NOT NULL ( YNOTAIRE.sql )
-                 */
                 $query  = " INTO " . CONST_DB_TABLE_YNOTAIRE;
                 $query .= " (";
                 $query .= $adapter::YIDCOLLAB . ", "; // YIDCOLLAB
@@ -3125,6 +3123,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             // remplit la liste des notaires
                             $qList[] = $notary->id;
 
+                            // recuperation droit question ecrite et telephonique
+                            $droitQuest = $this->getDroitQuestEcriteEtTel($notary);
+
                             // value block
                             $value  = $query;
                             $value .= "(";
@@ -3152,11 +3153,22 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $notary->tel_office . "', "; // TELOFF
                             $value .= "'" . $notary->fax_office . "', "; // FAXOFF
                             $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
-                            $value .= "'0', "; // YSREECR
-                            $value .= "'0', "; // YSRETEL
-                            $value .= "'" . CONST_YTRAITEE_RESETPWD . "', "; // YTRAITEE
-                            $value .= "'" . (empty($notary->tel_password) ? 0 : CONST_YDDEMDPTEL_RESETPWD) . "', "; // YDDEMDPTEL
-                            $value .= "'" . (empty($notary->web_password) ? 0 : CONST_YDDEMDPWEB_RESETPWD) . "', "; // YDDEMDPWEB
+                            $value .= "'" . $droitQuest->YSREECR . "', "; // YSREECR
+                            $value .= "'" . $droitQuest->YSRETEL . "', "; // YSRETEL
+                            $value .= "'" . CONST_YTRAITEE_PAR_SITE . "', "; // YTRAITEE
+
+                            if ($notary->renew_pwd > 0) { // demande de renouvellement de MDP
+                                // liste resetPwd
+                                $qListResetPWD[] = $notary->id;
+                                $value .= "'" . CONST_YDDEMDPTEL_RESETPWD_ON . "', "; // YDDEMDPTEL
+                                $value .= "'" . CONST_YDDEMDPWEB_RESETPWD_ON . "', "; // YDDEMDPWEB
+                            } else {
+                                // list CRUD user
+                                $qListCRUD[] = $notary->id;
+                                $value .= "'" . CONST_YDDEMDPTEL_RESETPWD_OFF . "', "; // YDDEMDPTEL
+                                $value .= "'" . CONST_YDDEMDPWEB_RESETPWD_OFF . "', "; // YDDEMDPWEB
+                            }
+
                             $value .= "'0', "; // YERR
                             $value .= "' '"; // YMESSERR
 
@@ -3169,14 +3181,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $query = 'INSERT ALL ';
                             $query .= implode(' ', $queryBloc);
                             $query .= ' SELECT * FROM dual';
-                            writeLog($query, 'query_resetpwd.log');
                         }
                         break;
                     case CONST_DB_DEFAULT:
                     default:
                         foreach ($notaries as $notary) {
-                            // remplit la liste des notaires
-                            $qList[] = $notary->id;
+                            // recuperation droit question ecrite et telephonique
+                            $droitQuest = $this->getDroitQuestEcriteEtTel($notary);
 
                             $value = "(";
 
@@ -3203,11 +3214,22 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $notary->tel_office . "', "; // TELOFF
                             $value .= "'" . $notary->fax_office . "', "; // FAXOFF
                             $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
-                            $value .= "'0', "; // YSREECR
-                            $value .= "'0', "; // YSRETEL
-                            $value .= "'" . CONST_YTRAITEE_RESETPWD . "', "; // YTRAITEE
-                            $value .= "'" . (empty($notary->tel_password) ? 0 : CONST_YDDEMDPTEL_RESETPWD) . "', "; // YDDEMDPTEL
-                            $value .= "'" . (empty($notary->web_password) ? 0 : CONST_YDDEMDPWEB_RESETPWD) . "', "; // YDDEMDPWEB
+                            $value .= "'" . $droitQuest->YSREECR . "', "; // YSREECR
+                            $value .= "'" . $droitQuest->YSRETEL . "', "; // YSRETEL
+                            $value .= "'" . CONST_YTRAITEE_PAR_SITE . "', "; // YTRAITEE
+
+                            if ($notary->renew_pwd > 0) { // demande de renouvellement de MDP
+                                // liste resetPwd
+                                $qListResetPWD[] = $notary->id;
+                                $value .= "'" . CONST_YDDEMDPTEL_RESETPWD_ON . "', "; // YDDEMDPTEL
+                                $value .= "'" . CONST_YDDEMDPWEB_RESETPWD_ON . "', "; // YDDEMDPWEB
+                            } else {
+                                // list CRUD user
+                                $qListCRUD[] = $notary->id;
+                                $value .= "'" . CONST_YDDEMDPTEL_RESETPWD_OFF . "', "; // YDDEMDPTEL
+                                $value .= "'" . CONST_YDDEMDPWEB_RESETPWD_OFF . "', "; // YDDEMDPWEB
+                            }
+
                             $value .= "'0', "; // YERR
                             $value .= "' '"; // YMESSERR
 
@@ -3218,7 +3240,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         // preparation requete en masse
                         if (count($queryBloc) > 0) {
                             $query = 'INSERT' . $query . implode(', ', $queryBloc);
-                            writeLog($query, 'query_resetpwd.log');
                         }
                         break;
                 }
@@ -3228,12 +3249,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             if (!empty($query)) {
                 if ($result = $this->adapter->execute($query) && !empty($qList)) {
                     // update cri_notaire.renew_pwd
-                    $sql = " UPDATE {$this->table} SET renew_pwd = 0 WHERE id IN (" . implode(', ', $qList) . ")";
-                    $this->wpdb->query($sql);
+                    if (count($qListResetPWD) > 0) {
+                        $sql = " UPDATE {$this->table} SET renew_pwd = 0 WHERE id IN (" . implode(', ', $qListResetPWD) . ")";
+                        $this->wpdb->query($sql);
+                    }
+                    // update cri_notaire.cron_update
+                    if (count($qListCRUD) > 0) {
+                        $sql = " UPDATE {$this->table} SET cron_update = 0 WHERE id IN (" . implode(', ', $qListCRUD) . ")";
+                        $this->wpdb->query($sql);
+                    }
                 } else {
                     // log erreur
-                    $error = sprintf(CONST_RESETPWD_ERROR, date('d/m/Y à H:i:s'));
-                    writeLog($error, 'resetnotarypasswd.log', 'Cridon - demande de renouvellement de mot de passe');
+                    $error = sprintf(CONST_UPDATEERP_ERROR, date('d/m/Y à H:i:s'));
+                    writeLog($error, 'query_updateerp.log');
                 }
             }
 
@@ -3241,7 +3269,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             return CONST_STATUS_CODE_OK;
         } catch(\Exception $e) {
             // write into logfile
-            writeLog($e, 'resetnotarypasswd.log');
+            writeLog($e, 'query_updateerp.log');
 
             // status code
             return CONST_STATUS_CODE_GONE;
@@ -3338,5 +3366,62 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
         // free vars
         unset($notary);
+    }
+
+    /**
+     * Set reset update flag
+     *
+     * @param int $notaryId
+     * @param string $action
+     *
+     * @return void
+     */
+    public function updateFlagERP($notaryId, $action = 'on')
+    {
+        $notary                            = array();
+        $notary['Notaire']['id']           = $notaryId;
+        $notary['Notaire']['cron_update']  = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronUpdateERP" )
+        $this->save($notary);
+    }
+
+    /**
+     * Recuperation droit question ecrite / telephonique
+     *
+     * @param mixed $notary
+     * @return stdClass
+     */
+    protected function getDroitQuestEcriteEtTel($notary)
+    {
+        $droitQuest = new stdClass();
+        $droitQuest->YSREECR = CONST_YSREECR_OFF; // non
+        $droitQuest->YSRETEL = CONST_YSRETEL_OFF; // non
+
+        if ($notary->id_fonction == CONST_NOTAIRE_COLLABORATEUR
+            && !empty(Config::$notaryRolesByFunction['collaborators'][$notary->id_fonction_collaborateur])
+        ) { // collaborateur
+            // question ecrite
+            if (in_array(CONST_QUESTIONECRITES_ROLE, Config::$notaryRolesByFunction['collaborators'][$notary->id_fonction_collaborateur])
+            ) {
+                $droitQuest->YSREECR = CONST_YSREECR_ON;
+            }
+            // question telephonique
+            if (in_array(CONST_QUESTIONTELEPHONIQUES_ROLE, Config::$notaryRolesByFunction['collaborators'][$notary->id_fonction_collaborateur])
+            ) {
+                $droitQuest->YSRETEL = CONST_YSRETEL_ON;
+            }
+        } elseif (!empty(Config::$notaryRolesByFunction['notaries'][$notary->id_fonction])) {
+            // question ecrite
+            if (in_array(CONST_QUESTIONECRITES_ROLE, Config::$notaryRolesByFunction['notaries'][$notary->id_fonction])
+            ) {
+                $droitQuest->YSREECR = CONST_YSREECR_ON;
+            }
+            // question telephonique
+            if (in_array(CONST_QUESTIONTELEPHONIQUES_ROLE, Config::$notaryRolesByFunction['notaries'][$notary->id_fonction])
+            ) {
+                $droitQuest->YSRETEL = CONST_YSRETEL_ON;
+            }
+        }
+
+        return $droitQuest;
     }
 }

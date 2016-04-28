@@ -15,6 +15,6 @@ require_once '../wp-load.php';
  */
 $model = mvc_model('Notaire');
 // call export action
-$code = $model->cronResetPwd();
+$code = $model->cronExportNotary();
 
 echo $code;
