@@ -19,6 +19,9 @@ define('PREPROD', 'PREPROD');
 if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
     define( 'CONST_NOTAIRE_ROLE', 'notaire' );
 }
+if ( !defined( 'CONST_CONNAISANCE_ROLE' ) ) {
+    define( 'CONST_CONNAISANCE_ROLE', 'accesconnaissance' );
+}
 if ( !defined( 'CONST_FINANCE_ROLE' ) ) {
     define( 'CONST_FINANCE_ROLE', 'accesfinances' );
 }
@@ -362,6 +365,92 @@ if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
 }
 if ( !defined( 'CONST_NOTAIRE_ADMIN' ) ) {
     define( 'CONST_NOTAIRE_ADMIN', 10 );
+}
+if ( !defined( 'CONST_NOTAIRE_PRESIDENT_CHAMBRE' ) ) {
+    define( 'CONST_NOTAIRE_PRESIDENT_CHAMBRE', 11 );
+}
+if ( !defined( 'CONST_NOTAIRE_PRESIDENT_CONSEIL' ) ) {
+    define( 'CONST_NOTAIRE_PRESIDENT_CONSEIL', 12 );
+}
+if ( !defined( 'CONST_NOTAIRE_DELEGUE_CRIDON' ) ) {
+    define( 'CONST_NOTAIRE_DELEGUE_CRIDON', 13 );
+}
+if ( !defined( 'CONST_NOTAIRE_DIRECTEUR' ) ) {
+    define( 'CONST_NOTAIRE_DIRECTEUR', 14 );
+}
+if ( !defined( 'CONST_NOTAIRE_DIRECTEUR_GENERAL' ) ) {
+    define( 'CONST_NOTAIRE_DIRECTEUR_GENERAL', 15 );
+}
+if ( !defined( 'CONST_NOTAIRE_DIRECTEUR_DEPARTEMET' ) ) {
+    define( 'CONST_NOTAIRE_DIRECTEUR_DEPARTEMET', 16 );
+}
+if ( !defined( 'CONST_NOTAIRE_CONSEIL_JUR' ) ) {
+    define( 'CONST_NOTAIRE_CONSEIL_JUR', 17 );
+}
+if ( !defined( 'CONST_NOTAIRE_ASSISTANT' ) ) {
+    define( 'CONST_NOTAIRE_ASSISTANT', 18 );
+}
+if ( !defined( 'CONST_NOTAIRE_ASSISTANTE' ) ) {
+    define( 'CONST_NOTAIRE_ASSISTANTE', 19 );
+}
+if ( !defined( 'CONST_NOTAIRE_HONORAIRE' ) ) {
+    define( 'CONST_NOTAIRE_HONORAIRE', 20 );
+}
+if ( !defined( 'CONST_NOTAIRE_SG' ) ) {
+    define( 'CONST_NOTAIRE_SG', 21 );
+}
+if ( !defined( 'CONST_NOTAIRE_SECRETAIRE' ) ) {
+    define( 'CONST_NOTAIRE_SECRETAIRE', 22 );
+}
+if ( !defined( 'CONST_NOTAIRE_SECOND_RAPORTEUR' ) ) {
+    define( 'CONST_NOTAIRE_SECOND_RAPORTEUR', 23 );
+}
+if ( !defined( 'CONST_NOTAIRE_PROF_DROIT' ) ) {
+    define( 'CONST_NOTAIRE_PROF_DROIT', 24 );
+}
+if ( !defined( 'CONST_NOTAIRE_TRESORIER' ) ) {
+    define( 'CONST_NOTAIRE_TRESORIER', 25 );
+}
+if ( !defined( 'CONST_NOTAIRE_CHARGE_DVP' ) ) {
+    define( 'CONST_NOTAIRE_CHARGE_DVP', 26 );
+}
+if ( !defined( 'CONST_NOTAIRE_GEOMETRE' ) ) {
+    define( 'CONST_NOTAIRE_GEOMETRE', 28 );
+}
+
+// Notary Collaborator functions id
+if ( !defined( 'CONST_COLLAB_COMPTABLE' ) ) {
+    define( 'CONST_COLLAB_COMPTABLE', 1 );
+}
+if ( !defined( 'CONST_COLLAB_COMPTABLE_TAXATEUR' ) ) {
+    define( 'CONST_COLLAB_COMPTABLE_TAXATEUR', 2 );
+}
+if ( !defined( 'CONST_COLLAB_CLERC' ) ) {
+    define( 'CONST_COLLAB_CLERC', 3 );
+}
+if ( !defined( 'CONST_COLLAB_NEGOCIATEUR' ) ) {
+    define( 'CONST_COLLAB_NEGOCIATEUR', 4 );
+}
+if ( !defined( 'CONST_COLLAB_ASSISTANT' ) ) {
+    define( 'CONST_COLLAB_ASSISTANT', 5 );
+}
+if ( !defined( 'CONST_COLLAB_STAGIAIRE' ) ) {
+    define( 'CONST_COLLAB_STAGIAIRE', 6 );
+}
+if ( !defined( 'CONST_COLLAB_EMPLOYE_ACCUEIL' ) ) {
+    define( 'CONST_COLLAB_EMPLOYE_ACCUEIL', 7 );
+}
+if ( !defined( 'CONST_COLLAB_SECRETAIRE' ) ) {
+    define( 'CONST_COLLAB_SECRETAIRE', 8 );
+}
+if ( !defined( 'CONST_COLLAB_CADRE' ) ) {
+    define( 'CONST_COLLAB_CADRE', 9 );
+}
+if ( !defined( 'CONST_COLLAB_SECRETAIRE_ASSIST' ) ) {
+    define( 'CONST_COLLAB_SECRETAIRE_ASSIST', 10 );
+}
+if ( !defined( 'CONST_COLLAB_TECHNICIEN' ) ) {
+    define( 'CONST_COLLAB_TECHNICIEN', 11 );
 }
 
 // Add Question Form
@@ -777,7 +866,7 @@ if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD' ) ) {
 
 // id of collaborator on cri_fonction
 if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
-    define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );
+    define( 'CONST_NOTAIRE_COLLABORATEUR', 27 );
 }
 
 if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
@@ -874,3 +963,20 @@ if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.ty
 }
 // End of block Import Facture
 
+if ( !defined( 'CONST_YTRAITEE_PAR_SITE' ) ) {
+    define( 'CONST_YTRAITEE_PAR_SITE', 2 );
+}
+// droit pour question ecrite au niveau ERP
+if ( !defined( 'CONST_YSREECR_NON' ) ) {
+    define( 'CONST_YSREECR_NON', 1 );
+}
+if ( !defined( 'CONST_YSREECR_OUI' ) ) {
+    define( 'CONST_YSREECR_OUI', 2 );
+}
+// droit pour question telephonique au niveau ERP
+if ( !defined( 'CONST_YSRETEL_NON' ) ) {
+    define( 'CONST_YSRETEL_NON', 1 );
+}
+if ( !defined( 'CONST_YSRETEL_OUI' ) ) {
+    define( 'CONST_YSRETEL_OUI', 2 );
+}
