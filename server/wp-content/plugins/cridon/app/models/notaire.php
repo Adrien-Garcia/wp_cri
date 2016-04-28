@@ -3120,9 +3120,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         SELECT * FROM dual;
                          */
                         foreach ($notaries as $notary) {
-                            // remplit la liste des notaires
-                            $qList[] = $notary->id;
-
                             // recuperation droit question ecrite et telephonique
                             $droitQuest = $this->getDroitQuestEcriteEtTel($notary);
 
@@ -3248,7 +3245,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
             // execution requete
             if (!empty($query)) {
-                if ($result = $this->adapter->execute($query) && !empty($qList)) {
+                if ($result = $this->adapter->execute($query)) {
                     // update cri_notaire.renew_pwd
                     if (count($qListResetPWD) > 0) {
                         $sql = " UPDATE {$this->table} SET renew_pwd = 0 WHERE id IN (" . implode(', ', $qListResetPWD) . ")";
