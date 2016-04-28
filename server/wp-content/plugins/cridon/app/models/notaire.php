@@ -3015,7 +3015,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     {
         $notary                            = array();
         $notary['Notaire']['id']           = $notaryId;
-        $notary['Notaire']['renew_pwd']    = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronResetPwd" )
+        $notary['Notaire']['renew_pwd']    = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronExportNotary" )
         $this->save($notary);
     }
 
@@ -3162,11 +3162,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                                 $qListResetPWD[] = $notary->id;
                                 $value .= "'" . CONST_YDDEMDPTEL_RESETPWD_ON . "', "; // YDDEMDPTEL
                                 $value .= "'" . CONST_YDDEMDPWEB_RESETPWD_ON . "', "; // YDDEMDPWEB
-                            } else {
+                            } else { // sans demande  de renouvellement MDP
                                 // list CRUD user
                                 $qListCRUD[] = $notary->id;
-                                $value .= "'" . CONST_YDDEMDPTEL_RESETPWD_OFF . "', "; // YDDEMDPTEL
-                                $value .= "'" . CONST_YDDEMDPWEB_RESETPWD_OFF . "', "; // YDDEMDPWEB
+                                // on demande uniquement un nouveau mdp si champs vide (nouveau user)
+                                $value .= "'" . (empty($notary->tel_password) ? CONST_YDDEMDPTEL_RESETPWD_ON : CONST_YDDEMDPTEL_RESETPWD_OFF) . "', "; // YDDEMDPTEL
+                                $value .= "'" . (empty($notary->web_password) ? CONST_YDDEMDPWEB_RESETPWD_ON : CONST_YDDEMDPWEB_RESETPWD_OFF) . "', "; // YDDEMDPWEB
                             }
 
                             $value .= "'0', "; // YERR
@@ -3380,7 +3381,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     {
         $notary                            = array();
         $notary['Notaire']['id']           = $notaryId;
-        $notary['Notaire']['cron_update']  = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronUpdateERP" )
+        $notary['Notaire']['cron_update']  = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronExportNotary" )
         $this->save($notary);
     }
 
