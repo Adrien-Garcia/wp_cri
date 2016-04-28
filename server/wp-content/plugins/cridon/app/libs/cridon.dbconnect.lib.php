@@ -8,7 +8,8 @@
 
 interface DBConnect
 {
-    /****************** ZEXPNOTV Table structure *******************/
+
+    /****************** Table ZEXPNOTV Structure *******************/
     /**
      * @var string : category field in Output data
      */
@@ -153,6 +154,23 @@ interface DBConnect
      * @var string : office fax field in Output data
      */
     const NOTAIRE_OFFICEFAX  = 'FAX_0';
+
+    /**
+     * @var string : notary id on Website
+     */
+    const NOTAIRE_YIDNOT = 'YIDNOT_0';
+
+    /**
+     * @var string : notary level
+     */
+    const NOTAIRE_YNIVEAU = 'YNIVEAU_0';
+    /****************** /Table ZEXPNOTV Structure *******************/
+
+    /**
+     * @var string : notary id on Website
+     */
+    const NOTAIRE_YIDNOT = 'YIDNOT_0';
+    /****************** /Table ZEXPNOTV Structure *******************/
 
     /**
      * @var string : office id notaire (crpcen + space + timestamp) in Output data
