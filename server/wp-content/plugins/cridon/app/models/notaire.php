@@ -1123,9 +1123,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     // set new notaries roles
                     $this->setNewNotaireRole($newNotaryUsers);
 
-                    // disable admin bar for new notaries
-                    $this->disableNotariesAdminBar($newNotaryUsers);
-
                     $this->importSuccess = true;
                 }
 
@@ -2379,6 +2376,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
                     $user->add_role(CONST_FINANCE_ROLE);
                 }
+
+                // disable admin bar
+                $this->disableAdminBar($notary);
             }
         }
     }
@@ -2454,20 +2454,34 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function disableNotariesAdminBar($notaries)
     {
-        foreach ($notaries as $notary) {
-            // peut être que $notary->id_wp_user est encore null (cas de nouvelle insertion via bulk insert)
-            // cette valeur sera mise à jour après execution bulk update via updateCriNotaireWpUserId
-            if (!$notary->id_wp_user) {
-                $notary = mvc_model('QueryBuilder')->findOne('notaire',
-                                                             array(
-                                                                 'fields'     => 'id_wp_user',
-                                                                 'conditions' => 'id = ' . $notary->id,
-                                                             )
-                );
+        if (is_array($notaries) && count($notaries) > 0) {
+            foreach ($notaries as $notary) {
+                $this->disableAdminBar($notary);
             }
-            // insert or update user_meta
-            update_user_meta($notary->id_wp_user, 'show_admin_bar_front', 'false');
+        } elseif(is_object($notaries)) {
+            $this->disableAdminBar($notaries);
         }
+    }
+
+    /**
+     * @param object $notary
+     * @throws Exception
+     * @return void
+     */
+    protected function disableAdminBar($notary)
+    {
+        // peut être que $notary->id_wp_user est encore null (cas de nouvelle insertion via bulk insert)
+        // cette valeur sera mise à jour après execution bulk update via updateCriNotaireWpUserId
+        if (!$notary->id_wp_user) {
+            $notary = mvc_model('QueryBuilder')->findOne('notaire',
+                                                         array(
+                                                             'fields'     => 'id_wp_user',
+                                                             'conditions' => 'id = ' . $notary->id,
+                                                         )
+            );
+        }
+        // insert or update user_meta
+        update_user_meta($notary->id_wp_user, 'show_admin_bar_front', 'false');
     }
 
     /**
