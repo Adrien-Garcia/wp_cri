@@ -88,3 +88,19 @@ php oneshot/executeMigrationsSQL.php
 ````
 
 L'état des migrations est consultable dans la table `cri_plugin_migrations`.
+
+# Paramétrage des constantes applicatives
+```
+wp-content/plugins/cridon/app/config/const.inc.php
+wp-content/plugins/cridon/app/config/config.php
+```
+
+# Fichier de déclaration des fonctions specifiques utilisées en Front 
+```
+wp-content/plugins/cridon/app/utils/functions.php
+```
+
+# Emplacement des Hook de personnalisation
+```
+wp-content/plugins/cridon/app/config/hook.inc.php
+```

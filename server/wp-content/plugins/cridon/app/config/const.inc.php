@@ -905,11 +905,17 @@ if ( !defined( 'CONST_YTRAITEE_RESETPWD' ) ) {
 if ( !defined( 'CONST_RESETPWD_ERROR' ) ) {
     define( 'CONST_RESETPWD_ERROR', 'Renouvellement mot de passe interrompu le : %s' );
 }
-if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD' ) ) {
-    define( 'CONST_YDDEMDPTEL_RESETPWD', 2 );
+if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD_ON' ) ) {
+    define( 'CONST_YDDEMDPTEL_RESETPWD_ON', 2 );
 }
-if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD' ) ) {
-    define( 'CONST_YDDEMDPWEB_RESETPWD', 2 );
+if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD_ON' ) ) {
+    define( 'CONST_YDDEMDPWEB_RESETPWD_ON', 2 );
+}
+if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD_OFF' ) ) {
+    define( 'CONST_YDDEMDPTEL_RESETPWD_OFF', 1 );
+}
+if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD_OFF' ) ) {
+    define( 'CONST_YDDEMDPWEB_RESETPWD_OFF', 1 );
 }
 
 // id of collaborator on cri_fonction
@@ -1043,3 +1049,26 @@ if ( !defined( 'CONST_DOC_TYPE_RELEVECONSO' ) ) { // valeur du champ cri_documen
 }
 // End of block Import Releveconso
 
+if ( !defined( 'CONST_YTRAITEE_PAR_SITE' ) ) {
+    define( 'CONST_YTRAITEE_PAR_SITE', 2 );
+}
+// droit pour question ecrite au niveau ERP
+if ( !defined( 'CONST_YSREECR_OFF' ) ) {
+    define( 'CONST_YSREECR_OFF', 1 );
+}
+if ( !defined( 'CONST_YSREECR_ON' ) ) {
+    define( 'CONST_YSREECR_ON', 2 );
+}
+// droit pour question telephonique au niveau ERP
+if ( !defined( 'CONST_YSRETEL_OFF' ) ) {
+    define( 'CONST_YSRETEL_OFF', 1 );
+}
+if ( !defined( 'CONST_YSRETEL_ON' ) ) {
+    define( 'CONST_YSRETEL_ON', 2 );
+}
+if ( !defined( 'CONST_UPDATEERP_ERROR' ) ) {
+    define( 'CONST_UPDATEERP_ERROR', 'Mise à jour données notaires : %s' );
+}
+if ( !defined( 'CONST_UPDATEERP_ERROR' ) ) {
+    define( 'CONST_UPDATEERP_ERROR', 'Mise à jour données notaires : %s' );
+}

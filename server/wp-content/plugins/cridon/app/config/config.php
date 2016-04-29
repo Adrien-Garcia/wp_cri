@@ -514,6 +514,220 @@ class Config {
         CONST_QUESTIONTELEPHONIQUES_ROLE   => 'Poser des questions téléphoniques',
     );
 
+
+    /**
+     * @var array list of notary roles by function : the keys must be match of the list defined in const.inc.php
+     */
+    public static $notaryRolesByFunction = array(
+        'notaries' => array(
+            CONST_NOTAIRE_FONCTION => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_ASSOCIE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_SALARIE => array(
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+            ),
+            CONST_NOTAIRE_SALARIEE => array(
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+            ),
+            CONST_NOTAIRE_ASSOCIEE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_ASSOCIEE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_GERANT => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_GERANTE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_SUPLEANT => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_SUPLEANTE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_ADMIN => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_PRESIDENT_CHAMBRE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_PRESIDENT_CONSEIL => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_DELEGUE_CRIDON => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_DIRECTEUR => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_DIRECTEUR_GENERAL => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_DIRECTEUR_DEPARTEMET => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_CONSEIL_JUR => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_ASSISTANT => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_ASSISTANTE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_HONORAIRE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_SG => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_SECRETAIRE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_SECOND_RAPORTEUR => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_PROF_DROIT => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_TRESORIER => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_CHARGE_DVP => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_GEOMETRE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+        ),
+        'collaborators' => array(
+            CONST_COLLAB_COMPTABLE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_COMPTABLE_TAXATEUR => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_CLERC => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_NEGOCIATEUR => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_ASSISTANT => array(
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+            ),
+            CONST_COLLAB_STAGIAIRE => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_EMPLOYE_ACCUEIL => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_SECRETAIRE => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_CADRE => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_CADRE => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_SECRETAIRE_ASSIST => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_TECHNICIEN => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+        ),
+    );
+
     /**
      * @var array list of actions specific to collaborateur tab
      */
