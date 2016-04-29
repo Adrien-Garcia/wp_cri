@@ -515,6 +515,15 @@ class Config {
     );
 
     /**
+     * @var array list of actions specific to collaborateur tab
+     */
+    public static $collaborateurActions = array(
+        CONST_CREATE_USER,
+        CONST_MODIFY_USER,
+        CONST_DELETE_USER
+    );
+
+    /**
      * @var array : liste des autres categories de notaires sans etude officielle
      */
     public static $notaryNoDefaultOffice = array(

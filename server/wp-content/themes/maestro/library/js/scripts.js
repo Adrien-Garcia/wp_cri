@@ -249,42 +249,4 @@ jQuery(document).ready(function($) {
     });
 
 
-    /* POPUP AJOUT COLLABS */
-
-    $("#mes-collaborateurs .bt-ajout").click(function(){
-        //console.log('ah coucou');
-        $('#layer-add-collabs').popup('show');
-    });
-
-    $(".close_layer").click(function(){
-        //console.log('ah coucou');
-        $('#layer-add-collabs').popup('hide');
-    });
-
-    
-
-    
-
-    $("#mes-collaborateurs .trash").click(function(){
-        //console.log('ah coucou');
-        $('#layer-sup-collabs').popup('show');
-    });
-
-    $(".close_layer").click(function(){
-        //console.log('ah coucou');
-        $('#layer-sup-collabs').popup('hide');
-    });
-    
-
-
-
-
-
-
-
-
-
-
-
-
 }); /* end of as page load scripts */

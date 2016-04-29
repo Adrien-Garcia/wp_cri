@@ -557,6 +557,47 @@ if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
 if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_3' ) ) {
     define( 'CONST_CRIDONLINE_LABEL_LEVEL_3', 'Excellence' );
 }
+// Collaborateur form
+if ( !defined( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG', 'Le profil du collaborateur a bien été supprimé.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_DELETE_FAIL_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_DELETE_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_ADD_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_ADD_SUCCESS_MSG', 'Le collaborateur a bien été ajouté à votre étude.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_ADD_ERROR_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_ADD_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_FUNCTION_ERROR_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_FUNCTION_ERROR_MSG', 'Merci de remplir la fonction collaborateur.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG', 'Le collaborateur a bien été modifié.' );
+}
+if ( !defined( 'CONST_PROFIL_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_MODIFY_SUCCESS_MSG', 'Votre profil a bien été modifié.' );
+}
+if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG', 'Les données de votre étude ont bien été modifiées.' );
+}
+if ( !defined( 'CONST_CREATE_USER' ) ) {
+    define( 'CONST_CREATE_USER', 'create_user' );
+}
+if ( !defined( 'CONST_MODIFY_USER' ) ) {
+    define( 'CONST_MODIFY_USER', 'modify_user' );
+}
+if ( !defined( 'CONST_PROFIL_MODIFY_USER' ) ) {
+    define( 'CONST_PROFIL_MODIFY_USER', 'profil_modify_user' );
+}
+if ( !defined( 'CONST_DELETE_USER' ) ) {
+    define( 'CONST_DELETE_USER', 'delete_user' );
+}
+
 //Alert on issues without documents
 if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
     define( 'CONST_ALERT_MINUTE', 30 );
@@ -783,7 +824,7 @@ if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD' ) ) {
 
 // id of collaborator on cri_fonction
 if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
-    define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );
+    define( 'CONST_NOTAIRE_COLLABORATEUR', 27 );
 }
 
 if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
@@ -793,17 +834,6 @@ if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
 // alert email changed
 if ( !defined( 'CONST_ALERT_EMAIL_CHANGED' ) ) {
     define('CONST_ALERT_EMAIL_CHANGED', 'Attention : il s\'agit de votre adresse email personnelle');
-}
-
-// Start of block delete collaborator
-if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
-    define( 'CONST_CONFIRM_DEL_MSG', 'Confirmer la suppression du collaborateur ?' );
-}
-if ( !defined( 'CONST_DEL_SUCCESS_MSG' ) ) {
-    define( 'CONST_DEL_SUCCESS_MSG', 'Collaborateur supprimé' );
-}
-if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
-    define( 'CONST_DELCOLLAB_ERROR', 'Suppression collaborateur interrompu le : %s' );
 }
 // End of block delete collaborator
 
@@ -909,7 +939,7 @@ if ( !defined( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH' ) ) { // repertoire d'echang
     $uploadDir = wp_upload_dir();
     define( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH', $uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/' );
 }
-if ( !defined( 'CONST_IMPORT_RELEVECONSO_PATH' ) ) { // emplacement definitif 
+if ( !defined( 'CONST_IMPORT_RELEVECONSO_PATH' ) ) { // emplacement definitif
     $uploadDir = wp_upload_dir();
     define( 'CONST_IMPORT_RELEVECONSO_PATH', $uploadDir['basedir'] . '/releveconso/' );
 }
@@ -918,39 +948,7 @@ if ( !defined( 'CONST_DOC_TYPE_RELEVECONSO' ) ) { // valeur du champ cri_documen
 }
 // End of block Import Releveconso
 
-
-// Start of block Import Facture
-if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
-    define( 'CONST_TYPEFACTURE_CG', 'CG' );
+// Displayed
+if ( !defined( 'CONST_DISPLAYED' ) ) {
+    define( 'CONST_DISPLAYED', 1 );
 }
-if ( !defined( 'CONST_TYPEFACTURE_CS' ) ) { // cotisation supplementaire
-    define( 'CONST_TYPEFACTURE_CS', 'CS' );
-}
-if ( !defined( 'CONST_TYPEFACTURE_TRAD' ) ) { // traduction
-    define( 'CONST_TYPEFACTURE_TRAD', 'TRAD' );
-}
-if ( !defined( 'CONST_TYPEFACTURE_SAF' ) ) { // service d'assistance fiscale
-    define( 'CONST_TYPEFACTURE_SAF', 'SAF' );
-}
-if ( !defined( 'CONST_TYPEFACTURE_CONF' ) ) { // formation
-    define( 'CONST_TYPEFACTURE_CONF', 'CONF' );
-}
-if ( !defined( 'CONST_TYPEFACTURE_CO' ) ) { // offre éditeur CridOnline
-    define( 'CONST_TYPEFACTURE_CO', 'CO' );
-}
-if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
-    define( 'BROCHNST_TYPEFACTURE_BROCH', 'BROCH' );
-}
-if ( !defined( 'CONST_IMPORT_FACTURE_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
-    $uploadDir = wp_upload_dir();
-    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFACTURETemp/' );
-}
-if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
-    $uploadDir = wp_upload_dir();
-    define( 'CONST_IMPORT_FACTURE_PATH', $uploadDir['basedir'] . '/factures/' );
-}
-if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.type
-    define( 'CONST_DOC_TYPE_FACTURE', 'facture' );
-}
-// End of block Import Facture
-

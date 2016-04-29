@@ -122,7 +122,26 @@ function append_js_files()
 
                 // cridonline
                 'cridonline_nonce'         => wp_create_nonce("process_cridonline_nonce"),
-                'cridonline_CGV_error'     => CONST_CRIDONLINE_CGV_ERROR_MSG
+                'cridonline_CGV_error'     => CONST_CRIDONLINE_CGV_ERROR_MSG,
+
+                // collaborateur
+                'crud_nonce'                   => wp_create_nonce("process_crud_nonce"),
+                'collaborateur_id_function'    => CONST_NOTAIRE_COLLABORATEUR,
+                'collaborateur_delete_success' => CONST_COLLABORATEUR_DELETE_SUCCESS_MSG,
+                'collaborateur_delete_error'   => CONST_COLLABORATEUR_DELETE_ERROR_MSG,
+                'collaborateur_add_error'      => CONST_COLLABORATEUR_ADD_ERROR_MSG,
+                'collaborateur_function_error' => CONST_COLLABORATEUR_FUNCTION_ERROR_MSG,
+
+                'collaborateur_create_user'    => CONST_CREATE_USER,
+                'collaborateur_modify_user'    => CONST_MODIFY_USER,
+                'collaborateur_delete_user'    => CONST_DELETE_USER,
+
+                'profil_modify_user'           => CONST_PROFIL_MODIFY_USER,
+                'profil_modify_email'          => CONST_ALERT_EMAIL_CHANGED,
+                // maj etude
+                'office_crud_nonce'            => wp_create_nonce("process_office_crud_nonce"),
+                'profil_office_modify_error'   => CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG
+
             )
         );
     }
@@ -478,3 +497,32 @@ function addClassesAnalytics($atts, $item, $args, $depth){
     return $atts;
 }
 add_filter( 'nav_menu_link_attributes', 'addClassesAnalytics',10,4 );
+
+/**
+ * Hook for private content 404 redirection
+ */
+function private_content_redirect() {
+    global $wp_query,$wpdb, $post;
+    if (is_404()) {
+        $post = $wpdb->get_row($wp_query->request);
+        if( 'private' == $post->post_status  ) {
+            status_header( 403 );
+            $wp_query->is_404 = false;
+            add_filter('wp_title','custom_private_page_title', 65000,2);
+            CriRefuseAccess();
+        }
+    }
+}
+
+/**
+ * Hook pour garder le titre par defaut de la page qui est ecrasé par le processus de 404
+ *
+ * @param string $title
+ * @param string $sep
+ * @return string
+ */
+function custom_private_page_title($title='',$sep='') {
+    global $post;
+    return $post->post_title . " " . $sep . " ".get_bloginfo('name');
+}
+add_action('template_redirect', 'private_content_redirect', 1);
