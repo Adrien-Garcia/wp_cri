@@ -85,7 +85,7 @@ div#mon-profil{
 					position: absolute;
 				    top: 0px;
 				    left: 30px;
-			}
+				}
 			}
 
 			> a, .update{
@@ -112,7 +112,9 @@ div#mon-profil{
 			margin-bottom: 30px !important;
 		}
 	}
-.mes-centres-dinterets, .newsletter, .cridonline-offres {
+
+	.mes-centres-dinterets, .newsletter, .cridonline-offres {
+		
 		.description{
 			font-family: $garamond;
 			font-size: 15px;
@@ -123,6 +125,15 @@ div#mon-profil{
 
 		}
 	}
+
+	.mes-centres-dinterets, .newsletter {
+		clear: both;
+		margin-bottom: 30px;
+		padding-bottom: 30px;
+		border-bottom: solid 4px $bg-top-footer;
+
+		h2{ margin-bottom: 5px;}
+
 		.description{
 			font-family: $garamond;
 			font-size: 15px;
@@ -132,6 +143,7 @@ div#mon-profil{
 			padding: 0;
 
 		}
+
 		form{
 			margin: 20px 0 0 0;
 
