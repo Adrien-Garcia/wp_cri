@@ -673,41 +673,52 @@ function CriRecursiveFindingFileInDirectory($path, $file)
     return $fileSource;
 }
 
-function CriRefuseAccess($error_code = "PROTECTED_CONTENT") {
-    $referer = $_SERVER['HTTP_REFERER'];
-    $request = "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-    if (! empty($referer) /*&& strripos( $request , $referer)*/ ){
-        $redirect = $referer;
-    } else {
-        $redirect = get_home_url();
-    }
+/**
+ * Redirect to non protected page in order to connect
+ * Will redirect to the asked page if connected
+ * @param string $error_code
+ * @param mixed $url
+ */
+function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
 
-    $request = urlencode(htmlspecialchars("//" . $request, ENT_QUOTES, "UTF-8"));
+    if (isset($_GET['requestUrl'] ) ) {
+        // Si déjà redirigé, ne pas mettre à jour le request URL et utiliser la home comme referer
+        // (redirection en cascade probablement liée à la protection du referer initial)
+        $referer = get_home_url();
+        $request = !empty($url) ? $url : $_GET['requestUrl'];
+    } else {
+        $referer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : get_home_url();
+        $request = !empty($url) ? $url : $_SERVER['REQUEST_URI'];
+    }
 
     if( empty($request) ) {
         $request = false;
+    } else {
+        $request = mb_strpos($request, get_home_url()) === false ? get_home_url() . $request : $request;
+        $request = urlencode(htmlspecialchars( $request, ENT_QUOTES, "UTF-8"));
     }
 
     if (
         preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 &&
         preg_match("/.*?[\?\&]messageLogin=" . $error_code . ".*?/", $referer) === 1
     ) {
-        wp_redirect($redirect);
+        $redirect = get_home_url() . "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . urlencode($_SERVER['REQUEST_URI']);
+        wp_safe_redirect($redirect);
         return;
     }
 
     if (preg_match("/.*\?.*/", $referer)) {
-        $redirect .= "&";
+        $referer .= "&";
     } else {
-        $redirect .= "?";
+        $referer .= "?";
     }
 
-    $redirect .= "openLogin=1&messageLogin=" . $error_code;
-    if ($request) {
-        $redirect .= "&requestUrl=" . $request;
-    }
-    wp_redirect($redirect);
+    $referer .= "openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . $request;
+
+    wp_safe_redirect($referer);
+    exit;
 }
+
 
 /**
  *  Menu principal
@@ -894,3 +905,4 @@ function CriVeilleWithUriFilters()
 
     return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
 }
+
