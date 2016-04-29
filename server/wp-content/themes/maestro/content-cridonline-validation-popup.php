@@ -1,5 +1,5 @@
 <?php if (CriIsNotaire()) : ?>
-<div id="layer-cridonline" style="display:none;">
+<div id="layer-cridonline" class="popup" style="display:none;">
 
     <div class="titre">
         <span class="close_layer layer-cridonline_close"></span>

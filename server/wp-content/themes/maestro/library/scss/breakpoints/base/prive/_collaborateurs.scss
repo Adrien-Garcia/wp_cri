@@ -16,6 +16,7 @@
 		text-align: center;
 		position: relative;
 		padding:0 10px;
+		cursor: pointer;
 		
 		&:before{
 			@include svgicon('icon-angle-bottom', 8px, 8px, $vert);
@@ -34,7 +35,7 @@
 
 		
 
-		cursor: pointer;
+		
 	}
 	
 	ul.list-collab{

@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of exportnotaire.php
+ * Description of importreleveconso.php
  *
  * @package wp_cridon
  * @author eTech
@@ -10,11 +10,12 @@
 // load WP Core
 require_once '../wp-load.php';
 
+// etude model
 /**
- * @var $model Notaire
+ * @var $model Etude
  */
-$model = mvc_model('Notaire');
+$model = mvc_model('etude');
 // call export action
-$code = $model->cronExportNotary();
+$code = $model->importReleveconso();
 
 echo $code;

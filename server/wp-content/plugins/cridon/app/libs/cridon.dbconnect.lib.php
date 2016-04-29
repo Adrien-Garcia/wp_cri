@@ -156,9 +156,9 @@ interface DBConnect
     const NOTAIRE_OFFICEFAX  = 'FAX_0';
 
     /**
-     * @var string : notary id on Website
+     * @var string : notary level
      */
-    const NOTAIRE_YIDNOT = 'YIDNOT_0';
+    const NOTAIRE_YNIVEAU = 'YNIVEAU_0';
     /****************** /Table ZEXPNOTV Structure *******************/
 
     /**
