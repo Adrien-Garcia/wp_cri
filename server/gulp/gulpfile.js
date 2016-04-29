@@ -58,7 +58,7 @@ gulp.task('iconfont', function () {
       fontName: 'aux-font',
       normalize: true,
       fontHeight: 1001,
-      appendUnicode: true,
+      preprendUnicode: true,
       formats: ['ttf', 'eot', 'woff', 'svg', 'woff2'],
       timestamp: runTimestamp
     }))
@@ -119,7 +119,7 @@ gulp.task('browser-sync', function() {
 
 	browserSync({
         proxy: options.env,
-        browser: ["firefox"],
+        browser: [],
         host: options.env,
         open: 'external'
     });

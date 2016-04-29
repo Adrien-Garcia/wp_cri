@@ -16,7 +16,7 @@ web:
     links:
         - db:db
         - mailhog:mailhog
-        - blackfire:blackfire
+#        - blackfire:blackfire
 db:
     container_name: wp_cridon-db
     image: mariadb:10.0
@@ -34,9 +34,20 @@ mailhog:
     image: mailhog/mailhog
     ports:
         - "8025:8025"
-blackfire:
-    container_name: wp_cridon-blackfire
-    image: blackfire/blackfire
+#blackfire:
+#    container_name: wp_cridon-blackfire
+#    image: blackfire/blackfire
+#    environment:
+#        - BLACKFIRE_SERVER_ID
+#        - BLACKFIRE_SERVER_TOKEN
+gulp-grunt-browser-sync:
+    container_name: gulp-grunt-browser-sync
+    image: registry.jetpulp.fr:5000/dev/gulp-grunt-browser-sync
+    ports:
+        - "3000:3000"
+        - "3001:3001"
+    volumes:
+        - ../server/:/app
     environment:
-        - BLACKFIRE_SERVER_ID
-        - BLACKFIRE_SERVER_TOKEN
+        - BUILD_CMD=gulp
+        - SERVER_NAME=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
