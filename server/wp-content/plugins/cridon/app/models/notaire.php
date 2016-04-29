@@ -2830,7 +2830,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         // page options
         $options['page']     = empty($options['page']) ? 1 : intval($options['page']);
         $options['per_page'] = !empty($options['per_page']) ? $options['per_page'] : DEFAULT_POST_PER_PAGE;
-        $options = array(
+        $query_options = array(
             'fields'     => array('cn.*','cu.*','cf.label as notaire_fonction_label','cfc.label as collaborator_fonction_label'),
             'conditions' => array(
                 'cn.crpcen'      => $notary->crpcen,
@@ -2858,7 +2858,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         );
 
         // formation bloc limit
-        $limit = $this->db_adapter->get_limit_sql($options);
+        $limit = $this->db_adapter->get_limit_sql($query_options);
 
         // query
         $query = "
