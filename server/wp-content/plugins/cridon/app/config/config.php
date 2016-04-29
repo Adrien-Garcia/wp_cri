@@ -472,6 +472,18 @@ class Config {
     );
 
     /**
+     * @var array list of notary "function" allowed to edit profil, show office members
+     */
+    public static $allowedNotaryFunction = array(1, 2, 3, 6, 7, 8, 9, 10);
+
+    /**
+     * @var array list of notary collaborator comptable "id_function_collaborateur"
+     * 1 : Comptable
+     * 2 : Comptable taxateur
+     */
+    public static $notaryFunctionCollaboratorComptableId = array(1, 2);
+
+    /**
      * @var array list of excepted actions for redirect 301
      */
     public static $exceptedActionForRedirect301 = array(
@@ -517,6 +529,19 @@ class Config {
      */
     public static $importFacturePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/i';
     public static $importFactureParserPattern = '/^.*([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
+
+    // Notification pour une nouvelle facture
+    public static $mailSubjectNotifFacture = array(
+        'Notification de nouvelle facture'
+    );
+
+    /**
+     * @var array : liste de type de document non liés aux models de WPMVC
+     * @TODO : à completer avec type relevé de consommation
+     */
+    public static $exceptedDocTypeForModel = array(
+        CONST_DOC_TYPE_FACTURE
+    );
 
     /**
      * Selon la regle de nommage des fichiers factures à importer
