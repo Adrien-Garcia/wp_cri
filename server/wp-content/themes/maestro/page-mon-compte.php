@@ -128,13 +128,13 @@
 					</div>
 					 <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>">
                         <?php if ($onglet == CONST_ONGLET_CRIDONLINE) : ?>
-                            <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3 ), 'notaires') ?>
+                            <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3, 'messageError' => $messageError ), 'notaires') ?>
 
                         <?php endif; ?>
                     </div>
                     <div id="mes-collaborateurs" class="pannel js-account-ajax js-account-collaborateur js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>">
                         <?php if ($onglet == CONST_ONGLET_COLLABORATEUR) : ?>
-                            <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions, 'alertEmailChanged' => $alertEmailChanged), 'notaires') ?>
+                            <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions, 'alertEmailChanged' => $alertEmailChanged, 'liste' => $liste), 'notaires') ?>
                         <?php endif; ?>
                     </div>
 				</div>

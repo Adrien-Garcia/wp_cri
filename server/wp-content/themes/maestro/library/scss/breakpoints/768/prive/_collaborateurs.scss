@@ -1,0 +1,73 @@
+#mes-collaborateurs{
+
+	.bt-ajout{		
+		font-size: 18px;
+		padding: 0 20px;
+		height: 33px;
+		line-height: 33px;
+		
+		&:before{
+			@include svgicon('icon-angle-bottom', 10px, 10px, $vert);			
+			top: 50%;
+		    margin-top: -5px;
+		    right: -21px;
+		} 
+
+		&:hover{
+			
+			&:before{
+		      @include svgicon('icon-angle-bottom', 10px, 10px, $vj_03);
+		    }
+		}
+		
+	}
+
+	ul.list-collab{
+		margin-top: 25px; 
+	
+
+		li{		
+
+			span{}
+
+			.trash{
+
+				&:before{
+
+					@include transition(all 0.3s);
+
+				}
+
+				&:hover{
+					&:before{
+						color:#aaaaaa;
+					}
+				}
+
+				
+
+				form{
+
+					input{}
+				}
+			}
+
+			.block_01, .block_02, .block_03{
+				
+
+				.nom{
+					
+				}
+				.fonction{
+					
+				}
+
+				.tel{
+					
+				}
+			}
+		}
+	}
+
+	
+}

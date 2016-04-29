@@ -147,6 +147,20 @@ class Config {
         CONST_NOTAIRE_ADMIN,
     );
 
+    // list of notaire functions used to calculate cridonline prices
+    public static $functionsPricesCridonline = array(
+        CONST_NOTAIRE_FONCTION,
+        CONST_NOTAIRE_ASSOCIE,
+        CONST_NOTAIRE_ASSOCIEE,
+        CONST_NOTAIRE_SALARIE,
+        CONST_NOTAIRE_SALARIEE,
+        CONST_NOTAIRE_GERANT,
+        CONST_NOTAIRE_GERANTE,
+        CONST_NOTAIRE_SUPLEANT,
+        CONST_NOTAIRE_SUPLEANTE,
+        CONST_NOTAIRE_ADMIN,
+    );
+
     public static $titleMetaboxDocument = 'Associer des documents';// Titre du metabox pour l'ajout de document
 
     // list of accepted question supports
@@ -403,6 +417,11 @@ class Config {
     // question pending status
     public static $questionPendingStatus = array(1,2,3);
 
+    // Notification for password changed
+    public static $mailPasswordChange = array(
+        'subject' => 'Changement du mot de passe de %s',
+    );
+
     // Content qualified by a "Niveau"
     public static $contentWithLevel = array(
         'veilles',
@@ -428,35 +447,20 @@ class Config {
     );
 
     public static $pricesLevelsVeilles = array(
-        0 => array(
-            '1' => array(
-                0
-            ),
-            '2' => array(
-                '5' => 7900,
-                '2' => 4800,
-                '1' => 2500,
-            ),
-            '3' => array (
-                '5' => 9900,
-                '2' => 5900,
-                '1' => 3500,
-            )
+        '1' => array(
+            '5' => 0,
+            '2' => 0,
+            '1' => 0,
         ),
-        1 => array(
-            '1' => array(
-                0
-            ),
-            '2' => array(
-                '5' => 9000,
-                '2' => 5000,
-                '1' => 3000,
-            ),
-            '3' => array (
-                '5' => 10000,
-                '2' => 6000,
-                '1' => 4000,
-            )
+        '2' => array(
+            '5' => 7900,
+            '2' => 4800,
+            '1' => 2500,
+        ),
+        '3' => array (
+            '5' => 9900,
+            '2' => 5900,
+            '1' => 3500,
         )
     );
 
@@ -487,7 +491,7 @@ class Config {
     );
 
     /**
-     * @var array list of protected pages allowed only for notaries with a fonction inside $allowedNotaryFunction
+     * @var array list of protected pages allowed only for notaries with a fonction inside $canAccessFinance
      */
     public static $protected_pages = array(
         'facturation',
@@ -511,11 +515,20 @@ class Config {
     );
 
     /**
+     * @var array : liste des autres categories de notaires sans etude officielle
+     */
+    public static $notaryNoDefaultOffice = array(
+        CONST_ORGANISMES_CATEG,
+        CONST_CLIENTDIVERS_CATEG,
+    );
+
+    /**
      * Selon la regle de nommage des fichiers factures à importer
      * <CRPCEN_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
      * @var string
      */
-    public static $importFacturePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.([a-zA-Z]+)/';
+    public static $importFacturePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/i';
+    public static $importFactureParserPattern = '/^.*([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
 
     // Notification pour une nouvelle facture
     public static $mailSubjectNotifFacture = array(
@@ -529,4 +542,12 @@ class Config {
     public static $exceptedDocTypeForModel = array(
         CONST_DOC_TYPE_FACTURE
     );
+
+    /**
+     * Selon la regle de nommage des fichiers factures à importer
+     * <CRPCEN_releveconso_AAAAMMJJ>.pdf
+     * @var string
+     */
+    public static $importRelevePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/';
+    public static $importReleveParserPattern = '/^.*([0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
 }

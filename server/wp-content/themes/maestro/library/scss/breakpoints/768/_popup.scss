@@ -273,7 +273,8 @@
 					.h2{ 
 						position: relative;
 						z-index: 2000;
-						@extend .do-sm;
+						font-family: $dosis;
+    					font-weight: 600;
 						color:#FFF;
 						font-size: 30px;
 						line-height: 30px;
@@ -352,7 +353,7 @@
 }
 
 
-#layer-cridonline{
+#layer-cridonline, #layer-add-collabs, #layer-sup-collabs{
  
 	width: 660px;
 	max-width: 660px;
@@ -413,7 +414,7 @@
 			line-height: 32px;
 		}
 
-		a{
+		a, form{
 			margin-top: 60px;
 			position: relative;
 			display: inline-block;
@@ -431,6 +432,57 @@
 				margin-left: -300px;
 				content:'';
 
+			}
+		}
+
+		
+	}
+
+	>form{
+		margin: 45px 35px 60px 35px;
+		padding:0 0 25px 0;
+		border-bottom:solid 4px $bg-top-footer;
+
+
+
+	input[type="text"], select{
+			max-width: 100%;
+			margin-bottom: 14px;
+		}
+
+		div.submit{
+			//text-align: center;
+		}
+
+
+		.droit-collaborateur{
+			margin-bottom: 60px;
+
+			
+
+			label{
+				
+				
+
+				span{
+				}
+
+				input{ opacity: 0;
+
+					
+
+				}
+
+				&:before{
+					
+				}
+
+				&.select{
+					&:before{
+						
+					}
+
+				}
 			}
 		}
 	}
