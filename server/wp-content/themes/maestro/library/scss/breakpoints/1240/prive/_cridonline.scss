@@ -11,9 +11,17 @@
 		float: left;
 		margin-right: 12px;
 		background: #FFF;
-		margin-top: 15px;
+		margin-top: 15px; 
 		margin-bottom: 35px;
-
+		&.large {
+			height: 520px;
+			.content {
+				height: 367px;
+			}
+			&.on {
+				height: 540px;
+			}
+		}
 		
 
 		> .en-tete{

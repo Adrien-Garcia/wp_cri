@@ -10,6 +10,13 @@
 		width: 400px;
 		height: 470px;
 
+		&.large {
+			height: 520px;
+			.content {
+				height: 367px;
+			}
+		}
+
 		> .en-tete{
 		}
 

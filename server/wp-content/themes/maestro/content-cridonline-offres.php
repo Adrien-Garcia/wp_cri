@@ -1,4 +1,7 @@
-<div class="bloc-cridonline niveau-1 on">
+<?php if ($notaire->etude->subscription_level < 2 && $subscription ):?>
+    <?php $isSubcribable = ($notaire->etude->subscription_level < 3 && $subscription) ?>
+<?php endif; ?>
+<div class="bloc-cridonline niveau-1 on <?php echo $isSubcribable ? "large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <div class="titre">
@@ -14,7 +17,7 @@
     </div>
 </div>
 
-<div class="bloc-cridonline niveau-2 off">
+<div class="bloc-cridonline niveau-2 off <?php echo $isSubcribable ? "large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <?php if ($notaire->etude->subscription_level < 2 ):?>
@@ -48,7 +51,7 @@
         <?php endif;?>
     </div>
 </div>
-<div class="bloc-cridonline niveau-3 off">
+<div class="bloc-cridonline niveau-3 off <?php echo $isSubcribable ? "large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <?php if ($notaire->etude->subscription_level < 3 ):?>

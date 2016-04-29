@@ -20,6 +20,13 @@
 		margin-bottom: 15px;
 		overflow: hidden;
 
+		&.large {
+			height: 493px;
+			.content {
+				height: 344px;
+			}
+		}
+
 		> .en-tete{
 			height: 127px;
 			background: $bg-top-footer;
