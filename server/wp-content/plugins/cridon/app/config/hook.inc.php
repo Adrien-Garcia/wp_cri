@@ -479,7 +479,7 @@ function private_content_redirect() {
             status_header( 403 );
             $wp_query->is_404 = false;
             add_filter('wp_title','custom_private_page_title', 65000,2);
-            CriRefusePrivateAccess($post);
+            CriRefuseAccess();
         }
     }
 }
