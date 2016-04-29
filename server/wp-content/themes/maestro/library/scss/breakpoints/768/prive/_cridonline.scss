@@ -2,7 +2,7 @@
 
 	.bloc-cridonline{
 		width: 400px;
-		height: 400px;
+		height: 470px;
 
 		> .en-tete{
 		}
@@ -95,11 +95,14 @@ div#cridonline{
 	.wrap-link{
 		width: 100%;
 		margin-left: 0;
+		text-align: center;
 		a{
 
 			font-size: 20px;
 
 			&:after{
+				left:195px;
+				margin-left: 0;
 			}
 		}
 	} 

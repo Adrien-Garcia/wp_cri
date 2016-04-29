@@ -2,7 +2,7 @@
 
 	.bloc-cridonline{
 		width: 217px;
-		height: 373px;
+		height: 443px;
 		border:solid 6px $jaune;
 		margin-bottom: 15px;
 		overflow: hidden;
@@ -45,6 +45,16 @@
 					font-size: 18px;
 					top: -25px;
 					
+					line-height: 20px;
+
+				}
+
+				&:after{
+					content:'/an';
+					position: absolute;
+					top: 36px;
+					right: 7px;
+					font-size: 16px;
 					line-height: 20px;
 
 				}
