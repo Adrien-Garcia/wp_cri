@@ -686,7 +686,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // prepare multi rows data values
                 foreach ($newNotaires as $notaire) {
                     // import only if empty YIDNOT_0 : to be sure for new Notary data
-                    if (empty(trim($this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT]))) {
+                    $notaryId = trim($this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT]);
+                    if (empty($notaryId)) {
 
                         // format date
                         $dateModified = '0000-00-00';
@@ -724,7 +725,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         $insertValues[] = $value;
                     } else { // changement de mot de passe
-                        $notaryId = $this->erpNotaireData[$notaire][$adapter::NOTAIRE_YIDNOT];
                         $newPwd   = $this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB];
                         $this->updatePwd($notaryId, $newPwd);
                         // free vars
@@ -1064,7 +1064,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         $insertValues[] = $value;
 
-                        // fill list of new notary users
+                        // get user level
+                        $notaire->level = (!empty($this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_YNIVEAU])) ? $this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_YNIVEAU] : 0;
+                        // fill list of new notaries
                         $newNotaryUsers[] = $notaire;
 
                     } else { // prepare the bulk update query
@@ -1078,7 +1080,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             // email
                             $bulkEmailUpdate[] = " {$notaire->id_wp_user} THEN '" . $notaire->email_adress . "' ";
                             // display name
-                            $bulkDisplayNameUpdate[] = " {$notaire->id_wp_user} THEN '" . esc_sql($displayName) . "' ";
+                            $bulkDisplayNameUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . esc_sql($displayName) . "' ";
+
+                            // get user level
+                            $notaire->level = (!empty($this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_YNIVEAU])) ? $this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_YNIVEAU] : 0;
+
+                            // maj notary role
+                            $this->majNotaireRole($notaire);
                         }
                     }
                 }
@@ -1095,9 +1103,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                     // set new notaries roles
                     $this->setNewNotaireRole($newNotaryUsers);
-
-                    // disable admin bar for new notaries
-                    $this->disableNotariesAdminBar($newNotaryUsers);
 
                     $this->importSuccess = true;
                 }
@@ -1359,7 +1364,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             } else {
                                 $next_subscription_level = $etude->subscription_level;
                             }
-                            $next_subscription_price = mvc_model('Etude')->getSubscriptionPrice($etude);
+                            $next_subscription_price = mvc_model('Etude')->getSubscriptionPrice($etude, true);
 
                             $start_subscription_date = date('Y-m-d', strtotime($etude->end_subscription_date));
                             $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
@@ -1449,7 +1454,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     if (!empty($etude->next_subscription_level)) {
                         $updateLevelValues[] = " {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
                     }
-                    $nextSubscriptionPrice          = mvc_model('Etude')->getSubscriptionPrice($etude);
+                    $nextSubscriptionPrice          = mvc_model('Etude')->getSubscriptionPrice($etude, true);
                     $updatePriceValues[]            = " {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
                     $updateStartDateValues[]        = " {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
                     $updateEndDateValues[]          = " {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
@@ -2531,7 +2536,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if (is_user_logged_in()) {
             $notary = $this->getUserConnectedData();
 
-            return (is_object($notary) && in_array($notary->id_fonction, Config::$allowedNotaryFunction));
+            return (is_object($notary) && in_array(CONST_FINANCE_ROLE, (array) $notary->roles));
         }
 
         return false;
@@ -2892,6 +2897,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         );
     }
 
+
     /**
      * Set notaire role
      *
@@ -2912,7 +2918,46 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // user must be an instance of WP_User vs WP_Error
             if ($user instanceof WP_User) {
                 // default role
-                $user->add_role(CONST_NOTAIRE_ROLE);
+                if (!in_array($notary->category, Config::$notaryNoDefaultOffice)) { // Categ OFF
+                    $user->add_role(CONST_NOTAIRE_ROLE);
+                } else {
+                    if ($notary->category == CONST_CLIENTDIVERS_CATEG) { // Categ DIV
+                        $user->add_role(CONST_NOTAIRE_DIV_ROLE);
+                    } elseif ($notary->category == CONST_ORGANISMES_CATEG) { // Categ ORG
+                        $user->add_role(CONST_NOTAIRE_ORG_ROLE);
+                    }
+                }
+                // add notary capability by level
+                if (property_exists($notary, 'level') && intval($notary->level) > 0) {
+                    switch (intval($notary->level)) {
+                        case 3 :
+                            // add cap for level 3
+                            $user->add_cap(CONST_ACCESS_LEVEL_3);
+                            // add cap for level 2
+                            $user->add_cap(CONST_ACCESS_LEVEL_2);
+                            // add cap for level 1
+                            $user->add_cap(CONST_ACCESS_LEVEL_1);
+                            break;
+
+                        case 2 :
+                            // remove cap for level 3
+                            $user->remove_cap(CONST_ACCESS_LEVEL_3);
+                            // add cap for level 2
+                            $user->add_cap(CONST_ACCESS_LEVEL_2);
+                            // add cap for level 1
+                            $user->add_cap(CONST_ACCESS_LEVEL_1);
+                            break;
+
+                        default:
+                            // remove cap for level 3
+                            $user->remove_cap(CONST_ACCESS_LEVEL_3);
+                            // remove cap for level 2
+                            $user->remove_cap(CONST_ACCESS_LEVEL_2);
+                            // add cap for level 1
+                            $user->add_cap(CONST_ACCESS_LEVEL_1);
+                            break;
+                    }
+                }
                 /**
                  * finance role
                  * to be matched in list of authorized user by function
@@ -2922,6 +2967,72 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
                     $user->add_role(CONST_FINANCE_ROLE);
                 }
+
+                // disable admin bar
+                $this->disableAdminBar($notary);
+            }
+        }
+    }
+
+    /**
+     * Maj notaire role
+     *
+     * @param mixed $notary
+     * @return void
+     */
+    public function majNotaireRole($notary)
+    {
+        if (!$notary->id_wp_user) {
+            // get user by notary_id
+            $user = $this->getAssociatedUserByNotaryId($notary->id);
+        } else {
+            // get user by id
+            $user = new WP_User($notary->id_wp_user);
+        }
+
+        // user must be an instance of WP_User vs WP_Error
+        if ($user instanceof WP_User
+            && property_exists($notary, 'level')
+            && intval($notary->level) > 0
+        ) {
+            // update capability
+            switch (intval($notary->level)) {
+                case 3 :
+                    // add cap for level 3
+                    $user->add_cap(CONST_ACCESS_LEVEL_3);
+                    // add cap for level 2
+                    $user->add_cap(CONST_ACCESS_LEVEL_2);
+                    // add cap for level 1
+                    $user->add_cap(CONST_ACCESS_LEVEL_1);
+                    break;
+
+                case 2 :
+                    // remove cap for level 3
+                    $user->remove_cap(CONST_ACCESS_LEVEL_3);
+                    // add cap for level 2
+                    $user->add_cap(CONST_ACCESS_LEVEL_2);
+                    // add cap for level 1
+                    $user->add_cap(CONST_ACCESS_LEVEL_1);
+                    break;
+
+                default:
+                    // remove cap for level 3
+                    $user->remove_cap(CONST_ACCESS_LEVEL_3);
+                    // remove cap for level 2
+                    $user->remove_cap(CONST_ACCESS_LEVEL_2);
+                    // add cap for level 1
+                    $user->add_cap(CONST_ACCESS_LEVEL_1);
+                    break;
+            }
+
+            /**
+             * finance role
+             * to be matched in list of authorized user by function
+             *
+             * @see \Config::$canAccessFinance
+             */
+            if (!in_array($notary->id_fonction, Config::$canAccessFinance)) {
+                $user->remove_role(CONST_FINANCE_ROLE);
             }
         }
     }
@@ -2934,20 +3045,34 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function disableNotariesAdminBar($notaries)
     {
-        foreach ($notaries as $notary) {
-            // peut être que $notary->id_wp_user est encore null (cas de nouvelle insertion via bulk insert)
-            // cette valeur sera mise à jour après execution bulk update via updateCriNotaireWpUserId
-            if (!$notary->id_wp_user) {
-                $notary = mvc_model('QueryBuilder')->findOne('notaire',
-                                                             array(
-                                                                 'fields'     => 'id_wp_user',
-                                                                 'conditions' => 'id = ' . $notary->id,
-                                                             )
-                );
+        if (is_array($notaries) && count($notaries) > 0) {
+            foreach ($notaries as $notary) {
+                $this->disableAdminBar($notary);
             }
-            // insert or update user_meta
-            update_user_meta($notary->id_wp_user, 'show_admin_bar_front', 'false');
+        } elseif(is_object($notaries)) {
+            $this->disableAdminBar($notaries);
         }
+    }
+
+    /**
+     * @param object $notary
+     * @throws Exception
+     * @return void
+     */
+    protected function disableAdminBar($notary)
+    {
+        // peut être que $notary->id_wp_user est encore null (cas de nouvelle insertion via bulk insert)
+        // cette valeur sera mise à jour après execution bulk update via updateCriNotaireWpUserId
+        if (!$notary->id_wp_user) {
+            $notary = mvc_model('QueryBuilder')->findOne('notaire',
+                array(
+                    'fields'     => 'id_wp_user',
+                    'conditions' => 'id = ' . $notary->id,
+                )
+            );
+        }
+        // insert or update user_meta
+        update_user_meta($notary->id_wp_user, 'show_admin_bar_front', 'false');
     }
 
     /**

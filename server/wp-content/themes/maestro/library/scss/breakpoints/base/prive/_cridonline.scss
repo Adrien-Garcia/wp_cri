@@ -23,6 +23,9 @@
 		> .en-tete{
 			height: 127px;
 			background: $bg-top-footer;
+
+
+			@include transition(all 0.3s);
 		}
 
 		.content{
@@ -64,6 +67,8 @@
 				margin: 0 0 5px 0;
 				padding: 0 15px;
 
+				@include transition(all 0.3s);
+
 				li{
 					margin: 0;
 					padding: 0;
@@ -84,6 +89,8 @@
 				border-bottom:solid 1px $vert;
 				line-height: 19px;
 				margin-bottom: 25px;
+
+				@include transition(all 0.3s);
 
 				&:after{
 					font-size: 20px;
@@ -153,6 +160,66 @@
 			input[type="submit"]{
 				background-color: $jaune-cri;
 			}
+		}
+
+
+		&.on{
+
+			width: 247px;
+		    position: relative;
+		    left: -12px;
+
+			&:before{
+				@include svgicon('icon-angle-bottom', 15px, 15px, $bleu);					
+				position:absolute;
+				bottom:-2px;
+				left:50%;
+				margin: 0 0 0 -24px; 
+				display: block; 
+				z-index: 222;
+				@include rotate(180);
+			}
+		}
+
+		&.off{
+
+			border-color:rgba(102, 102, 102, 0.3);
+
+			.en-tete, .content ul, .content a{
+				filter: grayscale(100%);
+			    -webkit-filter: grayscale(100%);
+			    -moz-filter: grayscale(100%);
+			    -ms-filter: grayscale(100%);
+			    -o-filter: grayscale(100%);
+
+			    opacity: 0.3;
+			}
+
+
+			&:hover{
+
+
+				&.niveau-1{
+					border:solid 6px $bleu-cri;
+				}
+				&.niveau-2{
+					border:solid 6px $vert-cri;
+				}
+				&.niveau-3{
+					border:solid 6px $jaune-cri;
+				}
+
+				.en-tete, .content ul, .content a{	
+				    opacity: 1;
+
+				    filter:none ;
+				    -webkit-filter: none;
+				    -moz-filter: none;
+				    -ms-filter: none;
+				    -o-filter: none;
+				}
+			}
+			
 		}
 
 		

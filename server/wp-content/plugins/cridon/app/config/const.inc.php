@@ -28,6 +28,12 @@ if ( !defined( 'CONST_QUESTIONECRITES_ROLE' ) ) {
 if ( !defined( 'CONST_QUESTIONTELEPHONIQUES_ROLE' ) ) {
     define( 'CONST_QUESTIONTELEPHONIQUES_ROLE', 'accesquesttelephoniques' );
 }
+if ( !defined( 'CONST_NOTAIRE_DIV_ROLE' ) ) {
+    define( 'CONST_NOTAIRE_DIV_ROLE', 'notaire_div' );
+}
+if ( !defined( 'CONST_NOTAIRE_ORG_ROLE' ) ) {
+    define( 'CONST_NOTAIRE_ORG_ROLE', 'notaire_org' );
+}
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
     define( 'CONST_ADMIN_ROLE', 'administrator' );
@@ -503,6 +509,12 @@ if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_MONTH' ) ) {
 if ( !defined( 'CONST_EXPORT_CRIDONLINE_ERROR' ) ) {
     define( 'CONST_EXPORT_CRIDONLINE_ERROR', 'Export cridonline interrompu le : %s' );
 }
+if ( !defined( 'CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT' ) ) {
+    define( 'CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT', "Merci de souscrire à l'offre Crid'Online afin d'accéder à ce contenu." );
+}
+if ( !defined( 'CONST_ERROR_MSG_FONCTION_NON_AUTORISE' ) ) {
+    define( 'CONST_ERROR_MSG_FONCTION_NON_AUTORISE', "Vous n'avez pas l'autorisation pour accéder à cette page." );
+}
 
 if (!defined('CONST_CONNECTION_FAILED')) {
     define('CONST_CONNECTION_FAILED', 'La connexion à la base Oracle a échoué');
@@ -862,9 +874,81 @@ if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
+// capabilités pour les niveaux d'accès
+if ( !defined( 'CONST_ACCESS_LEVEL_1' ) ) {
+    define( 'CONST_ACCESS_LEVEL_1', 'access_level_1' );
+}
+if ( !defined( 'CONST_ACCESS_LEVEL_2' ) ) {
+    define( 'CONST_ACCESS_LEVEL_2', 'access_level_2' );
+}
+if ( !defined( 'CONST_ACCESS_LEVEL_3' ) ) {
+    define( 'CONST_ACCESS_LEVEL_3', 'access_level_3' );
+}
+// capabilités d'aceès au solde
+if ( !defined( 'CONST_ACCESS_SOLDE' ) ) {
+    define( 'CONST_ACCESS_SOLDE', 'access_solde' );
+}
+// liste des categories notaires
+if ( !defined( 'CONST_OFFICES_CATEG' ) ) {
+    define( 'CONST_OFFICES_CATEG', 'OFF' );
+}
+if ( !defined( 'CONST_ORGANISMES_CATEG' ) ) {
+    define( 'CONST_ORGANISMES_CATEG', 'ORG' );
+}
+if ( !defined( 'CONST_CLIENTDIVERS_CATEG' ) ) {
+    define( 'CONST_CLIENTDIVERS_CATEG', 'DIV' );
+}
+
+// Start of block Import Facture
+if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
+    define( 'CONST_TYPEFACTURE_CG', 'CG' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CS' ) ) { // cotisation supplementaire
+    define( 'CONST_TYPEFACTURE_CS', 'CS' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_TRAD' ) ) { // traduction
+    define( 'CONST_TYPEFACTURE_TRAD', 'TRAD' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_SAF' ) ) { // service d'assistance fiscale
+    define( 'CONST_TYPEFACTURE_SAF', 'SAF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CONF' ) ) { // formation
+    define( 'CONST_TYPEFACTURE_CONF', 'CONF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CO' ) ) { // offre éditeur CridOnline
+    define( 'CONST_TYPEFACTURE_CO', 'CO' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
+    define( 'BROCHNST_TYPEFACTURE_BROCH', 'BROCH' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFACTURETemp/' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_PATH', $uploadDir['basedir'] . '/factures/' );
+}
+if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_FACTURE', 'facture' );
+}
+// End of block Import Facture
+
+// Start of block Import Releveconso
+if ( !defined( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH', $uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/' );
+}
+if ( !defined( 'CONST_IMPORT_RELEVECONSO_PATH' ) ) { // emplacement definitif
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_RELEVECONSO_PATH', $uploadDir['basedir'] . '/releveconso/' );
+}
+if ( !defined( 'CONST_DOC_TYPE_RELEVECONSO' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_RELEVECONSO', 'releveconso' );
+}
+// End of block Import Releveconso
+
 // Displayed
 if ( !defined( 'CONST_DISPLAYED' ) ) {
     define( 'CONST_DISPLAYED', 1 );
 }
-
-

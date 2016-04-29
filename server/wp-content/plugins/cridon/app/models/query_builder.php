@@ -310,8 +310,10 @@ class QueryBuilder{
     public function countItems( $table , $options = array() ,$primaryKey = 'id' ){
         $options['count'] = true;
         $sql = $this->buildQuery($table, $options, $primaryKey);
-
-        return $this->wpdb->get_results( $sql );
+        $result = $this->wpdb->get_results( $sql );
+        if (is_array($result) && count($result) == 1){
+            return $result[0]->nb;
+        }
     }
 
     /**
@@ -376,10 +378,23 @@ class QueryBuilder{
             else{
                 $cond = array();
                 foreach( $options['conditions'] as $k=>$v ){
-                    if( !is_numeric( $v ) ){
-                        $v = '"'.mysqli_real_escape_string( $v ).'"'; //clean
+                    if (is_array($v) && count($v) > 1){
+                        $condition = "$k IN (";
+                        foreach ($v as $value){
+                            if (!is_numeric($value)) {
+                                $value = '"' . mysqli_real_escape_string($value) . '"'; //clean
+                            }
+                            $condition.= $value.',';
+                        }
+                        //Delete the last commas
+                        $condition = substr($condition,0,-1).')';
+                        $cond[] = $condition;
+                    } else {
+                        if (!is_numeric($v)) {
+                            $v = '"' . mysqli_real_escape_string($v) . '"'; //clean
+                        }
+                        $cond[] = "$k = $v";
                     }
-                    $cond[] = "$k = $v";
                 }
                 $sql .= implode( ' AND ',$cond );
             }

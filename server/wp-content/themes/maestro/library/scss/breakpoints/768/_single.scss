@@ -108,34 +108,38 @@
 				// NIVEAU DES VEILLES
 				&.niveau1{
 					.img-cat{
-						&:after{							
+						&:after{
+							content:url(../images/reference-tablette.svg);
 							width: 50px;
-							height: 50px;
-							background-size: 50px 50px;
+							height: 50px;									
 							top: 60px;
 							left: 0;
+							//background-size: 50px 50px;
+							@include rotate(0);
 						}
 					}
 				}
 				&.niveau2{
 					.img-cat{
 						&:after{
+							content:url(../images/premium-tablette.svg);
 							width: 50px;
-							height: 50px;
-							background-size: 50px 50px;
+							height: 50px;									
 							top: 60px;
 							left: 0;
+							@include rotate(0);
 						}
 					}
 				}
 				&.niveau3{
 					.img-cat{
 						&:after{
+							content:url(../images/excellence-tablette.svg);
 							width: 50px;
-							height: 50px;
-							background-size: 50px 50px;
+							height: 50px;									
 							top: 60px;
 							left: 0;
+							@include rotate(0);
 						}
 					}
 				}
@@ -144,7 +148,7 @@
 				.block_right{
 					
 					width: 400px;
-					min-height: 110px;
+					min-height: auto;
 
 
 					.matiere{					
@@ -167,7 +171,7 @@
 					clear: none;
 					float: right;
 					width: 460px;
-					
+					padding-left: 60px;
 
 					.content{
 						

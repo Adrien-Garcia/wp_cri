@@ -22,10 +22,10 @@ class NotairesController extends BasePublicController
     {
         global $mvc_params;
 
-        // check if user is logged in and must be a notary
-        if (!is_user_logged_in()
-            || !in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)
-        ) {
+        // check if user is logged in
+        if (!is_user_logged_in()) { // need to be redirected to the right page after login
+            CriRefuseAccess();
+        } elseif (!in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)) { // user is not allowed to access the content
             // logout current user
             wp_logout();
             // redirect user to home page
@@ -143,7 +143,7 @@ class NotairesController extends BasePublicController
         $this->set('messageError', '');
         if (isset($_REQUEST['error'])){
             if ($_REQUEST['error'] == 'FONCTION_NON_AUTORISE'){
-                $this->set('messageError', "Vous n'avez pas l'autorisation pour accéder à cette page.");
+                $this->set('messageError', CONST_ERROR_MSG_FONCTION_NON_AUTORISE);
             }
         }
 
@@ -301,25 +301,21 @@ class NotairesController extends BasePublicController
         $notaire = CriNotaireData();
         $this->set('notaire', $notaire);
 
-        $options = array(
-            'conditions' => array(
-                'crpcen' => $notaire->crpcen
-            )
-        );
-        $nbCollaboratorEtude = count(mvc_model('QueryBuilder')->findAll('notaire', $options));
+        $options = array('conditions' => array('crpcen' => $notaire->crpcen));
+        /** @var $etude Etude*/
+        $etude   = mvc_model('Etude')->find_one($options);
+        $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
+        if (is_array($subscriptionInfos) && count($subscriptionInfos) > 0) {
+            foreach ($subscriptionInfos as $level => $price) {
+                //set name of variable
+                $priceVeilleLevelx = 'priceVeilleLevel' . $level;
+                $this->set($priceVeilleLevelx, $price);
+            }
+        }
 
-
-        // Tri du tableau de prix par clé descendante
-        foreach(Config::$pricesLevelsVeilles[0] as $veilleLevel => $prices){
-            //set name of variable
-            $priceVeilleLevelx = 'priceVeilleLevel'.$veilleLevel;
-            //Tri par pri décroissant pour chaque niveau de veille
-            krsort($prices);
-            foreach($prices as $nbCollaborator => $price) {
-                if ($nbCollaboratorEtude >= $nbCollaborator) {
-                    $this->set($priceVeilleLevelx, $price);
-                    break;
-                }
+        if (isset($_REQUEST['error'])){
+            if ($_REQUEST['error'] == 'NIVEAU_VEILLE_INSUFFISANT'){
+                $this->set('messageError', CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT);
             }
         }
 
@@ -461,6 +457,7 @@ class NotairesController extends BasePublicController
             && !empty($_POST)
             && !empty($this->current_notaire)
         ) {
+            global $current_user;
             // newsletter
             if(isset($_POST['disabled'])) {
                 $this->model->newsletterSubscription($this->current_notaire);

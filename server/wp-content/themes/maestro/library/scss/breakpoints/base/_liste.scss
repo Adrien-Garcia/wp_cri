@@ -289,13 +289,18 @@
 								position: relative;
 								&:after{
 									position: absolute;
-									content:'';
-									width: 30px;
-									height: 30px;
-									background-image: url(../images/icon-cridonline-reference.png);
+									content:url(../images/reference.svg);
+									top: 60px;
+									left: -9px;
+									height: 12px;
+    								width: 50px;
+								    display: block;
+								    line-height: 12px;
+									/*background-image: url(../images/icon-cridonline-reference.png);
 									background-size: 30px 30px;
 									top: 35px;
-									left: 0;
+									left: 0;*/
+									@include rotate(-90);
 								}
 							}
 						}
@@ -304,13 +309,14 @@
 								position: relative;
 								&:after{
 									position: absolute;
-									content:'';
-									width: 30px;
+									content:url(../images/premium.svg);
+									/*width: 30px;
 									height: 30px;
 									background-image: url(../images/icon-cridonline-premium.png);
-									background-size: 30px 30px;
-									top: 35px;
-									left: 0;
+									background-size: 30px 30px;*/
+									top: 60px;
+									left: -9px;
+									@include rotate(-90);
 								}
 							}
 						}
@@ -319,13 +325,20 @@
 								position: relative;
 								&:after{
 									position: absolute;
-									content:'';
-									width: 30px;
+									content:url(../images/excellence.svg);
+									@include rotate(-90);
+									height: 10px;
+    								width: 60px;
+								    display: block;
+								    line-height: 12px;
+								    top: 76px;
+    								left: -17px;
+									/*width: 30px;
 									height: 30px;
 									background-image: url(../images/icon-cridonline-excellence.png);
 									background-size: 30px 30px;
 									top: 35px;
-									left: 0;
+									left: 0;*/
 								}
 							}
 						}
