@@ -1015,3 +1015,20 @@ function CriCanResetPwd() {
     return mvc_model('notaire')->userCanResetPwd();
 }
 
+/**
+ * Get list of all existing roles by function
+ *
+ * @param string $type : notaries|collaborators
+ * @param int $idFonction
+ * @return array
+ */
+function CriListRolesByFunction($type, $idFonction) {
+    $roles = array();
+    if (!empty(Config::$notaryRolesByFunction[$type][$idFonction])) {
+        foreach (Config::$notaryRolesByFunction[$type][$idFonction] as $role) {
+            $roles[$role] = Config::getRoleLabel($role);
+        }
+    }
+    return $roles;
+}
+
