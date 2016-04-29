@@ -159,6 +159,17 @@ interface DBConnect
      * @var string : notary id on Website
      */
     const NOTAIRE_YIDNOT = 'YIDNOT_0';
+
+    /**
+     * @var string : notary level
+     */
+    const NOTAIRE_YNIVEAU = 'YNIVEAU_0';
+    /****************** /Table ZEXPNOTV Structure *******************/
+
+    /**
+     * @var string : notary id on Website
+     */
+    const NOTAIRE_YIDNOT = 'YIDNOT_0';
     /****************** /Table ZEXPNOTV Structure *******************/
 
     /**

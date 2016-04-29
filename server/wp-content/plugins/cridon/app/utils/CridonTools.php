@@ -535,22 +535,40 @@ class CridonTools {
     }
 
     /**
-     * Renvoie une / toutes fonction(s) collaborateur
+     * Renvoie une / plusieurs /toutes les fonctions notaires
      *
-     * @param int $id
+     * @param array $ids of functions wanted
      * @return array|null|object
      */
-    public function getFunctionCollaborator($id = 0)
+    public function getNotaireFunctions()
     {
         global $wpdb;
 
-        $sql = " SELECT * FROM `{$wpdb->prefix}fonction_collaborateur` ";
-        if (intval($id) > 0) {
-            $sql .= $wpdb->prepare(' WHERE `id` = %d ', $id);
-        }
+        $sql = " SELECT f.`id` as `id_fonction_notaire`,f.`label` as `notaire_fonction_label`
+        FROM `{$wpdb->prefix}fonction` f
+        WHERE f.`displayed` =".CONST_DISPLAYED;
 
         return $wpdb->get_results($sql);
     }
+
+
+    /**
+     * Renvoie une / plusieurs / toutes les fonctions collaborateur
+     *
+     * @param array $ids of functions wanted
+     * @return array|null|object
+     */
+    public function getCollaboratorFunctions()
+    {
+        global $wpdb;
+
+        $sql = " SELECT fc.`id` as `id_fonction_collaborateur`,fc.`label` as `collaborateur_fonction_label`
+        FROM `{$wpdb->prefix}fonction_collaborateur` fc
+        WHERE fc.`displayed` =".CONST_DISPLAYED;
+
+        return $wpdb->get_results($sql);
+    }
+
 
     /**
      * Redirect by escaping header already send by...
