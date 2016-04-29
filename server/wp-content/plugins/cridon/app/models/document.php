@@ -709,4 +709,25 @@ class Document extends \App\Override\Model\CridonMvcModel {
             return false;
         }
     }
+
+    /**
+     * Check if doc already exist
+     *
+     * @param string $name
+     * @return bool
+     * @throws Exception
+     */
+    public function isDocExiste($name)
+    {
+        $document = mvc_model('QueryBuilder')->findOne('document',
+                                                     array(
+                                                         'fields'     => 'id',
+                                                         'conditions' => "name = '" . esc_sql(strip_tags($name)) . "'",
+                                                     )
+        );
+
+        writeLog($document);
+
+        return (is_object($document) && $document->id);
+    }
 }
