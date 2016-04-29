@@ -1,0 +1,328 @@
+# Translation of Development (trunk) in French (France)
+# This file is distributed under the same license as the Development (trunk) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2015-11-11 00:10:58+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
+"Project-Id-Version: Development (trunk)\n"
+
+#: html/pte.php:104
+msgid "width/height"
+msgstr "largeur/hauteur"
+
+#: html/pte.php:110
+msgid "Crop and save"
+msgstr "Retailler et sauvegarder"
+
+#: html/pte.php:119
+msgid "Change the current thumbnails position:"
+msgstr "Changer la position actuelle des miniatures:"
+
+#: html/pte.php:122 php/options.php:54
+msgid "JPEG Compression"
+msgstr "Compression JPEG"
+
+#: html/pte.php:126
+msgid "0 to 100 (Default: %d)"
+msgstr "0 à 100 (par défaut: %d)"
+
+#: html/pte.php:135
+msgid "Fit crop to thumbnail by adding border"
+msgstr "Ajuster le redécoupage en ajouter une bordure à la miniature"
+
+#: html/pte.php:157 php/options.php:49 post-thumbnail-editor.php:361
+msgid "Thumbnails"
+msgstr "Miniatures"
+
+#: html/pte.php:158
+msgid "width"
+msgstr "largeur"
+
+#: html/pte.php:158
+msgid "W"
+msgstr "W"
+
+#: html/pte.php:159
+msgid "height"
+msgstr "hauteur"
+
+#: html/pte.php:159
+msgid "H"
+msgstr "H"
+
+#: html/pte.php:160
+msgid "crop"
+msgstr "redécouper"
+
+#: html/pte.php:160
+msgid "C"
+msgstr "C"
+
+#: html/pte.php:166
+msgid "Save all"
+msgstr "Sauvegarder tout"
+
+#: html/pte.php:171
+msgid "Reset all"
+msgstr "Remettre aux réglages par défaut"
+
+#: html/pte.php:175
+msgid "View all/modified"
+msgstr "Voir tous/modifiés"
+
+#: html/pte.php:204
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: html/pte.php:207
+msgid "Compare/View"
+msgstr "Comparer/Voir"
+
+#: html/pte.php:214
+msgid "These thumbnails have an aspect ratio set:"
+msgstr "Ces miniatures ont un ratio de taille défini:"
+
+#: html/pte.php:223
+msgid "Current Thumbnails"
+msgstr "Miniatures courantes"
+
+#: html/pte.php:253
+msgid "Original"
+msgstr "Original"
+
+#: html/pte.php:260
+msgid "No image has been generated yet for image: "
+msgstr "Aucune image n'a encore été générée pour l'image:"
+
+#: html/pte.php:267
+msgid "Proposed"
+msgstr "Proposition"
+
+#: php/class-pte-image-editor-gd.php:65
+#: php/class-pte-image-editor-imagick.php:61
+msgid "Image crop failed."
+msgstr "Redécoupage de l'image échoué."
+
+#: php/functions.php:241
+msgid "Invalid meta data for POST #%d: %s"
+msgstr "Meta data invalide pour le BILLET #%d: %s"
+
+#: php/functions.php:246
+msgid "Please contact support"
+msgstr "Veuillez contacter le support"
+
+#: php/log.php:16
+msgid "ERROR"
+msgstr "ERREUR"
+
+#: php/log.php:19
+msgid "WARNING"
+msgstr "AVERTISSEMENT"
+
+#: php/log.php:22
+msgid "INFO"
+msgstr "INFO"
+
+#: php/log.php:25
+msgid "DEBUG"
+msgstr "DEBUGGER"
+
+#: php/log.php:222
+msgid "ERROR Logging Message: %s"
+msgstr "Message d'ERREUR de logging: %s"
+
+#: php/options.php:11
+msgid "User Options"
+msgstr "Options de l'utilisateur"
+
+#: php/options.php:16
+msgid "Debug"
+msgstr "Debugger"
+
+#: php/options.php:28
+msgid "Crop Picture Size"
+msgstr "Taille de redécoupage de l'image"
+
+#: php/options.php:34
+msgid "Reset to defaults"
+msgstr "Remettre aux réglages par défaut"
+
+#: php/options.php:45
+msgid "Site Options"
+msgstr "Options de site"
+
+#: php/options.php:59
+msgid "Cache Buster"
+msgstr "Accélérateur de cache"
+
+#: php/options.php:87
+msgid "Save Changes"
+msgstr "Sauvegarder les modifications"
+
+#: php/options.php:101
+msgid "Only users with the 'manage_options' capability may make changes to these settings."
+msgstr "Seuls les utilisateurs avec la capacité 'manage_options' (gestion d'options) peuvent modifier ces réglages."
+
+#: php/options.php:127
+msgid "JPEG Compression needs to be set from 0 to 100."
+msgstr "La compression JPEG doit être définie entre 0 et 100."
+
+#: php/options.php:165
+msgid "Crop Size must be between 0 and 10000."
+msgstr "La taille de redécoupage doit être située entre 0 et 10000."
+
+#: php/options.php:184
+msgid "Enable debugging"
+msgstr "Activer le debuggage"
+
+#: php/options.php:187
+msgid "WP_DEBUG is currently set to true and will override this setting. (debug is enabled)"
+msgstr "WP_DEBUG est actuellement activé et annule ces réglages (debug est activé)."
+
+#: php/options.php:194
+msgid "Use <a href=\"%s\">ChromePhp</a> for log output"
+msgstr "Utilisez <a href=\"%s\">ChromePhp</a> pour un résultat de log"
+
+#: php/options.php:202
+msgid "Write log output to a <a href=\"%s\">file</a>"
+msgstr "Écrite le résulat de log dans un <a href=\"%s\">fichier</a>"
+
+#: php/options.php:217
+msgid "I know what I'm doing, bypass the image verification."
+msgstr "Je sais ce que je fais, passer la vérification d'image."
+
+#: php/options.php:230
+msgid "Set the max size for the crop image."
+msgstr "Définir la taille max pour l'image découpée."
+
+#: php/options.php:231
+msgid "No entry defaults to 600"
+msgstr "Taille par défaut de l'image éditable à 600 px"
+
+#: php/options.php:249
+msgid "Reset User Options"
+msgstr "Réinitialiser les options d'utilisateur"
+
+#: php/options.php:275
+msgid "Post Thumbnail"
+msgstr "Miniature de billet"
+
+#: php/options.php:276
+msgid "Hidden"
+msgstr "Caché"
+
+#: php/options.php:306
+msgid "Set the compression level for resizing jpeg images (0 to 100)."
+msgstr "Définissez le niveau de compression jpeg des images (0 à 100)"
+
+#: php/options.php:307
+msgid "No entry defaults to using the 'jpeg_quality' filter or 90"
+msgstr "Laisser vide pour utiliser le filtre par défaut 'jpeg_quality' ou 90"
+
+#: php/options.php:319
+msgid "Append timestamp to filename. Useful for solving caching problems."
+msgstr "Ajouter un horodatage au nom de fichier. Utile pour résoudre les problèmes de cache."
+
+#: php/options.php:330
+msgid "These site-wide settings can only be changed by an administrator"
+msgstr "Ces réglages communs au site ne peuvent être changés que par un administrateur"
+
+#: post-thumbnail-editor.php:360
+msgid "Edit Thumbnails"
+msgstr "Éditer les miniatures"
+
+#. #-#-#-#-#  tmp-post-thumbnail-editor.pot (Post Thumbnail Editor 2.4.6) 
+#. #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  tmp-post-thumbnail-editor.pot (Post Thumbnail Editor 2.4.6) 
+#. #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "http://sewpafly.github.io/post-thumbnail-editor/"
+msgstr "http://sewpafly.github.io/post-thumbnail-editor"
+
+#. Description of the plugin/theme
+msgid "Individually manage your post thumbnails"
+msgstr "Gérez individuellement vos miniatures de billet"
+
+#. Author of the plugin/theme
+msgid "sewpafly"
+msgstr "sewpafly"
+
+#: php/functions.php:111
+msgid "Medium"
+msgstr "Moyen"
+
+#: php/functions.php:110
+msgid "Thumbnail"
+msgstr "Miniature"
+
+#: php/functions.php:112
+msgid "Large"
+msgstr "Grand"
+
+#: html/pte.php:23
+msgid "No thumbnails selected"
+msgstr "Aucune miniature de sélectionnée"
+
+#: html/pte.php:24
+msgid "No crop selected"
+msgstr "Aucun rétaillage de sélectionné"
+
+#: html/pte.php:25
+msgid "Cropping will likely result in skewed imagery"
+msgstr "Le découpage va donner une image asymétrique"
+
+#: html/pte.php:26
+msgid "There was a problem saving the crop..."
+msgstr "Désolé, il y a eu un problème lors de la sauvegarde du retaillage..."
+
+#: html/pte.php:27 php/options.php:22
+msgid "Crop and Save"
+msgstr "Retailler et Sauvegarder"
+
+#: html/pte.php:28 html/pte.php:52
+msgid "Crop"
+msgstr "Retailler"
+
+#: html/pte.php:29 html/pte.php:201
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: html/pte.php:30
+msgid "Set transparent"
+msgstr "Définir comme transparent"
+
+#: html/pte.php:31
+msgid "transparent/white"
+msgstr "transparent/blanc"
+
+#. #-#-#-#-#  tmp-post-thumbnail-editor.pot (Post Thumbnail Editor 2.4.6) 
+#. #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: html/pte.php:46 php/options.php:79 post-thumbnail-editor.php:211
+#: post-thumbnail-editor.php:251 post-thumbnail-editor.php:340
+#: post-thumbnail-editor.php:393 post-thumbnail-editor.php:394
+#: post-thumbnail-editor.php:400 post-thumbnail-editor.php:401
+#: post-thumbnail-editor.php:444
+msgid "Post Thumbnail Editor"
+msgstr "Post Thumbnail Editor"
+
+#: html/pte.php:47
+msgid "crop and resize"
+msgstr "Retailler et redimensionner"
+
+#: html/pte.php:53
+msgid "View"
+msgstr "Voir"
+
+#: html/pte.php:85
+msgid "Options"
+msgstr "Options"
+
+#: html/pte.php:101
+msgid "Aspect Ratio"
+msgstr "Ratio de taille"
