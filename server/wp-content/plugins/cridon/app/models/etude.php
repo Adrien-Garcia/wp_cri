@@ -68,7 +68,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      * @param mixed $Iterator
      * @param int $limit
      * @param string $date
-     * @param mixed $documentModel
+     * @param Document $documentModel
      * @param string $type
      */
     protected function importPdf($documents, $Iterator, $limit, $date, $documentModel, $type)
@@ -137,7 +137,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                                 if ($type == 'facture') {
                                     $facture                    = new \stdClass();
                                     $facture->name              = $fileInfo['basename'];
-                                    $facture->download_url      = get_home_url() . $docData['Document']['download_url'];
+                                    $facture->download_url      = $documentModel->generatePublicUrl($documentId);
 
                                     // send email to notaries
                                     $this->sendEmailFacture($crpcen, $facture);
@@ -189,7 +189,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         // date
         $date = date('Ym');
 
-        // model document
+        /** @var $documentModel Document */
         $documentModel = mvc_model('Document');
 
         switch ($type) {
