@@ -31,6 +31,12 @@ if ( !defined( 'CONST_QUESTIONECRITES_ROLE' ) ) {
 if ( !defined( 'CONST_QUESTIONTELEPHONIQUES_ROLE' ) ) {
     define( 'CONST_QUESTIONTELEPHONIQUES_ROLE', 'accesquesttelephoniques' );
 }
+if ( !defined( 'CONST_NOTAIRE_DIV_ROLE' ) ) {
+    define( 'CONST_NOTAIRE_DIV_ROLE', 'notaire_div' );
+}
+if ( !defined( 'CONST_NOTAIRE_ORG_ROLE' ) ) {
+    define( 'CONST_NOTAIRE_ORG_ROLE', 'notaire_org' );
+}
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
     define( 'CONST_ADMIN_ROLE', 'administrator' );
@@ -453,6 +459,7 @@ if ( !defined( 'CONST_COLLAB_TECHNICIEN' ) ) {
     define( 'CONST_COLLAB_TECHNICIEN', 11 );
 }
 
+
 // Add Question Form
 if ( !defined( 'CONST_QUESTION_MATIERE_DOCUMENTATION_ID' ) ) {
     define('CONST_QUESTION_MATIERE_DOCUMENTATION_ID', 9);
@@ -640,6 +647,47 @@ if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
 if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_3' ) ) {
     define( 'CONST_CRIDONLINE_LABEL_LEVEL_3', 'Excellence' );
 }
+// Collaborateur form
+if ( !defined( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG', 'Le profil du collaborateur a bien été supprimé.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_DELETE_FAIL_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_DELETE_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_ADD_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_ADD_SUCCESS_MSG', 'Le collaborateur a bien été ajouté à votre étude.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_ADD_ERROR_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_ADD_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_FUNCTION_ERROR_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_FUNCTION_ERROR_MSG', 'Merci de remplir la fonction collaborateur.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG', 'Le collaborateur a bien été modifié.' );
+}
+if ( !defined( 'CONST_PROFIL_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_MODIFY_SUCCESS_MSG', 'Votre profil a bien été modifié.' );
+}
+if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG', 'Les données de votre étude ont bien été modifiées.' );
+}
+if ( !defined( 'CONST_CREATE_USER' ) ) {
+    define( 'CONST_CREATE_USER', 'create_user' );
+}
+if ( !defined( 'CONST_MODIFY_USER' ) ) {
+    define( 'CONST_MODIFY_USER', 'modify_user' );
+}
+if ( !defined( 'CONST_PROFIL_MODIFY_USER' ) ) {
+    define( 'CONST_PROFIL_MODIFY_USER', 'profil_modify_user' );
+}
+if ( !defined( 'CONST_DELETE_USER' ) ) {
+    define( 'CONST_DELETE_USER', 'delete_user' );
+}
+
 //Alert on issues without documents
 if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
     define( 'CONST_ALERT_MINUTE', 30 );
@@ -883,17 +931,6 @@ if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
 if ( !defined( 'CONST_ALERT_EMAIL_CHANGED' ) ) {
     define('CONST_ALERT_EMAIL_CHANGED', 'Attention : il s\'agit de votre adresse email personnelle');
 }
-
-// Start of block delete collaborator
-if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
-    define( 'CONST_CONFIRM_DEL_MSG', 'Confirmer la suppression du collaborateur ?' );
-}
-if ( !defined( 'CONST_DEL_SUCCESS_MSG' ) ) {
-    define( 'CONST_DEL_SUCCESS_MSG', 'Collaborateur supprimé' );
-}
-if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
-    define( 'CONST_DELCOLLAB_ERROR', 'Suppression collaborateur interrompu le : %s' );
-}
 // End of block delete collaborator
 
 // ERP YNOTAIRE table
@@ -933,6 +970,30 @@ if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
+// capabilités pour les niveaux d'accès
+if ( !defined( 'CONST_ACCESS_LEVEL_1' ) ) {
+    define( 'CONST_ACCESS_LEVEL_1', 'access_level_1' );
+}
+if ( !defined( 'CONST_ACCESS_LEVEL_2' ) ) {
+    define( 'CONST_ACCESS_LEVEL_2', 'access_level_2' );
+}
+if ( !defined( 'CONST_ACCESS_LEVEL_3' ) ) {
+    define( 'CONST_ACCESS_LEVEL_3', 'access_level_3' );
+}
+// capabilités d'aceès au solde
+if ( !defined( 'CONST_ACCESS_SOLDE' ) ) {
+    define( 'CONST_ACCESS_SOLDE', 'access_solde' );
+}
+// liste des categories notaires
+if ( !defined( 'CONST_OFFICES_CATEG' ) ) {
+    define( 'CONST_OFFICES_CATEG', 'OFF' );
+}
+if ( !defined( 'CONST_ORGANISMES_CATEG' ) ) {
+    define( 'CONST_ORGANISMES_CATEG', 'ORG' );
+}
+if ( !defined( 'CONST_CLIENTDIVERS_CATEG' ) ) {
+    define( 'CONST_CLIENTDIVERS_CATEG', 'DIV' );
+}
 
 // Start of block Import Facture
 if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
@@ -968,6 +1029,25 @@ if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.ty
     define( 'CONST_DOC_TYPE_FACTURE', 'facture' );
 }
 // End of block Import Facture
+if ( !defined( 'CONST_DISPLAYED' ) ) {
+    define( 'CONST_DISPLAYED', 1 );
+}
+
+
+
+// Start of block Import Releveconso
+if ( !defined( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH', $uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/' );
+}
+if ( !defined( 'CONST_IMPORT_RELEVECONSO_PATH' ) ) { // emplacement definitif
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_RELEVECONSO_PATH', $uploadDir['basedir'] . '/releveconso/' );
+}
+if ( !defined( 'CONST_DOC_TYPE_RELEVECONSO' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_RELEVECONSO', 'releveconso' );
+}
+// End of block Import Releveconso
 
 if ( !defined( 'CONST_YTRAITEE_PAR_SITE' ) ) {
     define( 'CONST_YTRAITEE_PAR_SITE', 2 );

@@ -9,5 +9,5 @@
 
 ?>
 <?php
-    include TEMPLATEPATH.'/content-mon-compte-deletecollaborateur.php';
+    include TEMPLATEPATH.'/content-add-collabs-popup.php';
 ?>

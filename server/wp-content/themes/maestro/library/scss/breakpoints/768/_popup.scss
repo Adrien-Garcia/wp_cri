@@ -353,7 +353,12 @@
 }
 
 
-#layer-cridonline, #layer-add-collabs, #layer-sup-collabs{
+#layer-cridonline,
+#layer-collaborateur-add,
+#layer-collaborateur-delete,
+#layer-update-etude,
+#layer-update-profil,
+.popup{
  
 	width: 660px;
 	max-width: 660px;

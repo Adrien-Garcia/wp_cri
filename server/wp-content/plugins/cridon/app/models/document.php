@@ -695,10 +695,39 @@ class Document extends \App\Override\Model\CridonMvcModel {
             // veile data
             $veille = $this->getRelatedModel($object->id, 'veille');
 
+            // get user cap level
+            $capLevel    = 'access_level_' . $veille->level;
             // subscription_level must be >= veille_level
-            return ($notaryData->etude->subscription_level >= $veille->level || $notaryData->etude->end_subscription_date_veille >= date('Y-m-d'));
+            if (!in_array($notaryData->category, Config::$notaryNoDefaultOffice)
+                && ($notaryData->etude->subscription_level >= $veille->level || $notaryData->etude->end_subscription_date_veille >= date('Y-m-d'))
+            ) { // Categ OFF
+                return (current_user_can($capLevel));
+            } else { // Categ DIV or ORG
+                return (current_user_can($capLevel));
+            }
         } else {
             return false;
         }
+    }
+
+    /**
+     * Check if doc already exist
+     *
+     * @param string $name
+     * @return bool
+     * @throws Exception
+     */
+    public function isDocExiste($name)
+    {
+        $document = mvc_model('QueryBuilder')->findOne('document',
+                                                     array(
+                                                         'fields'     => 'id',
+                                                         'conditions' => "name = '" . esc_sql(strip_tags($name)) . "'",
+                                                     )
+        );
+
+        writeLog($document);
+
+        return (is_object($document) && $document->id);
     }
 }
