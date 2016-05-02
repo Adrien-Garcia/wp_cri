@@ -1,0 +1,1 @@
+ALTER TABLE `cri_notaire` ADD COLUMN `cron_update_erp` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL;

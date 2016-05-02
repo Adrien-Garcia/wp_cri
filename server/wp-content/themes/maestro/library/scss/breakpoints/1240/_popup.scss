@@ -405,8 +405,10 @@
 
 
 #layer-cridonline,
-#layer-add-collabs,
-#layer-sup-collabs,
+#layer-collaborateur-add,
+#layer-collaborateur-delete,
+#layer-update-etude,
+#layer-update-profil,
 .popup{
 	
 	width: 1200px;
@@ -577,7 +579,7 @@
 			}
 
 			&.submit{
-				input{width: 150px;}				
+				input{width: 150px;}
 			}
 
 		}
@@ -620,7 +622,7 @@
 				}
 
 			}
-			
+
 		}
 	}
 }

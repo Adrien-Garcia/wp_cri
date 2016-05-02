@@ -184,33 +184,31 @@
 						<li>atem accusantium doloremque laudantium</li>
 						<li>totam rem aperiam, eaque</li>
 					</ul>
-					<a href="#" title="Découvrir nos offres crid'online" class="link1"><span><?php _e('Découvrir nos offres !'); ?></span></a>
+					<a href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>" title="Découvrir nos offres crid'online" class="link1"><span><?php _e('Découvrir nos offres !'); ?></span></a>
 
-					<a title="Découvrir nos offres crid'online" class="link2 <?php if(!CriIsNotaire()) : ?>js-panel-connexion-open<?php endif; ?>" 
-						<?php if(CriIsNotaire()) : ?> href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>" 
-						<?php else : ?> href="#" data-login-message="PROTECTED_CONTENT" <?php endif; ?> 
-						>
+					<a title="Découvrir nos offres crid'online" class="link2"
+						href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>">
 						<span><?php _e('Souscrire à nos offres !'); ?></span>
 					</a>
 				</div>
 
 
 				
-				<div class="veille-juridique <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+				<div class="veille-juridique js-home-block-link">
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
 
-						<a <?php if(CriIsNotaire()) : ?> href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+						<a href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" >
 							<span><?php _e('S\'abonner à votre veille !'); ?></span>
 						</a>
 
 						<img src="" alt="" class="appli" />
 					</div>
 				</div>
-				<div class="info-flash-exclu <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="PROTECTED_CONTENT" <?php endif; ?>>
+				<div class="info-flash-exclu js-home-block-link">
 					<div class="content">
 						<h2><?php _e('Info flash en exclusivité'); ?> </h2>
-						<a <?php if(CriIsNotaire()) : ?> href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+						<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>" >
 							<span><?php _e('Consulter les flash infos'); ?></span>
 						</a>						
 					</div>
