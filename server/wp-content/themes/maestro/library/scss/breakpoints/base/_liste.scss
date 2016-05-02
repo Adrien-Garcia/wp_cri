@@ -31,7 +31,7 @@
 					margin-bottom: 20px;
 
 					>label{
-						color: #b9003f;
+						color: $rouge;
 					    font-size: 16px;
 					    text-transform: uppercase;
 					    @extend .do-bo;
@@ -103,7 +103,7 @@
 									content: '';
 								    width: 10px;
 								    height: 10px;
-								    border: solid 1px #b9003f;
+								    border: solid 1px $rouge;
 								    margin-right: 5px;
 								    position: absolute;
 								    display: inline-block;
@@ -124,7 +124,7 @@
 								&.select{
 
 									&:before{
-										border: solid 1px #b9003f;
+										border: solid 1px $rouge;
 										background: $rouge;
 									}
 

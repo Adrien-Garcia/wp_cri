@@ -1,24 +1,28 @@
-<div class="bloc-cridonline niveau-1 on">
+<?php if ($notaire->etude->subscription_level < 2 && $subscription ):?>
+    <?php $isSubcribable = ($notaire->etude->subscription_level < 3 && $subscription) ?>
+<?php endif; ?>
+<div class="bloc-cridonline niveau-1 on <?php echo $isSubcribable ? "large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <div class="titre">
             Compris dans votre cotisation générale annuelle
         </div>
         <ul>
-            <li>- Lorem Ipsum dolor sit amet</li>
-            <li>- Consectur alt</li>
-            <li>- Sed do erusmad tempor</li>
+            <li>- Veille juridique référence CRIDON LYON</li>
+            <li>- Bouquet documentaire complémentaire</li>
+            <li>- Actualités Lexbase (30 domaines juridiques)</li>
+            <li>- Mise à jour permanente</li>
         </ul>
-        <a href="#" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="/wp-content/uploads/pdf/Description-CRIDONLINE-reference.pdf" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
     </div>
 </div>
 
-<div class="bloc-cridonline niveau-2 off">
+<div class="bloc-cridonline niveau-2 off <?php echo $isSubcribable ? "large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <?php if ($notaire->etude->subscription_level < 2 ):?>
             <div class="prix">
-               <?php echo $priceVeilleLevel2 ?><span>€/an</span>
+               <?php echo $priceVeilleLevel2 ?><span>€ HT</span>
             </div>
         <?php elseif ($notaire->etude->subscription_level == 2 ) :?>
             <div class="titre">
@@ -30,11 +34,13 @@
             </div>
         <?php endif; ?>
         <ul>
-            <li>- Lorem Ipsum dolor sit amet</li>
-            <li>- Consectur alt</li>
-            <li>- Sed do erusmad tempor</li>
+            <li>- Veille juridique premium CRIDON LYON</li>
+            <li>- Documentation juridique d’une partie importante du droit notarial</li>
+            <li>- Economie d’abonnements d’autres éditeurs possible</li>
+            <li>- Meilleur rapport qualité prix</li>
+            <li>- Offre évolutive et mise à jour permanente</li>
         </ul>
-        <a href="#" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="/wp-content/uploads/pdf/Description-CRIDONLINE-premium.pdf" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
         <?php if ($notaire->etude->subscription_level < 2 && $subscription ):?>
             <form method="get" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2'));?>">
                 <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">
@@ -45,12 +51,12 @@
         <?php endif;?>
     </div>
 </div>
-<div class="bloc-cridonline niveau-3 off">
+<div class="bloc-cridonline niveau-3 off <?php echo $isSubcribable ? "large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <?php if ($notaire->etude->subscription_level < 3 ):?>
             <div class="prix">
-                <?php echo $priceVeilleLevel3 ?><span>€/an</span>
+                <?php echo $priceVeilleLevel3 ?><span>€ HT</span>
             </div>
         <?php else : ?>
             <div class="titre">
@@ -58,11 +64,13 @@
             </div>
         <?php endif; ?>
         <ul>
-            <li>Lorem Ipsum dolor sit amet</li>
-            <li>Consectur alt</li>
-            <li>Sed do erusmad tempor</li>
+            <li>- Veille juridique excellence CRIDON LYON</li>
+            <li>- Documentation juridique de la quasi intégralité du droit notarial</li>
+            <li>- Economie d’abonnements d’autres éditeurs possible</li>
+            <li>- Meilleur rapport qualité prix</li>
+            <li>- Offre évolutive et mise à jour permanente</li>
         </ul>
-        <a href="#" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="/wp-content/uploads/pdf/Description-CRIDONLINE-excellence.pdf" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
         <?php if ($notaire->etude->subscription_level < 3 && $subscription ):?>
         <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2'));?>">
             <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">

@@ -7,13 +7,21 @@
 
 	.bloc-cridonline{
 		width: 257px;
-		height: 400px;
+		height: 470px;
 		float: left;
 		margin-right: 12px;
 		background: #FFF;
-		margin-top: 15px;
+		margin-top: 15px; 
 		margin-bottom: 35px;
-
+		&.large {
+			height: 520px;
+			.content {
+				height: 367px;
+			}
+			&.on {
+				height: 540px;
+			}
+		}
 		
 
 		> .en-tete{
@@ -49,7 +57,7 @@
 
 		&.on{
 			width: 257px;
-			height: 420px;
+			height: 490px;
 			top: -10px;
 			left: 0px;		   
 		}

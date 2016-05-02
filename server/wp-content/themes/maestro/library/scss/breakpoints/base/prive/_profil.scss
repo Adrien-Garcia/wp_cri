@@ -31,13 +31,13 @@ div#mon-profil{
 				left: 50%;
 				margin-left: -40px;
 			}
-		
+
 			img{ 
 				width: 100%;
 				height: 100%;
 			}
-		
-		} 
+
+		}
 
 		.coordonnees{
 
@@ -123,11 +123,31 @@ div#mon-profil{
 		border-bottom: solid 4px $bg-top-footer;
 		padding-bottom: 25px;
 		margin-bottom: 15px;
+
+		h2 {
+			margin-bottom: 0; 
+		}
+		.description {
+			margin-bottom: 30px !important;
+		}
 	}
 
-	.mes-centres-dinterets, .newsletter{
+	.mes-centres-dinterets, .newsletter, .cridonline-offres {
+		
+		.description{
+			font-family: $garamond;
+			font-size: 15px;
+			line-height: 16px;
+			color:$rouge;
+			margin: 0;
+			padding: 0;
+
+		}
+	}
+
+	.mes-centres-dinterets, .newsletter {
 		clear: both;
-		margin-bottom: 15px;
+		margin-bottom: 30px;
 		padding-bottom: 30px;
 		border-bottom: solid 4px $bg-top-footer;
 

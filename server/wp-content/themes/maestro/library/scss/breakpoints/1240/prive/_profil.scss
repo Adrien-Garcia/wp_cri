@@ -79,22 +79,25 @@ div#mon-profil{
 	.cridonline-offres{
 		width: 100%;
 		float: left;
+		.description{
+			margin-bottom: 60px;
+		}
 	}
 
-	
-
-	.mes-centres-dinterets, .newsletter{
-
-
-
-		h2{ }
-
+	.mes-centres-dinterets, .newsletter, .cridonline-offres {
 		.description{
 			width: 100%;
 			font-size: 20px;
 			line-height: 24px;
 
 		}
+	}
+
+	.mes-centres-dinterets, .newsletter{
+
+
+
+		h2{ }		
 
         .form-newsletter {
             width: 490px;
