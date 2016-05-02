@@ -124,7 +124,7 @@
 <div class="cridonline-offres">
 	<h2><?php _e('Mon abonnement Crid\'online'); ?></h2>
 	<div class="description">
-			Lorem ipsum dolor sit amet
+			Choisissez le niveau de service qui correspond le mieux à votre organisation, vos besoins, vos objectifs. Il est de toute manière totalement complémentaire aux autres services assurés par votre CRIDON LYON.
 	</div>
 	<?php set_query_var( 'notaire', $notaire ); ?>
 	<?php set_query_var( 'priceVeilleLevel2', $priceVeilleLevel2 ); ?>

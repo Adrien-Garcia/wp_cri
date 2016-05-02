@@ -178,15 +178,17 @@
 
 				<div class="cridonline">
 					<ul>
-						<li>Lorem ipsum dolor sit amet, consectetur</li>
-						<li>adipisicing elit, sed do eiusmod</li>
-						<li>didunt ut labore et dolore magna</li>
-						<li>atem accusantium doloremque laudantium</li>
-						<li>totam rem aperiam, eaque</li>
+						<li>Totalement conçu pour les notaires</li>
+						<li>Intégré et complémentaire à votre espace privé CRIDON LYON</li>
+						<li>Simple et ergonomique</li>
+						<li>Choix de l’offre de la plus simple à la plus complète</li>
+						<li>Toujours au meilleur prix</li>
 					</ul>
-					<a href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>" title="Découvrir nos offres crid'online" class="link1"><span><?php _e('Découvrir nos offres !'); ?></span></a>
+					<a href="/cridonline-decouvrir-nos-offres" title="Découvrir nos offres crid'online" class="link1">
+						<span><?php _e('Découvrir nos offres !'); ?></span>
+					</a>
 
-					<a title="Découvrir nos offres crid'online" class="link2"
+					<a title="Souscrire nos offres crid'online" class="link2"
 						href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>">
 						<span><?php _e('Souscrire à nos offres !'); ?></span>
 					</a>

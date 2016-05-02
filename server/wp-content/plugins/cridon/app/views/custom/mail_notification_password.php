@@ -83,7 +83,11 @@
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
                 <?php if (!empty($password)) : ?>
                 <p>
-                    Votre nouveau mot de passe est : <strong><?php echo $password; ?></strong>
+                    Suite votre demande de réinitialisation veuillez trouver ci-joint votre nouveau mot de passe :
+                </p>
+                <p style="padding-left: 15px;">
+                    Accès à l'espace privé de notre site Internet :
+                    <strong><?php echo $password; ?></strong>
                 </p>
                 <?php endif ?>
                 <p></p>
