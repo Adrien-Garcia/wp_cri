@@ -1067,8 +1067,8 @@ if ( !defined( 'CONST_YSRETEL_ON' ) ) {
     define( 'CONST_YSRETEL_ON', 2 );
 }
 if ( !defined( 'CONST_UPDATEERP_ERROR' ) ) {
-    define( 'CONST_UPDATEERP_ERROR', 'Mise à jour données notaires : %s' );
+    define( 'CONST_UPDATEERP_ERROR', 'Mise à jour données notaires (update) : %s' );
 }
-if ( !defined( 'CONST_UPDATEERP_ERROR' ) ) {
-    define( 'CONST_UPDATEERP_ERROR', 'Mise à jour données notaires : %s' );
+if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
+    define( 'CONST_DELCOLLAB_ERROR', 'Mise à jour données notaires (suppression) : %s' );
 }
