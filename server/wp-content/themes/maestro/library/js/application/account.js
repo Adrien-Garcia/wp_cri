@@ -271,6 +271,8 @@ App.Account = {
         this.$accountProfilPassword                = $(d + this.accountProfilSelector + this.accountPasswordSelector);
         this.$accountProfilPasswordForm            = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountFormSelector);
         this.$accountProfilPasswordForm.append(nonce);
+        this.$accountProfilPasswordEmail           = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountEmailSelector);
+        this.$accountProfilPasswordEmailValidation = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountEmailSelector + this.accountValidationSelector);
         this.$accountProfilPasswordMessage         = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountMessageSelector);
         this.$popupProfilPassword                  = $(this.accountPopupProfilPassword);
 
@@ -582,7 +584,7 @@ App.Account = {
         });
 
         this.$accountProfilPassword.on('click', function (e) {
-            self.$popupProfilOfficeModify.popup('show');
+            self.$popupProfilPassword.popup('show');
             return false;
         });
 
@@ -955,7 +957,7 @@ App.Account = {
         data = JSON.parse(data);
         // create message block
         if (data != undefined && data.error != undefined) {
-            var message = jsvar.collaborateur_modify_error;
+            var message = data.error;
             var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
             this.$accountProfilModifyMessage.html('').append(content);
         } else {
@@ -1023,7 +1025,7 @@ App.Account = {
         data = JSON.parse(data);
         // create message block
         if (data != undefined && data.error != undefined) {
-            var message = jsvar.profil_office_modify_error;
+            var message = data.error;
             var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
             this.$accountProfilModifyMessage.html('').append(content);
         } else {
@@ -1038,7 +1040,8 @@ App.Account = {
             url: form.data('js-ajax-password-url'),
             data: {
                 token: $('#tokenpassword').val(),
-                id: form.find(this.$accountProfilOfficeModifyCrpcen.selector).val()
+                email: form.find(this.$accountProfilPasswordEmail).val(),
+                email_validation: form.find(this.$accountProfilPasswordEmailValidation).val()
             },
             success: this.successProfilPassword.bind(this)
         });
@@ -1049,7 +1052,7 @@ App.Account = {
         data = JSON.parse(data);
         // create message block
         if (data != undefined && data.error != undefined) {
-            var message = jsvar.profil_password_error;
+            var message = data.error;
             var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
             this.$accountProfilPasswordMessage.html('').append(content);
         } else {
@@ -1103,7 +1106,7 @@ App.Account = {
         data = JSON.parse(data);
         // create message block
         if (data != undefined && data.error != undefined) {
-            var message = jsvar.collaborateur_delete_error;
+            var message = data.error;
             var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
             this.$accountCollaborateurDeleteValidationMessage.html('').append(content);
         } else {
@@ -1191,7 +1194,7 @@ App.Account = {
         data = JSON.parse(data);
         // create message block
         if (data != undefined && data.error != undefined) {
-            var message = jsvar.collaborateur_add_error;
+            var message = data.error;
             var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
             $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
         } else {

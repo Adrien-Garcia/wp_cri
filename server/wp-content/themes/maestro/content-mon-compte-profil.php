@@ -116,7 +116,7 @@
 				><?php _e('Modifier mes informations'); ?></div>
             <?php if (in_array($notaire->id_fonction,Config::$allowedNotaryFunction)) : ?>
             <br/>
-			<div class="update update-mdp"><?php _e('Modifier mon mot de passe'); ?></div>
+			<div class="update update-mdp js-account-profil-password"><?php _e('Modifier mon mot de passe'); ?></div>
             <?php endif; ?>
 
 		</div>

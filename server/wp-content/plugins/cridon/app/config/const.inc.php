@@ -678,6 +678,12 @@ if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG' ) ) {
 if ( !defined( 'CONST_PROFIL_PASSWORD_ERROR_MSG' ) ) {
     define( 'CONST_PROFIL_PASSWORD_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
 }
+if ( !defined( 'CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG', 'Les emails ne sont pas identiques.' );
+}
+if ( !defined( 'CONST_PROFIL_PASSWORD_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_SUCCESS_MSG', 'La demande de modification de mot de passe a bien été prise en compte.' );
+}
 if ( !defined( 'CONST_CREATE_USER' ) ) {
     define( 'CONST_CREATE_USER', 'create_user' );
 }
