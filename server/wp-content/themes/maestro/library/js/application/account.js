@@ -46,6 +46,7 @@ App.Account = {
     accountAddress3Selector             : '-address-3',
     accountPostalcodeSelector           : '-postalcode',
     accountCitySelector                 : '-city',
+    accountPasswordSelector             : '-password',
 
     ajaxSelector                        : '-ajax',
     ajaxPaginationSelector              : '-pagination',
@@ -66,6 +67,7 @@ App.Account = {
     accountPopupCollaborateurAdd        : '#layer-collaborateur-add',
     accountPopupProfilModify            : '#layer-update-profil',
     accountPopupProfilOfficeModify      : '#layer-update-etude',
+    accountPopupProfilPassword          : '#layer-update-mdp',
 
     eventAccountButtonSelector          : '-button',
 
@@ -262,8 +264,19 @@ App.Account = {
 
         this.$popupProfilOfficeModify              = $(this.accountPopupProfilOfficeModify);
 
+        nonce.name  = 'tokenpassword';
+        nonce.id    = 'tokenpassword';
+        nonce.value = jsvar.password_nonce;
+
+        this.$accountProfilPassword                = $(d + this.accountProfilSelector + this.accountPasswordSelector);
+        this.$accountProfilPasswordForm            = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountFormSelector);
+        this.$accountProfilPasswordForm.append(nonce);
+        this.$accountProfilPasswordMessage         = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountMessageSelector);
+        this.$popupProfilPassword                  = $(this.accountPopupProfilPassword);
+
         this.popupProfilModifyInit();
         this.popupProfilOfficeModifyInit();
+        this.popupProfilPasswordInit();
 
         this.addListenersProfil();
     },
@@ -283,6 +296,18 @@ App.Account = {
     popupProfilOfficeModifyInit: function() {
         var self = this;
         this.$popupProfilOfficeModify.popup({
+            transition: 'all 0.3s',
+            scrolllock: true,
+            opacity: 0.8,
+            color: '#324968',
+            offsettop: 10,
+            vertical: top
+        });
+    },
+
+    popupProfilPasswordInit: function() {
+        var self = this;
+        this.$popupProfilPassword.popup({
             transition: 'all 0.3s',
             scrolllock: true,
             opacity: 0.8,
@@ -554,6 +579,17 @@ App.Account = {
             e.returnValue = false;
             e.preventDefault();
             self.eventAccountProfilOfficeModifySubmit($(this));
+        });
+
+        this.$accountProfilPassword.on('click', function (e) {
+            self.$popupProfilOfficeModify.popup('show');
+            return false;
+        });
+
+        this.$accountProfilPasswordForm.on('submit', function (e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountProfilPasswordSubmit($(this));
         });
     },
 
@@ -990,6 +1026,32 @@ App.Account = {
             var message = jsvar.profil_office_modify_error;
             var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
             this.$accountProfilModifyMessage.html('').append(content);
+        } else {
+            window.location.href = data.view;
+        }
+        return false;
+    },
+
+    eventAccountProfilPasswordSubmit: function(form) {
+        jQuery.ajax({
+            type: 'POST',
+            url: form.data('js-ajax-password-url'),
+            data: {
+                token: $('#tokenpassword').val(),
+                id: form.find(this.$accountProfilOfficeModifyCrpcen.selector).val()
+            },
+            success: this.successProfilPassword.bind(this)
+        });
+        return false;
+    },
+
+    successProfilPassword: function(data) {
+        data = JSON.parse(data);
+        // create message block
+        if (data != undefined && data.error != undefined) {
+            var message = jsvar.profil_password_error;
+            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            this.$accountProfilPasswordMessage.html('').append(content);
         } else {
             window.location.href = data.view;
         }

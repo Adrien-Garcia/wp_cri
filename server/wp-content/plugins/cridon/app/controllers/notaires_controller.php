@@ -469,22 +469,6 @@ class NotairesController extends BasePublicController
                 $data = $this->clean($_POST);
                 $this->model->manageInterest($this->current_notaire, $data);
             }
-
-            if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
-
-                /**
-                 * Renouvellement mot de passe :
-                 * - notaire connecté dispose d'une adresse email perso
-                 * - seuls les notaires de fonctions 1, 2, 3, 6, 7, 8, 9, 10 peuvent accéder à la fonction
-                 * @see \Config::$allowedNotaryFunction
-                 */
-                if (isset($_POST['reset_pwd'])
-                    && !empty($this->current_notaire->email_adress)
-                    && filter_var($this->current_notaire->email_adress, FILTER_VALIDATE_EMAIL)
-                ) {
-                    $this->model->resetPwd($this->current_notaire->id);
-                }
-            }
         }
         // set template vars
         $vars = $this->get_object();
@@ -722,6 +706,23 @@ class NotairesController extends BasePublicController
                 $url.='?message=modifyoffice';
                 echo json_encode(array('view' => $url));
                 die();
+            }
+        }
+    }
+
+    public function gestionPassword (){
+        $notaire = CriNotaireData();
+        if (in_array($notaire->id_fonction, Config::$allowedNotaryFunction)) {
+            /**
+             * Renouvellement mot de passe :
+             * - notaire connecté dispose d'une adresse email perso
+             * - seuls les notaires de fonctions 1, 2, 3, 6, 7, 8, 9, 10 peuvent accéder à la fonction
+             * @see \Config::$allowedNotaryFunction
+             */
+            if (!empty($notaire->email_adress)
+                && filter_var($notaire->email_adress, FILTER_VALIDATE_EMAIL)
+            ) {
+                $this->model->resetPwd($notaire->id);
             }
         }
     }
