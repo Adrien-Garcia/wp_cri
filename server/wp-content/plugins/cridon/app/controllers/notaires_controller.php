@@ -424,8 +424,10 @@ class NotairesController extends BasePublicController
                             'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                         )
                     );
-                    mvc_model('Etude')->save($office);
-                    $ret = 'success';
+                    if (mvc_model('Etude')->save($office)) {
+                        $this->model->sendCridonlineConfirmationMail($etude, $office['Etude']);
+                        $ret = 'success';
+                    }
                 }
             }
         }

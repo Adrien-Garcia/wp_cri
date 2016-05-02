@@ -553,6 +553,10 @@ if ( !defined( 'CONST_IMPORT_DOCUMENT_TEMP_PATH' ) ) {
     $uploadDir = wp_upload_dir();
     define( 'CONST_IMPORT_DOCUMENT_TEMP_PATH', $uploadDir['basedir'] . '/import/importsGEDTemp/' );
 }
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_ATTACHMENT_EMAIL' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_ATTACHMENT_EMAIL', $uploadDir['basedir'] . '/documentsCridon/CGUV.png' );
+}
 if ( !defined( 'CONST_IMPORT_FILE_TYPE' ) ) {
     define( 'CONST_IMPORT_FILE_TYPE', 'txt' );
 }

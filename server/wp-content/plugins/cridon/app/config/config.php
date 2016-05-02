@@ -221,6 +221,9 @@ class Config {
 
     );
 
+    // Notification for posted question
+    public static $mailSubjectCridonline = 'Confirmation de votre souscription à crid\'online';
+
     public static $notificationAddressPreprod = "victor.albert@jetpulp.fr";
 
     //GED Administration

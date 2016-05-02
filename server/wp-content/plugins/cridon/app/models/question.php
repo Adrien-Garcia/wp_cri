@@ -1166,7 +1166,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                             $destinataire = $notaire->etude->office_email_adress_3;
                         }
                         if (!empty($destinataire)) {
-                            //wp_mail($destinataire, $subject, $message, $headers);
+                            wp_mail($destinataire, $subject, $message, $headers);
                         }
                     }
                 }

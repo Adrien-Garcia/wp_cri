@@ -3482,6 +3482,41 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         unset($notary);
     }
 
+    public function sendCridonlineConfirmationMail($etude,$subscription_info) {
+        if ($subscription_info['subscription_level'] == 2){
+            $level_label = CONST_CRIDONLINE_LABEL_LEVEL_2;
+        } else {
+            $level_label = CONST_CRIDONLINE_LABEL_LEVEL_3;
+        }
+        $vars = array (
+            'level_label'            => $level_label,
+            'price'                  => $subscription_info['subscription_price'],
+            'start_subscription_date'=> $subscription_info['start_subscription_date'],
+            'end_subscription_date'  => $subscription_info['end_subscription_date'],
+        );
+
+        $message = CriRenderView('mail_notification_cridonline', $vars, 'custom', false);
+
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+
+        $env = getenv('ENV');
+        if (empty($env) || ($env !== 'PROD')) {
+            $email = wp_mail( Config::$notificationAddressPreprod , Config::$mailSubjectCridonline, $message, $headers, CONST_CRIDONLINE_DOCUMENT_ATTACHMENT_EMAIL );
+            writeLog("not Prod: " . $email . "\n", "mailog.txt");
+        } else {
+            if (!empty($etude->office_email_adress_1)){
+                $destinataire = $etude->office_email_adress_1;
+            } elseif (!empty($etude->office_email_adress_2)){
+                $destinataire = $etude->etude->office_email_adress_2;
+            } elseif (!empty($etude->office_email_adress_3)){
+                $destinataire = $etude->office_email_adress_3;
+            }
+            if (!empty($destinataire)) {
+                wp_mail($destinataire, Config::$mailSubjectCridonline, $message, $headers, CONST_CRIDONLINE_DOCUMENT_ATTACHMENT_EMAIL);
+            }
+        }
+    }
+
     /**
      * Set reset update flag
      *
