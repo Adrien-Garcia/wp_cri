@@ -2459,6 +2459,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
             $etude = array('Etude' => $office);
             if (mvc_model('Etude')->save($etude)){
+                $notary = $this->getUserConnectedData();
+                $this->updateFlagERP($notary->id);
                 return true;
             }
         }
