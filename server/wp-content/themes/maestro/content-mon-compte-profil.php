@@ -100,7 +100,7 @@
 				<?php if (!empty($notaire->fax) && preg_match("/\+?\d{6,}/", $notaire->fax)): ?>
 					<span>Fax <?php echo $notaire->fax ?></span>
 				<?php endif ?>
-			</div>	
+			</div>
 
 			<div class="update update-profil js-account-profil-modify"
 				 data-js-ajax-id="<?php echo $notaire->id; ?>"
@@ -113,7 +113,9 @@
 				 data-js-ajax-collaboratorfunction="<?php echo $notaire->id_fonction_collaborateur; ?>"
 				 data-js-ajax-emailaddress="<?php echo $notaire->email_adress; ?>"
 				 data-js-ajax-modify-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
-			><?php _e('Modifier mes informations'); ?></div>
+				><?php _e('Modifier mes informations'); ?></div><br />
+			<div class="update update-mdp"><?php _e('Modifier mon mot de passe'); ?></div>
+
 
 		</div>
 
@@ -187,7 +189,10 @@
     <div id="layer-update-etude" class="popup">
     </div>
 </div>
-<div class="update-etude">
+<div class="update-profil">
     <div id="layer-update-profil" class="popup">
-    </div>
+	</div>
+</div>
+<div class="update-mdp">
+    <?php echo get_template_part("content","update-mdp-popup"); ?>
 </div>

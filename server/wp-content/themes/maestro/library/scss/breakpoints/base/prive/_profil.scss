@@ -93,8 +93,27 @@ div#mon-profil{
 				@include bt-rectangle($vert, #FFF);
 				//margin-left: -110px;
 				cursor: pointer;
+				padding: 0 5px;
 
+				&.update-profil{
+					//margin-bottom: 0;
+				}
 
+				&.update-mdp{
+					/*  background: $vj_03;					
+										
+					&:before{
+						color: $vj_03;
+					} 
+
+					&:hover{
+						background:  $vj_04;	
+
+						&:before{
+							color: $vj_04;
+						} 
+					} */
+				}
 			}
 
 		}
