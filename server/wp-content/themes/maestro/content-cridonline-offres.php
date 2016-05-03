@@ -1,7 +1,7 @@
 <?php if ($notaire->etude->subscription_level < 2 && $subscription ):?>
     <?php $isSubcribable = ($notaire->etude->subscription_level < 3 && $subscription) ?>
 <?php endif; ?>
-<div class="bloc-cridonline niveau-1 on <?php echo $isSubcribable ? "large" : "" ?>">
+<div class="bloc-cridonline niveau-1 <?php echo $notaire->etude->subscription_level == 1 ? 'on' : 'off'; ?> <?php echo $isSubcribable ? "large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <div class="titre">
@@ -13,11 +13,11 @@
             <li>- Actualités Lexbase (30 domaines juridiques)</li>
             <li>- Mise à jour permanente</li>
         </ul>
-        <a href="/wp-content/uploads/pdf/Description-CRIDONLINE-reference.pdf" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_REFERENCE ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
     </div>
 </div>
 
-<div class="bloc-cridonline niveau-2 off <?php echo $isSubcribable ? "large" : "" ?>">
+<div class="bloc-cridonline niveau-2 <?php echo $notaire->etude->subscription_level == 2 ? 'on' : 'off'; ?><?php echo $isSubcribable ? "large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <?php if ($notaire->etude->subscription_level < 2 ):?>
@@ -40,7 +40,7 @@
             <li>- Meilleur rapport qualité prix</li>
             <li>- Offre évolutive et mise à jour permanente</li>
         </ul>
-        <a href="/wp-content/uploads/pdf/Description-CRIDONLINE-premium.pdf" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_PREMIUM ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
         <?php if ($notaire->etude->subscription_level < 2 && $subscription ):?>
             <form method="get" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2'));?>">
                 <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">
@@ -51,7 +51,7 @@
         <?php endif;?>
     </div>
 </div>
-<div class="bloc-cridonline niveau-3 off <?php echo $isSubcribable ? "large" : "" ?>">
+<div class="bloc-cridonline niveau-3 <?php echo $notaire->etude->subscription_level == 3 ? 'on' : 'off'; ?> <?php echo $isSubcribable ? "large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <?php if ($notaire->etude->subscription_level < 3 ):?>
@@ -70,7 +70,7 @@
             <li>- Meilleur rapport qualité prix</li>
             <li>- Offre évolutive et mise à jour permanente</li>
         </ul>
-        <a href="/wp-content/uploads/pdf/Description-CRIDONLINE-excellence.pdf" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_EXCELLENCE ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
         <?php if ($notaire->etude->subscription_level < 3 && $subscription ):?>
         <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2'));?>">
             <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">
