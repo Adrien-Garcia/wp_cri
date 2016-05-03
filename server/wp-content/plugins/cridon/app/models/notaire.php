@@ -2825,12 +2825,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * @return mixed
      * @throws Exception
      */
-    public function listOfficeMembers($notary, $options)
+    public function listOfficeMembers($notary, $params)
     {
-        // page options
-        $options['page']     = empty($options['page']) ? 1 : intval($options['page']);
-        $options['per_page'] = !empty($options['per_page']) ? $options['per_page'] : DEFAULT_POST_PER_PAGE;
-        $query_options = array(
+        $options = array(
             'fields'     => array('cn.*','cu.*','cf.label as notaire_fonction_label','cfc.label as collaborator_fonction_label'),
             'conditions' => array(
                 'cn.crpcen'      => $notary->crpcen,
@@ -2856,38 +2853,17 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 )
             )
         );
+        // page options
+        $options['page']     = empty($params['page']) ? 1 : intval($params['page']);
+        $options['per_page'] = !empty($params['per_page']) ? $params['per_page'] : DEFAULT_POST_PER_PAGE;
 
         // formation bloc limit
-        $limit = $this->db_adapter->get_limit_sql($query_options);
+        $limit = $this->db_adapter->get_limit_sql($options);
+        $options['limit'] = $limit;
 
-        // query
-        $query = "
-                    SELECT
-                          *
-                    FROM {$this->table} AS cn
-                    INNER JOIN {$this->wpdb->users} cu
-                        ON cn.id_wp_user = cu.ID
-                    WHERE cn.crpcen = %s
-                        AND cn.id != %d
-                        AND cu.user_status = %d
-                    ORDER BY cn.last_name, cn.first_name ASC
-        ";
-        if ($limit) {
-            $query .= $limit;
-        }
-        $objects = $this->wpdb->get_results($this->wpdb->prepare($query, $notary->crpcen, $notary->id, CONST_STATUS_ENABLED));
+        $objects = mvc_model('QueryBuilder')->findAll('notaire', $options, 'cn.id');
 
-        // Nombre total d'enregitrement
-        $query_count = "
-                        SELECT
-                            COUNT(*) AS count
-                        FROM {$this->table} AS cn
-                        INNER JOIN {$this->wpdb->users} AS cu
-                            ON cu.ID = cn.id_wp_user
-                        WHERE cn.crpcen = %s
-                            AND cn.id != %d
-                            AND cu.user_status = %d";
-        $total_count = $this->wpdb->get_var($this->wpdb->prepare($query_count, $notary->crpcen, $notary->id, CONST_STATUS_ENABLED));
+        $total_count = count($objects);
 
         return array(
             'objects'       => $objects,

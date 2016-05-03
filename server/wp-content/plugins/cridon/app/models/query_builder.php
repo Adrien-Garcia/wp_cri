@@ -448,7 +448,11 @@ class QueryBuilder{
             $sql .= ' ASC';
         }
         if( isset( $options['limit'] ) ){
-            $sql .= ' LIMIT '.$options['limit'];
+            if (strpos($options['limit'],'LIMIT') !== false){
+                $sql .= ' '.$options['limit'];
+            } else {
+                $sql .= ' LIMIT ' . $options['limit'];
+            }
         }
         return $sql;
     }
