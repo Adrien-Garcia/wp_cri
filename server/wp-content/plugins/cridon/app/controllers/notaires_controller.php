@@ -145,6 +145,7 @@ class NotairesController extends BasePublicController
             if ($_REQUEST['error'] == 'FONCTION_NON_AUTORISE'){
                 $this->set('messageError', CONST_ERROR_MSG_FONCTION_NON_AUTORISE);
             }
+            unset ($_REQUEST['error']);
         }
 
         // tab rank
@@ -232,6 +233,7 @@ class NotairesController extends BasePublicController
             } elseif ($_REQUEST['message'] == 'modifyoffice') {
                 $message = CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG;
             }
+            unset ($_REQUEST['message']);
         }
         $this->set('message', $message);
         $this->set('matieres', getMatieresByNotaire());
@@ -317,6 +319,7 @@ class NotairesController extends BasePublicController
             if ($_REQUEST['error'] == 'NIVEAU_VEILLE_INSUFFISANT'){
                 $this->set('messageError', CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT);
             }
+            unset ($_REQUEST['error']);
         }
 
         // tab rank
@@ -570,6 +573,7 @@ class NotairesController extends BasePublicController
             } elseif ($_REQUEST['message'] == 'modifyprofil'){
                 $message = CONST_PROFIL_MODIFY_SUCCESS_MSG;
             }
+            unset ($_REQUEST['message']);
         }
         $this->set('message', $message);
         // tab rank
