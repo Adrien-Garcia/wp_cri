@@ -46,6 +46,7 @@ App.Account = {
     accountAddress3Selector             : '-address-3',
     accountPostalcodeSelector           : '-postalcode',
     accountCitySelector                 : '-city',
+    accountCapabilitiesSelector         : '-capabilities',
 
     ajaxSelector                        : '-ajax',
     ajaxPaginationSelector              : '-pagination',
@@ -332,6 +333,8 @@ App.Account = {
         this.$accountCollaborateurAction         = $(d + this.accountCollaborateurSelector + this.accountActionSelector);
         this.$accountCollaborateurModify         = $(d + this.accountCollaborateurSelector + this.accountModifySelector);
         this.$accountCollaborateurModifyId       = $(d + this.accountCollaborateurSelector + this.accountModifySelector + this.accountIdSelector);
+        this.$accountCollaborateurCapabilities   = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector);
+        this.$accountCollaborateurCheckbox       = $(d + this.accountCollaborateurSelector + this.accountCheckboxSelector);
 
         this.popupCollaborateurDeleteInit();
         this.popupCollaborateurAddInit();
@@ -609,6 +612,10 @@ App.Account = {
         var self = this;
 
         this.debug("Account : addListenersCollaborateur");
+
+        this.$accountCollaborateurCapabilities.on('change', function (e) {
+            self.eventAccountCollaborateurCapabilities($(this));
+        });
 
         this.$accountCollaborateurDeleteForm.on('submit', function (e) {
             e.returnValue = false;
@@ -1136,6 +1143,30 @@ App.Account = {
             window.location.href = data.view;
         }
         return false;
+    },
+
+    eventAccountCollaborateurCapabilities: function (input) {
+        var label = input.parents(
+            this.defaultSelector +
+            this.accountCridonlineSelector +
+            this.accountValidationSelector +
+            this.accountCheckboxSelector
+        ).first();
+        if (label.hasClass('select')) {
+            label.removeClass('select');
+            label.addClass('unselect');
+        } else if (label.hasClass('unselect')) {
+            label.removeClass('unselect');
+            label.addClass('select');
+        } else {
+            if (input[0].checked) {
+                label.removeClass('unselect');
+                label.addClass('select');
+            } else {
+                label.removeClass('select');
+                label.addClass('unselect');
+            }
+        }
     },
 
     eventAccountCridonlineValidationSubmit: function (form) {

@@ -60,23 +60,23 @@
         </div>
         <div class="droit-collaborateur">
             <p>Droits du collaborateur</p>
-            <label class="select js-account-cridonline-validation-checkbox">
-                <input type="checkbox" name="compta" class="js-account-cridonline-validation-cgv" value="value">
+            <label class="select js-account-collaborateur-checkbox">
+                <input type="checkbox" name="compta" class="js-account-collaborateur-capabilities" value="value">
                 <span><?php _e("Accès aux pages «compta» (finance,factures, relevée de consommation)"); ?></span>
             </label>
 
-            <label class="unselect js-account-cridonline-validation-checkbox">
-                <input type="checkbox" name="question_ecrite" class="js-account-cridonline-validation-cgv" value="value">
+            <label class="unselect js-account-collaborateur-checkbox">
+                <input type="checkbox" name="question_ecrite" class="js-account-collaborateur-capabilities" value="value">
                 <span><?php _e("Poser des questions écrites"); ?></span>
             </label>
 
-            <label class="unselect js-account-cridonline-validation-checkbox">
-                <input type="checkbox" name="question_tel" class="js-account-cridonline-validation-cgv" value="value">
+            <label class="unselect js-account-collaborateur-checkbox">
+                <input type="checkbox" name="question_tel" class="js-account-collaborateur-capabilities" value="value">
                 <span><?php _e("Poser des questions téléphoniques)"); ?></span>
             </label>
 
-            <label class="unselect js-account-cridonline-validation-checkbox">
-                <input type="checkbox" name="question_tel" class="js-account-cridonline-validation-cgv" value="value">
+            <label class="unselect js-account-collaborateur-checkbox">
+                <input type="checkbox" name="question_tel" class="js-account-collaborateur-capabilities" value="value">
                 <span><?php _e("Accès aux bases de connaissance"); ?></span>
             </label>
         </div>
