@@ -19,6 +19,8 @@
 		border:solid 6px $jaune;
 		margin-bottom: 15px;
 		overflow: hidden;
+		
+		position: relative;
 
 		&.large {
 			height: 493px;
@@ -38,7 +40,6 @@
 		.content{
 			padding:0px 10px 15px 10px;
 			text-align: center;
-			position: relative;
 			height: 234px;
 
 			.titre{
@@ -125,9 +126,10 @@
 			input[type="submit"]{
 				position: absolute;
 			    left: 50%;
-			    margin-left: -85px;
+			    margin-left: -95px;
 			    bottom: 15px;
-			    width: 170px;
+			    width: 190px;
+			    font-size: 12px;
 			}
 		}
 

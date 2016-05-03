@@ -30,7 +30,7 @@
                      data-js-ajax-collaboratorfunction="<?php echo $member->id_fonction_collaborateur; ?>"
                      data-js-ajax-emailaddress="<?php echo $member->email_adress; ?>"
                      data-js-ajax-modify-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
-                        <span class="nom"><?php echo $member->last_name ?> <?php echo $member->first_name ?></span>
+                        <span class="nom"><?php echo $member->last_name ?> <?php echo $member->first_name ?></span><br />
                         <span class="fonction"><?php echo $member->id_fonction == CONST_NOTAIRE_COLLABORATEUR ? $member->collaborator_fonction_label : $member->notaire_fonction_label  ?></span>
                 </div>
                 <div class="block_02">
@@ -38,7 +38,7 @@
                 </div>
                 <div class="block_03">
                     <?php if (!empty($member->tel)): ?>
-                        <span class="tel"><?php echo $member->tel ?></span>
+                        <span class="tel"><?php echo $member->tel ?></span><br />
                     <?php endif ?>    
                     <span class="tel"><?php echo $member->tel_portable ?></span>
                 </div>

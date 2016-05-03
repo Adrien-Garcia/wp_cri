@@ -51,7 +51,7 @@
 			position: relative;
 
 			span{
-				display: block;
+				display: inline-block;
 			}
 
 			.trash{
@@ -87,7 +87,14 @@
 				.nom{
 					font-family: $helvetica;
 					line-height: 18px;
-					text-decoration: underline;
+					//text-decoration: underline;
+					border-bottom: solid 1px $bleu;
+					cursor: pointer;
+					@include transition (all 0.3s);
+
+					&:hover{
+						border-bottom: solid 1px transparent;
+					}
 				}
 				.fonction{
 					@extend .do-me;

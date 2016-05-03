@@ -416,6 +416,15 @@
 	margin:0 auto;
 	padding: 20px;
 
+	.message-erreur{
+
+		>div{
+			font-size: 16px;
+			line-height: 20px;
+			}
+			
+		}
+
 
 	>.titre{
 		
@@ -532,6 +541,8 @@
 		.droit-collaborateur{
 			margin-bottom: 60px;
 
+			clear: both;
+
 			
 
 			label{
@@ -582,6 +593,13 @@
 				input{width: 150px;}
 			}
 
+			&.email{
+				input{
+
+				max-width: 100%;
+				}
+			}
+
 		}
 	}
 
@@ -601,15 +619,14 @@
 				margin-bottom: 0;
 			}
 
-			&.adresse, &.email{
+			&.adresse, &.email, &.cp, &.ville, &.tel, &.fax{
 				padding-right: 30px;
 			}
-			&.ville, &.fax{
-				padding-left: 30px;
-			}
+			
 
 			&.nom{
 				width: 100%;
+				padding-right: 30px;
 				float: none;
 				clear: both;
 			}
