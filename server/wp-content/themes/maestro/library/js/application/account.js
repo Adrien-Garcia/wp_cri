@@ -890,7 +890,7 @@ App.Account = {
 
     eventAccountProfilModifyEmail: function() {
         var message = jsvar.profil_modify_email;
-        var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+        var content = $(document.createElement('div')).text(message);
         $(this.$accountProfilModifyMessage.selector).html('').append(content);
         return false;
     },
@@ -920,7 +920,7 @@ App.Account = {
         // create message block
         if (data != undefined && data.error != undefined) {
             var message = jsvar.collaborateur_modify_error;
-            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            var content = $(document.createElement('div')).text(message);
             this.$accountProfilModifyMessage.html('').append(content);
         } else {
             window.location.href = data.view;
@@ -988,7 +988,7 @@ App.Account = {
         // create message block
         if (data != undefined && data.error != undefined) {
             var message = jsvar.profil_office_modify_error;
-            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            var content = $(document.createElement('div')).text(message);
             this.$accountProfilModifyMessage.html('').append(content);
         } else {
             window.location.href = data.view;
@@ -1042,7 +1042,7 @@ App.Account = {
         // create message block
         if (data != undefined && data.error != undefined) {
             var message = jsvar.collaborateur_delete_error;
-            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            var content = $(document.createElement('div')).text(message);
             this.$accountCollaborateurDeleteValidationMessage.html('').append(content);
         } else {
             window.location.href = data.view;
@@ -1101,7 +1101,7 @@ App.Account = {
         var id_function_collaborator = form.find(this.$accountCollaborateurAddFunctioncollaborateur.selector).val();
         if (id_function_notaire == jsvar.collaborateur_id_function && !$.isNumeric(id_function_collaborator)){
             var message = jsvar.collaborateur_function_error;
-            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            var content = $(document.createElement('div')).text(message);
             $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
         } else {
             jQuery.ajax({
@@ -1130,7 +1130,7 @@ App.Account = {
         // create message block
         if (data != undefined && data.error != undefined) {
             var message = jsvar.collaborateur_add_error;
-            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            var content = $(document.createElement('div')).text(message);
             $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
         } else {
             window.location.href = data.view;

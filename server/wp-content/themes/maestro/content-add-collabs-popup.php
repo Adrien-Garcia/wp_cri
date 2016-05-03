@@ -39,6 +39,7 @@
                 <?php endif ?>
             </select>
         </div>
+        <div>
         <!-- <label for="collaborator_function">Fonction</label> -->
         <select name="collaborator_function" id="collaborator_function" class="js-account-collaborateur-add-functioncollaborator <?php echo empty($collaborator['collaboratorfunction']) ? 'hidden' : '' ?>">
             <option value="" disabled selected><?php _e('Fonction Collaborateur'); ?></option>
@@ -51,8 +52,6 @@
                 <?php endforeach; ?>
             <?php endif ?>
         </select>
-        <div>
-
         </div>
         <div>
             <!-- <label for="collaborator_email">E-mail</label> -->
