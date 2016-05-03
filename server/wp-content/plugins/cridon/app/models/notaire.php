@@ -2358,20 +2358,21 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
             // reset all roles
 
-            /*$this->resetUserRoles($user);
+            $this->resetUserRoles($user);
 
             // add new posted roles in data
             foreach (Config::$notaryRoles as $role => $label) {
-                if (isset($data[$role])) {
+                if (isset($data[$role]) && $data[$role]) {
                     $user->add_role($role);
                 }
-            }*/
+            }
             return true;
         }
         return false;
     }
 
     public function fillCollaborator($data){
+        // préparation des champs pour insertion dans la cri_notaire
         $collaborator                              = array();
         $collaborator['first_name']                = isset($data['collaborator_first_name']) ? esc_sql($data['collaborator_first_name']) : '';
         $collaborator['last_name']                 = isset($data['collaborator_last_name']) ? esc_sql($data['collaborator_last_name']) : '';
@@ -2389,7 +2390,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $collaborator['id_fonction_collaborateur'] = 0;
             }
         }
-
         return $collaborator;
     }
 

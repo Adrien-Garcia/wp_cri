@@ -613,6 +613,15 @@ class NotairesController extends BasePublicController
             $collaborator['emailaddress'] = empty($_GET['collaborator_emailaddress']) ? '' : $_GET['collaborator_emailaddress'] ;
             $collaborator['notairefunction'] = empty($_GET['collaborator_notairefunction']) ? '' : $_GET['collaborator_notairefunction'];
             $collaborator['collaboratorfunction'] = empty($_GET['collaborator_collaboratorfunction']) ? '' : $_GET['collaborator_collaboratorfunction'];
+            $options = array(
+                'conditions' => array(
+                    'id' => $collaborator['id']
+                )
+            );
+            $collab   = mvc_model('Notaire')->find_one($options);
+            if (!empty($collab)){
+                $collaborator['capabilities'] = CriGetCollaboratorRoles($collab);
+            }
 
             $notaire_functions = $this->tools->getNotaireFunctions();
             // set list of notaire functions
@@ -649,6 +658,19 @@ class NotairesController extends BasePublicController
             if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_crud_nonce')) {
                 // Clean $_POST before
                 $data = $this->tools->clean($_POST);
+                // capabilities
+                if (isset($data['collaborator_cap_finance']) && $data['collaborator_cap_finance'] == 'true'){
+                    $data[CONST_FINANCE_ROLE] = true;
+                }
+                if (isset($data['collaborator_cap_questionsecrites']) && $data['collaborator_cap_questionsecrites'] == 'true'){
+                    $data[CONST_QUESTIONECRITES_ROLE] = true;
+                }
+                if (isset($data['collaborator_cap_questionstel']) && $data['collaborator_cap_questionstel'] == 'true'){
+                    $data[CONST_QUESTIONTELEPHONIQUES_ROLE] = true;
+                }
+                if (isset($data['collaborator_cap_connaissances']) && $data['collaborator_cap_connaissances'] == 'true'){
+                    $data[CONST_CONNAISANCE_ROLE] = true;
+                }
                 //get current notaire
                 $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
                 $action = 'collaborateur';
