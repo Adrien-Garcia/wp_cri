@@ -1175,16 +1175,16 @@ App.Account = {
         var fonction = data.find(':selected').val();
         if (fonction == jsvar.collaborateur_id_function){
             $(this.$accountCollaborateurAddFunctioncollaborateur.selector).removeClass('hidden');
-            this.$accountCollaborateurCapFinance.prop('checked',false);
+            $(this.$accountCollaborateurCapFinance.selector).prop('checked',false);
             $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).removeClass('select');
             $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-            this.$accountCollaborateurCapQuestionsecrites.prop('checked',false);
+            $(this.$accountCollaborateurCapQuestionsecrites.selector).prop('checked',false);
             $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).removeClass('select');
             $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-            this.$accountCollaborateurCapQuestionstel.prop('checked',false);
+            $(this.$accountCollaborateurCapQuestionstel.selector).prop('checked',false);
             $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).removeClass('select');
             $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-            this.$accountCollaborateurCapConnaissances.prop('checked',false);
+            $(this.$accountCollaborateurCapConnaissances.selector).prop('checked',false);
             $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('select');
             $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
         } else {
@@ -1203,41 +1203,41 @@ App.Account = {
     manageCheckboxes: function(capabilities){
         //Finance
         if ($.inArray(jsvar.capability_finance,capabilities) > -1){
-            this.$accountCollaborateurCapFinance.prop('checked',true);
+            $(this.$accountCollaborateurCapFinance.selector).prop('checked',true);
             $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
             $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).addClass('select');
         } else {
-            this.$accountCollaborateurCapFinance.prop('checked',false);
+            $(this.$accountCollaborateurCapFinance.selector).prop('checked',false);
             $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).removeClass('select');
             $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
         }
         //questions écrites
         if ($.inArray(jsvar.capability_questionsecrites,capabilities) > -1){
-            this.$accountCollaborateurCapQuestionsecrites.prop('checked',true);
+            $(this.$accountCollaborateurCapQuestionsecrites.selector).prop('checked',true);
             $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
             $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).addClass('select');
         } else {
-            this.$accountCollaborateurCapQuestionsecrites.prop('checked',false);
+            $(this.$accountCollaborateurCapQuestionsecrites.selector).prop('checked',false);
             $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).removeClass('select');
             $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
         }
         //questions téléphoniques
         if ($.inArray(jsvar.capability_questionstel,capabilities) > -1){
-            this.$accountCollaborateurCapQuestionstel.prop('checked',true);
+            $(this.$accountCollaborateurCapQuestionstel.selector).prop('checked',true);
             $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
             $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).addClass('select');
         } else {
-            this.$accountCollaborateurCapQuestionstel.prop('checked',false);
+            $(this.$accountCollaborateurCapQuestionstel.selector).prop('checked',false);
             $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).removeClass('select');
             $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
         }
         //connaissances
         if ($.inArray(jsvar.capability_connaissances,capabilities) > -1){
-            this.$accountCollaborateurCapConnaissances.prop('checked',true);
+            $(this.$accountCollaborateurCapConnaissances.selector).prop('checked',true);
             $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
             $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('select');
         } else {
-            this.$accountCollaborateurCapConnaissances.prop('checked',false);
+            $(this.$accountCollaborateurCapConnaissances.selector).prop('checked',false);
             $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('select');
             $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
         }
