@@ -184,8 +184,7 @@
 						<li>Choix de l’offre de la plus simple à la plus complète</li>
 						<li>Toujours au meilleur prix</li>
 					</ul>
-					<a title="Découvrir nos offres crid'online" class="link1"
-					    href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>">
+					<a href="/cridonline-decouvrir-nos-offres" title="Découvrir nos offres crid'online" class="link1">
 						<span><?php _e('Découvrir nos offres !'); ?></span>
 					</a>
 
