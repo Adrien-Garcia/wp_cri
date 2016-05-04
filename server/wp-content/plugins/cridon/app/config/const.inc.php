@@ -675,6 +675,15 @@ if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG' ) ) {
 if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG' ) ) {
     define( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG', 'Les données de votre étude ont bien été modifiées.' );
 }
+if ( !defined( 'CONST_PROFIL_PASSWORD_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG', 'Les emails ne sont pas identiques.' );
+}
+if ( !defined( 'CONST_PROFIL_PASSWORD_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_SUCCESS_MSG', 'La demande de modification de mot de passe a bien été prise en compte.' );
+}
 if ( !defined( 'CONST_CREATE_USER' ) ) {
     define( 'CONST_CREATE_USER', 'create_user' );
 }
@@ -1067,8 +1076,8 @@ if ( !defined( 'CONST_YSRETEL_ON' ) ) {
     define( 'CONST_YSRETEL_ON', 2 );
 }
 if ( !defined( 'CONST_UPDATEERP_ERROR' ) ) {
-    define( 'CONST_UPDATEERP_ERROR', 'Mise à jour données notaires : %s' );
+    define( 'CONST_UPDATEERP_ERROR', 'Mise à jour données notaires (update) : %s' );
 }
-if ( !defined( 'CONST_UPDATEERP_ERROR' ) ) {
-    define( 'CONST_UPDATEERP_ERROR', 'Mise à jour données notaires : %s' );
+if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
+    define( 'CONST_DELCOLLAB_ERROR', 'Mise à jour données notaires (suppression) : %s' );
 }
