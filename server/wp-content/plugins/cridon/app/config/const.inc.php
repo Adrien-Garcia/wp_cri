@@ -555,23 +555,23 @@ if ( !defined( 'CONST_IMPORT_DOCUMENT_TEMP_PATH' ) ) {
 }
 if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL' ) ) {
     $uploadDir = wp_upload_dir();
-    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL', $uploadDir['basedir'] . '/documentsCridon/CGUV.png' );
+    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL', $uploadDir['basedir'] . '/documentsCridon/CGUV.pdf' );
 }
 if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE' ) ) {
     $uploadDir = wp_upload_dir();
-    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE', $uploadDir['baseurl'] . '/documentsCridon/CGUV.png' );
+    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE', $uploadDir['baseurl'] . '/documentsCridon/CGUV.pdf' );
 }
 if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE' ) ) {
     $uploadDir = wp_upload_dir();
-    define( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE', $uploadDir['baseurl'] . '/documentsCridon/reference.png' );
+    define( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE', $uploadDir['baseurl'] . '/documentsCridon/Description-CRIDONLINE-reference.pdf' );
 }
 if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_PREMIUM' ) ) {
     $uploadDir = wp_upload_dir();
-    define( 'CONST_CRIDONLINE_DOCUMENT_PREMIUM', $uploadDir['baseurl'] . '/documentsCridon/premium.png' );
+    define( 'CONST_CRIDONLINE_DOCUMENT_PREMIUM', $uploadDir['baseurl'] . '/documentsCridon/Description-CRIDONLINE-premium.pdf' );
 }
 if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_EXCELLENCE' ) ) {
     $uploadDir = wp_upload_dir();
-    define( 'CONST_CRIDONLINE_DOCUMENT_EXCELLENCE', $uploadDir['baseurl'] . '/documentsCridon/excellence.png' );
+    define( 'CONST_CRIDONLINE_DOCUMENT_EXCELLENCE', $uploadDir['baseurl'] . '/documentsCridon/Description-CRIDONLINE-excellence.pdf' );
 }
 if ( !defined( 'CONST_IMPORT_FILE_TYPE' ) ) {
     define( 'CONST_IMPORT_FILE_TYPE', 'txt' );
