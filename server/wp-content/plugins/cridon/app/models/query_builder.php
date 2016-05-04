@@ -441,11 +441,15 @@ class QueryBuilder{
         if( isset( $options['group'] ) ){
             $sql .= ' GROUP BY '.$options['group'];
         }
-        $sql .= ' ORDER BY '.$primaryKey;
+        $sql .= ' ORDER BY ';
         if( isset( $options['order'] ) ){
-            $sql .= ' '.$options['order'];
+            if (strpos($options['order'],'DESC') !== false || strpos($options['order'],'ASC') !== false){
+                $sql .= $primaryKey.' '.$options['order'];
+            } else {
+                $sql .= ' '.$options['order'];
+            }
         }else{
-            $sql .= ' ASC';
+            $sql .= $primaryKey.' ASC';
         }
         if( isset( $options['limit'] ) ){
             if (strpos($options['limit'],'LIMIT') !== false){

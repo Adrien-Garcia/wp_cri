@@ -2854,7 +2854,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     'table'  => 'fonction_collaborateur cfc',
                     'column' => ' cn.id_fonction_collaborateur = cfc.id'
                 )
-            )
+            ),
+            'order'    => 'cn.last_name'
         );
         // page options
         $options['page']     = empty($params['page']) ? 1 : intval($params['page']);
