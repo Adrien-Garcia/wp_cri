@@ -1071,7 +1071,7 @@ App.Account = {
         // create message block
         if (data != undefined && data.error != undefined) {
             var message = data.error;
-            var content = $(document.createElement('ul')).append($(document.createElement('li'))).text(message);
+            var content = $(document.createElement('div')).text(message);
             this.$accountProfilPasswordMessage.html('').append(content);
         } else {
             window.location.href = data.view;

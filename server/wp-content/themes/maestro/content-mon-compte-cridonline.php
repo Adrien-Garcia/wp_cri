@@ -3,15 +3,15 @@
 <?php endif; ?>
 <h2><?php _e("L'offre crid’online"); ?></h2>
 
-<p>Quel que soit le « produit » choisi, il est conçu pour être au plus proche de vos besoins et de votre organisation. Il est totalement conçu pour le notaire et intégré dans votre portail extranet CRIDON LYON ; difficile de faire plus simple et ergonomique.
+<p>Quel que soit le « produit » choisi, il est conçu pour être au plus proche de vos besoins et de votre organisation. Il est totalement conçu pour le notaire et intégré dans votre portail extranet CRIDON LYON, difficile de faire plus simple et ergonomique.<br />
 Vous avez le choix ! Du plus simple au plus sophistiqué mais toujours au meilleur prix.
 </p>
 
 <div class="cridonline-offres">
-    <h2><?php _e('Mon abonnement Crid\'online'); ?></h2>
+    <!-- <h2><?php _e('Mon abonnement Crid\'online'); ?></h2>
     <div class="description">
         Lorem ipsum dolor sit amet
-    </div>
+    </div> -->
     <?php set_query_var( 'notaire', $notaire ); ?>
     <?php set_query_var( 'priceVeilleLevel2', $priceVeilleLevel2 ); ?>
     <?php set_query_var( 'priceVeilleLevel3', $priceVeilleLevel3 ); ?>

@@ -198,6 +198,18 @@
 				z-index: 222;
 				@include rotate(180);
 			}
+
+			&.niveau-2{				
+				&:before{
+					@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
+				}
+			}
+
+			&.niveau-3{				
+				&:before{
+					@include svgicon('icon-angle-bottom', 15px, 15px, $jaune);
+				}
+			}
 		}
 
 		&.off{

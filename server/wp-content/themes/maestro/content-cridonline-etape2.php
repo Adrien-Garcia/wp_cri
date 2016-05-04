@@ -13,9 +13,9 @@
     <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-validation-form" data-js-ajax-souscription-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionveille'));?>">
         <label class="unselect js-account-cridonline-validation-checkbox">
             <input type="checkbox" name="CGV" class="js-account-cridonline-validation-cgv" value="value">
-            <span><?php _e("J'ai lu, j'ai compris et j'accepte les CGV"); ?></span>
+            <span><?php _e("J'ai lu, j'ai compris et j'accepte les CGUV"); ?></span>
         </label>
-        <a href="" title="CGV" target="_blank"><?php _e("Télécharger les conditions générales de vente (CGV)"); ?></a>
+        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_CGUV_SITE ?>" title="CGV" target="_blank"><?php _e("Télécharger les conditions générales de vente (CGUV)"); ?></a>
         <input type="hidden" name="crpcen" value="<?php echo $crpcen; ?>" class="js-account-cridonline-validation-crpcen">
         <input type="hidden" name="level" value="<?php echo $level; ?>" class="js-account-cridonline-validation-level">
         <input type="hidden" name="price" value="<?php echo $price ?>" class="js-account-cridonline-validation-price">
