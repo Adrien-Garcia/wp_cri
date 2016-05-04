@@ -20,7 +20,7 @@
         <div class="adresse">
             <input type="text" name="etude_adresse" placeholder="<?php _e('Adresse 3'); ?>" id="etude_adresse" class="js-account-profil-office-modify-address-3" value="<?php echo empty($office['office_address_3']) ? '' : $office['office_address_3'] ?>" required>
         </div>
-        <div class="etude">
+        <div class="cp">
             <input type="text" name="etude_cp" placeholder="<?php _e('Code postal'); ?>" id="etude_cp" class="js-account-profil-office-modify-postalcode" value="<?php echo empty($office['office_postalcode']) ? '' : $office['office_postalcode'] ?>" required>
         </div>
         <div class="ville">

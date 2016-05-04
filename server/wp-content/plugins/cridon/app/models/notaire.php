@@ -2293,7 +2293,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
         // insert into cri_notaire
         $collaboratorId = $this->create($collaborator);
-
+        $this->updateFlagERP($collaboratorId);
         /**
          * insert into cri_users
          */
@@ -2354,6 +2354,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         // update cri_notaire data
         $collaborator['id'] = isset($data['collaborator_id']) ? esc_sql($data['collaborator_id']) : '';
         if (!empty($collaborator['id']) && $this->save($collaborator)) { // successful update
+            $this->updateFlagERP($collaborator['id']);
             // manage roles
             $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
             // reset all roles
@@ -2458,6 +2459,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
             $etude = array('Etude' => $office);
             if (mvc_model('Etude')->save($etude)){
+                $notary = $this->getUserConnectedData();
+                $this->updateFlagERP($notary->id);
                 return true;
             }
         }
@@ -2701,26 +2704,26 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
                             $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
                             $value .= "'" . $notary->first_name . "', "; // CNTLNA
-                            $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
+                            $value .= "'" . (empty($notary->code_interlocuteur) ? ' ' : $notary->code_interlocuteur) . "', "; // CCNCRM
                             $value .= "'" . $notary->id . "', "; // YIDNOT
                             $value .= "'" . $notary->first_name . "', "; // CNTFNA
                             $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
                             $value .= "'" . $notary->fonction . "', "; // CNTFNC
                             $value .= "'" . $notary->email_adress . "', "; // WEB
-                            $value .= "'" . $notary->tel . "', "; // TEL
-                            $value .= "'" . $notary->tel_portable . "', "; // CNTMOB
-                            $value .= "'" . $notary->fax . "', "; // FAX
-                            $value .= "TO_DATE('" . date('Y-m-d') . "', 'dd/mm/yyyy'), "; // YFINPRE
-                            $value .= "'" . $notary->web_password . "', "; // YFINPRE
-                            $value .= "'" . $notary->tel_password . "', "; // ZMDPTEL
-                            $value .= "'" . $notary->adress_1 . "', "; // ADDLIG1
-                            $value .= "'" . $notary->adress_2 . "', "; // ADDLIG2
-                            $value .= "'" . $notary->adress_3 . "', "; // ADDLIG3
-                            $value .= "'" . $notary->cp . "', "; // POSCOD
-                            $value .= "'" . $notary->city . "', "; // CTY
-                            $value .= "'" . $notary->tel_office . "', "; // TELOFF
-                            $value .= "'" . $notary->fax_office . "', "; // FAXOFF
-                            $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
+                            $value .= "'" . (empty($notary->tel) ? ' ' : $notary->tel) . "', "; // TEL
+                            $value .= "'" . (empty($notary->tel_portable) ? ' ' : $notary->tel_portable) . "', "; // CNTMOB
+                            $value .= "'" . (empty($notary->fax) ? ' ' : $notary->fax) . "', "; // FAX
+                            $value .= "TO_DATE('" . date('d/m/Y') . "', 'dd/mm/yyyy'), "; // YFINPRE
+                            $value .= "'" . (empty($notary->web_password) ? ' ' : $notary->web_password) . "', "; // YMDPWEB
+                            $value .= "'" . (empty($notary->tel_password) ? ' ' : $notary->tel_password) . "', "; // ZMDPTEL
+                            $value .= "'" . (empty($notary->adress_1) ? ' ' : $notary->adress_1) . "', "; // ADDLIG1
+                            $value .= "'" . (empty($notary->adress_2) ? ' ' : $notary->adress_2) . "', "; // ADDLIG2
+                            $value .= "'" . (empty($notary->adress_3) ? ' ' : $notary->adress_3) . "', "; // ADDLIG3
+                            $value .= "'" . (empty($notary->cp) ? ' ' : $notary->cp) . "', "; // POSCOD
+                            $value .= "'" . (empty($notary->city) ? ' ' : $notary->city) . "', "; // CTY
+                            $value .= "'" . (empty($notary->tel_office) ? ' ' : $notary->tel_office) . "', "; // TELOFF
+                            $value .= "'" . (empty($notary->fax_office) ? ' ' : $notary->fax_office) . "', "; // FAXOFF
+                            $value .= "'" . (empty($notary->office_email_adress_1) ? ' ' : $notary->office_email_adress_1) . "', "; // WEBOFF
                             $value .= "'0', "; // YSREECR
                             $value .= "'0', "; // YSRETEL
                             $value .= "'0', "; // YTRAITEE
@@ -3140,7 +3143,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 ON
                     `cf`.`id` = `cn`.`id_fonction`
                 WHERE
-                    `cn`.`renew_pwd` = 1 OR `cn`.`cron_update` = 1
+                    `cn`.`renew_pwd` = 1 OR `cn`.`cron_update_erp` = 1
 
             ");
 
@@ -3222,31 +3225,31 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
                             $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
                             $value .= "'" . $notary->first_name . "', "; // CNTLNA
-                            $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
+                            $value .= "'" . (empty($notary->code_interlocuteur) ? ' ' : $notary->code_interlocuteur) . "', "; // CCNCRM
                             $value .= "'" . $notary->id . "', "; // YIDNOT
                             $value .= "'" . $notary->first_name . "', "; // CNTFNA
                             $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
-                            $value .= "'" . $notary->fonction . "', "; // CNTFNC
+                            $value .= "'" . $notary->fonction . "', "; // YTXTFNC
                             $value .= "'" . $notary->email_adress . "', "; // WEB
-                            $value .= "'" . $notary->tel . "', "; // TEL
-                            $value .= "'" . $notary->tel_portable . "', "; // CNTMOB
-                            $value .= "'" . $notary->fax . "', "; // FAX
-                            $value .= "' ', "; // YFINPRE
-                            $value .= "'" . $notary->web_password . "', "; // YMDPWEB
-                            $value .= "'" . $notary->tel_password . "', "; // ZMDPTEL
-                            $value .= "'" . $notary->adress_1 . "', "; // ADDLIG1
-                            $value .= "'" . $notary->adress_2 . "', "; // ADDLIG2
-                            $value .= "'" . $notary->adress_3 . "', "; // ADDLIG3
-                            $value .= "'" . $notary->cp . "', "; // POSCOD
-                            $value .= "'" . $notary->city . "', "; // CTY
-                            $value .= "'" . $notary->tel_office . "', "; // TELOFF
-                            $value .= "'" . $notary->fax_office . "', "; // FAXOFF
-                            $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
+                            $value .= "'" . (empty($notary->tel) ? ' ' : $notary->tel) . "', "; // TEL
+                            $value .= "'" . (empty($notary->tel_portable) ? ' ' : $notary->tel_portable) . "', "; // CNTMOB
+                            $value .= "'" . (empty($notary->fax) ? ' ' : $notary->fax) . "', "; // FAX
+                            $value .= "'', "; // YFINPRE
+                            $value .= "'" . (empty($notary->web_password) ? ' ' : $notary->web_password) . "', "; // YMDPWEB
+                            $value .= "'" . (empty($notary->tel_password) ? ' ' : $notary->tel_password) . "', "; // ZMDPTEL
+                            $value .= "'" . (empty($notary->adress_1) ? ' ' : $notary->adress_1) . "', "; // ADDLIG1
+                            $value .= "'" . (empty($notary->adress_2) ? ' ' : $notary->adress_2) . "', "; // ADDLIG2
+                            $value .= "'" . (empty($notary->adress_3) ? ' ' : $notary->adress_3) . "', "; // ADDLIG3
+                            $value .= "'" . (empty($notary->cp) ? ' ' : $notary->cp) . "', "; // POSCOD
+                            $value .= "'" . (empty($notary->city) ? ' ' : $notary->city) . "', "; // CTY
+                            $value .= "'" . (empty($notary->tel_office) ? ' ' : $notary->tel_office) . "', "; // TELOFF
+                            $value .= "'" . (empty($notary->fax_office) ? ' ' : $notary->fax_office) . "', "; // FAXOFF
+                            $value .= "'" . (empty($notary->office_email_adress_1) ? ' ' : $notary->office_email_adress_1) . "', "; // WEBOFF
                             $value .= "'" . $droitQuest->YSREECR . "', "; // YSREECR
                             $value .= "'" . $droitQuest->YSRETEL . "', "; // YSRETEL
                             $value .= "'" . CONST_YTRAITEE_PAR_SITE . "', "; // YTRAITEE
 
-                            if ($notary->renew_pwd > 0) { // demande de renouvellement de MDP
+                            if ($notary->renew_pwd == 1) { // demande de renouvellement de MDP
                                 // liste resetPwd
                                 $qListResetPWD[] = $notary->id;
                                 $value .= "'" . CONST_YDDEMDPTEL_RESETPWD_ON . "', "; // YDDEMDPTEL
@@ -3345,7 +3348,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     }
                     // update cri_notaire.cron_update
                     if (count($qListCRUD) > 0) {
-                        $sql = " UPDATE {$this->table} SET cron_update = 0 WHERE id IN (" . implode(', ', $qListCRUD) . ")";
+                        $sql = " UPDATE {$this->table} SET cron_update_erp = 0 WHERE id IN (" . implode(', ', $qListCRUD) . ")";
                         $this->wpdb->query($sql);
                     }
                 } else {
@@ -3505,7 +3508,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     {
         $notary                            = array();
         $notary['Notaire']['id']           = $notaryId;
-        $notary['Notaire']['cron_update']  = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronExportNotary" )
+        $notary['Notaire']['cron_update_erp']  = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronExportNotary" )
         $this->save($notary);
     }
 

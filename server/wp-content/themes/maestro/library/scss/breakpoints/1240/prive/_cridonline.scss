@@ -30,6 +30,8 @@
 		.content{
 			padding:0px 15px 15px 15px;
 
+
+
 			.titre{
 			}
 
@@ -48,6 +50,12 @@
 
 				&:after{
 				}
+			}
+
+			input[type="submit"]{
+				width: 200px !important;
+				font-size: 13px !important;
+				margin-left: -100px;
 			}
 		}
 
@@ -132,6 +140,7 @@ div#cridonline{
 			}
 
 			input[type="submit"]{
+
 			}
 		}
 

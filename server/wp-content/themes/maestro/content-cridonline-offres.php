@@ -8,8 +8,9 @@
             Compris dans votre cotisation générale annuelle
         </div>
         <ul>
-            <li>- Veille juridique référence CRIDON LYON</li>
+            <!-- <li>- Veille juridique référence CRIDON LYON</li> -->
             <li>- Bouquet documentaire complémentaire</li>
+            <li>- Fonds officiels WOLTERS KLUWER</li>
             <li>- Actualités Lexbase (30 domaines juridiques)</li>
             <li>- Mise à jour permanente</li>
         </ul>
@@ -34,7 +35,7 @@
             </div>
         <?php endif; ?>
         <ul>
-            <li>- Veille juridique premium CRIDON LYON</li>
+            <!-- <li>- Veille juridique premium CRIDON LYON</li> -->
             <li>- Documentation juridique d’une partie importante du droit notarial</li>
             <li>- Economie d’abonnements d’autres éditeurs possible</li>
             <li>- Meilleur rapport qualité prix</li>
@@ -64,7 +65,7 @@
             </div>
         <?php endif; ?>
         <ul>
-            <li>- Veille juridique excellence CRIDON LYON</li>
+           <!--  <li>- Veille juridique excellence CRIDON LYON</li> -->
             <li>- Documentation juridique de la quasi intégralité du droit notarial</li>
             <li>- Economie d’abonnements d’autres éditeurs possible</li>
             <li>- Meilleur rapport qualité prix</li>

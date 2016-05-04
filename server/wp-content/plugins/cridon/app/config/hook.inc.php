@@ -147,6 +147,9 @@ function append_js_files()
                 // maj etude
                 'office_crud_nonce'            => wp_create_nonce("process_office_crud_nonce"),
                 'profil_office_modify_error'   => CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG,
+                //maj mdp
+                'password_nonce'               => wp_create_nonce("process_password_nonce"),
+                'profil_password_error'        => CONST_PROFIL_PASSWORD_ERROR_MSG,
             )
         );
     }
