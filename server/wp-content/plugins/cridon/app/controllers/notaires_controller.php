@@ -583,7 +583,7 @@ class NotairesController extends BasePublicController
         $json = array(
             'view' => $data,
         );
-        echo json_encode($json);
+        echo json_encode($json, JSON_HEX_QUOT | JSON_HEX_TAG);
         die();
     }
 
@@ -637,7 +637,7 @@ class NotairesController extends BasePublicController
             $json = array(
                 'view' => $data,
             );
-            echo json_encode($json);
+            echo json_encode($json, JSON_HEX_QUOT | JSON_HEX_TAG);
             die();
         }
         if (!empty($_POST['action'])){
@@ -713,7 +713,7 @@ class NotairesController extends BasePublicController
             $json = array(
                 'view' => $data,
             );
-            echo json_encode($json);
+            echo json_encode($json, JSON_HEX_QUOT | JSON_HEX_TAG);
             die();
         }
         if (!empty($_POST['office_crpcen'])){
