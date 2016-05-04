@@ -20,5 +20,5 @@ Vous avez le choix ! Du plus simple au plus sophistiqué mais toujours au meille
 </div>
 
 <div class="wrap-link">
-   <a href="/wp-content/uploads/pdf/CGUV.pdf" title="CGV" target="_blank"><?php _e("Télécharger les conditions générales d'utilisation et de vente (CGUV)"); ?></a> 
+   <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_CGUV_SITE ?>" title="CGUV" target="_blank"><?php _e("Télécharger les conditions générales d'utilisation et de vente (CGUV)"); ?></a>
 </div>

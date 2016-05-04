@@ -59,23 +59,23 @@
         </div>
         <div class="droit-collaborateur">
             <p>Droits du collaborateur</p>
-            <label class="select js-account-cridonline-validation-checkbox">
-                <input type="checkbox" name="compta" class="js-account-cridonline-validation-cgv" value="value">
+            <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_FINANCE_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
+                <input type="checkbox" name="compta" class="js-account-collaborateur-cap js-account-collaborateur-cap-finance" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_FINANCE_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
                 <span><?php _e("Accès aux pages «compta» (finance,factures, relevée de consommation)"); ?></span>
             </label>
 
-            <label class="unselect js-account-cridonline-validation-checkbox">
-                <input type="checkbox" name="question_ecrite" class="js-account-cridonline-validation-cgv" value="value">
+            <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONECRITES_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
+                <input type="checkbox" name="question_ecrite" class="js-account-collaborateur-cap js-account-collaborateur-cap-questionsecrites" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONECRITES_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
                 <span><?php _e("Poser des questions écrites"); ?></span>
             </label>
 
-            <label class="unselect js-account-cridonline-validation-checkbox">
-                <input type="checkbox" name="question_tel" class="js-account-cridonline-validation-cgv" value="value">
+            <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONTELEPHONIQUES_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
+                <input type="checkbox" name="question_tel" class="js-account-collaborateur-cap js-account-collaborateur-cap-questionstel" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONTELEPHONIQUES_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
                 <span><?php _e("Poser des questions téléphoniques)"); ?></span>
             </label>
 
-            <label class="unselect js-account-cridonline-validation-checkbox">
-                <input type="checkbox" name="question_tel" class="js-account-cridonline-validation-cgv" value="value">
+            <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_CONNAISANCE_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
+                <input type="checkbox" name="question_tel" class="js-account-collaborateur-cap js-account-collaborateur-cap-connaissances" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_CONNAISANCE_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
                 <span><?php _e("Accès aux bases de connaissance"); ?></span>
             </label>
         </div>

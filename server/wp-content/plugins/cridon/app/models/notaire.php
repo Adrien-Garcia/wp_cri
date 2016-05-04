@@ -2359,20 +2359,21 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
             // reset all roles
 
-            /*$this->resetUserRoles($user);
+            $this->resetUserRoles($user);
 
             // add new posted roles in data
             foreach (Config::$notaryRoles as $role => $label) {
-                if (isset($data[$role])) {
+                if (isset($data[$role]) && $data[$role]) {
                     $user->add_role($role);
                 }
-            }*/
+            }
             return true;
         }
         return false;
     }
 
     public function fillCollaborator($data){
+        // préparation des champs pour insertion dans la cri_notaire
         $collaborator                              = array();
         $collaborator['first_name']                = isset($data['collaborator_first_name']) ? esc_sql($data['collaborator_first_name']) : '';
         $collaborator['last_name']                 = isset($data['collaborator_last_name']) ? esc_sql($data['collaborator_last_name']) : '';
@@ -2390,7 +2391,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $collaborator['id_fonction_collaborateur'] = 0;
             }
         }
-
         return $collaborator;
     }
 
@@ -2828,11 +2828,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * @return mixed
      * @throws Exception
      */
-    public function listOfficeMembers($notary, $options)
+    public function listOfficeMembers($notary, $params)
     {
-        // page options
-        $options['page']     = empty($options['page']) ? 1 : intval($options['page']);
-        $options['per_page'] = !empty($options['per_page']) ? $options['per_page'] : DEFAULT_POST_PER_PAGE;
         $query_options = array(
             'fields'     => array('cn.*','cu.*','cf.label as notaire_fonction_label','cfc.label as collaborator_fonction_label'),
             'conditions' => array(
@@ -2859,38 +2856,17 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 )
             )
         );
+        // page options
+        $options['page']     = empty($params['page']) ? 1 : intval($params['page']);
+        $options['per_page'] = !empty($params['per_page']) ? $params['per_page'] : DEFAULT_POST_PER_PAGE;
 
         // formation bloc limit
-        $limit = $this->db_adapter->get_limit_sql($query_options);
+        $limit = $this->db_adapter->get_limit_sql($options);
+        $query_options['limit'] = $limit;
 
-        // query
-        $query = "
-                    SELECT
-                          *
-                    FROM {$this->table} AS cn
-                    INNER JOIN {$this->wpdb->users} cu
-                        ON cn.id_wp_user = cu.ID
-                    WHERE cn.crpcen = %s
-                        AND cn.id != %d
-                        AND cu.user_status = %d
-                    ORDER BY cn.last_name, cn.first_name ASC
-        ";
-        if ($limit) {
-            $query .= $limit;
-        }
-        $objects = $this->wpdb->get_results($this->wpdb->prepare($query, $notary->crpcen, $notary->id, CONST_STATUS_ENABLED));
+        $objects = mvc_model('QueryBuilder')->findAll('notaire', $query_options, 'cn.id');
 
-        // Nombre total d'enregitrement
-        $query_count = "
-                        SELECT
-                            COUNT(*) AS count
-                        FROM {$this->table} AS cn
-                        INNER JOIN {$this->wpdb->users} AS cu
-                            ON cu.ID = cn.id_wp_user
-                        WHERE cn.crpcen = %s
-                            AND cn.id != %d
-                            AND cu.user_status = %d";
-        $total_count = $this->wpdb->get_var($this->wpdb->prepare($query_count, $notary->crpcen, $notary->id, CONST_STATUS_ENABLED));
+        $total_count = count($objects);
 
         return array(
             'objects'       => $objects,
@@ -3483,6 +3459,41 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
         // free vars
         unset($notary);
+    }
+
+    public function sendCridonlineConfirmationMail($etude,$subscription_info) {
+        if ($subscription_info['subscription_level'] == 2){
+            $level_label = CONST_CRIDONLINE_LABEL_LEVEL_2;
+        } else {
+            $level_label = CONST_CRIDONLINE_LABEL_LEVEL_3;
+        }
+        $vars = array (
+            'level_label'            => $level_label,
+            'price'                  => $subscription_info['subscription_price'],
+            'start_subscription_date'=> $subscription_info['start_subscription_date'],
+            'end_subscription_date'  => $subscription_info['end_subscription_date'],
+        );
+
+        $message = CriRenderView('mail_notification_cridonline', $vars, 'custom', false);
+
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+
+        $env = getenv('ENV');
+        if (empty($env) || ($env !== 'PROD')) {
+            $email = wp_mail( Config::$notificationAddressPreprod , Config::$mailSubjectCridonline, $message, $headers, CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL );
+            writeLog("not Prod: " . $email . "\n", "mailog.txt");
+        } else {
+            if (!empty($etude->office_email_adress_1)){
+                $destinataire = $etude->office_email_adress_1;
+            } elseif (!empty($etude->office_email_adress_2)){
+                $destinataire = $etude->etude->office_email_adress_2;
+            } elseif (!empty($etude->office_email_adress_3)){
+                $destinataire = $etude->office_email_adress_3;
+            }
+            if (!empty($destinataire)) {
+                wp_mail($destinataire, Config::$mailSubjectCridonline, $message, $headers, CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL);
+            }
+        }
     }
 
     /**

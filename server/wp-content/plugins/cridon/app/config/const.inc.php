@@ -553,6 +553,26 @@ if ( !defined( 'CONST_IMPORT_DOCUMENT_TEMP_PATH' ) ) {
     $uploadDir = wp_upload_dir();
     define( 'CONST_IMPORT_DOCUMENT_TEMP_PATH', $uploadDir['basedir'] . '/import/importsGEDTemp/' );
 }
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL', $uploadDir['basedir'] . '/documentsCridon/CGUV.png' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE', $uploadDir['baseurl'] . '/documentsCridon/CGUV.png' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE', $uploadDir['baseurl'] . '/documentsCridon/reference.png' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_PREMIUM' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_PREMIUM', $uploadDir['baseurl'] . '/documentsCridon/premium.png' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_EXCELLENCE' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_EXCELLENCE', $uploadDir['baseurl'] . '/documentsCridon/excellence.png' );
+}
 if ( !defined( 'CONST_IMPORT_FILE_TYPE' ) ) {
     define( 'CONST_IMPORT_FILE_TYPE', 'txt' );
 }

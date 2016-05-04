@@ -6,7 +6,10 @@
 	<?php if($pending): ?>
 	<ul>
         <?php foreach ($pending as $index => $question) : ?>
-		<li class="<!-- Class a ajouter en fonction de l'etat de la question repondue/suspendue/traitement !-->">
+		<li class="<?php if ($question->id_affectation == 1) : echo 'distribution';
+                     elseif ($question->id_affectation == 2) : echo 'traitement';
+                     elseif ($question->id_affectation == 3) : echo 'suspendue';
+                     endif; ?> ">
             <?php
                 $date = date_create_from_format('Y-m-d', $question->creation_date);
                 $wdate = date_create_from_format('Y-m-d', $question->wish_date);
@@ -168,7 +171,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
             $adate = date_create_from_format('Y-m-d', $question->date_modif);
             $sAdate = $adate ? date('d.m.Y', $adate->getTimestamp()) : "";
             ?>
-        <li class="<!-- Class a ajouter en fonction de l'etat de la question repondue/suspendue/traitement !-->">
+        <li class="repondue">
             <?php if (! empty($sDate)) : ?>
 			<span class="date">Question du <?php echo $sDate ; ?></span>
             <?php endif; ?>

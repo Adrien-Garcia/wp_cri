@@ -46,6 +46,11 @@ App.Account = {
     accountAddress3Selector             : '-address-3',
     accountPostalcodeSelector           : '-postalcode',
     accountCitySelector                 : '-city',
+    accountCapabilitiesSelector         : '-cap',
+    accountFinanceSelector              : '-finance',
+    accountQuestionsecritesSelector     : '-questionsecrites',
+    accountQuestionstelSelector         : '-questionstel',
+    accountConnaissancesSelector        : '-connaissances',
     accountPasswordSelector             : '-password',
 
     ajaxSelector                        : '-ajax',
@@ -347,18 +352,23 @@ App.Account = {
         this.$popupCollaborateurAdd              = $(this.accountPopupCollaborateurAdd);
 
         // Initialisation des variables liés à la popup.
-        this.$accountCollaborateurAddForm        = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFormSelector);
-        this.$accountCollaborateurAddFirstname   = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFirstnameSelector);
-        this.$accountCollaborateurAddLastname    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountLastnameSelector);
-        this.$accountCollaborateurAddPhone       = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountPhoneSelector);
-        this.$accountCollaborateurAddMobilephone = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountMobilephoneSelector);
-        this.$accountCollaborateurAddEmail       = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountEmailSelector);
-        this.$accountCollaborateurAddFunction    = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFunctionSelector);
-        this.$accountCollaborateurAddMessage     = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountMessageSelector);
-        this.$accountCollaborateurAddFunctioncollaborateur = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFunctioncollaborateurSelector);
-        this.$accountCollaborateurAction         = $(d + this.accountCollaborateurSelector + this.accountActionSelector);
-        this.$accountCollaborateurModify         = $(d + this.accountCollaborateurSelector + this.accountModifySelector);
-        this.$accountCollaborateurModifyId       = $(d + this.accountCollaborateurSelector + this.accountModifySelector + this.accountIdSelector);
+        this.$accountCollaborateurAddForm                      = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFormSelector);
+        this.$accountCollaborateurAddFirstname                 = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFirstnameSelector);
+        this.$accountCollaborateurAddLastname                  = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountLastnameSelector);
+        this.$accountCollaborateurAddPhone                     = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountPhoneSelector);
+        this.$accountCollaborateurAddMobilephone               = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountMobilephoneSelector);
+        this.$accountCollaborateurAddEmail                     = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountEmailSelector);
+        this.$accountCollaborateurAddFunction                  = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFunctionSelector);
+        this.$accountCollaborateurAddMessage                   = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountMessageSelector);
+        this.$accountCollaborateurAddFunctioncollaborateur     = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.accountFunctioncollaborateurSelector);
+        this.$accountCollaborateurAction                       = $(d + this.accountCollaborateurSelector + this.accountActionSelector);
+        this.$accountCollaborateurModify                       = $(d + this.accountCollaborateurSelector + this.accountModifySelector);
+        this.$accountCollaborateurModifyId                     = $(d + this.accountCollaborateurSelector + this.accountModifySelector + this.accountIdSelector);
+        this.$accountCollaborateurCap                          = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector);
+        this.$accountCollaborateurCapFinance                   = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountFinanceSelector);
+        this.$accountCollaborateurCapQuestionsecrites          = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountQuestionsecritesSelector);
+        this.$accountCollaborateurCapQuestionstel              = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountQuestionstelSelector);
+        this.$accountCollaborateurCapConnaissances             = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountConnaissancesSelector);
 
         this.popupCollaborateurDeleteInit();
         this.popupCollaborateurAddInit();
@@ -648,6 +658,10 @@ App.Account = {
 
         this.debug("Account : addListenersCollaborateur");
 
+        $(document).on('change',this.$accountCollaborateurCap.selector, function (e) {
+            self.eventAccountCollaborateurCapabilities($(this));
+        });
+
         this.$accountCollaborateurDeleteForm.on('submit', function (e) {
             e.returnValue = false;
             e.preventDefault();
@@ -672,6 +686,10 @@ App.Account = {
 
         $(document).on('change',this.$accountCollaborateurAddFunction.selector, function(e){
             self.eventAccountCollaborateurChangeFunction($(this));
+        });
+
+        $(document).on('change',this.$accountCollaborateurAddFunctioncollaborateur.selector, function(e){
+            self.eventAccountCollaborateurChangeFunctionCollaborateur($(this));
         });
 
         $(document).on('submit',this.$accountCollaborateurAddForm.selector, function (e) {
@@ -1154,10 +1172,74 @@ App.Account = {
     },
 
     eventAccountCollaborateurChangeFunction: function(data){
-        if (data.find(':selected').val() == jsvar.collaborateur_id_function){
+        var fonction = data.find(':selected').val();
+        if (fonction == jsvar.collaborateur_id_function){
             $(this.$accountCollaborateurAddFunctioncollaborateur.selector).removeClass('hidden');
+            this.$accountCollaborateurCapFinance.prop('checked',false);
+            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+            this.$accountCollaborateurCapQuestionsecrites.prop('checked',false);
+            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+            this.$accountCollaborateurCapQuestionstel.prop('checked',false);
+            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+            this.$accountCollaborateurCapConnaissances.prop('checked',false);
+            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
         } else {
             $(this.$accountCollaborateurAddFunctioncollaborateur.selector).addClass('hidden');
+            var capabilities = jsvar.collaborateur_capabilities.notaries[fonction];
+            this.manageCheckboxes(capabilities);
+        }
+    },
+
+    eventAccountCollaborateurChangeFunctionCollaborateur: function(data){
+        var fonction = data.find(':selected').val();
+        var capabilities = jsvar.collaborateur_capabilities.collaborators[fonction];
+        this.manageCheckboxes(capabilities);
+    },
+
+    manageCheckboxes: function(capabilities){
+        //Finance
+        if ($.inArray(jsvar.capability_finance,capabilities) > -1){
+            this.$accountCollaborateurCapFinance.prop('checked',true);
+            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
+            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).addClass('select');
+        } else {
+            this.$accountCollaborateurCapFinance.prop('checked',false);
+            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+        }
+        //questions écrites
+        if ($.inArray(jsvar.capability_questionsecrites,capabilities) > -1){
+            this.$accountCollaborateurCapQuestionsecrites.prop('checked',true);
+            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
+            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).addClass('select');
+        } else {
+            this.$accountCollaborateurCapQuestionsecrites.prop('checked',false);
+            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+        }
+        //questions téléphoniques
+        if ($.inArray(jsvar.capability_questionstel,capabilities) > -1){
+            this.$accountCollaborateurCapQuestionstel.prop('checked',true);
+            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
+            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).addClass('select');
+        } else {
+            this.$accountCollaborateurCapQuestionstel.prop('checked',false);
+            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+        }
+        //connaissances
+        if ($.inArray(jsvar.capability_connaissances,capabilities) > -1){
+            this.$accountCollaborateurCapConnaissances.prop('checked',true);
+            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
+            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('select');
+        } else {
+            this.$accountCollaborateurCapConnaissances.prop('checked',false);
+            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
         }
     },
 
@@ -1181,6 +1263,10 @@ App.Account = {
                     collaborator_tel: form.find(this.$accountCollaborateurAddPhone.selector).val(),
                     collaborator_tel_portable: form.find(this.$accountCollaborateurAddMobilephone.selector).val(),
                     collaborator_email: form.find(this.$accountCollaborateurAddEmail.selector).val(),
+                    collaborator_cap_finance: form.find(this.$accountCollaborateurCapFinance.selector)[0].checked,
+                    collaborator_cap_questionsecrites: form.find(this.$accountCollaborateurCapQuestionsecrites.selector)[0].checked,
+                    collaborator_cap_questionstel: form.find(this.$accountCollaborateurCapQuestionstel.selector)[0].checked,
+                    collaborator_cap_connaissances: form.find(this.$accountCollaborateurCapConnaissances.selector)[0].checked,
                     collaborator_id_function_notaire: id_function_notaire,
                     collaborator_id_function_collaborator: id_function_collaborator
                 },
@@ -1201,6 +1287,29 @@ App.Account = {
             window.location.href = data.view;
         }
         return false;
+    },
+
+    eventAccountCollaborateurCapabilities: function (input) {
+        var label = input.parents(
+            this.defaultSelector +
+            this.accountCollaborateurSelector +
+            this.accountCheckboxSelector
+        ).first();
+        if (label.hasClass('select')) {
+            label.removeClass('select');
+            label.addClass('unselect');
+        } else if (label.hasClass('unselect')) {
+            label.removeClass('unselect');
+            label.addClass('select');
+        } else {
+            if (input[0].checked) {
+                label.removeClass('unselect');
+                label.addClass('select');
+            } else {
+                label.removeClass('select');
+                label.addClass('unselect');
+            }
+        }
     },
 
     eventAccountCridonlineValidationSubmit: function (form) {
