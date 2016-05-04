@@ -2830,7 +2830,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function listOfficeMembers($notary, $params)
     {
-        $options = array(
+        $query_options = array(
             'fields'     => array('cn.*','cu.*','cf.label as notaire_fonction_label','cfc.label as collaborator_fonction_label'),
             'conditions' => array(
                 'cn.crpcen'      => $notary->crpcen,
@@ -2862,9 +2862,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
         // formation bloc limit
         $limit = $this->db_adapter->get_limit_sql($options);
-        $options['limit'] = $limit;
+        $query_options['limit'] = $limit;
 
-        $objects = mvc_model('QueryBuilder')->findAll('notaire', $options, 'cn.id');
+        $objects = mvc_model('QueryBuilder')->findAll('notaire', $query_options, 'cn.id');
 
         $total_count = count($objects);
 
