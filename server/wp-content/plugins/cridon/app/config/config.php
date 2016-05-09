@@ -226,6 +226,8 @@ class Config {
 
     public static $notificationAddressPreprod = "victor.albert@jetpulp.fr";
 
+    public static $notificationAddressCridon = "s.raby@cridon-lyon.fr";
+
     //GED Administration
     public static $GEDtxtIndexes = array(
         /* index Nom du fichier PDF  */

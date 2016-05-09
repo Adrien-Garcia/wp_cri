@@ -3490,12 +3490,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $message = CriRenderView('mail_notification_cridonline', $vars, 'custom', false);
 
         $headers = array('Content-Type: text/html; charset=UTF-8');
-
         $env = getenv('ENV');
         if (empty($env) || ($env !== 'PROD')) {
             $email = wp_mail( Config::$notificationAddressPreprod , Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_MAIL) );
             writeLog("not Prod: " . $email . "\n", "mailog.txt");
         } else {
+            $headers[] = 'BCC:'.Config::$notificationAddressCridon;
             if (!empty($etude->office_email_adress_1)){
                 $destinataire = $etude->office_email_adress_1;
             } elseif (!empty($etude->office_email_adress_2)){
