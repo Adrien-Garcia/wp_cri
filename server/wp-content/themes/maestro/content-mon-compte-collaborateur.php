@@ -50,6 +50,9 @@
         endforeach;
     ?>
 </ul>
+<!-- <div class="pagination">
+    <?php //echo $this->pagination(); ?>
+</div> -->
 
 <div class="add-collabs">
     <div id="layer-collaborateur-add" style="display:none;">
