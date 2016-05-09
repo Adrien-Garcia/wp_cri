@@ -561,6 +561,10 @@ if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE' ) ) {
     $uploadDir = wp_upload_dir();
     define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE', $uploadDir['baseurl'] . '/documentsCridon/CGUV.pdf' );
 }
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA', $uploadDir['baseurl'] . '/documentsCridon/Mandat_SEPA.pdf' );
+}
 if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE' ) ) {
     $uploadDir = wp_upload_dir();
     define( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE', $uploadDir['baseurl'] . '/documentsCridon/Description-CRIDONLINE-reference.pdf' );

@@ -460,8 +460,6 @@ App.Account = {
             vertical: top
         });
         this.$accountCridonlineValidationStep1.on("click", function(e) {
-            e.returnValue = false;
-            e.preventDefault();
             self.$accountCridonlineValidationStep1.toggle();
             self.$accountCridonlineValidationStep2.toggle();
         });
