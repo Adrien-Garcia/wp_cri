@@ -731,6 +731,12 @@ class Config {
         ),
     );
 
+    public static $addableFunctions = array(
+        CONST_NOTAIRE_SALARIE,
+        CONST_NOTAIRE_SALARIEE,
+        CONST_NOTAIRE_COLLABORATEUR
+    );
+
     /**
      * @var array list of actions specific to collaborateur tab
      */
