@@ -647,17 +647,19 @@ class NotairesController extends BasePublicController
                 // Clean $_POST before
                 $data = $this->tools->clean($_POST);
                 // capabilities
-                if (isset($data['collaborator_cap_finance']) && $data['collaborator_cap_finance'] == 'true'){
-                    $data[CONST_FINANCE_ROLE] = true;
-                }
-                if (isset($data['collaborator_cap_questionsecrites']) && $data['collaborator_cap_questionsecrites'] == 'true'){
-                    $data[CONST_QUESTIONECRITES_ROLE] = true;
-                }
-                if (isset($data['collaborator_cap_questionstel']) && $data['collaborator_cap_questionstel'] == 'true'){
-                    $data[CONST_QUESTIONTELEPHONIQUES_ROLE] = true;
-                }
-                if (isset($data['collaborator_cap_connaissances']) && $data['collaborator_cap_connaissances'] == 'true'){
-                    $data[CONST_CONNAISANCE_ROLE] = true;
+                if ($_POST['action'] == CONST_CREATE_USER || $_POST['action'] == CONST_MODIFY_USER) {
+                    if (isset($data['collaborator_cap_finance']) && $data['collaborator_cap_finance'] == 'true') {
+                        $data[CONST_FINANCE_ROLE] = true;
+                    }
+                    if (isset($data['collaborator_cap_questionsecrites']) && $data['collaborator_cap_questionsecrites'] == 'true') {
+                        $data[CONST_QUESTIONECRITES_ROLE] = true;
+                    }
+                    if (isset($data['collaborator_cap_questionstel']) && $data['collaborator_cap_questionstel'] == 'true') {
+                        $data[CONST_QUESTIONTELEPHONIQUES_ROLE] = true;
+                    }
+                    if (isset($data['collaborator_cap_connaissances']) && $data['collaborator_cap_connaissances'] == 'true') {
+                        $data[CONST_CONNAISANCE_ROLE] = true;
+                    }
                 }
                 //get current notaire
                 $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
@@ -668,7 +670,7 @@ class NotairesController extends BasePublicController
                         $message='add';
                         break;
                     case CONST_MODIFY_USER:
-                        $this->modifyCollaborateur($this->current_notaire,$data);
+                        $this->modifyCollaborateur($this->current_notaire,$data, true);
                         $message='modify';
                         break;
                     case CONST_DELETE_USER:
@@ -676,7 +678,7 @@ class NotairesController extends BasePublicController
                         $message='delete';
                         break;
                     case CONST_PROFIL_MODIFY_USER:
-                        $this->modifyCollaborateur($this->current_notaire,$data);
+                        $this->modifyCollaborateur($this->current_notaire,$data, false);
                         $message='modifyprofil';
                         $action = 'profil';
                         break;
@@ -792,11 +794,12 @@ class NotairesController extends BasePublicController
      * Associated template : app/views/notaires/collaborateurajoutpopup.php
      * @param object Notaire $current_notaire
      * @param array $data data of collaborator to modify
+     * @param $roles bool if roles has to be modified
      *
      * @return void
      */
-    public function modifyCollaborateur($current_notaire,$data){
-        if(!$this->model->manageCollaborator($current_notaire, $data)){
+    public function modifyCollaborateur($current_notaire,$data, $roles){
+        if(!$this->model->manageCollaborator($current_notaire, $data, $roles)){
             echo json_encode(array('error' => CONST_COLLABORATEUR_MODIFY_ERROR_MSG));
             die();
         };

@@ -2260,11 +2260,20 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
     //End FRONT
 
-    public function manageCollaborator($notary, $data)
+    /**
+     * Query used in front in order to preprare pagination for questions list
+     *
+     * @param object $notary
+     * @param array $data
+     * @param bool $roles
+     *
+     * @return string
+     */
+    public function manageCollaborator($notary, $data, $roles = false)
     {
         // check id collaborator
         if (isset($data['collaborator_id']) && intval($data['collaborator_id']) > 0) { // update
-            if($this->updateCollaborator($data)){
+            if($this->updateCollaborator($data,$roles)){
                 return true;
             };
         } else { // create
@@ -2345,9 +2354,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * Update collaborator data
      *
      * @param array $data
+     * @param bool $roles
+     *
      * @return bool
      */
-    public function updateCollaborator($data)
+    public function updateCollaborator($data, $roles)
     {
         $collaborator = $this->fillCollaborator($data);
 
@@ -2355,16 +2366,17 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $collaborator['id'] = isset($data['collaborator_id']) ? esc_sql($data['collaborator_id']) : '';
         if (!empty($collaborator['id']) && $this->save($collaborator)) { // successful update
             $this->updateFlagERP($collaborator['id']);
-            // manage roles
-            $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
-            // reset all roles
+            if (!empty($roles) && $roles) {
+                // manage roles
+                $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
+                // reset all roles
+                $this->resetUserRoles($user);
 
-            $this->resetUserRoles($user);
-
-            // add new posted roles in data
-            foreach (Config::$notaryRoles as $role => $label) {
-                if (isset($data[$role]) && $data[$role]) {
-                    $user->add_role($role);
+                // add new posted roles in data
+                foreach (Config::$notaryRoles as $role => $label) {
+                    if (isset($data[$role]) && $data[$role]) {
+                        $user->add_role($role);
+                    }
                 }
             }
             return true;
