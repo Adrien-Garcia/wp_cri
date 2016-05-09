@@ -50,15 +50,16 @@
         endforeach;
     ?>
 </ul>
+<?php if (!empty($liste)) : ?>
+    <form class="bt-ajout js-account-collaborateur-add-button" data-js-ajax-add-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
+        <?php _e("Ajouter un collaborateur"); ?>
+    </form>
+<?php endif; ?>
+<div class="supp-collabs">
+    <?php echo get_template_part("content","sup-collabs-popup"); ?>
+</div>
 
 <div class="add-collabs">
     <div id="layer-collaborateur-add" style="display:none;">
     </div>
 </div>
-<div class="supp-collabs">
-    <?php echo get_template_part("content","sup-collabs-popup"); ?>
-</div>
-
-<form class="bt-ajout js-account-collaborateur-add-button" data-js-ajax-add-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
-    <?php _e("Ajouter un collaborateur"); ?>
-</form>
