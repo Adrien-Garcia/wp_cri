@@ -181,6 +181,48 @@
 			}
 		}
 
+			
+
+		&.non-actif{
+
+				border-color:rgba(102, 102, 102, 0.3);
+
+				.en-tete, .content ul, .content a{
+					filter: grayscale(100%);
+				    -webkit-filter: grayscale(100%);
+				    -moz-filter: grayscale(100%);
+				    -ms-filter: grayscale(100%);
+				    -o-filter: grayscale(100%);
+
+				    opacity: 0.3;
+				}
+
+
+				&:hover{
+
+
+					&.niveau-1{
+						border:solid 6px $bleu-cri;
+					}
+					&.niveau-2{
+						border:solid 6px $vert-cri;
+					}
+					&.niveau-3{
+						border:solid 6px $jaune-cri;
+					}
+
+					.en-tete, .content ul, .content a{	
+					    opacity: 1;
+
+					    filter:none ;
+					    -webkit-filter: none;
+					    -moz-filter: none;
+					    -ms-filter: none;
+					    -o-filter: none;
+					}
+				}
+			
+		}
 
 		&.on{
 
@@ -210,47 +252,50 @@
 					@include svgicon('icon-angle-bottom', 15px, 15px, $jaune);
 				}
 			}
+
+			&.niveau-1{
+				border:solid 6px $bleu-cri;
+			}
+			&.niveau-2{
+				border:solid 6px $vert-cri;
+			}
+			&.niveau-3{
+				border:solid 6px $jaune-cri;
+			}
+
+			.en-tete, .content ul, .content a{	
+			    opacity: 1;
+
+			    filter:none ;
+			    -webkit-filter: none;
+			    -moz-filter: none;
+			    -ms-filter: none;
+			    -o-filter: none;
+			}
 		}
 
-		&.off{
+		&.normal{
 
-			border-color:rgba(102, 102, 102, 0.3);
-
-			.en-tete, .content ul, .content a{
-				filter: grayscale(100%);
-			    -webkit-filter: grayscale(100%);
-			    -moz-filter: grayscale(100%);
-			    -ms-filter: grayscale(100%);
-			    -o-filter: grayscale(100%);
-
-			    opacity: 0.3;
+			&.niveau-1{
+				border:solid 6px $bleu-cri;
+			}
+			&.niveau-2{
+				border:solid 6px $vert-cri;
+			}
+			&.niveau-3{
+				border:solid 6px $jaune-cri;
 			}
 
+			.en-tete, .content ul, .content a{	
+			    opacity: 1;
 
-			&:hover{
-
-
-				&.niveau-1{
-					border:solid 6px $bleu-cri;
-				}
-				&.niveau-2{
-					border:solid 6px $vert-cri;
-				}
-				&.niveau-3{
-					border:solid 6px $jaune-cri;
-				}
-
-				.en-tete, .content ul, .content a{	
-				    opacity: 1;
-
-				    filter:none ;
-				    -webkit-filter: none;
-				    -moz-filter: none;
-				    -ms-filter: none;
-				    -o-filter: none;
-				}
+			    filter:none ;
+			    -webkit-filter: none;
+			    -moz-filter: none;
+			    -ms-filter: none;
+			    -o-filter: none;
 			}
-			
+
 		}
 
 		
