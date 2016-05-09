@@ -561,9 +561,13 @@ if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE' ) ) {
     $uploadDir = wp_upload_dir();
     define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE', $uploadDir['baseurl'] . '/documentsCridon/CGUV.pdf' );
 }
-if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA' ) ) {
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_MAIL' ) ) {
     $uploadDir = wp_upload_dir();
-    define( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA', $uploadDir['baseurl'] . '/documentsCridon/Mandat_SEPA.pdf' );
+    define( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_MAIL', $uploadDir['basedir'] . '/documentsCridon/Mandat_SEPA.pdf' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_SITE' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_SITE', $uploadDir['baseurl'] . '/documentsCridon/Mandat_SEPA.pdf' );
 }
 if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE' ) ) {
     $uploadDir = wp_upload_dir();

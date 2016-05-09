@@ -3493,7 +3493,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
         $env = getenv('ENV');
         if (empty($env) || ($env !== 'PROD')) {
-            $email = wp_mail( Config::$notificationAddressPreprod , Config::$mailSubjectCridonline, $message, $headers, CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL );
+            $email = wp_mail( Config::$notificationAddressPreprod , Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_MAIL) );
             writeLog("not Prod: " . $email . "\n", "mailog.txt");
         } else {
             if (!empty($etude->office_email_adress_1)){
@@ -3504,7 +3504,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $destinataire = $etude->office_email_adress_3;
             }
             if (!empty($destinataire)) {
-                wp_mail($destinataire, Config::$mailSubjectCridonline, $message, $headers, CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL);
+                wp_mail($destinataire, Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_MAIL));
             }
         }
     }
