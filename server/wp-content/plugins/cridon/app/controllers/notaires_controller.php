@@ -609,17 +609,19 @@ class NotairesController extends BasePublicController
                 $collaborator['capabilities'] = CriGetCollaboratorRoles($collab);
             }
 
-            $notaire_functions = $this->tools->getNotaireFunctions();
+            if (!in_array($_GET['action'],Config::$collaborateurActions)){
+                $collaborator['fax'] = empty($_GET['collaborator_fax']) ? '' : trim($_GET['collaborator_fax']) ;
+                $fonctions = array();
+            } else {
+                $fonctions = Config::$addableFunctions;
+            }
+            $notaire_functions = $this->tools->getNotaireFunctions($fonctions);
             // set list of notaire functions
             $this->set('notaire_functions', $notaire_functions);
 
             $collaborateur_functions = $this->tools->getCollaboratorFunctions();
             // set list of collaborator functions
             $this->set('collaborateur_functions', $collaborateur_functions);
-
-            if (!in_array($_GET['action'],Config::$collaborateurActions)){
-                $collaborator['fax'] = empty($_GET['collaborator_fax']) ? '' : trim($_GET['collaborator_fax']) ;
-            }
 
             $this->set('collaborator',$collaborator);
 
