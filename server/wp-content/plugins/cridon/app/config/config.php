@@ -744,8 +744,7 @@ class Config {
      */
     public static $collaborateurActions = array(
         CONST_CREATE_USER,
-        CONST_MODIFY_USER,
-        CONST_DELETE_USER
+        CONST_MODIFY_USER
     );
 
     /**

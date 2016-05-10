@@ -611,11 +611,13 @@ class NotairesController extends BasePublicController
                 $collaborator['capabilities'] = CriGetCollaboratorRoles($collab);
             }
 
-            if (!in_array($_GET['action'],Config::$collaborateurActions)){
-                $collaborator['fax'] = empty($_GET['collaborator_fax']) ? '' : trim($_GET['collaborator_fax']) ;
-                $fonctions = array();
-            } else {
+            if (in_array($_GET['action'],Config::$collaborateurActions)){
+                // Only show functions that are addable by a notaire (notaire salarie(e) + collab)
                 $fonctions = Config::$addableFunctions;
+            } else {
+                // Every function is needed because it's used to *display* the profile function of the connected user. Which cannot be changed.
+                $fonctions = array();
+                $collaborator['fax'] = empty($_GET['collaborator_fax']) ? '' : trim($_GET['collaborator_fax']) ;
             }
             $notaire_functions = $this->tools->getNotaireFunctions($fonctions);
             // set list of notaire functions
