@@ -545,9 +545,6 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->prepareSecureAccess();
-        //show every member of an office
-        $collection = $this->model->listOfficeMembers($this->current_notaire, $this->params);
-        $this->set('liste', $collection['objects']);
         $message = '';
         if (isset($_REQUEST['message'])){
             if ($_REQUEST['message'] == 'add'){
@@ -562,6 +559,11 @@ class NotairesController extends BasePublicController
             unset ($_REQUEST['message']);
         }
         $this->set('message', $message);
+        //show every member of an office
+        $collection = $this->model->listOfficeMembers($this->current_notaire, $this->params);
+        $this->set('liste', $collection['objects']);
+        // pagination
+        $this->set_pagination($collection);
         // tab rank
         $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
     }
@@ -609,17 +611,22 @@ class NotairesController extends BasePublicController
                 $collaborator['capabilities'] = CriGetCollaboratorRoles($collab);
             }
 
-            $notaire_functions = $this->tools->getNotaireFunctions();
+            if (in_array($_GET['action'],Config::$collaborateurActions)){
+                // Only show functions that are addable by a notaire (notaire salarie(e) + collab)
+                $fonctions = Config::$addableFunctions;
+            } else {
+                // Used to display the label of the function
+                $fonctions = $collaborator['notairefunction'];
+                // The fax is only displayed in the profile. It's not in the collaborateur popup
+                $collaborator['fax'] = empty($_GET['collaborator_fax']) ? '' : trim($_GET['collaborator_fax']) ;
+            }
+            $notaire_functions = $this->tools->getNotaireFunctions($fonctions);
             // set list of notaire functions
             $this->set('notaire_functions', $notaire_functions);
 
             $collaborateur_functions = $this->tools->getCollaboratorFunctions();
             // set list of collaborator functions
             $this->set('collaborateur_functions', $collaborateur_functions);
-
-            if (!in_array($_GET['action'],Config::$collaborateurActions)){
-                $collaborator['fax'] = empty($_GET['collaborator_fax']) ? '' : trim($_GET['collaborator_fax']) ;
-            }
 
             $this->set('collaborator',$collaborator);
 
@@ -645,17 +652,19 @@ class NotairesController extends BasePublicController
                 // Clean $_POST before
                 $data = $this->tools->clean($_POST);
                 // capabilities
-                if (isset($data['collaborator_cap_finance']) && $data['collaborator_cap_finance'] == 'true'){
-                    $data[CONST_FINANCE_ROLE] = true;
-                }
-                if (isset($data['collaborator_cap_questionsecrites']) && $data['collaborator_cap_questionsecrites'] == 'true'){
-                    $data[CONST_QUESTIONECRITES_ROLE] = true;
-                }
-                if (isset($data['collaborator_cap_questionstel']) && $data['collaborator_cap_questionstel'] == 'true'){
-                    $data[CONST_QUESTIONTELEPHONIQUES_ROLE] = true;
-                }
-                if (isset($data['collaborator_cap_connaissances']) && $data['collaborator_cap_connaissances'] == 'true'){
-                    $data[CONST_CONNAISANCE_ROLE] = true;
+                if ($_POST['action'] == CONST_CREATE_USER || $_POST['action'] == CONST_MODIFY_USER) {
+                    if (isset($data['collaborator_cap_finance']) && $data['collaborator_cap_finance'] == 'true') {
+                        $data[CONST_FINANCE_ROLE] = true;
+                    }
+                    if (isset($data['collaborator_cap_questionsecrites']) && $data['collaborator_cap_questionsecrites'] == 'true') {
+                        $data[CONST_QUESTIONECRITES_ROLE] = true;
+                    }
+                    if (isset($data['collaborator_cap_questionstel']) && $data['collaborator_cap_questionstel'] == 'true') {
+                        $data[CONST_QUESTIONTELEPHONIQUES_ROLE] = true;
+                    }
+                    if (isset($data['collaborator_cap_connaissances']) && $data['collaborator_cap_connaissances'] == 'true') {
+                        $data[CONST_CONNAISANCE_ROLE] = true;
+                    }
                 }
                 //get current notaire
                 $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
@@ -666,7 +675,7 @@ class NotairesController extends BasePublicController
                         $message='add';
                         break;
                     case CONST_MODIFY_USER:
-                        $this->modifyCollaborateur($this->current_notaire,$data);
+                        $this->modifyCollaborateur($this->current_notaire,$data, true);
                         $message='modify';
                         break;
                     case CONST_DELETE_USER:
@@ -674,7 +683,7 @@ class NotairesController extends BasePublicController
                         $message='delete';
                         break;
                     case CONST_PROFIL_MODIFY_USER:
-                        $this->modifyCollaborateur($this->current_notaire,$data);
+                        $this->modifyCollaborateur($this->current_notaire,$data, false);
                         $message='modifyprofil';
                         $action = 'profil';
                         break;
@@ -790,11 +799,12 @@ class NotairesController extends BasePublicController
      * Associated template : app/views/notaires/collaborateurajoutpopup.php
      * @param object Notaire $current_notaire
      * @param array $data data of collaborator to modify
+     * @param $roles bool if roles has to be modified
      *
      * @return void
      */
-    public function modifyCollaborateur($current_notaire,$data){
-        if(!$this->model->manageCollaborator($current_notaire, $data)){
+    public function modifyCollaborateur($current_notaire,$data, $roles){
+        if(!$this->model->manageCollaborator($current_notaire, $data, $roles)){
             echo json_encode(array('error' => CONST_COLLABORATEUR_MODIFY_ERROR_MSG));
             die();
         };

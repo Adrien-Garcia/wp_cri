@@ -535,18 +535,19 @@ class CridonTools {
     }
 
     /**
-     * Renvoie une / plusieurs /toutes les fonctions notaires
+     * Renvoie une / plusieurs fonctions notaires
      *
-     * @param array $ids of functions wanted
+     * @param array $fonctions of functions wanted
      * @return array|null|object
      */
-    public function getNotaireFunctions()
+    public function getNotaireFunctions($fonctions)
     {
         global $wpdb;
+        $ids = implode(',',(array) $fonctions);
 
         $sql = " SELECT f.`id` as `id_fonction_notaire`,f.`label` as `notaire_fonction_label`
         FROM `{$wpdb->prefix}fonction` f
-        WHERE f.`displayed` =".CONST_DISPLAYED;
+        WHERE f.`displayed` =". CONST_DISPLAYED ." AND f.`id` in ($ids)";
 
         return $wpdb->get_results($sql);
     }

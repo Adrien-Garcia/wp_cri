@@ -226,6 +226,8 @@ class Config {
 
     public static $notificationAddressPreprod = "victor.albert@jetpulp.fr";
 
+    public static $notificationAddressCridon = "s.raby@cridon-lyon.fr";
+
     //GED Administration
     public static $GEDtxtIndexes = array(
         /* index Nom du fichier PDF  */
@@ -731,13 +733,18 @@ class Config {
         ),
     );
 
+    public static $addableFunctions = array(
+        CONST_NOTAIRE_SALARIE,
+        CONST_NOTAIRE_SALARIEE,
+        CONST_NOTAIRE_COLLABORATEUR
+    );
+
     /**
      * @var array list of actions specific to collaborateur tab
      */
     public static $collaborateurActions = array(
         CONST_CREATE_USER,
-        CONST_MODIFY_USER,
-        CONST_DELETE_USER
+        CONST_MODIFY_USER
     );
 
     /**

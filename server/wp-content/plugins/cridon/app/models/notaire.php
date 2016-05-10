@@ -2260,11 +2260,20 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
     //End FRONT
 
-    public function manageCollaborator($notary, $data)
+    /**
+     * Query used in front in order to preprare pagination for questions list
+     *
+     * @param object $notary
+     * @param array $data
+     * @param bool $roles
+     *
+     * @return string
+     */
+    public function manageCollaborator($notary, $data, $roles = false)
     {
         // check id collaborator
         if (isset($data['collaborator_id']) && intval($data['collaborator_id']) > 0) { // update
-            if($this->updateCollaborator($data)){
+            if($this->updateCollaborator($data,$roles)){
                 return true;
             };
         } else { // create
@@ -2345,9 +2354,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * Update collaborator data
      *
      * @param array $data
+     * @param bool $roles
+     *
      * @return bool
      */
-    public function updateCollaborator($data)
+    public function updateCollaborator($data, $roles)
     {
         $collaborator = $this->fillCollaborator($data);
 
@@ -2355,16 +2366,17 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $collaborator['id'] = isset($data['collaborator_id']) ? esc_sql($data['collaborator_id']) : '';
         if (!empty($collaborator['id']) && $this->save($collaborator)) { // successful update
             $this->updateFlagERP($collaborator['id']);
-            // manage roles
-            $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
-            // reset all roles
+            if (!empty($roles) && $roles) {
+                // manage roles
+                $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
+                // reset all roles
+                $this->resetUserRoles($user);
 
-            $this->resetUserRoles($user);
-
-            // add new posted roles in data
-            foreach (Config::$notaryRoles as $role => $label) {
-                if (isset($data[$role]) && $data[$role]) {
-                    $user->add_role($role);
+                // add new posted roles in data
+                foreach (Config::$notaryRoles as $role => $label) {
+                    if (isset($data[$role]) && $data[$role]) {
+                        $user->add_role($role);
+                    }
                 }
             }
             return true;
@@ -2861,13 +2873,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $options['page']     = empty($params['page']) ? 1 : intval($params['page']);
         $options['per_page'] = !empty($params['per_page']) ? $params['per_page'] : DEFAULT_POST_PER_PAGE;
 
+        $totalObjects = mvc_model('QueryBuilder')->findAll('notaire', $query_options, 'cn.id');
+        $total_count = count($totalObjects);
+
         // formation bloc limit
         $limit = $this->db_adapter->get_limit_sql($options);
         $query_options['limit'] = $limit;
 
         $objects = mvc_model('QueryBuilder')->findAll('notaire', $query_options, 'cn.id');
-
-        $total_count = count($objects);
 
         return array(
             'objects'       => $objects,
@@ -2907,37 +2920,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         $user->add_role(CONST_NOTAIRE_ORG_ROLE);
                     }
                 }
-                // add notary capability by level
-                if (property_exists($notary, 'level') && intval($notary->level) > 0) {
-                    switch (intval($notary->level)) {
-                        case 3 :
-                            // add cap for level 3
-                            $user->add_cap(CONST_ACCESS_LEVEL_3);
-                            // add cap for level 2
-                            $user->add_cap(CONST_ACCESS_LEVEL_2);
-                            // add cap for level 1
-                            $user->add_cap(CONST_ACCESS_LEVEL_1);
-                            break;
-
-                        case 2 :
-                            // remove cap for level 3
-                            $user->remove_cap(CONST_ACCESS_LEVEL_3);
-                            // add cap for level 2
-                            $user->add_cap(CONST_ACCESS_LEVEL_2);
-                            // add cap for level 1
-                            $user->add_cap(CONST_ACCESS_LEVEL_1);
-                            break;
-
-                        default:
-                            // remove cap for level 3
-                            $user->remove_cap(CONST_ACCESS_LEVEL_3);
-                            // remove cap for level 2
-                            $user->remove_cap(CONST_ACCESS_LEVEL_2);
-                            // add cap for level 1
-                            $user->add_cap(CONST_ACCESS_LEVEL_1);
-                            break;
-                    }
-                }
                 /**
                  * finance role
                  * to be matched in list of authorized user by function
@@ -2975,36 +2957,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             && property_exists($notary, 'level')
             && intval($notary->level) > 0
         ) {
-            // update capability
-            switch (intval($notary->level)) {
-                case 3 :
-                    // add cap for level 3
-                    $user->add_cap(CONST_ACCESS_LEVEL_3);
-                    // add cap for level 2
-                    $user->add_cap(CONST_ACCESS_LEVEL_2);
-                    // add cap for level 1
-                    $user->add_cap(CONST_ACCESS_LEVEL_1);
-                    break;
-
-                case 2 :
-                    // remove cap for level 3
-                    $user->remove_cap(CONST_ACCESS_LEVEL_3);
-                    // add cap for level 2
-                    $user->add_cap(CONST_ACCESS_LEVEL_2);
-                    // add cap for level 1
-                    $user->add_cap(CONST_ACCESS_LEVEL_1);
-                    break;
-
-                default:
-                    // remove cap for level 3
-                    $user->remove_cap(CONST_ACCESS_LEVEL_3);
-                    // remove cap for level 2
-                    $user->remove_cap(CONST_ACCESS_LEVEL_2);
-                    // add cap for level 1
-                    $user->add_cap(CONST_ACCESS_LEVEL_1);
-                    break;
-            }
-
             /**
              * finance role
              * to be matched in list of authorized user by function
@@ -3478,12 +3430,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $message = CriRenderView('mail_notification_cridonline', $vars, 'custom', false);
 
         $headers = array('Content-Type: text/html; charset=UTF-8');
-
         $env = getenv('ENV');
         if (empty($env) || ($env !== 'PROD')) {
-            $email = wp_mail( Config::$notificationAddressPreprod , Config::$mailSubjectCridonline, $message, $headers, CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL );
+            $email = wp_mail( Config::$notificationAddressPreprod , Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_URL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL) );
             writeLog("not Prod: " . $email . "\n", "mailog.txt");
         } else {
+            $headers[] = 'BCC:'.Config::$notificationAddressCridon;
             if (!empty($etude->office_email_adress_1)){
                 $destinataire = $etude->office_email_adress_1;
             } elseif (!empty($etude->office_email_adress_2)){
@@ -3492,7 +3444,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $destinataire = $etude->office_email_adress_3;
             }
             if (!empty($destinataire)) {
-                wp_mail($destinataire, Config::$mailSubjectCridonline, $message, $headers, CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL);
+                wp_mail($destinataire, Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_URL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL));
             }
         }
     }

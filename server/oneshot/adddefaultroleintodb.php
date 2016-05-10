@@ -27,13 +27,4 @@ add_role( CONST_CONNAISANCE_ROLE, 'Accès aux bases de connaissance' );
 add_role( CONST_NOTAIRE_DIV_ROLE, 'Notaires DIV' );
 add_role( CONST_NOTAIRE_ORG_ROLE, 'Notaires ORG' );
 
-// add default capabilities for "Notary" role (access_solde, access_level_1)
-$notaryRole = get_role( CONST_NOTAIRE_ROLE );
-$notaryRole->add_cap(CONST_ACCESS_SOLDE);
-$notaryRole->add_cap(CONST_ACCESS_LEVEL_1);
-
-// add default capability for "Notary ORG" role (access_level_1)
-$notaryRole = get_role( CONST_NOTAIRE_ORG_ROLE );
-$notaryRole->add_cap(CONST_ACCESS_LEVEL_1);
-
 echo 'Init role done';

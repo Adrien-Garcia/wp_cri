@@ -553,13 +553,21 @@ if ( !defined( 'CONST_IMPORT_DOCUMENT_TEMP_PATH' ) ) {
     $uploadDir = wp_upload_dir();
     define( 'CONST_IMPORT_DOCUMENT_TEMP_PATH', $uploadDir['basedir'] . '/import/importsGEDTemp/' );
 }
-if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL' ) ) {
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_URL' ) ) {
     $uploadDir = wp_upload_dir();
-    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_MAIL', $uploadDir['basedir'] . '/documentsCridon/CGUV.pdf' );
+    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_URL', $uploadDir['basedir'] . '/documentsCridon/CGUV.pdf' );
 }
-if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE' ) ) {
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_PATH' ) ) {
     $uploadDir = wp_upload_dir();
-    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_SITE', $uploadDir['baseurl'] . '/documentsCridon/CGUV.pdf' );
+    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_PATH', $uploadDir['baseurl'] . '/documentsCridon/CGUV.pdf' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL', $uploadDir['basedir'] . '/documentsCridon/Mandat_SEPA.pdf' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_PATH', $uploadDir['baseurl'] . '/documentsCridon/Mandat_SEPA.pdf' );
 }
 if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE' ) ) {
     $uploadDir = wp_upload_dir();
@@ -998,16 +1006,6 @@ if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
 }
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
-}
-// capabilités pour les niveaux d'accès
-if ( !defined( 'CONST_ACCESS_LEVEL_1' ) ) {
-    define( 'CONST_ACCESS_LEVEL_1', 'access_level_1' );
-}
-if ( !defined( 'CONST_ACCESS_LEVEL_2' ) ) {
-    define( 'CONST_ACCESS_LEVEL_2', 'access_level_2' );
-}
-if ( !defined( 'CONST_ACCESS_LEVEL_3' ) ) {
-    define( 'CONST_ACCESS_LEVEL_3', 'access_level_3' );
 }
 // capabilités d'aceès au solde
 if ( !defined( 'CONST_ACCESS_SOLDE' ) ) {
