@@ -617,6 +617,7 @@ class NotairesController extends BasePublicController
             } else {
                 // Every function is needed because it's used to *display* the profile function of the connected user. Which cannot be changed.
                 $fonctions = array();
+                // The fax is only displayed in the profile. It's not in the collaborateur popup
                 $collaborator['fax'] = empty($_GET['collaborator_fax']) ? '' : trim($_GET['collaborator_fax']) ;
             }
             $notaire_functions = $this->tools->getNotaireFunctions($fonctions);
