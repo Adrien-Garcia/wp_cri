@@ -2920,37 +2920,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         $user->add_role(CONST_NOTAIRE_ORG_ROLE);
                     }
                 }
-                // add notary capability by level
-                if (property_exists($notary, 'level') && intval($notary->level) > 0) {
-                    switch (intval($notary->level)) {
-                        case 3 :
-                            // add cap for level 3
-                            $user->add_cap(CONST_ACCESS_LEVEL_3);
-                            // add cap for level 2
-                            $user->add_cap(CONST_ACCESS_LEVEL_2);
-                            // add cap for level 1
-                            $user->add_cap(CONST_ACCESS_LEVEL_1);
-                            break;
-
-                        case 2 :
-                            // remove cap for level 3
-                            $user->remove_cap(CONST_ACCESS_LEVEL_3);
-                            // add cap for level 2
-                            $user->add_cap(CONST_ACCESS_LEVEL_2);
-                            // add cap for level 1
-                            $user->add_cap(CONST_ACCESS_LEVEL_1);
-                            break;
-
-                        default:
-                            // remove cap for level 3
-                            $user->remove_cap(CONST_ACCESS_LEVEL_3);
-                            // remove cap for level 2
-                            $user->remove_cap(CONST_ACCESS_LEVEL_2);
-                            // add cap for level 1
-                            $user->add_cap(CONST_ACCESS_LEVEL_1);
-                            break;
-                    }
-                }
                 /**
                  * finance role
                  * to be matched in list of authorized user by function
@@ -2988,36 +2957,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             && property_exists($notary, 'level')
             && intval($notary->level) > 0
         ) {
-            // update capability
-            switch (intval($notary->level)) {
-                case 3 :
-                    // add cap for level 3
-                    $user->add_cap(CONST_ACCESS_LEVEL_3);
-                    // add cap for level 2
-                    $user->add_cap(CONST_ACCESS_LEVEL_2);
-                    // add cap for level 1
-                    $user->add_cap(CONST_ACCESS_LEVEL_1);
-                    break;
-
-                case 2 :
-                    // remove cap for level 3
-                    $user->remove_cap(CONST_ACCESS_LEVEL_3);
-                    // add cap for level 2
-                    $user->add_cap(CONST_ACCESS_LEVEL_2);
-                    // add cap for level 1
-                    $user->add_cap(CONST_ACCESS_LEVEL_1);
-                    break;
-
-                default:
-                    // remove cap for level 3
-                    $user->remove_cap(CONST_ACCESS_LEVEL_3);
-                    // remove cap for level 2
-                    $user->remove_cap(CONST_ACCESS_LEVEL_2);
-                    // add cap for level 1
-                    $user->add_cap(CONST_ACCESS_LEVEL_1);
-                    break;
-            }
-
             /**
              * finance role
              * to be matched in list of authorized user by function

@@ -1007,16 +1007,6 @@ if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
-// capabilités pour les niveaux d'accès
-if ( !defined( 'CONST_ACCESS_LEVEL_1' ) ) {
-    define( 'CONST_ACCESS_LEVEL_1', 'access_level_1' );
-}
-if ( !defined( 'CONST_ACCESS_LEVEL_2' ) ) {
-    define( 'CONST_ACCESS_LEVEL_2', 'access_level_2' );
-}
-if ( !defined( 'CONST_ACCESS_LEVEL_3' ) ) {
-    define( 'CONST_ACCESS_LEVEL_3', 'access_level_3' );
-}
 // capabilités d'aceès au solde
 if ( !defined( 'CONST_ACCESS_SOLDE' ) ) {
     define( 'CONST_ACCESS_SOLDE', 'access_solde' );
