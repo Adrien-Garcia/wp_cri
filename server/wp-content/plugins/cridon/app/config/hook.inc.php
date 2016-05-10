@@ -468,6 +468,14 @@ function addClassesAnalytics($atts, $item, $args, $depth){
 }
 add_filter( 'nav_menu_link_attributes', 'addClassesAnalytics',10,4 );
 
+
+function remove_word_private($string) {
+    $string = str_ireplace("Privé&nbsp;: ", "", $string);
+    return $string;
+}
+// Filtre différent de wp_title, qui influe sur le title, pas sur le h1.
+add_filter('the_title', 'remove_word_private');
+
 /**
  * Hook for private content 404 redirection
  */
