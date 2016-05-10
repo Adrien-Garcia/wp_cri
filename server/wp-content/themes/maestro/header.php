@@ -81,7 +81,7 @@ echo get_template_part("content","ga");
 									</a>
 								</li>
 								<li>
-									<a href="#" title="Décourvrir l’offre CRID’ONLINE +">
+									<a href="/cridonline-decouvrir-nos-offres/" title="Décourvrir l’offre CRID’ONLINE +">
 										<?php _e('Décourvrir l’offre CRID’ONLINE +'); ?>
 									</a>
 								</li>

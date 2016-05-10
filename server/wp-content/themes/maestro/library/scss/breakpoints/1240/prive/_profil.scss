@@ -12,6 +12,12 @@ div#mon-profil{
 		
 		.img-profil{
 			display: block;
+
+
+			&:before{
+				display:block;
+				@include svgicon('icon-compte', 72px, 72px, #FFF);
+			}
 		}
 
 
