@@ -615,8 +615,8 @@ class NotairesController extends BasePublicController
                 // Only show functions that are addable by a notaire (notaire salarie(e) + collab)
                 $fonctions = Config::$addableFunctions;
             } else {
-                // Every function is needed because it's used to *display* the profile function of the connected user. Which cannot be changed.
-                $fonctions = array();
+                // Used to display the label of the function
+                $fonctions = $collaborator['notairefunction'];
                 // The fax is only displayed in the profile. It's not in the collaborateur popup
                 $collaborator['fax'] = empty($_GET['collaborator_fax']) ? '' : trim($_GET['collaborator_fax']) ;
             }

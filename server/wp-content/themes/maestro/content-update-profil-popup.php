@@ -17,12 +17,8 @@
         </div>
         <div class="fonction">
             <select name="profil_function" id="profil_function" disabled>
-                <?php if(is_array($notaire_functions) && count($notaire_functions) > 0): ?>
-                    <?php foreach($notaire_functions as $item) : ?>
-                        <?php if(!empty($collaborator['notairefunction']) && $item->id_fonction_notaire == $collaborator['notairefunction']) : ?>
-                            <option><?php echo $item->notaire_fonction_label; ?></option>
-                        <?php endif ?>
-                    <?php endforeach; ?>
+                <?php if(!empty($notaire_functions[0]) && !empty($notaire_functions[0]->notaire_fonction_label)) : ?>
+                    <option><?php echo $notaire_functions[0]->notaire_fonction_label; ?></option>
                 <?php endif ?>
             </select>
         </div>
