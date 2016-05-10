@@ -543,7 +543,7 @@ class CridonTools {
     public function getNotaireFunctions($fonctions = array())
     {
         global $wpdb;
-        $ids = join(',',$fonctions);
+        $ids = implode(',',$fonctions);
 
         $sql = " SELECT f.`id` as `id_fonction_notaire`,f.`label` as `notaire_fonction_label`
         FROM `{$wpdb->prefix}fonction` f
