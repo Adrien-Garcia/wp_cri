@@ -2873,13 +2873,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $options['page']     = empty($params['page']) ? 1 : intval($params['page']);
         $options['per_page'] = !empty($params['per_page']) ? $params['per_page'] : DEFAULT_POST_PER_PAGE;
 
+        $totalObjects = mvc_model('QueryBuilder')->findAll('notaire', $query_options, 'cn.id');
+        $total_count = count($totalObjects);
+
         // formation bloc limit
         $limit = $this->db_adapter->get_limit_sql($options);
         $query_options['limit'] = $limit;
 
         $objects = mvc_model('QueryBuilder')->findAll('notaire', $query_options, 'cn.id');
-
-        $total_count = count($objects);
 
         return array(
             'objects'       => $objects,

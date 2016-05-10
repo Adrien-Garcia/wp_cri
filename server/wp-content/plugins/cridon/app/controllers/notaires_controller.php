@@ -545,9 +545,6 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->prepareSecureAccess();
-        //show every member of an office
-        $collection = $this->model->listOfficeMembers($this->current_notaire, $this->params);
-        $this->set('liste', $collection['objects']);
         $message = '';
         if (isset($_REQUEST['message'])){
             if ($_REQUEST['message'] == 'add'){
@@ -562,6 +559,11 @@ class NotairesController extends BasePublicController
             unset ($_REQUEST['message']);
         }
         $this->set('message', $message);
+        //show every member of an office
+        $collection = $this->model->listOfficeMembers($this->current_notaire, $this->params);
+        $this->set('liste', $collection['objects']);
+        // pagination
+        $this->set_pagination($collection);
         // tab rank
         $this->set('onglet', CONST_ONGLET_COLLABORATEUR);
     }

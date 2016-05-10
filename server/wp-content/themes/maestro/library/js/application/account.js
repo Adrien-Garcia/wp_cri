@@ -66,8 +66,10 @@ App.Account = {
     accountSoldeDataSelector            : '#js-solde-data',
     accountSoldeSVGSelector             : '#solde-circle-path',
     accountPopupCridonline              : '#layer-cridonline',
+    accountQuestions                    : '#mes-questions',
     accountProfil                       : '#profil',
     accountCridonline                   : '#cridonline',
+    accountCollaborateur                : '#mes-collaborateurs',
     accountPopupCollaborateurDelete     : '#layer-collaborateur-delete',
     accountPopupCollaborateurAdd        : '#layer-collaborateur-add',
     accountPopupProfilModify            : '#layer-update-profil',
@@ -211,7 +213,8 @@ App.Account = {
             $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).css('height', h);
         }).bind(this));
 
-       
+        this.$questions         = $(this.accountQuestions);
+
         $.datepicker.setDefaults({
             dateFormat: "dd/mm/yy"
         });
@@ -334,6 +337,8 @@ App.Account = {
 
         var d = this.defaultSelector;
 
+        this.$accountCollaborateurPagination             = $(d + this.ajaxSelector + this.ajaxPaginationSelector).find(this.paginationSelector);
+
         var nonce   = document.createElement('input');
         nonce.type  = 'hidden';
         nonce.name  = 'tokencrud';
@@ -374,6 +379,8 @@ App.Account = {
         this.popupCollaborateurAddInit();
 
         this.$accountCollaborateurAddButton = $(d + this.accountCollaborateurSelector + this.accountCollaborateurAddSelector + this.eventAccountButtonSelector);
+
+        this.$collaborateur               = $(this.accountCollaborateur);
 
         this.addListenersCollaborateur();
     },
@@ -696,6 +703,11 @@ App.Account = {
             self.eventAccountCollaborateurAddSubmit($(this));
         });
 
+        this.$accountCollaborateurPagination.on('click', function (e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountCollaborateurPagination($(this));
+        });
     },
 
     /*
@@ -841,7 +853,7 @@ App.Account = {
         var url = link.attr('href');
 
 
-        var targetid = link.data('js-target-id');
+        //var targetid = link.data('js-target-id');
         this.$accountBlocks.removeClass("active");
         this.$accountContentBlocks.removeClass("active");
         this.$accountQuestion.addClass("active");
@@ -849,8 +861,7 @@ App.Account = {
             url: url,
             success: function(data)
             {
-                $('#'+targetid).html(data);
-                // self.$accountQuestionAjax.html(data);
+                self.$questions.html(data);
                 self.debug('Account Question Pagination Loaded');
                 self.initQuestions();
                 App.Utils.scrollTop(undefined, "#historique-questions");
@@ -1094,7 +1105,27 @@ App.Account = {
     successCridonline: function (html) {
         this.$cridonline.html(html);
         this.initCridonlineValidation();
-        App.Utils.scrollTop(undefined, "#cridonline-validation-popup");
+        App.Utils.scrollTop(undefined, this.$cridonline);
+    },
+
+    eventAccountCollaborateurPagination: function(link) {
+        var self = this;
+        var url = link.attr('href');
+
+        this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
+        this.$accountCollaborateur.addClass("active");
+        $.ajax({
+            url: url,
+            success: function(data)
+            {
+                data = JSON.parse(data);
+                self.$collaborateur.html(data.view);
+                self.debug('Account Question Pagination Loaded');
+                self.initCollaborateur();
+                App.Utils.scrollTop(undefined,self.$collaborateur);
+            }
+        });
     },
 
     eventAccountCollaborateurDeleteSubmit: function (form) {
