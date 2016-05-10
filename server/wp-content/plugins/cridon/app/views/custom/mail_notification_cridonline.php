@@ -67,8 +67,8 @@
                 <?php
                 $home = home_url();
 
-                $modelFile = "banner.png";
-                $alt = "Ma veille juridique";
+                $modelFile = "banner-cridonline.png";
+                $alt = "Inscription Crid'online";
                 ?>
                 <img src="<?php echo plugins_url( "../public/images/mail/".$modelFile, dirname(__FILE__) ) ?>" alt="<?php echo $alt ; ?>" />
             </td>
@@ -82,26 +82,28 @@
             <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
 
-
-
                 <p>
-                    Vous avez choisi l’offre CRID’ONLINE <?php echo $level_label ?> pour <?php echo $price ?> € HT par an.
-                    Votre abonnement a bien été prise en compte pour la période du  <?php echo date('d M Y',strtotime($start_subscription_date)) ?> au <?php echo date('d M Y',strtotime($end_subscription_date)) ?>.
-                    Le service est actif dès à présent.
-                    Veuillez imprimer, remplir et nous envoyer le mandat de prélèvement SEPA signé par une personne habilitée ainsi qu’un RIB à l’adresse suivante :
-
-                    CRIDON LYON
-                    Service comptabilité
-                    37 boulevard des Brotteaux
-                    69455 LYON CEDEX 06
-
-                    Veuillez également envoyer une copie du mandat de prélèvement SEPA signé à votre banque.
-
+                    <h2>Vous avez choisi l’offre CRID’ONLINE <?php echo $level_label ?> pour <?php echo $price ?> € HT par an.</h2>
+                    <br />
+                    Votre abonnement a bien été pris en compte pour la période du  <strong><?php echo date('d M Y',strtotime($start_subscription_date)) ?></strong> au <strong><?php echo date('d M Y',strtotime($end_subscription_date)) ?></strong>.<br />
+                    <br />
+                    <h3>Le service est actif dès à présent.</h3>
+                    <br />
+                    Veuillez imprimer, remplir et nous envoyer le mandat de prélèvement SEPA signé par une personne habilitée ainsi qu’un RIB à l’adresse suivante :<br />
+                    <br />
+                    CRIDON LYON<br />
+                    Service comptabilité<br />
+                    37 boulevard des Brotteaux<br />
+                    69455 LYON CEDEX 06<br />
+                    <br />
+                    Veuillez également envoyer une copie du mandat de prélèvement SEPA signé à votre banque.<br />
+                    <br />
                     <strong>Nous attirons votre attention sur le fait que l’envoi d’une copie à votre banque est obligatoire sous peine de rejet du prélèvement et de facturation de frais bancaires.
                     </strong>
                 </p>
 
-                <p></p>
+
+
             <td width="20" style="background-color:#fff;"></td>
         </tr>
         </td>

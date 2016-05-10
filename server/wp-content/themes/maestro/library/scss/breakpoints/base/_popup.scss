@@ -651,13 +651,16 @@
 input[type="email"]{
 
 	max-width: 100%;	
-	color:$bleu;
+	color:$bleu !important;
 	text-transform: none;
 	font-family: $dosis;
 	font-weight: 600;
 
-
-}
+	//border:solid 10px red !important; 
+} 
+	width: 100%;
+	height: auto;
+	background: #FFF;
 
 	.message-erreur{
 
@@ -673,9 +676,7 @@ input[type="email"]{
 		
 	}
  
-	width: 100%;
-	height: auto;
-	background: #FFF;
+	
 
 	>.titre{
 		width: 100%;
@@ -773,7 +774,7 @@ input[type="email"]{
 
 		padding: 20px;
 
-		input[type="text"]{
+		input[type="text"],input[type="email"]{
 
 			color: $bleu;
 			  font-size: 18px;

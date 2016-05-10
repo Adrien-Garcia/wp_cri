@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<div class="bloc-cridonline niveau-2 <?php echo $notaire->etude->subscription_level >= 2 ? ' on ' : ' off '; ?><?php echo $isSubcribable ? "large" : "" ?>">
+<div class="bloc-cridonline niveau-2 <?php echo $notaire->etude->subscription_level == 1 ? ' non-actif' : ''; ?><?php echo $notaire->etude->subscription_level == 2 ? ' on' : ''; ?> <?php echo $notaire->etude->subscription_level == 3 ? ' normal' : ''; ?><?php echo $isSubcribable ? " large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <?php if ($notaire->etude->subscription_level < 2 ):?>
@@ -52,7 +52,7 @@
         <?php endif;?>
     </div>
 </div>
-<div class="bloc-cridonline niveau-3 <?php echo $notaire->etude->subscription_level >= 3 ? ' on ' : ' off '; ?> <?php echo $isSubcribable ? "large" : "" ?>">
+<div class="bloc-cridonline niveau-3 <?php echo $notaire->etude->subscription_level == 3 ? ' on' : ''; ?><?php echo $notaire->etude->subscription_level == 1 ? '' : ' non-actif'; ?><?php echo $notaire->etude->subscription_level == 2 ? '' : ' non-actif'; ?><?php echo $isSubcribable ? " large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <?php if ($notaire->etude->subscription_level < 3 ):?>
