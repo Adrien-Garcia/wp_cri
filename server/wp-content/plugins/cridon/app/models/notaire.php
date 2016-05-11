@@ -2848,6 +2848,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 'cn.crpcen'      => $notary->crpcen,
                 'cu.user_status' => CONST_STATUS_ENABLED,
             ),
+            'in' => array(
+                'cn.id_fonction' => Config::$addableFunctions
+            ),
             'not' => array(
                 'cn.id'          => $notary->id,
             ),
