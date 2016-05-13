@@ -3424,6 +3424,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $level_label = CONST_CRIDONLINE_LABEL_LEVEL_3;
         }
         $vars = array (
+            'etude'                  => $etude,
             'level_label'            => $level_label,
             'price'                  => $subscription_info['subscription_price'],
             'start_subscription_date'=> $subscription_info['start_subscription_date'],
