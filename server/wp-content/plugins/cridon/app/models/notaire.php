@@ -2909,15 +2909,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         $user->add_role(CONST_NOTAIRE_ORG_ROLE);
                     }
                 }
-                /**
-                 * finance role
-                 * to be matched in list of authorized user by function
-                 *
-                 * @see \Config::$canAccessFinance
-                 */
-                if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
-                    $user->add_role(CONST_FINANCE_ROLE);
-                    $user->add_role(CONST_COLLABORATEUR_TAB_ROLE);
+                $rolesNotaire = Config::$notaryRolesByFunction['notaries'];
+                if (!empty($rolesNotaire[$notary->id_fonction])){
+                    foreach ($rolesNotaire[$notary->id_fonction] as $role){
+                        $user->add_role($role);
+                    }
                 }
 
                 // disable admin bar
