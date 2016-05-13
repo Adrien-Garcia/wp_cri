@@ -3412,7 +3412,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             'price'                  => $subscription_info['subscription_price'],
             'start_subscription_date'=> $subscription_info['start_subscription_date'],
             'end_subscription_date'  => $subscription_info['end_subscription_date'],
-            'urlCGUV'                => mvc_model('Document')->generatePublicUrl
+            //'urlCGUV'                => mvc_model('Document')->generatePublicUrl
         );
 
         $message = CriRenderView('mail_notification_cridonline', $vars, 'custom', false);
