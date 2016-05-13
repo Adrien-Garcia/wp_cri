@@ -480,14 +480,15 @@ function getMatieresByNotaire(){
 
 /**
  * Check if notaire can access sensitive informations
+ * @param string $role
  *
  * @return bool
  */
-function CriCanAccessSensitiveInfo() {
+function CriCanAccessSensitiveInfo($role) {
     // check if user connected is notaire
     if (CriIsNotaire()) {
         // user data
-        return mvc_model('notaire')->userCanAccessSensitiveInfo();
+        return mvc_model('notaire')->userCanAccessSensitiveInfo($role);
     }
     return false;
 }
@@ -967,16 +968,6 @@ function CriSendPostQuestConfirmation($question) {
             wp_mail($dest, $subject, $message, $headers);
         }
     }
-}
-
-/**
- * Check if  current user can manage Collaborator
- *
- * @return bool
- * @throws Exception
- */
-function CriCanManageCollaborator() {
-    return mvc_model('notaire')->userCanManageCollaborator();
 }
 
 /**

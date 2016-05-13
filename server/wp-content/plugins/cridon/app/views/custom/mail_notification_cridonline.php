@@ -29,7 +29,7 @@
 
         h1 {color:#009999; font-weight:normal; font-size:28px; text-transform:uppercase; line-height:25px; margin:15px 0px 5px 0px; padding:0px; font-family:'Dosis', Arial, Helvetica, sans-serif;}
         h2 {font-size: 20px; line-height: 18px; text-transform: uppercase;  margin:10px 0px; color:#2e4867; font-weight:normal; padding:0px; font-family:'Dosis', Arial, Helvetica, sans-serif;}
-        h3 {font-size: 20px; line-height: 18px; text-transform: uppercase; margin:10px 0px 2px 20px; color:#009999; font-weight:normal; padding:0px; font-family: 'Dosis', Arial, Helvetica, sans-serif;}
+        h3 {font-size: 20px; line-height: 18px; text-transform: uppercase; margin:10px 0px 2px 0px; color:#009999; font-weight:normal; padding:0px; font-family: 'Dosis', Arial, Helvetica, sans-serif;}
 
         a {
             cursor:pointer;
@@ -41,7 +41,7 @@
         .footerlinks a{color:#fff; text-decoration:none;}
         .cridon_footer{font-weight:bold; font-size:16px; font-family:Dosis, Arial, Helvetica, sans-serif;}
 
-        p{margin:0px; padding:0px}
+        p{margin:10px 0 10px 0; padding:0px}
 
         .s{background-color:#ffd500; text-decoration: none;}
         .introduction{color:#b9003f; font-size:16px; line-height:22px; font-weight:normal;}
@@ -82,25 +82,28 @@
             <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
 
-                <p>
-                    <h2>Vous avez choisi l’offre CRID’ONLINE <?php echo $level_label ?> pour <?php echo $price ?> € HT par an.</h2>
-                    <br />
-                    Votre abonnement a bien été pris en compte pour la période du  <strong><?php echo date('d M Y',strtotime($start_subscription_date)) ?></strong> au <strong><?php echo date('d M Y',strtotime($end_subscription_date)) ?></strong>.<br />
-                    <br />
-                    <h3>Le service est actif dès à présent.</h3>
-                    <br />
-                    Veuillez imprimer, remplir et nous envoyer le mandat de prélèvement SEPA signé par une personne habilitée ainsi qu’un RIB à l’adresse suivante :<br />
-                    <br />
-                    CRIDON LYON<br />
-                    Service comptabilité<br />
-                    37 boulevard des Brotteaux<br />
-                    69455 LYON CEDEX 06<br />
-                    <br />
-                    Veuillez également envoyer une copie du mandat de prélèvement SEPA signé à votre banque.<br />
-                    <br />
-                    <strong>Nous attirons votre attention sur le fait que l’envoi d’une copie à votre banque est obligatoire sous peine de rejet du prélèvement et de facturation de frais bancaires.
-                    </strong>
-                </p>
+
+                <p><strong>Étude : <?php echo $etude->office_name ?></strong></p>
+                <h2>Vous avez choisi l’offre CRID’ONLINE <?php echo $level_label ?> pour <?php echo $price ?> € HT par an.</h2>
+
+                <p>Votre abonnement a bien été pris en compte pour la période du  <strong><?php echo date('d M Y',strtotime($start_subscription_date)) ?></strong> au <strong><?php echo date('d M Y',strtotime($end_subscription_date)) ?></strong>.</p>
+
+                <p> Nous vous remercions de votre confiance</p>
+
+                <h3>Le service est actif dès à présent.</h3>
+
+                <p>Veuillez imprimer, remplir et nous envoyer le mandat de prélèvement SEPA signé par une personne habilitée ainsi qu’un RIB à l’adresse suivante :</p>
+
+                <p><i>CRIDON LYON<br />
+                        Service comptabilité<br />
+                        37 boulevard des Brotteaux<br />
+                        69455 LYON CEDEX 06</i></p>
+
+                <p>Veuillez également envoyer une copie du mandat de prélèvement SEPA signé à votre banque.</p>
+
+                <p><strong>Nous attirons votre attention sur le fait que l’envoi d’une copie à votre banque est obligatoire sous peine de rejet du prélèvement et de facturation de frais bancaires.
+                    </strong></p>
+
 
 
 

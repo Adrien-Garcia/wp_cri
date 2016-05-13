@@ -59,7 +59,7 @@
 									<span>Mon profil</span>
 								</a>
 							</li>
-							<?php if (CriCanAccessSensitiveInfo()): ?>
+							<?php if (CriCanAccessSensitiveInfo(CONST_FINANCE_ROLE)): ?>
 							<li
 								class="js-account-facturation js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_FACTURATION) ? " active " : "" ?>"
 								data-js-name="Facturation"
@@ -73,8 +73,8 @@
 									<span>Règles de facturation</span>
 								</a>
 							</li>
-							<?php endif ?>
-							<?php if (CriCanAccessSensitiveInfo()): ?>
+							<?php endif; ?>
+							<?php if (CriCanAccessSensitiveInfo(CONST_FINANCE_ROLE)): ?>
 							<li
 								class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
 								data-js-name="Cridonline"
@@ -88,7 +88,8 @@
 									<span><span>Crid</span>'Online</span>
 								</a>
 							</li>
-							<?php endif ?>
+							<?php endif; ?>
+							<?php if (CriCanAccessSensitiveInfo(CONST_COLLABORATEUR_TAB_ROLE)): ?>
 							<li
 								class="js-account-collaborateur js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>"
 								data-js-name="Collaborateur"
@@ -102,6 +103,7 @@
 									<span>Mes collaborateurs</span>
 								</a>
 							</li>
+							<?php endif; ?>
 						</ul>
 					</nav>
 				</div>

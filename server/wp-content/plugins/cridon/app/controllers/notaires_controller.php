@@ -32,7 +32,7 @@ class NotairesController extends BasePublicController
             $this->redirect(home_url());
         } elseif (isset($mvc_params['action'])
                   && (in_array($mvc_params['action'],Config::$protected_pages))
-                  && !$this->model->userCanAccessSensitiveInfo()
+                  && !$this->model->userCanAccessSensitiveInfo(CONST_FINANCE_ROLE)
         ) { // check if is page sensitive information && notary can access
             // redirect to profil page
             $url = mvc_public_url(array('controller' => 'notaires', 'action' => 'show'));

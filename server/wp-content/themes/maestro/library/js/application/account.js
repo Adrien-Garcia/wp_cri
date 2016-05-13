@@ -700,7 +700,11 @@ App.Account = {
         $(document).on('submit',this.$accountCollaborateurAddForm.selector, function (e) {
             e.returnValue = false;
             e.preventDefault();
-            self.eventAccountCollaborateurAddSubmit($(this));
+            var disabled = $(this).data('js-disabled');
+            if (disabled == false) {
+                $(this).data('js-disabled',true);
+                self.eventAccountCollaborateurAddSubmit($(this));
+            }
         });
 
         this.$accountCollaborateurPagination.on('click', function (e) {
@@ -1279,6 +1283,7 @@ App.Account = {
             var message = jsvar.collaborateur_function_error;
             var content = $(document.createElement('div')).text(message);
             $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
+            form.data('js-disabled',false);
         } else {
             jQuery.ajax({
                 type: 'POST',
@@ -1312,6 +1317,7 @@ App.Account = {
             var message = data.error;
             var content = $(document.createElement('div')).text(message);
             $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
+            $(this.$accountCollaborateurAddForm.selector).data('js-disabled',false);
         } else {
             window.location.href = data.view;
         }
