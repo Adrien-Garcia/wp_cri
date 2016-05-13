@@ -1,4 +1,4 @@
-<?php if (CriCanAccessSensitiveInfo(CONST_QUESTIONECRITES_ROLE)) : ?>
+<?php if (CriIsNotaire() && CriCanAccessSensitiveInfo(CONST_QUESTIONECRITES_ROLE)) : ?>
 <div id="layer-posez-question" style="display:none;">
 
 	<form action="" id="questionFormId" method="post" enctype="multipart/form-data" class="js-question-form">
