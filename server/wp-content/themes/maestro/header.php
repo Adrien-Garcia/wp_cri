@@ -41,6 +41,9 @@
     if (CriIsNotaire()) {
         $bodyClass[] = "is_notaire";
     }
+	if (CriCanAccessSensitiveInfo(CONST_QUESTIONECRITES_ROLE)) {
+		$bodyClass[] = "has_question_role";
+	}
 ?>
 <body <?php body_class($bodyClass); ?>>
 <?php
@@ -91,7 +94,12 @@ echo get_template_part("content","ga");
 					<!-- <a class="contacter" href="#">
 						<?php // _e('Contacter'); ?>
 					</a> -->
-					<a class="poser-question layer-posez-question_open js-question-open analytics_Poser_question" href="#">
+					<a
+						class="poser-question layer-posez-question_open js-question-open analytics_Poser_question"
+						data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE'; ?>"
+						href="#"
+					>
+
 						<?php _e('Poser une question'); ?>
 					</a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
