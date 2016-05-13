@@ -55,7 +55,7 @@
         </div>
         <div>
             <!-- <label for="collaborator_email">E-mail</label> -->
-            <input type="email" name="collaborator_email" placeholder="<?php _e('Email *'); ?>" id="collaborator_email" class="js-account-collaborateur-add-email" value="<?php echo empty($collaborator['emailaddress']) ? '' : $collaborator['emailaddress'] ?>" required>
+            <input type="email" name="collaborator_email" placeholder="<?php _e('Email '); ?>" id="collaborator_email" class="js-account-collaborateur-add-email" value="<?php echo empty($collaborator['emailaddress']) ? '' : $collaborator['emailaddress'] ?>">
         </div>
         <div class="droit-collaborateur">
             <p>Droits du collaborateur</p>

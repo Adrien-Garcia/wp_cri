@@ -149,6 +149,7 @@ class MajNotaryRole
                      */
                     if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
                         $user->add_role(CONST_FINANCE_ROLE);
+                        $user->add_role(CONST_COLLABORATEUR_TAB_ROLE);
                     }
                 }
             }

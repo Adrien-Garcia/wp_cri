@@ -15,6 +15,8 @@ require_once '../wp-load.php';
 
 // add  notary role
 add_role( CONST_NOTAIRE_ROLE, 'Notaires' );
+// add  access collaborateur tab
+add_role( CONST_COLLABORATEUR_TAB_ROLE, 'Accès onglet collaborateur' );
 // add  access finance role
 add_role( CONST_FINANCE_ROLE, 'Accès finances' );
 // add  access add question role

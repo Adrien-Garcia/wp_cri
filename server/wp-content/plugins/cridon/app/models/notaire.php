@@ -992,6 +992,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                  */
                 if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
                     $user->add_role(CONST_FINANCE_ROLE);
+                    $user->add_role(CONST_COLLABORATEUR_TAB_ROLE);
                 }
             }
         }
@@ -1948,10 +1949,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
     /**
      * Check if users can access sensitive informations
+     * @param string $role
      *
      * @return bool
      */
-    public function userCanAccessSensitiveInfo()
+    public function userCanAccessSensitiveInfo($role)
     {
         global $current_user;
 
@@ -1959,7 +1961,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
         return (isset($object->category)
                 && (strcasecmp($object->category, CONST_OFFICES_ROLE) === 0)
-                && in_array(CONST_FINANCE_ROLE, (array) $current_user->roles)
+                && in_array($role, (array) $current_user->roles)
         ) ? true : false;
     }
 
@@ -2542,22 +2544,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     /**
-     * Check if user can manage collaborator
-     *
-     * @return bool
-     */
-    public function userCanManageCollaborator()
-    {
-        if (is_user_logged_in()) {
-            $notary = $this->getUserConnectedData();
-
-            return (is_object($notary) && in_array(CONST_FINANCE_ROLE, (array) $notary->roles));
-        }
-
-        return false;
-    }
-
-    /**
      * Delete collaborator
      *
      * @param int $id
@@ -2931,6 +2917,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                  */
                 if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
                     $user->add_role(CONST_FINANCE_ROLE);
+                    $user->add_role(CONST_COLLABORATEUR_TAB_ROLE);
                 }
 
                 // disable admin bar
@@ -3429,6 +3416,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             'price'                  => $subscription_info['subscription_price'],
             'start_subscription_date'=> $subscription_info['start_subscription_date'],
             'end_subscription_date'  => $subscription_info['end_subscription_date'],
+            'urlCGUV'                => mvc_model('Document')->generatePublicUrl
         );
 
         $message = CriRenderView('mail_notification_cridonline', $vars, 'custom', false);

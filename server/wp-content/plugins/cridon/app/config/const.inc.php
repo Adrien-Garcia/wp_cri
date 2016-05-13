@@ -22,6 +22,9 @@ if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
 if ( !defined( 'CONST_CONNAISANCE_ROLE' ) ) {
     define( 'CONST_CONNAISANCE_ROLE', 'accesconnaissance' );
 }
+if ( !defined( 'CONST_COLLABORATEUR_TAB_ROLE' ) ) {
+    define( 'CONST_COLLABORATEUR_TAB_ROLE', 'accesongletcollaborateur' );
+}
 if ( !defined( 'CONST_FINANCE_ROLE' ) ) {
     define( 'CONST_FINANCE_ROLE', 'accesfinances' );
 }
