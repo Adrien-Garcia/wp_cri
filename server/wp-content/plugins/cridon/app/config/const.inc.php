@@ -1102,3 +1102,6 @@ if ( !defined( 'CONST_UPDATEERP_ERROR' ) ) {
 if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
     define( 'CONST_DELCOLLAB_ERROR', 'Mise à jour données notaires (suppression) : %s' );
 }
+if ( !defined( 'CONST_DATE_NULL_ORACLE' ) ) {
+    define( 'CONST_DATE_NULL_ORACLE', '31/12/1599' );
+}
