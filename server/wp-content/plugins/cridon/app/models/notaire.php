@@ -2763,7 +2763,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $notary->tel_portable . "', "; // CNTMOB
                             $value .= "'" . $notary->fax . "', "; // FAX
                             $value .= "'" . date('Y-m-d') . "', "; // YFINPRE
-                            $value .= "'" . $notary->web_password . "', "; // YFINPRE
+                            $value .= "'" . $notary->web_password . "', "; // YMDPWEB
                             $value .= "'" . $notary->tel_password . "', "; // ZMDPTEL
                             $value .= "'" . $notary->adress_1 . "', "; // ADDLIG1
                             $value .= "'" . $notary->adress_2 . "', "; // ADDLIG2
@@ -3173,7 +3173,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . (empty($notary->tel) ? ' ' : $notary->tel) . "', "; // TEL
                             $value .= "'" . (empty($notary->tel_portable) ? ' ' : $notary->tel_portable) . "', "; // CNTMOB
                             $value .= "'" . (empty($notary->fax) ? ' ' : $notary->fax) . "', "; // FAX
-                            $value .= "'', "; // YFINPRE
+                            $value .= "TO_DATE('" . CONST_DATE_NULL_ORACLE . "', 'dd/mm/yyyy'), "; // YFINPRE
                             $value .= "'" . (empty($notary->web_password) ? ' ' : $notary->web_password) . "', "; // YMDPWEB
                             $value .= "'" . (empty($notary->tel_password) ? ' ' : $notary->tel_password) . "', "; // ZMDPTEL
                             $value .= "'" . (empty($notary->adress_1) ? ' ' : $notary->adress_1) . "', "; // ADDLIG1
