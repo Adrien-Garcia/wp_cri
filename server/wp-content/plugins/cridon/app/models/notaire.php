@@ -2701,7 +2701,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                             $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
                             $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
-                            $value .= "'" . $notary->first_name . "', "; // CNTLNA
+                            $value .= "'" . $notary->last_name . "', "; // CNTLNA
                             $value .= "'" . (empty($notary->code_interlocuteur) ? ' ' : $notary->code_interlocuteur) . "', "; // CCNCRM
                             $value .= "'" . $notary->id . "', "; // YIDNOT
                             $value .= "'" . $notary->first_name . "', "; // CNTFNA
@@ -3163,7 +3163,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                             $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
                             $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
-                            $value .= "'" . $notary->first_name . "', "; // CNTLNA
+                            $value .= "'" . $notary->last_name . "', "; // CNTLNA
                             $value .= "'" . (empty($notary->code_interlocuteur) ? ' ' : $notary->code_interlocuteur) . "', "; // CCNCRM
                             $value .= "'" . $notary->id . "', "; // YIDNOT
                             $value .= "'" . $notary->first_name . "', "; // CNTFNA
@@ -3225,7 +3225,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                             $value .= "'" . $notary->id . time() . "', "; // YIDCOLLAB
                             $value .= "'" . $notary->crpcen . "', "; // YCRPCEN
-                            $value .= "'" . $notary->first_name . "', "; // CNTLNA
+                            $value .= "'" . $notary->last_name . "', "; // CNTLNA
                             $value .= "'" . $notary->code_interlocuteur . "', "; // CCNCRM
                             $value .= "'" . $notary->id . "', "; // YIDNOT
                             $value .= "'" . $notary->first_name . "', "; // CNTFNA
