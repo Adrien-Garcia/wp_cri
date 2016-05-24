@@ -71,7 +71,7 @@
 
             <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONTELEPHONIQUES_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
                 <input type="checkbox" name="question_tel" class="js-account-collaborateur-cap js-account-collaborateur-cap-questionstel" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONTELEPHONIQUES_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
-                <span><?php _e("Poser des questions téléphoniques)"); ?></span>
+                <span><?php _e("Poser des questions téléphoniques"); ?></span>
             </label>
 
             <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_CONNAISANCE_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
