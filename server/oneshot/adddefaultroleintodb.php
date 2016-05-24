@@ -25,6 +25,10 @@ add_role( CONST_QUESTIONECRITES_ROLE, 'Poser des questions écrites' );
 add_role( CONST_QUESTIONTELEPHONIQUES_ROLE, 'Poser des questions téléphoniques' );
 // add  access "connaissance" role
 add_role( CONST_CONNAISANCE_ROLE, 'Accès aux bases de connaissance' );
+// add  access modify office role
+add_role( CONST_MODIFYOFFICE_ROLE, 'Modifier les informations de l\'étude');
+// add  access cridonline subscription role
+add_role( CONST_CRIDONLINESUBSCRIPTION_ROLE, 'Souscrire aux offres cridonline');
 // add notary specific role
 add_role( CONST_NOTAIRE_DIV_ROLE, 'Notaires DIV' );
 add_role( CONST_NOTAIRE_ORG_ROLE, 'Notaires ORG' );

@@ -34,6 +34,12 @@ if ( !defined( 'CONST_QUESTIONECRITES_ROLE' ) ) {
 if ( !defined( 'CONST_QUESTIONTELEPHONIQUES_ROLE' ) ) {
     define( 'CONST_QUESTIONTELEPHONIQUES_ROLE', 'accesquesttelephoniques' );
 }
+if ( !defined( 'CONST_MODIFYOFFICE_ROLE' ) ) {
+    define( 'CONST_MODIFYOFFICE_ROLE', 'modifyoffice' );
+}
+if ( !defined( 'CONST_CRIDONLINESUBSCRIPTION_ROLE' ) ) {
+    define( 'CONST_CRIDONLINESUBSCRIPTION_ROLE', 'cridonlinesubscription' );
+}
 if ( !defined( 'CONST_NOTAIRE_DIV_ROLE' ) ) {
     define( 'CONST_NOTAIRE_DIV_ROLE', 'notaire_div' );
 }
