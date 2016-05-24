@@ -665,6 +665,12 @@ class NotairesController extends BasePublicController
                     if (isset($data['collaborator_cap_connaissances']) && $data['collaborator_cap_connaissances'] == 'true') {
                         $data[CONST_CONNAISANCE_ROLE] = true;
                     }
+                    if (isset($data['collaborator_cap_modifyoffice']) && $data['collaborator_cap_modifyoffice'] == 'true') {
+                        $data[CONST_MODIFYOFFICE_ROLE] = true;
+                    }
+                    if (isset($data['collaborator_cap_cridonlinesubscription']) && $data['collaborator_cap_cridonlinesubscription'] == 'true') {
+                        $data[CONST_CRIDONLINESUBSCRIPTION_ROLE] = true;
+                    }
                 }
                 //get current notaire
                 $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);

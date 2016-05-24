@@ -517,6 +517,8 @@ class Config {
         CONST_CONNAISANCE_ROLE             => 'Accès aux bases de connaissance', // par tout le monde
         CONST_QUESTIONECRITES_ROLE         => 'Poser des questions écrites',
         CONST_QUESTIONTELEPHONIQUES_ROLE   => 'Poser des questions téléphoniques',
+        CONST_MODIFYOFFICE_ROLE            => "Modifier les informations de l'étude",
+        CONST_CRIDONLINESUBSCRIPTION_ROLE  => "Souscription à l'offre CRID'ONLINE",
     );
 
 
