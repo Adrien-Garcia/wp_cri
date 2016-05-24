@@ -130,7 +130,25 @@ class VeillesController extends BaseActuController {
         if ( !CriIsNotaire() ) {
             CriRefuseAccess();
         } else {
-            parent::show();
+            // check if user can access this level
+            if ($this->model->userCanAccessSingle($this)) {
+                $download_url = '';
+                if (isset($_GET['id_doc']) && $_GET['id_doc']) {
+                    $download_url = mvc_public_url(array('controller' => 'documents', 'action' => 'download', 'id' => $_GET['id_doc']));
+                }
+                $this->set('download_url', $download_url);
+
+                parent::show();
+            } else {
+                // redirect to information page
+                $options = array(
+                    'controller' => 'notaires',
+                    'action'     => 'cridonline'
+                );
+                $publicUrl  = MvcRouter::public_url($options);
+                $publicUrl.='?error=NIVEAU_VEILLE_INSUFFISANT';
+                wp_redirect( $publicUrl, 302 );
+            }
         }
     }
 

@@ -177,6 +177,13 @@ jQuery(document).ready(function($) {
                 "close"
              ]
           }
+          /*{
+             "position": "bottom",
+             "content": [
+               "<a href='http://www.lexbase.fr/' target='_blank'><img src='/wp-content/themes/maestro/library/images/origin/logo-lexbase-2.png' alt='lexbase'></a>",
+				"<a href='http://www.wolterskluwerfrance.fr/' target='_blank'><img src='/wp-content/themes/maestro/library/images/origin/logo-woltersKluwer-2.png' alt='Wolters Kluwer'></a>"
+             ]
+          }*/
        ]
     });
 
@@ -192,14 +199,18 @@ jQuery(document).ready(function($) {
     	event.preventDefault();
     });
 
+     
+
+
+
+     /* ANNIM MENU ACCEDER A MON COMPTE*/
+
     $("#acceder-compte > li > a.acceder-compte").mouseenter(function(){
     	$("#acceder-compte .logout-2").addClass('visible');
     });
     $("#acceder-compte > li > a.acceder-compte").mouseleave(function(){
     	$("#acceder-compte .logout-2").removeClass('visible');
     });
-
-    
 
     $(".logout-2").hover(function(){
     	$("#acceder-compte .logout-2").addClass('visible');
@@ -209,8 +220,21 @@ jQuery(document).ready(function($) {
     })
     
 
+    /* ANNIM MENU RECHERCHER DANS LES BASES DE CONNAISSANCES */
 
+    $("#rechercher > li > a").mouseenter(function(){
+      $("#rechercher .overlay").addClass('visible');
+    });
+    $("#rechercher > li").mouseleave(function(){
+      $("#rechercher .overlay").removeClass('visible');
+    });
 
+    $("#rechercher .overlay").hover(function(){
+      $("#rechercher .overlay").addClass('visible');
+    });
+    $("#rechercher .overlay").mouseleave(function(){
+      $("#rechercher .overlay").removeClass('visible');
+    })
 
 
 
@@ -223,5 +247,6 @@ jQuery(document).ready(function($) {
     	$("#tri_matiere + .panel").toggle('slow');
 
     });
+
 
 }); /* end of as page load scripts */

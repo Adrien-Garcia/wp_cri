@@ -1,0 +1,227 @@
+/***
+
+  ____ ___ _   _  ____ _     _____  __     _______ ___ _     _     _____ ____  
+ / ___|_ _| \ | |/ ___| |   | ____| \ \   / / ____|_ _| |   | |   | ____/ ___| 
+ \___ \| ||  \| | |  _| |   |  _|    \ \ / /|  _|  | || |   | |   |  _| \___ \ 
+  ___) | || |\  | |_| | |___| |___    \ V / | |___ | || |___| |___| |___ ___) |
+ |____/___|_| \_|\____|_____|_____|    \_/  |_____|___|_____|_____|_____|____/ 
+                                                                               
+
+
+***/
+
+
+#content.single{
+
+
+	#inner-content{
+
+		.titre {
+			height: auto;
+			
+			span{
+				margin-top: 34px;
+			}
+		}
+
+		.sep{
+			margin-top: 38px;
+		}
+
+
+		article{
+
+			padding-top: 20px;
+			padding-bottom: 30px;
+			
+
+			.date{
+
+				height: 220px;
+				width: 180px;
+				float: left;
+				margin-right: 60px;
+				padding: 50px 0;
+				margin-bottom: 0;
+
+				
+
+				&:before{
+					display: none;
+
+				}
+
+				&:after{
+					@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
+					position:absolute;
+					bottom: 50%;
+					margin-bottom: -23px;
+					left: inherit;
+					right: -13px;
+					margin-left: 0px;
+					display: block;
+
+				}
+
+				span{
+					display: block;
+
+				}
+
+				span.jour{
+					font-size: 72px;
+					line-height: 60px;
+					@extend .do-el;
+				}
+				.mois{
+					font-size: 30px;
+					line-height: 40px;
+
+				}
+				.annee{
+					font-size: 18px;
+					line-height: 15px;
+				}
+			}
+
+
+			.details{
+
+
+				float: right;
+				width: 730px; 
+				margin-right: 220px;
+
+				.block_left{
+					width: 100px;
+					min-height: 100px;
+					margin-right: 10px;	
+
+					.img-cat{
+
+						width: 100px;	
+						height: 100px;
+								
+						img{
+							width: 100px;
+							height: 100px;
+						}
+					}
+
+				}
+
+				// NIVEAU DES VEILLES
+				&.niveau1{
+					.img-cat{								
+						&:after{
+							content:url(../images/reference-desktop.svg);
+							width: 100px;
+							height: 100px;									
+							top: 120px;
+						}
+					}
+				}
+				&.niveau2{
+					.img-cat{
+						&:after{
+							content:url(../images/premium-desktop.svg);
+							width: 100px;
+							height: 100px;									
+							top: 120px;
+						}
+					}
+				}
+				&.niveau3{
+					.img-cat{
+						&:after{
+							content:url(../images/excellence-desktop.svg);
+							width: 100px;
+							height: 100px;									
+							top: 120px;
+						}
+					}
+				}
+
+
+				.block_right{
+					float: left;
+					width: 610px;
+					position: relative;
+
+					.matiere{
+						font-size: 15px;
+						margin-bottom: 5px;
+						top: -2px;
+						
+					} 
+
+					h1{ 
+						
+						font-size: 30px;
+						line-height: 30px;
+
+					}
+
+					.chapeau{
+						font-size: 20px;
+						line-height: 24px;
+						margin-bottom: 20px;
+
+					}
+
+					.extrait{
+						font-size: 15px;
+						
+					}	
+					
+
+				}
+
+				.block_full{
+					clear: none;
+					float: right;
+					width: 620px;
+					padding-left: 0;
+					
+
+					.content{
+						font-size: 15px;
+						line-height: 18px;
+
+					    h2, h3{
+					    	font-size: 20px !important;
+					    	line-height: 25px;	}
+					    
+				    	h3{margin-left: 40px;}					    
+
+					    h3 + p { margin-left: 40px;}
+
+					    
+					}
+					
+					.mots_cles{
+
+						margin:20px 0 0 0; 
+						padding: 0;
+						height: 18px;
+
+						>li{		
+						font-size: 12px;
+							
+						}
+					}
+				}
+			}
+
+		}
+		
+	}
+
+}
+
+#content.single-vie-cridon{
+
+	
+	#inner-content article .details .block_right, #inner-content article .details .block_full {width: 730px;}
+	
+}

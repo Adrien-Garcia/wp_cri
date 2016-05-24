@@ -12,7 +12,6 @@ App.Question = {
     fileQuestionSelector                : '.js-question-file',
     fileQuestionResetSelector           : '.js-file-reset',
     fileQuestionNameSelector            : '.js-file-name',
-    fileQuestionHideSelector            : '.js-file-hide',
     objectQuestionFieldSelector         : '.js-question-object',
     messageQuestionFieldSelector        : '.js-question-message',
 
@@ -44,7 +43,6 @@ App.Question = {
     $fileQuestion                       : null,
     $fileQuestionReset                  : null,
     $fileQuestionName                   : null,
-    $fileQuestionHide                   : null,
     $objectQuestionField                : null,
     $messageQuestionField               : null,
 
@@ -89,7 +87,6 @@ App.Question = {
         this.$fileQuestion                          = $(this.fileQuestionSelector);
         this.$fileQuestionReset                     = $(this.fileQuestionResetSelector);
         this.$fileQuestionName                      = $(this.fileQuestionNameSelector);
-        this.$fileQuestionHide                      = $(this.fileQuestionHideSelector);
 
         this.$buttonQuestionDocumentation           = $(this.buttonQuestionDocumentationSelector);
         this.$buttonQuestionSupportShortcut         = $(this.buttonQuestionSupportSelector);
@@ -177,7 +174,6 @@ App.Question = {
         // reset file list
         this.eventFileReset();
         this.$formQuestion[0].reset();
-        this.openTabQuestionConsultation();
         this.$submitQuestion.attr('disabled',false);
         this.$blockQuestionError.html('');
         this.$formQuestion.append(nonce);
@@ -225,24 +221,28 @@ App.Question = {
 
 
         if ( bClass.indexOf("is_notaire") === -1) {
-            this.$buttonQuestionOpen.add(this.buttonQuestionDocumentationSelector).add(this.buttonQuestionSupportSelector).on('click', function(e) {
+            this.$buttonQuestionOpen.add(this.buttonQuestionDocumentationSelector).add(this.buttonQuestionSupportSelector).on('click', function (e) {
                 App.Login.eventPanelConnexionToggle();
                 App.Login.changeLoginErrorMessage("ERROR_NOT_CONNECTED_QUESTION");
                 App.Login.targetUrl = (typeof App.Login.targetUrl) == "boolean" ? location.origin + location.pathname : App.Login.targetUrl;
 
                 if (App.Utils.queryString == false) {
                     App.Login.targetUrl += "?openQuestion=1";
-                } else if ( ! App.Utils.queryString["openQuestion"]) {
+                } else if (!App.Utils.queryString["openQuestion"]) {
                     App.Login.targetUrl += "&openQuestion=1";
                 }
             });
+        } else if (bClass.indexOf("has_question_role") === -1) {
+            this.$buttonQuestionOpen.on('click',function(e){
+                var url = $(this).data('js-redirect');
+                window.location = url;
+            })
         } else {
             this.$buttonQuestionDocumentation.on('click', function(e) {
                 self.$formQuestion[0].reset();
                 self.$zoneQuestionSupport.removeClass(this.selectedClass);
                 self.$popupOverlay.popup('show');
                 self.openTabQuestionMaQuestion(false);
-                self.eventFileReset();
                 self.eventButtonDocumentationClick($(this));
             });
 
@@ -300,9 +300,6 @@ App.Question = {
                 file.replaceWith(file = file.clone(true));
                 file.wrap('<form>').closest('form').get(0).reset();
                 file.unwrap();
-                if (i != 0){
-                    file.closest(self.fileQuestionHideSelector).addClass('hidden');
-                }
                 self.eventFileChange(file);
             });
         }
@@ -354,7 +351,7 @@ App.Question = {
             }
         });
         this.eventZoneQuestionSupportClick(min.el.parents(this.zoneQuestionSupportSelector).first());
-        this.$selectQuestionMatiere.val(DocumentationID).change();
+        this.$selectQuestionMatiere.val( DocumentationID).change();
         //this.eventSelectQuestionMatiereChange(false);
 
     },

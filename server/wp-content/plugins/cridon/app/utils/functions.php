@@ -479,13 +479,18 @@ function getMatieresByNotaire(){
 }
 
 /**
- * Check if notaire can access finances
+ * Check if notaire can access sensitive informations
+ * @param string $role
  *
  * @return bool
  */
-function CriCanAccessFinance()
-{
-    return mvc_model('notaire')->userCanAccessFinance();
+function CriCanAccessSensitiveInfo($role) {
+    // check if user connected is notaire
+    if (CriIsNotaire()) {
+        // user data
+        return mvc_model('notaire')->userCanAccessSensitiveInfo($role);
+    }
+    return false;
 }
 
 /**
@@ -692,10 +697,10 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
     }
 
     if( empty($request) ) {
-        $request = false;
+        $request = '';
     } else {
         $request = mb_strpos($request, get_home_url()) === false ? get_home_url() . $request : $request;
-        $request = urlencode(htmlspecialchars( $request, ENT_QUOTES, "UTF-8"));
+        $request = urlencode($request);
     }
 
     if (
@@ -904,5 +909,117 @@ function CriVeilleWithUriFilters()
     }
 
     return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
+}
+
+/**
+ * Send confirmation to notary for posted question
+ *
+ * @param array $question
+ * @throws Exception
+ */
+function CriSendPostQuestConfirmation($question) {
+    // get connected user
+    global $current_user;
+
+    // set meail headers
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+    // retrieve notary data
+    $notary = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
+    if (is_object($notary) && property_exists($notary, 'email_adress')) {
+        // default dest for DEV ENV
+        $dest = Config::$notificationAddressPreprod;
+
+        // check environnement
+        $env = getenv('ENV');
+        if ($env === 'PROD') {
+            $dest = $notary->email_adress;
+            if (!$dest) { // notary email is empty
+                // send email to the office
+                $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+                if (is_object($offices) && $offices->office_email_adress_1) {
+                    $dest = $offices->office_email_adress_1;
+                } elseif (is_object($offices) && $offices->office_email_adress_2) {
+                    $dest = $offices->office_email_adress_2;
+                } elseif (is_object($offices) && $offices->office_email_adress_3) {
+                    $dest = $offices->office_email_adress_3;
+                }
+            }
+        }
+
+        // dest must be set
+        if ($dest) {
+            // prepare message
+            $subject = Config::$mailSubjectQuestionStatusChange['1'];
+            $vars    = array(
+                'resume'          => $question['resume'],
+                'content'         => $question['content'],
+                'matiere'         => $question['matiere'],
+                'competence'      => $question['competence'],
+                'support'         => $question['support'],
+                'creation_date'   => $question['dateSoumission'],
+                'date'            => $question['dateSoumission'],
+                'notaire'         => $notary,
+                'type_question'   => '1',
+            );
+            $message = CriRenderView('mail_notification_question', $vars, 'custom', false);
+
+            // send email
+            wp_mail($dest, $subject, $message, $headers);
+        }
+    }
+}
+
+/**
+ * Get list of all existing roles
+ *
+ * @return array
+ */
+function CriListRoles() {
+    return Config::$notaryRoles;
+}
+
+/**
+ * Get list of roles by collaborator
+ * @param mixed $collaborator
+ * @return array
+ */
+function CriGetCollaboratorRoles($collaborator) {
+    // get collaborator associated user
+    if (is_object($collaborator) && $collaborator->id_wp_user) {
+        $user = new WP_User($collaborator->id_wp_user);
+
+        // check if user is a WP_user vs WP_error
+        if ($user instanceof WP_User && is_array($user->roles)) {
+            return $user->roles;
+        }
+    }
+    return array();
+}
+
+/**
+ * Check if notaire can reset password
+ *
+ * @return bool
+ */
+function CriCanResetPwd() {
+    return mvc_model('notaire')->userCanResetPwd();
+}
+
+/**
+ * Get list of all existing roles by function
+ *
+ * @param string $type : notaries|collaborators
+ * @param int $idFonction
+ * @return array
+ */
+function CriListRolesByFunction($type, $idFonction) {
+    $roles = array();
+    if (!empty(Config::$notaryRolesByFunction[$type][$idFonction])) {
+        foreach (Config::$notaryRolesByFunction[$type][$idFonction] as $role) {
+            $roles[$role] = Config::getRoleLabel($role);
+        }
+    }
+    return $roles;
 }
 

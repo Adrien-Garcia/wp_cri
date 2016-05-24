@@ -94,7 +94,7 @@ class CridonLoader extends MvcPluginLoader
                                         }
                                     }
                                 }
-                            } elseif( preg_match_all( "|INSERT ([a-zA-Z0-9`_\s(),':\";\-éèà@ùê&]*)|", $sql, $matches ) ) { // insert
+                            } elseif( preg_match_all( "|INSERT ([a-zA-Z0-9`_\s(),':\";\-\/\\\\éèà@ùê&]*)|", $sql, $matches ) ) { // insert
                                 if( !empty( $matches[0] ) ){
                                     foreach( $matches[0] as $query ){
                                         if ($query)  {

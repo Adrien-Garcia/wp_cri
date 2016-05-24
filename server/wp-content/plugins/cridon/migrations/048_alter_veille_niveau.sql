@@ -1,0 +1,1 @@
+ALTER TABLE `cri_veille` ADD COLUMN `level` INT UNSIGNED DEFAULT 1 NULL AFTER `id_matiere`;

@@ -1,0 +1,890 @@
+/* POPUP POSEZ UNE QUESTION */
+
+#layer-posez-question{
+	width: 100%;
+	height: auto;
+	padding: 10px 10px 0 10px;
+	background: #FFF;
+
+
+
+	.block_top{
+
+		> .titre{
+			width: 100%;
+			height: 50px;
+			background: $vert;
+			position: relative;
+			font-weight: normal;
+
+			&:before{
+				@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
+				position: absolute;
+				left: 50%;
+				margin-left: -24px;
+				bottom:-15px;
+			}
+
+			.close_layer{
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				margin-top: -20px;
+				display: block;
+				width: 40px;
+				height: 40px;
+				
+				&:before{
+					@include svgicon('icon-close-layer-question', 20px, 20px, #FFF);
+					@include rotate(-45);
+					position: absolute;
+					top: 11px;
+					left: 11px;
+				}
+
+				
+
+			}
+
+			.texte{
+				font-family: $dosis;
+    			font-weight: 600;
+				font-size: 20px;
+				color:#FFF;
+				text-transform: uppercase;
+				display: inline-block;
+				height: 50px;
+				line-height: 50px;
+				margin-left: 10px;
+				padding-left: 30px;
+				position: absolute;
+
+				&:before{
+					@include svgicon('icon-consulter', 20px, 20px, #FFFFFF);
+					font-weight: normal;
+					top: 50%;
+					margin-top: -10px;
+					position: absolute;
+					left: 0;
+				}
+
+			}
+			
+		}
+
+		.onglets{
+
+			width: 100%;
+			float: left;
+			//padding-bottom: 20px;
+			border-bottom:solid 4px $vert;
+			margin-bottom: 10px;
+
+			.h2{
+				font-family: $dosis;
+    			font-weight: 600;
+				text-transform: uppercase;
+				color:$bleu;
+				font-size: 20px;
+				line-height: 80px;
+				vertical-align: middle;
+				//text-decoration: underline;
+
+				border-bottom:solid 16px #FFF;
+
+				width: 30%;
+				height: 96px;
+				overflow: hidden;
+				float: left;
+				text-align: center;
+
+				margin: 0;
+				padding: 0;
+				transition: border $duration ease, color $duration ease;
+
+				cursor: pointer;
+
+				span{
+					border-bottom:solid 1px $bleu;
+				}
+
+				/*&:hover{
+					text-decoration: none;
+					border-bottom:solid 16px $vert;
+
+					span{
+						border-bottom:solid 1px #FFF;
+					}
+				}*/
+
+			}
+
+			.h2.open{
+				color:$vert;
+				//text-decoration: none;
+				border-bottom:solid 16px $vert;
+				width: 70%;
+
+				span{
+					border-bottom:solid 1px #FFF;
+				}
+			}
+		}
+
+		.details{
+			clear: both;
+			
+
+			.consultation{
+				display: none;
+
+				#owl-support{
+					width: 100%;
+					overflow: hidden;
+
+					.owl-stage-outer{
+						z-index: 1; /**/
+					}
+					.owl-controls{
+						z-index: 0; /**/
+					}
+
+					.owl-item{
+						height: 330px;
+						//padding-top: 190px;
+
+
+                        
+
+                        
+
+						label {
+							width: 100%;
+							height: 100%;
+						}
+
+						.label{
+
+							font-family: $dosis;
+    						font-weight: 600;
+							font-size: 30px;
+							text-transform: uppercase;
+							text-align: center;
+							display: block;
+							width: 100%;
+							height: 50px;
+							line-height: 50px;
+							background: $vj_03;
+							color:#FFF;
+							position: relative;
+							margin-bottom: 30px;
+							text-decoration: none;
+
+							&:before{
+								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
+								position: absolute;
+								left: 50%;
+								margin-left: -24px;
+								bottom:-14px;
+							}
+
+						}
+
+						.description{
+							margin: 0;
+							padding: 0;
+							font-size: 15px;
+							line-height: 18px;
+                          font-family: $helvetica;
+							text-align: justify;
+							height: 54px;
+							overflow: hidden;
+						}
+
+						
+
+						.item{
+							position: relative;
+							margin-top: 190px;
+
+							&:before{
+								
+								position: absolute;
+								top: -150px;
+								left: 50%;
+								margin-left: -66px;
+							}
+
+						}
+
+						&:hover, &.selected{
+
+
+
+                            .label{
+                                background: $vert;
+
+                                &:before{
+                                  @include svgicon('icon-angle-bottom', 15px, 15px, $vert);
+                                }
+                            }
+
+                            .item{
+                            	
+
+                                &:before{
+                                    //top: -150px;
+                                    animation: bump 0.5s ease-out 0s infinite alternate;
+
+                                }
+
+                                //background: #e6e6e6;
+
+
+                            }
+
+                            &:last-child{
+                                .item:before{
+                                    //top: -140px;
+                                }
+
+                            }
+                        }
+						
+
+						&:first-child{
+							.item{
+								&:before{
+									@include svgicon('ico-support-fusee', 118px, 118px, $vj_03);								
+								}
+
+							}
+						}
+						&:nth-child(2){
+							.item{
+								&:before{
+									@include svgicon('ico-support-avion', 118px, 118px, $vj_03);								
+								}
+
+							}
+						}
+						&:last-child{
+							.item{
+								&:before{
+									@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);	
+									margin-left: -53px;	
+									top: -130px;						
+								}
+
+							}
+						}
+					}
+
+					.owl-nav{
+						position: absolute;
+						top: 80px;
+						text-align:left;
+						width: 100%;
+
+						> div{
+							background: transparent;
+							height: 30px;
+							width: 17px;
+							border-radius: 0;
+							padding: 0;
+							margin: 0;
+							position: relative;
+
+							&:before{
+								@include svgicon('icon-flech-arrow', 30px, 30px, #b7b8b8);	
+								position: absolute;
+								left: 0;
+								top: 0;
+							}
+						}
+
+						.owl-prev{
+							left: 20px;
+							@include rotate(-180);
+							z-index: 999;
+
+						}
+
+						.owl-next{
+							left: inherit;
+							float: right;
+							right: 20px;
+							z-index: 999;
+
+						}
+
+					}
+
+				}				
+
+			}
+
+			.question{
+
+				.block_gauche{
+					display: none;
+				}
+
+				.block_droit{
+
+					.form{
+						width: 100%;
+						padding-bottom: 40px;
+
+						input[type="text"], textarea{
+							height: 35px;
+							background: #FFF;
+							border:solid 3px #e6e6e6;
+							line-height: 20px;
+							color:$bleu;
+							text-transform: none;
+							padding-left: 10px;
+							margin: 0 auto 10px auto;
+							font-size: 15px;
+							display: block;
+							font-family: $dosis;
+    						font-weight: 600;
+							border-radius: 0;
+
+							max-width: 100%;
+
+
+						}
+
+						select{
+							background-color: #FFF;
+							border:solid 3px #e6e6e6;
+							line-height: 35px;
+							padding-left: 8px;
+							
+							text-transform: none;
+							width: 100%;
+							border-radius: 0;
+
+							font-family: $dosis;
+    						font-weight: 600;
+							color:$bleu;
+							font-size: 15px;
+
+							max-width: 100%;
+
+						}
+
+						input[type="submit"]{
+
+							width: 157px;
+							height: 30px;
+							background: $vert;
+							color:#FFF;
+							border:none;
+							text-align: center;
+                            font-size: 14px;
+							@extend .do-me;
+							display: block;
+							text-transform: uppercase;
+							border-radius: 0;
+
+                            margin: 50px auto 10px calc(100% - 157px);
+
+                        }
+
+						input[type="file"]{
+							border:none;
+							margin-bottom: 20px;
+							color:#FFF; 
+
+							//display: none;
+
+
+						}
+
+						#msgBlockQuestionId{
+							color:$rouge;
+							font-size: 14px;
+							line-height: 18px;
+                            .success {
+                                color: $vert;
+                                font-size: 150%;
+                            }
+						}
+
+						.fileUpload {
+						    position: relative;
+						    overflow: hidden;
+						    float: left;
+						    width: 100%;
+						    height: 30px;
+						    color:#FFF;
+						    @extend .do-me;
+						    font-size: 14px;
+						    text-transform: uppercase;
+						    line-height: 30px;
+						    text-align: left;
+						    //margin-left: calc(100% - 85px); 
+						    margin-bottom: 20px;
+
+                            .btn-reset {
+                                float: right;
+                                position: relative;
+                                z-index:1;
+                                width: 35px;
+                                background: transparent;
+                                color: #000;
+                                border:none;
+                                font-size: 50px;
+    							line-height: 0px;
+    							@include rotate(45);
+    							@extend .do-el;
+    							top: 8px;
+
+                            }
+                            span {
+                                display: inline-block;
+                                float: left;
+                                padding: 0 10px;
+                                height: 100%;
+                                background: #ffffff;
+                                color: #000000;
+                            }
+                            span.fileName {
+                                width: auto;
+                                max-width: 200px;
+                                overflow: hidden;
+
+                            }
+                            span.fileButtonFront {
+                                background: $bleu;
+                                color:#FFF;
+                                float: none;
+                                right: 33px;
+                                position: absolute;
+                            }
+						}
+
+						.fileUpload input.upload {
+						    position: absolute;
+						    top: 0;
+						    right: 65px;
+						    margin: 0;
+						    padding: 0;
+						    font-size: 20px;
+						    cursor: pointer;
+						    opacity: 0;
+						    filter: alpha(opacity=0);
+                            z-index: 1;
+						}
+
+						.sep{
+							height: 4px;
+							background: #e6e6e6;
+							margin: 20px 0;
+							width: 100%;
+							clear: both;
+
+							position: relative;
+
+							&:before{
+
+								@include svgicon('ico-sep', 16px, 16px, #e6e6e6);
+								position: absolute;
+								top: 0;
+								background: #FFF;
+								left: 50%;
+								margin-left: -26px;
+
+								
+							}
+
+
+
+						}
+
+						input, textarea{
+
+							&::-webkit-input-placeholder {
+								color:$bleu;
+							 }
+
+							&::-moz-placeholder {
+								color:$bleu;
+							  } /* firefox 19+ */
+
+							&:-ms-input-placeholder {
+								color:$bleu;
+							  } /* ie */
+
+							&input:-moz-placeholder {
+								color:$bleu;
+							  }
+						}
+					}
+				}
+
+			}
+
+			>div{
+				display: none;
+
+				&.open{
+					display: block;
+				}
+			}
+			
+
+			
+		}
+
+		
+
+	}
+
+	.block_bottom{
+		.block_03{
+			display: none;
+		}
+
+		.block_3_mobile{
+			display: block;
+			margin: 0;
+			padding: 0;
+
+			li{
+				width: 100%;
+				display: block;
+				height: 110px;
+				margin-bottom: 10px;
+				text-align: right;
+				padding: 25px 10px 10px;
+				color: $white;
+				@extend .do-bo;
+				font-size: 18px;
+				text-transform: uppercase;
+				position: relative;
+				transition: background $duration ease;
+				cursor: pointer;
+				background: $vj_02;
+
+				&:after {
+					
+
+					@include svgiconafter('icon-angle-bottom', 15px, 15px, #FFF);					
+					position:absolute;
+					top: -1px;
+					left: 50%;
+					margin-left: -24px;
+					display: block;
+					z-index: 2000;					
+
+				}
+
+				.h2{ 
+					position: relative;
+					z-index: 2000;
+					font-family: $dosis;
+    				font-weight: 600;
+					color:#FFF;
+					font-size: 30px;
+					line-height: 30px;
+					text-transform: uppercase;
+					text-align: center;
+					margin: 0 0 0 0;
+					padding: 0;
+					font-weight: normal;
+
+					span{
+						display: block;
+						font-size: 18px;
+						line-height: 18px;
+                        font-family: $garamond, Helvetica, serif;
+						color:#FFF;
+						text-transform: none;
+						font-weight: normal;
+
+					}
+
+					&:before{
+						font-weight:normal;
+					}
+				}
+
+				> a{
+					display: block; 
+					color:#FFF;
+					position: relative;
+					z-index: 2000;
+					text-decoration: none;
+					text-align: center;
+					@extend .do-el;
+					font-size: 40px;
+					font-weight: normal;
+					line-height: 27px;
+					padding: 0;
+					margin: 0;
+				}
+			}
+		}
+
+	}
+
+	
+}
+.popup_visible #posez-questions {
+  transform: scale(1);
+}
+
+
+
+#layer-cridonline,
+#layer-collaborateur-add,
+#layer-collaborateur-delete,
+#layer-update-etude,
+#layer-update-profil,
+.popup{
+
+/* POPUP CRIDONLINE */
+
+input[type="email"]{
+
+	max-width: 100%;	
+	color:$bleu !important;
+	text-transform: none;
+	font-family: $dosis;
+	font-weight: 600;
+
+	//border:solid 10px red !important; 
+} 
+	width: 100%;
+	height: auto;
+	background: #FFF;
+
+	.message-erreur{
+
+		>div{
+			font-family: $helvetica;
+			font-size: 12px;
+			line-height: 16px;
+			margin: 30px 0;
+			border-left:solid 5px $rouge;
+			padding: 10px 0 10px 15px;
+			color:$rouge;
+		}
+		
+	}
+ 
+	
+
+	>.titre{
+		width: 100%;
+		height: 83px;
+		background: $vert;
+		position: relative;
+		font-weight: normal;
+		padding-left: 20px;
+
+		&:before{
+			@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
+			position: absolute;
+			left: 50%;
+			margin-left: -24px;
+			bottom:-15px; 
+		}
+
+		.close_layer{
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			margin-top: -20px;
+			display: block;
+			width: 47px;
+			height: 47px;
+			
+			&:before{
+				@include svgicon('icon-close-layer-question', 40px, 40px, #FFF);
+				@include rotate(-45);
+				position: absolute;
+				top: 0px;
+				left: 0px;
+			}
+
+			
+
+		}
+
+		.texte{  
+			font-family: $dosis;
+    		font-weight: 600;
+			font-size: 25px;
+			color:#FFF;
+			text-transform: uppercase; 
+			display: inline-block;
+			height: auto;
+			line-height: 28px;
+			position: absolute;	
+			top:50%;
+			margin-top: -28px;
+			
+			> span{
+				display: block;
+			}
+
+			&:before{
+				@include svgicon('ico-crayon', 40px, 40px, #FFFFFF);
+				display: none;
+			}		
+
+		}
+	}
+
+	.block{
+		margin-top: 30px;
+		text-align: center;
+		min-height: 200px;
+
+		padding: 20px;
+
+		p{
+			@extend .do-bo;
+			font-size: 20px;
+			line-height: 24px;
+			color:$bleu;
+		}
+
+		a{
+			width: 183px;
+			height: 30px;
+			background: $bleu;
+			color:#FFF;
+			@extend .do-me;
+			font-size: 14px;
+			text-transform: uppercase;
+			line-height: 30px;
+			display: block; 
+			text-decoration: none;
+			margin:0 auto;
+		}
+	}
+
+	>form{
+		margin: 35px 0;
+
+		padding: 20px;
+
+		input[type="text"],input[type="email"]{
+
+			color: $bleu;
+			  font-size: 18px;
+			  font-family: $dosis;
+    		  font-weight: 600;
+
+			&::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+			  color: $bleu;
+			  font-size: 18px;
+			  font-family: $dosis;
+    		  font-weight: 600;
+			  line-height: 40px;
+			  font-style: italic;
+			}
+			&::-moz-placeholder { /* Firefox 19+ */
+			  color: $bleu;
+			  font-size: 18px;
+			 font-family: $dosis;
+    			font-weight: 600;
+			  line-height: 40px;
+			  font-style: italic;
+			}
+			&:-ms-input-placeholder { /* IE 10+ */
+			  color: $bleu;
+			  font-size: 18px;
+			  font-family: $dosis;
+    			font-weight: 600;
+			  line-height: 40px;
+			  font-style: italic;
+			}
+			&:-moz-placeholder { /* Firefox 18- */
+			  color: $bleu;
+			  font-size: 18px;
+			  font-family: $dosis;
+    			font-weight: 600;
+			  line-height: 40px;
+			  font-style: italic;
+			}
+		}
+
+		select{
+			 color: $bleu;
+			  font-size: 18px;
+			  @extend .do-sm;
+		}
+
+		
+
+		div.submit{
+			text-align: center;
+		}
+
+		p.chps_obli{
+			@extend .do-re;
+		}
+
+
+		.droit-collaborateur{
+			margin-bottom: 40px;
+			margin-top: 30px;
+
+			p{
+				margin: 0;
+				padding: 0;
+				@extend .do-sm;
+				font-size: 18px;
+				margin-bottom: 10px;
+			}
+
+			label{
+				display: block;
+				margin-bottom: 10px;
+				position: relative;
+				
+
+				span{/*Message*/
+					//display: inline-block;
+					padding-left: 20px;
+					font-size: 16px;
+					@extend .do-re;
+					color:$bleu;
+				    display: block;
+				    line-height: 20px;
+				}
+
+				input{ opacity: 0;
+					position: absolute;
+					top: 4px;
+					left: 0;}
+
+				&:before{
+					width: 9px;
+					height: 9px;
+					border:solid 1px $bleu;
+					content:'';
+					position: absolute;
+					top: 4px;
+					left: 0;
+				}
+
+				&.select{
+					&:before{
+						background-color: $bleu;
+					}
+
+				}
+			}
+		}
+	}
+			
+		
+
+}

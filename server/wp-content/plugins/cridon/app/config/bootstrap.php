@@ -1,5 +1,29 @@
 <?php
-// After save into post table, save in others tables 
+//Retrieve post data using custom table join
+function custom_posts_join ($join) {
+    global $custom_global_join;
+    if ( $custom_global_join ){
+        $join .= " $custom_global_join";
+    }
+    return $join;
+}
+function custom_posts_where ($where) {
+    global $custom_global_where;
+    if ( $custom_global_where ) {
+        $where .= " $custom_global_where";
+    }
+    return $where;
+}
+add_filter('posts_join','custom_posts_join');
+add_filter('posts_where','custom_posts_where');
+function resetGlobalVars(){
+    global $custom_global_join;
+    global $custom_global_where;
+    $custom_global_join = $custom_global_where = '';
+}
+// End retrieve post
+
+// After save into post table, save in others tables
 function save_post_in_table( $post_ID, $post ){
     $modelConf = getRelatedContentConfInReferer($post_ID);
     $isInsert = false;
@@ -26,6 +50,9 @@ function save_post_in_table( $post_ID, $post ){
         }
         if (isset($_POST['town'])) {
             $aAdditionalFields['town'] = $_POST['town'];
+        }
+        if (!empty($_POST['cri_post_level'])) {
+            $aAdditionalFields['level'] = $_POST['cri_post_level'];
         }
         updateRelatedContent( $model , $aAdditionalFields);
         
@@ -961,4 +988,52 @@ function content_formation_post_town( $post, $args ){
 
     // render view
     CriRenderView('town_meta_box', $vars);
+}
+
+// Level meta_box
+add_action('add_meta_boxes','init_meta_boxes_post_level');
+
+function init_meta_boxes_post_level()
+{
+    // check if is a post cridon model
+    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithLevel)) {
+        // init meta box depends on the current type of content
+        add_meta_box('level_meta_boxes', sprintf(Config::$titleLevelMetabox, MvcInflector::camelize(MvcInflector::singularize($_GET['cridon_type']))) , 'init_select_level_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
+    }
+}
+/**
+ * Init metabox for Post Level
+ *
+ * @param \WP_Post $post
+ */
+function init_select_level_meta_boxes( $post, $args ){
+    //args contains only one param : key to model name using config
+    $models = $args['args'];
+    $config = arrayGet(Config::$data, $models, reset(Config::$data));
+    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
+    $aLevel = array();
+    foreach (Config::$listOfLevel as $label => $id) {
+        $oLevel        = new \stdClass;
+        $oLevel->label = $label;
+        $oLevel->id    = $id;
+
+        $aLevel[] = clone $oLevel;
+    }
+    /**
+     * cast type de $oModel::level afin de respecter
+     * la comparaison strict imposée par la methode "check"
+     * var_dump renvoit en fait un type string pour "$oModel::level" !!!!
+     */
+    if (is_object($oModel) && property_exists($oModel, 'level')) {
+        $oModel->level = (int)$oModel->level;
+    }
+
+    // prepare vars
+    $vars = array(
+        'aLevel' => $aLevel,
+        'oModel' => $oModel,
+    );
+
+    // render view
+    CriRenderView('level_meta_box', $vars);
 }

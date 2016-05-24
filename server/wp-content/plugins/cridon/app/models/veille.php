@@ -59,6 +59,26 @@ class Veille extends \App\Override\Model\CridonMvcModel {
         /** @var $this->model veille  */
         return Veille::paginate($params);
     }
-}
 
-?>
+    /**
+     * Check if user can access content of page
+     *
+     * @param mixed $object
+     * @return bool
+     * @throws Exception
+     */
+    public function userCanAccessSingle($object)
+    {
+        if (isset($object->params['id']) && $object->params['id']) {
+            // notary data
+            $notaryData = mvc_model('Notaire')->getUserConnectedData();
+            // veilles data
+            $veille     = $this->associatePostWithDocumentByPostName($object->params['id']);
+            $roles = CriGetCollaboratorRoles($notaryData);
+            // subscription_level must be >= veille_level
+            return (in_array(CONST_CONNAISANCE_ROLE,$roles) && ($veille->level == 1 || ($notaryData->etude->subscription_level >= $veille->level && $notaryData->etude->end_subscription_date >= date('Y-d-m'))));
+        } else {
+            return false;
+        }
+    }
+}

@@ -119,11 +119,60 @@ function append_js_files()
                 'newsletter_empty_error'   => CONST_NEWSLETTER_EMPTY_ERROR_MSG,
                 'newsletter_success_msg'   => CONST_NEWSLETTER_SUCCESS_MSG,
                 'newsletter_email_error'   => CONST_NEWSLETTER_EMAIL_ERROR_MSG,
+
+                // cridonline
+                'cridonline_nonce'         => wp_create_nonce("process_cridonline_nonce"),
+                'cridonline_CGV_error'     => CONST_CRIDONLINE_CGV_ERROR_MSG,
+
+                // collaborateur
+                'crud_nonce'                   => wp_create_nonce("process_crud_nonce"),
+                'collaborateur_id_function'    => CONST_NOTAIRE_COLLABORATEUR,
+                'collaborateur_delete_success' => CONST_COLLABORATEUR_DELETE_SUCCESS_MSG,
+                'collaborateur_delete_error'   => CONST_COLLABORATEUR_DELETE_ERROR_MSG,
+                'collaborateur_add_error'      => CONST_COLLABORATEUR_ADD_ERROR_MSG,
+                'collaborateur_function_error' => CONST_COLLABORATEUR_FUNCTION_ERROR_MSG,
+                'collaborateur_capabilities'   => Config::$notaryRolesByFunction,
+
+                'collaborateur_create_user'    => CONST_CREATE_USER,
+                'collaborateur_modify_user'    => CONST_MODIFY_USER,
+                'collaborateur_delete_user'    => CONST_DELETE_USER,
+
+                'profil_modify_user'           => CONST_PROFIL_MODIFY_USER,
+                'profil_modify_email'          => CONST_ALERT_EMAIL_CHANGED,
+
+                'capability_finance'           => CONST_FINANCE_ROLE,
+                'capability_questionsecrites'  => CONST_QUESTIONECRITES_ROLE,
+                'capability_questionstel'      => CONST_QUESTIONTELEPHONIQUES_ROLE,
+                'capability_connaissances'     => CONST_CONNAISANCE_ROLE,
+                // maj etude
+                'office_crud_nonce'            => wp_create_nonce("process_office_crud_nonce"),
+                'profil_office_modify_error'   => CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG,
+                //maj mdp
+                'password_nonce'               => wp_create_nonce("process_password_nonce"),
+                'profil_password_error'        => CONST_PROFIL_PASSWORD_ERROR_MSG,
             )
         );
     }
 }
 add_action('wp_enqueue_scripts', 'append_js_files', 99);
+
+function cridonline_access()
+{
+    if (CriIsNotaire()) {
+        $oNotaire = CriNotaireData();
+        $lvl = Config::$authCridonOnline[(int) $oNotaire->etude->subscription_level];
+        wp_enqueue_script('cridonline', esc_url_raw('http://abo.prod.wkf.fr/auth/autologin.js?'.
+        'auth='.$lvl.
+        '&cid='.$oNotaire->id.
+        '&clname='.$oNotaire->last_name.
+        '&cfname='.$oNotaire->first_name.
+        '&cemail='.$oNotaire->email_adress.
+        '&pid=CRIDON')
+            , array());
+
+    }
+}
+add_action('wp_enqueue_scripts', 'cridonline_access', 50);
 
 /**
  * hook for connection
@@ -230,17 +279,6 @@ function custom_mvc_menu_position( $menu_position ){
     return $new_menu_position ;
 }
 //End Hook for Mvc_menu_position
-/**
- * hook for newsletter subscription
- */
-function newsletter()
-{
-    require_once WP_PLUGIN_DIR . '/cridon/app/controllers/notaires_controller.php';
-    $controller = new NotairesController();
-    $controller->newsletterSubscription();
-}
-add_action( 'wp_ajax_newsletter',   'newsletter' );
-add_action( 'wp_ajax_nopriv_newsletter',   'newsletter' );
 
 /**
  * Suppression option "show admin bar" sur fiche notaire en admin
@@ -411,7 +449,7 @@ function custom_redirect_301($wp)
             && isset($vars['mvc_action'])
             && isset($vars['mvc_id']) // id notary is set
             && $vars['mvc_controller'] == 'notaires' // controller "notaires"
-            && $vars['mvc_action']
+            && $vars['mvc_action'] && !in_array($vars['mvc_action'], Config::$exceptedActionForRedirect301)
         ) {
             // redirect 301 for an url like [site_url]/notaires/{id} to [site_url]/notaires
             // and [site_url]/notaires/{id}/{action} to [site_url]/notaires/{action}

@@ -44,10 +44,20 @@ MvcRouter::public_connect('notaires/{:id:[\d]+}', array('controller' => 'notaire
 MvcRouter::public_connect('notaires/questions', array('controller' => 'notaires', 'action' => 'questions'));
 MvcRouter::public_connect('notaires/profil', array('controller' => 'notaires', 'action' => 'profil'));
 MvcRouter::public_connect('notaires/facturation', array('controller' => 'notaires', 'action' => 'facturation'));
+MvcRouter::public_connect('notaires/collaborateur', array('controller' => 'notaires', 'action' => 'collaborateur'));
+MvcRouter::public_connect('notaires/cridonline', array('controller' => 'notaires', 'action' => 'cridonline'));
 MvcRouter::public_connect('notaires/contentdashboard', array('controller' => 'notaires', 'action' => 'contentdashboard'));
 MvcRouter::public_connect('notaires/contentquestions', array('controller' => 'notaires', 'action' => 'contentquestions'));
 MvcRouter::public_connect('notaires/contentprofil', array('controller' => 'notaires', 'action' => 'contentprofil'));
 MvcRouter::public_connect('notaires/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
+MvcRouter::public_connect('notaires/contentcollaborateur', array('controller' => 'notaires', 'action' => 'contentcollaborateur'));
+MvcRouter::public_connect('notaires/contentprofil/gestion', array('controller' => 'notaires', 'action' => 'gestionetude'));
+MvcRouter::public_connect('notaires/contentprofil/motdepasse', array('controller' => 'notaires', 'action' => 'gestionpassword'));
+MvcRouter::public_connect('notaires/contentcollaborateur/gestion', array('controller' => 'notaires', 'action' => 'gestioncollaborateur'));
+MvcRouter::public_connect('notaires/contentcridonline', array('controller' => 'notaires', 'action' => 'contentcridonline'));
+MvcRouter::public_connect('notaires/contentcridonlineetape2', array('controller' => 'notaires', 'action' => 'contentcridonlineetape2'));
+MvcRouter::public_connect('notaires/souscriptionveille', array('controller' => 'notaires', 'action' => 'ajaxveillesubscription'));
+MvcRouter::public_connect('notaires/souscriptionnewsletter', array('controller' => 'notaires', 'action' => 'ajaxnewslettersubscription'));
 MvcRouter::public_connect('notaires', array('controller' => 'notaires', 'action' => 'show'));
 
 //RSS feed
@@ -69,9 +79,6 @@ MvcRouter::public_connect('veilles/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' 
 MvcRouter::public_connect('cahier_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'cahier_cridons', 'action' => 'show'));
 MvcRouter::public_connect('vie_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'vie_cridons', 'action' => 'show'));
 MvcRouter::public_connect('matieres/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'matieres', 'action' => 'show'));
-
-// default
-MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
 
 //Ajax admin
 MvcRouter::admin_ajax_connect(array('controller' => 'admin_documents', 'action' => 'search'));

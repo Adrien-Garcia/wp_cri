@@ -9,8 +9,12 @@ class QuestionsController extends BasePublicController
     {
         $ret = CONST_QUESTION_ACTION_SUCCESSFUL;
         $resp = CriPostQuestion();
-        if (is_array($resp) && is_array($resp['error']) && count($resp['error']) > 0) {
-            $ret = $resp;
+        if (is_array($resp)) {
+            if (is_array($resp['error']) && count($resp['error']) > 0) {
+                $ret = $resp;
+            } elseif(isset($resp['resume'])) {
+                CriSendPostQuestConfirmation($resp);
+            }
            // $ret
         } elseif(!$resp) {
             $ret = array(

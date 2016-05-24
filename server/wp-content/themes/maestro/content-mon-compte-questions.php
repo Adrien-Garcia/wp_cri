@@ -1,10 +1,15 @@
 <div id="questions-attentes">
-	<h2><?php _e('Mes questions en attente'); ?></h2>
+	<h2><span><?php _e('Mes questions'); ?></span>
+        <span><?php _e('en attente'); ?></span>
+    </h2>
 
 	<?php if($pending): ?>
 	<ul>
         <?php foreach ($pending as $index => $question) : ?>
-		<li>
+		<li class="<?php if ($question->id_affectation == 1) : echo 'distribution';
+                     elseif ($question->id_affectation == 2) : echo 'traitement';
+                     elseif ($question->id_affectation == 3) : echo 'suspendue';
+                     endif; ?> ">
             <?php
                 $date = date_create_from_format('Y-m-d', $question->creation_date);
                 $wdate = date_create_from_format('Y-m-d', $question->wish_date);
@@ -14,9 +19,9 @@
             <?php if (! empty($sDate)) : ?>
 			<span class="date">Question du <?php echo $sDate ; ?></span>
             <?php endif; ?>
-            <?php if (! empty($sWdate)) : ?>
+            <!-- <?php if (! empty($sWdate)) : ?>
             <span class="reponse">Réponse estimée le <?php echo $sWdate ; ?></span>
-            <?php endif; ?>
+            <?php endif; ?> -->
 
             <ul>
                 <?php
@@ -34,7 +39,9 @@
                             $resume = wp_trim_words($question->resume, 18 );
                         }
                     ?>
+                    <?php if (! empty($resume)) : ?>
 					<p><?php echo html_entity_decode(stripslashes( $resume )) ; ?></p>
+                    <?php endif; ?>
 				</li>
 				<li>
                     <?php
@@ -47,7 +54,7 @@
                     ?>
 
 
-                    <span class="status"><?php echo $status ; ?></span>
+                    <span class="status"><span><?php echo $status ; ?></span></span>
 				</li>
 				<li>
 					<span class="delai"><?php echo $question->support->label; ?></span>
@@ -116,7 +123,10 @@ Vous n'avez actuellement aucune question en attente de réponse.
 </div>
 
 <div id="historique-questions">
-	<h2><?php _e('Historique de mes questions'); ?></h2>
+	<h2>
+        <span><?php _e('Historique de'); ?></span>
+        <span><?php _e('mes questions'); ?></span>
+    </h2>
     <form class="js-account-form-filter" action="<?php get_home_url() ?>/notaires/questions#historique-questions">
 
         <div class="filtres">
@@ -124,8 +134,14 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 <li> <a href="<?php get_home_url() ?>/notaires/questions/#historique-questions">Toutes mes questions</a></li>
                 <li>
                     <span class="titre">Période :</span>
-                    <p class="du">Du <input name="d1" type="text" id="datefrom" class="datepicker js-account-du-filter" value="<?php echo $_GET['d1'] ; ?>" /></p>
-                    <p class="au">Au <input name="d2" type="text" id="dateto" class="datepicker js-account-au-filter" value="<?php echo $_GET['d2'] ; ?>" /></p>
+                    <div class="du">
+                        <label>Du</label>
+                        <input name="d1" type="text" id="datefrom" class="datepicker js-account-du-filter" value="<?php echo $_GET['d1'] ; ?>" />
+                    </div>
+                    <div class="au">
+                        <label>Au</label>
+                        <input name="d2" type="text" id="dateto" class="datepicker js-account-au-filter" value="<?php echo $_GET['d2'] ; ?>" />
+                    </div>
                 </li>
                 <li>
                     <span class="titre">Matière :</span>
@@ -155,7 +171,7 @@ Vous n'avez actuellement aucune question en attente de réponse.
             $adate = date_create_from_format('Y-m-d', $question->date_modif);
             $sAdate = $adate ? date('d.m.Y', $adate->getTimestamp()) : "";
             ?>
-        <li>
+        <li class="repondue">
             <?php if (! empty($sDate)) : ?>
 			<span class="date">Question du <?php echo $sDate ; ?></span>
             <?php endif; ?>
@@ -216,7 +232,8 @@ Vous n'avez actuellement aucune question en attente de réponse.
                     <?php endforeach ?>
                 </li>
             </ul>
-            <ul class="suite-complement">
+
+            
                 <?php
                 usort($documents, function($a, $b)
                 {
@@ -229,6 +246,11 @@ Vous n'avez actuellement aucune question en attente de réponse.
                     }
                 });
                 ?>
+
+                <?php if (! empty($a)) : ?>
+                <ul class="suite-complement">
+
+
                 <?php foreach($documents as $document): ?>
                     <?php if( ($document->label == 'Suite')|| ($document->label == 'Complément') ): ?>
                         <li class="pdf">
@@ -247,7 +269,11 @@ Vous n'avez actuellement aucune question en attente de réponse.
                         </li>
                     <?php endif ?>
                 <?php endforeach ?>
-            </ul>
+
+                </ul>
+            <?php endif; ?>
+
+
         </li>
 		<?php endforeach; ?>
 	</ul>
@@ -259,6 +285,15 @@ Vous n'avez actuellement aucune question en attente de réponse.
         <?php // echo $questions->getPagination()
         echo $controller->pagination();
         ?>
+    </div>
+
+    <div class="legende">
+        <ul>
+            <li class="distribution">En cours de distribution</li>
+            <li class="traitement">En cours de traitement</li>
+            <li class="repondue">Répondue</li>
+            <li class="suspendue">Suspendue</li>
+        </ul>        
     </div>
 
 </div>

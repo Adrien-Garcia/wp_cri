@@ -649,5 +649,85 @@ class Document extends \App\Override\Model\CridonMvcModel {
 
         return '/telechargement/'.$encrypted;
     }
-//End Encryption
+    //End Encryption
+
+    /**
+     * Get parent model
+     *
+     * @param int    $id id of element
+     * @param string $type type of parent (question, veille,...)
+     * @return mixed
+     * @throws Exception
+     */
+    public function getRelatedModel($id, $type)
+    {
+        $options = array(
+            'fields' => array(
+                "{$type}.*"
+            ),
+            'synonym' => 'd',
+            'conditions' => 'd.id = ' . $id,
+            'join'  => array(
+                array(
+                    'type'  => 'left',
+                    'table' => "{$type} as {$type}",
+                    'column' => " {$type}.id = d.id_externe"
+                )
+            )
+        );
+
+        $object = mvc_model('QueryBuilder')->findOne('document', $options, 'd.id');
+        return $object;
+    }
+
+    /**
+     * Check if user can download document
+     *
+     * @param mixed $object
+     * @return bool
+     * @throws Exception
+     */
+    public function userCanDownload($object)
+    {
+        if (is_object($object) && property_exists($object, 'id')) {
+            // notary data
+            $notaryData = mvc_model('Notaire')->getUserConnectedData();
+            // veile data
+            $veille = $this->getRelatedModel($object->id, 'veille');
+
+            // get user cap level
+            $capLevel    = 'access_level_' . $veille->level;
+            // subscription_level must be >= veille_level
+            if (!in_array($notaryData->category, Config::$notaryNoDefaultOffice)
+                && ($notaryData->etude->subscription_level >= $veille->level || $notaryData->etude->end_subscription_date_veille >= date('Y-m-d'))
+            ) { // Categ OFF
+                return (current_user_can($capLevel));
+            } else { // Categ DIV or ORG
+                return (current_user_can($capLevel));
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Check if doc already exist
+     *
+     * @param string $name
+     * @return bool
+     * @throws Exception
+     */
+    public function isDocExiste($name)
+    {
+        $document = mvc_model('QueryBuilder')->findOne('document',
+                                                     array(
+                                                         'fields'     => 'id',
+                                                         'conditions' => "name = '" . esc_sql(strip_tags($name)) . "'",
+                                                     )
+        );
+
+        writeLog($document);
+
+        return (is_object($document) && $document->id);
+    }
 }

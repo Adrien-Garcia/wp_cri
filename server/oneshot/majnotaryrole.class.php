@@ -132,15 +132,20 @@ class MajNotaryRole
                 // user must be an instance of WP_User vs WP_Error
                 if ($user instanceof WP_User) {
                     // default role
-                    $user->add_role(CONST_NOTAIRE_ROLE);
-                    /**
-                     * finance role
-                     * to be matched in list of authorized user by function
-                     *
-                     * @see \Config::$canAccessFinance
-                     */
-                    if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
-                        $user->add_role(CONST_FINANCE_ROLE);
+                    if (!in_array($notary->category, Config::$notaryNoDefaultOffice)) { // Categ OFF
+                        $user->add_role(CONST_NOTAIRE_ROLE);
+                    } else {
+                        if ($notary->category == CONST_CLIENTDIVERS_CATEG) { // Categ DIV
+                            $user->add_role(CONST_NOTAIRE_DIV_ROLE);
+                        } elseif ($notary->category == CONST_ORGANISMES_CATEG) { // Categ ORG
+                            $user->add_role(CONST_NOTAIRE_ORG_ROLE);
+                        }
+                    }
+                    $rolesNotaire = Config::$notaryRolesByFunction['notaries'];
+                    if (!empty($rolesNotaire[$notary->id_fonction])){
+                        foreach ($rolesNotaire[$notary->id_fonction] as $role){
+                            $user->add_role($role);
+                        }
                     }
                 }
             }
