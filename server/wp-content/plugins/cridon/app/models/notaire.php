@@ -3169,7 +3169,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $notary->first_name . "', "; // CNTFNA
                             $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
                             $value .= "'" . $notary->fonction . "', "; // YTXTFNC
-                            $value .= "'" . $notary->email_adress . "', "; // WEB
+                            $value .= "'" . (empty($notary->email_adress) ? ' ' : $notary->email_adress) . "', "; // WEB
                             $value .= "'" . (empty($notary->tel) ? ' ' : $notary->tel) . "', "; // TEL
                             $value .= "'" . (empty($notary->tel_portable) ? ' ' : $notary->tel_portable) . "', "; // CNTMOB
                             $value .= "'" . (empty($notary->fax) ? ' ' : $notary->fax) . "', "; // FAX
@@ -3301,6 +3301,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             return CONST_STATUS_CODE_OK;
         } catch(\Exception $e) {
             // write into logfile
+            if (!empty($query)) {
+                writeLog($query, 'query.log');
+            }
             writeLog($e, 'query_updateerp.log');
 
             // status code
