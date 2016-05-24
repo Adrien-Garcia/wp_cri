@@ -74,7 +74,7 @@
 								</a>
 							</li>
 							<?php endif; ?>
-							<?php if (CriCanAccessSensitiveInfo(CONST_FINANCE_ROLE)): ?>
+							<?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE)): ?>
 							<li
 								class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
 								data-js-name="Cridonline"
