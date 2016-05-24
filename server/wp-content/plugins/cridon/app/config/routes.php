@@ -70,6 +70,8 @@ MvcRouter::public_connect('cahier_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('contr
 MvcRouter::public_connect('vie_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'vie_cridons', 'action' => 'show'));
 MvcRouter::public_connect('matieres/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'matieres', 'action' => 'show'));
 
+// formations passees
+MvcRouter::public_connect('formations-passees', array('controller' => 'formations', 'action' => 'past'));
 // default
 MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
 

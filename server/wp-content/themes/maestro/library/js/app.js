@@ -20,5 +20,4 @@ jQuery(document).ready(function($) {
     	App.Account.init();
     }
     App.Question.init();
-    App.Formation.init();
 });

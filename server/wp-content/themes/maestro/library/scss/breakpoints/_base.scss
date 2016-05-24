@@ -2113,14 +2113,14 @@ body.page-template-front-page{
 				border-bottom:solid 4px $vert;
 				margin-bottom: 10px;
 
-				>div{
+				>a{
 					@extend .do-sm;
 					text-transform: uppercase;
 					color:$bleu;
 					font-size: 20px;
 					line-height: 60px;
 					vertical-align: middle;
-					/*text-decoration: underline;*/
+					text-decoration: none;
 
 					border-bottom:solid 16px #FFF;
 
@@ -2149,7 +2149,7 @@ body.page-template-front-page{
 
 				}
 
-				>div.open{
+				>a.open{
 					color:$vert;
 					//text-decoration: none;
 					border-bottom:solid 16px $vert;

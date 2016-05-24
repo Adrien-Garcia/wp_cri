@@ -16,12 +16,6 @@ class FormationsController extends BaseActuController
 
         // params
         $params = $this->params;
-        // Formations passées : triées de la plus récente à la plus ancienne
-        $params['order']      = 'custom_post_date DESC';
-        $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
-        // get collection
-        $collection = $this->model->paginate($params);
-        $formationsPassees = $collection['objects'];
         // Formations a venir : triées de la plus proche à la plus éloignée
         $params['order']      = 'custom_post_date ASC';
         $params['conditions'] = array('custom_post_date >= ' => date('Y-m-d'));
@@ -30,6 +24,22 @@ class FormationsController extends BaseActuController
 
         // set object to template
         $this->set('formationsFutures', $formationsFutures);
+        $this->set_pagination($collection);
+    }
+
+    public function past()
+    {
+        $this->process_params_for_search();
+
+        // params
+        $params = $this->params;
+        // Formations passées : triées de la plus récente à la plus ancienne
+        $params['order']      = 'custom_post_date DESC';
+        $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
+        // get collection
+        $collection = $this->model->paginate($params);
+        $formationsPassees = $collection['objects'];
+
         $this->set('formationsPassees', $formationsPassees);
         $this->set_pagination($collection);
     }
