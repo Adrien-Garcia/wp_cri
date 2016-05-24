@@ -53,9 +53,13 @@
             <?php endif ?>
         </select>
         </div>
-        <div>
+        <div class="email-personnelle">
             <!-- <label for="collaborator_email">E-mail</label> -->
             <input type="email" name="collaborator_email" placeholder="<?php _e('Email '); ?>" id="collaborator_email" class="js-account-collaborateur-add-email" value="<?php echo empty($collaborator['emailaddress']) ? '' : $collaborator['emailaddress'] ?>">
+
+            <div>
+                A défaut de renseigner <strong>une adresse email personnelle</strong>, le collaborateur ne pourra accéder à tous les services personnalisés du CRIDON LYON (fonctions avancées de moteur de recherche, inscription à la newsletter, notifications email des questions posées, sélections de ces centres d'intérêts…) 
+            </div>
         </div>
         <div class="droit-collaborateur">
             <p>Droits du collaborateur</p>
@@ -71,7 +75,7 @@
 
             <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONTELEPHONIQUES_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
                 <input type="checkbox" name="question_tel" class="js-account-collaborateur-cap js-account-collaborateur-cap-questionstel" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONTELEPHONIQUES_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
-                <span><?php _e("Poser des questions téléphoniques)"); ?></span>
+                <span><?php _e("Poser des questions téléphoniques"); ?></span>
             </label>
 
             <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_CONNAISANCE_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">

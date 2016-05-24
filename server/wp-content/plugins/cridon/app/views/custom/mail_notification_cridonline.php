@@ -83,14 +83,16 @@
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
 
 
-                <p><strong>Étude : <?php echo $etude->office_name ?></strong></p>
+                <p><strong>Étude : <?php echo $etude->office_name ?></strong> - CRPCEN : <?php echo $etude->crpen ?></p>
                 <h2>Vous avez choisi l’offre CRID’ONLINE <?php echo $level_label ?> pour <?php echo $price ?> € HT par an.</h2>
 
                 <p>Votre abonnement a bien été pris en compte pour la période du  <strong><?php echo date('d M Y',strtotime($start_subscription_date)) ?></strong> au <strong><?php echo date('d M Y',strtotime($end_subscription_date)) ?></strong>.</p>
 
-                <p> Nous vous remercions de votre confiance</p>
+                <p>Nous vous remercions de votre confiance</p>
 
                 <h3>Le service est actif dès à présent.</h3>
+
+                <p>Vous trouverez en pièces jointes deux documents, les Conditions Générales d'Utilisation et de Vente ainsi que le mandat de prélèvement SEPA</p>
 
                 <p>Veuillez imprimer, remplir et nous envoyer le mandat de prélèvement SEPA signé par une personne habilitée ainsi qu’un RIB à l’adresse suivante :</p>
 

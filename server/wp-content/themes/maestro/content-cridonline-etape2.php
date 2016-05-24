@@ -5,7 +5,7 @@
 </div>
 
 <div class="message-offre">
-    Vous avez choisi l'offre CRID'ONLINE <?php echo ($level == 2) ? CONST_CRIDONLINE_LABEL_LEVEL_2 : CONST_CRIDONLINE_LABEL_LEVEL_3 ?> pour <?php echo $price ?>€ par an.<br />
+    Vous avez choisi l'offre CRID'ONLINE <?php echo ($level == 2) ? CONST_CRIDONLINE_LABEL_LEVEL_2 : CONST_CRIDONLINE_LABEL_LEVEL_3 ?> pour <strong><?php echo $price ?> € HT</strong> par an.<br />
     Afin de procéder au règlement par prélèvement SEPA, vous allez pouvoir télécharger le document ci-après :
 </div>
 
