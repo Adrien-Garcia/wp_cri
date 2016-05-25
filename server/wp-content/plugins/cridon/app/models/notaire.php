@@ -1384,7 +1384,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "TO_DATE('" . date('d/m/Y', strtotime($end_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALFIN_0
                             $value .= "TO_DATE('" . date('d/m/Y', strtotime($echeance_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATECH_0
                             $value .= "'0',"; // YABONNE_YTRAITEE_0
-                            $value .= "'0',"; // YABONNE_YERR_0
+                            $value .= "'" . CONST_YTRAITEE_PAR_SITE . "', "; // YTRAITEE
                             $value .= "' '"; // YABONNE_YMESSERR_0
                             $value .= ")";
 

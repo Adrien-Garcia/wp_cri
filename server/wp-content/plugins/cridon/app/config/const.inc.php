@@ -1086,7 +1086,7 @@ if ( !defined( 'CONST_DOC_TYPE_RELEVECONSO' ) ) { // valeur du champ cri_documen
 // End of block Import Releveconso
 
 if ( !defined( 'CONST_YTRAITEE_PAR_SITE' ) ) {
-    define( 'CONST_YTRAITEE_PAR_SITE', 2 );
+    define( 'CONST_YTRAITEE_PAR_SITE', 0 );
 }
 // droit pour question ecrite au niveau ERP
 if ( !defined( 'CONST_YSREECR_OFF' ) ) {
