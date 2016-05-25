@@ -115,10 +115,9 @@
 				 data-js-ajax-emailaddress="<?php echo $notaire->email_adress; ?>"
 				 data-js-ajax-modify-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
 				<?php _e('Modifier mes informations'); ?></div>
-            <?php if (in_array($notaire->id_fonction,Config::$allowedNotaryFunction)) : ?>
+
             <br/>
 			<div class="update update-mdp js-account-profil-password"><?php _e('Modifier mon mot de passe'); ?></div>
-            <?php endif; ?>
 
 		</div>
 

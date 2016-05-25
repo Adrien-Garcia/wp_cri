@@ -760,26 +760,18 @@ class NotairesController extends BasePublicController
         if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_password_nonce') && !empty($_POST['email'])) {
             $data = $this->tools->clean($_POST);
             $notaire = CriNotaireData();
-            if (in_array($notaire->id_fonction, Config::$allowedNotaryFunction)) {
-                /**
-                 * Renouvellement mot de passe :
-                 * - notaire connecté dispose d'une adresse email perso
-                 * - seuls les notaires de fonctions 1, 2, 3, 6, 7, 8, 9, 10 peuvent accéder à la fonction
-                 * @see \Config::$allowedNotaryFunction
-                 */
-                if (!empty($notaire->email_adress)
-                    && filter_var($notaire->email_adress, FILTER_VALIDATE_EMAIL)
-                    && $data['email'] == $data['email_validation']
-                    && $data['email'] == $notaire->email_adress
-                ) {
-                    $this->model->resetPwd($notaire->id);
-                    $url = mvc_public_url(array('controller' => 'notaires','action' => 'profil'));
-                    $url.='?message=modifypassword';
-                    echo json_encode(array('view' => $url));
-                    die();
-                } else {
-                    $error = CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG;
-                }
+            if (!empty($notaire->email_adress)
+                && filter_var($notaire->email_adress, FILTER_VALIDATE_EMAIL)
+                && $data['email'] == $data['email_validation']
+                && $data['email'] == $notaire->email_adress
+            ) {
+                $this->model->resetPwd($notaire->id);
+                $url = mvc_public_url(array('controller' => 'notaires','action' => 'profil'));
+                $url.='?message=modifypassword';
+                echo json_encode(array('view' => $url));
+                die();
+            } else {
+                $error = CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG;
             }
         }
         echo json_encode(array('error' => $error));

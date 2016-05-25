@@ -23,7 +23,7 @@
             </select>
         </div>
         <div class="email">
-            <input type="email" name="profil_email" placeholder="<?php _e('Email'); ?>" id="profil_email" class="js-account-profil-modify-email" value="<?php echo empty($collaborator['emailaddress']) ? '' : $collaborator['emailaddress'] ?>">
+            <input type="email" name="profil_email" placeholder="<?php _e('Email '); ?>" id="profil_email" class="js-account-profil-modify-email" value="<?php echo empty($collaborator['emailaddress']) ? '' : $collaborator['emailaddress'] ?>">
         </div>
         <div class="tel">
             <input type="text" name="profil_tel" placeholder="<?php _e('Téléphone fixe'); ?>" id="profil_tel" class="js-account-profil-modify-phone" value="<?php echo empty($collaborator['phone']) ? '' : $collaborator['phone'] ?>">
