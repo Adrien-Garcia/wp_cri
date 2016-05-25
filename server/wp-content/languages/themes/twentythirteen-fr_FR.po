@@ -7,62 +7,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GlotPress/1.0-alpha-1100\n"
+"X-Generator: GlotPress/2.1.0-alpha\n"
 "Project-Id-Version: Twenty Thirteen\n"
-
-#. Theme URI of the plugin/theme
-msgid "https://wordpress.org/themes/twentythirteen/"
-msgstr "https://wordpress.org/themes/twentythirteen/"
-
-#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 1.6)  #-#-#-#-#
-#. Author URI of the plugin/theme
-#: footer.php:19
-msgid "https://wordpress.org/"
-msgstr "https://wordpress.org/"
-
-#. translators: %s: Name of current post
-#: content-aside.php:16 content-audio.php:27 content-chat.php:26
-#: content-gallery.php:27 content-image.php:26 content-link.php:27
-#: content-quote.php:16 content-status.php:16 content-video.php:26
-#: content.php:44 functions.php:478
-msgid "Continue reading %s <span class=\"meta-nav\">&rarr;</span>"
-msgstr "Continuer la lecture<span class=\"screen-reader-text\"> de %s</span>&nbsp;<span class=\"meta-nav\">&rarr;</span>"
-
-#: 404.php:16
-msgid "Not Found"
-msgstr "Introuvable"
-
-#. Description of the plugin/theme
-msgid "The 2013 theme for WordPress takes us back to the blog, featuring a full range of post formats, each displayed beautifully in their own unique way. Design details abound, starting with a vibrant color scheme and matching header images, beautiful typography and icons, and a flexible layout that looks great on any device, big or small."
-msgstr "Le thème de WordPress pour 2013 nous ramène au blog, avec un grand nombre de formats d'article, chacun s'affichant à sa propre manière, en toute beauté. Vous y trouverez de nombreux détails de mise en page, à commencer par le jeu de couleurs vives et les images d'en-tête assorties, une superbe typographie et de belles icônes, et une mise en page flexible qui fonctionne sur toutes les tailles d'écrans, grands ou petits."
-
-#: functions.php:233
-msgid "Appears in the footer section of the site."
-msgstr "Apparaît dans le pied de page du site."
-
-#: functions.php:231
-msgid "Main Widget Area"
-msgstr "Zone principale de widgets"
-
-#: functions.php:241
-msgid "Secondary Widget Area"
-msgstr "Zone secondaire de widgets"
-
-#: functions.php:243
-msgid "Appears on posts and pages in the sidebar."
-msgstr "Apparaît dans la barre latérale des articles et pages."
-
-#: image.php:38
-msgid "Link to full-size image"
-msgstr "Lien vers l&rsquo;image originale"
-
-#: image.php:39
-msgid "Full resolution"
-msgstr "Pleine résolution"
-
-#: inc/back-compat.php:37 inc/back-compat.php:47 inc/back-compat.php:60
-msgid "Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again."
-msgstr "Twenty Thirteen nécessite au moins WordPress 3.6. Vous utilisez la version %s. Veuillez faire une mise à jour et réessayer."
 
 #: 404.php:21
 msgid "This is somewhat embarrassing, isn&rsquo;t it?"
@@ -292,6 +238,10 @@ msgctxt "1: post format name. 2: date"
 msgid "%1$s on %2$s"
 msgstr "%1$s le %2$s"
 
+#. Description of the plugin/theme
+msgid "The 2013 theme for WordPress takes us back to the blog, featuring a full range of post formats, each displayed beautifully in their own unique way. Design details abound, starting with a vibrant color scheme and matching header images, beautiful typography and icons, and a flexible layout that looks great on any device, big or small."
+msgstr "Le thème de WordPress pour 2013 nous ramène au blog, avec un grand nombre de formats d'article, chacun s'affichant à sa propre manière, en toute beauté. Vous y trouverez de nombreux détails de mise en page, à commencer par le jeu de couleurs vives et les images d'en-tête assorties, une superbe typographie et de belles icônes, et une mise en page flexible qui fonctionne sur toutes les tailles d'écrans, grands ou petits."
+
 #: archive.php:31
 msgid "Monthly Archives: %s"
 msgstr "Archives mensuelles&nbsp;: %s"
@@ -312,6 +262,56 @@ msgstr "Archives pour la catégorie %s"
 msgid "It looks like nothing was found at this location. Maybe try a search?"
 msgstr "Apparemment, rien n&rsquo;a été trouvé à cette adresse. Essayez avec recherche&nbsp;?"
 
+#: functions.php:231
+msgid "Main Widget Area"
+msgstr "Zone principale de widgets"
+
+#: functions.php:233
+msgid "Appears in the footer section of the site."
+msgstr "Apparaît dans le pied de page du site."
+
+#: functions.php:241
+msgid "Secondary Widget Area"
+msgstr "Zone secondaire de widgets"
+
+#: functions.php:243
+msgid "Appears on posts and pages in the sidebar."
+msgstr "Apparaît dans la barre latérale des articles et pages."
+
+#: image.php:38
+msgid "Link to full-size image"
+msgstr "Lien vers l&rsquo;image originale"
+
+#: image.php:39
+msgid "Full resolution"
+msgstr "Pleine résolution"
+
+#: inc/back-compat.php:37 inc/back-compat.php:47 inc/back-compat.php:60
+msgid "Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again."
+msgstr "Twenty Thirteen nécessite au moins WordPress 3.6. Vous utilisez la version %s. Veuillez faire une mise à jour et réessayer."
+
+#: 404.php:16
+msgid "Not Found"
+msgstr "Introuvable"
+
 #. Theme Name of the plugin/theme
 msgid "Twenty Thirteen"
 msgstr "Twenty Thirteen"
+
+#. Theme URI of the plugin/theme
+msgid "https://wordpress.org/themes/twentythirteen/"
+msgstr "https://wordpress.org/themes/twentythirteen/"
+
+#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 1.6)  #-#-#-#-#
+#. Author URI of the plugin/theme
+#: footer.php:19
+msgid "https://wordpress.org/"
+msgstr "https://wordpress.org/"
+
+#. translators: %s: Name of current post
+#: content-aside.php:16 content-audio.php:27 content-chat.php:26
+#: content-gallery.php:27 content-image.php:26 content-link.php:27
+#: content-quote.php:16 content-status.php:16 content-video.php:26
+#: content.php:44 functions.php:478
+msgid "Continue reading %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Continuer la lecture<span class=\"screen-reader-text\"> de %s</span>&nbsp;<span class=\"meta-nav\">&rarr;</span>"
