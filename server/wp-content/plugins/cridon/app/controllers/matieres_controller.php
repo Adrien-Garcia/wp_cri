@@ -92,6 +92,11 @@ class MatieresController extends BasePublicController
      * @override
      */
     public function set_pagination($collection) {
+        $this->name = 'veilles';
+        $this->action = 'index';
+        if (!empty(self::$currentMatiereSelected)) {
+            $this->params['matieres'][] = self::$currentMatiereSelected->virtual_name;
+        }
         parent::set_pagination($collection);
         if( isset( $this->pagination['add_args'] ) ){
             if( isset( $this->pagination['add_args']['controller'] ) ){
@@ -99,6 +104,9 @@ class MatieresController extends BasePublicController
             }
             if( isset( $this->pagination['add_args']['action'] ) ){
                 unset( $this->pagination['add_args']['action'] );
+            }
+            if( isset( $this->pagination['add_args']['id'] ) ){
+                unset( $this->pagination['add_args']['id'] );
             }
         }
     }

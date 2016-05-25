@@ -92,6 +92,12 @@ div#cridonline{
 		clear: both;
 	    width: 400px;
 	    margin: 0 auto 0 auto;
+
+	    a{
+	    	&:after{
+	    		top: 50px;
+	    	}
+	    }
 	} 
 
 	.message-offre{

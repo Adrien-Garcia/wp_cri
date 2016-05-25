@@ -883,6 +883,20 @@ input[type="email"]{
 				}
 			}
 		}
+
+		div.email-personnelle{
+			
+			>div{
+				font-size: 12px;
+			    font-style: italic;
+			    text-align: justify;
+			    line-height: 16px;
+			    color: $rouge;
+			    padding-left: 15px;
+			    border-left: solid 5px $rouge;
+			}
+
+		}
 	}
 			
 		
