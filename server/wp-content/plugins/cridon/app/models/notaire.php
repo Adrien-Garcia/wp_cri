@@ -2606,7 +2606,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     `ce`.`tel` tel_office,
                     `ce`.`fax` fax_office,
                     `ce`.`office_email_adress_1`,
-                    `cf`.`label` fonction
+                    `cf`.`label` fonction,
+                    `cfc`.`label` fonction_collaborateur
                 FROM
                     `{$this->table}` cn
                 LEFT JOIN
@@ -2617,6 +2618,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     `{$this->wpdb->prefix}fonction` cf
                 ON
                     `cf`.`id` = `cn`.`id_fonction`
+                LEFT JOIN
+                    `{$this->wpdb->prefix}fonction_collaborateur` cfc
+                ON
+                    `cfc`.`id` = `cn`.`id_fonction_collaborateur`
                 WHERE
                     `cn`.`cron_delete` = 1
             ");
@@ -2706,7 +2711,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $notary->id . "', "; // YIDNOT
                             $value .= "'" . (empty($this->remplaceQuote($notary->first_name)) ? ' ' : $this->remplaceQuote($notary->first_name)) . "', "; // CNTFNA
                             $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
-                            $value .= "'" . $notary->fonction . "', "; // CNTFNC
+                            if (!empty($notary->fonction_collaborateur)){
+                                $value .= "'" . $notary->fonction_collaborateur . "', "; // CNTFNC
+                            } else {
+                                $value .= "'" . $notary->fonction . "', "; // CNTFNC
+                            }
                             $value .= "'" . (empty($this->remplaceQuote($notary->email_adress)) ? ' ' : $this->remplaceQuote($notary->email_adress)) . "', "; // WEB
                             $value .= "'" . (empty($this->remplaceQuote($notary->tel)) ? ' ' : $this->remplaceQuote($notary->tel)) . "', "; // TEL
                             $value .= "'" . (empty($this->remplaceQuote($notary->tel_portable)) ? ' ' : $this->remplaceQuote($notary->tel_portable)) . "', "; // CNTMOB
@@ -2822,7 +2831,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * Get list of office members
      *
      * @param mixed $notary
-     * @param array $options
+     * @param array $params
      * @return mixed
      * @throws Exception
      */
@@ -3070,7 +3079,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     `ce`.`tel` tel_office,
                     `ce`.`fax` fax_office,
                     `ce`.`office_email_adress_1`,
-                    `cf`.`label` fonction
+                    `cf`.`label` fonction,
+                    `cfc`.`label` fonction_collaborateur
                 FROM
                     `{$this->table}` cn
                 LEFT JOIN
@@ -3081,6 +3091,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     `{$this->wpdb->prefix}fonction` cf
                 ON
                     `cf`.`id` = `cn`.`id_fonction`
+                LEFT JOIN
+                    `{$this->wpdb->prefix}fonction_collaborateur` cfc
+                ON
+                    `cfc`.`id` = `cn`.`id_fonction_collaborateur`
                 WHERE
                     `cn`.`renew_pwd` = 1 OR `cn`.`cron_update_erp` = 1
 
@@ -3168,7 +3182,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $notary->id . "', "; // YIDNOT
                             $value .= "'" . (empty($this->remplaceQuote($notary->first_name)) ? ' ' : $this->remplaceQuote($notary->first_name)) . "', "; // CNTFNA
                             $value .= "'" . $notary->id_fonction . "', "; // CNTFNC
-                            $value .= "'" . $notary->fonction . "', "; // YTXTFNC
+                            if (!empty($notary->fonction_collaborateur)){
+                                $value .= "'" . $notary->fonction_collaborateur . "', "; // CNTFNC
+                            } else {
+                                $value .= "'" . $notary->fonction . "', "; // CNTFNC
+                            }
                             $value .= "'" . (empty($this->remplaceQuote($notary->email_adress)) ? ' ' : $this->remplaceQuote($notary->email_adress)) . "', "; // WEB
                             $value .= "'" . (empty($this->remplaceQuote($notary->tel)) ? ' ' : $this->remplaceQuote($notary->tel)) . "', "; // TEL
                             $value .= "'" . (empty($this->remplaceQuote($notary->tel_portable)) ? ' ' : $this->remplaceQuote($notary->tel_portable)) . "', "; // CNTMOB
