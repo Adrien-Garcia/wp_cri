@@ -367,4 +367,11 @@ class Config {
 
     // question pending status
     public static $questionPendingStatus = array(1,2,3);
+
+    //HOTFIX poser question mobile support non correct
+    public static $valueSupport= array(
+        2 => 1,
+        6 => 7,
+        20 => 6
+    );
 }
