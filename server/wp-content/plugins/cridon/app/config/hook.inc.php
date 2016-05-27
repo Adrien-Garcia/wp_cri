@@ -160,7 +160,7 @@ add_action('wp_enqueue_scripts', 'append_js_files', 99);
 
 function cridonline_access()
 {
-    if (CriIsNotaire()) {
+    if (CriIsNotaire() && CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)) {
         $oNotaire = CriNotaireData();
         $lvl = Config::$authCridonOnline[(int) $oNotaire->etude->subscription_level];
         wp_enqueue_script('cridonline', esc_url_raw('http://abo.prod.wkf.fr/auth/autologin.js?'.
@@ -536,3 +536,25 @@ function custom_private_page_title($title='',$sep='') {
     return $post->post_title . " " . $sep . " ".get_bloginfo('name');
 }
 add_action('template_redirect', 'private_content_redirect', 1);
+
+
+/**
+ * Hook pour redirection des pages sinequa & cridonline des fonctions non autorisés vers l'espace privée
+ */
+
+function iframe_no_role_redirect() {
+    if (!empty($_SERVER['REQUEST_URI'])
+        && $_SERVER['REQUEST_URI'] == CONST_URL_SINEQUA
+        && CriIsNotaire()
+        && !CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)
+    ){
+        $options = array(
+            'controller' => 'notaires',
+            'action'     => 'cridonline'
+        );
+        $publicUrl  = MvcRouter::public_url($options);
+        $publicUrl.='?error=FONCTION_NON_AUTORISE';
+        wp_redirect( $publicUrl, 302 );
+    }
+}
+add_action('wp', 'iframe_no_role_redirect', 1);
