@@ -14,14 +14,21 @@
 				<h1 class="h1">Nos formations</h1>
 
 				<div id="filtres_formations">
-	   				<div class="futures js-tab-formations-futures-open open"><span>à venir</span></div>
-	   				<div class="passees js-tab-formations-passees-open"><span>passées</span></div>
+	   				<a href="<?= MvcRouter::public_url(array('controller' => 'formations')) ?>"
+					   class="futures js-tab-formations-futures-open<?= isset($formationsFutures) ? ' open' : '' ?>">
+						<span>à venir</span>
+					</a>
+	   				<a href="<?= MvcRouter::public_url(array('controller' => 'formations', 'action' => 'past')) ?>"
+					   class="passees js-tab-formations-passees-open<?= isset($formationsPassees) ? ' open' : '' ?>">
+						<span>passées</span>
+					</a>
 				</div>
 				<div style="display:block; clear: both; width:100%">
 					
 				</div>
 
-				<div class="listing formations tab js-tab-formations-futures open">
+				<div class="listing formations tab js-tab-formations-futures<?= isset($formationsFutures) ? ' open' : '' ?>">
+					<?php if (isset($formationsFutures)): ?>
 					<?php set_query_var( 'objects', $formationsFutures ); ?>
 					
 					<?php echo get_template_part("content","post-list"); ?>
@@ -29,10 +36,11 @@
                     <div class="pagination">
                     	<?php echo $this->pagination(); ?>
                     </div>
-                    
+                    <?php endif; ?>
                 </div>
 
-				<div class="listing formations tab js-tab-formations-passees">
+				<div class="listing formations tab js-tab-formations-passees<?= isset($formationsPassees) ? ' open' : '' ?>">
+					<?php if (isset($formationsPassees)): ?>
 					<?php set_query_var( 'objects', $formationsPassees ); ?>
 
 					<?php echo get_template_part("content","post-list"); ?>
@@ -40,23 +48,12 @@
 					<div class="pagination">
 						<?php echo $this->pagination(); ?>
 					</div>
-
+					<?php endif; ?>
 				</div>
 
 			</div>					
 
 		</div>
-
-		<?php // endwhile; ?>
-
-		<?php // wp_pagenavi(); ?>
-
-		
-
-			
-
-		<?php /*get_sidebar();*/ ?>
-
 		
 	</div>
 

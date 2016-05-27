@@ -3319,6 +3319,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             return CONST_STATUS_CODE_OK;
         } catch(\Exception $e) {
             // write into logfile
+            if (!empty($query)) {
+                writeLog($query, 'query.log');
+            }
             writeLog($e, 'query_updateerp.log');
 
             // status code

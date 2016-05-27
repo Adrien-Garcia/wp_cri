@@ -157,7 +157,7 @@
 				border-bottom:solid 4px $vert;
 				margin-bottom: 10px;
 
-				>div{
+				>a{
 					font-family: $dosis;
     				font-weight: 600;
 					text-transform: uppercase;
@@ -165,7 +165,7 @@
 					font-size: 20px;
 					line-height: 60px;
 					vertical-align: middle;
-					/*text-decoration: underline;*/
+					text-decoration: none;
 
 					border-bottom:solid 16px #FFF;
 
@@ -194,7 +194,7 @@
 
 				}
 
-				>div.open{
+				>a.open{
 					color:$vert;
 					//text-decoration: none;
 					border-bottom:solid 16px $vert;
