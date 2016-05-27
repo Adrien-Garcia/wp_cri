@@ -9,7 +9,7 @@
     <form class="js-account-profil-office-modify-form" data-js-ajax-modify-office-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestionetude')); ?>">
     <input type="hidden" class="js-account-profil-office-modify-crpcen" value="<?php echo empty($office['office_crpcen']) ? '' : $office['office_crpcen'] ?>">
         <div class="nom">
-            <input type="text" name="etude_name" placeholder="<?php _e('Nom de l\'étude'); ?>" id="etude_name" class="js-account-profil-office-modify-name" value="<?php echo empty($office['office_name']) ? '' : $office['office_name'] ?>" required>
+            <input type="text" name="etude_name" placeholder="<?php _e('Nom de l\'étude'); ?>" id="etude_name" class="js-account-profil-office-modify-name" value="<?php echo empty($office['office_name']) ? '' : $office['office_name'] ?>" disabled>
         </div>
         <div class="adresse">
             <input type="text" name="etude_adresse" placeholder="<?php _e('Adresse 1'); ?>" id="etude_adresse" class="js-account-profil-office-modify-address-1" value="<?php echo empty($office['office_address_1']) ? '' : $office['office_address_1'] ?>" required>

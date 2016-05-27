@@ -517,6 +517,8 @@ class Config {
         CONST_CONNAISANCE_ROLE             => 'Accès aux bases de connaissance', // par tout le monde
         CONST_QUESTIONECRITES_ROLE         => 'Poser des questions écrites',
         CONST_QUESTIONTELEPHONIQUES_ROLE   => 'Poser des questions téléphoniques',
+        CONST_MODIFYOFFICE_ROLE            => "Modifier les informations de l'étude",
+        CONST_CRIDONLINESUBSCRIPTION_ROLE  => "Souscription à l'offre CRID'ONLINE",
     );
 
 
@@ -531,6 +533,8 @@ class Config {
                 CONST_CONNAISANCE_ROLE,
                 CONST_QUESTIONECRITES_ROLE,
                 CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
             ),
             CONST_NOTAIRE_ASSOCIE => array(
                 CONST_FINANCE_ROLE,
@@ -538,6 +542,8 @@ class Config {
                 CONST_CONNAISANCE_ROLE,
                 CONST_QUESTIONECRITES_ROLE,
                 CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
             ),
             CONST_NOTAIRE_ASSOCIEE => array(
                 CONST_FINANCE_ROLE,
@@ -545,6 +551,17 @@ class Config {
                 CONST_CONNAISANCE_ROLE,
                 CONST_QUESTIONECRITES_ROLE,
                 CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
+            ),
+            CONST_NOTAIRE_ASSOCIEE => array(
+                CONST_FINANCE_ROLE,
+                CONST_COLLABORATEUR_TAB_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
             ),
             CONST_NOTAIRE_SALARIE => array(
                 CONST_CONNAISANCE_ROLE,
@@ -554,19 +571,14 @@ class Config {
                 CONST_CONNAISANCE_ROLE,
                 CONST_QUESTIONECRITES_ROLE,
             ),
-            CONST_NOTAIRE_ASSOCIEE => array(
-                CONST_FINANCE_ROLE,
-                CONST_COLLABORATEUR_TAB_ROLE,
-                CONST_CONNAISANCE_ROLE,
-                CONST_QUESTIONECRITES_ROLE,
-                CONST_QUESTIONTELEPHONIQUES_ROLE,
-            ),
             CONST_NOTAIRE_GERANT => array(
                 CONST_FINANCE_ROLE,
                 CONST_COLLABORATEUR_TAB_ROLE,
                 CONST_CONNAISANCE_ROLE,
                 CONST_QUESTIONECRITES_ROLE,
                 CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
             ),
             CONST_NOTAIRE_GERANTE => array(
                 CONST_FINANCE_ROLE,
@@ -574,6 +586,8 @@ class Config {
                 CONST_CONNAISANCE_ROLE,
                 CONST_QUESTIONECRITES_ROLE,
                 CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
             ),
             CONST_NOTAIRE_SUPLEANT => array(
                 CONST_FINANCE_ROLE,
@@ -581,6 +595,8 @@ class Config {
                 CONST_CONNAISANCE_ROLE,
                 CONST_QUESTIONECRITES_ROLE,
                 CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
             ),
             CONST_NOTAIRE_SUPLEANTE => array(
                 CONST_FINANCE_ROLE,
@@ -588,6 +604,8 @@ class Config {
                 CONST_CONNAISANCE_ROLE,
                 CONST_QUESTIONECRITES_ROLE,
                 CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
             ),
             CONST_NOTAIRE_ADMIN => array(
                 CONST_FINANCE_ROLE,
@@ -595,6 +613,8 @@ class Config {
                 CONST_CONNAISANCE_ROLE,
                 CONST_QUESTIONECRITES_ROLE,
                 CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
             ),
             CONST_NOTAIRE_PRESIDENT_CHAMBRE => array(
                 CONST_FINANCE_ROLE,

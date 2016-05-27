@@ -14,8 +14,17 @@ App.Cridonline = {
 
         if (typeof wkf === 'undefined') {
             // Do not preserve current Query String : not needed as the purpose is to get to Crid'Online page
-            this.linkValue = window.location + '?openLogin=1&messageLogin=PROTECTED_CONTENT&requestUrl=';
-            this.linkValue += encodeURIComponent(current_location + '?openCridonOnline=1');
+            var redirect = this.linkMark.data('js-redirect');
+            if (App.Utils.queryString['openCridonOnline'] == "1"){
+                // If coming from loggin with no role
+                window.location = redirect;
+            } else if ($('body').hasClass('is_notaire')){
+                // If logged in but do not have the role CONST_CONNAISSANCE_ROLE
+                this.linkValue = redirect;
+            } else {
+                // If not logged in
+                this.linkValue = window.location + '?openLogin=1&messageLogin=PROTECTED_CONTENT&requestUrl=' + encodeURIComponent(current_location + '?openCridonOnline=1');
+            }
         } else {
             this.linkValue = wkf.url;
             if (App.Utils.queryString['openCridonOnline'] == "1") {

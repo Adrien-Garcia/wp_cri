@@ -34,6 +34,12 @@ if ( !defined( 'CONST_QUESTIONECRITES_ROLE' ) ) {
 if ( !defined( 'CONST_QUESTIONTELEPHONIQUES_ROLE' ) ) {
     define( 'CONST_QUESTIONTELEPHONIQUES_ROLE', 'accesquesttelephoniques' );
 }
+if ( !defined( 'CONST_MODIFYOFFICE_ROLE' ) ) {
+    define( 'CONST_MODIFYOFFICE_ROLE', 'modifyoffice' );
+}
+if ( !defined( 'CONST_CRIDONLINESUBSCRIPTION_ROLE' ) ) {
+    define( 'CONST_CRIDONLINESUBSCRIPTION_ROLE', 'cridonlinesubscription' );
+}
 if ( !defined( 'CONST_NOTAIRE_DIV_ROLE' ) ) {
     define( 'CONST_NOTAIRE_DIV_ROLE', 'notaire_div' );
 }
@@ -1080,7 +1086,7 @@ if ( !defined( 'CONST_DOC_TYPE_RELEVECONSO' ) ) { // valeur du champ cri_documen
 // End of block Import Releveconso
 
 if ( !defined( 'CONST_YTRAITEE_PAR_SITE' ) ) {
-    define( 'CONST_YTRAITEE_PAR_SITE', 2 );
+    define( 'CONST_YTRAITEE_PAR_SITE', 0 );
 }
 // droit pour question ecrite au niveau ERP
 if ( !defined( 'CONST_YSREECR_OFF' ) ) {
@@ -1104,4 +1110,10 @@ if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
 }
 if ( !defined( 'CONST_DATE_NULL_ORACLE' ) ) {
     define( 'CONST_DATE_NULL_ORACLE', '31/12/1599' );
+}
+if ( !defined( 'CONST_URL_SINEQUA' ) ) {
+    define( 'CONST_URL_SINEQUA', '/rechercher-dans-les-bases-de-connaissances/' );
+}
+if ( !defined( 'CONST_URL_INFO_PAGE_CRIDONLINE' ) ) {
+    define( 'CONST_URL_INFO_PAGE_CRIDONLINE', '/cridonline-decouvrir-nos-offres/' );
 }

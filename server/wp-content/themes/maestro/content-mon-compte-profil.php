@@ -46,20 +46,21 @@
 
             <?php endif; ?>
 
-            <div class="update update-etude js-account-profil-office-modify"
-            data-js-ajax-crpcen="<?php echo $notaire->etude->crpcen; ?>"
-            data-js-ajax-name="<?php echo $notaire->etude->office_name; ?>"
-            data-js-ajax-address-1="<?php echo $notaire->etude->adress_1; ?>"
-            data-js-ajax-address-2="<?php echo $notaire->etude->adress_2; ?>"
-            data-js-ajax-address-3="<?php echo $notaire->etude->adress_3; ?>"
-            data-js-ajax-postalcode="<?php echo $notaire->etude->cp; ?>"
-            data-js-ajax-city="<?php echo $notaire->etude->city; ?>"
-            data-js-ajax-email="<?php echo $notaire->etude->office_email_adress_1; ?>"
-            data-js-ajax-phone="<?php echo $notaire->etude->tel; ?>"
-            data-js-ajax-fax="<?php echo $notaire->etude->fax; ?>"
-            data-js-ajax-modify-office-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestionetude')); ?>">
-            <?php _e('Modifier les informations de l\'étude'); ?></div>
-
+			<?php if (CriCanAccessSensitiveInfo(CONST_MODIFYOFFICE_ROLE)) : ?>
+                <div class="update update-etude js-account-profil-office-modify"
+                data-js-ajax-crpcen="<?php echo $notaire->etude->crpcen; ?>"
+                data-js-ajax-name="<?php echo $notaire->etude->office_name; ?>"
+                data-js-ajax-address-1="<?php echo $notaire->etude->adress_1; ?>"
+                data-js-ajax-address-2="<?php echo $notaire->etude->adress_2; ?>"
+                data-js-ajax-address-3="<?php echo $notaire->etude->adress_3; ?>"
+                data-js-ajax-postalcode="<?php echo $notaire->etude->cp; ?>"
+                data-js-ajax-city="<?php echo $notaire->etude->city; ?>"
+                data-js-ajax-email="<?php echo $notaire->etude->office_email_adress_1; ?>"
+                data-js-ajax-phone="<?php echo $notaire->etude->tel; ?>"
+                data-js-ajax-fax="<?php echo $notaire->etude->fax; ?>"
+                data-js-ajax-modify-office-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestionetude')); ?>">
+                <?php _e('Modifier les informations de l\'étude'); ?></div>
+            <?php endif; ?>
 		</div>
 		<div class="notaire">
 			<div class="nom">
@@ -114,10 +115,9 @@
 				 data-js-ajax-emailaddress="<?php echo $notaire->email_adress; ?>"
 				 data-js-ajax-modify-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
 				<?php _e('Modifier mes informations'); ?></div>
-            <?php if (in_array($notaire->id_fonction,Config::$allowedNotaryFunction)) : ?>
+
             <br/>
 			<div class="update update-mdp js-account-profil-password"><?php _e('Modifier mon mot de passe'); ?></div>
-            <?php endif; ?>
 
 		</div>
 

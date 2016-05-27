@@ -51,6 +51,8 @@ App.Account = {
     accountQuestionsecritesSelector     : '-questionsecrites',
     accountQuestionstelSelector         : '-questionstel',
     accountConnaissancesSelector        : '-connaissances',
+    accountModifyofficeSelector         : '-modifyoffice',
+    accountCridonlinesubscriptionSelector : '-cridonlinesubscription',
     accountPasswordSelector             : '-password',
 
     ajaxSelector                        : '-ajax',
@@ -374,6 +376,8 @@ App.Account = {
         this.$accountCollaborateurCapQuestionsecrites          = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountQuestionsecritesSelector);
         this.$accountCollaborateurCapQuestionstel              = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountQuestionstelSelector);
         this.$accountCollaborateurCapConnaissances             = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountConnaissancesSelector);
+        this.$accountCollaborateurCapModifyoffice              = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountModifyofficeSelector);
+        this.$accountCollaborateurCapCridonlinesubscription    = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountCridonlinesubscriptionSelector);
 
         this.popupCollaborateurDeleteInit();
         this.popupCollaborateurAddInit();
@@ -1220,6 +1224,12 @@ App.Account = {
             $(this.$accountCollaborateurCapConnaissances.selector).prop('checked',false);
             $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('select');
             $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+            $(this.$accountCollaborateurCapModifyoffice.selector).prop('checked',false);
+            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+            $(this.$accountCollaborateurCapCridonlinesubscription.selector).prop('checked',false);
+            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
         } else {
             $(this.$accountCollaborateurAddFunctioncollaborateur.selector).addClass('hidden');
             var capabilities = jsvar.collaborateur_capabilities.notaries[fonction];
@@ -1274,6 +1284,26 @@ App.Account = {
             $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('select');
             $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
         }
+        //modify office
+        if ($.inArray(jsvar.capability_modifyoffice,capabilities) > -1){
+            $(this.$accountCollaborateurCapModifyoffice.selector).prop('checked',true);
+            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
+            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).addClass('select');
+        } else {
+            $(this.$accountCollaborateurCapModifyoffice.selector).prop('checked',false);
+            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+        }
+        //cridonline subscription
+        if ($.inArray(jsvar.capability_cridonlinesubscription,capabilities) > -1){
+            $(this.$accountCollaborateurCapCridonlinesubscription.selector).prop('checked',true);
+            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
+            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).addClass('select');
+        } else {
+            $(this.$accountCollaborateurCapCridonlinesubscription.selector).prop('checked',false);
+            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).removeClass('select');
+            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+        }
     },
 
     eventAccountCollaborateurAddSubmit: function(form) {
@@ -1301,6 +1331,8 @@ App.Account = {
                     collaborator_cap_questionsecrites: form.find(this.$accountCollaborateurCapQuestionsecrites.selector)[0].checked,
                     collaborator_cap_questionstel: form.find(this.$accountCollaborateurCapQuestionstel.selector)[0].checked,
                     collaborator_cap_connaissances: form.find(this.$accountCollaborateurCapConnaissances.selector)[0].checked,
+                    collaborator_cap_modifyoffice: form.find(this.$accountCollaborateurCapModifyoffice.selector)[0].checked,
+                    collaborator_cap_cridonlinesubscription: form.find(this.$accountCollaborateurCapCridonlinesubscription.selector)[0].checked,
                     collaborator_id_function_notaire: id_function_notaire,
                     collaborator_id_function_collaborator: id_function_collaborator
                 },

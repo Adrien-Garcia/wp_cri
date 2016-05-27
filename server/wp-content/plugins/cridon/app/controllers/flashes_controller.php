@@ -17,11 +17,19 @@ class FlashesController extends BaseActuController {
      * We use the standard function for wordpress for queries ( query_posts() ) in views
      */
    public function show() {
-        if ( !CriIsNotaire() ) {
-            CriRefuseAccess();
-        } else {
-            parent::show();
-        }     
+       if ( !CriIsNotaire() ) {
+           CriRefuseAccess();
+       } elseif (!CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)) {
+           $options = array(
+               'controller' => 'notaires',
+               'action'     => 'cridonline'
+           );
+           $publicUrl  = MvcRouter::public_url($options);
+           $publicUrl.='?error=FONCTION_NON_AUTORISE';
+           wp_redirect( $publicUrl, 302 );
+       } else {
+           parent::show();
+       }
     }
     public function index()
     {

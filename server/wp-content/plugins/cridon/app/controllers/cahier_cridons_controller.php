@@ -20,6 +20,14 @@ class CahierCridonsController extends MvcPublicController {
     public function index() {
         if ( !CriIsNotaire() ) {
             CriRefuseAccess();
+        } elseif( !CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)) {
+            $options = array(
+                'controller' => 'notaires',
+                'action'     => 'cridonline'
+            );
+            $publicUrl  = MvcRouter::public_url($options);
+            $publicUrl.='?error=FONCTION_NON_AUTORISE';
+            wp_redirect( $publicUrl, 302 );
         } else {
 
             $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
