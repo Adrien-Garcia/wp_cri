@@ -1111,3 +1111,9 @@ if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
 if ( !defined( 'CONST_DATE_NULL_ORACLE' ) ) {
     define( 'CONST_DATE_NULL_ORACLE', '31/12/1599' );
 }
+if ( !defined( 'CONST_URL_SINEQUA' ) ) {
+    define( 'CONST_URL_SINEQUA', '/rechercher-dans-les-bases-de-connaissances/' );
+}
+if ( !defined( 'CONST_URL_INFO_PAGE_CRIDONLINE' ) ) {
+    define( 'CONST_URL_INFO_PAGE_CRIDONLINE', '/cridonline-decouvrir-nos-offres/' );
+}

@@ -79,7 +79,7 @@ echo get_template_part("content","ga");
 									</a>
 								</li>
 								<li>
-									<a href="/rechercher-dans-les-bases-de-connaissances/" >
+									<a href="<?php echo CONST_URL_SINEQUA ?>" >
 										<?php _e('Bases CRIDON'); ?> <span><?php _e('LYON'); ?></span> 
 									</a>
 								</li>
