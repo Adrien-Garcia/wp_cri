@@ -3334,7 +3334,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * @return string
      */
     protected function remplaceQuote ($field){
-        return trim (str_replace('\\\'', '\'\'', $field));
+        $field = str_replace('\\\'', '\'\'', $field);
+        return trim ($field);
     }
 
     /**
