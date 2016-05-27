@@ -1,6 +1,6 @@
 ALTER TABLE `cri_fonction` CHANGE `label` `label` VARCHAR(50) CHARSET utf8 COLLATE utf8_unicode_ci NULL;
 
-DELETE FROM `cri_fonction` LIMIT 28;
+TRUNCATE TABLE `cri_fonction`;
 
 INSERT INTO cri_fonction (`id`, `label`, `displayed`) VALUES
 (1, "Notaire", 1),
