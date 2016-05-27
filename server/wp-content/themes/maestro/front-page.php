@@ -234,7 +234,7 @@
 				
 				<h2>
 					<?php _e('La vie'); ?>
-					<span><?php _e('du CRIDON'); ?> </span>
+					<span><?php _e('du CRIDON LYON'); ?> </span>
 				</h2>
 				<?php 
 				$vie = criGetLatestPost('vie_cridon');
@@ -277,7 +277,7 @@
 		    	<?php wp_reset_query(); ?>
 		    <?php endif; ?>
 
-				<a href="<?php echo MvcRouter::public_url(array('controller' => 'vie_cridons', 'action'     => 'index')) ?>" title="Lorem" class="LienVieCridon" ><span> <?php _e('Toute la vie du CRIDON'); ?> </span></a>
+				<a href="<?php echo MvcRouter::public_url(array('controller' => 'vie_cridons', 'action'     => 'index')) ?>" title="Lorem" class="LienVieCridon" ><span> <?php _e('Toute la vie du CRIDON LYON'); ?> </span></a>
 			</div>
 		</div>	
 

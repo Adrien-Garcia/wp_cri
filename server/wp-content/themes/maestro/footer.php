@@ -14,7 +14,7 @@
 									<a href="/catalogue-formation/" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 								<li class="cahier js-home-block-link">
-									<span><?php _e('Les cahiers du cridon'); ?></span>
+									<span><?php _e('Les cahiers du cridon Lyon'); ?></span>
 									<a href="<?php echo MvcRouter::public_url(array('controller' => 'cahier_cridons', 'action'     => 'index')) ?>" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 								<li class="services js-home-block-link"> 
@@ -58,7 +58,7 @@
 							<div class="block-right">
 								<ul>
 									<li class="application">
-										<h4><?php  _e('Le cridon dans ma poche'); ?></h4>
+										<h4><?php  _e('Le cridon Lyon dans ma poche'); ?></h4>
 										<a href="/le-cridon-dans-ma-poche/"><span><?php _e('Découvrir notre application'); ?></span></a>
 									</li>
 									<li class="veille">
