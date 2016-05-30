@@ -294,6 +294,22 @@ class NotairesController extends BasePublicController
         die();
     }
     /**
+     * Notaire CridOnline PROMO Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentcridonlinepromo.php
+     *
+     * @return void
+     */
+    public function contentcridonlinepromo()
+    {
+        // access secured
+        $this->cridonline();
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentcridonlinepromo', $vars,'notaires');
+        die();
+    }
+    /**
      * Notaire cridonline page
      * Associated template : app/views/notaires/cridonline.php
      *

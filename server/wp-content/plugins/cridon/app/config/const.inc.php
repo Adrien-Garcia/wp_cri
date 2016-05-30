@@ -1117,3 +1117,7 @@ if ( !defined( 'CONST_URL_SINEQUA' ) ) {
 if ( !defined( 'CONST_URL_INFO_PAGE_CRIDONLINE' ) ) {
     define( 'CONST_URL_INFO_PAGE_CRIDONLINE', '/cridonline-decouvrir-nos-offres/' );
 }
+// PROMO
+if ( !defined( 'CONST_DATE_FIN_PROMO' ) ) {
+    define( 'CONST_DATE_FIN_PROMO', '30/09/2016' );
+}
