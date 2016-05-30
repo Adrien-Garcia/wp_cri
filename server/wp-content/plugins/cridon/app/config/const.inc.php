@@ -684,6 +684,12 @@ if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
 if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_3' ) ) {
     define( 'CONST_CRIDONLINE_LABEL_LEVEL_3', 'Excellence' );
 }
+if ( !defined( 'CONST_CRIDONLINE_LEVEL_2' ) ) {
+    define( 'CONST_CRIDONLINE_LEVEL_2', 2 );
+}
+if ( !defined( 'CONST_CRIDONLINE_LEVEL_3' ) ) {
+    define( 'CONST_CRIDONLINE_LEVEL_3', 3 );
+}
 // Collaborateur form
 if ( !defined( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG' ) ) {
     define( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG', 'Le profil du collaborateur a bien été supprimé.' );

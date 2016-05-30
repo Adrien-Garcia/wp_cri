@@ -424,6 +424,11 @@ class NotairesController extends BasePublicController
 
     public function ajaxVeilleSubscription()
     {
+        if (!$this->validateSubscriptionData($_REQUEST)){
+            $ret = 'invalidData';
+            echo json_encode($ret);
+            die;
+        }
         $ret = 'cgvNotAccepted';
         if ((!empty($_REQUEST['CGV'])) && ($_REQUEST['CGV'] === 'true') ) {
             // Verify that the nonce is valid.
@@ -456,6 +461,28 @@ class NotairesController extends BasePublicController
         die;
     }
 
+    protected function validateSubscriptionData($request){
+        //Validate entry data
+        if (empty($request['crpcen']) || empty($request['level']) || empty($request['price'])){
+            return false;
+        }
+        //Validate crpcen
+        $notaire = CriNotaireData();
+        if ($request['crpcen'] != $notaire->crpcen || !in_array(CONST_CRIDONLINESUBSCRIPTION_ROLE,CriGetCollaboratorRoles($notaire))){
+            return false;
+        }
+        //Validate level
+        if (!in_array($request['level'],array(CONST_CRIDONLINE_LEVEL_2,CONST_CRIDONLINE_LEVEL_3))){
+            return false;
+        }
+        //Validate price
+        $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
+        $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
+        if (empty($subscriptionInfos[$request['level']]) || $request['price'] != $subscriptionInfos[$request['level']]) {
+            return false;
+        }
+        return true;
+    }
 
     protected function prepareDashboard()
     {
