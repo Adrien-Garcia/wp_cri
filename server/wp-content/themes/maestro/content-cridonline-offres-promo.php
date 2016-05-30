@@ -42,19 +42,20 @@
             <li>- Offre évolutive et mise à jour permanente</li>
         </ul>
         <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_PREMIUM ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
-        <?php if ($notaire->etude->subscription_level < 2 && $subscription ):?>
-            <form method="get" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2'));?>">
+        <?php if ($notaire->etude->subscription_level == 1 && $subscription ):?>
+            <form method="get" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2promo'));?>">
                 <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">
                 <input type="hidden" name="level" value="<?php echo "2"; ?>" class="js-account-cridonline-level">
                 <input type="hidden" name="price" value="<?php echo $priceVeilleLevel2 ?>" class="js-account-cridonline-price">
-                <input type="submit" name="submit" value="<?php _e("souscrire"); ?>">
+                <input type="hidden" name="promo" value="<?php echo CONST_PROMO_CHOC ?>" class="js-account-cridonline-promo">
+                <input type="submit" name="submit" value="<?php _e("OFFRE CHOC"); ?>">
             </form>
         <?php endif;?>
     </div>
 </div>
 <div class="bloc-cridonline niveau-3 <?php echo $notaire->etude->subscription_level == 3 ? ' on' : ''; ?><?php echo $notaire->etude->subscription_level == 1 ? '' : ' non-actif'; ?><?php echo $notaire->etude->subscription_level == 2 ? '' : ' non-actif'; ?><?php echo $isSubcribable ? " large" : "" ?>">
     <div class="en-tete"></div>
-    <div class="content">
+    <!--<div class="content">-->
         <?php if ($notaire->etude->subscription_level < 3 ):?>
             <div class="prix">
                 <?php echo $priceVeilleLevel3 ?><span>€ HT</span>
@@ -72,17 +73,22 @@
             <li>- Offre évolutive et mise à jour permanente</li>
         </ul>
         <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_EXCELLENCE ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
-        <?php if ($notaire->etude->subscription_level < 3 && $subscription ):?>
-        <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2'));?>">
+        <?php if ($notaire->etude->subscription_level == 1 && $subscription ):?>
+        <form method="post" accept-charset="utf-8" class="js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2promo'));?>">
             <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">
             <input type="hidden" name="level" value="<?php echo "3"; ?>" class="js-account-cridonline-level">
             <input type="hidden" name="price" value="<?php echo $priceVeilleLevel3 ?>" class="js-account-cridonline-price">
-            <?php if ($notaire->etude->subscription_level == 2 ):?>
-                <input type="submit" name="submit" value="<?php _e("Mettre à jour mon abonnement"); ?>">
-            <?php else : ?>
-                <input type="submit" name="submit" value="<?php _e("souscrire"); ?>">
-            <?php endif; ?>
+            <input type="hidden" name="promo" value="<?php echo CONST_PROMO_CHOC ?>" class="js-account-cridonline-promo">
+            <input type="submit" name="submit" value="<?php _e("OFFRE CHOC"); ?>">
+        </form>
+
+        <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2promo'));?>">
+            <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">
+            <input type="hidden" name="level" value="<?php echo "3"; ?>" class="js-account-cridonline-level">
+            <input type="hidden" name="price" value="<?php echo $priceVeilleLevel2 ?>" class="js-account-cridonline-price">
+            <input type="hidden" name="promo" value="<?php echo CONST_PROMO_PRIVILEGE ?>" class="js-account-cridonline-promo">
+            <input type="submit" name="submit" value="<?php _e("OFFRE PRIVILEGE"); ?>">
         </form>
         <?php endif;?>
-    </div>
+    <!--</div>-->
 </div>

@@ -27,6 +27,7 @@ App.Account = {
     accountCrpcenSelector               : '-crpcen',
     accountLevelSelector                : '-level',
     accountPriceSelector                : '-price',
+    accountPromoSelector                : '-promo',
     accountCheckboxSelector             : '-checkbox',
     accountStep1Selector                : '-step1',
     accountStep2Selector                : '-step2',
@@ -424,6 +425,7 @@ App.Account = {
         this.$accountCridonlineCrpcen  = $(d + this.accountCridonlineSelector + this.accountCrpcenSelector);
         this.$accountCridonlineLevel   = $(d + this.accountCridonlineSelector + this.accountLevelSelector);
         this.$accountCridonlinePrice   = $(d + this.accountCridonlineSelector + this.accountPriceSelector);
+        this.$accountCridonlinePromo   = $(d + this.accountCridonlineSelector + this.accountPromoSelector);
 
         this.$cridonline               = $(this.accountCridonline);
 
@@ -450,6 +452,7 @@ App.Account = {
         this.$accountCridonlineValidationCrpcen  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCrpcenSelector);
         this.$accountCridonlineValidationLevel   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountLevelSelector);
         this.$accountCridonlineValidationPrice   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPriceSelector);
+        this.$accountCridonlineValidationPromo   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPromoSelector);
         this.$accountCridonlineValidationStep1   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep1Selector);
         this.$accountCridonlineValidationStep2   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep2Selector);
 
@@ -1103,7 +1106,8 @@ App.Account = {
             data: {
                 crpcen: form.find(this.$accountCridonlineCrpcen).val(),
                 level: form.find(this.$accountCridonlineLevel).val(),
-                price: form.find(this.$accountCridonlinePrice).val()
+                price: form.find(this.$accountCridonlinePrice).val(),
+                promo: form.find(this.$accountCridonlinePromo).val()
             },
             success: this.successCridonline.bind(this)
         });
@@ -1389,7 +1393,8 @@ App.Account = {
                 CGV: form.find(this.$accountCridonlineValidationCGV)[0].checked,
                 crpcen: form.find(this.$accountCridonlineValidationCrpcen).val(),
                 level: form.find(this.$accountCridonlineValidationLevel).val(),
-                price: form.find(this.$accountCridonlineValidationPrice).val()
+                price: form.find(this.$accountCridonlineValidationPrice).val(),
+                promo: form.find(this.$accountCridonlineValidationPromo).val()
             },
             success: this.successCridonlineValidation.bind(this)
         });

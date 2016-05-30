@@ -1123,6 +1123,22 @@ if ( !defined( 'CONST_URL_SINEQUA' ) ) {
 if ( !defined( 'CONST_URL_INFO_PAGE_CRIDONLINE' ) ) {
     define( 'CONST_URL_INFO_PAGE_CRIDONLINE', '/cridonline-decouvrir-nos-offres/' );
 }
+//Promo
 if ( !defined( 'CONST_DATE_FIN_PROMO' ) ) {
-    define( 'CONST_DATE_FIN_PROMO', '30/09/2016' );
+    define( 'CONST_DATE_FIN_PROMO', '2016-09-30' );
+}
+if ( !defined( 'CONST_START_SUBSCRIPTION_PROMO_CHOC' ) ) {
+    define( 'CONST_START_SUBSCRIPTION_PROMO_CHOC', '2017-01-01' );
+}
+if ( !defined( 'CONST_ECHEANCE_SUBSCRIPTION_PROMO_CHOC' ) ) {
+    define( 'CONST_ECHEANCE_SUBSCRIPTION_PROMO_CHOC', '2017-10-31' );
+}
+if ( !defined( 'CONST_END_SUBSCRIPTION_PROMO_CHOC' ) ) {
+    define( 'CONST_END_SUBSCRIPTION_PROMO_CHOC', '2017-12-31' );
+}
+if ( !defined( 'CONST_PROMO_CHOC' ) ) {
+    define( 'CONST_PROMO_CHOC', 1 );
+}
+if ( !defined( 'CONST_PROMO_PRIVILEGE' ) ) {
+    define( 'CONST_PROMO_PRIVILEGE', 2 );
 }

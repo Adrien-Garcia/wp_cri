@@ -360,6 +360,23 @@ class NotairesController extends BasePublicController
         die();
     }
     /**
+     * Notaire CridOnlineValidation Promo Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentcridonlineetape2.php
+     *
+     * @return void
+     */
+    public function contentcridonlineetape2promo()
+    {
+        // access secured
+        $this->cridonlinevalidation();
+        $this->set('promo',$_GET['promo']);
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
+        CriRenderView('contentcridonlineetape2promo', $vars,'notaires');
+        die();
+    }
+    /**
      * Notaire cridonline page
      * Associated template : app/views/notaires/cridonline.php
      *
@@ -480,6 +497,92 @@ class NotairesController extends BasePublicController
         $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
         if (empty($subscriptionInfos[$request['level']]) || $request['price'] != $subscriptionInfos[$request['level']]) {
             return false;
+        }
+        return true;
+    }
+
+    // Function only used for promo time
+    public function ajaxVeilleSubscriptionPromo()
+    {
+        $ret = 'cgvNotAccepted';
+        if (!$this->validateSubscriptionDataPromo($_REQUEST)){
+            $ret = 'invalidData';
+            echo json_encode($ret);
+            die;
+        }
+        if ((!empty($_REQUEST['CGV'])) && ($_REQUEST['CGV'] === 'true') ) {
+            // Verify that the nonce is valid.
+            if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen'])) {
+                // find the office
+                $etude = mvc_model('Etude')->find_one_by_crpcen($_REQUEST['crpcen']);
+                if (!empty($etude) && !empty($_REQUEST['level']) && intval($_REQUEST['level']) > $etude->subscription_level && !empty($_REQUEST['price'])) {
+                    if ($_REQUEST['promo'] == CONST_PROMO_CHOC){
+                        $start_subscription_date = CONST_START_SUBSCRIPTION_PROMO_CHOC;
+                        $end_subscription_date = CONST_END_SUBSCRIPTION_PROMO_CHOC;
+                        $echeance_subscription_date = CONST_ECHEANCE_SUBSCRIPTION_PROMO_CHOC;
+                    } elseif ($_REQUEST['promo'] == CONST_PROMO_PRIVILEGE){
+                        $start_subscription_date = date('Y-m-d');
+                        $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+                        $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+                    } else {
+                        $ret = 'promoNotChosen';
+                        echo json_encode($ret);
+                        die();
+                    }
+                    $office = array(
+                        'Etude' => array(
+                            'crpcen' => $_REQUEST['crpcen'],
+                            'subscription_level' => $_REQUEST['level'],
+                            'start_subscription_date' => $start_subscription_date,
+                            'echeance_subscription_date' => $echeance_subscription_date,
+                            'end_subscription_date' => $end_subscription_date,
+                            'subscription_price' => intval($_REQUEST['price']),
+                            'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                        )
+                    );
+                    if (mvc_model('Etude')->save($office)) {
+                        $this->model->sendCridonlineConfirmationMail($etude, $office['Etude']);
+                        $ret = 'success';
+                    }
+                }
+            }
+        }
+        echo json_encode($ret);
+        die;
+    }
+
+    protected function validateSubscriptionDataPromo($request){
+        //Validate entry data
+        if (empty($request['crpcen']) || empty($request['level']) || empty($request['price']) || empty($request['promo'])){
+            return false;
+        }
+        //Validate crpcen
+        $notaire = CriNotaireData();
+        if ($request['crpcen'] != $notaire->crpcen || !in_array(CONST_CRIDONLINESUBSCRIPTION_ROLE,CriGetCollaboratorRoles($notaire))){
+            return false;
+        }
+        //Validate level
+        if (!in_array($request['level'],array(CONST_CRIDONLINE_LEVEL_2,CONST_CRIDONLINE_LEVEL_3))){
+            return false;
+        }
+        //Validate promo
+        if (!isPromoActive()){
+            return false;
+        }
+        if (!in_array($request['promo'],array(CONST_PROMO_CHOC,CONST_PROMO_PRIVILEGE))){
+            return false;
+        }
+        //Validate price
+        $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
+        $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
+        if ($request['promo'] == CONST_PROMO_CHOC) {
+            if (empty($subscriptionInfos[$request['level']]) || $request['price'] != $subscriptionInfos[$request['level']]) {
+                return false;
+            }
+        } elseif ($request['promo'] == CONST_PROMO_PRIVILEGE){
+            if (empty($subscriptionInfos[CONST_CRIDONLINE_LEVEL_2]) || $request['price'] != $subscriptionInfos[CONST_CRIDONLINE_LEVEL_2]) {
+                return false;
+            }
         }
         return true;
     }
