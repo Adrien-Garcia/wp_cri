@@ -11,7 +11,16 @@
 
 <div class="bloc-souscription">
     <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-validation-form" data-js-ajax-souscription-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionveillepromo'));?>">
-        <label class="unselect js-account-cridonline-validation-checkbox">
+        <label for="label_radio_B2B" class="radio select">
+            <input id="label_radio_B2B" type="radio" name="B2B_B2C" value="B2B" checked>
+            <span>J'exerce en tant que personne morale</span>
+        </label>
+       <label for="label_radio_B2C" class="radio marge">
+            <input id="label_radio_B2C" type="radio" name="B2B_B2C" value="B2C">
+            <span>J'exerce en tant que personne physique/indépendant</span>
+        </label>
+
+        <label class="unselect js-account-cridonline-validation-checkbox cguv">
             <input type="checkbox" name="CGV" class="js-account-cridonline-validation-cgv" value="value">
             <span><?php _e("J'ai lu, j'ai compris et j'accepte les CGUV"); ?></span>
         </label>

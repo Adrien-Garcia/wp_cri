@@ -55,7 +55,7 @@
 </div>
 <div class="bloc-cridonline niveau-3 <?php echo $notaire->etude->subscription_level == 3 ? ' on' : ''; ?><?php echo $notaire->etude->subscription_level == 1 ? '' : ' non-actif'; ?><?php echo $notaire->etude->subscription_level == 2 ? '' : ' non-actif'; ?><?php echo $isSubcribable ? " large" : "" ?>">
     <div class="en-tete"></div>
-    <!--<div class="content">-->
+    <div class="content">
         <?php if ($notaire->etude->subscription_level < 3 ):?>
             <div class="prix">
                 <?php echo $priceVeilleLevel3 ?><span>€ HT</span>
@@ -97,5 +97,5 @@
         </form>
 
         <?php endif;?>
-    <!--</div>-->
+    </div>
 </div>
