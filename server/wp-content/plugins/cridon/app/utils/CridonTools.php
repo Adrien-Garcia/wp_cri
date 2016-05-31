@@ -528,7 +528,7 @@ class CridonTools {
                 $clean_input[$k] = $this->clean($v);
             }
         } else {
-            $clean_input = trim(strip_tags($data));
+            $clean_input = trim(strip_tags(stripslashes($data)));
         }
 
         return $clean_input;
