@@ -184,14 +184,28 @@
 						<li>Choix de l’offre de la plus simple à la plus complète</li>
 						<li>Toujours au meilleur prix</li>
 					</ul>
-					<a href="/cridonline-decouvrir-nos-offres" title="Découvrir nos offres crid'online" class="link1">
-						<span><?php _e('Découvrir nos offres !'); ?></span>
-					</a>
+					
+					<?php if (!isPromoActive()) : ?>		
+						<a href="/cridonline-decouvrir-nos-offres" title="Découvrir nos offres crid'online" class="link1">
+							<span><?php _e('Découvrir nos offres !'); ?></span>
+						</a>
+						<a title="Souscrire nos offres crid'online" class="link2"
+							href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>">
+							<span><?php _e('Souscrire à nos offres !'); ?></span>
+						</a>
+					<?php else : ?>	
 
-					<a title="Souscrire nos offres crid'online" class="link2"
-						href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>">
-						<span><?php _e('Souscrire à nos offres !'); ?></span>
-					</a>
+						<div class="encartpromo"> Offres promo </div> 
+
+						<a href="/cridonline-decouvrir-nos-offres-promotionnelles" title="Découvrir nos offres crid'online" class="link1">
+							<span><?php _e('Découvrir nos offres !'); ?></span>
+						</a>
+						<a title="Souscrire nos offres crid'online" class="link2"
+							href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>">
+							<span><?php _e('Souscrire à nos offres !'); ?></span>
+						</a>						
+					<?php endif; ?>
+
 				</div>
 
 
