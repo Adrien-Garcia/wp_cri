@@ -41,6 +41,9 @@
     if (CriIsNotaire()) {
         $bodyClass[] = "is_notaire";
     }
+	if (CriCanAccessSensitiveInfo(CONST_QUESTIONECRITES_ROLE)) {
+		$bodyClass[] = "has_question_role";
+	}
 ?>
 <body <?php body_class($bodyClass); ?>>
 <?php
@@ -71,17 +74,17 @@ echo get_template_part("content","ga");
 							</a>
 							<ul class="overlay">
 								<li>
-									<a href="#" id="js-cridonline-link" >
+									<a href="#" id="js-cridonline-link" data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE' ?>" >
 										<?php _e('Bases CRID’'); ?><span><?php _e('ONLINE'); ?></span>
 									</a>
 								</li>
 								<li>
-									<a href="/rechercher-dans-les-bases-de-connaissances/" >
+									<a href="<?php echo CONST_URL_SINEQUA ?>" >
 										<?php _e('Bases CRIDON'); ?> <span><?php _e('LYON'); ?></span> 
 									</a>
 								</li>
 								<li>
-									<a href="#" title="Décourvrir l’offre CRID’ONLINE +">
+									<a href="<?php echo CONST_URL_INFO_PAGE_CRIDONLINE ?>" title="Décourvrir l’offre CRID’ONLINE +">
 										<?php _e('Décourvrir l’offre CRID’ONLINE +'); ?>
 									</a>
 								</li>
@@ -91,7 +94,12 @@ echo get_template_part("content","ga");
 					<!-- <a class="contacter" href="#">
 						<?php // _e('Contacter'); ?>
 					</a> -->
-					<a class="poser-question layer-posez-question_open js-question-open analytics_Poser_question" href="#">
+					<a
+						class="poser-question layer-posez-question_open js-question-open analytics_Poser_question"
+						data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE'; ?>"
+						href="#"
+					>
+
 						<?php _e('Poser une question'); ?>
 					</a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>

@@ -1,13 +1,27 @@
 .cridonline-offres{
+
+	.description{
+		font-size:20px;
+		line-height: 22px;
+	}
+
 	.bloc-cridonline{
 		width: 257px;
-		height: 400px;
+		height: 470px;
 		float: left;
 		margin-right: 12px;
 		background: #FFF;
-		margin-top: 15px;
+		margin-top: 15px; 
 		margin-bottom: 35px;
-
+		&.large {
+			height: 520px;
+			.content {
+				height: 367px;
+			}
+			&.on {
+				height: 540px;
+			}
+		}
 		
 
 		> .en-tete{
@@ -15,6 +29,8 @@
 
 		.content{
 			padding:0px 15px 15px 15px;
+
+
 
 			.titre{
 			}
@@ -35,10 +51,27 @@
 				&:after{
 				}
 			}
+
+			input[type="submit"]{
+				width: 200px !important;
+				font-size: 13px !important;
+				margin-left: -100px;
+			}
 		}
 
 		&.niveau-3{
 			margin-right: 0;
+		}
+
+		&.on{
+			width: 257px;
+			height: 490px;
+			top: -10px;
+			left: 0px;		   
+		}
+
+		&.off{
+			margin-left: 0px;
 		}
 		
 		
@@ -59,6 +92,12 @@ div#cridonline{
 		clear: both;
 	    width: 400px;
 	    margin: 0 auto 0 auto;
+
+	    a{
+	    	&:after{
+	    		top: 50px;
+	    	}
+	    }
 	} 
 
 	.message-offre{
@@ -107,6 +146,7 @@ div#cridonline{
 			}
 
 			input[type="submit"]{
+
 			}
 		}
 

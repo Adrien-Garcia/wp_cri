@@ -3,9 +3,9 @@ div#mon-profil{
 	.mes-informations{
 		width: 100%;
 		padding-bottom: 30px;
-		margin-bottom: 30px;
-		float: left;
+		margin-bottom: 20px;
 		border-bottom: solid 4px $bg-top-footer;
+		overflow: hidden;
 
 		h2{}
 
@@ -15,9 +15,14 @@ div#mon-profil{
 			background: $vj_03;
 			float: left;
 			position: relative;
+			display: none;
 
+
+
+			display: none;
+		
 			&:before{
-				display:block;
+				display:none;
 				font-weight: normal;
 				@include svgicon('icon-compte', 72px, 72px, #FFF);	 				
 				position:absolute;
@@ -36,12 +41,15 @@ div#mon-profil{
 
 		.coordonnees{
 
-			width: 200px;
-			padding-left: 10px;
+			width: 100%;
 			float: left;
-			@extend .do-sm;
+			@extend .do-me;
 			color:$bleu;
-			font-size: 15px;
+			font-size: 16px;
+
+			.etude{
+				margin-bottom: 30px;
+			}
 
 			.notaire{
 				//margin-top: 20px;
@@ -49,9 +57,9 @@ div#mon-profil{
 
 			.nom{
 												
-				line-height: 18px;
+				line-height: 20px;
 				text-transform: uppercase;
-				margin-bottom: 5px;
+				margin-bottom: 15px;
 
 				span{
 					display: block;										
@@ -66,22 +74,46 @@ div#mon-profil{
 			}
 
 			.adresse, .contact, .mail{
-				line-height: 18px;	
-				margin-bottom: 5px;
+				line-height: 20px;	
+				margin-bottom: 15px;
 
-				span{display: block;}
+				span{display: block; position: relative;}
 
 				a{ text-decoration: none;
 					color:$bleu;
-					font-weight: bold;}
+
+					position: absolute;
+				    top: 0px;
+				    left: 30px;
+				}
 			}
 
-			> a{
+			> a, .update{
 
 				@include bt-rectangle($vert, #FFF);
-				margin-left: -110px;
+				//margin-left: -110px;
+				cursor: pointer;
+				padding: 0 5px;
 
+				&.update-profil{
+					//margin-bottom: 0;
+				}
 
+				&.update-mdp{
+					/*  background: $vj_03;					
+										
+					&:before{
+						color: $vj_03;
+					} 
+
+					&:hover{
+						background:  $vj_04;	
+
+						&:before{
+							color: $vj_04;
+						} 
+					} */
+				}
 			}
 
 		}
@@ -89,9 +121,31 @@ div#mon-profil{
 
 	.cridonline-offres{
 		border-bottom: solid 4px $bg-top-footer;
+		padding-bottom: 25px;
+		margin-bottom: 15px;
+
+		h2 {
+			margin-bottom: 0; 
+		}
+		.description {
+			margin-bottom: 30px !important;
+		}
 	}
 
-	.mes-centres-dinterets, .newsletter{
+	.mes-centres-dinterets, .newsletter, .cridonline-offres {
+		
+		.description{
+			font-family: $garamond;
+			font-size: 15px;
+			line-height: 16px;
+			color:$rouge;
+			margin: 0;
+			padding: 0;
+
+		}
+	}
+
+	.mes-centres-dinterets, .newsletter {
 		clear: both;
 		margin-bottom: 30px;
 		padding-bottom: 30px;
@@ -102,7 +156,7 @@ div#mon-profil{
 		.description{
 			font-family: $garamond;
 			font-size: 15px;
-			line-height: 16px;
+			line-height: 18px;
 			color:$rouge;
 			margin: 0;
 			padding: 0;
@@ -110,7 +164,7 @@ div#mon-profil{
 		}
 
 		form{
-			margin: 30px 0 0 0;
+			margin: 20px 0 0 0;
 
 			> ul{
 				margin: 0;
@@ -118,7 +172,7 @@ div#mon-profil{
 
 				li{
 					margin: 0;
-					padding: 5px 0;
+					padding: 7px 0;
 
 					&:before{ content:none;}
 
@@ -127,15 +181,15 @@ div#mon-profil{
 						position: relative;
 						@extend .do-re;
 						color:$bleu;
-						font-size: 15px;
+						font-size: 13px;
 						line-height: 16px;
 						display: block;
 						cursor: pointer;
 
 						&:before{
 							content:'';
-							width: 10px;
-							height: 10px;
+							width: 9px;
+							height: 9px;
 							border:solid 1px $rouge;
 							position: relative;
 							display: inline-block;
@@ -190,6 +244,7 @@ div#mon-profil{
 
 	.newsletter{
 		margin-bottom: 0px;
+		border-bottom: none;
 
 		> a{
 			@include bt-rectangle($vert, #FFF);

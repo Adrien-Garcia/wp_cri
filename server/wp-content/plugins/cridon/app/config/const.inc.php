@@ -19,6 +19,12 @@ define('PREPROD', 'PREPROD');
 if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
     define( 'CONST_NOTAIRE_ROLE', 'notaire' );
 }
+if ( !defined( 'CONST_CONNAISANCE_ROLE' ) ) {
+    define( 'CONST_CONNAISANCE_ROLE', 'accesconnaissance' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_TAB_ROLE' ) ) {
+    define( 'CONST_COLLABORATEUR_TAB_ROLE', 'accesongletcollaborateur' );
+}
 if ( !defined( 'CONST_FINANCE_ROLE' ) ) {
     define( 'CONST_FINANCE_ROLE', 'accesfinances' );
 }
@@ -27,6 +33,18 @@ if ( !defined( 'CONST_QUESTIONECRITES_ROLE' ) ) {
 }
 if ( !defined( 'CONST_QUESTIONTELEPHONIQUES_ROLE' ) ) {
     define( 'CONST_QUESTIONTELEPHONIQUES_ROLE', 'accesquesttelephoniques' );
+}
+if ( !defined( 'CONST_MODIFYOFFICE_ROLE' ) ) {
+    define( 'CONST_MODIFYOFFICE_ROLE', 'modifyoffice' );
+}
+if ( !defined( 'CONST_CRIDONLINESUBSCRIPTION_ROLE' ) ) {
+    define( 'CONST_CRIDONLINESUBSCRIPTION_ROLE', 'cridonlinesubscription' );
+}
+if ( !defined( 'CONST_NOTAIRE_DIV_ROLE' ) ) {
+    define( 'CONST_NOTAIRE_DIV_ROLE', 'notaire_div' );
+}
+if ( !defined( 'CONST_NOTAIRE_ORG_ROLE' ) ) {
+    define( 'CONST_NOTAIRE_ORG_ROLE', 'notaire_org' );
 }
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
@@ -363,6 +381,93 @@ if ( !defined( 'CONST_NOTAIRE_SUPLEANTE' ) ) {
 if ( !defined( 'CONST_NOTAIRE_ADMIN' ) ) {
     define( 'CONST_NOTAIRE_ADMIN', 10 );
 }
+if ( !defined( 'CONST_NOTAIRE_PRESIDENT_CHAMBRE' ) ) {
+    define( 'CONST_NOTAIRE_PRESIDENT_CHAMBRE', 11 );
+}
+if ( !defined( 'CONST_NOTAIRE_PRESIDENT_CONSEIL' ) ) {
+    define( 'CONST_NOTAIRE_PRESIDENT_CONSEIL', 12 );
+}
+if ( !defined( 'CONST_NOTAIRE_DELEGUE_CRIDON' ) ) {
+    define( 'CONST_NOTAIRE_DELEGUE_CRIDON', 13 );
+}
+if ( !defined( 'CONST_NOTAIRE_DIRECTEUR' ) ) {
+    define( 'CONST_NOTAIRE_DIRECTEUR', 14 );
+}
+if ( !defined( 'CONST_NOTAIRE_DIRECTEUR_GENERAL' ) ) {
+    define( 'CONST_NOTAIRE_DIRECTEUR_GENERAL', 15 );
+}
+if ( !defined( 'CONST_NOTAIRE_DIRECTEUR_DEPARTEMET' ) ) {
+    define( 'CONST_NOTAIRE_DIRECTEUR_DEPARTEMET', 16 );
+}
+if ( !defined( 'CONST_NOTAIRE_CONSEIL_JUR' ) ) {
+    define( 'CONST_NOTAIRE_CONSEIL_JUR', 17 );
+}
+if ( !defined( 'CONST_NOTAIRE_ASSISTANT' ) ) {
+    define( 'CONST_NOTAIRE_ASSISTANT', 18 );
+}
+if ( !defined( 'CONST_NOTAIRE_ASSISTANTE' ) ) {
+    define( 'CONST_NOTAIRE_ASSISTANTE', 19 );
+}
+if ( !defined( 'CONST_NOTAIRE_HONORAIRE' ) ) {
+    define( 'CONST_NOTAIRE_HONORAIRE', 20 );
+}
+if ( !defined( 'CONST_NOTAIRE_SG' ) ) {
+    define( 'CONST_NOTAIRE_SG', 21 );
+}
+if ( !defined( 'CONST_NOTAIRE_SECRETAIRE' ) ) {
+    define( 'CONST_NOTAIRE_SECRETAIRE', 22 );
+}
+if ( !defined( 'CONST_NOTAIRE_SECOND_RAPORTEUR' ) ) {
+    define( 'CONST_NOTAIRE_SECOND_RAPORTEUR', 23 );
+}
+if ( !defined( 'CONST_NOTAIRE_PROF_DROIT' ) ) {
+    define( 'CONST_NOTAIRE_PROF_DROIT', 24 );
+}
+if ( !defined( 'CONST_NOTAIRE_TRESORIER' ) ) {
+    define( 'CONST_NOTAIRE_TRESORIER', 25 );
+}
+if ( !defined( 'CONST_NOTAIRE_CHARGE_DVP' ) ) {
+    define( 'CONST_NOTAIRE_CHARGE_DVP', 26 );
+}
+if ( !defined( 'CONST_NOTAIRE_GEOMETRE' ) ) {
+    define( 'CONST_NOTAIRE_GEOMETRE', 28 );
+}
+
+// Notary Collaborator functions id
+if ( !defined( 'CONST_COLLAB_COMPTABLE' ) ) {
+    define( 'CONST_COLLAB_COMPTABLE', 1 );
+}
+if ( !defined( 'CONST_COLLAB_COMPTABLE_TAXATEUR' ) ) {
+    define( 'CONST_COLLAB_COMPTABLE_TAXATEUR', 2 );
+}
+if ( !defined( 'CONST_COLLAB_CLERC' ) ) {
+    define( 'CONST_COLLAB_CLERC', 3 );
+}
+if ( !defined( 'CONST_COLLAB_NEGOCIATEUR' ) ) {
+    define( 'CONST_COLLAB_NEGOCIATEUR', 4 );
+}
+if ( !defined( 'CONST_COLLAB_ASSISTANT' ) ) {
+    define( 'CONST_COLLAB_ASSISTANT', 5 );
+}
+if ( !defined( 'CONST_COLLAB_STAGIAIRE' ) ) {
+    define( 'CONST_COLLAB_STAGIAIRE', 6 );
+}
+if ( !defined( 'CONST_COLLAB_EMPLOYE_ACCUEIL' ) ) {
+    define( 'CONST_COLLAB_EMPLOYE_ACCUEIL', 7 );
+}
+if ( !defined( 'CONST_COLLAB_SECRETAIRE' ) ) {
+    define( 'CONST_COLLAB_SECRETAIRE', 8 );
+}
+if ( !defined( 'CONST_COLLAB_CADRE' ) ) {
+    define( 'CONST_COLLAB_CADRE', 9 );
+}
+if ( !defined( 'CONST_COLLAB_SECRETAIRE_ASSIST' ) ) {
+    define( 'CONST_COLLAB_SECRETAIRE_ASSIST', 10 );
+}
+if ( !defined( 'CONST_COLLAB_TECHNICIEN' ) ) {
+    define( 'CONST_COLLAB_TECHNICIEN', 11 );
+}
+
 
 // Add Question Form
 if ( !defined( 'CONST_QUESTION_MATIERE_DOCUMENTATION_ID' ) ) {
@@ -457,6 +562,34 @@ if ( !defined( 'CONST_IMPORT_DOCUMENT_TEMP_PATH' ) ) {
     $uploadDir = wp_upload_dir();
     define( 'CONST_IMPORT_DOCUMENT_TEMP_PATH', $uploadDir['basedir'] . '/import/importsGEDTemp/' );
 }
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_URL' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_URL', $uploadDir['basedir'] . '/documentsCridon/CGUV.pdf' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_CGUV_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_CGUV_PATH', $uploadDir['baseurl'] . '/documentsCridon/CGUV.pdf' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL', $uploadDir['basedir'] . '/documentsCridon/Mandat_SEPA.pdf' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_PATH', $uploadDir['baseurl'] . '/documentsCridon/Mandat_SEPA.pdf' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_REFERENCE', $uploadDir['baseurl'] . '/documentsCridon/Description-CRIDONLINE-reference.pdf' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_PREMIUM' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_PREMIUM', $uploadDir['baseurl'] . '/documentsCridon/Description-CRIDONLINE-premium.pdf' );
+}
+if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_EXCELLENCE' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_CRIDONLINE_DOCUMENT_EXCELLENCE', $uploadDir['baseurl'] . '/documentsCridon/Description-CRIDONLINE-excellence.pdf' );
+}
 if ( !defined( 'CONST_IMPORT_FILE_TYPE' ) ) {
     define( 'CONST_IMPORT_FILE_TYPE', 'txt' );
 }
@@ -503,6 +636,12 @@ if ( !defined( 'CONST_CRIDONLINE_ECHEANCE_MONTH' ) ) {
 if ( !defined( 'CONST_EXPORT_CRIDONLINE_ERROR' ) ) {
     define( 'CONST_EXPORT_CRIDONLINE_ERROR', 'Export cridonline interrompu le : %s' );
 }
+if ( !defined( 'CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT' ) ) {
+    define( 'CONST_ERROR_MSG_NIV_VEILLE_INSUFFISANT', "Votre étude n'a pas souscrit à ce niveau d'offre CRID'ONLINE." );
+}
+if ( !defined( 'CONST_ERROR_MSG_FONCTION_NON_AUTORISE' ) ) {
+    define( 'CONST_ERROR_MSG_FONCTION_NON_AUTORISE', "Vous n'avez pas l'autorisation pour accéder à cette page." );
+}
 
 if (!defined('CONST_CONNECTION_FAILED')) {
     define('CONST_CONNECTION_FAILED', 'La connexion à la base Oracle a échoué');
@@ -545,6 +684,56 @@ if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
 if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_3' ) ) {
     define( 'CONST_CRIDONLINE_LABEL_LEVEL_3', 'Excellence' );
 }
+// Collaborateur form
+if ( !defined( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG', 'Le profil du collaborateur a bien été supprimé.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_DELETE_FAIL_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_DELETE_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_ADD_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_ADD_SUCCESS_MSG', 'Le collaborateur a bien été ajouté à votre étude.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_ADD_ERROR_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_ADD_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_FUNCTION_ERROR_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_FUNCTION_ERROR_MSG', 'Merci de remplir la fonction collaborateur.' );
+}
+if ( !defined( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_COLLABORATEUR_MODIFY_SUCCESS_MSG', 'Le collaborateur a bien été modifié.' );
+}
+if ( !defined( 'CONST_PROFIL_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_MODIFY_SUCCESS_MSG', 'Votre profil a bien été modifié.' );
+}
+if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG', 'Les données de votre étude ont bien été modifiées.' );
+}
+if ( !defined( 'CONST_PROFIL_PASSWORD_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
+}
+if ( !defined( 'CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG', 'Les emails ne sont pas identiques.' );
+}
+if ( !defined( 'CONST_PROFIL_PASSWORD_SUCCESS_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_SUCCESS_MSG', 'La demande de modification de mot de passe a bien été prise en compte.' );
+}
+if ( !defined( 'CONST_CREATE_USER' ) ) {
+    define( 'CONST_CREATE_USER', 'create_user' );
+}
+if ( !defined( 'CONST_MODIFY_USER' ) ) {
+    define( 'CONST_MODIFY_USER', 'modify_user' );
+}
+if ( !defined( 'CONST_PROFIL_MODIFY_USER' ) ) {
+    define( 'CONST_PROFIL_MODIFY_USER', 'profil_modify_user' );
+}
+if ( !defined( 'CONST_DELETE_USER' ) ) {
+    define( 'CONST_DELETE_USER', 'delete_user' );
+}
+
 //Alert on issues without documents
 if ( !defined( 'CONST_ALERT_MINUTE' ) ) {
     define( 'CONST_ALERT_MINUTE', 30 );
@@ -755,9 +944,29 @@ if ( !defined( 'CONST_APNS_URL' ) ) {
 
 // End of block for mobile
 
+// Reset pwd value to be inserted in YNOTAIRE
+if ( !defined( 'CONST_YTRAITEE_RESETPWD' ) ) {
+    define( 'CONST_YTRAITEE_RESETPWD', 3 );
+}
+if ( !defined( 'CONST_RESETPWD_ERROR' ) ) {
+    define( 'CONST_RESETPWD_ERROR', 'Renouvellement mot de passe interrompu le : %s' );
+}
+if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD_ON' ) ) {
+    define( 'CONST_YDDEMDPTEL_RESETPWD_ON', 2 );
+}
+if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD_ON' ) ) {
+    define( 'CONST_YDDEMDPWEB_RESETPWD_ON', 2 );
+}
+if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD_OFF' ) ) {
+    define( 'CONST_YDDEMDPTEL_RESETPWD_OFF', 1 );
+}
+if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD_OFF' ) ) {
+    define( 'CONST_YDDEMDPWEB_RESETPWD_OFF', 1 );
+}
+
 // id of collaborator on cri_fonction
 if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
-    define( 'CONST_NOTAIRE_COLLABORATEUR', 24 );
+    define( 'CONST_NOTAIRE_COLLABORATEUR', 27 );
 }
 
 if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
@@ -767,17 +976,6 @@ if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
 // alert email changed
 if ( !defined( 'CONST_ALERT_EMAIL_CHANGED' ) ) {
     define('CONST_ALERT_EMAIL_CHANGED', 'Attention : il s\'agit de votre adresse email personnelle');
-}
-
-// Start of block delete collaborator
-if ( !defined( 'CONST_CONFIRM_DEL_MSG' ) ) {
-    define( 'CONST_CONFIRM_DEL_MSG', 'Confirmer la suppression du collaborateur ?' );
-}
-if ( !defined( 'CONST_DEL_SUCCESS_MSG' ) ) {
-    define( 'CONST_DEL_SUCCESS_MSG', 'Collaborateur supprimé' );
-}
-if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
-    define( 'CONST_DELCOLLAB_ERROR', 'Suppression collaborateur interrompu le : %s' );
 }
 // End of block delete collaborator
 
@@ -818,6 +1016,104 @@ if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
+// capabilités d'aceès au solde
+if ( !defined( 'CONST_ACCESS_SOLDE' ) ) {
+    define( 'CONST_ACCESS_SOLDE', 'access_solde' );
+}
+// liste des categories notaires
+if ( !defined( 'CONST_OFFICES_CATEG' ) ) {
+    define( 'CONST_OFFICES_CATEG', 'OFF' );
+}
+if ( !defined( 'CONST_ORGANISMES_CATEG' ) ) {
+    define( 'CONST_ORGANISMES_CATEG', 'ORG' );
+}
+if ( !defined( 'CONST_CLIENTDIVERS_CATEG' ) ) {
+    define( 'CONST_CLIENTDIVERS_CATEG', 'DIV' );
+}
+
+// Start of block Import Facture
+if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
+    define( 'CONST_TYPEFACTURE_CG', 'CG' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CS' ) ) { // cotisation supplementaire
+    define( 'CONST_TYPEFACTURE_CS', 'CS' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_TRAD' ) ) { // traduction
+    define( 'CONST_TYPEFACTURE_TRAD', 'TRAD' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_SAF' ) ) { // service d'assistance fiscale
+    define( 'CONST_TYPEFACTURE_SAF', 'SAF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CONF' ) ) { // formation
+    define( 'CONST_TYPEFACTURE_CONF', 'CONF' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CO' ) ) { // offre éditeur CridOnline
+    define( 'CONST_TYPEFACTURE_CO', 'CO' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
+    define( 'BROCHNST_TYPEFACTURE_BROCH', 'BROCH' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFACTURETemp/' );
+}
+if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_FACTURE_PATH', $uploadDir['basedir'] . '/factures/' );
+}
+if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_FACTURE', 'facture' );
+}
+// End of block Import Facture
+if ( !defined( 'CONST_DISPLAYED' ) ) {
+    define( 'CONST_DISPLAYED', 1 );
+}
 
 
 
+// Start of block Import Releveconso
+if ( !defined( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH', $uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/' );
+}
+if ( !defined( 'CONST_IMPORT_RELEVECONSO_PATH' ) ) { // emplacement definitif
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_IMPORT_RELEVECONSO_PATH', $uploadDir['basedir'] . '/releveconso/' );
+}
+if ( !defined( 'CONST_DOC_TYPE_RELEVECONSO' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_RELEVECONSO', 'releveconso' );
+}
+// End of block Import Releveconso
+
+if ( !defined( 'CONST_YTRAITEE_PAR_SITE' ) ) {
+    define( 'CONST_YTRAITEE_PAR_SITE', 0 );
+}
+// droit pour question ecrite au niveau ERP
+if ( !defined( 'CONST_YSREECR_OFF' ) ) {
+    define( 'CONST_YSREECR_OFF', 1 );
+}
+if ( !defined( 'CONST_YSREECR_ON' ) ) {
+    define( 'CONST_YSREECR_ON', 2 );
+}
+// droit pour question telephonique au niveau ERP
+if ( !defined( 'CONST_YSRETEL_OFF' ) ) {
+    define( 'CONST_YSRETEL_OFF', 1 );
+}
+if ( !defined( 'CONST_YSRETEL_ON' ) ) {
+    define( 'CONST_YSRETEL_ON', 2 );
+}
+if ( !defined( 'CONST_UPDATEERP_ERROR' ) ) {
+    define( 'CONST_UPDATEERP_ERROR', 'Mise à jour données notaires (update) : %s' );
+}
+if ( !defined( 'CONST_DELCOLLAB_ERROR' ) ) {
+    define( 'CONST_DELCOLLAB_ERROR', 'Mise à jour données notaires (suppression) : %s' );
+}
+if ( !defined( 'CONST_DATE_NULL_ORACLE' ) ) {
+    define( 'CONST_DATE_NULL_ORACLE', '31/12/1599' );
+}
+if ( !defined( 'CONST_URL_SINEQUA' ) ) {
+    define( 'CONST_URL_SINEQUA', '/rechercher-dans-les-bases-de-connaissances/' );
+}
+if ( !defined( 'CONST_URL_INFO_PAGE_CRIDONLINE' ) ) {
+    define( 'CONST_URL_INFO_PAGE_CRIDONLINE', '/cridonline-decouvrir-nos-offres/' );
+}

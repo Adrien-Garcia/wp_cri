@@ -76,3 +76,31 @@ Lorsque le type de support vaut 0, il s'agit du nombre de points initiaux d'une 
 
 Il doit donc y avoir autant de lignes avec support 0 que d'étude,
 alors qu'il n'y a pas de ligne avec un support autre tant qu'il n'y a pas eu de consommation de points.
+
+# Migrations SQL
+
+Ce Wordpress se base sur des Models custom, ayant chacun leur propre table. Cela permet de faire évoluer le model par étape, sans opération manuelle en BO.
+On écrit pour ce faire, des migrations SQL disponibles dans le dossier idoine du plugin Cridon.
+
+Ces migrations peuvent être exécutées en CLI dans le dossier `server` via la commande suivante :
+````
+php oneshot/executeMigrationsSQL.php
+````
+
+L'état des migrations est consultable dans la table `cri_plugin_migrations`.
+
+# Paramétrage des constantes applicatives
+```
+wp-content/plugins/cridon/app/config/const.inc.php
+wp-content/plugins/cridon/app/config/config.php
+```
+
+# Fichier de déclaration des fonctions specifiques utilisées en Front 
+```
+wp-content/plugins/cridon/app/utils/functions.php
+```
+
+# Emplacement des Hook de personnalisation
+```
+wp-content/plugins/cridon/app/config/hook.inc.php
+```

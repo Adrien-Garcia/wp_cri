@@ -111,7 +111,8 @@ HEADER STYLES
 				height: 50px;
 
 				>a{
-					@extend .do-sm;
+					font-family: $dosis;
+    				font-weight: 600;
 					line-height: 40px;
 					left: 365px;
 					font-size: 16px;
@@ -710,8 +711,8 @@ body.page-template-front-page{
 				}
 
 				ul{					
+					height: 150px;
 					margin-top: 160px;
-					height: 130px;
 
 					li{						
 						padding-left: 18px;	

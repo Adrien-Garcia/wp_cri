@@ -107,7 +107,7 @@
 
 			#filtres_formations{
 
-				>div{
+				>a{
 					line-height: 70px;
 					font-size: 30px;					
 
@@ -121,7 +121,7 @@
 
 				}
 
-				>div.open{
+				>a.open{
 
 					span{}
 				}
@@ -186,33 +186,30 @@
 						&.niveau1{
 							.img-cat{								
 								&:after{
-									background-size: 50px 50px;
-									width: 50px;
-									height: 50px;									
-									top: 110px;
-									left: 50px;
+									content:url(../images/reference-desktop.svg);
+									width: 100px;
+									height: 100px;									
+									top: 120px;
 								}
 							}
 						}
 						&.niveau2{
 							.img-cat{
 								&:after{
-									background-size: 50px 50px;
-									width: 50px;
-									height: 50px;									
-									top: 110px;
-									left: 50px;
+									content:url(../images/premium-desktop.svg);
+									width: 100px;
+									height: 100px;									
+									top: 120px;
 								}
 							}
 						}
 						&.niveau3{
 							.img-cat{
 								&:after{
-									background-size: 50px 50px;
-									width: 50px;
-									height: 50px;									
-									top: 110px;
-									left: 50px;
+									content:url(../images/excellence-desktop.svg);
+									width: 100px;
+									height: 100px;									
+									top: 120px;
 								}
 							}
 						}

@@ -124,7 +124,7 @@ class CriFileUploader
         $num = count($this->files['name']);
         // Control for max_files
         if ($num > $this->max_files) {
-            $this->errors[0][] = "To many files! max allowed = " . $this->max_files;
+            $this->errors[0][] = "Too many files! max allowed = " . $this->max_files;
             return FALSE;
         } else {
             //check for all files, SIZE and FILE_TYPE

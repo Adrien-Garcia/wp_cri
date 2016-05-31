@@ -1,0 +1,66 @@
+#mes-collaborateurs{
+
+	.bt-ajout{
+		//font-size: 18px;
+		
+		
+	}
+
+	ul.list-collab{
+		//margin-top: 25px; 
+		width: 790px;
+	
+
+		li{
+
+		height: 80px;	
+		padding: 15px 0;
+
+			span{}
+
+			.trash{
+
+				&:before{
+
+					top:50%;
+					margin-top: -4px;
+
+				}
+
+				&:hover{
+					&:before{
+						
+					}
+				}
+
+				
+
+				form{
+
+					input{}
+				}
+			}
+
+			.block_01, .block_02, .block_03{
+
+				float: left;
+				width: 33.33%;
+				margin: 0;
+				line-height: 22px;
+
+				
+				.nom{line-height: 22px;}
+
+				.fonction{line-height: 22px;}
+
+				.tel{}
+			}
+
+			.block_03{
+				padding-left: 50px;
+			}
+		}
+	}
+
+	
+}

@@ -113,6 +113,7 @@ the other stylesheets. Remember, keep it light: Speed is Important.
 @import "breakpoints/base/prive/profil";
 @import "breakpoints/base/prive/facturation";
 @import "breakpoints/base/prive/cridonline";
+@import "breakpoints/base/prive/collaborateurs";
 
 /*POPUP*/
 @import "breakpoints/base/popup";
@@ -154,6 +155,7 @@ you can add resource intensive styles.
 	@import "breakpoints/768/prive/profil";
 	@import "breakpoints/768/prive/facturation";
 	@import "breakpoints/768/prive/cridonline";
+	@import "breakpoints/768/prive/collaborateurs";
 
 	/*POPUP*/
 	@import "breakpoints/768/popup";
@@ -182,6 +184,7 @@ you can add resource intensive styles.
 	@import "breakpoints/1240/prive/profil";
 	@import "breakpoints/1240/prive/facturation";
 	@import "breakpoints/1240/prive/cridonline";
+	@import "breakpoints/1240/prive/collaborateurs";
 
 	/*POPUP*/
 	@import "breakpoints/1240/popup";

@@ -178,39 +178,39 @@
 
 				<div class="cridonline">
 					<ul>
-						<li>Lorem ipsum dolor sit amet, consectetur</li>
-						<li>adipisicing elit, sed do eiusmod</li>
-						<li>didunt ut labore et dolore magna</li>
-						<li>atem accusantium doloremque laudantium</li>
-						<li>totam rem aperiam, eaque</li>
+						<li>Totalement conçu pour les notaires</li>
+						<li>Intégré et complémentaire à votre espace privé CRIDON LYON</li>
+						<li>Simple et ergonomique</li>
+						<li>Choix de l’offre de la plus simple à la plus complète</li>
+						<li>Toujours au meilleur prix</li>
 					</ul>
-					<a href="#" title="Découvrir nos offres crid'online" class="link1"><span><?php _e('Découvrir nos offres !'); ?></span></a>
+					<a href="/cridonline-decouvrir-nos-offres" title="Découvrir nos offres crid'online" class="link1">
+						<span><?php _e('Découvrir nos offres !'); ?></span>
+					</a>
 
-					<a title="Découvrir nos offres crid'online" class="link2 <?php if(!CriIsNotaire()) : ?>js-panel-connexion-open<?php endif; ?>" 
-						<?php if(CriIsNotaire()) : ?> href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>" 
-						<?php else : ?> href="#" data-login-message="PROTECTED_CONTENT" <?php endif; ?> 
-						>
+					<a title="Souscrire nos offres crid'online" class="link2"
+						href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>">
 						<span><?php _e('Souscrire à nos offres !'); ?></span>
 					</a>
 				</div>
 
 
 				
-				<div class="veille-juridique <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+				<div class="veille-juridique js-home-block-link">
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
 
-						<a <?php if(CriIsNotaire()) : ?> href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+						<a href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" >
 							<span><?php _e('S\'abonner à votre veille !'); ?></span>
 						</a>
 
 						<img src="" alt="" class="appli" />
 					</div>
 				</div>
-				<div class="info-flash-exclu <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="PROTECTED_CONTENT" <?php endif; ?>>
+				<div class="info-flash-exclu js-home-block-link">
 					<div class="content">
 						<h2><?php _e('Info flash en exclusivité'); ?> </h2>
-						<a <?php if(CriIsNotaire()) : ?> href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>" <?php else : ?> href="#" data-login-message="ERROR_NEWSLETTER_NOT_CONNECTED" <?php endif; ?> >
+						<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>" >
 							<span><?php _e('Consulter les flash infos'); ?></span>
 						</a>						
 					</div>
@@ -234,7 +234,7 @@
 				
 				<h2>
 					<?php _e('La vie'); ?>
-					<span><?php _e('du CRIDON'); ?> </span>
+					<span><?php _e('du CRIDON LYON'); ?> </span>
 				</h2>
 				<?php 
 				$vie = criGetLatestPost('vie_cridon');
@@ -277,7 +277,7 @@
 		    	<?php wp_reset_query(); ?>
 		    <?php endif; ?>
 
-				<a href="<?php echo MvcRouter::public_url(array('controller' => 'vie_cridons', 'action'     => 'index')) ?>" title="Lorem" class="LienVieCridon" ><span> <?php _e('Toute la vie du CRIDON'); ?> </span></a>
+				<a href="<?php echo MvcRouter::public_url(array('controller' => 'vie_cridons', 'action'     => 'index')) ?>" title="Lorem" class="LienVieCridon" ><span> <?php _e('Toute la vie du CRIDON LYON'); ?> </span></a>
 			</div>
 		</div>	
 

@@ -221,17 +221,22 @@ App.Question = {
 
 
         if ( bClass.indexOf("is_notaire") === -1) {
-            this.$buttonQuestionOpen.add(this.buttonQuestionDocumentationSelector).add(this.buttonQuestionSupportSelector).on('click', function(e) {
+            this.$buttonQuestionOpen.add(this.buttonQuestionDocumentationSelector).add(this.buttonQuestionSupportSelector).on('click', function (e) {
                 App.Login.eventPanelConnexionToggle();
                 App.Login.changeLoginErrorMessage("ERROR_NOT_CONNECTED_QUESTION");
                 App.Login.targetUrl = (typeof App.Login.targetUrl) == "boolean" ? location.origin + location.pathname : App.Login.targetUrl;
 
                 if (App.Utils.queryString == false) {
                     App.Login.targetUrl += "?openQuestion=1";
-                } else if ( ! App.Utils.queryString["openQuestion"]) {
+                } else if (!App.Utils.queryString["openQuestion"]) {
                     App.Login.targetUrl += "&openQuestion=1";
                 }
             });
+        } else if (bClass.indexOf("has_question_role") === -1) {
+            this.$buttonQuestionOpen.on('click',function(e){
+                var url = $(this).data('js-redirect');
+                window.location = url;
+            })
         } else {
             this.$buttonQuestionDocumentation.on('click', function(e) {
                 self.$formQuestion[0].reset();
@@ -302,19 +307,26 @@ App.Question = {
     },
 
     eventFileChange: function (fileInput) {
-        if(fileInput.val() != "") {
-            fileInput.siblings(this.fileQuestionNameSelector).text(fileInput.val());
-            var nextFileInput = false;
-            this.$fileQuestion.each(function(i,c) {
-                var c = $(c);
-                if (c.val() == "" && c.parents('.fileUpload').first().hasClass('hidden') && !nextFileInput) {
-                    c.parents('.fileUpload').first().removeClass('hidden');
-                    nextFileInput = true;
-                }
-            });
+        var file = fileInput[0].files[0];
+        if (file && file.size > jsvar.question_max_file_size) {
+            this.$blockQuestionError.text(jsvar.question_file_size_error);
+            // stop action
+            return false;
         } else {
-            fileInput.siblings(this.fileQuestionNameSelector).text("Vide");
+            if (fileInput.val() != "") {
+                fileInput.siblings(this.fileQuestionNameSelector).text(fileInput.val());
+                var nextFileInput = false;
+                this.$fileQuestion.each(function (i, c) {
+                    var c = $(c);
+                    if (c.val() == "" && c.parents('.fileUpload').first().hasClass('hidden') && !nextFileInput) {
+                        c.parents('.fileUpload').first().removeClass('hidden');
+                        nextFileInput = true;
+                    }
+                });
+            } else {
+                fileInput.siblings(this.fileQuestionNameSelector).text("Vide");
 
+            }
         }
     },
 

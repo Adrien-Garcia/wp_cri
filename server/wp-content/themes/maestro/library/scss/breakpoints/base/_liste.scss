@@ -31,7 +31,7 @@
 					margin-bottom: 20px;
 
 					>label{
-						color: #b9003f;
+						color: $rouge;
 					    font-size: 16px;
 					    text-transform: uppercase;
 					    @extend .do-bo;
@@ -103,7 +103,7 @@
 									content: '';
 								    width: 10px;
 								    height: 10px;
-								    border: solid 1px #b9003f;
+								    border: solid 1px $rouge;
 								    margin-right: 5px;
 								    position: absolute;
 								    display: inline-block;
@@ -124,7 +124,7 @@
 								&.select{
 
 									&:before{
-										border: solid 1px #b9003f;
+										border: solid 1px $rouge;
 										background: $rouge;
 									}
 
@@ -157,14 +157,15 @@
 				border-bottom:solid 4px $vert;
 				margin-bottom: 10px;
 
-				>div{
-					@extend .do-sm;
+				>a{
+					font-family: $dosis;
+    				font-weight: 600;
 					text-transform: uppercase;
 					color:$bleu;
 					font-size: 20px;
 					line-height: 60px;
 					vertical-align: middle;
-					/*text-decoration: underline;*/
+					text-decoration: none;
 
 					border-bottom:solid 16px #FFF;
 
@@ -193,7 +194,7 @@
 
 				}
 
-				>div.open{
+				>a.open{
 					color:$vert;
 					//text-decoration: none;
 					border-bottom:solid 16px $vert;
@@ -288,13 +289,18 @@
 								position: relative;
 								&:after{
 									position: absolute;
-									content:'';
-									width: 30px;
-									height: 30px;
-									background-image: url(../images/icon-cridonline-reference.png);
+									content:url(../images/reference.svg);
+									top: 60px;
+									left: -9px;
+									height: 12px;
+    								width: 50px;
+								    display: block;
+								    line-height: 12px;
+									/*background-image: url(../images/icon-cridonline-reference.png);
 									background-size: 30px 30px;
 									top: 35px;
-									left: 0;
+									left: 0;*/
+									@include rotate(-90);
 								}
 							}
 						}
@@ -303,13 +309,14 @@
 								position: relative;
 								&:after{
 									position: absolute;
-									content:'';
-									width: 30px;
+									content:url(../images/premium.svg);
+									/*width: 30px;
 									height: 30px;
 									background-image: url(../images/icon-cridonline-premium.png);
-									background-size: 30px 30px;
-									top: 35px;
-									left: 0;
+									background-size: 30px 30px;*/
+									top: 60px;
+									left: -9px;
+									@include rotate(-90);
 								}
 							}
 						}
@@ -318,13 +325,20 @@
 								position: relative;
 								&:after{
 									position: absolute;
-									content:'';
-									width: 30px;
+									content:url(../images/excellence.svg);
+									@include rotate(-90);
+									height: 10px;
+    								width: 60px;
+								    display: block;
+								    line-height: 12px;
+								    top: 76px;
+    								left: -17px;
+									/*width: 30px;
 									height: 30px;
 									background-image: url(../images/icon-cridonline-excellence.png);
 									background-size: 30px 30px;
 									top: 35px;
-									left: 0;
+									left: 0;*/
 								}
 							}
 						}

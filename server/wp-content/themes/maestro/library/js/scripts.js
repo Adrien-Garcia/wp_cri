@@ -221,6 +221,7 @@ jQuery(document).ready(function($) {
     
 
     /* ANNIM MENU RECHERCHER DANS LES BASES DE CONNAISSANCES */
+
     $("#rechercher > li > a").mouseenter(function(){
       $("#rechercher .overlay").addClass('visible');
     });
@@ -246,5 +247,6 @@ jQuery(document).ready(function($) {
     	$("#tri_matiere + .panel").toggle('slow');
 
     });
+
 
 }); /* end of as page load scripts */

@@ -480,14 +480,15 @@ function getMatieresByNotaire(){
 
 /**
  * Check if notaire can access sensitive informations
+ * @param string $role
  *
  * @return bool
  */
-function CriCanAccessSensitiveInfo() {
+function CriCanAccessSensitiveInfo($role) {
     // check if user connected is notaire
     if (CriIsNotaire()) {
         // user data
-        return mvc_model('notaire')->userCanAccessSensitiveInfo();
+        return mvc_model('notaire')->userCanAccessSensitiveInfo($role);
     }
     return false;
 }
@@ -707,38 +708,45 @@ function CriRecursiveFindingFileInDirectory($path, $file)
  * @param mixed $url
  */
 function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
+
     if (isset($_GET['requestUrl'] ) ) {
+        // Si déjà redirigé, ne pas mettre à jour le request URL et utiliser la home comme referer
+        // (redirection en cascade probablement liée à la protection du referer initial)
         $referer = get_home_url();
-        $request = !empty($url) ? $url : urlencode($_GET['requestUrl']);
+        $request = !empty($url) ? $url : $_GET['requestUrl'];
     } else {
-        $referer = $_SERVER['HTTP_REFERER'];
-        $request = !empty($url) ? $url : "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+        $referer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : get_home_url();
+        $request = !empty($url) ? $url : $_SERVER['REQUEST_URI'];
     }
 
-    if (! empty($referer) /*&& strripos( $request , $referer)*/ ){
-        $redirect = $referer;
+    if( empty($request) ) {
+        $request = '';
     } else {
-        $redirect = get_home_url();
+        $request = mb_strpos($request, get_home_url()) === false ? get_home_url() . $request : $request;
+        $request = urlencode($request);
     }
 
     if (
         preg_match("/.*?[\?\&]openLogin=1.*?/", $referer) === 1 &&
         preg_match("/.*?[\?\&]messageLogin=" . $error_code . ".*?/", $referer) === 1
     ) {
-        wp_redirect($redirect);
+        $redirect = get_home_url() . "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . urlencode($_SERVER['REQUEST_URI']);
+        wp_safe_redirect($redirect);
         return;
     }
 
     if (preg_match("/.*\?.*/", $referer)) {
-        $redirect .= "&";
+        $referer .= "&";
     } else {
-        $redirect .= "?";
+        $referer .= "?";
     }
 
-    $redirect .= "openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . $request;
+    $referer .= "openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . $request;
 
-    wp_redirect($redirect);
+    wp_safe_redirect($referer);
+    exit;
 }
+
 
 /**
  *  Menu principal
@@ -986,16 +994,6 @@ function CriSendPostQuestConfirmation($question) {
 }
 
 /**
- * Check if  current user can manage Collaborator
- *
- * @return bool
- * @throws Exception
- */
-function CriCanManageCollaborator() {
-    return mvc_model('notaire')->userCanManageCollaborator();
-}
-
-/**
  * Get list of all existing roles
  *
  * @return array
@@ -1021,3 +1019,30 @@ function CriGetCollaboratorRoles($collaborator) {
     }
     return array();
 }
+
+/**
+ * Check if notaire can reset password
+ *
+ * @return bool
+ */
+function CriCanResetPwd() {
+    return mvc_model('notaire')->userCanResetPwd();
+}
+
+/**
+ * Get list of all existing roles by function
+ *
+ * @param string $type : notaries|collaborators
+ * @param int $idFonction
+ * @return array
+ */
+function CriListRolesByFunction($type, $idFonction) {
+    $roles = array();
+    if (!empty(Config::$notaryRolesByFunction[$type][$idFonction])) {
+        foreach (Config::$notaryRolesByFunction[$type][$idFonction] as $role) {
+            $roles[$role] = Config::getRoleLabel($role);
+        }
+    }
+    return $roles;
+}
+

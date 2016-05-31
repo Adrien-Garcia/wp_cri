@@ -147,6 +147,20 @@ class Config {
         CONST_NOTAIRE_ADMIN,
     );
 
+    // list of notaire functions used to calculate cridonline prices
+    public static $functionsPricesCridonline = array(
+        CONST_NOTAIRE_FONCTION,
+        CONST_NOTAIRE_ASSOCIE,
+        CONST_NOTAIRE_ASSOCIEE,
+        CONST_NOTAIRE_SALARIE,
+        CONST_NOTAIRE_SALARIEE,
+        CONST_NOTAIRE_GERANT,
+        CONST_NOTAIRE_GERANTE,
+        CONST_NOTAIRE_SUPLEANT,
+        CONST_NOTAIRE_SUPLEANTE,
+        CONST_NOTAIRE_ADMIN,
+    );
+
     public static $titleMetaboxDocument = 'Associer des documents';// Titre du metabox pour l'ajout de document
 
     // list of accepted question supports
@@ -207,7 +221,12 @@ class Config {
 
     );
 
+    // Notification for posted question
+    public static $mailSubjectCridonline = 'Confirmation de votre souscription à crid\'online';
+
     public static $notificationAddressPreprod = "victor.albert@jetpulp.fr";
+
+    public static $notificationAddressCridon = "s.raby@cridon-lyon.fr";
 
     //GED Administration
     public static $GEDtxtIndexes = array(
@@ -403,6 +422,11 @@ class Config {
     // question pending status
     public static $questionPendingStatus = array(1,2,3);
 
+    // Notification for password changed
+    public static $mailPasswordChange = array(
+        'subject' => 'Changement du mot de passe de %s',
+    );
+
     // Content qualified by a "Niveau"
     public static $contentWithLevel = array(
         'veilles',
@@ -428,35 +452,20 @@ class Config {
     );
 
     public static $pricesLevelsVeilles = array(
-        0 => array(
-            '1' => array(
-                0
-            ),
-            '2' => array(
-                '5' => 7900,
-                '2' => 4800,
-                '1' => 2500,
-            ),
-            '3' => array (
-                '5' => 9900,
-                '2' => 5900,
-                '1' => 3500,
-            )
+        '1' => array(
+            '5' => 0,
+            '2' => 0,
+            '1' => 0,
         ),
-        1 => array(
-            '1' => array(
-                0
-            ),
-            '2' => array(
-                '5' => 9000,
-                '2' => 5000,
-                '1' => 3000,
-            ),
-            '3' => array (
-                '5' => 10000,
-                '2' => 6000,
-                '1' => 4000,
-            )
+        '2' => array(
+            '5' => 7900,
+            '2' => 4800,
+            '1' => 2500,
+        ),
+        '3' => array (
+            '5' => 9900,
+            '2' => 5900,
+            '1' => 3500,
         )
     );
 
@@ -473,6 +482,13 @@ class Config {
     public static $allowedNotaryFunction = array(1, 2, 3, 6, 7, 8, 9, 10);
 
     /**
+     * @var array list of notary collaborator comptable "id_function_collaborateur"
+     * 1 : Comptable
+     * 2 : Comptable taxateur
+     */
+    public static $notaryFunctionCollaboratorComptableId = array(1, 2);
+
+    /**
      * @var array list of excepted actions for redirect 301
      */
     public static $exceptedActionForRedirect301 = array(
@@ -480,7 +496,7 @@ class Config {
     );
 
     /**
-     * @var array list of protected pages allowed only for notaries with a fonction inside $allowedNotaryFunction
+     * @var array list of protected pages allowed only for notaries with a fonction inside $canAccessFinance
      */
     public static $protected_pages = array(
         'facturation',
@@ -498,8 +514,312 @@ class Config {
      */
     public static $notaryRoles = array(
         CONST_FINANCE_ROLE                 => 'Accès aux pages "compta" (finances, factures, relevée de consommation)',
-        CONST_NOTAIRE_ROLE                 => 'Accès aux bases de connaissance', // par tout le monde
+        CONST_CONNAISANCE_ROLE             => 'Accès aux bases de connaissance', // par tout le monde
         CONST_QUESTIONECRITES_ROLE         => 'Poser des questions écrites',
         CONST_QUESTIONTELEPHONIQUES_ROLE   => 'Poser des questions téléphoniques',
+        CONST_MODIFYOFFICE_ROLE            => "Modifier les informations de l'étude",
+        CONST_CRIDONLINESUBSCRIPTION_ROLE  => "Souscription à l'offre CRID'ONLINE",
     );
+
+
+    /**
+     * @var array list of notary roles by function : the keys must be match of the list defined in const.inc.php
+     */
+    public static $notaryRolesByFunction = array(
+        'notaries' => array(
+            CONST_NOTAIRE_FONCTION => array(
+                CONST_FINANCE_ROLE,
+                CONST_COLLABORATEUR_TAB_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
+            ),
+            CONST_NOTAIRE_ASSOCIE => array(
+                CONST_FINANCE_ROLE,
+                CONST_COLLABORATEUR_TAB_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
+            ),
+            CONST_NOTAIRE_ASSOCIEE => array(
+                CONST_FINANCE_ROLE,
+                CONST_COLLABORATEUR_TAB_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
+            ),
+            CONST_NOTAIRE_ASSOCIEE => array(
+                CONST_FINANCE_ROLE,
+                CONST_COLLABORATEUR_TAB_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
+            ),
+            CONST_NOTAIRE_SALARIE => array(
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+            ),
+            CONST_NOTAIRE_SALARIEE => array(
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+            ),
+            CONST_NOTAIRE_GERANT => array(
+                CONST_FINANCE_ROLE,
+                CONST_COLLABORATEUR_TAB_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
+            ),
+            CONST_NOTAIRE_GERANTE => array(
+                CONST_FINANCE_ROLE,
+                CONST_COLLABORATEUR_TAB_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
+            ),
+            CONST_NOTAIRE_SUPLEANT => array(
+                CONST_FINANCE_ROLE,
+                CONST_COLLABORATEUR_TAB_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
+            ),
+            CONST_NOTAIRE_SUPLEANTE => array(
+                CONST_FINANCE_ROLE,
+                CONST_COLLABORATEUR_TAB_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
+            ),
+            CONST_NOTAIRE_ADMIN => array(
+                CONST_FINANCE_ROLE,
+                CONST_COLLABORATEUR_TAB_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+                CONST_MODIFYOFFICE_ROLE,
+                CONST_CRIDONLINESUBSCRIPTION_ROLE,
+            ),
+            CONST_NOTAIRE_PRESIDENT_CHAMBRE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_PRESIDENT_CONSEIL => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_DELEGUE_CRIDON => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_DIRECTEUR => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_DIRECTEUR_GENERAL => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_DIRECTEUR_DEPARTEMET => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_CONSEIL_JUR => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_ASSISTANT => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_ASSISTANTE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_HONORAIRE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_SG => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_SECRETAIRE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_SECOND_RAPORTEUR => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_PROF_DROIT => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_TRESORIER => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_CHARGE_DVP => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+            CONST_NOTAIRE_GEOMETRE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+                CONST_QUESTIONTELEPHONIQUES_ROLE,
+            ),
+        ),
+        'collaborators' => array(
+            CONST_COLLAB_COMPTABLE => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_COMPTABLE_TAXATEUR => array(
+                CONST_FINANCE_ROLE,
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_CLERC => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_NEGOCIATEUR => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_ASSISTANT => array(
+                CONST_CONNAISANCE_ROLE,
+                CONST_QUESTIONECRITES_ROLE,
+            ),
+            CONST_COLLAB_STAGIAIRE => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_EMPLOYE_ACCUEIL => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_SECRETAIRE => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_CADRE => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_CADRE => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_SECRETAIRE_ASSIST => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+            CONST_COLLAB_TECHNICIEN => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
+        ),
+    );
+
+    public static $addableFunctions = array(
+        CONST_NOTAIRE_SALARIE,
+        CONST_NOTAIRE_SALARIEE,
+        CONST_NOTAIRE_COLLABORATEUR
+    );
+
+    /**
+     * @var array list of actions specific to collaborateur tab
+     */
+    public static $collaborateurActions = array(
+        CONST_CREATE_USER,
+        CONST_MODIFY_USER
+    );
+
+    /**
+     * @var array : liste des autres categories de notaires sans etude officielle
+     */
+    public static $notaryNoDefaultOffice = array(
+        CONST_ORGANISMES_CATEG,
+        CONST_CLIENTDIVERS_CATEG,
+    );
+
+    /**
+     * Selon la regle de nommage des fichiers factures à importer
+     * <CRPCEN_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
+     * @var string
+     */
+    public static $importFacturePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/i';
+    public static $importFactureParserPattern = '/^.*([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
+
+    // Notification pour une nouvelle facture
+    public static $mailSubjectNotifFacture = array(
+        'Notification de nouvelle facture'
+    );
+
+    /**
+     * @var array : liste de type de document non liés aux models de WPMVC
+     * @TODO : à completer avec type relevé de consommation
+     */
+    public static $exceptedDocTypeForModel = array(
+        CONST_DOC_TYPE_FACTURE
+    );
+
+    /**
+     * Selon la regle de nommage des fichiers factures à importer
+     * <CRPCEN_releveconso_AAAAMMJJ>.pdf
+     * @var string
+     */
+    public static $importRelevePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/';
+    public static $importReleveParserPattern = '/^.*([0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
+
+    /**
+     * Get role label by role
+     *
+     * @param string $role
+     * @return mixed
+     */
+    public static function getRoleLabel($role) {
+        return Config::$notaryRoles[$role];
+    }
 }

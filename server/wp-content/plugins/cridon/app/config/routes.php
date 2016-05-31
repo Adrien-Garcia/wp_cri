@@ -51,8 +51,9 @@ MvcRouter::public_connect('notaires/contentquestions', array('controller' => 'no
 MvcRouter::public_connect('notaires/contentprofil', array('controller' => 'notaires', 'action' => 'contentprofil'));
 MvcRouter::public_connect('notaires/contentfacturation', array('controller' => 'notaires', 'action' => 'contentfacturation'));
 MvcRouter::public_connect('notaires/contentcollaborateur', array('controller' => 'notaires', 'action' => 'contentcollaborateur'));
-MvcRouter::public_connect('notaires/deletecollaborateur/{:id:[\d]+}', array('controller' => 'notaires', 'action' => 'deletecollaborateur'));
-MvcRouter::public_connect('notaires/liste', array('controller' => 'notaires', 'action' => 'liste'));
+MvcRouter::public_connect('notaires/contentprofil/gestion', array('controller' => 'notaires', 'action' => 'gestionetude'));
+MvcRouter::public_connect('notaires/contentprofil/motdepasse', array('controller' => 'notaires', 'action' => 'gestionpassword'));
+MvcRouter::public_connect('notaires/contentcollaborateur/gestion', array('controller' => 'notaires', 'action' => 'gestioncollaborateur'));
 MvcRouter::public_connect('notaires/contentcridonline', array('controller' => 'notaires', 'action' => 'contentcridonline'));
 MvcRouter::public_connect('notaires/contentcridonlineetape2', array('controller' => 'notaires', 'action' => 'contentcridonlineetape2'));
 MvcRouter::public_connect('notaires/souscriptionveille', array('controller' => 'notaires', 'action' => 'ajaxveillesubscription'));
@@ -79,8 +80,8 @@ MvcRouter::public_connect('cahier_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('contr
 MvcRouter::public_connect('vie_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'vie_cridons', 'action' => 'show'));
 MvcRouter::public_connect('matieres/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'matieres', 'action' => 'show'));
 
-// default
-MvcRouter::public_connect('{:controller}/{:action}/{:id:[\d]+}');
+// formations passees
+MvcRouter::public_connect('formations-passees', array('controller' => 'formations', 'action' => 'past'));
 
 //Ajax admin
 MvcRouter::admin_ajax_connect(array('controller' => 'admin_documents', 'action' => 'search'));

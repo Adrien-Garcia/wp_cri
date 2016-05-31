@@ -121,7 +121,7 @@ class UIContainer extends UIFields{
         //Fill with not associated documents
         $data = $this->database->find( array('conditions' => array(
             'type' => $this->type,
-            'id_externe' => 0,
+            'id_externe' => '',
         ) ) );
         $this->left = $this->createItems($data);;
         $ul = new UIList();

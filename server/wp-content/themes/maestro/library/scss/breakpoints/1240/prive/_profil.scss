@@ -3,22 +3,46 @@ div#mon-profil{
 	position: relative;
 
 	.mes-informations{
-		
+		margin-bottom: 40px;
+		padding-bottom: 40px;
+
 		height: auto;
 
 		h2{}
 		
+		.img-profil{
+			display: block;
+
+
+			&:before{
+				display:block;
+				@include svgicon('icon-compte', 72px, 72px, #FFF);
+			}
+		}
 
 
 		.coordonnees{
 			padding-left: 30px;
-			width: 790px;
+			width: 695px;
 			font-size: 18px;
 
-			
 
 			.notaire, .etude{
-				width: 260px;
+				float: left;
+				margin-top: 0;
+				min-height: 290px;
+				position: relative;
+				padding-bottom: 30px;
+				margin-bottom: 0;
+			}
+
+			.etude{
+				width: 275px;
+				padding-right: 20px;
+				margin-right: 20px;
+			}
+			.notaire{
+				width: 370px;
 			}
 			
 
@@ -36,12 +60,21 @@ div#mon-profil{
 				line-height: 20px;  
 			}
 
-			> a{
-				    float: right;
-					margin-top: 7px;
+			> a, .update{
+				    //float: right;
+					margin-top:0; 
 					font-weight: normal;
-					width: 180px;
 					text-align: center;
+
+					/* position: absolute;
+					bottom: 0;
+					left: 0; */
+
+					font-size: 14px;
+
+					&.update-mdp{
+					//left: 182px;
+				}
 
 
 			}
@@ -52,22 +85,26 @@ div#mon-profil{
 	.cridonline-offres{
 		width: 100%;
 		float: left;
+		
+		.description{
+			margin-bottom: 60px;
+		}
 	}
 
-	
-
-	.mes-centres-dinterets, .newsletter{
-
-
-
-		h2{ }
-
+	.mes-centres-dinterets, .newsletter, .cridonline-offres {
 		.description{
 			width: 100%;
 			font-size: 20px;
 			line-height: 24px;
 
 		}
+	}
+
+	.mes-centres-dinterets, .newsletter{
+
+
+
+		h2{ }		
 
         .form-newsletter {
             width: 490px;
@@ -88,7 +125,7 @@ div#mon-profil{
 				li{
 					width: 50%;
 					float: left;
-					;
+					padding: 5px 0;
 
 					&:nth-child(even){
 						padding-right: 10px;
@@ -103,6 +140,7 @@ div#mon-profil{
 					label{
 						font-size: 20px;
 						line-height: 20px;
+						color:$bleu;
 
 						&:before{
 							

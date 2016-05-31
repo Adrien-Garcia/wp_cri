@@ -172,25 +172,23 @@ class QueryStringModel {
 
                     while (!empty($datas)) {
                         $data = array_shift($datas);
-                        if( $tmp->$primary == $data->$primary ){//Si lobjet est toujours le même alors stocker la valeur
-                            $items = $data->$name;
-
-                            if (is_array($items)
-                                && isset($items[0])
-                                && $child = $items[0]
-                            ) {
-                                if (isset($child->$associations['foreign_key']) && $child->$associations['foreign_key'] == $data->$primary) {
-                                    $tItems[] = $child;
-
-                                    $data->$name = $tItems;
-                                }
-                            }
-                            $tmp = $data;
-                        } else {
+                        if( !($tmp->$primary == $data->$primary) ){//Si lobjet est toujours le même alors stocker la valeur
                             $many[] = $tmp;
                             $tItems = array();
-                            $tmp = $data;// l'itération courante
                         }
+                        $items = $data->$name;
+
+                        if (is_array($items)
+                            && isset($items[0])
+                            && $child = $items[0]
+                        ) {
+                            if (isset($child->$associations['foreign_key']) && $child->$associations['foreign_key'] == $data->$primary) {
+                                $tItems[] = $child;
+
+                                $data->$name = $tItems;
+                            }
+                        }
+                        $tmp = $data;
                         if( count( $datas )  === 0  ){ // Si nous arrivons déjà à la fin
                             $many[] = $tmp;
                         }

@@ -146,6 +146,7 @@ class VeillesController extends BaseActuController {
                     'action'     => 'cridonline'
                 );
                 $publicUrl  = MvcRouter::public_url($options);
+                $publicUrl.='?error=NIVEAU_VEILLE_INSUFFISANT';
                 wp_redirect( $publicUrl, 302 );
             }
         }
