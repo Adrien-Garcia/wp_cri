@@ -124,34 +124,27 @@
 	</div>
 </div>
 
-<?php if (isPromoActive()) : ?>
 
-	<div class="cridonline-offres">
-		<h2><?php _e('Mon abonnement Crid\'online'); ?></h2>
-		<div class="description">
-			PROMOOOOOOOOOOOOO !!!!
-		</div>
-		<?php set_query_var( 'notaire', $notaire ); ?>
-		<?php set_query_var( 'priceVeilleLevel2', $priceVeilleLevel2 ); ?>
-		<?php set_query_var( 'priceVeilleLevel3', $priceVeilleLevel3 ); ?>
-		<?php set_query_var( 'subscription', false ); ?>
-		<?php echo get_template_part("content","cridonline-offres-promo"); ?>
+<div class="cridonline-offres">
+	<h2><?php _e('Mon abonnement Crid\'online'); ?></h2>
+	<div class="description">
+			Choisissez le niveau de service qui correspond le mieux à votre organisation, vos besoins, vos objectifs. Il est de toute manière totalement complémentaire aux autres services assurés par votre CRIDON LYON.
 	</div>
-
-<?php else : ?>
-
-	<div class="cridonline-offres">
-		<h2><?php _e('Mon abonnement Crid\'online'); ?></h2>
-		<div class="description">
-				Choisissez le niveau de service qui correspond le mieux à votre organisation, vos besoins, vos objectifs. Il est de toute manière totalement complémentaire aux autres services assurés par votre CRIDON LYON.
-		</div>
-		<?php set_query_var( 'notaire', $notaire ); ?>
-		<?php set_query_var( 'priceVeilleLevel2', $priceVeilleLevel2 ); ?>
-		<?php set_query_var( 'priceVeilleLevel3', $priceVeilleLevel3 ); ?>
-		<?php set_query_var( 'subscription', false ); ?>
+	
+	<?php set_query_var( 'notaire', $notaire ); ?>
+	<?php set_query_var( 'priceVeilleLevel2', $priceVeilleLevel2 ); ?>
+	<?php set_query_var( 'priceVeilleLevel3', $priceVeilleLevel3 ); ?>
+	<?php set_query_var( 'subscription', false ); ?>
+	
+	<?php if (!isPromoActive()) : ?>		
 		<?php echo get_template_part("content","cridonline-offres"); ?>
-	</div>
-<?php endif; ?>
+	<?php else : ?>	
+		<?php echo get_template_part("content","cridonline-offres-promo"); ?>
+	<?php endif; ?>
+</div>
+
+
+
 
 <div class="mes-centres-dinterets">
 
