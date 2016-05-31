@@ -408,8 +408,7 @@ class NotairesController extends BasePublicController
 
     public function ajaxVeilleSubscription()
     {
-        $ret = 'cgvNotAccepted';
-        if ((!empty($_REQUEST['CGV'])) && ($_REQUEST['CGV'] === 'true') ) {
+        if ((!empty($_REQUEST['CGV'])) && ($_REQUEST['CGV'] === 'true') && !empty($_REQUEST['B2B_B2C']) ) {
             // Verify that the nonce is valid.
             if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_cridonline_nonce') && !empty($_REQUEST['crpcen'])) {
                 // find the office
@@ -430,14 +429,27 @@ class NotairesController extends BasePublicController
                         )
                     );
                     if (mvc_model('Etude')->save($office)) {
-                        $this->model->sendCridonlineConfirmationMail($etude, $office['Etude']);
-                        $ret = 'success';
+                        $this->model->sendCridonlineConfirmationMail($etude, $office['Etude'],$_REQUEST['B2B_B2C']);
+
+                        $this->set('B2B_B2C',$_REQUEST['B2B_B2C']);
+
+                        $vars = $this->view_vars;
+                        $vars['is_ajax'] = true;
+                        $vars['controller'] = $vars['this'];
+
+                        $data = CriRenderView('contentcridonlinevalidationpopup', $vars, 'notaires', false);
+
+                        $json = array(
+                            'view' => $data,
+                        );
+                        echo json_encode($json, JSON_HEX_QUOT | JSON_HEX_TAG);
+                        die();
                     }
                 }
             }
         }
-        echo json_encode($ret);
-        die;
+        echo json_encode(array('error' => CONST_CRIDONLINE_CGV_ERROR_MSG));
+        die();
     }
 
 

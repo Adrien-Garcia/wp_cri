@@ -30,6 +30,7 @@ App.Account = {
     accountCheckboxSelector             : '-checkbox',
     accountStep1Selector                : '-step1',
     accountStep2Selector                : '-step2',
+    accountToggleSelector               : '-toggle',
     accountIdSelector                   : '-id',
     accountFirstnameSelector            : '-firstname',
     accountLastnameSelector             : '-lastname',
@@ -452,6 +453,7 @@ App.Account = {
         this.$accountCridonlineValidationPrice   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPriceSelector);
         this.$accountCridonlineValidationStep1   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep1Selector);
         this.$accountCridonlineValidationStep2   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep2Selector);
+        this.$accountCridonlineValidationToggle  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountToggleSelector);
 
         this.$popupCridonline                    = $(this.accountPopupCridonline);
 
@@ -469,10 +471,6 @@ App.Account = {
             color: '#324968',
             offsettop: 10,
             vertical: top
-        });
-        this.$accountCridonlineValidationStep1.on("click", function(e) {
-            self.$accountCridonlineValidationStep1.toggle();
-            self.$accountCridonlineValidationStep2.toggle();
         });
     },
     /*
@@ -655,6 +653,11 @@ App.Account = {
         this.$accountCridonlineValidationForm.on('submit', function (e) {
             self.eventAccountCridonlineValidationSubmit($(this));
             return false;
+        });
+
+        $(document).on('click',this.$accountCridonlineValidationToggle.selector, function(e){
+            $(self.$accountCridonlineValidationStep1.selector).toggle();
+            $(self.$accountCridonlineValidationStep2.selector).toggle();
         });
     },
 
@@ -1387,6 +1390,7 @@ App.Account = {
             data: {
                 token: $('#tokencridonline').val(),
                 CGV: form.find(this.$accountCridonlineValidationCGV)[0].checked,
+                B2B_B2C: $('input[name=B2B_B2C]:checked', form).val(),
                 crpcen: form.find(this.$accountCridonlineValidationCrpcen).val(),
                 level: form.find(this.$accountCridonlineValidationLevel).val(),
                 price: form.find(this.$accountCridonlineValidationPrice).val()
@@ -1397,17 +1401,16 @@ App.Account = {
     },
 
     successCridonlineValidation: function (data) {
-         data = JSON.parse(data);
-
-         if(data == 'success')
-         {
-            this.$popupCridonline.popup('show');
-         }
-         else
-         {
-            this.$accountCridonlineValidationMessage.html(jsvar.cridonline_CGV_error);
-         }
-         return false;
+        data = JSON.parse(data);
+        // create message block
+        if (data != undefined && data.error != undefined) {
+            var message = data.error;
+            var content = $(document.createElement('div')).text(message);
+            this.$accountCridonlineValidationMessage.html('').append(content);
+        } else {
+            this.$popupCridonline.html(data.view).popup('show');
+        }
+        return false;
     },
 
     eventAccountCridonlineValidationCGV: function (input) {

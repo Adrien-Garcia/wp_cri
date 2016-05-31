@@ -3430,7 +3430,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         unset($notary);
     }
 
-    public function sendCridonlineConfirmationMail($etude,$subscription_info) {
+    public function sendCridonlineConfirmationMail($etude,$subscription_info,$B2B_B2C) {
         if ($subscription_info['subscription_level'] == 2){
             $level_label = CONST_CRIDONLINE_LABEL_LEVEL_2;
         } else {
@@ -3445,12 +3445,21 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             //'urlCGUV'                => mvc_model('Document')->generatePublicUrl
         );
 
+        $documents = array(
+            CONST_CRIDONLINE_DOCUMENT_CGUV_URL
+        );
+        if ($B2B_B2C == 'B2B'){
+            $documents[] = CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_B2B_URL;
+        } else {
+            $documents[] = CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_B2C_URL;
+        }
+
         $message = CriRenderView('mail_notification_cridonline', $vars, 'custom', false);
 
         $headers = array('Content-Type: text/html; charset=UTF-8');
         $env = getenv('ENV');
         if (empty($env) || ($env !== 'PROD')) {
-            $email = wp_mail( Config::$notificationAddressPreprod , Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_URL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL) );
+            $email = wp_mail( Config::$notificationAddressPreprod , Config::$mailSubjectCridonline, $message, $headers, $documents );
             writeLog("not Prod: " . $email . "\n", "mailog.txt");
         } else {
             $headers[] = 'BCC:'.Config::$notificationAddressCridon;
@@ -3462,7 +3471,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $destinataire = $etude->office_email_adress_3;
             }
             if (!empty($destinataire)) {
-                wp_mail($destinataire, Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_URL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL));
+                wp_mail($destinataire, Config::$mailSubjectCridonline, $message, $headers, $documents );
             }
         }
     }
