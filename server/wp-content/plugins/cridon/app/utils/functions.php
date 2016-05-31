@@ -614,14 +614,15 @@ function CriPostQuestion() {
  * @param integer $expertise
  * @return array
  */
-function CriListSupport($expertise)
+//TODO value 1 by default only for test purpose. To delete once feature implemented
+function CriListSupport($expertise = 1)
 {
     // init
     $supports = array();
 
     // query options
     $options = array(
-        'selects'    => array('s.id', 's.label_front', 's.value', 's.description'),
+        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon'),
         'synonym'      => 'es',
         'join'       => array(
             array(

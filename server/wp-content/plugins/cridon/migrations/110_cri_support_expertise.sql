@@ -6,9 +6,9 @@ CREATE TABLE `cri_expertise_support` (
 );
 
 INSERT INTO cri_expertise_support (`id_expertise`, `id_support`) VALUES
-(1, 6),
 (1, 8),
-(2, 7),
-(2, 9),
-(3, 8),
-(3, 10);
+(1, 9),
+(2, 10),
+(2, 11),
+(3, 12),
+(3, 13);
