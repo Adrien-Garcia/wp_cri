@@ -10,11 +10,52 @@
 		</div>
 		
 		<div class="onglets">
-			<div class="h2 consultation open js-question-button-consultation"><span><?php _e('1. Type de consultation'); ?></span></div>   				
-			<div class="h2 question js-question-button-ma-question"><span><?php _e('2. Ma question'); ?></span></div>
+			<div class="h2 open niveau-expertise js-question-button-expertise">1. <span><?php _e('Niveau d\'expertise'); ?></span></div>
+			<div class="h2 consultation js-question-button-consultation">2. <span><?php _e('Delais / Support de réponse'); ?></span></div>
+			<div class="h2 question js-question-button-ma-question">3. <span><?php _e('Ma question'); ?></span></div>
+
 		</div>
 		<div class="details">
-			<div class="consultation js-question-tab-consultation open">
+			<div class="niveau-expertise js-question-tab-expertise open">
+				<div class="">
+					<?php 
+						$supports = CriListSupport();
+						// var_dump($supports)
+					 ?>
+				</div>
+				<div id="owl-niveau-expertise" class="owl-carousel">
+
+		            <div class="item analytics_initial_question">
+		            	<input title="niveau hidden" id="niveau-initial" type="radio" name="niveau-initial" value="niveau-initial" data-value="niveau-initial" class="hidden js-question-expertise-radio">
+		              	
+		              	<p class="description">
+		              		Lorem ipsum Sunt irure occaecat consectetur in cupidatat sint proident Ut ut laborum nisi laborum nulla irure pariatur reprehenderit quis eiusmod id aliqua incididunt culpa cillum cupidatat sed dolore aute exercitation veniam culpa.
+		              	</p>
+		              	<a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
+		              	<span class="label">Initial</span>
+		            </div>
+		            <div class="item analytics_medium_question">
+		            	<input title="niveau hidden" id="niveau-medium" type="radio" name="niveau-meidum" value="niveau-medium" data-value="niveau-medium" class="hidden js-question-expertise-radio">
+		            	<p class="description">
+		              		Lorem ipsum Sunt irure occaecat consectetur in cupidatat sint proident Ut ut laborum nisi laborum nulla irure pariatur reprehenderit quis eiusmod id aliqua incididunt culpa cillum cupidatat sed dolore aute exercitation veniam culpa.
+		              	</p>
+		              	<a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
+		              	<span class="label">Médium</span>
+		              	
+		            </div>
+		            <div class="item analytics_expert_question">
+		            	<input title="niveau hidden" id="niveau-expert" type="radio" name="niveau-expert" value="niveau-expert" data-value="niveau-expert" class="hidden js-question-expertise-radio">
+		              	<p class="description">
+		              		Lorem ipsum Sunt irure occaecat consectetur in cupidatat sint proident Ut ut laborum nisi laborum nulla irure pariatur reprehenderit quis eiusmod id aliqua incididunt culpa cillum cupidatat sed dolore aute exercitation veniam culpa.
+		              	</p>
+		              	<a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
+		              	<span class="label">Expert</span>
+		            </div>
+		       
+		        </div>
+				
+			</div>
+			<div class="consultation js-question-tab-consultation">
 				<div class="">
 					<?php 
 						$supports = CriListSupport();
