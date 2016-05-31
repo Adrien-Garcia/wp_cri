@@ -3,8 +3,15 @@
 <?php endif; ?>
 <h2><?php _e("L'offre crid’online"); ?></h2>
 
-<p>PROMOOOOOOOOOOO
-</p>
+<strong>Découvrez nos offres promotionnelles pour toute souscription avant le 30 septembre 2016 !</strong><br />
+<br />
+Vous avez le choix entre  :
+<ul>
+    <li>- <strong>L’offre choc</strong> (valable pour toute souscription d’un an à CRID’ONLINE  premium ou excellence)</li>
+    <li>- <strong>L’offre privilégiée</strong> (valable pour toute souscription de deux ans à CRID’ONLINE excellence)</li>
+</ul>
+<br />
+
 
 <div class="cridonline-offres">
     <!-- <h2><?php _e('Mon abonnement Crid\'online'); ?></h2>

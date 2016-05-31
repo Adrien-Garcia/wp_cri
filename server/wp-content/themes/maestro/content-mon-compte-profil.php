@@ -132,7 +132,12 @@
 	<?php set_query_var( 'priceVeilleLevel2', $priceVeilleLevel2 ); ?>
 	<?php set_query_var( 'priceVeilleLevel3', $priceVeilleLevel3 ); ?>
 	<?php set_query_var( 'subscription', false ); ?>
-	<?php echo get_template_part("content","cridonline-offres"); ?>
+	
+	<?php if (date('d/m/Y') > CONST_DATE_FIN_PROMO) : ?>		
+		<?php echo get_template_part("content","cridonline-offres"); ?>
+	<?php else : ?>	
+		<?php echo get_template_part("content","cridonline-offres-promo"); ?>
+	<?php endif; ?>
 </div>
 
 <div class="mes-centres-dinterets">
