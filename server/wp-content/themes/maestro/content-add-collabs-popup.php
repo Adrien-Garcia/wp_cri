@@ -58,7 +58,7 @@
             <input type="email" name="collaborator_email" placeholder="<?php _e('Email '); ?>" id="collaborator_email" class="js-account-collaborateur-add-email" value="<?php echo empty($collaborator['emailaddress']) ? '' : $collaborator['emailaddress'] ?>">
 
             <div>
-                A défaut de renseigner <strong>une adresse email personnelle</strong>, le collaborateur ne pourra accéder à tous les services personnalisés du CRIDON LYON (fonctions avancées de moteur de recherche, inscription à la newsletter, notifications email des questions posées, sélections de ces centres d'intérêts…) 
+                A défaut de renseigner <strong>une adresse email personnelle</strong>, le collaborateur ne pourra accéder à tous les services personnalisés du CRIDON LYON (fonctions avancées du moteur de recherche, inscription à la newsletter, notifications email des questions posées, sélection de ses centres d'intérêts…) 
             </div>
         </div>
         <div class="droit-collaborateur">
