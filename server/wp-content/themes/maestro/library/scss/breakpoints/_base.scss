@@ -1049,6 +1049,23 @@ body.page-template-front-page{
 				padding: 25px 10px 10px 10px;
 				margin-bottom: 10px;
 
+				.encartpromo{
+					display: block;
+					position: absolute;
+					top: 30px;
+					left: -29px;
+					width: 140px;
+					height: 20px;
+					background: #e6e6e6;
+					color:$rouge;
+					font-size: 12px;
+					text-align: center;
+					line-height: 21px;
+					@extend .do-sm;
+					text-transform: uppercase;
+					@include rotate(-45);
+				}
+
 				&:hover {
 					//background: $rouge + #1b1b1b;					
 				}
