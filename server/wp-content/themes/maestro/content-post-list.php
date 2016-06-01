@@ -1,4 +1,5 @@
 <?php $current_date = null; ?>
+<?php $last_date = null; ?>
 
 <?php
 foreach ($objects as $key => $object) :
@@ -18,12 +19,15 @@ foreach ($objects as $key => $object) :
             }
         }
 	 ?>
-    <div class="date sel-object-date">
-        <div class="sep"></div>
-        <span class="jour"><?php echo strftime('%d',strtotime($current_date)) ?></span>
-        <span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,3) ?></span>
-        <span class="annee"><?php echo strftime('%Y',strtotime($current_date)) ?></span>
-    </div>
+	<?php if ($last_date != $current_date) : ?>
+	    <div class="date sel-object-date">
+	        <div class="sep"></div>
+	        <span class="jour"><?php echo strftime('%d',strtotime($current_date)) ?></span>
+	        <span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,3) ?></span>
+	        <span class="annee"><?php echo strftime('%Y',strtotime($current_date)) ?></span>
+	    </div>
+    <?php endif; ?>
+    <?php $last_date = $current_date ?>
 
     <?php if ( !empty($object->__model_name) && $object->__model_name == 'Veille' && !empty($object->level) ){
     	$niveau = 'niveau'.$object->level;
