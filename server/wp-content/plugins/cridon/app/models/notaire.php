@@ -3449,7 +3449,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $headers = array('Content-Type: text/html; charset=UTF-8');
         $env = getenv('ENV');
         if (empty($env) || ($env !== 'PROD')) {
-            $email = wp_mail( Config::$notificationAddressPreprod , Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_URL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL) );
+            $email = wp_mail( Config::$notificationAddressPreprodJetpulp , Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_URL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL) );
             writeLog("not Prod: " . $email . "\n", "mailog.txt");
         } else {
             $headers[] = 'BCC:'.Config::$notificationAddressCridon;
