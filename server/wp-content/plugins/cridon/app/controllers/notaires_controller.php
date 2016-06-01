@@ -851,17 +851,17 @@ class NotairesController extends BasePublicController
 
     public function gestionetude(){
         if (!empty($_GET['office_crpcen']) ) {
-            $office = array();
-            $office['office_crpcen'] = empty($_GET['office_crpcen']) ? '' : trim($_GET['office_crpcen']) ;
-            $office['office_name'] = empty($_GET['office_name']) ? '' : trim($_GET['office_name']) ;
-            $office['office_address_1'] = empty($_GET['office_address_1']) ? '' : trim($_GET['office_address_1']) ;
-            $office['office_address_2'] = empty($_GET['office_address_2']) ? '' : trim($_GET['office_address_2']) ;
-            $office['office_address_3'] = empty($_GET['office_address_3']) ? '' : trim($_GET['office_address_3']) ;
-            $office['office_postalcode'] = empty($_GET['office_postalcode']) ? '' : trim($_GET['office_postalcode']) ;
-            $office['office_city'] = empty($_GET['office_city']) ? '' : trim($_GET['office_city']) ;
-            $office['office_email'] = empty($_GET['office_email']) ? '' : trim($_GET['office_email']) ;
-            $office['office_phone'] = empty($_GET['office_phone']) ? '' : trim($_GET['office_phone']);
-            $office['office_fax'] = empty($_GET['office_fax']) ? '' : trim($_GET['office_fax']);
+            $data = $this->tools->clean($_GET);
+            $office['office_crpcen'] = empty($data['office_crpcen']) ? '' : trim($data['office_crpcen']) ;
+            $office['office_name'] = empty($data['office_name']) ? '' : trim($data['office_name']) ;
+            $office['office_address_1'] = empty($data['office_address_1']) ? '' : trim($data['office_address_1']) ;
+            $office['office_address_2'] = empty($data['office_address_2']) ? '' : trim($data['office_address_2']) ;
+            $office['office_address_3'] = empty($data['office_address_3']) ? '' : trim($data['office_address_3']) ;
+            $office['office_postalcode'] = empty($data['office_postalcode']) ? '' : trim($data['office_postalcode']) ;
+            $office['office_city'] = empty($data['office_city']) ? '' : trim($data['office_city']) ;
+            $office['office_email'] = empty($data['office_email']) ? '' : trim($data['office_email']) ;
+            $office['office_phone'] = empty($data['office_phone']) ? '' : trim($data['office_phone']);
+            $office['office_fax'] = empty($data['office_fax']) ? '' : trim($data['office_fax']);
 
             $this->set('office',$office);
 
