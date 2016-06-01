@@ -25,9 +25,7 @@
             <span><?php _e("J'ai lu, j'ai compris et j'accepte les CGUV"); ?></span>
         </label>
         <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_CGUV_PATH ?>" title="CGV" target="_blank"><?php _e("Télécharger les conditions générales de vente (CGUV)"); ?></a>
-        <input type="hidden" name="crpcen" value="<?php echo $crpcen; ?>" class="js-account-cridonline-validation-crpcen">
         <input type="hidden" name="level" value="<?php echo $level; ?>" class="js-account-cridonline-validation-level">
-        <input type="hidden" name="price" value="<?php echo $price ?>" class="js-account-cridonline-validation-price">
         <input type="hidden" name="promo" value="<?php echo $promo ?>" class="js-account-cridonline-validation-promo">
         <input type="submit" name="submit" value="<?php _e("souscrire"); ?>">
 
