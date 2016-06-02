@@ -15,10 +15,11 @@ class NotairesController extends BasePublicController
 
     /**
      * Secure Access Page
+     * @param array $role -> role needed to access page
      *
      * @return void
      */
-    protected function secureAccess()
+    protected function secureAccess($role = array())
     {
         global $mvc_params;
 
@@ -32,7 +33,7 @@ class NotairesController extends BasePublicController
             $this->redirect(home_url());
         } elseif (isset($mvc_params['action'])
                   && (in_array($mvc_params['action'],Config::$protected_pages))
-                  && !$this->model->userCanAccessSensitiveInfo(CONST_FINANCE_ROLE)
+                  && !$this->model->userCanAccessSensitiveInfo($role)
         ) { // check if is page sensitive information && notary can access
             // redirect to profil page
             $url = mvc_public_url(array('controller' => 'notaires', 'action' => 'show'));
@@ -267,7 +268,7 @@ class NotairesController extends BasePublicController
      */
     public function facturation()
     {
-        $this->prepareSecureAccess();
+        $this->prepareSecureAccess(CONST_FINANCE_ROLE);
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
         $content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
@@ -301,7 +302,7 @@ class NotairesController extends BasePublicController
      */
     public function cridonline()
     {
-        $this->prepareSecureAccess();
+        $this->prepareSecureAccess(CONST_CRIDONLINESUBSCRIPTION_ROLE);
         $notaire = CriNotaireData();
         $this->set('notaire', $notaire);
 
@@ -351,7 +352,7 @@ class NotairesController extends BasePublicController
      */
     public function cridonlinevalidation()
     {
-        $this->prepareSecureAccess();
+        $this->prepareSecureAccess(CONST_CRIDONLINESUBSCRIPTION_ROLE);
         if (!empty($_GET['level']) && !empty($_GET['price']) && !empty($_GET['crpcen'])) {
             $this->set('level',$_GET['level']);
             $this->set('price',$_GET['price']);
@@ -451,9 +452,9 @@ class NotairesController extends BasePublicController
         return $vars;
     }
 
-    protected function prepareSecureAccess()
+    protected function prepareSecureAccess($role = array())
     {
-        $this->secureAccess();
+        $this->secureAccess($role);
     }
 
     protected function prepareProfil()
@@ -544,7 +545,7 @@ class NotairesController extends BasePublicController
     public function collaborateur()
     {
         // access secured
-        $this->prepareSecureAccess();
+        $this->prepareSecureAccess(CONST_COLLABORATEUR_TAB_ROLE);
         $message = '';
         if (isset($_REQUEST['message'])){
             if ($_REQUEST['message'] == 'add'){
