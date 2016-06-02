@@ -16,7 +16,6 @@ var gulp = require('gulp'),
 	libPath = '../wp-content/themes/maestro/library',
 	iconfont = require('gulp-iconfont'),
 	consolidate = require('gulp-consolidate'),
-	codepoints = require('code-points'),
 	runTimestamp = Math.round(Date.now()/1000),
 	knownOptions = {
 	  string: 'env'
@@ -30,7 +29,7 @@ gulp.task('sass', function() {
 	gulp.src(libPath+'/scss/*.scss')
 		 .pipe(plumber())
 			.pipe(sourcemaps.init())
-    			.pipe(sass({outputStyle: 'nested', includePaths: ['./breakpoints']}))
+    			.pipe(sass({outputStyle: 'nested'}))
     			//.pipe(autoprefixer('last 2 version'))
        //  		.pipe(minifycss())
 	    	.pipe(sourcemaps.write())

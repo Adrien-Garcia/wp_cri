@@ -7,13 +7,13 @@ div#regles-facturation{
 	    line-height: inherit;
 
 	    color:$bleu;
-	    @extend .do-bo;
+	    @include do-bo;
 	    padding: 10px 0;
 	}
 
 	h3{
 		color:$vert;
-		@extend .do-me;
+		@include do-me;
 	}
 
 }

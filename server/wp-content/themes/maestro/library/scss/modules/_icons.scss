@@ -11,8 +11,7 @@
 
 }
 
-.icon[class^="icon-"],
-.icon[class*=" icon-"] {
+@mixin icon {
     display: inline-block;
     font-family: 'aux-font';
     -moz-osx-font-smoothing: grayscale;
@@ -23,6 +22,10 @@
     line-height: 1;
     text-transform: none;
 }
+
+.icon[class^="icon-"],
+.icon[class*=" icon-"] { @include icon; }
+
 
 $icons: (
     ico-collaborateur: '\EA01',
@@ -69,13 +72,18 @@ $icons: (
     icon-vieducridon: '\EA2A'
 );
 
-@each $name, $icon in $icons {
-    .icon-#{$name}:before {
-        font-family: 'aux-font';
-        content: $icon;
+//@each $name, $icon in $icons {
+    @mixin icon-before($name) {
+        //&:before {
+            font-family: 'aux-font';
+            content: map-get($icons, $name);
+        //}
     }
-    .icon-#{$name}-after:after {
-        font-family: 'aux-font';
-        content: $icon;
+
+    @mixin icon-after($name) {
+        //&:after {
+            font-family: 'aux-font';
+            content: map-get($icons, $name);
+        //}
     }
-}
+//}

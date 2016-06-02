@@ -94,31 +94,36 @@ $sans-serif:        Arial, "Helvetica Neue", Helvetica, sans-serif;
 $serif:             "Georgia", Cambria, Times New Roman, Times, serif;
 $dosis:             'Dosis', Helvetica, sans-serif;
 
-.do-re{
+@mixin do-re{
     font-family: $dosis;
     font-weight: 400;
 }
-.do-me{
+.do-re { @include do-re;}
+@mixin do-me{
     font-family: $dosis;
     font-weight: 500;
 }
-.do-bo{
-
+.do-me { @include do-me;}
+@mixin do-bo{
     font-family: $dosis;
     font-weight: 700;
 }
-.do-sm{
+.do-bo { @include do-bo;}
+@mixin do-sm{
     font-family: $dosis;
     font-weight: 600;
 }
-.do-el{
+.do-sm { @include do-sm;}
+@mixin do-el{
     font-family: $dosis;
     font-weight: 200;
 }
-.do-eb{
+.do-el { @include do-el;}
+@mixin do-eb{
     font-family: $dosis;
     font-weight: 800;
 }
+.do-eb { @include do-eb;}
 
 $helvetica: helveticaregular;
 $helvetica-bold: helveticabold;

@@ -93,7 +93,7 @@
 
 				span{
 					display: inline;
-					@extend .do-sm
+					@include do-sm
 
 				}			
 
@@ -411,7 +411,7 @@
 						z-index: 2000;
 						text-decoration: none;
 						text-align: center;
-						@extend .do-el;
+						@include do-el;
 						font-size: 40px;
 						line-height: 20px;
 						padding: 0;
@@ -421,7 +421,7 @@
 					&:hover{
 
 						> a{
-							@extend .do-bo;
+							@include do-bo;
 						}
 					}
 				}

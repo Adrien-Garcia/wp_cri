@@ -47,7 +47,7 @@
 			}
 
 			.texte{
-				@extend .do-sm;
+				@include do-sm;
 				font-size: 25px;
 				color:#FFF;
 				text-transform: uppercase;
@@ -472,7 +472,7 @@
 							border:none;
 							text-align: center;
                             font-size: 14px;
-							@extend .do-me;
+							@include do-me;
 							display: block;
 							text-transform: uppercase;
 							border-radius: 0;
@@ -508,7 +508,7 @@
 						    width: 100%;
 						    height: 30px;
 						    color:#FFF;
-						    @extend .do-me;
+						    @include do-me;
 						    font-size: 14px;
 						    text-transform: uppercase;
 						    line-height: 30px;
@@ -527,7 +527,7 @@
                                 font-size: 50px;
     							line-height: 0px;
     							@include rotate(45);
-    							@extend .do-el;
+    							@include do-el;
     							top: 8px;
 
                             }
@@ -649,7 +649,7 @@
 				text-align: right;
 				padding: 25px 10px 10px;
 				color: $white;
-				@extend .do-bo;
+				@include do-bo;
 				font-size: 18px;
 				text-transform: uppercase;
 				position: relative;
@@ -707,7 +707,7 @@
 					z-index: 2000;
 					text-decoration: none;
 					text-align: center;
-					@extend .do-el;
+					@include do-el;
 					font-size: 40px;
 					font-weight: normal;
 					line-height: 27px;
@@ -836,7 +836,7 @@ input[type="email"]{
 		padding: 20px;
 
 		p{
-			@extend .do-bo;
+			@include do-bo;
 			font-size: 20px;
 			line-height: 24px;
 			color:$bleu;
@@ -847,7 +847,7 @@ input[type="email"]{
 			height: 30px;
 			background: $bleu;
 			color:#FFF;
-			@extend .do-me;
+			@include do-me;
 			font-size: 14px;
 			text-transform: uppercase;
 			line-height: 30px;
@@ -906,7 +906,7 @@ input[type="email"]{
 		select{
 			 color: $bleu;
 			  font-size: 18px;
-			  @extend .do-sm;
+			  @include do-sm;
 		}
 
 		
@@ -916,7 +916,7 @@ input[type="email"]{
 		}
 
 		p.chps_obli{
-			@extend .do-re;
+			@include do-re;
 		}
 
 
@@ -927,7 +927,7 @@ input[type="email"]{
 			p{
 				margin: 0;
 				padding: 0;
-				@extend .do-sm;
+				@include do-sm;
 				font-size: 18px;
 				margin-bottom: 10px;
 			}
@@ -942,7 +942,7 @@ input[type="email"]{
 					//display: inline-block;
 					padding-left: 20px;
 					font-size: 16px;
-					@extend .do-re;
+					@include do-re;
 					color:$bleu;
 				    display: block;
 				    line-height: 20px;
