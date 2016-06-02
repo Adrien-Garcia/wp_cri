@@ -224,7 +224,7 @@ class Config {
     // Notification for posted question
     public static $mailSubjectCridonline = 'Confirmation de votre souscription à crid\'online';
 
-    public static $notificationAddressPreprodJetpulp = "renaud.amsellem@jetpulp.fr";
+    public static $notificationAddressDev = "renaud.amsellem@jetpulp.fr";
 
     public static $notificationAddressPreprod = "s.raby@cridon-lyon.fr";
 
