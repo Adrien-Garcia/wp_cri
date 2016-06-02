@@ -816,7 +816,12 @@ function sendNotificationForPostPublished( $post,$model ){
     $env = getenv('ENV');
     
     if (empty($env)|| ($env !== 'PROD')) {
-        $mail = wp_mail( Config::$notificationAddressPreprod , $subject, $message, $headers );
+        if ($env === 'PREPROD'){
+            $dest = Config::$notificationAddressPreprod;
+        } else {
+            $dest = Config::$notificationAddressDev;
+        }
+        $mail = wp_mail( $dest , $subject, $message, $headers );
         writeLog("not Prod: " . $mail . "\n", "mailog.txt");
     } elseif( !empty( $notaires ) ){
         foreach( $notaires as $notaire ){

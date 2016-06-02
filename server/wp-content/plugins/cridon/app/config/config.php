@@ -224,7 +224,7 @@ class Config {
     // Notification for posted question
     public static $mailSubjectCridonline = 'Confirmation de votre souscription à crid\'online';
 
-    public static $notificationAddressPreprodJetpulp = "renaud.amsellem@jetpulp.fr";
+    public static $notificationAddressDev = "renaud.amsellem@jetpulp.fr";
 
     public static $notificationAddressPreprod = "s.raby@cridon-lyon.fr";
 
@@ -341,10 +341,10 @@ class Config {
         'question'      => 'Sur les questions ?'
     );
     //End translation
-
+    
     //Public download URL
     public static $confPublicDownloadURL = array(
-        'pattern' => '/documents\/public\/([0-9]+)/',//Pattern à utilisé pour un test preg_match
+        'pattern' => '/documents\/public\/([0-9]+)/',//Pattern à utilisé pour un test preg_match 
         'url'     => 'documents/public/'//Sera ajouté à l'encodage, l'id sera ajouté dynamiquement (ex:documents/public/1)
     );
     //End Public download URL

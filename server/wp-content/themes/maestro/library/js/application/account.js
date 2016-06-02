@@ -980,7 +980,7 @@ App.Account = {
                 collaborator_last_name: form.find(this.$accountProfilModifyLastname.selector).val(),
                 collaborator_tel: form.find(this.$accountProfilModifyPhone.selector).val(),
                 collaborator_tel_portable: form.find(this.$accountProfilModifyMobilephone.selector).val(),
-                collaborator_tel_fax: form.find(this.$accountProfilModifyFax.selector).val(),
+                collaborator_fax: form.find(this.$accountProfilModifyFax.selector).val(),
                 collaborator_email: form.find(this.$accountProfilModifyEmail.selector).val()
             },
             success: this.successProfilModify.bind(this)

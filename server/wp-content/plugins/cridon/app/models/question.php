@@ -1152,8 +1152,13 @@ class Question extends \App\Override\Model\CridonMvcModel
                     $message = CriRenderView('mail_notification_question', $vars, 'custom', false);
 
                     $env = getenv('ENV');
-                    if (empty($env) || ($env !== 'PROD')) {
-                        $email = wp_mail( Config::$notificationAddressPreprod , $subject, $message, $headers );
+                    if (empty($env)|| ($env !== 'PROD')) {
+                        if ($env === 'PREPROD') {
+                            $dest = Config::$notificationAddressPreprod;
+                        } else {
+                            $dest = Config::$notificationAddressDev;
+                        }
+                        $email = wp_mail( $dest , $subject, $message, $headers );
                         writeLog("not Prod: " . $email . "\n", "mailog.txt");
                     } else {
                         if (!empty($notaire->email_adress)) {
