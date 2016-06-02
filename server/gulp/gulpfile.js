@@ -29,7 +29,7 @@ gulp.task('sass', function() {
 	gulp.src(libPath+'/scss/*.scss')
 		 .pipe(plumber())
 			.pipe(sourcemaps.init())
-    			.pipe(sass({outputStyle: 'nested'}))
+    			.pipe(sass({outputStyle: 'nested', includePaths: ['./breakpoints']}))
     			//.pipe(autoprefixer('last 2 version'))
        //  		.pipe(minifycss())
 	    	.pipe(sourcemaps.write())
