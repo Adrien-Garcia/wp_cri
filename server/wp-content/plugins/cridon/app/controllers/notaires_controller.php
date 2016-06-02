@@ -756,26 +756,31 @@ class NotairesController extends BasePublicController
     }
 
     public function gestionPassword (){
-        $error = CONST_PROFIL_PASSWORD_ERROR_MSG;
         if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_password_nonce') && !empty($_POST['email'])) {
             $data = $this->tools->clean($_POST);
             $notaire = CriNotaireData();
-            if (!empty($notaire->email_adress)
-                && filter_var($notaire->email_adress, FILTER_VALIDATE_EMAIL)
-                && $data['email'] == $data['email_validation']
-                && $data['email'] == $notaire->email_adress
-            ) {
-                $this->model->resetPwd($notaire->id);
-                $url = mvc_public_url(array('controller' => 'notaires','action' => 'profil'));
-                $url.='?message=modifypassword';
-                echo json_encode(array('view' => $url));
+
+            if (empty($notaire->email_adress) || !filter_var($notaire->email_adress, FILTER_VALIDATE_EMAIL)){
+                echo json_encode(array('error' => CONST_PROFIL_PASSWORD_MISSING_EMAIL_ERROR_MSG));
                 die();
-            } else {
-                $error = CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG;
             }
+            if ($data['email'] != $data['email_validation']){
+                echo json_encode(array('error' => CONST_PROFIL_PASSWORD_DIFFERENT_EMAIL_ERROR_MSG));
+                die();
+            }
+            if ($data['email'] != $notaire->email_adress){
+                echo json_encode(array('error' => CONST_PROFIL_PASSWORD_DIFFERENT_PROFIL_EMAIL_ERROR_MSG));
+                die();
+            }
+            $this->model->resetPwd($notaire->id);
+            $url = mvc_public_url(array('controller' => 'notaires','action' => 'profil'));
+            $url.='?message=modifypassword';
+            echo json_encode(array('view' => $url));
+            die();
+        } else {
+            echo json_encode(array('error' => CONST_PROFIL_PASSWORD_ERROR_MSG));
+            die();
         }
-        echo json_encode(array('error' => $error));
-        die();
     }
 
     /**

@@ -715,8 +715,14 @@ if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG' ) ) {
 if ( !defined( 'CONST_PROFIL_PASSWORD_ERROR_MSG' ) ) {
     define( 'CONST_PROFIL_PASSWORD_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
 }
-if ( !defined( 'CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG' ) ) {
-    define( 'CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG', 'Les emails ne sont pas identiques.' );
+if ( !defined( 'CONST_PROFIL_PASSWORD_DIFFERENT_EMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_DIFFERENT_EMAIL_ERROR_MSG', 'Les adresses emails entrées ne sont pas identiques.' );
+}
+if ( !defined( 'CONST_PROFIL_PASSWORD_MISSING_EMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_MISSING_EMAIL_ERROR_MSG', 'Merci d\'ajouter une adresse email à votre profil afin de pouvoir modifier votre mot de passe.' );
+}
+if ( !defined( 'CONST_PROFIL_PASSWORD_DIFFERENT_PROFIL_EMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_DIFFERENT_PROFIL_EMAIL_ERROR_MSG', 'L\'adresse email de votre profil ne correspond pas aux adresses entrées ci-dessus.' );
 }
 if ( !defined( 'CONST_PROFIL_PASSWORD_SUCCESS_MSG' ) ) {
     define( 'CONST_PROFIL_PASSWORD_SUCCESS_MSG', 'La demande de modification de mot de passe a bien été prise en compte.' );
