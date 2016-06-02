@@ -310,19 +310,26 @@ App.Question = {
     },
 
     eventFileChange: function (fileInput) {
-        if(fileInput.val() != "") {
-            fileInput.siblings(this.fileQuestionNameSelector).text(fileInput.val());
-            var nextFileInput = false;
-            this.$fileQuestion.each(function(i,c) {
-                var c = $(c);
-                if (c.val() == "" && c.parents('.fileUpload').first().hasClass('hidden') && !nextFileInput) {
-                    c.parents('.fileUpload').first().removeClass('hidden');
-                    nextFileInput = true;
-                }
-            });
+        var file = fileInput[0].files[0];
+        if (file && file.size > jsvar.question_max_file_size) {
+            this.$blockQuestionError.text(jsvar.question_file_size_error);
+            // stop action
+            return false;
         } else {
-            fileInput.siblings(this.fileQuestionNameSelector).text("Vide");
+            if (fileInput.val() != "") {
+                fileInput.siblings(this.fileQuestionNameSelector).text(fileInput.val());
+                var nextFileInput = false;
+                this.$fileQuestion.each(function (i, c) {
+                    var c = $(c);
+                    if (c.val() == "" && c.parents('.fileUpload').first().hasClass('hidden') && !nextFileInput) {
+                        c.parents('.fileUpload').first().removeClass('hidden');
+                        nextFileInput = true;
+                    }
+                });
+            } else {
+                fileInput.siblings(this.fileQuestionNameSelector).text("Vide");
 
+            }
         }
     },
 
