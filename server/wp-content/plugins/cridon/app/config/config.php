@@ -7,11 +7,11 @@
  * 
  */
 class Config {
-
+    
     // Les modèles associés à cri_posts
     // avec les noms des tables sans les préfixes
     public static $data = array(
-        'veilles' => array(                    // Indice correspondant aux noms de fichier de controlleur
+        'veilles' => array(                    // Indice correspondant aux noms de fichier de controlleur 
             'value'             => 'veilles',  // Nécessaire à la correspondance
             'name'              => 'veille',   // Nom de la table
             'model'             => 'Veille',   // Nom du MvcModel
@@ -23,28 +23,28 @@ class Config {
             'name'              => 'flash',
             'model'             => 'Flash',
             'controller'        => 'flashes',
-            'action'            => 'index'
+            'action'            => 'index' 
         ),
         'vie_cridons' => array(
             'value'             => 'vie_cridons',
             'name'              => 'vie_cridon',
             'model'             => 'VieCridon',
             'controller'        => 'vie_cridons',
-            'action'            => 'index'
+            'action'            => 'index' 
         ),
         'formations' => array(
             'value'             => 'formations',
             'name'              => 'formation',
             'model'             => 'Formation',
             'controller'        => 'formations',
-            'action'            => 'index'
+            'action'            => 'index' 
         ),
         'cahier_cridons' => array(
             'value'             => 'cahier_cridons',
             'name'              => 'cahier_cridon',
             'model'             => 'CahierCridon',
             'controller'        => 'cahier_cridons',
-            'action'            => 'index'
+            'action'            => 'index' 
         )
     );
 
@@ -121,7 +121,7 @@ class Config {
             'victor.albert@jetpulp.fr',
         ),
     );
-
+    
     // list of persons who will receive e-mail notification for empty document
     public static $emailNotificationEmptyDocument = array(
         'to' => 'info@cridon-lyon.fr',//Client e-mail, only use it in production mode
@@ -171,7 +171,7 @@ class Config {
         CONST_SUPPORT_NON_FACTURE,
         CONST_SUPPORT_MES_DIANE
     );
-
+    
     //Notification for published post
     public static $notificationForAllNotaries = array( 'flash','viecridon' );
     public static $notificationForSubscribersNotaries = array( 'veille' );
@@ -824,4 +824,11 @@ class Config {
     public static function getRoleLabel($role) {
         return Config::$notaryRoles[$role];
     }
+
+    //HOTFIX poser question mobile support non correct
+    public static $valueSupport= array(
+        2 => 1,
+        6 => 7,
+        20 => 6
+    );
 }
