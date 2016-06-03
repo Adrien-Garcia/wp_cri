@@ -122,7 +122,7 @@ App.Question = {
 
         if (App.Utils.queryString['openQuestion'] == 1) {
             this.$popupOverlay.popup('show');
-            this.openTabQuestionConsultation(false);
+            this.openTabQuestionExpertise(false);
         }
 
 
@@ -181,7 +181,6 @@ App.Question = {
             dots: false,
             navText: false,
             itemClass: 'owl-item ' + this.zoneQuestionSupportSelector.substr(1), // TODO : de étape 1 vers étape 2
-            onInitialized: this.addListenersAfterOwl.bind(this), // TODO : Initialisation différente ?
             responsive:{
                 0 : {
                     items:1,

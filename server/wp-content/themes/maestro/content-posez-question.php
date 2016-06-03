@@ -18,63 +18,47 @@
 		<div class="details">
 			<div class="niveau-expertise js-question-tab-expertise open">
 				<div class="">
-					<?php 
-						$supports = CriListSupport();
+					<?php
+						$expertises = CriListExpertiseAll();
 						// var_dump($supports)
 					 ?>
 				</div>
 				<div id="owl-niveau-expertise" class="owl-carousel">
+                    <?php foreach ($expertises as $data): ?>
+		            <div class="item analytics_<?php echo $data->id ?>_question">
+		            	<input title="niveau hidden" id="niveau-<?php echo $data->id ?>" type="radio" name="niveau-<?php echo $data->id ?>" value="niveau-<?php echo $data->id ?>" data-value="niveau-<?php echo $data->id ?>" class="hidden js-question-expertise-radio">
 
-		            <div class="item analytics_initial_question">
-		            	<input title="niveau hidden" id="niveau-initial" type="radio" name="niveau-initial" value="niveau-initial" data-value="niveau-initial" class="hidden js-question-expertise-radio">
-		              	
 		              	<p class="description">
-		              		Lorem ipsum Sunt irure occaecat consectetur in cupidatat sint proident Ut ut laborum nisi laborum nulla irure pariatur reprehenderit quis eiusmod id aliqua incididunt culpa cillum cupidatat sed dolore aute exercitation veniam culpa.
+                            <?php echo $data->description; ?>
 		              	</p>
 		              	<a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
-		              	<span class="label">Initial</span>
+		              	<span class="label"><?php echo $data->label_front; ?></span>
 		            </div>
-		            <div class="item analytics_medium_question">
-		            	<input title="niveau hidden" id="niveau-medium" type="radio" name="niveau-meidum" value="niveau-medium" data-value="niveau-medium" class="hidden js-question-expertise-radio">
-		            	<p class="description">
-		              		Lorem ipsum Sunt irure occaecat consectetur in cupidatat sint proident Ut ut laborum nisi laborum nulla irure pariatur reprehenderit quis eiusmod id aliqua incididunt culpa cillum cupidatat sed dolore aute exercitation veniam culpa.
-		              	</p>
-		              	<a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
-		              	<span class="label">Médium</span>
-		              	
-		            </div>
-		            <div class="item analytics_expert_question">
-		            	<input title="niveau hidden" id="niveau-expert" type="radio" name="niveau-expert" value="niveau-expert" data-value="niveau-expert" class="hidden js-question-expertise-radio">
-		              	<p class="description">
-		              		Lorem ipsum Sunt irure occaecat consectetur in cupidatat sint proident Ut ut laborum nisi laborum nulla irure pariatur reprehenderit quis eiusmod id aliqua incididunt culpa cillum cupidatat sed dolore aute exercitation veniam culpa.
-		              	</p>
-		              	<a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
-		              	<span class="label">Expert</span>
-		            </div>
-		       
+                    <?php endforeach; ?>
+
 		        </div>
-				
+
 			</div>
 			<div class="consultation js-question-tab-consultation">
 				<div class="">
-					<?php 
-						$supports = CriListSupport();
-						// var_dump($supports)
-					 ?>
-				</div>
-				<div id="owl-support" class="owl-carousel">
-				<?php foreach ($supports as $key => $support): ?>
-		            <div class="item analytics_<?php echo $support->label_front; ?>_question">
-		            	<input title="support hidden" id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" data-value="<?php echo $support->value ; ?>" class="hidden js-question-support-radio">
-		              	<span class="label"><?php echo $support->label_front; ?></span>
-		              	<p class="description">
-		              		<?php echo $support->description; ?>
-		              	</p>
-		            </div>
-		        <?php endforeach; ?>
-		        </div>
-				
-			</div>
+
+                    <div id="owl-support" class="owl-carousel">
+                    <?php foreach ($expertises as $data) : ?>
+                    <?php $supports = $data->supports; ?>
+                        <?php foreach ($supports as $key => $support): ?>
+                            <div class="item analytics_<?php echo $support->label_front; ?>_question">
+                                <input title="support hidden" id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" data-value="<?php echo $support->value ; ?>" class="hidden js-question-support-radio">
+                                <span class="label"><?php echo $support->label_front; ?></span>
+                                <p class="description">
+                                    <?php echo $support->description; ?>
+                                </p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                    </div>
+                </div>
+
+            </div>
 			<div class="question js-question-tab-ma-question">
 				<div class="block_gauche">
 					<div class="img"></div>

@@ -615,14 +615,14 @@ function CriPostQuestion() {
  * @return array
  */
 //TODO value 1 by default only for test purpose. To delete once feature implemented
-function CriListSupport($expertise = 1)
+function CriListSupport()
 {
     // init
     $supports = array();
 
     // query options
     $options = array(
-        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon'),
+        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon', 'es.id_expertise'),
         'synonym'      => 'es',
         'join'       => array(
             array(
@@ -631,10 +631,8 @@ function CriListSupport($expertise = 1)
             )
         ),
         'conditions' => array(
-            's.displayed' => 1,
-            'es.id_expertise' => $expertise
-        ),
-        'limit'      => 3
+            's.displayed' => 1
+        )
     );
 
     $items   = mvc_model('QueryBuilder')->findAll( 'expertise_support',$options,'s.id' );
@@ -647,6 +645,7 @@ function CriListSupport($expertise = 1)
             $object->value = $item->value;
             $object->label_front = $item->label_front;
             $object->description = $item->description;
+            $object->id_expertise = $item->id_expertise;
 
             $supports[] = clone $object;
         }
@@ -669,6 +668,75 @@ function CriListExpertise()
         'order'      => 'Expertise.order ASC'
     );
     return mvc_model('Expertise')->find($options);
+}
+
+/**
+ * List of displayed Expertises with Supports (order field)
+ *
+ * @return array
+ */
+function CriListExpertiseAll()
+{
+    $expertises = array();
+
+    // query options
+    $options = array(
+        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon', 'es.id_expertise'),
+        'synonym'      => 'es',
+        'join'       => array(
+            array(
+                'table' => 'support s',
+                'column' => 's.id = es.id_support'
+            )
+        ),
+        'conditions' => array(
+            's.displayed' => 1
+        )
+    );
+
+    $items   = mvc_model('QueryBuilder')->findAll( 'expertise_support',$options,'s.id' );
+
+    // query options
+    $options = array(
+        'conditions' => array(
+            'Expertise.displayed' => 1
+        ),
+        'order'      => 'Expertise.order ASC'
+    );
+
+    $itemsexp = mvc_model('Expertise')->find($options);
+
+    if (is_array($itemsexp) && count($itemsexp) > 0) {
+        foreach ($itemsexp as $itemexp) {
+
+            $object = new \stdClass();
+            $object->id = $itemexp->id;
+            $object->label_front = $itemexp->label_front;
+            $object->description = $itemexp->description;
+            $object->supports = array();
+
+            $expertises[$object->id] = clone $object;
+        }
+    }
+
+    // format output
+    if (is_array($items) && count($items) > 0) {
+        foreach ($items as $item) {
+            if(!empty($expertises[$item->id_expertise])) {
+
+                $object = new \stdClass();
+                $object->id = $item->id_support;
+                $object->value = $item->value;
+                $object->label_front = $item->label_front;
+                $object->description = $item->description;
+                $object->id_expertise = $item->id_expertise;
+
+                $expertises[$object->id_expertise]->support[$object->id] = $object;
+            }
+        }
+    }
+
+    return $expertises;
 }
 
 /*
