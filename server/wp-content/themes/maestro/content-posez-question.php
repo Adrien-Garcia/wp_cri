@@ -25,37 +25,87 @@
 				</div>
 				<div id="owl-niveau-expertise" class="owl-carousel">
                     <?php foreach ($expertises as $data): ?>
-		            <div class="item analytics_<?php echo $data->id ?>_question">
-		            	<input title="niveau hidden" id="niveau-<?php echo $data->id ?>" type="radio" name="niveau-<?php echo $data->id ?>" value="niveau-<?php echo $data->id ?>" data-value="niveau-<?php echo $data->id ?>" class="hidden js-question-expertise-radio">
+                        <div
+                            data-analytics="<?php echo $data->id ?>question"
+                            class="item">
+                            <input
+                                title="niveau hidden"
+                                id="niveau-<?php echo $data->id ?>"
+                                type="radio"
+                                name="niveau-<?php echo $data->id ?>"
+                                value="niveau-<?php echo $data->id ?>"
+                                data-value="niveau-<?php echo $data->id ?>"
+                                class="hidden js-question-expertise-radio">
 
-		              	<p class="description">
-                            <?php echo $data->description; ?>
-		              	</p>
-		              	<a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
-		              	<span class="label"><?php echo $data->label_front; ?></span>
-		            </div>
+                            <p class="description">
+                                <?php echo $data->description; ?>
+                            </p>
+                            <a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
+                            <span class="label"><?php echo $data->label_front; ?></span>
+                        </div>
                     <?php endforeach; ?>
-
 		        </div>
 
 			</div>
 			<div class="consultation js-question-tab-consultation">
-				<div class="">
 
-                    <div id="owl-support" class="owl-carousel">
+                <div id="owl-support" class="owl-carousel">
+                    <?php $expid = false; ?>
                     <?php foreach ($expertises as $data) : ?>
-                    <?php $supports = $data->supports; ?>
+                        <?php $supports = $data->supports; ?>
                         <?php foreach ($supports as $key => $support): ?>
-                            <div class="item analytics_<?php echo $support->label_front; ?>_question">
-                                <input title="support hidden" id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" data-value="<?php echo $support->value ; ?>" class="hidden js-question-support-radio">
-                                <span class="label"><?php echo $support->label_front; ?></span>
-                                <p class="description">
-                                    <?php echo $support->description; ?>
-                                </p>
-                            </div>
+                            <?php $expid = ($expid == false) ? $support->id_expertise : $expid ?>
+                                <?php if ($expid == $support->id_expertise) : ?>
+                                <div
+                                    data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
+                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> ">
+                                    <input
+                                        title="support hidden"
+                                        id="support_<?php echo $support->id ?>"
+                                        type="radio"
+                                        name="question_support"
+                                        value="<?php echo $support->id ?>"
+                                        data-value="<?php echo $support->value ; ?>"
+                                        data-expertise-id="<?php echo $support->id_expertise ; ?>"
+                                        class="hidden js-question-support-radio">
+                                    <span class="label"><?php echo $support->label_front; ?></span>
+                                    <p class="description">
+                                        <?php echo $support->description; ?>
+                                    </p>
+                                </div>
+                                <?php endif; ?>
+
                         <?php endforeach; ?>
                     <?php endforeach; ?>
-                    </div>
+
+                </div>
+                <div class="hidden js-support-hidden">
+                    <?php foreach ($expertises as $data) : ?>
+                        <?php $supports = $data->supports; ?>
+                        <?php foreach ($supports as $key => $support): ?>
+                            <?php $expid = ($expid == false) ? $support->id_expertise : $expid ?>
+                            <?php if ($expid != $support->id_expertise) : ?>
+
+                                <div
+                                    data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
+                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> ">
+                                    <input
+                                        title="support hidden"
+                                        id="support_<?php echo $support->id ?>"
+                                        type="radio"
+                                        name="question_support"
+                                        value="<?php echo $support->id ?>"
+                                        data-value="<?php echo $support->value ; ?>"
+                                        data-expertise-id="<?php echo $support->id_expertise ; ?>"
+                                        class="hidden js-question-support-radio">
+                                    <span class="label"><?php echo $support->label_front; ?></span>
+                                    <p class="description">
+                                        <?php echo $support->description; ?>
+                                    </p>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
 
             </div>

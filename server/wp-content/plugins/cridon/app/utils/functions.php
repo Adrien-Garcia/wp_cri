@@ -731,7 +731,7 @@ function CriListExpertiseAll()
                 $object->description = $item->description;
                 $object->id_expertise = $item->id_expertise;
 
-                $expertises[$object->id_expertise]->support[$object->id] = $object;
+                $expertises[$object->id_expertise]->supports[$object->id] = $object;
             }
         }
     }

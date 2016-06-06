@@ -9,7 +9,11 @@ App.Question = {
 
     zoneQuestionSupportSelector         : '.js-question-support-zone',
     radioQuestionSupportSelector        : '.js-question-support-radio',
-    //radioQuestionExpertiseSelector        : '.js-question-expertise-radio',     A CABLER 
+    zoneQuestionExpertiseSelector       : '.js-question-expertise-zone',
+    radioQuestionExpertiseSelector      : '.js-question-expertise-radio',
+    inputQuestionExpertiseNSelector     : '.js-question-support-expertise-',
+    itemQuestionExpertiseSelector       : '.js-question-support-expertise',
+    hiddenQuestionSupportSelector       : '.js-support-hidden',
     fileQuestionSelector                : '.js-question-file',
     fileQuestionResetSelector           : '.js-file-reset',
     fileQuestionNameSelector            : '.js-file-name',
@@ -46,15 +50,20 @@ App.Question = {
     $selectQuestionCompetence           : null,
     $selectQuestionCompetenceArray      : [],
     $zoneQuestionSupport                : null,
+    $zoneQuestionExpertise              : null,
     $radioQuestionSupport               : null,
+    $radioQuestionExpertise             : null,
+    $hiddenSupport                      : null,
     $fileQuestion                       : null,
     $fileQuestionReset                  : null,
     $fileQuestionName                   : null,
     $objectQuestionField                : null,
     $messageQuestionField               : null,
 
+    $tabQuestionExpertise               : null,
     $tabQuestionConsultation            : null,
     $tabQuestionMaQuestion              : null,
+    $buttonQuestionExpertise            : null,
     $buttonQuestionConsultation         : null,
     $buttonQuestionMaQuestion           : null,
     $submitQuestion                     : null,
@@ -67,6 +76,7 @@ App.Question = {
     $owlCarousel                        : null,
     $owlCarousel2                       : null,
     $popupOverlay                       : null,
+    formInitialized                     : false,
 
 
     init: function() {
@@ -94,6 +104,9 @@ App.Question = {
 
         this.$zoneQuestionSupport                   = $(this.zoneQuestionSupportSelector);
         this.$radioQuestionSupport                  = $(this.radioQuestionSupportSelector);
+        this.$zoneQuestionExpertise                 = $(this.zoneQuestionExpertiseSelector);
+        this.$radioQuestionExpertise                = $(this.radioQuestionExpertiseSelector);
+        this.$hiddenSupport                         = $(this.hiddenQuestionSupportSelector);
         this.$fileQuestion                          = $(this.fileQuestionSelector);
         this.$fileQuestionReset                     = $(this.fileQuestionResetSelector);
         this.$fileQuestionName                      = $(this.fileQuestionNameSelector);
@@ -132,7 +145,7 @@ App.Question = {
 
     popupOverlayInit: function() {
         /* POPUP OVERLAY*/
-
+        var self = this;
         this.$popupOverlay.popup({
             transition: 'all 0.3s',
             scrolllock: true,
@@ -140,7 +153,10 @@ App.Question = {
             color: '#324968',
             offsettop: 10,
             vertical: top,
-            onopen: this.owlCarouselInit.bind(this)
+            onopen: (function() {
+                (this.owlCarouselInit.bind(this))();
+                (this.owlCarouselInit2.bind(this))();
+            }).bind(this)
 
         });
     },
@@ -174,13 +190,17 @@ App.Question = {
             }
 
         });
+        this.formInit();
+    },
+
+    owlCarouselInit2: function() {
 
         this.$owlCarousel2.owlCarousel({
-
             pagination: false,
             dots: false,
             navText: false,
-            itemClass: 'owl-item ' + this.zoneQuestionSupportSelector.substr(1), // TODO : de étape 1 vers étape 2
+            itemClass: 'owl-item ' + this.zoneQuestionExpertiseSelector.substr(1), // TODO : de étape 1 vers étape 2
+            onInitialized: this.addListenersAfterOwl2.bind(this),
             responsive:{
                 0 : {
                     items:1,
@@ -200,22 +220,28 @@ App.Question = {
             }
 
         });
+        this.formInit();
+    },
 
-        var nonce   = document.createElement('input');
-        nonce.type  = 'hidden';
-        nonce.name  = 'tokenquestion';
-        nonce.id    = 'tokenquestion';
-        nonce.value = jsvar.question_nonce;
+    formInit: function() {
+        if (!this.formInitialized) {
+            var nonce   = document.createElement('input');
+            nonce.type  = 'hidden';
+            nonce.name  = 'tokenquestion';
+            nonce.id    = 'tokenquestion';
+            nonce.value = jsvar.question_nonce;
 
 
-        // reset file list
-        this.eventFileReset();
-        this.$formQuestion[0].reset();
-        this.$submitQuestion.attr('disabled',false);
-        this.$blockQuestionError.html('');
-        this.$formQuestion.append(nonce);
-        if (App.Utils.device.ios) {
-            $('.fileUpload').remove();
+            // reset file list
+            this.eventFileReset();
+            this.$formQuestion[0].reset();
+            this.$submitQuestion.attr('disabled',false);
+            this.$blockQuestionError.html('');
+            this.$formQuestion.append(nonce);
+            if (App.Utils.device.ios) {
+                $('.fileUpload').remove();
+            }
+            this.formInitialized = true;
         }
 
     },
@@ -233,6 +259,10 @@ App.Question = {
 
         this.$selectQuestionMatiere.on("change", function(e) {
             self.eventSelectQuestionMatiereChange($(this));
+        });
+
+        this.$buttonQuestionExpertise.on('click', function(e) {
+            self.openTabQuestionExpertise($(this));
         });
 
         this.$buttonQuestionConsultation.on('click', function(e) {
@@ -315,6 +345,26 @@ App.Question = {
         });
 
     },
+    addListenersAfterOwl2: function() {
+        var self = this;
+        this.debug('Question : addListenersAfterOwl2');
+
+        this.$zoneQuestionExpertise                 = $(this.zoneQuestionExpertiseSelector);
+        this.$radioQuestionExpertise                = $(this.radioQuestionExpertiseSelector);
+
+        this.$zoneQuestionExpertise.on('click', function(e) {
+            self.eventZoneQuestionExpertiseClick($(this));
+        });
+
+        this.$radioQuestionExpertise.on('change', function (e) {
+            self.openTabQuestionConsultation($(this));
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+        });
+
+
+    },
 
     /*
      * Event
@@ -383,8 +433,36 @@ App.Question = {
         zone.addClass(this.selectedClass);
         var radio = zone.find(this.radioQuestionSupportSelector).first();
         radio.prop("checked", true).change();
+        
         this.openTabQuestionMaQuestion(false);
     },
+
+    eventZoneQuestionExpertiseClick: function(zone) {
+        // Select the correct radio + graphics
+        this.$zoneQuestionExpertise.removeClass(this.selectedClass);
+        zone.addClass(this.selectedClass);
+        var radio = zone.find(this.radioQuestionExpertiseSelector).first();
+        radio.prop("checked", true).change();
+
+        // Get the id of expertise
+        var id = radio.data('value').match(/niveau-(.*)/)[1];
+
+        this.$owlCarousel.owlCarousel('destroy');
+        this.$owlCarousel2.owlCarousel('destroy');
+
+        // Get all the supports item/slides and append them into the hidden container
+        var items = $(this.itemQuestionExpertiseSelector).detach();
+        items.appendTo(this.$hiddenSupport);
+
+        // Get the supports items from the expertise selector and append them to the carousel + remove the remaining owl-items
+        var newItems = $(this.inputQuestionExpertiseNSelector + id).detach();
+        newItems.appendTo(this.$owlCarousel);
+        this.$owlCarousel.find('.owl-item').remove();
+
+        // Open tab (init carousel)
+        this.openTabQuestionConsultation(false);
+    },
+
 
     eventButtonDocumentationClick: function () {
         var min = {el: undefined, val: undefined};
@@ -419,7 +497,10 @@ App.Question = {
 
     },
 
-     openTabQuestionExpertise: function(button) {
+    openTabQuestionExpertise: function(button) {
+        this.$owlCarousel2.owlCarousel('destroy');
+        this.$owlCarousel.owlCarousel('destroy');
+        this.owlCarouselInit2();
         this.$buttonQuestionExpertise.addClass('open');
         this.$tabQuestionExpertise.addClass('open');
         this.$buttonQuestionConsultation.removeClass('open');
@@ -430,6 +511,9 @@ App.Question = {
 
 
     openTabQuestionConsultation: function(button) {
+        this.$owlCarousel.owlCarousel('destroy');
+        this.$owlCarousel2.owlCarousel('destroy');
+        this.owlCarouselInit();
         this.$buttonQuestionConsultation.addClass('open');
         this.$tabQuestionConsultation.addClass('open');
         this.$buttonQuestionMaQuestion.removeClass('open');
@@ -439,6 +523,8 @@ App.Question = {
     },
 
     openTabQuestionMaQuestion: function(button) {
+        this.$owlCarousel2.owlCarousel('destroy');
+        this.$owlCarousel.owlCarousel('destroy');
         this.$buttonQuestionConsultation.removeClass('open');
         this.$tabQuestionConsultation.removeClass('open');
         this.$buttonQuestionMaQuestion.addClass('open');
