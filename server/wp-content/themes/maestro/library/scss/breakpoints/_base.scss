@@ -1052,9 +1052,9 @@ body.page-template-front-page{
 				.encartpromo{
 					display: block;
 					position: absolute;
-					top: 21px;
-					left: -24px;
-					width: 110px;
+					top: 30px;
+					left: -29px;
+					width: 140px;
 					height: 20px;
 					background: #e6e6e6;
 					color:$rouge;
@@ -1100,7 +1100,6 @@ body.page-template-front-page{
 					}
 				}
 
-				
 				>a{
 					@include lien-souligne(#FFF);
 					text-align: center;
