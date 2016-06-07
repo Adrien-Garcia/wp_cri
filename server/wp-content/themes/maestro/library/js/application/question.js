@@ -171,21 +171,22 @@ App.Question = {
             itemClass: 'owl-item ' + this.zoneQuestionSupportSelector.substr(1), // de étape 2 à étape 3
             onInitialized: this.addListenersAfterOwl.bind(this),
             responsive:{
-                0 : {
+                 0 : {
                     items:1,
                     dots:true,
                     nav:true,
-
                 },
                 // breakpoint from 480 up
                 768 : {
                     items:3,
                     dots:false,
+                    nav:false,
                 },
                 // breakpoint from 768 up
                 1200 : {
                     items:3,
                     dots:false,
+                    nav:false,
                 }
             }
 
@@ -204,18 +205,20 @@ App.Question = {
             responsive:{
                 0 : {
                     items:1,
-                    dots:false,
+                    dots:true,
                     nav:true,
                 },
                 // breakpoint from 480 up
                 768 : {
                     items:3,
                     dots:false,
+                    nav:false,
                 },
                 // breakpoint from 768 up
                 1200 : {
                     items:3,
                     dots:false,
+                    nav:false,
                 }
             }
 

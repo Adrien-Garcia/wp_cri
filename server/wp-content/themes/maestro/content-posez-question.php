@@ -11,7 +11,7 @@
 		
 		<div class="onglets">
 			<div class="h2 open niveau-expertise js-question-button-expertise">1. <span><?php _e('Niveau d\'expertise'); ?></span></div>
-			<div class="h2 consultation js-question-button-consultation">2. <span><?php _e('Delais / Support de réponse'); ?></span></div>
+			<div class="h2 consultation js-question-button-consultation">2. <span><?php _e('Delais / Service'); ?></span></div>
 			<div class="h2 question js-question-button-ma-question">3. <span><?php _e('Ma question'); ?></span></div>
 
 		</div>
@@ -39,6 +39,7 @@
 
                             <p class="description">
                                 <?php echo $data->description; ?>
+                                Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet
                             </p>
                             <a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
                             <span class="label"><?php echo $data->label_front; ?></span>
@@ -68,10 +69,12 @@
                                         data-value="<?php echo $support->value ; ?>"
                                         data-expertise-id="<?php echo $support->id_expertise ; ?>"
                                         class="hidden js-question-support-radio">
-                                    <span class="label"><?php echo $support->label_front; ?></span>
+                                    
                                     <p class="description">
                                         <?php echo $support->description; ?>
                                     </p>
+                                    <a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
+                                    <span class="label"><?php echo $support->label_front; ?></span>
                                 </div>
                                 <?php endif; ?>
 
@@ -98,10 +101,12 @@
                                         data-value="<?php echo $support->value ; ?>"
                                         data-expertise-id="<?php echo $support->id_expertise ; ?>"
                                         class="hidden js-question-support-radio">
-                                    <span class="label"><?php echo $support->label_front; ?></span>
+                                    
                                     <p class="description">
                                         <?php echo $support->description; ?>
                                     </p>
+                                    <a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
+                                    <span class="label"><?php echo $support->label_front; ?></span>
                                 </div>
                             <?php endif; ?>
                         <?php endforeach; ?>

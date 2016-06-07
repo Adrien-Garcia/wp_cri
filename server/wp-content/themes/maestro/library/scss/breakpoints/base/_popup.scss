@@ -1,7 +1,7 @@
 /* POPUP POSEZ UNE QUESTION */
 
 #layer-posez-question{
-	width: 320px;
+	width:100%;
 	height: auto;
 	//padding: 10px 10px 0 10px;
 	background: #FFF;
@@ -9,6 +9,7 @@
 
 
 	.block_top{
+		padding-bottom: 30px;
 
 		> .titre{
 			width: 100%;
@@ -28,7 +29,7 @@
 
 			.close_layer{
 				position: absolute;
-				right: 10px;
+				right: 20px;
 				top: 50%;
 				margin-top: -20px;
 				display: block;
@@ -39,7 +40,7 @@
 					@include svgicon('icon-close-layer-question', 36px, 36px, #FFF);
 					@include rotate(-45);
 					position: absolute;
-					top: 4px;
+					top: 0px;
 				}
 
 				
@@ -74,11 +75,9 @@
 		.onglets{
 
 			width: 280px;
-			margin: 0 20px;
-			float: left;
-			//padding-bottom: 20px;
+			margin: 0 auto 10px auto;			
 			border-bottom:solid 4px $vert;
-			margin-bottom: 10px;
+			overflow: hidden;
 
 			.h2{
 				font-family: $dosis;
@@ -135,7 +134,7 @@
 		.details{
 			clear: both;
 			width: 280px;
-			margin: 0 20px;
+			margin: 0 auto;
 			
 
 			.consultation, .niveau-expertise{
@@ -152,8 +151,25 @@
 					}
 
 					.owl-item{
-						height: 330px;
+						height: 400px;
 						//padding-top: 190px;
+
+						cursor: pointer;
+
+						.item{
+							position: relative;
+							margin-top: 180px;
+							padding-top: 30px;
+
+							&:before{
+								
+								position: absolute;
+								top: -160px;
+								left: 50%;
+								margin-left: -60px;
+							}
+
+						}
 
 						label {
 							width: 100%;
@@ -161,28 +177,30 @@
 						}
 
 						.label{
-
 							font-family: $dosis;
     						font-weight: 600;
-							font-size: 30px;
+							font-size: 18px;
 							text-transform: uppercase;
 							text-align: center;
 							display: block;
 							width: 100%;
-							height: 50px;
-							line-height: 50px;
+							line-height: 43px;
 							background: $vj_03;
 							color:#FFF;
 							position: relative;
 							margin-bottom: 30px;
 							text-decoration: none;
 
+							height: 42px;
+							line-height: 42px;
+
 							&:before{
 								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
 								position: absolute;
 								left: 50%;
 								margin-left: -24px;
-								bottom:-14px;
+								top:-14px;
+								@include rotate(180);
 							}
 
 						}
@@ -194,7 +212,7 @@
 							line-height: 18px;
                             font-family: $helvetica;
 							text-align: justify;
-							height: 54px;
+							height: 72px;
 							overflow: hidden;
 							width: 250px;
 							margin: 0 auto;
@@ -203,8 +221,8 @@
 						a{
 							@include lien-souligne($rouge);
 							display: block;
-							margin-top: 20px;
-							margin-bottom: 40px;
+							margin-top: 19px;
+							margin-bottom: 36px;
 
 							&:after{
 								left: 50%;
@@ -217,19 +235,7 @@
 
 						
 
-						.item{
-							position: relative;
-							margin-top: 190px;
-
-							&:before{
-								
-								position: absolute;
-								top: -150px;
-								left: 50%;
-								margin-left: -66px;
-							}
-
-						}
+						
 
 						&:hover, &.selected{
 
@@ -266,6 +272,7 @@
 						top: 80px;
 						text-align:left;
 						width: 100%;
+						height: 18px;
 
 						> div{
 							background: transparent;
@@ -296,12 +303,15 @@
 							float: right;
 							right: 0px;
 							z-index: 999;
+							top: -18px;
 
 						}
 
 					}
 
-				}				
+				}
+
+							
 
 			}
 
@@ -312,6 +322,17 @@
 				#owl-support{
 
 					.owl-item{
+
+						.label{
+							&:before{
+								//bottom:-14px;
+							}
+						}
+
+						.description{
+							//height: 72px;
+
+						}
 
 						&:first-child{
 							.item{
@@ -324,17 +345,18 @@
 						&:nth-child(2){
 							.item{
 								&:before{
-									@include svgicon('ico-support-avion', 118px, 118px, $vj_03);								
+									@include svgicon('ico-support-avion', 118px, 118px, $vj_03);	
+																
 								}
 
 							}
 						}
-						&:last-child{
+						&:nth-child(3){
 							.item{
 								&:before{
 									@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);	
-									margin-left: -53px;	
-									top: -130px;						
+									top: -100px;
+									margin-left: -53px						
 								}
 
 							}
@@ -348,10 +370,16 @@
 
 			.niveau-expertise{
 
-				#owl-niveau-expertise{
+				.owl-carousel{
 
 					.owl-item{
 						height: 356px;
+
+						.label{
+							&:before{
+								top:-14px;
+							}
+						}
 
 						.item{
 							margin-top: 180px;
@@ -369,7 +397,7 @@
 								&:before{
 									//@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
 									@include rotate(180);
-									bottom:41px;
+									//bottom:41px;
 								}
 								
 							}
@@ -656,6 +684,10 @@
 				transition: background $duration ease;
 				cursor: pointer;
 				background: $vj_02;
+
+				&:last-child{margin-bottom: 0px;}
+					
+			
 
 				&:after {
 					

@@ -12,13 +12,13 @@
 
 		> .titre{
 
-			height: 80px;
-			line-height: 80px;
+			height: 85px;
+			line-height: 85px;
 			margin-bottom: 40px;
 
 
 			.close_layer{				
-				right: 30px;
+				right: 27px;
 				cursor: pointer;
 
 				&:before{
@@ -43,7 +43,6 @@
 				line-height: 80px;		
 				font-size: 50px;	
 				padding-left: 70px;
-    			margin-left: 30px;
 
 				&:before{
 					@include svgicon('icon-consulter', 45px, 45px, #FFFFFF); 
@@ -56,15 +55,19 @@
 
 		.onglets{
 			
-			width: 1100px;
-			margin-left: 30px;
+			width: 1098px;
+			margin: 0 auto;
 
 			.h2{
-				//width: 50%;				
+				width: 366px;				
 				font-size: 30px;
 				height: 90px; 
 				line-height: 60px;
 				padding: 0 36px;
+			}
+
+			.h2.open{				
+				width: 366px;
 			}
 
 			
