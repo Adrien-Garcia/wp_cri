@@ -824,4 +824,9 @@ class Config {
     public static function getRoleLabel($role) {
         return Config::$notaryRoles[$role];
     }
+
+    public static $cridonlineLevels = array (
+        CONST_CRIDONLINE_LEVEL_2,
+        CONST_CRIDONLINE_LEVEL_3
+    );
 }

@@ -476,7 +476,7 @@ class NotairesController extends BasePublicController
 
     protected function validateSubscriptionData($request,$notaire){
         //Validate level
-        if (empty($request['level']) || !in_array($request['level'],array(CONST_CRIDONLINE_LEVEL_2,CONST_CRIDONLINE_LEVEL_3))){
+        if (empty($request['level']) || !in_array($request['level'],Config::$cridonlineLevels)){
             return false;
         }
         //Validate role
