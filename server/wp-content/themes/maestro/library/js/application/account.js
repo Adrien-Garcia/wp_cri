@@ -24,11 +24,14 @@ App.Account = {
     accountEmailSelector                : '-email',
     accountStateSelector                : '-state',
     accountCGVSelector                  : '-cgv',
+    accountB2BSelector                  : '-b2b',
+    accountB2CSelector                  : '-b2c',
     accountCrpcenSelector               : '-crpcen',
     accountLevelSelector                : '-level',
     accountPriceSelector                : '-price',
     accountPromoSelector                : '-promo',
     accountCheckboxSelector             : '-checkbox',
+    accountRadioSelector                : '-radio',
     accountStep1Selector                : '-step1',
     accountStep2Selector                : '-step2',
     accountToggleSelector               : '-toggle',
@@ -450,6 +453,8 @@ App.Account = {
 
         this.$accountCridonlineValidationMessage = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountMessageSelector);
         this.$accountCridonlineValidationCGV     = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCGVSelector);
+        this.$accountCridonlineValidationB2B     = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountB2BSelector);
+        this.$accountCridonlineValidationB2C     = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountB2CSelector);
         this.$accountCridonlineValidationCrpcen  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCrpcenSelector);
         this.$accountCridonlineValidationLevel   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountLevelSelector);
         this.$accountCridonlineValidationPrice   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPriceSelector);
@@ -650,7 +655,16 @@ App.Account = {
         this.debug("Account : addListenersCridonlineValidation");
 
         this.$accountCridonlineValidationCGV.on('change', function (e) {
-            self.eventAccountCridonlineValidationCGV($(this));
+            var label = $(this).parents(this.defaultSelector + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCheckboxSelector).first();
+            self.eventAccountCheckboxToggle(label);
+        });
+
+        this.$accountCridonlineValidationB2B.on('change', function (e) {
+            self.eventAccountRadioToggle($(this));
+        });
+
+        this.$accountCridonlineValidationB2C.on('change', function (e) {
+            self.eventAccountRadioToggle($(this));
         });
 
         this.$accountCridonlineValidationForm.on('submit', function (e) {
@@ -1390,13 +1404,7 @@ App.Account = {
         return false;
     },
 
-    eventAccountCridonlineValidationCGV: function (input) {
-        var label = input.parents(
-            this.defaultSelector +
-            this.accountCridonlineSelector +
-            this.accountValidationSelector +
-            this.accountCheckboxSelector
-        ).first();
+    eventAccountCheckboxToggle: function (label) {
         if (label.hasClass('select')) {
             label.removeClass('select');
             label.addClass('unselect');
@@ -1412,6 +1420,15 @@ App.Account = {
                 label.addClass('unselect');
             }
         }
+    },
+
+    eventAccountRadioToggle: function (input) {
+        var radioButtons = $(this.defaultSelector + this.accountCridonlineSelector + this.accountValidationSelector + this.accountRadioSelector);
+        radioButtons.removeClass('select');
+        radioButtons.addClass('unselect');
+        var label = input.parents(radioButtons).first();
+        label.removeClass('unselect');
+        label.addClass('select');
     },
 
     eventQuestionFilter: function () {

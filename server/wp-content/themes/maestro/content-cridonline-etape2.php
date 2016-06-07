@@ -9,11 +9,11 @@
 
 <div class="bloc-souscription">
     <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-validation-form" data-js-ajax-souscription-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionveille'));?>">
-        <label for="label_radio_B2B" class="radio">
+        <label for="label_radio_B2B" class="radio select js-account-cridonline-validation-radio">
             <input id="label_radio_B2B" type="radio" name="B2B_B2C" value="B2B" class="js-account-cridonline-validation-b2b" checked>
             <span>J'exerce en tant que personne morale</span>
         </label>
-       <label for="label_radio_B2C" class="radio marge">
+        <label for="label_radio_B2C" class="radio marge unselect js-account-cridonline-validation-radio">
             <input id="label_radio_B2C" type="radio" name="B2B_B2C" value="B2C" class="js-account-cridonline-validation-b2c">
             <span>J'exerce en tant que personne physique/indépendant</span>
         </label>
