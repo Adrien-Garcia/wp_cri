@@ -457,13 +457,14 @@ class NotairesController extends BasePublicController
             $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
             $office = array(
                 'Etude' => array(
-                    'crpcen' => $notaire->crpcen,
-                    'subscription_level' => $_REQUEST['level'],
-                    'start_subscription_date' => $start_subscription_date,
+                    'crpcen'                     => $notaire->crpcen,
+                    'subscription_level'         => $_REQUEST['level'],
+                    'start_subscription_date'    => $start_subscription_date,
                     'echeance_subscription_date' => $echeance_subscription_date,
-                    'end_subscription_date' => $end_subscription_date,
-                    'subscription_price' => $subscription_price,
-                    'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                    'end_subscription_date'      => $end_subscription_date,
+                    'subscription_price'         => $subscription_price,
+                    'id_sepa'                    => $this->calculateSepaId($notaire,$etude),
+                    'a_transmettre'              => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                 )
             );
             if (mvc_model('Etude')->save($office)) {
@@ -495,6 +496,15 @@ class NotairesController extends BasePublicController
         return true;
     }
 
+    protected function calculateSepaId($notaire,$etude){
+        $start = 'CRI'.$notaire->client_number;
+        if (!empty($etude->id_sepa)){
+            return $start.(sprintf('%05d',substr($etude->id_sepa,-5) + 1));
+        } else {
+            return $start.'00001';
+        }
+    }
+
     // Function only used for promo time
     public function ajaxVeilleSubscriptionPromo()
     {
@@ -524,13 +534,14 @@ class NotairesController extends BasePublicController
             }
             $office = array(
                 'Etude' => array(
-                    'crpcen' => $notaire->crpcen,
-                    'subscription_level' => $_REQUEST['level'],
-                    'start_subscription_date' => $start_subscription_date,
+                    'crpcen'                     => $notaire->crpcen,
+                    'subscription_level'         => $_REQUEST['level'],
+                    'start_subscription_date'    => $start_subscription_date,
                     'echeance_subscription_date' => $echeance_subscription_date,
-                    'end_subscription_date' => $end_subscription_date,
-                    'subscription_price' => $subscription_price,
-                    'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                    'end_subscription_date'      => $end_subscription_date,
+                    'subscription_price'         => $subscription_price,
+                    'id_sepa'                    => $this->calculateSepaId($notaire,$etude),
+                    'a_transmettre'              => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                 )
             );
             if (mvc_model('Etude')->save($office)) {
