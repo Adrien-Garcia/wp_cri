@@ -958,6 +958,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                     }
                 }
                 // id_support change -> Send mail
+                //TODO Implement new supports after mix produit
                 if (isset($data[$adapter::QUEST_YCODESUP]) && isset($question) && !empty($question->id_support)
                     && ( ( intval($data[$adapter::QUEST_YCODESUP]) == 1 && ($question->id_support == 7))
                       || ( intval($data[$adapter::QUEST_YCODESUP]) == 7 && ($question->id_support == 6))
@@ -1074,9 +1075,9 @@ class Question extends \App\Override\Model\CridonMvcModel
                     }
 
                     if (!empty($juriste)) {
-                        $juristes = mvc_model('UserCridon')->find(array(
+                        $juristes = mvc_model('UserCridon')->find_one(array(
                             'conditions' => array(
-                                'UserCridon.id_erp' => '\'' . $juriste . '\''
+                                'UserCridon.id_erp' => $juriste
                             ),
                             'joins' => array(
                                 'User'
@@ -1095,9 +1096,9 @@ class Question extends \App\Override\Model\CridonMvcModel
                     }
 
                     if (!empty($matiere)){
-                        $matieres = mvc_model('Matiere')->find(array(
+                        $matieres = mvc_model('Matiere')->find_one(array(
                             'conditions' => array(
-                                'Matiere.code' => '\''.$matiere.'\''
+                                'Matiere.code' => $matiere
                             )
                         ));
                         if (is_object($matieres) && !empty ($matieres->label)){
@@ -1132,9 +1133,10 @@ class Question extends \App\Override\Model\CridonMvcModel
                     }
 
 
-
+                    //TODO Add expertise after mix produit is implemented
                     $vars = array (
                         'numero_question'  => $srenum,
+                        'expertise'        => '',
                         'support'          => $support,
                         'matiere'          => $matiere,
                         'competence'       => $competence,

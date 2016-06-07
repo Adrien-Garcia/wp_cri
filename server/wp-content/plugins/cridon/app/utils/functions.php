@@ -954,12 +954,14 @@ function CriSendPostQuestConfirmation($question) {
         if ($dest) {
             // prepare message
             $subject = Config::$mailSubjectQuestionStatusChange['1'];
+            //TODO Add expertise after mix produit is implemented
             $vars    = array(
                 'resume'          => $question['resume'],
                 'content'         => $question['content'],
                 'matiere'         => $question['matiere'],
                 'competence'      => $question['competence'],
                 'support'         => $question['support'],
+                'expertise'       => '',
                 'creation_date'   => $question['dateSoumission'],
                 'date'            => $question['dateSoumission'],
                 'notaire'         => $notary,

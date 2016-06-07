@@ -212,12 +212,14 @@ class Config {
 
     // Notification for posted question
     public static $mailContentQuestionStatusChange = array(
-        1 => 'Votre question du %s en délai %s a bien été transmise.',
-        2 => 'Nous avons bien reçu votre question numéro %s du %s en délai %s.',
-        3 => 'Compte tenu de l’affluence des demandes, il ne nous sera pas possible de respecter le délai demandé de votre question numéro %s du %s. Nous enregistrons votre question en délai %s et faisons le nécessaire pour vous donner satisfaction.',
-        4 => 'Votre question numéro %s en délai %s a été attribuée le %s à %s. Une réponse vous sera apportée au plus tard le %s.',
-        5 => 'Merci de nous adresser les renseignements complémentaires demandés qui nous sont indispensables pour répondre à votre question numéro %s en délai %s du %s.',
-        6 => 'La réponse à votre question numéro %s en délai %s du %s est disponible depuis votre espace privé.',
+        1 => 'Votre question du %s de niveau d\'expertise %s en délai %s a bien été transmise.',
+        2 => 'Nous avons bien reçu votre question numéro %s du %s de niveau d\'expertise %s en délai %s.',
+        3 => array('Compte tenu de l’affluence des demandes, il ne nous sera pas possible de respecter le délai demandé de votre question numéro %s du %s.',
+                   'Nous enregistrons votre question en délai %s et faisons le nécessaire pour vous donner satisfaction.'),
+        4 => array('Votre question numéro %s de niveau d\'expertise %s en délai %s a été attribuée le %s à %s.',
+                   'Une réponse vous sera apportée au plus tard le %s.'),
+        5 => 'Merci de nous adresser les renseignements complémentaires demandés qui nous sont indispensables pour répondre à votre question numéro %s de niveau d\'expertise %s en délai %s du %s.',
+        6 => 'La réponse à votre question numéro %s de niveau d\'expertise %s en délai %s du %s est disponible depuis votre espace privé.',
 
     );
 
