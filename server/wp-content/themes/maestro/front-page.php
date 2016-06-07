@@ -181,7 +181,6 @@
 							<span><?php _e('S\'abonner à votre veille !'); ?></span>
 						</a>
 
-						<img src="" alt="" class="appli" />
 					</div>
 				</div>
 				<div class="info-flash-exclu <?php if(!CriIsNotaire()) : ?> js-panel-connexion-open <?php else: ?> js-home-block-link <?php endif; ?>" <?php if(!CriIsNotaire()) : ?> data-login-message="PROTECTED_CONTENT" <?php endif; ?>>
@@ -247,16 +246,7 @@
 
 				<a href="<?php echo MvcRouter::public_url(array('controller' => 'vie_cridons', 'action'     => 'index')) ?>" title="Lorem" class="LienVieCridon" ><span> <?php _e('Toute la vie du CRIDON'); ?> </span></a>
 			</div>
-		</div>	
-
-
-		
-
-		
-
-
-	
-		
+		</div>
 
 	</div>
 
