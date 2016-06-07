@@ -542,14 +542,7 @@ class NotairesController extends BasePublicController
     }
 
     protected function validateSubscriptionDataPromo($request,$notaire){
-        //Validate level
-        if (empty($request['level']) || !in_array($request['level'],array(CONST_CRIDONLINE_LEVEL_2,CONST_CRIDONLINE_LEVEL_3))){
-            return false;
-        }
-        //Validate role
-        if (!in_array(CONST_CRIDONLINESUBSCRIPTION_ROLE,CriGetCollaboratorRoles($notaire))){
-            return false;
-        }
+
         //Validate promo
         if (!isPromoActive()){
             return false;
@@ -557,15 +550,7 @@ class NotairesController extends BasePublicController
         if (!in_array($request['promo'],array(CONST_PROMO_CHOC,CONST_PROMO_PRIVILEGE))){
             return false;
         }
-        //Validate CGV
-        if (!(!empty($request['CGV']) && ($request['CGV'] === 'true') )) {
-            return false;
-        }
-        // Verify that the nonce is valid.
-        if (!(isset($request['token']) && wp_verify_nonce($request['token'], 'process_cridonline_nonce'))) {
-            return false;
-        }
-        return true;
+        return $this->validateSubscriptionData($request,$notaire);
     }
 
     protected function prepareDashboard()
