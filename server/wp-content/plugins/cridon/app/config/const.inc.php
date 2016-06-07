@@ -684,6 +684,12 @@ if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
 if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_3' ) ) {
     define( 'CONST_CRIDONLINE_LABEL_LEVEL_3', 'Excellence' );
 }
+if ( !defined( 'CONST_CRIDONLINE_LEVEL_2' ) ) {
+    define( 'CONST_CRIDONLINE_LEVEL_2', 2 );
+}
+if ( !defined( 'CONST_CRIDONLINE_LEVEL_3' ) ) {
+    define( 'CONST_CRIDONLINE_LEVEL_3', 3 );
+}
 // Collaborateur form
 if ( !defined( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG' ) ) {
     define( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG', 'Le profil du collaborateur a bien été supprimé.' );
@@ -715,8 +721,14 @@ if ( !defined( 'CONST_PROFIL_OFFICE_MODIFY_SUCCESS_MSG' ) ) {
 if ( !defined( 'CONST_PROFIL_PASSWORD_ERROR_MSG' ) ) {
     define( 'CONST_PROFIL_PASSWORD_ERROR_MSG', 'Un échec est survenu, merci de réésayer ultérieurement.' );
 }
-if ( !defined( 'CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG' ) ) {
-    define( 'CONST_PROFIL_PASSWORD_EMAIL_ERROR_MSG', 'Les emails ne sont pas identiques.' );
+if ( !defined( 'CONST_PROFIL_PASSWORD_DIFFERENT_EMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_DIFFERENT_EMAIL_ERROR_MSG', 'Les adresses emails entrées ne sont pas identiques.' );
+}
+if ( !defined( 'CONST_PROFIL_PASSWORD_MISSING_EMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_MISSING_EMAIL_ERROR_MSG', 'Merci d\'ajouter une adresse email à votre profil afin de pouvoir modifier votre mot de passe.' );
+}
+if ( !defined( 'CONST_PROFIL_PASSWORD_DIFFERENT_PROFIL_EMAIL_ERROR_MSG' ) ) {
+    define( 'CONST_PROFIL_PASSWORD_DIFFERENT_PROFIL_EMAIL_ERROR_MSG', 'L\'adresse email de votre profil ne correspond pas aux adresses entrées ci-dessus.' );
 }
 if ( !defined( 'CONST_PROFIL_PASSWORD_SUCCESS_MSG' ) ) {
     define( 'CONST_PROFIL_PASSWORD_SUCCESS_MSG', 'La demande de modification de mot de passe a bien été prise en compte.' );
@@ -1116,4 +1128,23 @@ if ( !defined( 'CONST_URL_SINEQUA' ) ) {
 }
 if ( !defined( 'CONST_URL_INFO_PAGE_CRIDONLINE' ) ) {
     define( 'CONST_URL_INFO_PAGE_CRIDONLINE', '/cridonline-decouvrir-nos-offres/' );
+}
+//Promo
+if ( !defined( 'CONST_DATE_FIN_PROMO' ) ) {
+    define( 'CONST_DATE_FIN_PROMO', '2016-09-30' );
+}
+if ( !defined( 'CONST_START_SUBSCRIPTION_PROMO_CHOC' ) ) {
+    define( 'CONST_START_SUBSCRIPTION_PROMO_CHOC', '2017-01-01' );
+}
+if ( !defined( 'CONST_ECHEANCE_SUBSCRIPTION_PROMO_CHOC' ) ) {
+    define( 'CONST_ECHEANCE_SUBSCRIPTION_PROMO_CHOC', '2017-10-31' );
+}
+if ( !defined( 'CONST_END_SUBSCRIPTION_PROMO_CHOC' ) ) {
+    define( 'CONST_END_SUBSCRIPTION_PROMO_CHOC', '2017-12-31' );
+}
+if ( !defined( 'CONST_PROMO_CHOC' ) ) {
+    define( 'CONST_PROMO_CHOC', 1 );
+}
+if ( !defined( 'CONST_PROMO_PRIVILEGE' ) ) {
+    define( 'CONST_PROMO_PRIVILEGE', 2 );
 }

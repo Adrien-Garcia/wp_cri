@@ -32,7 +32,7 @@
             <input type="text" name="profil_tel_portable" placeholder="<?php _e('Téléphone mobile'); ?>" id="profil_tel_portable" class="js-account-profil-modify-mobilephone" value="<?php echo empty($collaborator['mobilephone']) ? '' : $collaborator['mobilephone'] ?>">
         </div>
         <div class="fax">
-            <input type="text" name="profil_fax" placeholder="<?php _e('Téléphone Fax'); ?>" id="profil_fax" class="js-account-profil-modify-mobilephone" value="<?php echo empty($collaborator['mobilephone']) ? '' : $collaborator['mobilephone'] ?>">
+            <input type="text" name="profil_fax" placeholder="<?php _e('Téléphone Fax'); ?>" id="profil_fax" class="js-account-profil-modify-fax" value="<?php echo empty($collaborator['fax']) ? '' : $collaborator['fax'] ?>">
         </div>
         <div class="message-erreur js-account-profil-modify-message"></div>
         <div class="submit">

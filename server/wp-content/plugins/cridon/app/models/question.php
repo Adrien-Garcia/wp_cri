@@ -1152,8 +1152,13 @@ class Question extends \App\Override\Model\CridonMvcModel
                     $message = CriRenderView('mail_notification_question', $vars, 'custom', false);
 
                     $env = getenv('ENV');
-                    if (empty($env) || ($env !== 'PROD')) {
-                        $email = wp_mail( Config::$notificationAddressPreprod , $subject, $message, $headers );
+                    if (empty($env)|| ($env !== 'PROD')) {
+                        if ($env === 'PREPROD') {
+                            $dest = Config::$notificationAddressPreprod;
+                        } else {
+                            $dest = Config::$notificationAddressDev;
+                        }
+                        $email = wp_mail( $dest , $subject, $message, $headers );
                         writeLog("not Prod: " . $email . "\n", "mailog.txt");
                     } else {
                         if (!empty($notaire->email_adress)) {
@@ -2001,6 +2006,17 @@ writeLog($query, 'query_export.log');
             && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && $post[CONST_QUESTION_COMPETENCE_FIELD] != ''
             && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
         ) {
+            // HOTFIX L'id_support envoyé est la value de celui-ci
+            // Pour un support 'normal' => 2
+            // Pour un support 'semaine' => 6
+            // Pour un support '48h' => 20
+            // Pour ne pas effectuer des modifications côté mobile d'où vient le problème, un fix est effectué ici avec une table de correspondance : value <-> support
+            if (!empty(Config::$valueSupport[intval($post[CONST_QUESTION_SUPPORT_FIELD])])){
+                $id_support = Config::$valueSupport[intval($post[CONST_QUESTION_SUPPORT_FIELD])];
+            } else {
+                $id_support = $post[CONST_QUESTION_SUPPORT_FIELD];
+            };
+
             // prepare data
             $question = array(
                 'Question' => array(
@@ -2008,7 +2024,8 @@ writeLog($query, 'query_export.log');
                     'sreccn'             => $notaire->code_interlocuteur,
                     'resume'             => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
                     'creation_date'      => date('Y-m-d H:i:s'),
-                    'id_support'         => $post[CONST_QUESTION_SUPPORT_FIELD], // Support
+                    //'id_support'         => $post[CONST_QUESTION_SUPPORT_FIELD], // Support
+                    'id_support'         => $id_support, // Support
                     'id_competence_1'    => $post[CONST_QUESTION_COMPETENCE_FIELD], // Competence
                     'content'            => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]), // Message
                     'mobile_push_token'  => ($post[CONST_QUESTION_PUSHTOKEN_FIELD]), // push token

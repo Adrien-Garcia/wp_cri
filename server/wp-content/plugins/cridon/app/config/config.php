@@ -224,7 +224,7 @@ class Config {
     // Notification for posted question
     public static $mailSubjectCridonline = 'Confirmation de votre souscription à crid\'online';
 
-    public static $notificationAddressPreprodJetpulp = "renaud.amsellem@jetpulp.fr";
+    public static $notificationAddressDev = "renaud.amsellem@jetpulp.fr";
 
     public static $notificationAddressPreprod = "s.raby@cridon-lyon.fr";
 
@@ -824,4 +824,16 @@ class Config {
     public static function getRoleLabel($role) {
         return Config::$notaryRoles[$role];
     }
+
+    public static $cridonlineLevels = array (
+        CONST_CRIDONLINE_LEVEL_2,
+        CONST_CRIDONLINE_LEVEL_3
+    );
+
+    //HOTFIX poser question mobile support non correct
+    public static $valueSupport= array(
+        2 => 1,
+        6 => 7,
+        20 => 6
+    );
 }

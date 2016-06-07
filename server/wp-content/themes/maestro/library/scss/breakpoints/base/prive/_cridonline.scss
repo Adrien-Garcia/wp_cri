@@ -131,6 +131,8 @@
 			    width: 190px;
 			    font-size: 12px;
 			}
+
+			
 		}
 
 		
@@ -178,6 +180,24 @@
 			}
 			input[type="submit"]{
 				background-color: $jaune-cri;
+
+				&.bt2{
+					bottom: 45px;
+					height: 25px;
+					background: #ffcc00;
+				}
+			}
+
+			.en-tete{
+				height: 120px;
+			}
+
+			ul{
+				padding: 0 13px;
+			}
+
+			.bt1{}
+			.bt2{
 			}
 		}
 
@@ -355,10 +375,11 @@ div#cridonline{
 
 		form{
 
+			
 			label{
 				position: relative;
 				display: block;
-				height: 45px;
+				//height: 45px;
 				
 
 				span{/*Message*/
@@ -386,7 +407,25 @@ div#cridonline{
 					left: 0;
 				}
 
+				&.radio{
+
+					&:before{
+						width: 9px;
+						height: 9px;
+						@include border-radius(50%); 
+					}
+				}
+
+				&.cguv{
+					height: 45px;
+				}
+
+				&.marge{
+					margin-bottom: 10px;
+				}
+
 				&.select{
+
 					&:before{
 						background-color: $rouge;
 					}

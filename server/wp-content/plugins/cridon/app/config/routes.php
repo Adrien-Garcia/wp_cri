@@ -8,6 +8,7 @@
 
 // Téléchargement des documents publics, toujours en dernier dans les routes pour éviter les problèmes des "/" dans les données cryptées
 MvcRouter::public_connect('telechargement/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'documents', 'action' => 'publicDownload'));
+MvcRouter::public_connect('documents/download/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'documents', 'action' => 'download'));
 
 // rest
 MvcRouter::public_connect('rest/login', array( 'controller' =>'logins','action' => 'login'));
@@ -55,8 +56,11 @@ MvcRouter::public_connect('notaires/contentprofil/gestion', array('controller' =
 MvcRouter::public_connect('notaires/contentprofil/motdepasse', array('controller' => 'notaires', 'action' => 'gestionpassword'));
 MvcRouter::public_connect('notaires/contentcollaborateur/gestion', array('controller' => 'notaires', 'action' => 'gestioncollaborateur'));
 MvcRouter::public_connect('notaires/contentcridonline', array('controller' => 'notaires', 'action' => 'contentcridonline'));
+MvcRouter::public_connect('notaires/contentcridonlinepromo', array('controller' => 'notaires', 'action' => 'contentcridonlinepromo'));//promo
 MvcRouter::public_connect('notaires/contentcridonlineetape2', array('controller' => 'notaires', 'action' => 'contentcridonlineetape2'));
+MvcRouter::public_connect('notaires/contentcridonlineetape2promo', array('controller' => 'notaires', 'action' => 'contentcridonlineetape2promo'));
 MvcRouter::public_connect('notaires/souscriptionveille', array('controller' => 'notaires', 'action' => 'ajaxveillesubscription'));
+MvcRouter::public_connect('notaires/souscriptionveillepromo', array('controller' => 'notaires', 'action' => 'ajaxveillesubscriptionpromo'));//promo
 MvcRouter::public_connect('notaires/souscriptionnewsletter', array('controller' => 'notaires', 'action' => 'ajaxnewslettersubscription'));
 MvcRouter::public_connect('notaires', array('controller' => 'notaires', 'action' => 'show'));
 

@@ -184,8 +184,8 @@
 						<li>Choix de l’offre de la plus simple à la plus complète</li>
 						<li>Toujours au meilleur prix</li>
 					</ul>
-					
-					<?php if (!isPromoActive()) : ?>		
+
+					<?php if (!isPromoActive()) : ?>
 					<a href="/cridonline-decouvrir-nos-offres" title="Découvrir nos offres crid'online" class="link1">
 						<span><?php _e('Découvrir nos offres !'); ?></span>
 					</a>
@@ -193,9 +193,9 @@
 							href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'cridonline')); ?>">
 							<span><?php _e('Souscrire à nos offres !'); ?></span>
 						</a>
-					<?php else : ?>	
+					<?php else : ?>
 
-						<div class="encartpromo"> Offres promotionnelles </div>  
+						<div class="encartpromo"> Offres promotionnelles </div>
 
 						<a href="/cridonline-decouvrir-nos-offres-promotionnelles" title="Découvrir nos offres crid'online" class="link1">
 							<span><?php _e('Découvrir nos offres !'); ?></span>

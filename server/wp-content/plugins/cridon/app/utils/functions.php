@@ -927,12 +927,15 @@ function CriSendPostQuestConfirmation($question) {
     // retrieve notary data
     $notary = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
     if (is_object($notary) && property_exists($notary, 'email_adress')) {
-        // default dest for DEV ENV
-        $dest = Config::$notificationAddressPreprod;
-
         // check environnement
         $env = getenv('ENV');
-        if ($env === 'PROD') {
+        if (empty($env)|| ($env !== 'PROD')) {
+            if ($env === 'PREPROD') {
+                $dest = Config::$notificationAddressPreprod;
+            } else {
+                $dest = Config::$notificationAddressDev;
+            }
+        } else {
             $dest = $notary->email_adress;
             if (!$dest) { // notary email is empty
                 // send email to the office
@@ -1021,5 +1024,12 @@ function CriListRolesByFunction($type, $idFonction) {
         }
     }
     return $roles;
+}
+
+function isPromoActive(){
+    if (date('Y-m-d') <= CONST_DATE_FIN_PROMO){
+        return true;
+    }
+    return false;
 }
 

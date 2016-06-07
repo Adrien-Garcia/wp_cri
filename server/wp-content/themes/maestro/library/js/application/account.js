@@ -27,6 +27,7 @@ App.Account = {
     accountCrpcenSelector               : '-crpcen',
     accountLevelSelector                : '-level',
     accountPriceSelector                : '-price',
+    accountPromoSelector                : '-promo',
     accountCheckboxSelector             : '-checkbox',
     accountStep1Selector                : '-step1',
     accountStep2Selector                : '-step2',
@@ -424,6 +425,7 @@ App.Account = {
         this.$accountCridonlineCrpcen  = $(d + this.accountCridonlineSelector + this.accountCrpcenSelector);
         this.$accountCridonlineLevel   = $(d + this.accountCridonlineSelector + this.accountLevelSelector);
         this.$accountCridonlinePrice   = $(d + this.accountCridonlineSelector + this.accountPriceSelector);
+        this.$accountCridonlinePromo   = $(d + this.accountCridonlineSelector + this.accountPromoSelector);
 
         this.$cridonline               = $(this.accountCridonline);
 
@@ -450,6 +452,7 @@ App.Account = {
         this.$accountCridonlineValidationCrpcen  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCrpcenSelector);
         this.$accountCridonlineValidationLevel   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountLevelSelector);
         this.$accountCridonlineValidationPrice   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPriceSelector);
+        this.$accountCridonlineValidationPromo   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPromoSelector);
         this.$accountCridonlineValidationStep1   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep1Selector);
         this.$accountCridonlineValidationStep2   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep2Selector);
 
@@ -935,14 +938,6 @@ App.Account = {
             data: {
                 action: jsvar.profil_modify_user,
                 collaborator_id: div.data('js-ajax-id'),
-                collaborator_lastname: div.data('js-ajax-lastname'),
-                collaborator_firstname: div.data('js-ajax-firstname'),
-                collaborator_phone: div.data('js-ajax-phone'),
-                collaborator_mobilephone: div.data('js-ajax-mobilephone'),
-                collaborator_fax: div.data('js-ajax-fax'),
-                collaborator_notairefunction: div.data('js-ajax-notairefunction'),
-                collaborator_collaboratorfunction: div.data('js-ajax-collaboratorfunction'),
-                collaborator_emailaddress: div.data('js-ajax-emailaddress')
             },
             success: this.successProfilModifyPopup.bind(this)
         });
@@ -980,7 +975,7 @@ App.Account = {
                 collaborator_last_name: form.find(this.$accountProfilModifyLastname.selector).val(),
                 collaborator_tel: form.find(this.$accountProfilModifyPhone.selector).val(),
                 collaborator_tel_portable: form.find(this.$accountProfilModifyMobilephone.selector).val(),
-                collaborator_tel_fax: form.find(this.$accountProfilModifyFax.selector).val(),
+                collaborator_fax: form.find(this.$accountProfilModifyFax.selector).val(),
                 collaborator_email: form.find(this.$accountProfilModifyEmail.selector).val()
             },
             success: this.successProfilModify.bind(this)
@@ -1005,18 +1000,6 @@ App.Account = {
         jQuery.ajax({
             type: 'GET',
             url: div.data('js-ajax-modify-office-url'),
-            data: {
-                office_crpcen: div.data('js-ajax-crpcen'),
-                office_name: div.data('js-ajax-name'),
-                office_address_1: div.data('js-ajax-address-1'),
-                office_address_2: div.data('js-ajax-address-2'),
-                office_address_3: div.data('js-ajax-address-3'),
-                office_postalcode: div.data('js-ajax-postalcode'),
-                office_city: div.data('js-ajax-city'),
-                office_email: div.data('js-ajax-email'),
-                office_phone: div.data('js-ajax-phone'),
-                office_fax: div.data('js-ajax-fax')
-            },
             success: this.successProfilOfficeModifyPopup.bind(this)
         });
         return false;
@@ -1101,9 +1084,9 @@ App.Account = {
             type: 'GET',
             url: form.data('js-ajax-validation-url'),
             data: {
-                crpcen: form.find(this.$accountCridonlineCrpcen).val(),
                 level: form.find(this.$accountCridonlineLevel).val(),
-                price: form.find(this.$accountCridonlinePrice).val()
+                price: form.find(this.$accountCridonlinePrice).val(),
+                promo: form.find(this.$accountCridonlinePromo).val()
             },
             success: this.successCridonline.bind(this)
         });
@@ -1190,13 +1173,6 @@ App.Account = {
             data: {
                 action: jsvar.collaborateur_modify_user,
                 collaborator_id: div.data('js-ajax-id'),
-                collaborator_lastname: div.data('js-ajax-lastname'),
-                collaborator_firstname: div.data('js-ajax-firstname'),
-                collaborator_phone: div.data('js-ajax-phone'),
-                collaborator_mobilephone: div.data('js-ajax-mobilephone'),
-                collaborator_notairefunction: div.data('js-ajax-notairefunction'),
-                collaborator_collaboratorfunction: div.data('js-ajax-collaboratorfunction'),
-                collaborator_emailaddress: div.data('js-ajax-emailaddress')
             },
             success: this.successCollaborateurAddPopup.bind(this)
         });
@@ -1389,7 +1365,8 @@ App.Account = {
                 CGV: form.find(this.$accountCridonlineValidationCGV)[0].checked,
                 crpcen: form.find(this.$accountCridonlineValidationCrpcen).val(),
                 level: form.find(this.$accountCridonlineValidationLevel).val(),
-                price: form.find(this.$accountCridonlineValidationPrice).val()
+                price: form.find(this.$accountCridonlineValidationPrice).val(),
+                promo: form.find(this.$accountCridonlineValidationPromo).val()
             },
             success: this.successCridonlineValidation.bind(this)
         });
