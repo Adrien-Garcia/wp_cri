@@ -3391,7 +3391,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
             // check environnement
             $env = getenv('ENV');
-            if ($env === 'PROD') {
+            if (empty($env)|| ($env !== 'PROD')) {
+                if ($env === 'PREPROD') {
+                    $dest = Config::$notificationAddressPreprod;
+                } else {
+                    $dest = Config::$notificationAddressDev;
+                }
+            } else {
                 $dest = $notary->email_adress;
                 if (!$dest) { // notary email is empty
                     // send email to the office
@@ -3449,8 +3455,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
         $headers = array('Content-Type: text/html; charset=UTF-8');
         $env = getenv('ENV');
-        if (empty($env) || ($env !== 'PROD')) {
-            $email = wp_mail( Config::$notificationAddressPreprodJetpulp , Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_URL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL) );
+        if (empty($env)|| ($env !== 'PROD')) {
+            if ($env === 'PREPROD') {
+                $dest = Config::$notificationAddressPreprod;
+            } else {
+                $dest = Config::$notificationAddressDev;
+            }
+            $email = wp_mail( $dest , Config::$mailSubjectCridonline, $message, $headers, array(CONST_CRIDONLINE_DOCUMENT_CGUV_URL,CONST_CRIDONLINE_DOCUMENT_MANDAT_SEPA_URL) );
             writeLog("not Prod: " . $email . "\n", "mailog.txt");
         } else {
             $headers[] = 'BCC:'.Config::$notificationAddressCridon;

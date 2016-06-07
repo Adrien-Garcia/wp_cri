@@ -140,13 +140,20 @@ class VeillesController extends BaseActuController {
 
                 parent::show();
             } else {
+                if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE)) {
+                    $redirect = 'cridonline';
+                    $error = 'NIVEAU_VEILLE_INSUFFISANT';
+                } else {
+                    $redirect = 'show';
+                    $error = 'FONCTION_NON_AUTORISE';
+                }
                 // redirect to information page
                 $options = array(
                     'controller' => 'notaires',
-                    'action'     => 'cridonline'
+                    'action'     => $redirect
                 );
                 $publicUrl  = MvcRouter::public_url($options);
-                $publicUrl.='?error=NIVEAU_VEILLE_INSUFFISANT';
+                $publicUrl.='?error='.$error;
                 wp_redirect( $publicUrl, 302 );
             }
         }
