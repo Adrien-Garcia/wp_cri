@@ -611,10 +611,8 @@ function CriPostQuestion() {
 
 /**
  * List of displayed Support order by priority (order field)
- * @param integer $expertise
  * @return array
  */
-//TODO value 1 by default only for test purpose. To delete once feature implemented
 function CriListSupport()
 {
     // init
@@ -667,7 +665,22 @@ function CriListExpertise()
         ),
         'order'      => 'Expertise.order ASC'
     );
-    return mvc_model('Expertise')->find($options);
+
+    $items = mvc_model('Expertise')->find($options);
+
+    if (is_array($items) && count($items) > 0) {
+        foreach ($items as $item) {
+
+            $object = new \stdClass();
+            $object->id = $item->id;
+            $object->label_front = $item->label_front;
+            $object->description = $item->description;
+//            $object->supports = array();
+
+            $expertises[$object->id] = clone $object;
+        }
+    }
+    return $items;
 }
 
 /**
@@ -675,63 +688,30 @@ function CriListExpertise()
  *
  * @return array
  */
-function CriListExpertiseAll()
+function CriListAllSupportsByExpertises()
 {
     $expertises = array();
 
-    // query options
-    $options = array(
-        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon', 'es.id_expertise'),
-        'synonym'      => 'es',
-        'join'       => array(
-            array(
-                'table' => 'support s',
-                'column' => 's.id = es.id_support'
-            )
-        ),
-        'conditions' => array(
-            's.displayed' => 1
-        )
-    );
+    $itemsSupport = CriListSupport();
 
-    $items   = mvc_model('QueryBuilder')->findAll( 'expertise_support',$options,'s.id' );
-
-    // query options
-    $options = array(
-        'conditions' => array(
-            'Expertise.displayed' => 1
-        ),
-        'order'      => 'Expertise.order ASC'
-    );
-
-    $itemsexp = mvc_model('Expertise')->find($options);
-
-    if (is_array($itemsexp) && count($itemsexp) > 0) {
-        foreach ($itemsexp as $itemexp) {
-
-            $object = new \stdClass();
-            $object->id = $itemexp->id;
-            $object->label_front = $itemexp->label_front;
-            $object->description = $itemexp->description;
-            $object->supports = array();
-
-            $expertises[$object->id] = clone $object;
-        }
-    }
+    $expertises = CriListExpertise();
 
     // format output
-    if (is_array($items) && count($items) > 0) {
-        foreach ($items as $item) {
-            if(!empty($expertises[$item->id_expertise])) {
 
-                $object = new \stdClass();
-                $object->id = $item->id_support;
-                $object->value = $item->value;
-                $object->label_front = $item->label_front;
-                $object->description = $item->description;
-                $object->id_expertise = $item->id_expertise;
+    // si on as des supports, foreach
+    if (is_array($itemsSupport) && count($itemsSupport) > 0) {
+        foreach ($itemsSupport as $support) {
 
-                $expertises[$object->id_expertise]->supports[$object->id] = $object;
+            // si l'expertise du support actuel existe
+            if( !empty($expertises[$support->id_expertise]) ) {
+
+                // si la liste des supports de cette expertise n'existe pas
+                if ( empty($expertises[$support->id_expertise]->supports) ) {
+                    // on initialise la liste des supports de cette expertise
+                    $expertises[$support->id_expertise]->supports = array();
+                }
+                // on ajoute le support à l'expertise
+                $expertises[$support->id_expertise]->supports[$support->id] = clone $support;
             }
         }
     }

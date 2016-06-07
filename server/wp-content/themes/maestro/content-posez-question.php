@@ -19,7 +19,7 @@
 			<div class="niveau-expertise js-question-tab-expertise open">
 				<div class="">
 					<?php
-						$expertises = CriListExpertiseAll();
+						$expertises = CriListAllSupportsByExpertises();
 						// var_dump($supports)
 					 ?>
 				</div>
