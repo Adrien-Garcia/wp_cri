@@ -658,6 +658,8 @@ function CriListSupport()
  */
 function CriListExpertise()
 {
+    $expertises = array();
+
     // query options
     $options = array(
         'conditions' => array(
@@ -675,12 +677,12 @@ function CriListExpertise()
             $object->id = $item->id;
             $object->label_front = $item->label_front;
             $object->description = $item->description;
-//            $object->supports = array();
+            $object->supports = false;
 
             $expertises[$object->id] = clone $object;
         }
     }
-    return $items;
+    return $expertises;
 }
 
 /**
@@ -705,9 +707,8 @@ function CriListAllSupportsByExpertises()
             // si l'expertise du support actuel existe
             if( !empty($expertises[$support->id_expertise]) ) {
 
-                // si la liste des supports de cette expertise n'existe pas
+                // si la liste des supports de cette expertise n'existe pas on l'initialise
                 if ( empty($expertises[$support->id_expertise]->supports) ) {
-                    // on initialise la liste des supports de cette expertise
                     $expertises[$support->id_expertise]->supports = array();
                 }
                 // on ajoute le support à l'expertise
