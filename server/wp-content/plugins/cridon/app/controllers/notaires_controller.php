@@ -500,7 +500,6 @@ class NotairesController extends BasePublicController
         $ret = 'cgvNotAccepted';
         $notaire = CriNotaireData();
         if (!$this->validateSubscriptionDataPromo($_REQUEST,$notaire)){
-            $ret = 'invalidData';
             echo json_encode($ret);
             die;
         }
@@ -519,7 +518,6 @@ class NotairesController extends BasePublicController
                 $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
                 $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
             } else {
-                $ret = 'promoNotChosen';
                 echo json_encode($ret);
                 die();
             }
