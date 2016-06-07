@@ -684,6 +684,12 @@ if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
 if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_3' ) ) {
     define( 'CONST_CRIDONLINE_LABEL_LEVEL_3', 'Excellence' );
 }
+if ( !defined( 'CONST_CRIDONLINE_LEVEL_2' ) ) {
+    define( 'CONST_CRIDONLINE_LEVEL_2', 2 );
+}
+if ( !defined( 'CONST_CRIDONLINE_LEVEL_3' ) ) {
+    define( 'CONST_CRIDONLINE_LEVEL_3', 3 );
+}
 // Collaborateur form
 if ( !defined( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG' ) ) {
     define( 'CONST_COLLABORATEUR_DELETE_SUCCESS_MSG', 'Le profil du collaborateur a bien été supprimé.' );
@@ -1122,4 +1128,23 @@ if ( !defined( 'CONST_URL_SINEQUA' ) ) {
 }
 if ( !defined( 'CONST_URL_INFO_PAGE_CRIDONLINE' ) ) {
     define( 'CONST_URL_INFO_PAGE_CRIDONLINE', '/cridonline-decouvrir-nos-offres/' );
+}
+//Promo
+if ( !defined( 'CONST_DATE_FIN_PROMO' ) ) {
+    define( 'CONST_DATE_FIN_PROMO', '2016-09-30' );
+}
+if ( !defined( 'CONST_START_SUBSCRIPTION_PROMO_CHOC' ) ) {
+    define( 'CONST_START_SUBSCRIPTION_PROMO_CHOC', '2017-01-01' );
+}
+if ( !defined( 'CONST_ECHEANCE_SUBSCRIPTION_PROMO_CHOC' ) ) {
+    define( 'CONST_ECHEANCE_SUBSCRIPTION_PROMO_CHOC', '2017-10-31' );
+}
+if ( !defined( 'CONST_END_SUBSCRIPTION_PROMO_CHOC' ) ) {
+    define( 'CONST_END_SUBSCRIPTION_PROMO_CHOC', '2017-12-31' );
+}
+if ( !defined( 'CONST_PROMO_CHOC' ) ) {
+    define( 'CONST_PROMO_CHOC', 1 );
+}
+if ( !defined( 'CONST_PROMO_PRIVILEGE' ) ) {
+    define( 'CONST_PROMO_PRIVILEGE', 2 );
 }

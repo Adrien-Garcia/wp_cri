@@ -10,8 +10,8 @@
 </div>
 
 <div class="bloc-souscription">
-    <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-validation-form" data-js-ajax-souscription-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionveille'));?>">
-        <label for="label_radio_B2B" class="radio">
+    <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-validation-form" data-js-ajax-souscription-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionveillepromo'));?>">
+        <label for="label_radio_B2B" class="radio select">
             <input id="label_radio_B2B" type="radio" name="B2B_B2C" value="B2B" checked>
             <span>J'exerce en tant que personne morale</span>
         </label>
@@ -26,6 +26,7 @@
         </label>
         <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_CGUV_PATH ?>" title="CGV" target="_blank"><?php _e("Télécharger les conditions générales de vente (CGUV)"); ?></a>
         <input type="hidden" name="level" value="<?php echo $level; ?>" class="js-account-cridonline-validation-level">
+        <input type="hidden" name="promo" value="<?php echo $promo ?>" class="js-account-cridonline-validation-promo">
         <input type="submit" name="submit" value="<?php _e("souscrire"); ?>">
 
         <div class="message-erreur js-account-cridonline-validation-message">

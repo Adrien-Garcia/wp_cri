@@ -139,7 +139,7 @@ div#cridonline{
 		form{
 
 			label{
-				height: 33px;
+				
 				line-height: 24px;
 				
 
@@ -154,6 +154,10 @@ div#cridonline{
 				}
 
 				&:before{
+				}
+
+				&.cguv{
+					height: 33px;
 				}
 
 				&.select{

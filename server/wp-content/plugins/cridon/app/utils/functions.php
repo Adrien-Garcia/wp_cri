@@ -1026,3 +1026,10 @@ function CriListRolesByFunction($type, $idFonction) {
     return $roles;
 }
 
+function isPromoActive(){
+    if (date('Y-m-d') <= CONST_DATE_FIN_PROMO){
+        return true;
+    }
+    return false;
+}
+

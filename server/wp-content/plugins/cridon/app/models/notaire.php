@@ -2558,7 +2558,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if ($associated_wp_user && $associated_wp_user->ID) {
             // set 'cron_delete' flag to on
             $this->manageCronFlag($id);
-
+            $this->resetPwd($id,'off');
+            $this->updateFlagERP($id,'off');
             // change user status to disabled
             $this->wpdb->update($this->wpdb->users,
                                 array('user_status' => CONST_STATUS_DISABLED),
