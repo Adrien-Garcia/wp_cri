@@ -67,8 +67,8 @@
                 <?php
                 $home = home_url();
 
-                $modelFile = "banner.png";
-                $alt = "Ma veille juridique";
+                $modelFile = "banner-question.png";
+                $alt = "Poser une question";
                 ?>
                 <img src="<?php echo plugins_url( "../public/images/mail/".$modelFile, dirname(__FILE__) ) ?>" alt="<?php echo $alt ; ?>" />
             </td>
@@ -83,7 +83,7 @@
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
 
                 <?php if (! empty($date)) : ?>
-                    <span class="" style="text-transform: uppercase;"><?php echo 'QUESTION DU ' . sprintf(Config::$mailBodyQuestionStatusChange['date'],  $date ); ?></span>
+                    <h2><?php echo 'QUESTION DU ' . sprintf(Config::$mailBodyQuestionStatusChange['date'],  $date ); ?><h2>
                 <?php endif ?>
                 <br/>
                 <?php if (! empty($numero_question)) : ?>
@@ -94,28 +94,29 @@
                 <?php if (! empty($matiere)) : ?>
                     <table>
                         <tr>
-                            <td width="90" style="width:90px;height:90px;">
-                                <img src="<?php echo $matiere->picto ?>" alt="icon" width="90" height="90" style="width:90px;height:90px;" /><br/>
+                            <td width="560" style="width:90px;height:90px;">
+                               <!--  <img src="<?php echo $matiere->picto ?>" alt="icon" width="90" height="90" style="width:90px;height:90px;" /><br/> -->
                                 <span class="section"><?php echo sprintf(Config::$mailBodyQuestionStatusChange['matiere'],  $matiere->label ); ?></span>
                             </td>
-                            <br/>
-
-                            <td style="width:400px;" width="400">
-                                <h1> <?php echo sprintf(Config::$mailBodyQuestionStatusChange['resume'],  $resume )?>
-                                </h1>
-                            </td>
-                            <br />
                         </tr>
-                    </table>
                         <?php if (! empty($competence)) : ?>
-                            <p><?php echo '> '.sprintf(Config::$mailBodyQuestionStatusChange['competence'],  $competence ) ?></p>
+                        <tr>
+                            <td>                                 
+                                <p><?php echo '> '.sprintf(Config::$mailBodyQuestionStatusChange['competence'],  $competence ) ?></p>
+                            </td>
+                        </tr>
                         <?php endif ?>
+                        <tr>
+                            <td style="width:560px;" width="560">
+                                <p><strong><?php echo sprintf(Config::$mailBodyQuestionStatusChange['resume'],  $resume )?></strong></p>
+                            </td>
+                        </tr>
+                    </table>                       
                 <?php else : ?>
-                    <h1><?php echo sprintf(Config::$mailBodyQuestionStatusChange['resume'],  $resume )?>
-                    </h1>
                     <?php if (! empty($competence)) : ?>
                         <?php echo '> '.sprintf(Config::$mailBodyQuestionStatusChange['competence'],  $competence ) ?>
                     <?php endif ?>
+                        <p><strong><?php echo sprintf(Config::$mailBodyQuestionStatusChange['resume'],  $resume )?></strong></p>
                 <?php endif; ?>
                 <br/>
 
@@ -156,6 +157,204 @@
                     <a href="<?php echo $home ?>">Lire sur site</a>
                 <?php endif ?>
                 <p></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- A CABLER :) -->
+
+
+
+
+
+
+
+
+                <!-- ETAPE 1 ENREGISTREMENT QUESTION -->
+                <!-- Objet du mail = Question CRIDON LYON numéro <numéro question> transmise -->
+
+                <p><h2>Votre question N° 123456789 du 12.09.2015 de niveau d'expertise initiale en délai support a bien été transmise.</h2></p>
+
+                <p><strong>Objet de la question</strong></p>
+                <br />
+                <span class="section">Matière</span>
+                <p>>  Compétence</p>
+                <br />
+                <p>
+                    TEXTE DE LA QUESTION Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod, enim a accumsan varius, lectus turpis ultrices lectus, eget blandit nisi leo a libero. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam eget finibus leo. Morbi at nisl tincidunt, convallis ante tristique, aliquam nunc. Nam sit amet cursus urna. Morbi viverra ligula urna, id sagittis risus fringilla quis. Praesent efficitur eu ligula faucibus bibendum. Quisque nec felis consectetur, dignissim diam non, tempus felis.
+                </p>
+
+
+                <br /><br />
+                    /-------------------------------------/
+                <br /><br />
+                <!-- ETAPE 2 •   Dispatching  -->
+                <!-- Objet du mail = Question CRIDON LYON numéro <numéro question> prise en compte -->
+
+                <p><h2>Nous avons bien reçu votre question N° 123456789 du 12.09.2015 de niveau d'expertise initiale en délai support.</h2>.</p>
+
+                <p><strong>Objet de la question</strong></p>
+                <br />
+                <span class="section">Matière</span>
+                <p>>  Compétence</p>
+
+                <p><h2>Réponse souhaitée le 11.10.2015</h2></p>
+                <br />
+                <p>
+                    TEXTE DE LA QUESTION Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod, enim a accumsan varius, lectus turpis ultrices lectus, eget blandit nisi leo a libero. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam eget finibus leo. Morbi at nisl tincidunt, convallis ante tristique, aliquam nunc. Nam sit amet cursus urna. Morbi viverra ligula urna, id sagittis risus fringilla quis. Praesent efficitur eu ligula faucibus bibendum. Quisque nec felis consectetur, dignissim diam non, tempus felis.
+                </p>
+
+                <br /><br />
+                    /-------------------------------------/
+                <br /><br />
+
+                <!-- ETAPE 3 •   •  Déclassement   -->
+                <!-- Objet du mail = Requalification de la question CRIDON LYON numéro <numéro question> -->
+                
+                <p><h3>Compte tenu de l’affluence des demandes, il ne nous sera pas possible de respecter le délai demandé de votre question N° 123456789 du 12.09.2015.</h3></p>
+                <p><h2>Nous enregistrons votre question en délai « support » et faisons le nécessaire pour vous donner satisfaction.</h2></p>
+                <br />
+                <p><strong>Objet de la question</strong></p>
+                <br />
+                <span class="section">Matière</span>
+                <p>>  Compétence</p>
+
+                <p><h2>Réponse souhaitée le 11.10.2015</h2></p>
+                <br />
+                <p>
+                    TEXTE DE LA QUESTION Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod, enim a accumsan varius, lectus turpis ultrices lectus, eget blandit nisi leo a libero. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam eget finibus leo. Morbi at nisl tincidunt, convallis ante tristique, aliquam nunc. Nam sit amet cursus urna. Morbi viverra ligula urna, id sagittis risus fringilla quis. Praesent efficitur eu ligula faucibus bibendum. Quisque nec felis consectetur, dignissim diam non, tempus felis.
+                </p>
+
+
+                <br /><br />
+                    /-------------------------------------/
+                <br /><br />
+
+                <!-- ETAPE 4 •   Attente -->
+                <!-- Objet du mail = Question CRIDON LYON numéro <numéro question> en cours de traitement --> 
+
+                <p><h2>Votre question N° 123456789 de niveau d'expertise initiale en délai support a été attribuée le 12.03.16 à Nom du chercheur.</h2></p>
+                <p><h3>Une réponse vous sera apportée au plus tard le 15.03.2016</h3></p>
+                <br />
+                <p><strong>Objet de la question</strong></p>
+                <br />
+                <span class="section">Matière</span>
+                <p>>  Compétence</p>
+                <br />
+                <p>
+                    TEXTE DE LA QUESTION Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod, enim a accumsan varius, lectus turpis ultrices lectus, eget blandit nisi leo a libero. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam eget finibus leo. Morbi at nisl tincidunt, convallis ante tristique, aliquam nunc. Nam sit amet cursus urna. Morbi viverra ligula urna, id sagittis risus fringilla quis. Praesent efficitur eu ligula faucibus bibendum. Quisque nec felis consectetur, dignissim diam non, tempus felis.
+                </p>
+
+                <br /><br />
+                    /-------------------------------------/
+                <br /><br />
+
+                
+                 <!-- ETAPE 5 •   • Suspendue -->
+                <!-- Objet du mail = Question CRIDON LYON numéro <numéro question> en attente de renseignements complémentaires --> 
+
+                <p><h3>Merci de nous adresser les renseignements complémentaires demandés qui nous sont indispensables pour répondre à votre question N° 123456789 de niveau d'expertise initiale en délai support du 12.09.2015.</h3></p>
+                <br />
+                <p><strong>Objet de la question</strong></p>
+                <br />
+                <span class="section">Matière</span>
+                <p>>  Compétence</p>
+                <br />
+                <p><strong>En cours de traitement par : Nom du chercheur</strong></p>
+                <p><h2>Réponse souhaitée le 11.10.2015</h2></p>
+                <br />
+                <p>
+                    TEXTE DE LA QUESTION Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod, enim a accumsan varius, lectus turpis ultrices lectus, eget blandit nisi leo a libero. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam eget finibus leo. Morbi at nisl tincidunt, convallis ante tristique, aliquam nunc. Nam sit amet cursus urna. Morbi viverra ligula urna, id sagittis risus fringilla quis. Praesent efficitur eu ligula faucibus bibendum. Quisque nec felis consectetur, dignissim diam non, tempus felis.
+                </p>
+
+
+                <br /><br />
+                    /-------------------------------------/
+                <br /><br />
+
+                <!-- ETAPE 6 •     Close -->
+                <!-- Objet du mail = Réponse à votre question CRIDON LYON numéro <numéro question> -->
+
+                <p><h2>La réponse à votre question N° 123456789 de niveau d'expertise initiale en délai support du 12.09.2015 est disponible depuis votre espace privé.</h2></p>
+                <br />
+                <p><strong>Objet de la question</strong></p>
+                <br />
+                <span class="section">Matière</span>
+                <p>>  Compétence</p>
+                <br />
+                <p><strong>Traité par : Nom du chercheur</strong></p>
+                <br />
+                <p>
+                    TEXTE DE LA QUESTION Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod, enim a accumsan varius, lectus turpis ultrices lectus, eget blandit nisi leo a libero. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam eget finibus leo. Morbi at nisl tincidunt, convallis ante tristique, aliquam nunc. Nam sit amet cursus urna. Morbi viverra ligula urna, id sagittis risus fringilla quis. Praesent efficitur eu ligula faucibus bibendum. Quisque nec felis consectetur, dignissim diam non, tempus felis.
+                </p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <td width="20" style="background-color:#fff;"></td>
         </tr>
         </td>

@@ -74,21 +74,39 @@
 								</a>
 							</li>
 							<?php endif; ?>
-							<?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE)): ?>
-							<li
-								class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
-								data-js-name="Cridonline"
-								>
+                            <?php if (!isPromoActive()) : ?>
+                                <?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE)): ?>
+                                <li
+                                    class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
+                                    data-js-name="Cridonline"
+                                    >
 
-								<a
-									data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonline'));?>"
-									data-js-target-id="cridonline"
-									href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'cridonline'));?>"
-									class="bt js-account-cridonline-button analytics_Dashboard_cridonline cridonline">
-									<span><span>Crid</span>'Online</span>
-								</a>
-							</li>
-							<?php endif; ?>
+                                    <a
+                                        data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonline')) ?>"
+                                        data-js-target-id="cridonline"
+                                        href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'cridonline'));?>"
+                                        class="bt js-account-cridonline-button analytics_Dashboard_cridonline cridonline">
+                                        <span><span>Crid</span>'Online</span>
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                            <?php else : ?>
+                                <?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE)): ?>
+                                    <li
+                                        class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
+                                        data-js-name="Cridonline"
+                                        >
+
+                                        <a
+                                            data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlinepromo')) ?>"
+                                            data-js-target-id="cridonline"
+                                            href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'cridonline'));?>"
+                                            class="bt js-account-cridonline-button analytics_Dashboard_cridonline cridonline">
+                                            <span><span>Crid</span>'Online</span>
+                                        </a>
+                                    </li>
+                                    <?php endif; ?>
+                            <?php endif; ?>
 							<?php if (CriCanAccessSensitiveInfo(CONST_COLLABORATEUR_TAB_ROLE)): ?>
 							<li
 								class="js-account-collaborateur js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>"
@@ -128,12 +146,21 @@
                     		<?php CriRenderView('contentfacturation', array('notaire' => $notaire, 'content' => $content), 'notaires') ?>
                         <?php endif; ?>
 					</div>
-					 <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>">
-                        <?php if ($onglet == CONST_ONGLET_CRIDONLINE) : ?>
-                            <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3, 'messageError' => $messageError ), 'notaires') ?>
+                    <?php if (!isPromoActive()) : ?>
+                         <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>">
+                            <?php if ($onglet == CONST_ONGLET_CRIDONLINE) : ?>
+                                <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3, 'messageError' => $messageError ), 'notaires') ?>
 
-                        <?php endif; ?>
-                    </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php else : ?>
+                        <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>">
+                            <?php if ($onglet == CONST_ONGLET_CRIDONLINE) : ?>
+                                <?php CriRenderView('contentcridonlinepromo', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3, 'messageError' => $messageError ), 'notaires') ?>
+
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
                     <div id="mes-collaborateurs" class="pannel js-account-ajax js-account-collaborateur js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>">
                         <?php if ($onglet == CONST_ONGLET_COLLABORATEUR) : ?>
                             <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions, 'liste' => $liste,'message' => $message,'controller' => $this), 'notaires') ?>

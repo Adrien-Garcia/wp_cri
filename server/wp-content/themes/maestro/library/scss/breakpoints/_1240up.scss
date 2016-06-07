@@ -700,6 +700,12 @@ body.page-template-front-page{
 				right: 0;
 				top: 35px;
 
+				&.encartpromo{
+					top: 91px;
+				    left: -59px;
+				    width: 330px;
+				}
+
 				&:before{					
 					@include svgicon('icon-angle-bottom', 20px, 19px, $bg-top-footer); 
 				}
