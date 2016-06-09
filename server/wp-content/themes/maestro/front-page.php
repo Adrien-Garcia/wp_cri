@@ -204,7 +204,6 @@
 							<span><?php _e('S\'abonner à votre veille !'); ?></span>
 						</a>
 
-						<img src="" alt="" class="appli" />
 					</div>
 				</div>
 				<div class="info-flash-exclu js-home-block-link">
@@ -279,16 +278,7 @@
 
 				<a href="<?php echo MvcRouter::public_url(array('controller' => 'vie_cridons', 'action'     => 'index')) ?>" title="Lorem" class="LienVieCridon" ><span> <?php _e('Toute la vie du CRIDON LYON'); ?> </span></a>
 			</div>
-		</div>	
-
-
-		
-
-		
-
-
-	
-		
+		</div>
 
 	</div>
 
