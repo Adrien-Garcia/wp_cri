@@ -271,10 +271,12 @@ add_action( 'admin_head-user-edit.php', 'cri_profile_subject_start' );
 add_action( 'admin_footer-user-edit.php', 'cri_profile_subject_end' );
 
 
-function on_publish_future_post( $post ) {
+function send_post_email( $post ) {
     /**
      * Ce hook démarre lorsqu'un article passe de planifier à publier.
      * Manuellement ou chnager automatiquement par WP lorsqu'il y a une visite sur le site (BO ou FO)
+     * OU
+     * Ce hook démarre lorsqu'un article passe de brouillon à publier.
      */
     if( ( $post->post_type != 'post' ) ){
         return;
@@ -289,7 +291,11 @@ function on_publish_future_post( $post ) {
 /**
  * @see https://codex.wordpress.org/Post_Status_Transitions
  */
-add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
+add_action(  'future_to_publish',  'send_post_email', 10, 1 );
+/**
+ * @see https://codex.wordpress.org/Post_Status
+ */
+add_action(  'draft_to_publish',  'send_post_email', 10, 1 );
 
 /**
  * Hook add new post link (only apply on Cridon modele )
