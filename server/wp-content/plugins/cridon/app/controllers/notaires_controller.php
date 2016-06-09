@@ -442,10 +442,9 @@ class NotairesController extends BasePublicController
     public function ajaxVeilleSubscription()
     {
         $notaire = CriNotaireData();
-        $ret = 'cgvNotAccepted';
         if (!$this->validateSubscriptionData($_REQUEST,$notaire)){
-            echo json_encode($ret);
-            die;
+            echo json_encode(array('error' => CONST_CRIDONLINE_CGV_ERROR_MSG));
+            die();
         }
         // find the office
         $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
@@ -457,22 +456,36 @@ class NotairesController extends BasePublicController
             $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
             $office = array(
                 'Etude' => array(
-                    'crpcen' => $notaire->crpcen,
-                    'subscription_level' => $_REQUEST['level'],
-                    'start_subscription_date' => $start_subscription_date,
+                    'crpcen'                     => $notaire->crpcen,
+                    'subscription_level'         => $_REQUEST['level'],
+                    'start_subscription_date'    => $start_subscription_date,
                     'echeance_subscription_date' => $echeance_subscription_date,
-                    'end_subscription_date' => $end_subscription_date,
-                    'subscription_price' => $subscription_price,
-                    'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                    'end_subscription_date'      => $end_subscription_date,
+                    'subscription_price'         => $subscription_price,
+                    'id_sepa'                    => $this->calculateSepaId($notaire,$etude),
+                    'a_transmettre'              => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                 )
             );
             if (mvc_model('Etude')->save($office)) {
-                $this->model->sendCridonlineConfirmationMail($etude, $office['Etude']);
-                $ret = 'success';
+                $this->model->sendCridonlineConfirmationMail($etude, $office['Etude'],$_REQUEST['B2B_B2C']);
+
+                $this->set('B2B_B2C',$_REQUEST['B2B_B2C']);
+
+                $vars = $this->view_vars;
+                $vars['is_ajax'] = true;
+                $vars['controller'] = $vars['this'];
+
+                $data = CriRenderView('contentcridonlinevalidationpopup', $vars, 'notaires', false);
+
+                $json = array(
+                    'view' => $data,
+                );
+                echo json_encode($json, JSON_HEX_QUOT | JSON_HEX_TAG);
+                die();
             }
         }
-        echo json_encode($ret);
-        die;
+        echo json_encode(array('error' => CONST_CRIDONLINE_CGV_ERROR_MSG));
+        die();
     }
 
     protected function validateSubscriptionData($request,$notaire){
@@ -495,14 +508,22 @@ class NotairesController extends BasePublicController
         return true;
     }
 
+    protected function calculateSepaId($notaire,$etude){
+        $start = 'CRI'.$notaire->client_number;
+        if (!empty($etude->id_sepa)){
+            return $start.(sprintf('%05d',substr($etude->id_sepa,-5) + 1));
+        } else {
+            return $start.'00001';
+        }
+    }
+
     // Function only used for promo time
     public function ajaxVeilleSubscriptionPromo()
     {
-        $ret = 'cgvNotAccepted';
         $notaire = CriNotaireData();
         if (!$this->validateSubscriptionDataPromo($_REQUEST,$notaire)){
-            echo json_encode($ret);
-            die;
+            echo json_encode(array('error' => CONST_CRIDONLINE_CGV_ERROR_MSG));
+            die();
         }
         $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
         if (!empty($etude) && intval($_REQUEST['level']) > $etude->subscription_level) {
@@ -519,27 +540,41 @@ class NotairesController extends BasePublicController
                 $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
                 $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
             } else {
-                echo json_encode($ret);
+                echo json_encode(array('error' => CONST_CRIDONLINE_CGV_ERROR_MSG));
                 die();
             }
             $office = array(
                 'Etude' => array(
-                    'crpcen' => $notaire->crpcen,
-                    'subscription_level' => $_REQUEST['level'],
-                    'start_subscription_date' => $start_subscription_date,
+                    'crpcen'                     => $notaire->crpcen,
+                    'subscription_level'         => $_REQUEST['level'],
+                    'start_subscription_date'    => $start_subscription_date,
                     'echeance_subscription_date' => $echeance_subscription_date,
-                    'end_subscription_date' => $end_subscription_date,
-                    'subscription_price' => $subscription_price,
-                    'a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                    'end_subscription_date'      => $end_subscription_date,
+                    'subscription_price'         => $subscription_price,
+                    'id_sepa'                    => $this->calculateSepaId($notaire,$etude),
+                    'a_transmettre'              => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                 )
             );
             if (mvc_model('Etude')->save($office)) {
-                $this->model->sendCridonlineConfirmationMail($etude, $office['Etude']);
-                $ret = 'success';
+                $this->model->sendCridonlineConfirmationMail($etude, $office['Etude'],$_REQUEST['B2B_B2C']);
+
+                $this->set('B2B_B2C',$_REQUEST['B2B_B2C']);
+
+                $vars = $this->view_vars;
+                $vars['is_ajax'] = true;
+                $vars['controller'] = $vars['this'];
+
+                $data = CriRenderView('contentcridonlinevalidationpopup', $vars, 'notaires', false);
+
+                $json = array(
+                    'view' => $data,
+                );
+                echo json_encode($json, JSON_HEX_QUOT | JSON_HEX_TAG);
+                die();
             }
         }
-        echo json_encode($ret);
-        die;
+        echo json_encode(array('error' => CONST_CRIDONLINE_CGV_ERROR_MSG));
+        die();
     }
 
     protected function validateSubscriptionDataPromo($request,$notaire){
