@@ -720,7 +720,7 @@ class NotairesController extends BasePublicController
                     $collaborator['firstname'] = empty($collab->first_name) ? '' : $collab->first_name ;
                     $collaborator['phone'] = empty($collab->tel) ? '' : trim($collab->tel) ;
                     $collaborator['mobilephone'] = empty($collab->tel_portable) ? '' : trim($collab->tel_portable) ;
-                    $collaborator['emailaddress'] = empty($collab->email_adress) ? '' : $collab->email_adress ;
+                    $collaborator['emailaddress'] = empty($collab->email_adress) ? '' : trim($collab->email_adress) ;
                     $collaborator['notairefunction'] = empty($collab->id_fonction) ? '' : $collab->id_fonction;
                     $collaborator['collaboratorfunction'] = empty($collab->id_fonction_collaborateur) ? '' : $collab->id_fonction_collaborateur;
                     $collaborator['fax'] = empty($collab->fax) ? '' : trim($collab->fax) ;
