@@ -24,7 +24,7 @@ if ( !CriIsNotaire() ) : ?>
                 <div id="main" class="cf" role="main">
 
                     <!-- <h1 class="h1" style="display: none;">SINEQUA</h1> -->
-                    <iframe style="height: 700px; width: 1200px;" src="https://www.cridon-lyon.fr/sinequa/search?profile=profil.CL_externe&amp;login=<?php echo $notaire->crpcen ?>&amp;password=<?php echo $notaire->web_password ; ?>" width="300" height="150"></iframe>
+                    <iframe style="height: 700px; width: 1200px;" src="https://www.cridon-lyon.fr/sinequa/search?profile=profil.CL_externe&amp;login=<?php echo $notaire->crpcen ?>&amp;password=<?php echo $notaire->web_password ; ?>&amp;watch_level=<?php echo $notaire->etude->subscription_level ; ?>" width="300" height="150"></iframe>
 
                 </div>
 
