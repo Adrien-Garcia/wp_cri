@@ -14,7 +14,7 @@
             <li>- Actualités Lexbase (30 domaines juridiques)</li>
             <li>- Mise à jour permanente</li>
         </ul>
-        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_REFERENCE_PROMO ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_REFERENCE_PROMO ?>" target="_blank" title="plus de detail"><?php _e("Plus de détail"); ?></a>
     </div>
 </div>
 
@@ -41,7 +41,7 @@
             <li>- Abonnement 2016 non facturé</li>
         </ul>
 
-        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_PREMIUM_PROMO ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_PREMIUM_PROMO ?>" target="_blank" title="plus de detail"><?php _e("Plus de détail"); ?></a>
         <?php if ($notaire->etude->subscription_level == 1 && $subscription ):?>
             <form method="get" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2promo'));?>">
                 <input type="hidden" name="level" value="<?php echo CONST_CRIDONLINE_LEVEL_2; ?>" class="js-account-cridonline-level">
@@ -75,7 +75,7 @@
             <li>- Excellence au prix du Premium la première année</li>
         </ul>
 
-        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_EXCELLENCE_PROMO ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_EXCELLENCE_PROMO ?>" target="_blank" title="plus de detail"><?php _e("Plus de détail"); ?></a>
        <?php if ($notaire->etude->subscription_level == 1 && $subscription ):?>
 
 

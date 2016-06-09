@@ -14,7 +14,7 @@
             <li>- Actualités Lexbase (30 domaines juridiques)</li>
             <li>- Mise à jour permanente</li>
         </ul>
-        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_REFERENCE ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_REFERENCE ?>" target="_blank" title="plus de detail"><?php _e("Plus de détail"); ?></a>
     </div>
 </div>
 
@@ -41,7 +41,7 @@
             <li>- Meilleur rapport qualité prix</li>
             <li>- Offre évolutive et mise à jour permanente</li>
         </ul>
-        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_PREMIUM ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_PREMIUM ?>" target="_blank" title="plus de detail"><?php _e("Plus de détail"); ?></a>
         <?php if ($notaire->etude->subscription_level < 2 && $subscription ):?>
             <form method="get" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2'));?>">
                 <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">
@@ -71,7 +71,7 @@
             <li>- Meilleur rapport qualité prix</li>
             <li>- Offre évolutive et mise à jour permanente</li>
         </ul>
-        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_EXCELLENCE ?>" target="_blank" title="plus de detail"><?php _e("Plus de detail"); ?></a>
+        <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_EXCELLENCE ?>" target="_blank" title="plus de detail"><?php _e("Plus de détail"); ?></a>
         <?php if ($notaire->etude->subscription_level < 3 && $subscription ):?>
         <form method="post" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2'));?>">
             <input type="hidden" name="crpcen" value="<?php echo $notaire->crpcen; ?>" class="js-account-cridonline-crpcen">
