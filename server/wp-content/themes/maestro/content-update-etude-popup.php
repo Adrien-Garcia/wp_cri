@@ -27,13 +27,13 @@
             <input type="text" name="etude_ville" placeholder="<?php _e('Ville'); ?>" id="etude_ville" class="js-account-profil-office-modify-city" value="<?php echo empty($office['office_city']) ? '' : $office['office_city'] ?>" required>
         </div>
         <div class="email">
-            <input type="email" name="etude_email" placeholder="<?php _e('Email'); ?>" id="etude_email" class="js-account-profil-office-modify-email" value="<?php echo empty($office['office_email']) ? '' : $office['office_email'] ?>">
+            <input type="email" name="etude_email" placeholder="<?php _e('Email '); ?>" id="etude_email" class="js-account-profil-office-modify-email" value="<?php echo empty($office['office_email']) ? '' : $office['office_email'] ?>">
         </div>
         <div class="tel">
             <input type="text" name="etude_tel" placeholder="<?php _e('Téléphone'); ?>" id="etude_tel" class="js-account-profil-office-modify-phone" value="<?php echo empty($office['office_phone']) ? '' : $office['office_phone'] ?>">
         </div>
         <div class="fax">
-            <input type="text" name="etude_tel_fax" placeholder="<?php _e('Téléphone Fax'); ?>" id="etude_tel_fax" class="js-account-profil-office-modify-fax" value="<?php echo empty($office['office_fax']) ? '' : $office['office_fax'] ?>">
+            <input type="text" name="etude_tel_fax" placeholder="<?php _e('Fax'); ?>" id="etude_tel_fax" class="js-account-profil-office-modify-fax" value="<?php echo empty($office['office_fax']) ? '' : $office['office_fax'] ?>">
         </div>
 
         <div class="message-erreur js-account-profil-office-modify-message"></div>
