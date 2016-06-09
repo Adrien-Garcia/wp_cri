@@ -7,6 +7,7 @@
 		<div class="titre">
 			<span class="close_layer layer-posez-question_close"></span>
 			<span class="texte"><?php _e('Poser une question'); ?></span>
+			<span class="expertise">Niveau expertise</span>
 		</div>
 		
 		<div class="onglets">
@@ -59,7 +60,7 @@
                                 <?php if ($expid == $support->id_expertise) : ?>
                                 <div
                                     data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
-                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> ">
+                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> svg-initiale-jours">
                                     <input
                                         title="support hidden"
                                         id="support_<?php echo $support->id ?>"
@@ -91,7 +92,7 @@
 
                                 <div
                                     data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
-                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> ">
+                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> svg-initiale-jours ">
                                     <input
                                         title="support hidden"
                                         id="support_<?php echo $support->id ?>"

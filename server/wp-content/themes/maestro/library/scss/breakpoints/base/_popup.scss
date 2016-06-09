@@ -69,6 +69,14 @@
 				}
 
 			}
+
+			.expertise{
+				position: absolute;
+				top: 55px;
+				left: 20px;
+				@include do-el;
+				color:#FFF;
+			}
 			
 		}
 
@@ -331,15 +339,61 @@
 
 						.description{
 							//height: 72px;
-
 						}
 
-						&:first-child{
+
+
+
+						// INITIALE 2 JOURS
+						.svg-initiale-jours{							
+							&:before{
+								@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);
+								top: -130px;
+								margin-left: -53px;								
+							}
+						}
+						// INITIALE 3 à 4 SEMAINES
+						.svg-initiale-semaines{
+							&:before{
+								@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);
+								top: -130px;
+								margin-left: -53px;									
+							}
+						}
+
+						// MEDIUM 5 JOURS
+						.svg-medium-jours{
+							&:before{
+								@include svgicon('ico-support-avion', 118px, 118px, $vj_03);								
+							}
+						}
+						// MEDIUM RDV TELEPHONIQUE
+						.svg-medium-rdv-tel{
+							&:before{
+								@include svgicon('ico-support-avion', 118px, 118px, $vj_03);								
+							}
+						}
+
+						// EXPERT 3 à 4 SEMAINES
+						.svg-expert-semaines{
+							&:before{
+								@include svgicon('ico-support-fusee', 118px, 118px, $vj_03);								
+							}
+						}
+						// EXPERT DOSSIER
+						.svg-expert-dossier{
+							&:before{
+								@include svgicon('ico-support-fusee', 118px, 118px, $vj_03);								
+							}
+						}
+
+
+						/* &:first-child{
 							.item{
 								&:before{
 									@include svgicon('ico-support-fusee', 118px, 118px, $vj_03);								
 								}
-
+						
 							}
 						}
 						&:nth-child(2){
@@ -348,7 +402,7 @@
 									@include svgicon('ico-support-avion', 118px, 118px, $vj_03);	
 																
 								}
-
+						
 							}
 						}
 						&:nth-child(3){
@@ -358,9 +412,9 @@
 									top: -100px;
 									margin-left: -53px						
 								}
-
+						
 							}
-						}
+						} */
 					}
 
 				}
@@ -811,7 +865,7 @@ input[type="email"]{
 			position: absolute;
 			left: 50%;
 			margin-left: -24px;
-			bottom:-15px; 
+			bottom:-13px; 
 		}
 
 		.close_layer{
