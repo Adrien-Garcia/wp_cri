@@ -257,6 +257,7 @@ App.Account = {
         this.$accountProfilModifyFax               = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountFaxSelector);
         this.$accountProfilModifyEmail             = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountEmailSelector);
         this.$accountProfilModifyMessage           = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountMessageSelector);
+        this.$accountProfilModifyMessageEmail      = $(d + this.accountProfilSelector + this.accountModifySelector + this.accountMessageSelector + this.accountEmailSelector);
 
         this.$popupProfilModify                    = $(this.accountPopupProfilModify);
 
@@ -596,7 +597,8 @@ App.Account = {
         });
 
         $(document).on('change',this.$accountProfilModifyEmail.selector, function (e) {
-            self.eventAccountProfilModifyEmail();
+            $(this).addClass('css-change-email-red-border');
+            $(self.$accountProfilModifyMessageEmail.selector).removeClass('hidden');
         });
 
         $(document).on('submit',this.$accountProfilOfficeModifyForm.selector, function (e) {
@@ -954,13 +956,6 @@ App.Account = {
         nonce.value = jsvar.crud_nonce;
 
         this.$popupProfilModify.html(data.view).append(nonce).popup('show');
-    },
-
-    eventAccountProfilModifyEmail: function() {
-        var message = jsvar.profil_modify_email;
-        var content = $(document.createElement('div')).text(message);
-        $(this.$accountProfilModifyMessage.selector).html('').append(content);
-        return false;
     },
 
     eventAccountProfilModifySubmit: function(form) {

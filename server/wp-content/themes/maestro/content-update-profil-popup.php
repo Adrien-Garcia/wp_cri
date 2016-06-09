@@ -35,6 +35,18 @@
             <input type="text" name="profil_fax" placeholder="<?php _e('Fax'); ?>" id="profil_fax" class="js-account-profil-modify-fax" value="<?php echo empty($collaborator['fax']) ? '' : $collaborator['fax'] ?>">
         </div>
         <div class="message-erreur js-account-profil-modify-message"></div>
+        <div class="message-erreur js-account-profil-modify-message-email hidden">
+            <div>
+                La modification de votre adresse email se fait sous votre entière responsabilité.
+
+                L'adresse email doit être unique à chaque utilisateur.
+
+                Elle conditionne les règles de confidentialité et de personnalisation de votre compte :
+                . droits d'accès différents (accès aux informations financières ou non, droit de poser ou non des questions écrites et ou téléphoniques ...)
+                . inscription à la newsletter en fonction de vos centres d'intérêts
+                . utilisation personnalisée des fonctions avancées du moteur de recherche transversal (favoris, commentaires, recherches enregistrées, alertes email)
+            </div>
+        </div>
         <div class="submit">
             <input type="submit" value="Enregistrer">
         </div>
