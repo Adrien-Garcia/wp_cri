@@ -868,9 +868,6 @@ function getNotariesByMatiere( $model ){
         ),
         'conditions' => 'mn.id_matiere = '.$model->id_matiere
     );
-    /*
-     * SELECT DISTINCT n.email_adress FROM cri_matiere_notaire AS mn INNER JOIN cri_notaire n ON n.id = mn.id_notaire WHERE mn.id_matiere = 2 ORDER BY n.id ASC
-     */
     $notaires = mvc_model('QueryBuilder')->findAll( 'matiere_notaire',$options,'n.id' );
     $emails = array();
     foreach($notaires as $notaire){
@@ -879,7 +876,7 @@ function getNotariesByMatiere( $model ){
             $emails[] = $notaire->email_adress;
         }
     }
-    return $emails;
+    return array_unique($emails);
 }
 //End Notification for published post
 
