@@ -594,7 +594,7 @@ if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_EXCELLENCE' ) ) {
 
 if ( !defined( 'CONST_MIX_PRODUIT_INITIALE' ) ) {
     $uploadDir = wp_upload_dir();
-    define( 'CONST_MIX_PRODUIT_INITIALE', $uploadDir['baseurl'] . '/documentsCridon/Initiale.pdf' );
+    define( 'CONST_MIX_PRODUIT_INITIALE', $uploadDir['baseurl'] . '/documentsCridon/Expertises.pdf' );
 }
 if ( !defined( 'CONST_MIX_PRODUIT_INITIALE_48' ) ) {
     $uploadDir = wp_upload_dir();
