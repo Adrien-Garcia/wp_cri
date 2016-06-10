@@ -40,9 +40,8 @@
 
                             <p class="description">
                                 <?php echo $data->description; ?>
-                                Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet
                             </p>
-                            <a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
+                            <a href="<?php echo $data->document; ?>" title="En savoir plus" target="_blank" onclick="event.stopPropagation()"><span><?php _e('En savoir plus'); ?></span></a>
                             <span class="label"><?php echo $data->label_front; ?></span>
                         </div>
                     <?php endforeach; ?>
@@ -60,7 +59,7 @@
                                 <?php if ($expid == $support->id_expertise) : ?>
                                 <div
                                     data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
-                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> svg-initiale-jours">
+                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> <?php echo $support->icon; ?> ">
                                     <input
                                         title="support hidden"
                                         id="support_<?php echo $support->id ?>"
@@ -74,7 +73,7 @@
                                     <p class="description">
                                         <?php echo $support->description; ?>
                                     </p>
-                                    <a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
+                                    <a href="<?php echo $support->document; ?>" title="En savoir plus" target="_blank" onclick="event.stopPropagation()"><span><?php _e('En savoir plus'); ?></span></a>
                                     <span class="label"><?php echo $support->label_front; ?></span>
                                 </div>
                                 <?php endif; ?>
@@ -92,7 +91,7 @@
 
                                 <div
                                     data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
-                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> svg-initiale-jours ">
+                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> <?php echo $support->icon; ?> ">
                                     <input
                                         title="support hidden"
                                         id="support_<?php echo $support->id ?>"
@@ -106,7 +105,7 @@
                                     <p class="description">
                                         <?php echo $support->description; ?>
                                     </p>
-                                    <a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
+                                    <a href="<?php echo $support->document; ?>" title="En savoir plus" target="_blank" onclick="event.stopPropagation()"><span><?php _e('En savoir plus'); ?></span></a>
                                     <span class="label"><?php echo $support->label_front; ?></span>
                                 </div>
                             <?php endif; ?>

@@ -620,7 +620,7 @@ function CriListSupport()
 
     // query options
     $options = array(
-        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon', 'es.id_expertise'),
+        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon', 's.document', 'es.id_expertise'),
         'synonym'      => 'es',
         'join'       => array(
             array(
@@ -643,6 +643,8 @@ function CriListSupport()
             $object->value = $item->value;
             $object->label_front = $item->label_front;
             $object->description = $item->description;
+            $object->icon = $item->icon;
+            $object->document = wp_upload_dir()['baseurl'] . '/' . $item->document;
             $object->id_expertise = $item->id_expertise;
 
             $supports[] = clone $object;
@@ -677,6 +679,7 @@ function CriListExpertise()
             $object->id = $item->id;
             $object->label_front = $item->label_front;
             $object->description = $item->description;
+            $object->document = wp_upload_dir()['baseurl'] . '/' . $item->document;
             $object->supports = false;
 
             $expertises[$object->id] = clone $object;
