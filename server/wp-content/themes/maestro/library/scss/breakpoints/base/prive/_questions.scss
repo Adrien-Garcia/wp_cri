@@ -6,7 +6,7 @@ div#mes-questions{
 
 	font-size: 12px;
 	color:$bleu;
-	@extend .do-re;
+	@include do-re;
 
 	h2 span{
 		display: block;
@@ -47,7 +47,7 @@ div#mes-questions{
 				line-height: 16px !important;
 				font-family: $dosis !important;
 				font-weight: 600;
-				//@extend .do-sm;
+				//@include do-sm;
 				color:$bleu;
 				height: 32px;
 				overflow: hidden;
@@ -56,7 +56,7 @@ div#mes-questions{
 			span{
 				font-size: 14px;
 				line-height: 18px;
-				@extend .do-sm;
+				@include do-sm;
 				color:$bleu;
 			}
 
@@ -84,7 +84,7 @@ div#mes-questions{
 			}
 
 			.matiere{
-				@extend .do-sm;
+				@include do-sm;
 				color: #FFF;
 			    text-transform: uppercase;
 			    font-size: 13px;
@@ -156,7 +156,7 @@ div#mes-questions{
 			margin-bottom: 0;
 			
 			> span{
-				@extend .do-sm;
+				@include do-sm;
 				color:$rouge;
 				font-size: 14px;
 				position: relative;
@@ -182,7 +182,7 @@ div#mes-questions{
 					color:$rouge;
 					font-size: 30px;
 					@include rotate(90);
-					@extend .do-el;
+					@include do-el;
 				}
 
 				&:before{
@@ -200,7 +200,7 @@ div#mes-questions{
 						color:$rouge;
 						font-size: 34px;
 						@include rotate(45);
-						@extend .do-el;
+						@include do-el;
 					}
 
 					&:after{
@@ -238,7 +238,7 @@ div#mes-questions{
 							span{
 								display: block;
 								margin-bottom: 5px;
-								@extend .do-re; 
+								@include do-re;
 							}
 
 							>ul{
@@ -250,7 +250,7 @@ div#mes-questions{
 									padding: 0;
 
 									a{
-										@extend .do-el;
+										@include do-el;
 										font-size: 14px;
 										color:$bleu;
 										padding: 5px 0;
@@ -466,13 +466,13 @@ div#mes-questions{
 					padding: 0;
                     margin: 0 0 15px;
 
-                    @extend .do-sm;
+                    @include do-sm;
 					font-size: 14px;
 					color:$bleu;
 					line-height: 20px;
 
 					.titre{
-						@extend .do-re;
+						@include do-re;
 						font-size: 15px;
 						color:$bleu;
 						font-weight: normal;
@@ -593,7 +593,7 @@ div#mes-questions{
 
 						>a{
 							margin-left: 15px;
-							@extend .do-sm;
+							@include do-sm;
 							font-size: 14px;
 							width: auto;
 							color:$bleu; 
@@ -635,7 +635,7 @@ div#mes-questions{
 				line-height: 22px;
 				padding-left: 30px;
 				margin-bottom: 10px;
-				@extend .do-re;
+				@include do-re;
 				font-size: 12px;
 				text-transform: uppercase;
 				color:#818181;

@@ -11,8 +11,7 @@
 
 }
 
-.icon[class^="icon-"],
-.icon[class*=" icon-"] {
+@mixin icon {
     display: inline-block;
     font-family: 'aux-font';
     -moz-osx-font-smoothing: grayscale;
@@ -24,6 +23,10 @@
     text-transform: none;
 }
 
+.icon[class^="icon-"],
+.icon[class*=" icon-"] { @include icon; }
+
+
 $icons: (
     ico-collaborateur: '\EA01',
     ico-consulter: '\EA02',
@@ -31,48 +34,56 @@ $icons: (
     ico-cridonline-logo: '\EA04',
     ico-cridonline: '\EA05',
     ico-dashboard: '\EA06',
-    ico-facturation: '\EA07',
-    ico-questions: '\EA08',
-    ico-sep: '\EA09',
-    ico-support-avion: '\EA0A',
-    ico-support-fusee: '\EA0B',
-    ico-support-voiture: '\EA0C',
-    ico-trash: '\EA0D',
-    icon-angle-bottom: '\EA0E',
-    icon-angle-left: '\EA0F',
-    icon-angle-right: '\EA10',
-    icon-angle-top: '\EA11',
-    icon-appli: '\EA12',
-    icon-cahier: '\EA13',
-    icon-catalogue: '\EA14',
-    icon-clock: '\EA15',
-    icon-close-layer-question: '\EA16',
-    icon-compte: '\EA17',
-    icon-consulter: '\EA18',
-    icon-flech-arrow: '\EA19',
-    icon-mail: '\EA1A',
-    icon-menu-compte: '\EA1B',
-    icon-menu-hover: '\EA1C',
-    icon-menu-mobile: '\EA1D',
-    icon-nl: '\EA1E',
-    icon-pdf: '\EA1F',
-    icon-profil: '\EA20',
-    icon-rechercher: '\EA21',
-    icon-servicesplus: '\EA22',
-    icon-status-repondu: '\EA23',
-    icon-tel: '\EA24',
-    icon-veille-juridique: '\EA25',
-    icon-veille: '\EA26',
-    icon-vieducridon: '\EA27'
+    ico-expertise-expert: '\EA07',
+    ico-expertise-initial: '\EA08',
+    ico-expertise-medium: '\EA09',
+    ico-facturation: '\EA0A',
+    ico-questions: '\EA0B',
+    ico-sep: '\EA0C',
+    ico-support-avion: '\EA0D',
+    ico-support-fusee: '\EA0E',
+    ico-support-voiture: '\EA0F',
+    ico-trash: '\EA10',
+    icon-angle-bottom: '\EA11',
+    icon-angle-left: '\EA12',
+    icon-angle-right: '\EA13',
+    icon-angle-top: '\EA14',
+    icon-appli: '\EA15',
+    icon-cahier: '\EA16',
+    icon-catalogue: '\EA17',
+    icon-clock: '\EA18',
+    icon-close-layer-question: '\EA19',
+    icon-compte: '\EA1A',
+    icon-consulter: '\EA1B',
+    icon-flech-arrow: '\EA1C',
+    icon-mail: '\EA1D',
+    icon-menu-compte: '\EA1E',
+    icon-menu-hover: '\EA1F',
+    icon-menu-mobile: '\EA20',
+    icon-nl: '\EA21',
+    icon-pdf: '\EA22',
+    icon-profil: '\EA23',
+    icon-rechercher: '\EA24',
+    icon-servicesplus: '\EA25',
+    icon-status-repondu: '\EA26',
+    icon-tel: '\EA27',
+    icon-veille-juridique: '\EA28',
+    icon-veille: '\EA29',
+    icon-vieducridon: '\EA2A'
 );
 
-@each $name, $icon in $icons {
-    .icon-#{$name}:before {
-        font-family: 'aux-font';
-        content: $icon;
+//@each $name, $icon in $icons {
+    @mixin icon-before($name) {
+        //&:before {
+            font-family: 'aux-font';
+            content: map-get($icons, $name);
+        //}
     }
-    .icon-#{$name}-after:after {
-        font-family: 'aux-font';
-        content: $icon;
+
+    @mixin icon-after($name) {
+        //&:after {
+            font-family: 'aux-font';
+            content: map-get($icons, $name);
+        //}
     }
-}
+//}

@@ -45,14 +45,14 @@
 			.titre{
 				font-size: 17px;
 				color:$bleu;
-				@extend .do-bo;
+				@include do-bo;
 				text-align: center;
 				line-height: 20px;
 				margin: 15px 0;
 			}
 
 			.prix{
-				@extend .do-bo;
+				@include do-bo;
 				font-size: 53px;
 				position: relative;
 				text-align: center;
@@ -386,7 +386,7 @@ div#cridonline{
 					//display: inline-block;
 					padding-left: 20px;
 					font-size: 15px;
-					@extend .do-re;
+					@include do-re;
 					color:$bleu;
 					position: absolute;
 				    display: block;

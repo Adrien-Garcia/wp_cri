@@ -7,7 +7,7 @@
 		font-size: 13px;
 		font-family: $dosis;
     	font-weight: 500;
-    	@extend .do-sm;
+    	@include do-sm;
 		text-transform: uppercase;
 		line-height: 26px;
 		height: 26px;
@@ -81,7 +81,7 @@
 
 			.block_01, .block_02, .block_03{
 				margin: 10px 0;
-				@extend .do-me;
+				@include do-me;
 				font-size: 18px;
 
 				.nom{
@@ -97,7 +97,7 @@
 					}
 				}
 				.fonction{
-					@extend .do-me;
+					@include do-me;
 					font-size: 15px;
 				}
 

@@ -176,7 +176,7 @@ HEADER STYLES
 			@include transition(opacity 0.5s linear 0s);
 
 			#close{
-				@extend .do-el;
+				@include do-el;
 				font-size: 48px;
 				color:#FFF;
 				@include rotate(-45);
@@ -188,7 +188,7 @@ HEADER STYLES
 
 			.titre{
 
-				@extend .do-el;
+				@include do-el;
 				font-size: 48px;
 				color:#FFF;
 				width: 100%;
@@ -229,7 +229,7 @@ HEADER STYLES
 						margin: 0 auto 10px auto;
 						font-size: 12px;
 						display: block;
-						@extend .do-re;
+						@include do-re;
 						border-radius: 0;
 
 
@@ -245,7 +245,7 @@ HEADER STYLES
 						text-align: center;
 						margin:0 auto 10px auto; 
 						font-size: 14px;
-						@extend .do-bo;
+						@include do-bo;
 						display: block;
 						text-transform: uppercase;
 						border-radius: 0;
@@ -281,7 +281,7 @@ HEADER STYLES
 				> a#mdp_oublie, a#mdp_retour{
 					font-size: 14px;
 					color:#FFF;
-					@extend .do-re;
+					@include do-re;
 					display: block;
 					text-align: center;
 					text-decoration: none;
@@ -295,7 +295,7 @@ HEADER STYLES
 					color:$rouge;
 					line-height: 18px;
 					font-size: 12px;
-					@extend .do-re;
+					@include do-re;
 					text-align: center;
 
 					opacity: 0;
@@ -393,7 +393,7 @@ body.page-template-front-page{
 
 				.titre{
 					color:$rouge;
-					@extend .do-bo;
+					@include do-bo;
 					font-size: 18px; 
 					text-transform: uppercase;
 					margin-bottom: 12px;
@@ -403,7 +403,7 @@ body.page-template-front-page{
 					.close, .open{
 						
 						line-height: 48px;
-						@extend .do-el;
+						@include do-el;
 						color:$bleu;
 						display: block;
 						position: absolute;
@@ -549,7 +549,7 @@ body.page-template-front-page{
 							z-index: 2000;
 							text-decoration: none;
 							text-align: center;
-							@extend .do-el;
+							@include do-el;
 							font-size: 40px;
 							line-height: 27px;
 							padding: 0;
@@ -662,7 +662,7 @@ body.page-template-front-page{
 					color:$bleu;
 
 					span{
-						@extend .do-eb;
+						@include do-eb;
 					}
 				}
 
@@ -785,7 +785,7 @@ body.page-template-front-page{
 						.date{
 							height: 60px;
 							font-size: 25px;
-							@extend .do-re;
+							@include do-re;
 							text-transform: uppercase;
 							text-align: center;
 							//background: $vert;
@@ -820,7 +820,7 @@ body.page-template-front-page{
 
 								&:before{
 									content:'';
-									@extend .do-el;
+									@include do-el;
 									font-size: 40px;
 									color:#FFF;
 									line-height: 28px;
@@ -917,7 +917,7 @@ body.page-template-front-page{
 										color:$bleu;
 										text-transform: uppercase;
 										text-align: center;
-										@extend .do-re;
+										@include do-re;
 										margin: 0 0 5px 0;
 										padding: 0;
 									}
@@ -1024,7 +1024,7 @@ body.page-template-front-page{
 			overflow: hidden;
 
 			h2{
-				@extend .do-bo; 
+				@include do-bo;
 				text-transform: uppercase;
 				color:#FFF;
 				font-size: 18px;
@@ -1368,7 +1368,7 @@ body.page-template-front-page{
 
 					span{
 						text-transform: uppercase;
-						@extend .do-re;
+						@include do-re;
 						font-size: 25px;
 						color:#FFF;
 						height: 60px;
@@ -1382,7 +1382,7 @@ body.page-template-front-page{
 					> h3{
 
 						font-size: 20px;
-						@extend .do-re;
+						@include do-re;
 						line-height: 18px;
 						color:$vert;
 						text-align: center;
@@ -1493,7 +1493,7 @@ body.single #content {
 			display: inline-block;
 
 			a{
-				@extend .do-re;
+				@include do-re;
 				font-size: 15px;
 				text-transform: uppercase;
 				text-decoration: none;
@@ -1609,7 +1609,7 @@ body.single #content {
 
 			    h2{
 			    	color:$bleu;
-			    	@extend .do-bo;
+			    	@include do-bo;
 			    	padding: 10px 0;
 			    	margin: 0 0 20px 0;
 			    	&:after{
@@ -1625,7 +1625,7 @@ body.single #content {
 
 		    	h3{
 		    		color:$vert;
-		    		@extend .do-me;
+		    		@include do-me;
 		    		margin-left: 20px;
 		    		margin-bottom: 0;
 		    	}
@@ -1780,7 +1780,7 @@ body.single #content {
 			    text-decoration: none;
 			    transition: all 0.3s;
 			    border: none;
-			    @extend .do-re;
+			    @include do-re;
 
 			    &:hover{
 			    	opacity: 0.85;
@@ -1886,7 +1886,7 @@ body.single #content {
 						    padding: 0;
 						    line-height: 20px;
 						    margin: 0 0 20px;
-						    @extend .do-re;
+						    @include do-re;
 						    margin-bottom: 10px;
 						}
 					}
@@ -2287,7 +2287,7 @@ a.logoJP:hover{opacity: 1;
 				text-align: right;
 				padding: 10px 10px 10px 20px;
 				color: $white;
-				@extend .do-bo;
+				@include do-bo;
 				font-size: 18px;
 				text-transform: uppercase;
 				position: relative;
@@ -2421,11 +2421,11 @@ a.logoJP:hover{opacity: 1;
 				> div{
 					font-size: 18px;
 					text-align:center;
-					@extend .do-re;
+					@include do-re;
 					color:#FFF;
 
 					span{
-						@extend .do-bo;
+						@include do-bo;
 					}
 				}
 
@@ -2492,7 +2492,7 @@ a.logoJP:hover{opacity: 1;
 
 		nav {
 			font-size: 13px;
-			@extend .do-re;
+			@include do-re;
 
 			li {
 				// float: left;
@@ -2500,7 +2500,7 @@ a.logoJP:hover{opacity: 1;
 
 				a{
 					padding: 0 7px;
-					@extend .do-re;
+					@include do-re;
 					font-size: 13px;
 					height: auto;
 					color:#FFF;
@@ -2531,9 +2531,9 @@ a.logoJP:hover{opacity: 1;
 .copyright {
 	color: $white;
 	margin: 0;
-	@extend .do-re;
+	@include do-re;
 	b {
-		@extend .do-bo;
+		@include do-bo;
 	}
 	b, span {
 		text-transform: uppercase;

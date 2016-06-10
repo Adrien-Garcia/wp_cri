@@ -43,7 +43,7 @@ div#mon-profil{
 
 			width: 100%;
 			float: left;
-			@extend .do-me;
+			@include do-me;
 			color:$bleu;
 			font-size: 16px;
 
@@ -179,7 +179,7 @@ div#mon-profil{
 					label{
 
 						position: relative;
-						@extend .do-re;
+						@include do-re;
 						color:$bleu;
 						font-size: 13px;
 						line-height: 16px;

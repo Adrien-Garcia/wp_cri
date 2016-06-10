@@ -11,8 +11,7 @@
 
 }
 
-.<%= className %>[class^="<%= className %>-"],
-.<%= className %>[class*=" <%= className %>-"] {
+@mixin icon {
     display: inline-block;
     font-family: '<%= fontName %>';
     -moz-osx-font-smoothing: grayscale;
@@ -24,19 +23,28 @@
     text-transform: none;
 }
 
+.<%= className %>[class^="<%= className %>-"],
+.<%= className %>[class*=" <%= className %>-"] { @include icon; }
+
+
 $icons: (
     <%= glyphs.map(function(glyph) {
         return glyph.name + ': \'' + '\\' + glyph.unicode[0].charCodeAt(0).toString(16).toUpperCase() + '\''
     }).join(',\n    ') %>
 );
 
-@each $name, $icon in $icons {
-    .<%= className %>-#{$name}:before {
-        font-family: '<%= fontName %>';
-        content: $icon;
+//@each $name, $icon in $icons {
+    @mixin <%= className %>-before($name) {
+        //&:before {
+            font-family: '<%= fontName %>';
+            content: map-get($icons, $name);
+        //}
     }
-    .<%= className %>-#{$name}-after:after {
-        font-family: '<%= fontName %>';
-        content: $icon;
+
+    @mixin <%= className %>-after($name) {
+        //&:after {
+            font-family: '<%= fontName %>';
+            content: map-get($icons, $name);
+        //}
     }
-}
+//}

@@ -611,24 +611,33 @@ function CriPostQuestion() {
 
 /**
  * List of displayed Support order by priority (order field)
- *
+ * @param integer $expertise
  * @return array
  */
-function CriListSupport()
+//TODO value 1 by default only for test purpose. To delete once feature implemented
+function CriListSupport($expertise = 1)
 {
     // init
     $supports = array();
 
-    // query optoins
+    // query options
     $options = array(
-        'selects'    => array('Support.id', 'Support.label_front', 'Support.value', 'Support.description'),
-        'conditions' => array(
-            'Support.displayed' => 1
+        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon'),
+        'synonym'      => 'es',
+        'join'       => array(
+            array(
+                'table' => 'support s',
+                'column' => 's.id = es.id_support'
+            )
         ),
-        'order'      => 'Support.order ASC',
+        'conditions' => array(
+            's.displayed' => 1,
+            'es.id_expertise' => $expertise
+        ),
         'limit'      => 3
     );
-    $items   = mvc_model('Support')->find($options);
+
+    $items   = mvc_model('QueryBuilder')->findAll( 'expertise_support',$options,'s.id' );
 
     // format output
     if (is_array($items) && count($items) > 0) {
@@ -642,9 +651,24 @@ function CriListSupport()
             $supports[] = clone $object;
         }
     }
-
     return $supports;
+}
 
+/**
+ * List of displayed Support order by priority (order field)
+ *
+ * @return array
+ */
+function CriListExpertise()
+{
+    // query options
+    $options = array(
+        'conditions' => array(
+            'Expertise.displayed' => 1
+        ),
+        'order'      => 'Expertise.order ASC'
+    );
+    return mvc_model('Expertise')->find($options);
 }
 
 /*
