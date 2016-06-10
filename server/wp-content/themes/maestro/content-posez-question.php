@@ -54,7 +54,7 @@
                     <?php $expid = false; ?>
                     <?php foreach ($expertises as $data) : ?>
                         <?php $supports = $data->supports; ?>
-                        <?php foreach ($supports as $key => $support): ?>
+                        <?php foreach ($supports as $order => $support): ?>
                             <?php $expid = ($expid == false) ? $support->id_expertise : $expid ?>
                                 <?php if ($expid == $support->id_expertise) : ?>
                                 <div
@@ -85,7 +85,7 @@
                 <div class="hidden js-support-hidden">
                     <?php foreach ($expertises as $data) : ?>
                         <?php $supports = $data->supports; ?>
-                        <?php foreach ($supports as $key => $support): ?>
+                        <?php foreach ($supports as $order => $support): ?>
                             <?php $expid = ($expid == false) ? $support->id_expertise : $expid ?>
                             <?php if ($expid != $support->id_expertise) : ?>
 

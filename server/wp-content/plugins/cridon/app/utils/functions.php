@@ -620,7 +620,7 @@ function CriListSupport()
 
     // query options
     $options = array(
-        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon', 's.document', 'es.id_expertise'),
+        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon', 's.document', 's.order', 'es.id_expertise'),
         'synonym'      => 'es',
         'join'       => array(
             array(
@@ -630,10 +630,11 @@ function CriListSupport()
         ),
         'conditions' => array(
             's.displayed' => 1
-        )
+        ),
+        'order'      => 's.order ASC'
     );
 
-    $items   = mvc_model('QueryBuilder')->findAll( 'expertise_support',$options,'s.id' );
+    $items   = mvc_model('QueryBuilder')->findAll( 'expertise_support',$options );
 
     // format output
     if (is_array($items) && count($items) > 0) {
@@ -644,6 +645,7 @@ function CriListSupport()
             $object->label_front = $item->label_front;
             $object->description = $item->description;
             $object->icon = $item->icon;
+            $object->order = $item->order;
             $object->document = wp_upload_dir()['baseurl'] . '/' . $item->document;
             $object->id_expertise = $item->id_expertise;
 
@@ -679,6 +681,7 @@ function CriListExpertise()
             $object->id = $item->id;
             $object->label_front = $item->label_front;
             $object->description = $item->description;
+            $object->order = $item->order;
             $object->document = wp_upload_dir()['baseurl'] . '/' . $item->document;
             $object->supports = false;
 
