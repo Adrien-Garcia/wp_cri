@@ -54,11 +54,12 @@
                     <?php $expid = false; ?>
                     <?php foreach ($expertises as $data) : ?>
                         <?php $supports = $data->supports; ?>
-                        <?php foreach ($supports as $order => $support): ?>
+                        <?php foreach ($supports as $key => $support): ?>
                             <?php $expid = ($expid == false) ? $support->id_expertise : $expid ?>
                                 <?php if ($expid == $support->id_expertise) : ?>
                                 <div
                                     data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
+                                    data-order="<?php echo $support->order ; ?>"
                                     class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> <?php echo $support->icon; ?> ">
                                     <input
                                         title="support hidden"
@@ -85,12 +86,13 @@
                 <div class="hidden js-support-hidden">
                     <?php foreach ($expertises as $data) : ?>
                         <?php $supports = $data->supports; ?>
-                        <?php foreach ($supports as $order => $support): ?>
+                        <?php foreach ($supports as $key => $support): ?>
                             <?php $expid = ($expid == false) ? $support->id_expertise : $expid ?>
                             <?php if ($expid != $support->id_expertise) : ?>
 
                                 <div
                                     data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
+                                    data-order="<?php echo $support->order ; ?>"
                                     class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> <?php echo $support->icon; ?> ">
                                     <input
                                         title="support hidden"

@@ -441,6 +441,7 @@ App.Question = {
     },
 
     eventZoneQuestionExpertiseClick: function(zone) {
+        var self = this;
         // Select the correct radio + graphics
         this.$zoneQuestionExpertise.removeClass(this.selectedClass);
         zone.addClass(this.selectedClass);
@@ -459,7 +460,22 @@ App.Question = {
 
         // Get the supports items from the expertise selector and append them to the carousel + remove the remaining owl-items
         var newItems = $(this.inputQuestionExpertiseNSelector + id).detach();
-        newItems.appendTo(this.$owlCarousel);
+
+        // Order supports by data-order
+        var ordered = [];
+        for(i =0; i < newItems.length; i++) {
+            var $i = $(newItems.get(i));
+            var order = parseInt($i.data('order'));
+            while (ordered[order] != undefined) {
+                order++;
+            }
+            ordered[order] = $i;
+        }
+        ordered.forEach(function (v, i, a) {
+            v.appendTo(self.$owlCarousel);
+        });
+
+        // newItems.appendTo(this.$owlCarousel);
         this.$owlCarousel.find('.owl-item').remove();
 
         // Open tab (init carousel)
