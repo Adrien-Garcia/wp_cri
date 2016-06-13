@@ -741,7 +741,7 @@ class NotairesController extends BasePublicController
         if (!empty($_GET['action']) ) {
             $collaborator = array();
             $collaborator['action'] = $_GET['action'];
-            if (!empty([$_GET['collaborator_id']])){
+            if (!empty($_GET['collaborator_id'])){
                 $collaborator['id'] = $_GET['collaborator_id'];
                 $options = array(
                     'conditions' => array(
