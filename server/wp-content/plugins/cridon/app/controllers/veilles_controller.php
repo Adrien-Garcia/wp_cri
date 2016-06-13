@@ -131,7 +131,8 @@ class VeillesController extends BaseActuController {
             CriRefuseAccess();
         } else {
             // check if user can access this level
-            if ($this->model->userCanAccessSingle($this)) {
+            $notaire = mvc_model('Notaire')->getUserConnectedData();
+            if (isset($this->params['id']) && $this->model->userCanAccessSingle($this->model->associatePostWithDocumentByPostName($this->params['id']),$notaire)) {
                 $download_url = '';
                 if (isset($_GET['id_doc']) && $_GET['id_doc']) {
                     $download_url = mvc_public_url(array('controller' => 'documents', 'action' => 'download', 'id' => $_GET['id_doc']));

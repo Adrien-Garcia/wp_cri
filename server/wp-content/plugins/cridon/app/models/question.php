@@ -959,9 +959,8 @@ class Question extends \App\Override\Model\CridonMvcModel
                 }
                 // id_support change -> Send mail
                 if (isset($data[$adapter::QUEST_YCODESUP]) && isset($question) && !empty($question->id_support)
-                    && ( ( intval($data[$adapter::QUEST_YCODESUP]) == 1 && ($question->id_support == 7))
-                      || ( intval($data[$adapter::QUEST_YCODESUP]) == 7 && ($question->id_support == 6))
-                      || ( intval($data[$adapter::QUEST_YCODESUP]) == 1 && ($question->id_support == 6)))
+                    && (!empty(Config::$declassement[$question->id_support])
+                    && in_array(intval($data[$adapter::QUEST_YCODESUP]),Config::$declassement[$question->id_support]))
                     && (intval($data[$adapter::QUEST_YCODESUP]) != $question->id_support)
                     && isset($data[$adapter::QUEST_YSREASS])
                     && intval($data[$adapter::QUEST_YSREASS]) == 1)

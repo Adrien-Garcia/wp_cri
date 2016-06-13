@@ -57,14 +57,14 @@ class DocumentsController extends BasePublicController
         //Access download document of news
         if (in_array($document->type, Config::$restrictedDownloadByTypeLevel)
             && !empty($notaire)
-            && !$this->model->userCanDownload($document)) {
+            && !mvc_model('Veille')->userCanAccessSingle($object,$notaire)) {
             // user connected && document allowed for download but document was restricted for specific level
             $this->redirect(mvc_public_url(
                     array(
                         'controller' => 'notaires',
                         'action'     => 'cridonline'
                     )
-                )
+                ).'?error=NIVEAU_VEILLE_INSUFFISANT'
             );
         } elseif (empty($notaire)) { // force user to login before downloading
             $config = assocToKeyVal(Config::$data, 'model', 'controller');//get config

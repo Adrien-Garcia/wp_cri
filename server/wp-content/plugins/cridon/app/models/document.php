@@ -681,36 +681,6 @@ class Document extends \App\Override\Model\CridonMvcModel {
     }
 
     /**
-     * Check if user can download document
-     *
-     * @param mixed $object
-     * @return bool
-     * @throws Exception
-     */
-    public function userCanDownload($object)
-    {
-        if (is_object($object) && property_exists($object, 'id')) {
-            // notary data
-            $notaryData = mvc_model('Notaire')->getUserConnectedData();
-            // veile data
-            $veille = $this->getRelatedModel($object->id, 'veille');
-
-            // get user cap level
-            $capLevel    = 'access_level_' . $veille->level;
-            // subscription_level must be >= veille_level
-            if (!in_array($notaryData->category, Config::$notaryNoDefaultOffice)
-                && ($notaryData->etude->subscription_level >= $veille->level || $notaryData->etude->end_subscription_date_veille >= date('Y-m-d'))
-            ) { // Categ OFF
-                return (current_user_can($capLevel));
-            } else { // Categ DIV or ORG
-                return (current_user_can($capLevel));
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Check if doc already exist
      *
      * @param string $name

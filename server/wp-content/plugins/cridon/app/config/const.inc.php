@@ -349,6 +349,24 @@ if ( !defined( 'CONST_SUPPORT_NON_FACTURE' ) ) {
 if ( !defined( 'CONST_SUPPORT_MES_DIANE' ) ) {
     define( 'CONST_SUPPORT_MES_DIANE',  4);
 }
+if ( !defined( 'CONST_SUPPORT_3_TO_4_WEEKS_INITIALE_ID' ) ) {
+    define( 'CONST_SUPPORT_3_TO_4_WEEKS_INITIALE_ID',  8);
+}
+if ( !defined( 'CONST_SUPPORT_2_DAYS_INITIALE_ID' ) ) {
+    define( 'CONST_SUPPORT_2_DAYS_INITIALE_ID',  9);
+}
+if ( !defined( 'CONST_SUPPORT_5_DAYS_MEDIUM_ID' ) ) {
+    define( 'CONST_SUPPORT_5_DAYS_MEDIUM_ID',  10);
+}
+if ( !defined( 'CONST_SUPPORT_RDV_TEL_MEDIUM_ID' ) ) {
+    define( 'CONST_SUPPORT_RDV_TEL_MEDIUM_ID',  11);
+}
+if ( !defined( 'CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID' ) ) {
+    define( 'CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID',  12);
+}
+if ( !defined( 'CONST_SUPPORT_DOSSIER_EXPERT_ID' ) ) {
+    define( 'CONST_SUPPORT_DOSSIER_EXPERT_ID',  13);
+}
 
 // Notaire fonctions id (used for filtering capability)
 if ( !defined( 'CONST_NOTAIRE_FONCTION' ) ) {
@@ -513,7 +531,7 @@ if ( !defined( 'CONST_QUESTION_MAX_FILES_ERROR' ) ) {
     define( 'CONST_QUESTION_MAX_FILES_ERROR', 'Le nombre maximal de fichiers autorisés est de %s' );
 }
 if ( !defined( 'CONST_QUESTION_FILE_SIZE_ERROR' ) ) {
-    define( 'CONST_QUESTION_FILE_SIZE_ERROR', 'La taille maximale de chaque fichier ne doit pas depasser de %s' );
+    define( 'CONST_QUESTION_FILE_SIZE_ERROR', 'La taille maximale de chaque fichier ne doit pas dépasser %s' );
 }//Default question answered per page
 if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
     define( 'DEFAULT_QUESTION_PER_PAGE', 10 );

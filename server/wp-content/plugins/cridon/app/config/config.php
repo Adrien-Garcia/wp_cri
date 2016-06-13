@@ -152,8 +152,6 @@ class Config {
         CONST_NOTAIRE_FONCTION,
         CONST_NOTAIRE_ASSOCIE,
         CONST_NOTAIRE_ASSOCIEE,
-        CONST_NOTAIRE_SALARIE,
-        CONST_NOTAIRE_SALARIEE,
         CONST_NOTAIRE_GERANT,
         CONST_NOTAIRE_GERANTE,
         CONST_NOTAIRE_SUPLEANT,
@@ -169,7 +167,13 @@ class Config {
         CONST_SUPPORT_URG48H_ID,
         CONST_SUPPORT_URGWEEK_ID,
         CONST_SUPPORT_NON_FACTURE,
-        CONST_SUPPORT_MES_DIANE
+        CONST_SUPPORT_MES_DIANE,
+        CONST_SUPPORT_3_TO_4_WEEKS_INITIALE_ID,
+        CONST_SUPPORT_2_DAYS_INITIALE_ID,
+        CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+        CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+        CONST_SUPPORT_DOSSIER_EXPERT_ID
     );
 
     //Notification for published post
@@ -828,6 +832,49 @@ class Config {
     public static $cridonlineLevels = array (
         CONST_CRIDONLINE_LEVEL_2,
         CONST_CRIDONLINE_LEVEL_3
+    );
+
+    /**
+     * Tableau des déclassements : à lire -> Du support `key` au support array(`values`)
+     *
+     * @var array
+     */
+    public static $declassement = array(
+        CONST_SUPPORT_3_TO_4_WEEKS_INITIALE_ID =>
+            array(
+                CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+                CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+                CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+                CONST_SUPPORT_DOSSIER_EXPERT_ID
+            ),
+        CONST_SUPPORT_2_DAYS_INITIALE_ID       =>
+            array(
+                CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+                CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+                CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+                CONST_SUPPORT_DOSSIER_EXPERT_ID
+            ),
+        CONST_SUPPORT_5_DAYS_MEDIUM_ID         =>
+            array(
+                CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+                CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+                CONST_SUPPORT_DOSSIER_EXPERT_ID
+            ),
+        CONST_SUPPORT_RDV_TEL_MEDIUM_ID        =>
+            array(
+                CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+                CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+                CONST_SUPPORT_DOSSIER_EXPERT_ID
+            ),
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID   =>
+            array(
+                CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+                CONST_SUPPORT_DOSSIER_EXPERT_ID
+            ),
+        CONST_SUPPORT_DOSSIER_EXPERT_ID        =>
+            array(
+                CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID
+            )
     );
 
     //HOTFIX poser question mobile support non correct
