@@ -33,8 +33,8 @@
                                 title="niveau hidden"
                                 id="niveau-<?php echo $data->id ?>"
                                 type="radio"
-                                name="niveau-<?php echo $data->id ?>"
-                                value="niveau-<?php echo $data->id ?>"
+                                name="niveau"
+                                value="<?php echo $data->id ?>"
                                 data-value="niveau-<?php echo $data->id ?>"
                                 class="hidden js-question-expertise-radio">
 

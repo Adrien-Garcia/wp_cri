@@ -449,7 +449,7 @@ App.Question = {
         radio.prop("checked", true).change();
 
         // Get the id of expertise
-        var id = radio.data('value').match(/niveau-(.*)/)[1];
+        var id = radio.val();
 
         this.$owlCarousel.owlCarousel('destroy');
         this.$owlCarousel2.owlCarousel('destroy');
@@ -502,7 +502,7 @@ App.Question = {
         var support = button.data('support');
         if (support == undefined) {
             for(var i = 0; i < button[0].classList.length; i++ ) {
-                button[0].classList.item(i);
+                //button[0].classList.item(i);
                 var re = new RegExp(this.buttonQuestionSupportNSelector + "(\\d+)");
                 var match = re.exec(button[0].classList.item(i));
                 if (match && match[1]) {
