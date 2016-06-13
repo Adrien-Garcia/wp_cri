@@ -9,6 +9,11 @@ App.Question = {
 
     zoneQuestionSupportSelector         : '.js-question-support-zone',
     radioQuestionSupportSelector        : '.js-question-support-radio',
+    zoneQuestionExpertiseSelector       : '.js-question-expertise-zone',
+    radioQuestionExpertiseSelector      : '.js-question-expertise-radio',
+    inputQuestionExpertiseNSelector     : '.js-question-support-expertise-',
+    itemQuestionExpertiseSelector       : '.js-question-support-expertise',
+    hiddenQuestionSupportSelector       : '.js-support-hidden',
     fileQuestionSelector                : '.js-question-file',
     fileQuestionResetSelector           : '.js-file-reset',
     fileQuestionNameSelector            : '.js-file-name',
@@ -17,8 +22,10 @@ App.Question = {
 
     selectQuestionCompetenceName        : 'question_competence',
 
+    tabQuestionExpertiseSelector        : '.js-question-tab-expertise',
     tabQuestionConsultationSelector     : '.js-question-tab-consultation',
     tabQuestionMaQuestionSelector       : '.js-question-tab-ma-question',
+    buttonQuestionExpertiseSelector     : '.js-question-button-expertise',
     buttonQuestionConsultationSelector  : '.js-question-button-consultation',
     buttonQuestionMaQuestionSelector    : '.js-question-button-ma-question',
     submitQuestionSelector              : '.js-question-submit',
@@ -29,6 +36,10 @@ App.Question = {
     buttonQuestionSupportNSelector      : 'js-question-support-shortcut-',
 
     owlCarouselSelector                 : "#owl-support",
+
+    owlCarouselSelector2                 : "#owl-niveau-expertise",
+
+
     popupOverlaySelector                : "#layer-posez-question",
 
     selectedClass                       : 'selected',
@@ -39,15 +50,20 @@ App.Question = {
     $selectQuestionCompetence           : null,
     $selectQuestionCompetenceArray      : [],
     $zoneQuestionSupport                : null,
+    $zoneQuestionExpertise              : null,
     $radioQuestionSupport               : null,
+    $radioQuestionExpertise             : null,
+    $hiddenSupport                      : null,
     $fileQuestion                       : null,
     $fileQuestionReset                  : null,
     $fileQuestionName                   : null,
     $objectQuestionField                : null,
     $messageQuestionField               : null,
 
+    $tabQuestionExpertise               : null,
     $tabQuestionConsultation            : null,
     $tabQuestionMaQuestion              : null,
+    $buttonQuestionExpertise            : null,
     $buttonQuestionConsultation         : null,
     $buttonQuestionMaQuestion           : null,
     $submitQuestion                     : null,
@@ -58,7 +74,9 @@ App.Question = {
     $blockQuestionError                 : null,
 
     $owlCarousel                        : null,
+    $owlCarousel2                       : null,
     $popupOverlay                       : null,
+    formInitialized                     : false,
 
 
     init: function() {
@@ -77,13 +95,18 @@ App.Question = {
             self.$selectQuestionCompetenceArray[$(this).data('matiere-id')] = $(this);
         });
 
+        this.$tabQuestionExpertise                 = $(this.tabQuestionExpertiseSelector);
         this.$tabQuestionConsultation               = $(this.tabQuestionConsultationSelector);
         this.$tabQuestionMaQuestion                 = $(this.tabQuestionMaQuestionSelector);
+        this.$buttonQuestionExpertise            = $(this.buttonQuestionExpertiseSelector);
         this.$buttonQuestionConsultation            = $(this.buttonQuestionConsultationSelector);
         this.$buttonQuestionMaQuestion              = $(this.buttonQuestionMaQuestionSelector);
 
         this.$zoneQuestionSupport                   = $(this.zoneQuestionSupportSelector);
         this.$radioQuestionSupport                  = $(this.radioQuestionSupportSelector);
+        this.$zoneQuestionExpertise                 = $(this.zoneQuestionExpertiseSelector);
+        this.$radioQuestionExpertise                = $(this.radioQuestionExpertiseSelector);
+        this.$hiddenSupport                         = $(this.hiddenQuestionSupportSelector);
         this.$fileQuestion                          = $(this.fileQuestionSelector);
         this.$fileQuestionReset                     = $(this.fileQuestionResetSelector);
         this.$fileQuestionName                      = $(this.fileQuestionNameSelector);
@@ -97,6 +120,7 @@ App.Question = {
         this.$messageQuestionField                  = $(this.messageQuestionFieldSelector);
 
         this.$owlCarousel                           = $(this.owlCarouselSelector);
+        this.$owlCarousel2                           = $(this.owlCarouselSelector2);
         this.$popupOverlay                          = $(this.popupOverlaySelector);
 
         this.$submitQuestion                        = $(this.submitQuestionSelector);
@@ -111,7 +135,7 @@ App.Question = {
 
         if (App.Utils.queryString['openQuestion'] == 1) {
             this.$popupOverlay.popup('show');
-            this.openTabQuestionConsultation(false);
+            this.openTabQuestionExpertise(false);
         }
 
 
@@ -121,7 +145,7 @@ App.Question = {
 
     popupOverlayInit: function() {
         /* POPUP OVERLAY*/
-
+        var self = this;
         this.$popupOverlay.popup({
             transition: 'all 0.3s',
             scrolllock: true,
@@ -129,7 +153,10 @@ App.Question = {
             color: '#324968',
             offsettop: 10,
             vertical: top,
-            onopen: this.owlCarouselInit.bind(this)
+            onopen: (function() {
+                (this.owlCarouselInit.bind(this))();
+                (this.owlCarouselInit2.bind(this))();
+            }).bind(this)
 
         });
     },
@@ -141,44 +168,83 @@ App.Question = {
             pagination: false,
             dots: false,
             navText: false,
-            itemClass: 'owl-item ' + this.zoneQuestionSupportSelector.substr(1),
+            itemClass: 'owl-item ' + this.zoneQuestionSupportSelector.substr(1), // de étape 2 à étape 3
             onInitialized: this.addListenersAfterOwl.bind(this),
             responsive:{
-                0 : {
+                 0 : {
                     items:1,
                     dots:true,
                     nav:true,
-
                 },
                 // breakpoint from 480 up
                 768 : {
                     items:3,
                     dots:false,
+                    nav:false,
                 },
                 // breakpoint from 768 up
                 1200 : {
                     items:3,
                     dots:false,
+                    nav:false,
                 }
             }
 
         });
+        this.formInit();
+    },
 
-        var nonce   = document.createElement('input');
-        nonce.type  = 'hidden';
-        nonce.name  = 'tokenquestion';
-        nonce.id    = 'tokenquestion';
-        nonce.value = jsvar.question_nonce;
+    owlCarouselInit2: function() {
+
+        this.$owlCarousel2.owlCarousel({
+            pagination: false,
+            dots: false,
+            navText: false,
+            itemClass: 'owl-item ' + this.zoneQuestionExpertiseSelector.substr(1), // TODO : de étape 1 vers étape 2
+            onInitialized: this.addListenersAfterOwl2.bind(this),
+            responsive:{
+                0 : {
+                    items:1,
+                    dots:true,
+                    nav:true,
+                },
+                // breakpoint from 480 up
+                768 : {
+                    items:3,
+                    dots:false,
+                    nav:false,
+                },
+                // breakpoint from 768 up
+                1200 : {
+                    items:3,
+                    dots:false,
+                    nav:false,
+                }
+            }
+
+        });
+        this.formInit();
+    },
+
+    formInit: function() {
+        if (!this.formInitialized) {
+            var nonce   = document.createElement('input');
+            nonce.type  = 'hidden';
+            nonce.name  = 'tokenquestion';
+            nonce.id    = 'tokenquestion';
+            nonce.value = jsvar.question_nonce;
 
 
-        // reset file list
-        this.eventFileReset();
-        this.$formQuestion[0].reset();
-        this.$submitQuestion.attr('disabled',false);
-        this.$blockQuestionError.html('');
-        this.$formQuestion.append(nonce);
-        if (App.Utils.device.ios) {
-            $('.fileUpload').remove();
+            // reset file list
+            this.eventFileReset();
+            this.$formQuestion[0].reset();
+            this.$submitQuestion.attr('disabled',false);
+            this.$blockQuestionError.html('');
+            this.$formQuestion.append(nonce);
+            if (App.Utils.device.ios) {
+                $('.fileUpload').remove();
+            }
+            this.formInitialized = true;
         }
 
     },
@@ -196,6 +262,10 @@ App.Question = {
 
         this.$selectQuestionMatiere.on("change", function(e) {
             self.eventSelectQuestionMatiereChange($(this));
+        });
+
+        this.$buttonQuestionExpertise.on('click', function(e) {
+            self.openTabQuestionExpertise($(this));
         });
 
         this.$buttonQuestionConsultation.on('click', function(e) {
@@ -278,6 +348,26 @@ App.Question = {
         });
 
     },
+    addListenersAfterOwl2: function() {
+        var self = this;
+        this.debug('Question : addListenersAfterOwl2');
+
+        this.$zoneQuestionExpertise                 = $(this.zoneQuestionExpertiseSelector);
+        this.$radioQuestionExpertise                = $(this.radioQuestionExpertiseSelector);
+
+        this.$zoneQuestionExpertise.on('click', function(e) {
+            self.eventZoneQuestionExpertiseClick($(this));
+        });
+
+        this.$radioQuestionExpertise.on('change', function (e) {
+            self.openTabQuestionConsultation($(this));
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+        });
+
+
+    },
 
     /*
      * Event
@@ -346,8 +436,52 @@ App.Question = {
         zone.addClass(this.selectedClass);
         var radio = zone.find(this.radioQuestionSupportSelector).first();
         radio.prop("checked", true).change();
+        
         this.openTabQuestionMaQuestion(false);
     },
+
+    eventZoneQuestionExpertiseClick: function(zone) {
+        var self = this;
+        // Select the correct radio + graphics
+        this.$zoneQuestionExpertise.removeClass(this.selectedClass);
+        zone.addClass(this.selectedClass);
+        var radio = zone.find(this.radioQuestionExpertiseSelector).first();
+        radio.prop("checked", true).change();
+
+        // Get the id of expertise
+        var id = radio.val();
+
+        this.$owlCarousel.owlCarousel('destroy');
+        this.$owlCarousel2.owlCarousel('destroy');
+
+        // Get all the supports item/slides and append them into the hidden container
+        var items = $(this.itemQuestionExpertiseSelector).detach();
+        items.appendTo(this.$hiddenSupport);
+
+        // Get the supports items from the expertise selector and append them to the carousel + remove the remaining owl-items
+        var newItems = $(this.inputQuestionExpertiseNSelector + id).detach();
+
+        // Order supports by data-order
+        var ordered = [];
+        for(i =0; i < newItems.length; i++) {
+            var $i = $(newItems.get(i));
+            var order = parseInt($i.data('order'));
+            while (ordered[order] != undefined) {
+                order++;
+            }
+            ordered[order] = $i;
+        }
+        ordered.forEach(function (v, i, a) {
+            v.appendTo(self.$owlCarousel);
+        });
+
+        // newItems.appendTo(this.$owlCarousel);
+        this.$owlCarousel.find('.owl-item').remove();
+
+        // Open tab (init carousel)
+        this.openTabQuestionConsultation(false);
+    },
+
 
     eventButtonDocumentationClick: function () {
         var min = {el: undefined, val: undefined};
@@ -368,7 +502,7 @@ App.Question = {
         var support = button.data('support');
         if (support == undefined) {
             for(var i = 0; i < button[0].classList.length; i++ ) {
-                button[0].classList.item(i);
+                //button[0].classList.item(i);
                 var re = new RegExp(this.buttonQuestionSupportNSelector + "(\\d+)");
                 var match = re.exec(button[0].classList.item(i));
                 if (match && match[1]) {
@@ -382,18 +516,40 @@ App.Question = {
 
     },
 
-    openTabQuestionConsultation: function(button) {
-        this.$buttonQuestionConsultation.addClass('open');
-        this.$tabQuestionConsultation.addClass('open');
+    openTabQuestionExpertise: function(button) {
+        this.$owlCarousel2.owlCarousel('destroy');
+        this.$owlCarousel.owlCarousel('destroy');
+        this.owlCarouselInit2();
+        this.$buttonQuestionExpertise.addClass('open');
+        this.$tabQuestionExpertise.addClass('open');
+        this.$buttonQuestionConsultation.removeClass('open');
+        this.$tabQuestionConsultation.removeClass('open');
         this.$buttonQuestionMaQuestion.removeClass('open');
         this.$tabQuestionMaQuestion.removeClass('open');
     },
 
+
+    openTabQuestionConsultation: function(button) {
+        this.$owlCarousel.owlCarousel('destroy');
+        this.$owlCarousel2.owlCarousel('destroy');
+        this.owlCarouselInit();
+        this.$buttonQuestionConsultation.addClass('open');
+        this.$tabQuestionConsultation.addClass('open');
+        this.$buttonQuestionMaQuestion.removeClass('open');
+        this.$tabQuestionMaQuestion.removeClass('open');
+        this.$buttonQuestionExpertise.removeClass('open');
+        this.$tabQuestionExpertise.removeClass('open');
+    },
+
     openTabQuestionMaQuestion: function(button) {
+        this.$owlCarousel2.owlCarousel('destroy');
+        this.$owlCarousel.owlCarousel('destroy');
         this.$buttonQuestionConsultation.removeClass('open');
         this.$tabQuestionConsultation.removeClass('open');
         this.$buttonQuestionMaQuestion.addClass('open');
         this.$tabQuestionMaQuestion.addClass('open');
+        this.$buttonQuestionExpertise.removeClass('open');
+        this.$tabQuestionExpertise.removeClass('open');
     },
 
     eventSubmitQuestion: function(form) {

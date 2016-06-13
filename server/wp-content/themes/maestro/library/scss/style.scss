@@ -39,6 +39,9 @@ the whole project.
 // Sass functions
 @import "partials/functions";
 
+// icons
+@import "modules/icons";
+
 // import mixins
 @import "partials/mixins";
 
@@ -81,9 +84,6 @@ you hate oysters, then the world is your peanut butter & jelly sandwich.
 
 // pagination
 @import "modules/slider";
-
-// pagination
-@import "modules/icons";
 
 // owl carousel
 @import "modules/owl.carousel";

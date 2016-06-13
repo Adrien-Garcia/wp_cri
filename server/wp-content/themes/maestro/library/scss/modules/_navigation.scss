@@ -136,7 +136,7 @@ and more scalable.
 			> li{ /* Style générale 2eme niveau*/
 
 				> a{  /* Lien 2eme niveau*/
-					@extend .do-sm;
+					@include do-sm;
 					font-size: 20px;
 					text-transform: uppercase;
 					color:$bleu;
@@ -213,7 +213,7 @@ and more scalable.
 							border-bottom: 0px;
 							font-size: 16px;
 							line-height: 20px;
-							@extend .do-re;
+							@include do-re;
 							padding-left: 20px;
 							position: relative;
 							@include transition(margin 0.3s);
@@ -287,7 +287,7 @@ and more scalable.
 						cursor: pointer;
 						.content {
 							> a{
-								@extend .do-bo;
+								@include do-bo;
 							}
 						}
 
@@ -331,7 +331,7 @@ and more scalable.
 						.h2{
 							position: relative;
 							z-index: 2000;
-							@extend .do-sm;
+							@include do-sm;
 							color:#FFF;
 							font-size: 50px;
 							line-height: 45px;
@@ -364,7 +364,7 @@ and more scalable.
 							z-index: 2000;
 							text-decoration: none;
 							text-align: center;
-							@extend .do-el;
+							@include do-el;
 							font-size: 40px;
 							line-height: 27px;
 							padding: 0;
@@ -715,7 +715,7 @@ nav#menu_mobile{
 				    content:'+';
 				    font-size: 48px;
 				    line-height: 0px;
-				    @extend .do-el;
+				    @include do-el;
 				    color:$bleu;
 			}
 
@@ -799,7 +799,7 @@ nav#menu_mobile{
 
 					>a{
 						color:$rouge;
-						@extend.do-sm;
+						@include do-sm;
 						text-transform: uppercase;
 						height: 30px; 
 						padding-top: 0;
@@ -810,7 +810,7 @@ nav#menu_mobile{
 						position: relative;
 
 						>span{
-							@extend.do-re; 
+							@include do-re;
 							display: inline;
 							color:$rouge;
 							font-size: 16px;
@@ -902,7 +902,7 @@ nav#menu_mobile{
 .sub-menu > li > a,
 .sub-menu > li > span{
 		color:$bleu !important;
-		@extend .do-re;
+		@include do-re;
 		font-size: 16px;
 
 

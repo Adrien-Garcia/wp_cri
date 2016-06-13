@@ -55,7 +55,6 @@ function save_post_in_table( $post_ID, $post ){
             $aAdditionalFields['level'] = $_POST['cri_post_level'];
         }
         updateRelatedContent( $model , $aAdditionalFields);
-        
         //Only on insert and post status is publish
         if( $isInsert && ( $post->post_status == 'publish' ) && ( $post->post_type == 'post' ) ){
             sendNotificationForPostPublished($post, $model);

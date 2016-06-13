@@ -59,7 +59,7 @@ body.single, #content.single {
 			.date{
 				height: 60px;
 				font-size: 25px;
-				@extend .do-re;
+				@include do-re;
 				text-transform: uppercase;
 				text-align: center;
 				background: $vert;
@@ -166,7 +166,7 @@ body.single, #content.single {
 					min-height: 70px;
 
 					.matiere{
-						@extend .do-bo;
+						@include do-bo;
 						color:#FFF;
 						text-transform: uppercase;
 						font-size: 12px;
@@ -179,7 +179,7 @@ body.single, #content.single {
 					}
 
 					h1{
-						@extend .do-me;
+						@include do-me;
 						font-size: 20px;
 						line-height: 20px;
 						text-transform: uppercase;
@@ -248,7 +248,7 @@ body.single, #content.single {
 
 					    h2{
 					    	color:$bleu;
-					    	@extend .do-bo;
+					    	@include do-bo;
 					    	padding: 10px 0;
 					    	&:after{
 					    		content:'';
@@ -263,7 +263,7 @@ body.single, #content.single {
 
 				    	h3{
 				    		color:$vert;
-				    		@extend .do-me;
+				    		@include do-me;
 				    		margin-left: 20px;
 				    	}
 
@@ -365,14 +365,14 @@ body.single, #content.single {
 								padding: 3px 0;
 
 								>a{
-									@extend .do-re;
+									@include do-re;
 									font-size: 14px;
 									color:$bleu;
 									text-decoration: none;
 									
 									&:hover{
 										//text-decoration: underline;
-										//@extend .do-me;
+										//@include do-me;
 									}
 
 									/* &:before{
