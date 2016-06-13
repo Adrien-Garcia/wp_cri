@@ -611,18 +611,16 @@ function CriPostQuestion() {
 
 /**
  * List of displayed Support order by priority (order field)
- * @param integer $expertise
  * @return array
  */
-//TODO value 1 by default only for test purpose. To delete once feature implemented
-function CriListSupport($expertise = 1)
+function CriListSupport()
 {
     // init
     $supports = array();
 
     // query options
     $options = array(
-        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon'),
+        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon', 's.document', 's.order', 'es.id_expertise'),
         'synonym'      => 'es',
         'join'       => array(
             array(
@@ -631,13 +629,12 @@ function CriListSupport($expertise = 1)
             )
         ),
         'conditions' => array(
-            's.displayed' => 1,
-            'es.id_expertise' => $expertise
+            's.displayed' => 1
         ),
-        'limit'      => 3
+        'order'      => 's.order ASC'
     );
 
-    $items   = mvc_model('QueryBuilder')->findAll( 'expertise_support',$options,'s.id' );
+    $items   = mvc_model('QueryBuilder')->findAll( 'expertise_support',$options );
 
     // format output
     if (is_array($items) && count($items) > 0) {
@@ -647,6 +644,10 @@ function CriListSupport($expertise = 1)
             $object->value = $item->value;
             $object->label_front = $item->label_front;
             $object->description = $item->description;
+            $object->icon = $item->icon;
+            $object->order = $item->order;
+            $object->document = wp_upload_dir()['baseurl'] . '/' . $item->document;
+            $object->id_expertise = $item->id_expertise;
 
             $supports[] = clone $object;
         }
@@ -661,6 +662,8 @@ function CriListSupport($expertise = 1)
  */
 function CriListExpertise()
 {
+    $expertises = array();
+
     // query options
     $options = array(
         'conditions' => array(
@@ -668,7 +671,59 @@ function CriListExpertise()
         ),
         'order'      => 'Expertise.order ASC'
     );
-    return mvc_model('Expertise')->find($options);
+
+    $items = mvc_model('Expertise')->find($options);
+
+    if (is_array($items) && count($items) > 0) {
+        foreach ($items as $item) {
+
+            $object = new \stdClass();
+            $object->id = $item->id;
+            $object->label_front = $item->label_front;
+            $object->description = $item->description;
+            $object->order = $item->order;
+            $object->document = wp_upload_dir()['baseurl'] . '/' . $item->document;
+            $object->supports = false;
+
+            $expertises[$object->id] = clone $object;
+        }
+    }
+    return $expertises;
+}
+
+/**
+ * List of displayed Expertises with Supports (order field)
+ *
+ * @return array
+ */
+function CriListAllSupportsByExpertises()
+{
+    $expertises = array();
+
+    $itemsSupport = CriListSupport();
+
+    $expertises = CriListExpertise();
+
+    // format output
+
+    // si on as des supports, foreach
+    if (is_array($itemsSupport) && count($itemsSupport) > 0) {
+        foreach ($itemsSupport as $support) {
+
+            // si l'expertise du support actuel existe
+            if( !empty($expertises[$support->id_expertise]) ) {
+
+                // si la liste des supports de cette expertise n'existe pas on l'initialise
+                if ( empty($expertises[$support->id_expertise]->supports) ) {
+                    $expertises[$support->id_expertise]->supports = array();
+                }
+                // on ajoute le support à l'expertise
+                $expertises[$support->id_expertise]->supports[$support->id] = clone $support;
+            }
+        }
+    }
+
+    return $expertises;
 }
 
 /*

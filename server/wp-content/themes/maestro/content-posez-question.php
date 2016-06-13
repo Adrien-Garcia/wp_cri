@@ -7,74 +7,115 @@
 		<div class="titre">
 			<span class="close_layer layer-posez-question_close"></span>
 			<span class="texte"><?php _e('Poser une question'); ?></span>
+			<span class="expertise">Niveau expertise</span>
 		</div>
 		
 		<div class="onglets">
 			<div class="h2 open niveau-expertise js-question-button-expertise">1. <span><?php _e('Niveau d\'expertise'); ?></span></div>
-			<div class="h2 consultation js-question-button-consultation">2. <span><?php _e('Delais / Support de réponse'); ?></span></div>
+			<div class="h2 consultation js-question-button-consultation">2. <span><?php _e('Delais / Service'); ?></span></div>
 			<div class="h2 question js-question-button-ma-question">3. <span><?php _e('Ma question'); ?></span></div>
 
 		</div>
 		<div class="details">
 			<div class="niveau-expertise js-question-tab-expertise open">
 				<div class="">
-					<?php 
-						$supports = CriListSupport();
+					<?php
+						$expertises = CriListAllSupportsByExpertises();
 						// var_dump($supports)
 					 ?>
 				</div>
 				<div id="owl-niveau-expertise" class="owl-carousel">
+                    <?php foreach ($expertises as $data): ?>
+                        <div
+                            data-analytics="<?php echo $data->id ?>question"
+                            class="item">
+                            <input
+                                title="niveau hidden"
+                                id="niveau-<?php echo $data->id ?>"
+                                type="radio"
+                                name="niveau"
+                                value="<?php echo $data->id ?>"
+                                data-value="niveau-<?php echo $data->id ?>"
+                                class="hidden js-question-expertise-radio">
 
-		            <div class="item analytics_initial_question">
-		            	<input title="niveau hidden" id="niveau-initial" type="radio" name="niveau-initial" value="niveau-initial" data-value="niveau-initial" class="hidden js-question-expertise-radio">
-		              	
-		              	<p class="description">
-		              		Lorem ipsum Sunt irure occaecat consectetur in cupidatat sint proident Ut ut laborum nisi laborum nulla irure pariatur reprehenderit quis eiusmod id aliqua incididunt culpa cillum cupidatat sed dolore aute exercitation veniam culpa.
-		              	</p>
-		              	<a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
-		              	<span class="label">Initial</span>
-		            </div>
-		            <div class="item analytics_medium_question">
-		            	<input title="niveau hidden" id="niveau-medium" type="radio" name="niveau-meidum" value="niveau-medium" data-value="niveau-medium" class="hidden js-question-expertise-radio">
-		            	<p class="description">
-		              		Lorem ipsum Sunt irure occaecat consectetur in cupidatat sint proident Ut ut laborum nisi laborum nulla irure pariatur reprehenderit quis eiusmod id aliqua incididunt culpa cillum cupidatat sed dolore aute exercitation veniam culpa.
-		              	</p>
-		              	<a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
-		              	<span class="label">Médium</span>
-		              	
-		            </div>
-		            <div class="item analytics_expert_question">
-		            	<input title="niveau hidden" id="niveau-expert" type="radio" name="niveau-expert" value="niveau-expert" data-value="niveau-expert" class="hidden js-question-expertise-radio">
-		              	<p class="description">
-		              		Lorem ipsum Sunt irure occaecat consectetur in cupidatat sint proident Ut ut laborum nisi laborum nulla irure pariatur reprehenderit quis eiusmod id aliqua incididunt culpa cillum cupidatat sed dolore aute exercitation veniam culpa.
-		              	</p>
-		              	<a href="#" title="En savoir plus"><span><?php _e('En savoir plus'); ?></span></a>
-		              	<span class="label">Expert</span>
-		            </div>
-		       
+                            <p class="description">
+                                <?php echo $data->description; ?>
+                            </p>
+                            <a href="<?php echo $data->document; ?>" title="En savoir plus" target="_blank" onclick="event.stopPropagation()"><span><?php _e('En savoir plus'); ?></span></a>
+                            <span class="label"><?php echo $data->label_front; ?></span>
+                        </div>
+                    <?php endforeach; ?>
 		        </div>
-				
+
 			</div>
 			<div class="consultation js-question-tab-consultation">
-				<div class="">
-					<?php 
-						$supports = CriListSupport();
-						// var_dump($supports)
-					 ?>
-				</div>
-				<div id="owl-support" class="owl-carousel">
-				<?php foreach ($supports as $key => $support): ?>
-		            <div class="item analytics_<?php echo $support->label_front; ?>_question">
-		            	<input title="support hidden" id="support_<?php echo $support->id ?>" type="radio" name="question_support" value="<?php echo $support->id ?>" data-value="<?php echo $support->value ; ?>" class="hidden js-question-support-radio">
-		              	<span class="label"><?php echo $support->label_front; ?></span>
-		              	<p class="description">
-		              		<?php echo $support->description; ?>
-		              	</p>
-		            </div>
-		        <?php endforeach; ?>
-		        </div>
-				
-			</div>
+
+                <div id="owl-support" class="owl-carousel">
+                    <?php $expid = false; ?>
+                    <?php foreach ($expertises as $data) : ?>
+                        <?php $supports = $data->supports; ?>
+                        <?php foreach ($supports as $key => $support): ?>
+                            <?php $expid = ($expid == false) ? $support->id_expertise : $expid ?>
+                                <?php if ($expid == $support->id_expertise) : ?>
+                                <div
+                                    data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
+                                    data-order="<?php echo $support->order ; ?>"
+                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> <?php echo $support->icon; ?> ">
+                                    <input
+                                        title="support hidden"
+                                        id="support_<?php echo $support->id ?>"
+                                        type="radio"
+                                        name="question_support"
+                                        value="<?php echo $support->id ?>"
+                                        data-value="<?php echo $support->value ; ?>"
+                                        data-expertise-id="<?php echo $support->id_expertise ; ?>"
+                                        class="hidden js-question-support-radio">
+                                    
+                                    <p class="description">
+                                        <?php echo $support->description; ?>
+                                    </p>
+                                    <a href="<?php echo $support->document; ?>" title="En savoir plus" target="_blank" onclick="event.stopPropagation()"><span><?php _e('En savoir plus'); ?></span></a>
+                                    <span class="label"><?php echo $support->label_front; ?></span>
+                                </div>
+                                <?php endif; ?>
+
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+
+                </div>
+                <div class="hidden js-support-hidden">
+                    <?php foreach ($expertises as $data) : ?>
+                        <?php $supports = $data->supports; ?>
+                        <?php foreach ($supports as $key => $support): ?>
+                            <?php $expid = ($expid == false) ? $support->id_expertise : $expid ?>
+                            <?php if ($expid != $support->id_expertise) : ?>
+
+                                <div
+                                    data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
+                                    data-order="<?php echo $support->order ; ?>"
+                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> <?php echo $support->icon; ?> ">
+                                    <input
+                                        title="support hidden"
+                                        id="support_<?php echo $support->id ?>"
+                                        type="radio"
+                                        name="question_support"
+                                        value="<?php echo $support->id ?>"
+                                        data-value="<?php echo $support->value ; ?>"
+                                        data-expertise-id="<?php echo $support->id_expertise ; ?>"
+                                        class="hidden js-question-support-radio">
+                                    
+                                    <p class="description">
+                                        <?php echo $support->description; ?>
+                                    </p>
+                                    <a href="<?php echo $support->document; ?>" title="En savoir plus" target="_blank" onclick="event.stopPropagation()"><span><?php _e('En savoir plus'); ?></span></a>
+                                    <span class="label"><?php echo $support->label_front; ?></span>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
+
+            </div>
 			<div class="question js-question-tab-ma-question">
 				<div class="block_gauche">
 					<div class="img"></div>

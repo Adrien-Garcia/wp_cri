@@ -443,7 +443,7 @@ class QueryBuilder{
         }
         $sql .= ' ORDER BY ';
         if( isset( $options['order'] ) ){
-            if (strpos($options['order'],'DESC') !== false || strpos($options['order'],'ASC') !== false){
+            if (trim($options['order']) == 'DESC' || trim($options['order']) == 'ASC'){
                 $sql .= $primaryKey.' '.$options['order'];
             } else {
                 $sql .= ' '.$options['order'];

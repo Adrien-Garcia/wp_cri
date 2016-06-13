@@ -11,8 +11,8 @@
 
 #layer-posez-question{
 	
-	width: 660px;
-	max-width: 660px;
+	width: 709px;
+	max-width: 709px;
 	margin:0 auto;
 	padding: 0;
 	background: transparent;
@@ -26,7 +26,7 @@
 		> .titre{
 
 			height: 90px;
-			padding-left: 30px;
+			padding:0 30px;
 
 			.close_layer{
 				position: absolute;
@@ -60,10 +60,7 @@
 				line-height: 90px;
 				height: 90px;
 				padding-left: 60px;
-
-
-			//height: 18px;
-
+				margin-left: 0;
 
 				&:before{
 					@include svgicon('icon-consulter', 40px, 40px, #FFFFFF);
@@ -76,20 +73,27 @@
 				}
 
 			}
+
+			.expertise{				
+				top: 31px;
+				left: 420px;
+				font-size: 25px;
+			}
 			
 		}
 
 		.onglets{
 
 			
-			width: 620px;
-			margin-left:10px;
+			width: 648px;
+			margin:0 auto;
 
 
 			.h2{
-				width: auto;	
+				width: 33.33%;	
 				font-size: 20px;
 				padding: 0 5px;
+				text-align: left;
 
 				span{
 					display: inline;
@@ -104,13 +108,13 @@
 			}
 
 			.h2.open{				
-				width: auto;
+				width: 216px;
 			}
 		}
 
 		.details{
 			
-			width: 620px;
+			width: 648px;
 			margin:0 auto; 
 			
 
@@ -121,11 +125,15 @@
 					
 
 					.owl-item{
+
+						height: 384px;
 						
 
-						.item{						
+						.item{	
 
-							margin-right: 10px;
+							width: 196px;
+							margin: 180px 0 0 0;
+							padding-top: 15px;
 
 							&:before{								
 								
@@ -138,7 +146,7 @@
 						}
 
 						.description{
-							width: 180px; 
+							width: 100%; 
 						}
 
 						a{
@@ -154,87 +162,41 @@
 								position: absolute;
 								left: 50%;
 								margin-left: -24px;
-								bottom:-14px;
+								bottom:40px;
 							}
 
 						}
 
 						.description{							
 							text-align: center;
+							text-align: justify;
+							height: 72px;
 						}
 
+						&:nth-child(2){
+							.item{
+								margin-left: 10px;
+							}
+						}
+						&:last-child{
+							.item{
+								margin-left: 18px;
+							}
+						}
+
+					}
+
+					.owl-nav{
+						display: none;
 					}
 
 				}				
 
 			}
 
-			.niveau-expertise{ /* 1er owl carousel */
+			
 
-				#owl-niveau-expertise{
-
-					.owl-item{
-						//height: 356px;
-
-						.item{
-							width: 190px;
-							margin: 180px auto 0 auto;
-
-							&:before{
-								//top:-160px;
-							}
-
-							.label{
-
-								/*height: 42px;
-								line-height: 42px;
-								font-size: 18px;*/
-
-								&:before{
-									/*@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
-									@include rotate(180);
-									bottom:41px;*/
-								}
-								
-							}
-						}
-
-						&:first-child{
-							.item{
-								&:before{
-									/*@include svgicon('ico-expertise-initial', 120px, 120px, $vj_03);
-									margin-left: -60px;	*/							
-								}
-
-							}
-						}
-						&:nth-child(2){
-							.item{
-								&:before{
-									/*@include svgicon('ico-expertise-medium', 120px, 120px, $vj_03);
-									margin-left: -60px;	*/
-								}
-
-							}
-						}
-						&:last-child{
-							.item{
-								&:before{
-									/*@include svgicon('ico-expertise-expert', 120px, 120px, $vj_03);	
-									margin-left: -60px;	*/
-									//top: -130px;		 				
-								}
-
-							}
-						}
-						
-
-					}
-
-					
-				}
-
-			}
+			
 
 
 
@@ -287,10 +249,6 @@
 				}
 
 			}
-
-			
-			
-
 			
 		}
 
@@ -313,7 +271,7 @@
 			width: 640px;
 			margin-top: 20px;
 
-			margin-left: 10px;
+			margin-left: 30px;
 
 			.block {
 				
