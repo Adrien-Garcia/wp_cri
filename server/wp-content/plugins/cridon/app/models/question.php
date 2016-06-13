@@ -959,20 +959,8 @@ class Question extends \App\Override\Model\CridonMvcModel
                 }
                 // id_support change -> Send mail
                 if (isset($data[$adapter::QUEST_YCODESUP]) && isset($question) && !empty($question->id_support)
-                    && (
-                         ( $question->id_support == CONST_SUPPORT_3_TO_4_WEEKS_INITIALE_ID
-                         &&   (in_array(intval($data[$adapter::QUEST_YCODESUP]),Config::$declassement3To4WeeksInitiale) ))
-                      || ( $question->id_support == CONST_SUPPORT_2_DAYS_INITIALE_ID
-                         &&   (in_array(intval($data[$adapter::QUEST_YCODESUP]),Config::$declassement2DaysInitiale) ))
-                      || ( $question->id_support == CONST_SUPPORT_5_DAYS_MEDIUM_ID
-                         &&   (in_array(intval($data[$adapter::QUEST_YCODESUP]),Config::$declassement5DaysMedium) ))
-                      || ( $question->id_support == CONST_SUPPORT_RDV_TEL_MEDIUM_ID
-                         &&   (in_array(intval($data[$adapter::QUEST_YCODESUP]),Config::$declassementRdvTelMedium) ))
-                      || ( $question->id_support == CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID
-                         &&   (in_array(intval($data[$adapter::QUEST_YCODESUP]),Config::$declassement3To4WeeksExpert) ))
-                      || ( $question->id_support == CONST_SUPPORT_DOSSIER_EXPERT_ID
-                         &&   (in_array(intval($data[$adapter::QUEST_YCODESUP]),Config::$declassementDossierExpert) ))
-                        )
+                    && (!empty(Config::$declassement[$question->id_support])
+                    && in_array(intval($data[$adapter::QUEST_YCODESUP]),Config::$declassement[$question->id_support]))
                     && (intval($data[$adapter::QUEST_YCODESUP]) != $question->id_support)
                     && isset($data[$adapter::QUEST_YSREASS])
                     && intval($data[$adapter::QUEST_YSREASS]) == 1)
