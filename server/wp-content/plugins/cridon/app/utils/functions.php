@@ -726,6 +726,27 @@ function CriListAllSupportsByExpertises()
     return $expertises;
 }
 
+
+function CriListExpertiseBySupport($supportLabelFront){
+    $options = array(
+        'fields' => 'ex.*',
+        'synonym' => 'es',
+        'join' => array(
+            array(
+                'table' => 'expertise ex',
+                'column' => 'ex.id = es.id_expertise'
+            ),
+            array(
+                'table' => 'support s',
+                'column' => 's.id = es.id_support'
+            )
+        ),
+        'conditions' => 's.label_front = \''.$supportLabelFront.'\''
+    );
+    $expertise = mvc_model('QueryBuilder')->findAll('expertise_support',$options,'ex.id' );
+    return $expertise[0];
+}
+
 /*
  * End restore
  */
@@ -1033,14 +1054,14 @@ function CriSendPostQuestConfirmation($question) {
         if ($dest) {
             // prepare message
             $subject = Config::$mailSubjectQuestionStatusChange['1'];
-            //TODO Add expertise after mix produit is implemented
+            $expertise = CriListExpertiseBySupport($question['support']);
             $vars    = array(
                 'resume'          => $question['resume'],
                 'content'         => $question['content'],
                 'matiere'         => $question['matiere'],
                 'competence'      => $question['competence'],
                 'support'         => $question['support'],
-                'expertise'       => '',
+                'expertise'       => $expertise->label_front,
                 'creation_date'   => $question['dateSoumission'],
                 'date'            => $question['dateSoumission'],
                 'notaire'         => $notary,

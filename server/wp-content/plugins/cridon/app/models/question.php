@@ -1133,10 +1133,10 @@ class Question extends \App\Override\Model\CridonMvcModel
                     }
 
 
-                    //TODO Add expertise after mix produit is implemented
+                    $expertise = CriListExpertiseBySupport($support);
                     $vars = array (
                         'numero_question'  => $srenum,
-                        'expertise'        => '',
+                        'expertise'        => $expertise->label_front,
                         'support'          => $support,
                         'matiere'          => $matiere,
                         'competence'       => $competence,
