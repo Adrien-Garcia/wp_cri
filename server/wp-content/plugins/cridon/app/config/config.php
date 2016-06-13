@@ -167,7 +167,13 @@ class Config {
         CONST_SUPPORT_URG48H_ID,
         CONST_SUPPORT_URGWEEK_ID,
         CONST_SUPPORT_NON_FACTURE,
-        CONST_SUPPORT_MES_DIANE
+        CONST_SUPPORT_MES_DIANE,
+        CONST_SUPPORT_3_TO_4_WEEKS_INITIALE_ID,
+        CONST_SUPPORT_2_DAYS_INITIALE_ID,
+        CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+        CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+        CONST_SUPPORT_DOSSIER_EXPERT_ID
     );
 
     //Notification for published post
@@ -826,6 +832,41 @@ class Config {
     public static $cridonlineLevels = array (
         CONST_CRIDONLINE_LEVEL_2,
         CONST_CRIDONLINE_LEVEL_3
+    );
+
+    public static $declassement3To4WeeksInitiale = array(
+        CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+        CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+        CONST_SUPPORT_DOSSIER_EXPERT_ID
+    );
+
+    public static $declassement2DaysInitiale = array(
+        CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+        CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+        CONST_SUPPORT_DOSSIER_EXPERT_ID
+    );
+
+    public static $declassement5DaysMedium = array(
+        CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+        CONST_SUPPORT_DOSSIER_EXPERT_ID
+    );
+
+    public static $declassementRdvTelMedium = array(
+        CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+        CONST_SUPPORT_DOSSIER_EXPERT_ID
+    );
+
+    public static $declassement3To4WeeksExpert = array(
+        CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+        CONST_SUPPORT_DOSSIER_EXPERT_ID
+    );
+
+    public static $declassementDossierExpert = array(
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID
     );
 
     //HOTFIX poser question mobile support non correct
