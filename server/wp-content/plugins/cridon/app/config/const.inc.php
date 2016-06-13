@@ -591,41 +591,6 @@ if ( !defined( 'CONST_CRIDONLINE_DOCUMENT_EXCELLENCE' ) ) {
     define( 'CONST_CRIDONLINE_DOCUMENT_EXCELLENCE', $uploadDir['baseurl'] . '/documentsCridon/Description-CRIDONLINE-excellence.pdf' );
 }
 
-
-if ( !defined( 'CONST_MIX_PRODUIT_INITIALE' ) ) {
-    $uploadDir = wp_upload_dir();
-    define( 'CONST_MIX_PRODUIT_INITIALE', $uploadDir['baseurl'] . '/documentsCridon/Expertises.pdf' );
-}
-if ( !defined( 'CONST_MIX_PRODUIT_INITIALE_48' ) ) {
-    $uploadDir = wp_upload_dir();
-    define( 'CONST_MIX_PRODUIT_INITIALE_48', $uploadDir['baseurl'] . '/documentsCridon/Initiale-48h.pdf' );
-}
-if ( !defined( 'CONST_MIX_PRODUIT_INITIALE_LETTRE' ) ) {
-    $uploadDir = wp_upload_dir();
-    define( 'CONST_MIX_PRODUIT_INITIALE_LETTRE', $uploadDir['baseurl'] . '/documentsCridon/Initiale-lettre.pdf' );
-}
-if ( !defined( 'CONST_MIX_PRODUIT_MEDIUM_RDV_TELEPHONIQUE' ) ) {
-    $uploadDir = wp_upload_dir();
-    define( 'CONST_MIX_PRODUIT_MEDIUM_RDV_TELEPHONIQUE', $uploadDir['baseurl'] . '/documentsCridon/Medium-rdv-telephonique.pdf' );
-}
-if ( !defined( 'CONST_MIX_PRODUIT_MEDIUM_SEMAINE' ) ) {
-    $uploadDir = wp_upload_dir();
-    define( 'CONST_MIX_PRODUIT_MEDIUM_SEMAINE', $uploadDir['baseurl'] . '/documentsCridon/Medium-semaine.pdf' );
-}
-
-if ( !defined( 'CONST_MIX_PRODUIT_EXPERT_LETTRE' ) ) {
-    $uploadDir = wp_upload_dir();
-    define( 'CONST_MIX_PRODUIT_EXPERT_LETTRE', $uploadDir['baseurl'] . '/documentsCridon/Expert-lettre.pdf' );
-}
-if ( !defined( 'CONST_MIX_PRODUIT_EXPERT_DOSIER' ) ) {
-    $uploadDir = wp_upload_dir();
-    define( 'CONST_MIX_PRODUIT_EXPERT_DOSIER', $uploadDir['baseurl'] . '/documentsCridon/Expert-dossier.pdf' );
-}
-
-
-
-
-
 if ( !defined( 'CONST_IMPORT_FILE_TYPE' ) ) {
     define( 'CONST_IMPORT_FILE_TYPE', 'txt' );
 }
