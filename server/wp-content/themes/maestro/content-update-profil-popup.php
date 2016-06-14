@@ -37,14 +37,15 @@
         <div class="message-erreur js-account-profil-modify-message"></div>
         <div class="message-erreur js-account-profil-modify-message-email hidden">
             <div>
-                La modification de votre adresse email se fait sous votre entière responsabilité.
-
-                L'adresse email doit être unique à chaque utilisateur.
-
+                <p>La modification de votre adresse email se fait sous <span>votre entière responsabilité</span>.</p>
+                <p>L'adresse email doit être <span>unique</span> à chaque utilisateur.</p>
+                
                 Elle conditionne les règles de confidentialité et de personnalisation de votre compte :
-                . droits d'accès différents (accès aux informations financières ou non, droit de poser ou non des questions écrites et ou téléphoniques ...)
-                . inscription à la newsletter en fonction de vos centres d'intérêts
-                . utilisation personnalisée des fonctions avancées du moteur de recherche transversal (favoris, commentaires, recherches enregistrées, alertes email)
+                <ul>
+                    <li>- <span>Droits d'accès différents</span> (accès aux informations financières ou non, droit de poser ou non des questions écrites et ou téléphoniques ...)</li>
+                    <li>- <span>Inscription à la newsletter</span> en fonction de vos centres d'intérêts</li>
+                    <li>- Utilisation <span>personnalisée</span> des fonctions avancées du moteur de recherche transversal (favoris, commentaires, recherches enregistrées, alertes email)</li>
+                </ul>
             </div>
         </div>
         <div class="submit">

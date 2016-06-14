@@ -846,6 +846,22 @@ input[type="email"]{
 			border-left:solid 5px $rouge;
 			padding: 10px 0 10px 15px;
 			color:$rouge;
+
+			span{
+				font-family: $helvetica-bold;
+			}
+
+			>ul{
+				margin: 5px 0;
+
+				>li{
+					margin: 3px 0;
+				}
+			}
+
+			>p{
+				margin: 5px 0;
+			}
 		}
 		
 	}
@@ -1076,3 +1092,4 @@ input[type="email"]{
 		
 
 }
+
