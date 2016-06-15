@@ -70,51 +70,56 @@ class CridonLoader extends MvcPluginLoader
                 if (!empty($updates)) {
                     ksort($updates);
                     foreach ($updates as $v => $sql) {
-                        //If ALTER QUERY
-                        if ( preg_match_all( "|ALTER TABLE ([a-zA-Z0-9`_\s(),]*)|", $sql, $matches ) ) {
-                            if( !empty( $matches[0] ) ){
-                                foreach( $matches[0] as $alter ){
-                                    $wpdb->query( $alter );
+                        try {
+                            if (preg_match_all("|DROP TABLE ([a-zA-Z0-9`_\s]*)|", $sql, $matches)) { // drop
+                                if (!empty($matches[0])) {
+                                    foreach ($matches[0] as $query) {
+                                        if ($query) {
+                                            $wpdb->query($query);
+                                        }
+                                    }
                                 }
                             }
-                        }else{
-                            //If UPDATE
-                            //Separate queries with a '#'
-                            if ( preg_match_all( "|(UPDATE ([a-zA-Z0-9`_\s()={}':\";\-éèà@ùê&]*);)|", $sql, $matches ) ) {
-                                if( !empty( $matches[0] ) ){
-                                    foreach( $matches[0] as $update ){
-                                        $wpdb->query( $update );
-                                    }
-                                }
-                            } elseif( preg_match_all( "|TRUNCATE ([a-zA-Z0-9`_\s()]*)|", $sql, $matches ) ) { // truncate
-                                if( !empty( $matches[0] ) ){
-                                    foreach( $matches[0] as $query ){
-                                        if ($query)  {
-                                            $wpdb->query( $query );
-                                        }
-                                    }
-                                }
-                            } elseif( preg_match_all( "|INSERT ([a-zA-Z0-9`_\s(),':\";\-\/\\\\éèà@ùê&]*)|", $sql, $matches ) ) { // insert
-                                if( !empty( $matches[0] ) ){
-                                    foreach( $matches[0] as $query ){
-                                        if ($query)  {
-                                            $wpdb->query( $query );
-                                        }
-                                    }
-                                }
-                            } elseif ( preg_match_all( "|DROP ([a-zA-Z0-9`_\s]*)|", $sql, $matches ) ) { // drop
-                                if( !empty( $matches[0] ) ){
-                                    foreach( $matches[0] as $query ){
-                                        if ($query)  {
-                                            $wpdb->query( $query );
-                                        }
-                                    }
-                                }
-                            }else{
-                                //TODO surround with try/catch
-                                // Use dbDelta() to create the tables for the app here
+                            if (preg_match("/^CREATE\s+(?:TEMPORARY\s+)?TABLE\s+(?:IF NOT EXISTS\s+)?([^\s]+)/i", $tableDef, $matches)) {
                                 dbDelta($sql);
                             }
+                            //If ALTER QUERY
+                            if (preg_match_all("|ALTER TABLE ([a-zA-Z0-9`_\s(),]*)|", $sql, $matches)) {
+                                if (!empty($matches[0])) {
+                                    foreach ($matches[0] as $alter) {
+                                        $wpdb->query($alter);
+                                    }
+                                }
+                            }
+
+                            if (preg_match_all("|(UPDATE ([a-zA-Z0-9`_\s()={}':\";\-éèà@ùê&\'\.]*);)|", $sql, $matches)) {
+                                if (!empty($matches[0])) {
+                                    foreach ($matches[0] as $update) {
+                                        $wpdb->query($update);
+                                    }
+                                }
+                            }
+                            if (preg_match_all("|TRUNCATE ([a-zA-Z0-9`_\s()]*)|", $sql, $matches)) { // truncate
+                                if (!empty($matches[0])) {
+                                    foreach ($matches[0] as $query) {
+                                        if ($query) {
+                                            $wpdb->query($query);
+                                        }
+                                    }
+                                }
+                            }
+                            if (preg_match_all("|INSERT ([a-zA-Z0-9`_\s(),':\";\-\/\\\\éèà@ùê&\'\.]*)|", $sql, $matches)) { // insert
+                                if (!empty($matches[0])) {
+                                    foreach ($matches[0] as $query) {
+                                        if ($query) {
+                                            $wpdb->query($query);
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (Exception $e) {
+                            writeLog($e->getMessage(), 'executeMigrationsSQL.log');
+                            die();
                         }
 
                         // Update last known version
