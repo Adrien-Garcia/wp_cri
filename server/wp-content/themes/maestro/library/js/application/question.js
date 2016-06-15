@@ -321,6 +321,14 @@ App.Question = {
             });
         }
 
+        var submitFunc = function (e) {
+            self.eventSubmitQuestion($(this));
+            return false;
+        };
+
+        this.$formQuestion.off('submit', submitFunc);
+        this.$formQuestion.on('submit', submitFunc);
+
         this.debug("Question : addListeners end");
     },
     addListenersAfterOwl: function() {
@@ -340,11 +348,6 @@ App.Question = {
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
-        });
-
-        this.$formQuestion.on('submit', function (e) {
-            self.eventSubmitQuestion($(this));
-            return false;
         });
 
     },
