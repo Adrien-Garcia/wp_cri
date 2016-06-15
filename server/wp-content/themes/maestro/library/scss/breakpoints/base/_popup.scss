@@ -1,5 +1,11 @@
 /* POPUP POSEZ UNE QUESTION */
 
+.noscroll{
+	position:fixed;
+    overflow:hidden;
+    width: 100%;
+}
+
 #layer-posez-question{
 	width:100%;
 	height: auto;

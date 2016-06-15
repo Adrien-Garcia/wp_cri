@@ -148,16 +148,19 @@ App.Question = {
         var self = this;
         this.$popupOverlay.popup({
             transition: 'all 0.3s',
-            scrolllock: true,
             opacity: 0.8,
             color: '#324968',
             offsettop: 10,
+            scrolllock: true, 
             vertical: top,
             onopen: (function() {
                 (this.owlCarouselInit.bind(this))();
                 (this.owlCarouselInit2.bind(this))();
-            }).bind(this)
-
+                $('body').addClass('noscroll');
+            }).bind(this),
+            onclose: (function(){
+                $('body').removeClass('noscroll');
+            }).bind(this),  
         });
     },
 
