@@ -89,7 +89,7 @@ class CridonLoader extends MvcPluginLoader
                                     break;
                                 }
 
-                                // We keep `if` staetements and not `elseif` so if we forget a `;` for queries separator, all of the queries would still be executed.
+                                // We keep `if` statements and not `elseif` so if we forget a `;` for queries separator, all of the queries would still be executed.
                                 if (preg_match_all("|DROP TABLE ([a-zA-Z0-9`_\s]*)|", $query, $matches)) { // drop
                                     if (!empty($matches[0])) {
                                         foreach ($matches[0] as $update) {
