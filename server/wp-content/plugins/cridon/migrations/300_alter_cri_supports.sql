@@ -17,4 +17,5 @@ INSERT INTO cri_support (`id`, `label`, `value` ,`displayed`, `label_front`, `de
 (10, "5 jours", 6, 1, "5 jours", "Cette prestation permet d'obtenir sous 5 jours ouvrés, une consultation écrite portant sur une problématique juridique complexe.", 10, "svg-medium-jours", "documentsCridon/Medium-semaine.pdf"),
 (11, "RDV Téléphonique", 3, 1, "RDV Téléphonique", "Cette prestation permet d'obtenir sous 5 jours ouvrés, une consultation orale portant sur une problématique juridique complexe.", 11, "svg-medium-rdv-tel", "documentsCridon/Medium-rdv-telephonique.pdf"),
 (12, "3 à 4 semaines", 6, 1, "3 à 4 semaines", "Cette prestation permet d'obtenir sous 3 à 4 semaines, une consultation écrite portant sur une problématique juridique très complexe.", 12, "svg-expert-semaines", "documentsCridon/Expert-lettre.pdf"),
-(13, "Dossier", 0, 1, "Dossier", "Cette prestation permet d'obtenir sur devis, une consultation écrite portant sur un dossier juridique très complexe.", 13, "svg-expert-dossier", "documentsCridon/Expert-dossier.pdf");
+(13, "Dossier", 0, 1, "Dossier", "Cette prestation permet d'obtenir sur devis, une consultation écrite portant sur un dossier juridique très complexe.", 13, "svg-expert-dossier", "documentsCridon/Expert-dossier.pdf"),
+(14, "plus de 4 semaines", 2, 0, "Plus de 4 semaines", "", 14, NULL, NULL);
