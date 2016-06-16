@@ -72,16 +72,24 @@ class CridonLoader extends MvcPluginLoader
                     foreach ($updates as $v => $sql) {
                         try {
                             // Remove all \n from the query
-                            $sql = trim(preg_replace('/\s+/', ' ', $sql));
+                            $sql = preg_replace('/\s+/', ' ', $sql);
                             // Separate queries from one another
-                            // The regex should take every caracters possible inside of a query... The counterpart is that we cannot have any queries containing a ';'
-                            if (!preg_match_all("|([a-zA-Z0-9`_\s()={}':\"\-éèà@ùê&\'\.\/\,]+;)|", $sql, $queries)){
+                            // The counterpart is that we cannot have any queries containing a ';'
+                            $queries = explode(";", $sql);
+                            if (empty($queries)){
                                 writeLog('query does not contain any \';\'  -> query : '.$sql, 'executeMigrationsSQL.log');
                                 echo 'An error occured while parsing the sql syntax';
                                 die();
                             }
 
-                            foreach($queries[0] as $query){
+                            foreach($queries as $query){
+                                // Last row in array after explode can be a single space.
+                                $testEmpty = trim($query);
+                                if (empty($testEmpty)){
+                                    break;
+                                }
+
+                                // We keep `if` staetements and not `elseif` so if we forget a `;` for queries separator, all of the queries would still be executed.
                                 if (preg_match_all("|DROP TABLE ([a-zA-Z0-9`_\s]*)|", $query, $matches)) { // drop
                                     if (!empty($matches[0])) {
                                         foreach ($matches[0] as $update) {
