@@ -71,54 +71,67 @@ class CridonLoader extends MvcPluginLoader
                     ksort($updates);
                     foreach ($updates as $v => $sql) {
                         try {
-                            if (preg_match_all("|DROP TABLE ([a-zA-Z0-9`_\s]*)|", $sql, $matches)) { // drop
-                                if (!empty($matches[0])) {
-                                    foreach ($matches[0] as $query) {
-                                        if ($query) {
-                                            $wpdb->query($query);
-                                        }
-                                    }
-                                }
-                            }
-                            if (preg_match("/^CREATE\s+(?:TEMPORARY\s+)?TABLE\s+(?:IF NOT EXISTS\s+)?([^\s]+)/i", $tableDef, $matches)) {
-                                dbDelta($sql);
-                            }
-                            //If ALTER QUERY
-                            if (preg_match_all("|ALTER TABLE ([a-zA-Z0-9`_\s(),]*)|", $sql, $matches)) {
-                                if (!empty($matches[0])) {
-                                    foreach ($matches[0] as $alter) {
-                                        $wpdb->query($alter);
-                                    }
-                                }
+                            // Remove all \n from the query
+                            $sql = trim(preg_replace('/\s+/', ' ', $sql));
+                            // Separate queries from one another
+                            // The regex should take every caracters possible inside of a query... The counterpart is that we cannot have any queries containing a ';'
+                            if (!preg_match_all("|([a-zA-Z0-9`_\s()={}':\"\-éèà@ùê&\'\.\/\,]+;)|", $sql, $queries)){
+                                writeLog('query does not contain any \';\'  -> query : '.$sql, 'executeMigrationsSQL.log');
+                                echo 'An error occured while parsing the sql syntax';
+                                die();
                             }
 
-                            if (preg_match_all("|(UPDATE ([a-zA-Z0-9`_\s()={}':\";\-éèà@ùê&\'\.]*);)|", $sql, $matches)) {
-                                if (!empty($matches[0])) {
-                                    foreach ($matches[0] as $update) {
-                                        $wpdb->query($update);
-                                    }
-                                }
-                            }
-                            if (preg_match_all("|TRUNCATE ([a-zA-Z0-9`_\s()]*)|", $sql, $matches)) { // truncate
-                                if (!empty($matches[0])) {
-                                    foreach ($matches[0] as $query) {
-                                        if ($query) {
-                                            $wpdb->query($query);
+                            foreach($queries[0] as $query){
+                                if (preg_match_all("|DROP TABLE ([a-zA-Z0-9`_\s]*)|", $query, $matches)) { // drop
+                                    if (!empty($matches[0])) {
+                                        foreach ($matches[0] as $update) {
+                                            if ($update) {
+                                                $wpdb->query($update);
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            if (preg_match_all("|INSERT ([a-zA-Z0-9`_\s(),':\";\-\/\\\\éèà@ùê&\'\.]*)|", $sql, $matches)) { // insert
-                                if (!empty($matches[0])) {
-                                    foreach ($matches[0] as $query) {
-                                        if ($query) {
-                                            $wpdb->query($query);
+                                if (preg_match("/^CREATE\s+(?:TEMPORARY\s+)?TABLE\s+(?:IF NOT EXISTS\s+)?([^\s]+)/i", $query, $matches)) {
+                                    dbDelta($query);
+                                }
+                                //If ALTER QUERY
+                                if (preg_match_all("|ALTER TABLE ([a-zA-Z0-9`_\s(),]*)|", $query, $matches)) {
+                                    if (!empty($matches[0])) {
+                                        foreach ($matches[0] as $alter) {
+                                            $wpdb->query($alter);
+                                        }
+                                    }
+                                }
+
+                                if (preg_match_all("|(UPDATE ([a-zA-Z0-9`_\s()={}':\";\-éèà@ùê&\'\.]*);)|", $query, $matches)) {
+                                    if (!empty($matches[0])) {
+                                        foreach ($matches[0] as $update) {
+                                            $wpdb->query($update);
+                                        }
+                                    }
+                                }
+                                if (preg_match_all("|TRUNCATE ([a-zA-Z0-9`_\s()]*)|", $query, $matches)) { // truncate
+                                    if (!empty($matches[0])) {
+                                        foreach ($matches[0] as $update) {
+                                            if ($update) {
+                                                $wpdb->query($update);
+                                            }
+                                        }
+                                    }
+                                }
+                                if (preg_match_all("|INSERT ([a-zA-Z0-9`_\s(),':\";\-\/\\\\éèà@ùê&\'\.]*)|", $query, $matches)) { // insert
+                                    if (!empty($matches[0])) {
+                                        foreach ($matches[0] as $update) {
+                                            if ($update) {
+                                                $wpdb->query($update);
+                                            }
                                         }
                                     }
                                 }
                             }
                         } catch (Exception $e) {
                             writeLog($e->getMessage(), 'executeMigrationsSQL.log');
+                            echo 'An error occured while executing a query';
                             die();
                         }
 
@@ -156,6 +169,7 @@ class CridonLoader extends MvcPluginLoader
         updateEmptyDownloadUrlFieldsDocument();
 
         update_option('cridon_db_version', $this->db_version);
+        echo 'The execution of all queries is successful';
     }
 
     public function deactivate()
