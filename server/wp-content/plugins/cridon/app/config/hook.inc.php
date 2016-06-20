@@ -311,25 +311,29 @@ add_action( 'admin_head-user-edit.php', 'cri_profile_subject_start' );
 add_action( 'admin_footer-user-edit.php', 'cri_profile_subject_end' );
 
 
-function on_publish_future_post( $post ) {
-    /**
-     * Ce hook démarre lorsqu'un article passe de planifier à publier.
-     * Manuellement ou chnager automatiquement par WP lorsqu'il y a une visite sur le site (BO ou FO)
-     */
-    if( ( $post->post_type != 'post' ) ){
+/**
+ * Envoi email si un post est publié
+ * hook -> https://codex.wordpress.org/Post_Status
+ *
+ * @param $new_status
+ * @param $old_status
+ * @param $post
+ */
+function send_post_email( $new_status, $old_status, $post ) {
+    if (get_post_type($post) !== 'post')
         return;
-    }
-    foreach( Config::$data as $modelConf ){
-        if( ($model = findBy( $modelConf['name'], $post->ID ) ) != null ){//already create
-             sendNotificationForPostPublished($post, $model);
-             break;
+
+    // If the post is published and is not an edit => Send email
+    if( $new_status === 'publish' && $old_status !== 'publish' ) {
+        foreach( Config::$data as $modelConf ){
+            if( ($model = findBy( $modelConf['name'], $post->ID ) ) != null ){//already create
+                sendNotificationForPostPublished($post, $model);
+                break;
+            }
         }
     }
 }
-/**
- * @see https://codex.wordpress.org/Post_Status_Transitions
- */
-add_action(  'future_to_publish',  'on_publish_future_post', 10, 1 );
+add_action('transition_post_status', 'send_post_email', 10, 3);
 
 /**
  * Hook add new post link (only apply on Cridon modele )
