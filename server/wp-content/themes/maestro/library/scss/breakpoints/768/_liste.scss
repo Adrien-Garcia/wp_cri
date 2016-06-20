@@ -20,7 +20,7 @@
 		padding-top: 30px;
 
 		a{
-			@extend .do-re;
+			@include do-re;
 			font-size: 15px;
 			color:#818181;
 			text-transform: uppercase;
@@ -175,7 +175,7 @@
 						span.jour{
 							font-size: 72px;
 							line-height: 60px;
-							@extend .do-el;
+							@include do-el;
 						}
 						.mois{
 							font-size: 30px;

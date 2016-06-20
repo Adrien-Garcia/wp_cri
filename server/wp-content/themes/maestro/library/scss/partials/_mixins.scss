@@ -23,6 +23,7 @@ http://web-design-weekly.com/blog/2013/05/12/handy-sass-mixins/
 /*********************
 TRANSITION
 *********************/
+@import "modules/icons";
 
 /*
 I totally rewrote this to be cleaner and easier to use.
@@ -88,16 +89,16 @@ ICONES SVG
 */
 
 @mixin svgicon($name, $fontsize, $lineheight, $color){
-    @extend .icon;
-    @extend .icon-#{$name};
+    @include icon;
+    @include icon-before($name);
     font-size:$fontsize;
     line-height:$lineheight;
     color:$color;
 }
 
 @mixin svgiconafter($name, $fontsize, $lineheight, $color){
-    @extend .icon;
-    @extend .icon-#{$name}-after;
+    @include icon;
+    @include icon-after($name);
     font-size:$fontsize;
     line-height:$lineheight;
     color:$color;
@@ -190,7 +191,7 @@ BT style crayon
     color:$color;
     font-size: 10px;
     text-decoration: none;
-    @extend .do-sm;
+    @include do-sm;
     display: block;
     text-align: center;
     text-transform: uppercase;
@@ -285,7 +286,7 @@ Lien souligné avec "+"
 
     &:after{
       content:'+';
-      @extend .do-el;
+      @include do-el;
       font-size: 40px;
       display: block;
       position: absolute;   
@@ -364,7 +365,7 @@ Lien bouton Mon compte rectangle
   color:#FFF;
   text-transform: uppercase;
   font-size: 12px;
-  @extend .do-me;
+  @include do-me;
   position: relative;
   text-decoration: none; 
   transition: all $duration;
@@ -387,7 +388,7 @@ Lien bouton Mon compte rectangle
     font-size: 13px;
     font-family: $dosis;
       font-weight: 500;
-      @extend .do-me;
+      @include do-me;
     text-transform: uppercase;
     line-height: 26px;
     height: 26px;

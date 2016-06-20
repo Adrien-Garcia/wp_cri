@@ -9,10 +9,12 @@
 
 */
 
+
+
 #layer-posez-question{
 	
-	width: 660px;
-	max-width: 660px;
+	width: 709px;
+	max-width: 709px;
 	margin:0 auto;
 	padding: 0;
 	background: transparent;
@@ -20,27 +22,34 @@
 
 
 	.block_top{
-		padding: 10px 10px 0 10px;
 
 		background: #FFF;
 
 		> .titre{
 
+			height: 90px;
+			padding:0 30px;
+
 			.close_layer{
 				position: absolute;
-				right: 10px;
+				right: 30px;
 				top: 50%;
-				margin-top: -20px;
+				margin-top: -19px;
 				display: block;
-				width: 40px;
-				height: 40px;
+				width: 38px;
+				height: 38px;
+				cursor: pointer;
 				
 				&:before{
-					@include svgicon('icon-close-layer-question', 20px, 20px, #FFF);
+					@include svgicon('icon-close-layer-question', 38px, 38px, #FFF);
 					@include rotate(-45);
 					position: absolute;
-					top: 11px;
-					left: 11px;
+					top: 0px;
+					left: 0px;
+				}
+
+				&:hover{
+					opacity: 0.8;
 				}
 
 				
@@ -49,12 +58,28 @@
 
 			.texte{			
 
-			//height: 18px;
+				font-size: 35px;
+				line-height: 90px;
+				height: 90px;
+				padding-left: 60px;
+				margin-left: 0;
 
-
-				&:before{					
+				&:before{
+					@include svgicon('icon-consulter', 40px, 40px, #FFFFFF);
+					font-weight: normal;
+					top: 50%;
+					margin-top: -20px;
+					position: absolute;
+					left: 0; 
+					display: block;
 				}
 
+			}
+
+			.expertise{				
+				top: 31px;
+				left: 420px;
+				font-size: 25px;
 			}
 			
 		}
@@ -62,12 +87,21 @@
 		.onglets{
 
 			
-			width: 620px;
-			margin-left:10px;
+			width: 648px;
+			margin:0 auto;
 
 
 			.h2{
-				width: 50%;				
+				width: 33.33%;	
+				font-size: 20px;
+				padding: 0 5px;
+				text-align: left;
+
+				span{
+					display: inline;
+					@include do-sm
+
+				}			
 
 				&:hover{
 					
@@ -76,29 +110,32 @@
 			}
 
 			.h2.open{				
-				width: 50%;
+				width: 216px;
 			}
 		}
 
 		.details{
 			
-			width: 620px;
+			width: 648px;
 			margin:0 auto; 
 			
 
-			.consultation{
+			.consultation, .niveau-expertise{
 				
 
-				#owl-support{
+				#owl-support, #owl-niveau-expertise{
 					
 
 					.owl-item{
+
+						height: 384px;
 						
 
-						.item{
-							
-							width: 200px;
-							margin-right: 10px;
+						.item{	
+
+							width: 196px;
+							margin: 180px 0 0 0;
+							padding-top: 15px;
 
 							&:before{								
 								
@@ -110,6 +147,14 @@
 
 						}
 
+						.description{
+							width: 100%; 
+						}
+
+						a{
+							font-size: 15px;
+						}
+
 						.label{
 							
 							font-size: 20px;
@@ -119,20 +164,43 @@
 								position: absolute;
 								left: 50%;
 								margin-left: -24px;
-								bottom:-14px;
+								bottom:40px;
 							}
 
 						}
 
 						.description{							
 							text-align: center;
+							text-align: justify;
+							height: 72px;
 						}
 
+						&:nth-child(2){
+							.item{
+								margin-left: 10px;
+							}
+						}
+						&:last-child{
+							.item{
+								margin-left: 18px;
+							}
+						}
+
+					}
+
+					.owl-nav{
+						display: none;
 					}
 
 				}				
 
 			}
+
+			
+
+			
+
+
 
 			.question{
 
@@ -183,10 +251,6 @@
 				}
 
 			}
-
-			
-			
-
 			
 		}
 
@@ -209,7 +273,7 @@
 			width: 640px;
 			margin-top: 20px;
 
-			margin-left: 10px;
+			margin-left: 30px;
 
 			.block {
 				
@@ -307,7 +371,7 @@
 						z-index: 2000;
 						text-decoration: none;
 						text-align: center;
-						@extend .do-el;
+						@include do-el;
 						font-size: 40px;
 						line-height: 20px;
 						padding: 0;
@@ -317,7 +381,7 @@
 					&:hover{
 
 						> a{
-							@extend .do-bo;
+							@include do-bo;
 						}
 					}
 				}

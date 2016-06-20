@@ -87,7 +87,7 @@ div#tableau-de-bord{
 
 			.pts{
 				color:$vert;
-				@extend .do-bo;
+				@include do-bo;
 				font-size: 64px;
 				line-height: 70px;
 				position: absolute;
@@ -99,7 +99,7 @@ div#tableau-de-bord{
 					position: absolute;
 					top: 7px;
 					right: -30px;
-					@extend .do-me;
+					@include do-me;
 					font-size: 20px;
 					line-height: 20px;
 					text-transform: uppercase;

@@ -32,9 +32,22 @@
             <input type="text" name="profil_tel_portable" placeholder="<?php _e('Téléphone mobile'); ?>" id="profil_tel_portable" class="js-account-profil-modify-mobilephone" value="<?php echo empty($collaborator['mobilephone']) ? '' : $collaborator['mobilephone'] ?>">
         </div>
         <div class="fax">
-            <input type="text" name="profil_fax" placeholder="<?php _e('Téléphone Fax'); ?>" id="profil_fax" class="js-account-profil-modify-fax" value="<?php echo empty($collaborator['fax']) ? '' : $collaborator['fax'] ?>">
+            <input type="text" name="profil_fax" placeholder="<?php _e('Fax'); ?>" id="profil_fax" class="js-account-profil-modify-fax" value="<?php echo empty($collaborator['fax']) ? '' : $collaborator['fax'] ?>">
         </div>
         <div class="message-erreur js-account-profil-modify-message"></div>
+        <div class="message-erreur js-account-profil-modify-message-email hidden">
+            <div>
+                <p>La modification de votre adresse email se fait sous <span>votre entière responsabilité</span>.</p>
+                <p>L'adresse email doit être <span>unique</span> à chaque utilisateur.</p>
+                
+                Elle conditionne les règles de confidentialité et de personnalisation de votre compte :
+                <ul>
+                    <li>- <span>Droits d'accès différents</span> (accès aux informations financières ou non, droit de poser ou non des questions écrites et ou téléphoniques ...)</li>
+                    <li>- <span>Inscription à la newsletter</span> en fonction de vos centres d'intérêts</li>
+                    <li>- Utilisation <span>personnalisée</span> des fonctions avancées du moteur de recherche transversal (favoris, commentaires, recherches enregistrées, alertes email)</li>
+                </ul>
+            </div>
+        </div>
         <div class="submit">
             <input type="submit" value="Enregistrer">
         </div>

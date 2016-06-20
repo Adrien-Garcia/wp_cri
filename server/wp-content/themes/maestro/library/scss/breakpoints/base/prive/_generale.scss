@@ -232,7 +232,7 @@
 					line-height: 20px;
 					color:$vert;
 					margin-top: 0;
-					@extend .do-me;
+					@include do-me;
 				}
 
 				p{
@@ -250,7 +250,7 @@
 				width: auto;
 				text-transform: none;
 				font-size: 14px;
-				@extend .do-el;
+				@include do-el;
 				float: none;
 				margin: 0;
 				padding: 0;

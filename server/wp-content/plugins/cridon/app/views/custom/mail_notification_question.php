@@ -67,8 +67,8 @@
                 <?php
                 $home = home_url();
 
-                $modelFile = "banner.png";
-                $alt = "Ma veille juridique";
+                $modelFile = "banner-question.png";
+                $alt = "Poser une question";
                 ?>
                 <img src="<?php echo plugins_url( "../public/images/mail/".$modelFile, dirname(__FILE__) ) ?>" alt="<?php echo $alt ; ?>" />
             </td>
@@ -82,83 +82,47 @@
             <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
 
-                <?php if (! empty($date)) : ?>
-                    <span class="" style="text-transform: uppercase;"><?php echo 'QUESTION DU ' . sprintf(Config::$mailBodyQuestionStatusChange['date'],  $date ); ?></span>
-                <?php endif ?>
-                <br/>
-                <?php if (! empty($numero_question)) : ?>
-                    <span class="" style="text-transform: uppercase;"><?php echo 'N° ' . sprintf(Config::$mailBodyQuestionStatusChange['numero_question'],  $numero_question ); ?></span>
-                <?php endif ?>
 
+                <!-- Mail final ! -->
 
-                <?php if (! empty($matiere)) : ?>
-                    <table>
-                        <tr>
-                            <td width="90" style="width:90px;height:90px;">
-                                <img src="<?php echo $matiere->picto ?>" alt="icon" width="90" height="90" style="width:90px;height:90px;" /><br/>
-                                <span class="section"><?php echo sprintf(Config::$mailBodyQuestionStatusChange['matiere'],  $matiere->label ); ?></span>
-                            </td>
-                            <br/>
+                <?php if ($type_question == 1) : ?> <p><h2> <?php echo sprintf(Config::$mailContentQuestionStatusChange[$type_question],$creation_date,$expertise,$support); ?> </h2></p> <?php endif; ?>
+                <?php if ($type_question == 2) : ?> <p><h2> <?php echo sprintf(Config::$mailContentQuestionStatusChange[$type_question],$numero_question,$affectation_date,$expertise,$support); ?> </h2></p> <?php endif; ?>
+                <?php if ($type_question == 3) : ?> <p><h3> <?php echo sprintf(Config::$mailContentQuestionStatusChange[$type_question][0],$numero_question,$affectation_date); ?> </h3></p>
+                                                    <p><h2> <?php echo sprintf(Config::$mailContentQuestionStatusChange[$type_question][1],$support); ?> </h2></p><?php endif; ?>
+                <?php if ($type_question == 4) : ?> <p><h2> <?php echo sprintf(Config::$mailContentQuestionStatusChange[$type_question][0],$numero_question,$expertise,$support,$affectation_date,$juriste); ?> </h2></p>
+                                                    <p><h3> <?php echo sprintf(Config::$mailContentQuestionStatusChange[$type_question][1],$wish_date); ?> </h3></p> <?php endif; ?>
+                <?php if ($type_question == 5) : ?> <p><h3> <?php echo sprintf(Config::$mailContentQuestionStatusChange[$type_question],$numero_question,$expertise,$support,$affectation_date); ?> </h3></p> <?php endif; ?>
+                <?php if ($type_question == 6) : ?> <p><h2> <?php echo sprintf(Config::$mailContentQuestionStatusChange[$type_question],$numero_question,$expertise,$support,$affectation_date); ?> </h2></p> <?php endif; ?>
 
-                            <td style="width:400px;" width="400">
-                                <h1> <?php echo sprintf(Config::$mailBodyQuestionStatusChange['resume'],  $resume )?>
-                                </h1>
-                            </td>
-                            <br />
-                        </tr>
-                    </table>
-                        <?php if (! empty($competence)) : ?>
-                            <p><?php echo '> '.sprintf(Config::$mailBodyQuestionStatusChange['competence'],  $competence ) ?></p>
-                        <?php endif ?>
-                <?php else : ?>
-                    <h1><?php echo sprintf(Config::$mailBodyQuestionStatusChange['resume'],  $resume )?>
-                    </h1>
-                    <?php if (! empty($competence)) : ?>
-                        <?php echo '> '.sprintf(Config::$mailBodyQuestionStatusChange['competence'],  $competence ) ?>
-                    <?php endif ?>
-                <?php endif; ?>
-                <br/>
-
-                <?php if (!empty($content)) : ?>
-                <h2>
-                    <?php echo sprintf(Config::$mailBodyQuestionStatusChange['content'],  $content )?>
-                </h2>
-                <?php endif ?>
-
-                <?php if (! empty($support)) : ?>
-                    <?php echo 'Délai '.sprintf(Config::$mailBodyQuestionStatusChange['support'],  $support) ?>
-                <?php endif; ?>
+                <!-- Titre de la question -> $resume -->
+                <p><strong><?php echo sprintf(Config::$mailBodyQuestionStatusChange['resume'], $resume ) ?></strong></p>
                 <br />
-                <?php if (! empty($juriste)) : ?>
-                    <?php echo 'En cours de traitement par '.sprintf(Config::$mailBodyQuestionStatusChange['juriste'],  $juriste) ?>
+
+                <!-- Matière -> $matiere-->
+                <span class="section"><?php echo sprintf(Config::$mailBodyQuestionStatusChange['matiere'],  $matiere->label ); ?></span>
+                <!-- Compétence -> $competence-->
+                <p> <?php echo empty($competence) ? '' : '> '.sprintf(Config::$mailBodyQuestionStatusChange['competence'],  $competence ) ?></p>
+
+                <?php if ($type_question == 5) : ?>
+                    <br />
+                    <p><strong><?php echo 'En cours de traitement par : ' . sprintf(Config::$mailBodyQuestionStatusChange['juriste'], $juriste); ?></strong></p>
+                <?php endif; ?>
+                <?php if ($type_question == 6) : ?>
+                    <br />
+                    <p><strong><?php echo 'Traité par : ' . sprintf(Config::$mailBodyQuestionStatusChange['juriste'], $juriste); ?></strong></p>
+                <?php endif; ?>
+                <?php if (in_array($type_question,array(2,3,5))) : ?>
+                      <p><h2><?php echo 'Réponse souhaitée le ' . sprintf(Config::$mailBodyQuestionStatusChange['wish_date'], $wish_date);?></h2></p>
                 <?php endif; ?>
 
+                <br />
+                <p>
+                    <?php echo sprintf(Config::$mailBodyQuestionStatusChange['content'],  $content )?>
+                </p>
 
-                <br/>
-                <?php if (! empty($wish_date)) : ?>
-                    <?php echo 'Réponse estimée le '.sprintf(Config::$mailBodyQuestionStatusChange['wish_date'],  $wish_date ) ?>
-                <?php endif; ?>
-                <br/>
-
-                <?php if ($type_question == 1) { echo sprintf(Config::$mailContentQuestionStatusChange['1'],$creation_date,$support);}
-                      if (in_array($type_question, array(2, 3))) { echo sprintf(Config::$mailContentQuestionStatusChange[$type_question],$numero_question,$affectation_date,$support);}
-                      if ($type_question == 4) { echo sprintf(Config::$mailContentQuestionStatusChange[$type_question],$numero_question,$support,$affectation_date,$juriste,$wish_date);}
-                      if (in_array($type_question, array(5, 6))) { echo sprintf(Config::$mailContentQuestionStatusChange[$type_question],$numero_question,$support,$affectation_date);}?>
-
-                <br/>
-                <br/>
-                <?php if ($type_question !== 6) : ?>
-                    <?php echo 'La question est disponible sur votre espace privée : ' ?>
-                <?php endif ?>
-                <?php if (!empty($notaire->id)) : ?>
-                    <a href="<?php echo $home ?>/notaires/<?php echo $notaire->id ?>/questions">Lire sur site</a>
-                <?php else : ?>
-                    <a href="<?php echo $home ?>">Lire sur site</a>
-                <?php endif ?>
-                <p></p>
+            </td>
             <td width="20" style="background-color:#fff;"></td>
         </tr>
-        </td>
 
         <tr>
             <td colspan="3" width="600" height="30" style="background-color:#fff"></td>

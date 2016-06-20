@@ -61,6 +61,10 @@
 
 		&.niveau-3{
 			margin-right: 0;
+
+			.en-tete{
+				height: 127px;
+			}
 		}
 
 		&.on{
@@ -108,7 +112,7 @@ div#cridonline{
 	
 
 	.bloc-souscription{
-		width: 460px;
+		width: 470px;
 
 
 		form{
@@ -128,6 +132,10 @@ div#cridonline{
 				}
 
 				&:before{
+				}
+
+				&.marge{
+					margin-bottom: 30px;
 				}
 
 				&.select{

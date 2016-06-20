@@ -611,7 +611,6 @@ function CriPostQuestion() {
 
 /**
  * List of displayed Support order by priority (order field)
- *
  * @return array
  */
 function CriListSupport()
@@ -619,16 +618,23 @@ function CriListSupport()
     // init
     $supports = array();
 
-    // query optoins
+    // query options
     $options = array(
-        'selects'    => array('Support.id', 'Support.label_front', 'Support.value', 'Support.description'),
-        'conditions' => array(
-            'Support.displayed' => 1
+        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon', 's.document', 's.order', 'es.id_expertise'),
+        'synonym'      => 'es',
+        'join'       => array(
+            array(
+                'table' => 'support s',
+                'column' => 's.id = es.id_support'
+            )
         ),
-        'order'      => 'Support.order ASC',
-        'limit'      => 3
+        'conditions' => array(
+            's.displayed' => 1
+        ),
+        'order'      => 's.order ASC'
     );
-    $items   = mvc_model('Support')->find($options);
+
+    $items   = mvc_model('QueryBuilder')->findAll( 'expertise_support',$options );
 
     // format output
     if (is_array($items) && count($items) > 0) {
@@ -638,13 +644,107 @@ function CriListSupport()
             $object->value = $item->value;
             $object->label_front = $item->label_front;
             $object->description = $item->description;
+            $object->icon = $item->icon;
+            $object->order = $item->order;
+            $object->document = wp_upload_dir()['baseurl'] . '/' . $item->document;
+            $object->id_expertise = $item->id_expertise;
 
             $supports[] = clone $object;
         }
     }
-
     return $supports;
+}
 
+/**
+ * List of displayed Support order by priority (order field)
+ *
+ * @return array
+ */
+function CriListExpertise()
+{
+    $expertises = array();
+
+    // query options
+    $options = array(
+        'conditions' => array(
+            'Expertise.displayed' => 1
+        ),
+        'order'      => 'Expertise.order ASC'
+    );
+
+    $items = mvc_model('Expertise')->find($options);
+
+    if (is_array($items) && count($items) > 0) {
+        foreach ($items as $item) {
+
+            $object = new \stdClass();
+            $object->id = $item->id;
+            $object->label_front = $item->label_front;
+            $object->description = $item->description;
+            $object->order = $item->order;
+            $object->document = wp_upload_dir()['baseurl'] . '/' . $item->document;
+            $object->supports = false;
+
+            $expertises[$object->id] = clone $object;
+        }
+    }
+    return $expertises;
+}
+
+/**
+ * List of displayed Expertises with Supports (order field)
+ *
+ * @return array
+ */
+function CriListAllSupportsByExpertises()
+{
+    $expertises = array();
+
+    $itemsSupport = CriListSupport();
+
+    $expertises = CriListExpertise();
+
+    // format output
+
+    // si on as des supports, foreach
+    if (is_array($itemsSupport) && count($itemsSupport) > 0) {
+        foreach ($itemsSupport as $support) {
+
+            // si l'expertise du support actuel existe
+            if( !empty($expertises[$support->id_expertise]) ) {
+
+                // si la liste des supports de cette expertise n'existe pas on l'initialise
+                if ( empty($expertises[$support->id_expertise]->supports) ) {
+                    $expertises[$support->id_expertise]->supports = array();
+                }
+                // on ajoute le support à l'expertise
+                $expertises[$support->id_expertise]->supports[$support->id] = clone $support;
+            }
+        }
+    }
+
+    return $expertises;
+}
+
+
+function CriListExpertiseBySupport($supportLabelFront){
+    $options = array(
+        'fields' => 'ex.*',
+        'synonym' => 'es',
+        'join' => array(
+            array(
+                'table' => 'expertise ex',
+                'column' => 'ex.id = es.id_expertise'
+            ),
+            array(
+                'table' => 'support s',
+                'column' => 's.id = es.id_support'
+            )
+        ),
+        'conditions' => 's.label_front = \''.$supportLabelFront.'\''
+    );
+    $expertise = mvc_model('QueryBuilder')->findAll('expertise_support',$options,'ex.id' );
+    return $expertise[0];
 }
 
 /*
@@ -954,12 +1054,14 @@ function CriSendPostQuestConfirmation($question) {
         if ($dest) {
             // prepare message
             $subject = Config::$mailSubjectQuestionStatusChange['1'];
+            $expertise = CriListExpertiseBySupport($question['support']);
             $vars    = array(
                 'resume'          => $question['resume'],
                 'content'         => $question['content'],
                 'matiere'         => $question['matiere'],
                 'competence'      => $question['competence'],
                 'support'         => $question['support'],
+                'expertise'       => $expertise->label_front,
                 'creation_date'   => $question['dateSoumission'],
                 'date'            => $question['dateSoumission'],
                 'notaire'         => $notary,
@@ -1024,5 +1126,12 @@ function CriListRolesByFunction($type, $idFonction) {
         }
     }
     return $roles;
+}
+
+function isPromoActive(){
+    if (date('Y-m-d') <= CONST_DATE_FIN_PROMO){
+        return true;
+    }
+    return false;
 }
 

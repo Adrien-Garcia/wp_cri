@@ -70,7 +70,7 @@
 									padding-left: 45px;
 
 									>span{
-										@extend .do-el;
+										@include do-el;
 									}
 								}
 

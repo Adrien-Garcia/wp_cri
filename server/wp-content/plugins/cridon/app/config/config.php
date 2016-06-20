@@ -7,11 +7,11 @@
  * 
  */
 class Config {
-    
+
     // Les modèles associés à cri_posts
     // avec les noms des tables sans les préfixes
     public static $data = array(
-        'veilles' => array(                    // Indice correspondant aux noms de fichier de controlleur 
+        'veilles' => array(                    // Indice correspondant aux noms de fichier de controlleur
             'value'             => 'veilles',  // Nécessaire à la correspondance
             'name'              => 'veille',   // Nom de la table
             'model'             => 'Veille',   // Nom du MvcModel
@@ -23,28 +23,28 @@ class Config {
             'name'              => 'flash',
             'model'             => 'Flash',
             'controller'        => 'flashes',
-            'action'            => 'index' 
+            'action'            => 'index'
         ),
         'vie_cridons' => array(
             'value'             => 'vie_cridons',
             'name'              => 'vie_cridon',
             'model'             => 'VieCridon',
             'controller'        => 'vie_cridons',
-            'action'            => 'index' 
+            'action'            => 'index'
         ),
         'formations' => array(
             'value'             => 'formations',
             'name'              => 'formation',
             'model'             => 'Formation',
             'controller'        => 'formations',
-            'action'            => 'index' 
+            'action'            => 'index'
         ),
         'cahier_cridons' => array(
             'value'             => 'cahier_cridons',
             'name'              => 'cahier_cridon',
             'model'             => 'CahierCridon',
             'controller'        => 'cahier_cridons',
-            'action'            => 'index' 
+            'action'            => 'index'
         )
     );
 
@@ -121,7 +121,7 @@ class Config {
             'victor.albert@jetpulp.fr',
         ),
     );
-    
+
     // list of persons who will receive e-mail notification for empty document
     public static $emailNotificationEmptyDocument = array(
         'to' => 'info@cridon-lyon.fr',//Client e-mail, only use it in production mode
@@ -152,8 +152,6 @@ class Config {
         CONST_NOTAIRE_FONCTION,
         CONST_NOTAIRE_ASSOCIE,
         CONST_NOTAIRE_ASSOCIEE,
-        CONST_NOTAIRE_SALARIE,
-        CONST_NOTAIRE_SALARIEE,
         CONST_NOTAIRE_GERANT,
         CONST_NOTAIRE_GERANTE,
         CONST_NOTAIRE_SUPLEANT,
@@ -169,9 +167,15 @@ class Config {
         CONST_SUPPORT_URG48H_ID,
         CONST_SUPPORT_URGWEEK_ID,
         CONST_SUPPORT_NON_FACTURE,
-        CONST_SUPPORT_MES_DIANE
+        CONST_SUPPORT_MES_DIANE,
+        CONST_SUPPORT_3_TO_4_WEEKS_INITIALE_ID,
+        CONST_SUPPORT_2_DAYS_INITIALE_ID,
+        CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+        CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+        CONST_SUPPORT_DOSSIER_EXPERT_ID
     );
-    
+
     //Notification for published post
     public static $notificationForAllNotaries = array( 'flash','viecridon' );
     public static $notificationForSubscribersNotaries = array( 'veille' );
@@ -212,12 +216,14 @@ class Config {
 
     // Notification for posted question
     public static $mailContentQuestionStatusChange = array(
-        1 => 'Votre question du %s en délai %s a bien été transmise.',
-        2 => 'Nous avons bien reçu votre question numéro %s du %s en délai %s.',
-        3 => 'Compte tenu de l’affluence des demandes, il ne nous sera pas possible de respecter le délai demandé de votre question numéro %s du %s. Nous enregistrons votre question en délai %s et faisons le nécessaire pour vous donner satisfaction.',
-        4 => 'Votre question numéro %s en délai %s a été attribuée le %s à %s. Une réponse vous sera apportée au plus tard le %s.',
-        5 => 'Merci de nous adresser les renseignements complémentaires demandés qui nous sont indispensables pour répondre à votre question numéro %s en délai %s du %s.',
-        6 => 'La réponse à votre question numéro %s en délai %s du %s est disponible depuis votre espace privé.',
+        1 => 'Votre question du %s de niveau d\'expertise %s en délai %s a bien été transmise.',
+        2 => 'Nous avons bien reçu votre question numéro %s du %s de niveau d\'expertise %s en délai %s.',
+        3 => array('Compte tenu de l’affluence des demandes, il ne nous sera pas possible de respecter le délai demandé de votre question numéro %s du %s.',
+                   'Nous enregistrons votre question en délai %s et faisons le nécessaire pour vous donner satisfaction.'),
+        4 => array('Votre question numéro %s de niveau d\'expertise %s en délai %s a été attribuée le %s à %s.',
+                   'Une réponse vous sera apportée au plus tard le %s.'),
+        5 => 'Merci de nous adresser les renseignements complémentaires demandés qui nous sont indispensables pour répondre à votre question numéro %s de niveau d\'expertise %s en délai %s du %s.',
+        6 => 'La réponse à votre question numéro %s de niveau d\'expertise %s en délai %s du %s est disponible depuis votre espace privé.',
 
     );
 
@@ -341,10 +347,10 @@ class Config {
         'question'      => 'Sur les questions ?'
     );
     //End translation
-    
+
     //Public download URL
     public static $confPublicDownloadURL = array(
-        'pattern' => '/documents\/public\/([0-9]+)/',//Pattern à utilisé pour un test preg_match 
+        'pattern' => '/documents\/public\/([0-9]+)/',//Pattern à utilisé pour un test preg_match
         'url'     => 'documents/public/'//Sera ajouté à l'encodage, l'id sera ajouté dynamiquement (ex:documents/public/1)
     );
     //End Public download URL
@@ -824,6 +830,54 @@ class Config {
     public static function getRoleLabel($role) {
         return Config::$notaryRoles[$role];
     }
+
+    public static $cridonlineLevels = array (
+        CONST_CRIDONLINE_LEVEL_2,
+        CONST_CRIDONLINE_LEVEL_3
+    );
+
+    /**
+     * Tableau des déclassements : à lire -> Du support `key` au support array(`values`)
+     *
+     * @var array
+     */
+    public static $declassement = array(
+        CONST_SUPPORT_3_TO_4_WEEKS_INITIALE_ID =>
+            array(
+                CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+                CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+                CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+                CONST_SUPPORT_DOSSIER_EXPERT_ID
+            ),
+        CONST_SUPPORT_2_DAYS_INITIALE_ID       =>
+            array(
+                CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+                CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+                CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+                CONST_SUPPORT_DOSSIER_EXPERT_ID
+            ),
+        CONST_SUPPORT_5_DAYS_MEDIUM_ID         =>
+            array(
+                CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+                CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+                CONST_SUPPORT_DOSSIER_EXPERT_ID
+            ),
+        CONST_SUPPORT_RDV_TEL_MEDIUM_ID        =>
+            array(
+                CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+                CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+                CONST_SUPPORT_DOSSIER_EXPERT_ID
+            ),
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID   =>
+            array(
+                CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
+                CONST_SUPPORT_DOSSIER_EXPERT_ID
+            ),
+        CONST_SUPPORT_DOSSIER_EXPERT_ID        =>
+            array(
+                CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID
+            )
+    );
 
     //HOTFIX poser question mobile support non correct
     public static $valueSupport= array(
