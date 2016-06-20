@@ -1,3 +1,5 @@
+/* global App, jsvar, DocumentationID */
+'use strict';
 App.Question = {
 
     buttonQuestionOpenSelector          : '.js-question-open',
@@ -91,7 +93,7 @@ App.Question = {
         this.$selectQuestionMatiere                 = $(this.selectQuestionMatiereSelector);
         this.$selectQuestionCompetence              = $(this.selectQuestionCompetenceSelector);
 
-        this.$selectQuestionCompetence.each(function(i) {
+        this.$selectQuestionCompetence.each(function() {
             self.$selectQuestionCompetenceArray[$(this).data('matiere-id')] = $(this);
         });
 
@@ -133,7 +135,7 @@ App.Question = {
             this.popupOverlayInit();
         }
 
-        if (App.Utils.queryString['openQuestion'] == 1) {
+        if (App.Utils.queryString.openQuestion !== undefined && App.Utils.queryString.openQuestion === 1) {
             this.$popupOverlay.popup('show');
             this.openTabQuestionExpertise(false);
         }
@@ -154,13 +156,16 @@ App.Question = {
             scrolllock: true, 
             vertical: top,
             onopen: (function() {
-                (this.owlCarouselInit.bind(this))();
-                (this.owlCarouselInit2.bind(this))();
+                self.owlCarouselInit();
+                self.owlCarouselInit2();
                 $('body').addClass('noscroll');
-            }).bind(this),
+                self.openTabQuestionExpertise(false);
+            }),
             onclose: (function(){
                 $('body').removeClass('noscroll');
-            }).bind(this),  
+                self.formInitialized = false;
+                self.formInit();
+            })
         });
     },
 
@@ -177,19 +182,19 @@ App.Question = {
                  0 : {
                     items:1,
                     dots:true,
-                    nav:true,
+                    nav:true
                 },
                 // breakpoint from 480 up
                 768 : {
                     items:3,
                     dots:false,
-                    nav:false,
+                    nav:false
                 },
                 // breakpoint from 768 up
                 1200 : {
                     items:3,
                     dots:false,
-                    nav:false,
+                    nav:false
                 }
             }
 
@@ -203,25 +208,25 @@ App.Question = {
             pagination: false,
             dots: false,
             navText: false,
-            itemClass: 'owl-item ' + this.zoneQuestionExpertiseSelector.substr(1), // TODO : de étape 1 vers étape 2
+            itemClass: 'owl-item ' + this.zoneQuestionExpertiseSelector.substr(1),
             onInitialized: this.addListenersAfterOwl2.bind(this),
             responsive:{
                 0 : {
                     items:1,
                     dots:true,
-                    nav:true,
+                    nav:true
                 },
                 // breakpoint from 480 up
                 768 : {
                     items:3,
                     dots:false,
-                    nav:false,
+                    nav:false
                 },
                 // breakpoint from 768 up
                 1200 : {
                     items:3,
                     dots:false,
-                    nav:false,
+                    nav:false
                 }
             }
 
@@ -230,24 +235,26 @@ App.Question = {
     },
 
     formInit: function() {
+
+
+
+        // reset file list
+        this.eventFileReset();
+        this.$formQuestion[0].reset();
+        this.$submitQuestion.attr('disabled',false);
+        this.$blockQuestionError.html('');
+        if (App.Utils.device.ios) {
+            $('.fileUpload').remove();
+        }
         if (!this.formInitialized) {
             var nonce   = document.createElement('input');
             nonce.type  = 'hidden';
             nonce.name  = 'tokenquestion';
             nonce.id    = 'tokenquestion';
             nonce.value = jsvar.question_nonce;
-
-
-            // reset file list
-            this.eventFileReset();
-            this.$formQuestion[0].reset();
-            this.$submitQuestion.attr('disabled',false);
-            this.$blockQuestionError.html('');
             this.$formQuestion.append(nonce);
-            if (App.Utils.device.ios) {
-                $('.fileUpload').remove();
-            }
             this.formInitialized = true;
+
         }
 
     },
@@ -263,16 +270,16 @@ App.Question = {
         this.debug("Question : addListeners start");
 
 
-        this.$selectQuestionMatiere.on("change", function(e) {
+        this.$selectQuestionMatiere.on("change", function() {
             self.eventSelectQuestionMatiereChange($(this));
         });
 
-        this.$buttonQuestionExpertise.on('click', function(e) {
+        this.$buttonQuestionExpertise.on('click', function() {
             self.openTabQuestionExpertise($(this));
         });
 
-        this.$buttonQuestionConsultation.on('click', function(e) {
-            self.openTabQuestionConsultation($(this));
+        this.$buttonQuestionConsultation.on('click', function() {
+            // self.openTabQuestionConsultation($(this));
         });
 
         this.$buttonQuestionMaQuestion.on('click', function(e) {
@@ -281,7 +288,7 @@ App.Question = {
 
         if (! App.Utils.device.ios) {
 
-            this.$fileQuestion.on('change', function (e) {
+            this.$fileQuestion.on('change', function () {
                 self.eventFileChange($(this));
             });
 
@@ -294,24 +301,23 @@ App.Question = {
 
 
         if ( bClass.indexOf("is_notaire") === -1) {
-            this.$buttonQuestionOpen.add(this.buttonQuestionDocumentationSelector).add(this.buttonQuestionSupportSelector).on('click', function (e) {
+            this.$buttonQuestionOpen.add(this.buttonQuestionDocumentationSelector).add(this.buttonQuestionSupportSelector).on('click', function () {
                 App.Login.eventPanelConnexionToggle();
                 App.Login.changeLoginErrorMessage("ERROR_NOT_CONNECTED_QUESTION");
-                App.Login.targetUrl = (typeof App.Login.targetUrl) == "boolean" ? location.origin + location.pathname : App.Login.targetUrl;
+                App.Login.targetUrl = (typeof App.Login.targetUrl) === "boolean" ? location.origin + location.pathname : App.Login.targetUrl;
 
-                if (App.Utils.queryString == false) {
+                if (App.Utils.queryString === false) {
                     App.Login.targetUrl += "?openQuestion=1";
-                } else if (!App.Utils.queryString["openQuestion"]) {
+                } else if (!App.Utils.queryString.openQuestion) {
                     App.Login.targetUrl += "&openQuestion=1";
                 }
             });
         } else if (bClass.indexOf("has_question_role") === -1) {
-            this.$buttonQuestionOpen.on('click',function(e){
-                var url = $(this).data('js-redirect');
-                window.location = url;
-            })
+            this.$buttonQuestionOpen.on('click',function(){
+                window.location = $(this).data('js-redirect');
+            });
         } else {
-            this.$buttonQuestionDocumentation.on('click', function(e) {
+            this.$buttonQuestionDocumentation.on('click', function() {
                 self.$formQuestion[0].reset();
                 self.$zoneQuestionSupport.removeClass(this.selectedClass);
                 self.$popupOverlay.popup('show');
@@ -319,12 +325,12 @@ App.Question = {
                 self.eventButtonDocumentationClick($(this));
             });
 
-            this.$buttonQuestionSupportShortcut.on('click', function(e) {
+            this.$buttonQuestionSupportShortcut.on('click', function() {
                 self.eventButtonSupportClick($(this));
             });
         }
 
-        var submitFunc = function (e) {
+        var submitFunc = function () {
             self.eventSubmitQuestion($(this));
             return false;
         };
@@ -342,7 +348,7 @@ App.Question = {
         this.$radioQuestionSupport                  = $(this.radioQuestionSupportSelector);
 
 
-        this.$zoneQuestionSupport.on('click', function(e) {
+        this.$zoneQuestionSupport.on('click', function() {
             self.eventZoneQuestionSupportClick($(this));
         });
 
@@ -361,7 +367,7 @@ App.Question = {
         this.$zoneQuestionExpertise                 = $(this.zoneQuestionExpertiseSelector);
         this.$radioQuestionExpertise                = $(this.radioQuestionExpertiseSelector);
 
-        this.$zoneQuestionExpertise.on('click', function(e) {
+        this.$zoneQuestionExpertise.on('click', function() {
             self.eventZoneQuestionExpertiseClick($(this));
         });
 
@@ -379,12 +385,12 @@ App.Question = {
      * Event
      */
 
-    eventFileReset: function (reset, e) {
-        if (this.$fileQuestion == null) {
+    eventFileReset: function (reset) {
+        if (this.$fileQuestion === null) {
             this.$fileQuestion = $(this.fileQuestionSelector);
         }
         var self = this;
-        if (reset != undefined) {
+        if (reset !== undefined) {
             var file = reset.siblings(this.fileQuestionSelector);
             file.replaceWith(file = file.clone(true));
             file.wrap('<form>').closest('form').get(0).reset();
@@ -409,12 +415,12 @@ App.Question = {
             // stop action
             return false;
         } else {
-            if (fileInput.val() != "") {
+            if (fileInput.val() !== "") {
                 fileInput.siblings(this.fileQuestionNameSelector).text(fileInput.val());
                 var nextFileInput = false;
                 this.$fileQuestion.each(function (i, c) {
-                    var c = $(c);
-                    if (c.val() == "" && c.parents('.fileUpload').first().hasClass('hidden') && !nextFileInput) {
+                    c = $(c);
+                    if (c.val() === "" && c.parents('.fileUpload').first().hasClass('hidden') && !nextFileInput) {
                         c.parents('.fileUpload').first().removeClass('hidden');
                         nextFileInput = true;
                     }
@@ -426,9 +432,9 @@ App.Question = {
         }
     },
 
-    eventSelectQuestionMatiereChange: function(select) {
+    eventSelectQuestionMatiereChange: function() {
         var matiere = this.$selectQuestionMatiere.val();
-        this.$selectQuestionCompetenceArray.forEach(function(c, i, a) {
+        this.$selectQuestionCompetenceArray.forEach(function(c) {
             c.addClass('hidden');
             c.attr('name', "");
         });
@@ -469,19 +475,18 @@ App.Question = {
 
         // Order supports by data-order
         var ordered = [];
-        for(i =0; i < newItems.length; i++) {
+        for(var i =0; i < newItems.length; i++) {
             var $i = $(newItems.get(i));
             var order = parseInt($i.data('order'));
-            while (ordered[order] != undefined) {
+            while (ordered[order] !== undefined) {
                 order++;
             }
             ordered[order] = $i;
         }
-        ordered.forEach(function (v, i, a) {
+        ordered.forEach(function (v) {
             v.appendTo(self.$owlCarousel);
         });
 
-        // newItems.appendTo(this.$owlCarousel);
         this.$owlCarousel.find('.owl-item').remove();
 
         // Open tab (init carousel)
@@ -492,7 +497,7 @@ App.Question = {
     eventButtonDocumentationClick: function () {
         var min = {el: undefined, val: undefined};
         this.$radioQuestionSupport.each(function(i, el) {
-            if ($(el).data('value') < min.val || min.val == undefined ) {
+            if ($(el).data('value') < min.val || min.val === undefined ) {
                 min.val = $(el).data('value');
                 min.el = $(el);
             }
@@ -506,7 +511,7 @@ App.Question = {
     eventButtonSupportClick: function(button) {
         this.$popupOverlay.popup('show');
         var support = button.data('support');
-        if (support == undefined) {
+        if (support === undefined) {
             for(var i = 0; i < button[0].classList.length; i++ ) {
                 //button[0].classList.item(i);
                 var re = new RegExp(this.buttonQuestionSupportNSelector + "(\\d+)");
@@ -522,7 +527,7 @@ App.Question = {
 
     },
 
-    openTabQuestionExpertise: function(button) {
+    openTabQuestionExpertise: function() {
         this.$owlCarousel2.owlCarousel('destroy');
         this.$owlCarousel.owlCarousel('destroy');
         this.owlCarouselInit2();
@@ -535,7 +540,7 @@ App.Question = {
     },
 
 
-    openTabQuestionConsultation: function(button) {
+    openTabQuestionConsultation: function() {
         this.$owlCarousel.owlCarousel('destroy');
         this.$owlCarousel2.owlCarousel('destroy');
         this.owlCarouselInit();
@@ -547,7 +552,8 @@ App.Question = {
         this.$tabQuestionExpertise.removeClass('open');
     },
 
-    openTabQuestionMaQuestion: function(button) {
+    openTabQuestionMaQuestion: function() {
+        var self = this;
         this.$owlCarousel2.owlCarousel('destroy');
         this.$owlCarousel.owlCarousel('destroy');
         this.$buttonQuestionConsultation.removeClass('open');
@@ -556,9 +562,12 @@ App.Question = {
         this.$tabQuestionMaQuestion.addClass('open');
         this.$buttonQuestionExpertise.removeClass('open');
         this.$tabQuestionExpertise.removeClass('open');
+        this.$buttonQuestionConsultation.one('click', function() {
+            self.openTabQuestionConsultation($(this));
+        });
     },
 
-    eventSubmitQuestion: function(form) {
+    eventSubmitQuestion: function() {
         var supportFieldId = jsvar.question_support,
             matiereFieldId = jsvar.question_matiere,
             competenceFieldId = jsvar.question_competence,
@@ -566,8 +575,7 @@ App.Question = {
             messageFieldId = jsvar.question_message;
 
         var formdata = new FormData();
-        var nbFiles = 0;
-        nbFiles = this.$fileQuestion.length;
+        var nbFiles = this.$fileQuestion.length;
         if (nbFiles > 0) {
             this.$fileQuestion.each(function () {
                 var file = $(this).get(0).files[0];
@@ -638,8 +646,8 @@ App.Question = {
         data = JSON.parse(data);
         // show message response
         var content = $(document.createElement('ul'));
-        if ( data != undefined && data.error != undefined && Array.isArray(data.error) ) {
-            data.error.forEach(function(c, i, a) {
+        if ( data !== undefined && data.error !== undefined && Array.isArray(data.error) ) {
+            data.error.forEach(function(c) {
                 content.append($(document.createElement('li')));
                 content.find('li').last().text(c);
             });
@@ -669,4 +677,3 @@ App.Question = {
     }
 };
 
-'use strict';

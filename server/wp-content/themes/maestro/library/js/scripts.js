@@ -11,7 +11,7 @@
  * need any of it, just remove it. They are meant to be helpers and are
  * not required. It's your world baby, you can do whatever you want.
 */
-
+'use strict';
 
 /*
  * Get Viewport Dimensions
@@ -20,7 +20,7 @@
 */
 function updateViewportDimensions() {
 	var w=window,d=document,e=d.documentElement,g=d.getElementsByTagName('body')[0],x=w.innerWidth||e.clientWidth||g.clientWidth,y=w.innerHeight||e.clientHeight||g.clientHeight;
-	return { width:x,height:y }
+	return { width:x,height:y };
 }
 // setting the viewport width
 var viewport = updateViewportDimensions();
@@ -110,9 +110,9 @@ jQuery(document).ready(function($) {
 	/*
 	 * Obfusction des liens menant vers l'accueil & de www.addonline.fr
 	 */
-	demoer = {'home':'hmdjf@|'};
+	var demoer = {'home':'hmdjf@|'};
 	$('.lienhome').bind('click', function(){
-		str = demoer["home"];
+		var str = demoer.home;
 		str = str.replace('h', 'http://');
 		str = str.replace('m', 'www');
 		str = str.replace('d', '.');
@@ -123,9 +123,9 @@ jQuery(document).ready(function($) {
 		document.location=str;
 	});
 	
-	aolink = {'jpfooter':'gkey@&'};
+	var aolink = {'jpfooter':'gkey@&'};
 	$('.lienjp').bind('click', function(){
-		str = aolink["jpfooter"];
+		var str = aolink.jpfooter;
 		str = str.replace('g', 'http://');
 		str = str.replace('k', 'www');
 		str = str.replace('e', '.');
@@ -205,36 +205,36 @@ jQuery(document).ready(function($) {
 
      /* ANNIM MENU ACCEDER A MON COMPTE*/
 
-    $("#acceder-compte > li > a.acceder-compte").mouseenter(function(){
+    $("#acceder-compte > li > a.acceder-compte")
+        .mouseenter(function(){
     	$("#acceder-compte .logout-2").addClass('visible');
-    });
-    $("#acceder-compte > li > a.acceder-compte").mouseleave(function(){
+    }).mouseleave(function(){
     	$("#acceder-compte .logout-2").removeClass('visible');
     });
 
     $(".logout-2").hover(function(){
     	$("#acceder-compte .logout-2").addClass('visible');
-    });
-    $(".logout-2").mouseleave(function(){
+    }).mouseleave(function(){
     	$("#acceder-compte .logout-2").removeClass('visible');
-    })
-    
+    });
+
 
     /* ANNIM MENU RECHERCHER DANS LES BASES DE CONNAISSANCES */
 
+    var searchOverlay = $("#rechercher .overlay");
+
     $("#rechercher > li > a").mouseenter(function(){
-      $("#rechercher .overlay").addClass('visible');
-    });
-    $("#rechercher > li").mouseleave(function(){
-      $("#rechercher .overlay").removeClass('visible');
+      searchOverlay.addClass('visible');
     });
 
-    $("#rechercher .overlay").hover(function(){
-      $("#rechercher .overlay").addClass('visible');
+    $("#rechercher > li").mouseleave(function(){
+      searchOverlay.removeClass('visible');
     });
-    $("#rechercher .overlay").mouseleave(function(){
-      $("#rechercher .overlay").removeClass('visible');
-    })
+    searchOverlay.hover(function(){
+      $(this).addClass('visible');
+    }).mouseleave(function(){
+      $(this).removeClass('visible');
+    });
 
 
 

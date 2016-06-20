@@ -1,4 +1,5 @@
 'use strict';
+/* global App, jsvar */
 
 App.Utils = {
 
@@ -35,12 +36,12 @@ App.Utils = {
         this.device.ie9 = /MSIE 9/i.test(navigator.userAgent);
         this.device.ie10 = /MSIE 10/i.test(navigator.userAgent);
         this.device.ie11 = /rv:11.0/i.test(navigator.userAgent);
-        this.device.ie = this.device.ie9 | this.device.ie10 | this.device.ie11;
+        this.device.ie = this.device.ie9 || this.device.ie10 || this.device.ie11;
 
         this.device.ios = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
 
         if(location.hash) {
-            App.Utils.scrollTop(700, location.hash)
+            App.Utils.scrollTop(700, location.hash);
         }
 
         this.debug("Utils : init end");
@@ -58,7 +59,7 @@ App.Utils = {
             self.closeAjaxAnimation();
         });
 
-        this.$checkbox.on('change', function(e) {
+        this.$checkbox.on('change', function() {
             self.checkboxToggle($(this));
         });
 
@@ -80,7 +81,7 @@ App.Utils = {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         var arr = [];
-        if (vars.length > 0 && vars[0] != "") {
+        if (vars.length > 0 && vars[0] !== "") {
             query_string = {};
             for (var i = 0; i < vars.length; i++) {
                 var pair = vars[i].split("=");
@@ -101,15 +102,13 @@ App.Utils = {
     },
 
     getBodyClass: function() {
-        var body_class = [];
-        body_class = $('body')[0].className.split(/\s+/);
-        return body_class;
+        return $('body')[0].className.split(/\s+/);
     },
 
     scrollTop: function(duration, hash) {
         var top = (hash !== undefined) ? $(hash).offset().top - ($("header.header").height() + 30) : 0;
         duration = (duration !== undefined) ? duration : 700;
-        hash = (hash !== undefined) ? hash : "";
+        // hash = (hash !== undefined) ? hash : "";
         $('html, body').animate({
             scrollTop: top
         }, duration, function(){

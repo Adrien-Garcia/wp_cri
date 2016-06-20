@@ -1,4 +1,5 @@
 'use strict';
+/* global App, jsvar, wkf */
 
 App.Cridonline = {
     prefix      : 'js-cridonline',
@@ -15,7 +16,7 @@ App.Cridonline = {
         if (typeof wkf === 'undefined') {
             // Do not preserve current Query String : not needed as the purpose is to get to Crid'Online page
             var redirect = this.linkMark.data('js-redirect');
-            if (App.Utils.queryString['openCridonOnline'] == "1"){
+            if (App.Utils.queryString.openCridonOnline === "1"){
                 // If coming from loggin with no role
                 window.location = redirect;
             } else if ($('body').hasClass('is_notaire')){
@@ -27,7 +28,7 @@ App.Cridonline = {
             }
         } else {
             this.linkValue = wkf.url;
-            if (App.Utils.queryString['openCridonOnline'] == "1") {
+            if (App.Utils.queryString.openCridonOnline === "1") {
                 // if coming from login panel, redirect to Crid'Online page
                 window.location = this.linkValue;
             }

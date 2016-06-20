@@ -1,4 +1,5 @@
 'use strict';
+/* global App, jsvar */
 App.Account = {
     defaultSelector                     :'.js-account',
 
@@ -727,7 +728,7 @@ App.Account = {
             e.returnValue = false;
             e.preventDefault();
             var disabled = $(this).data('js-disabled');
-            if (disabled == false) {
+            if (disabled === false) {
                 $(this).data('js-disabled',true);
                 self.eventAccountCollaborateurAddSubmit($(this));
             }
@@ -932,7 +933,7 @@ App.Account = {
     eventAccountProfilNewsletterSubmit: function (form) {
         this.$accountProfilNewsletterMessage.html('');
         var email = this.$accountProfilNewsletterEmail.val();
-        if (email != '') {
+        if (email !== '') {
             jQuery.ajax({
                 type: 'POST',
                 url: form.data('js-ajax-newsletter-url'),
@@ -998,7 +999,7 @@ App.Account = {
     successProfilModify: function (data) {
         data = JSON.parse(data);
         // create message block
-        if (data != undefined && data.error != undefined) {
+        if (data !== undefined && data.error !== undefined) {
             var message = data.error;
             var content = $(document.createElement('div')).text(message);
             this.$accountProfilModifyMessage.html('').append(content);
@@ -1054,7 +1055,7 @@ App.Account = {
     successProfilOfficeModify: function(data) {
         data = JSON.parse(data);
         // create message block
-        if (data != undefined && data.error != undefined) {
+        if (data !== undefined && data.error !== undefined) {
             var message = data.error;
             var content = $(document.createElement('div')).text(message);
             this.$accountProfilModifyMessage.html('').append(content);
@@ -1081,7 +1082,7 @@ App.Account = {
     successProfilPassword: function(data) {
         data = JSON.parse(data);
         // create message block
-        if (data != undefined && data.error != undefined) {
+        if (data !== undefined && data.error !== undefined) {
             var message = data.error;
             var content = $(document.createElement('div')).text(message);
             this.$accountProfilPasswordMessage.html('').append(content);
@@ -1155,7 +1156,7 @@ App.Account = {
     successCollaborateurDelete: function (data) {
         data = JSON.parse(data);
         // create message block
-        if (data != undefined && data.error != undefined) {
+        if (data !== undefined && data.error !== undefined) {
             var message = data.error;
             var content = $(document.createElement('div')).text(message);
             this.$accountCollaborateurDeleteValidationMessage.html('').append(content);
@@ -1198,7 +1199,7 @@ App.Account = {
 
     eventAccountCollaborateurChangeFunction: function(data){
         var fonction = data.find(':selected').val();
-        if (fonction == jsvar.collaborateur_id_function){
+        if (fonction === jsvar.collaborateur_id_function){
             $(this.$accountCollaborateurAddFunctioncollaborateur.selector).removeClass('hidden');
             $(this.$accountCollaborateurCapFinance.selector).prop('checked',false);
             $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).removeClass('select');
@@ -1297,7 +1298,7 @@ App.Account = {
     eventAccountCollaborateurAddSubmit: function(form) {
         var id_function_notaire      = form.find(this.$accountCollaborateurAddFunction.selector).val();
         var id_function_collaborator = form.find(this.$accountCollaborateurAddFunctioncollaborateur.selector).val();
-        if (id_function_notaire == jsvar.collaborateur_id_function && !$.isNumeric(id_function_collaborator)){
+        if (id_function_notaire === jsvar.collaborateur_id_function && !$.isNumeric(id_function_collaborator)){
             var message = jsvar.collaborateur_function_error;
             var content = $(document.createElement('div')).text(message);
             $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
@@ -1333,7 +1334,7 @@ App.Account = {
     successCollaborateurAdd: function (data) {
         data = JSON.parse(data);
         // create message block
-        if (data != undefined && data.error != undefined) {
+        if (data !== undefined && data.error !== undefined) {
             var message = data.error;
             var content = $(document.createElement('div')).text(message);
             $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
@@ -1389,7 +1390,7 @@ App.Account = {
     successCridonlineValidation: function (data) {
         data = JSON.parse(data);
         // create message block
-        if (data != undefined && data.error != undefined) {
+        if (data !== undefined && data.error !== undefined) {
             var message = data.error;
             var content = $(document.createElement('div')).text(message);
             this.$accountCridonlineValidationMessage.html('').append(content);
@@ -1429,7 +1430,6 @@ App.Account = {
     eventQuestionFilter: function () {
         var formdata = new FormData();
         this.$formQuestionFilter.submit();
-        return;
         /*formdata.append("action", this.$formQuestionFilter[0].action);
         formdata.append("m", this.$selectQuestionFilterMatiere.first().val() );
         formdata.append("d1", this.$dateQuestionFilterDu.first().val() );
@@ -1451,7 +1451,7 @@ App.Account = {
 
     successNewsletterToggle: function (data) {
         data = JSON.parse(data);
-        if(data == 'success')
+        if(data === 'success')
         {
             this.eventAccountProfilOpen();
         }
