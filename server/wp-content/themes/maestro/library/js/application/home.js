@@ -1,4 +1,5 @@
 'use strict';
+/* global App, jsvar */
 
 App.Home = {
 
@@ -55,23 +56,23 @@ App.Home = {
 
         this.debug("Home : addListeners start");
 
-        this.$flashToggle.on("click", function(e) {
+        this.$flashToggle.on("click", function() {
            self.eventFlashToggle($(this));
         });
 
-        this.$tabVeilleButton.on("click", function(e) {
+        this.$tabVeilleButton.on("click", function() {
             self.eventTabVeilleOpen($(this));
         });
 
-        this.$tabFormationButton.on("click", function(e) {
+        this.$tabFormationButton.on("click", function() {
             self.eventTabFormationOpen($(this));
         });
 
-        this.$accordionButton.on("click", function(e) {
+        this.$accordionButton.on("click", function() {
             self.eventAccordionOpen($(this));
         });
 
-        this.$linkBlock.on("click", function(e) {
+        this.$linkBlock.on("click", function() {
             self.eventLinkBlockClick($(this));
         });
 
@@ -124,15 +125,14 @@ App.Home = {
      */
 
     eventLinkBlockClick: function(element) {
-        var href = element.find('a').attr('href') != undefined ? element.find('a').attr('href') : '#';
-        document.location.href = href;
+        document.location.href = element.find('a').attr('href') !== undefined ? element.find('a').attr('href') : '#';
     },
 
     accordionOpenFirst: function(parent) {
-        if (parent == undefined) {
+        if (parent === undefined) {
             parent = $(document);
         }
-        if (!parent instanceof jQuery) {
+        if ( !(parent instanceof jQuery) ) {
             parent = $(parent);
         }
         this.$accordionContent.addClass('closed');
