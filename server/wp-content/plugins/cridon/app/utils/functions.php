@@ -1050,14 +1050,16 @@ function CriSendPostQuestConfirmation($question) {
         if ($dest) {
             // prepare message
             $subject = Config::$mailSubjectQuestionStatusChange['1'];
-            $expertise = CriListExpertiseBySupport($question['support']->id);
+            if (!empty ($question['support']) && !empty($question['support']->id)){
+                $expertise = CriListExpertiseBySupport($question['support']->id);
+            }
             $vars    = array(
                 'resume'          => $question['resume'],
                 'content'         => $question['content'],
                 'matiere'         => $question['matiere'],
                 'competence'      => $question['competence'],
-                'support'         => $question['support']->label_front,
-                'expertise'       => $expertise->label_front,
+                'support'         => (empty($question['support']) || empty($question['support']->label_front)) ? '' : $question['support']->label_front ,
+                'expertise'       => (empty($expertise)           || empty($expertise->label_front))           ? '' : $expertise->label_front,
                 'creation_date'   => $question['dateSoumission'],
                 'date'            => $question['dateSoumission'],
                 'notaire'         => $notary,
