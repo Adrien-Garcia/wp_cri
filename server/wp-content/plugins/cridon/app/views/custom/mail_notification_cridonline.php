@@ -101,10 +101,12 @@
                         37 boulevard des Brotteaux<br />
                         69455 LYON CEDEX 06</i></p>
 
-                <p>Veuillez également envoyer une copie du mandat de prélèvement SEPA signé à votre banque.</p>
+                <?php if ($B2B_B2C == 'B2B'): ?>
+                    <p>Veuillez également envoyer une copie du mandat de prélèvement SEPA signé à votre banque.</p>
 
-                <p><strong>Nous attirons votre attention sur le fait que l’envoi d’une copie à votre banque est obligatoire sous peine de rejet du prélèvement et de facturation de frais bancaires.
-                    </strong></p>
+                    <p><strong>Nous attirons votre attention sur le fait que l’envoi d’une copie à votre banque est obligatoire sous peine de rejet du prélèvement et de facturation de frais bancaires.
+                        </strong></p>
+                <?php endif; ?>
 
 
 
