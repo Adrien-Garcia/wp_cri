@@ -3449,6 +3449,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             'start_subscription_date'=> $subscription_info['start_subscription_date'],
             'end_subscription_date'  => $subscription_info['end_subscription_date'],
             'id_sepa'                => $subscription_info['id_sepa'],
+            'B2B_B2C'                => $B2B_B2C,
             //'urlCGUV'                => mvc_model('Document')->generatePublicUrl
         );
 
