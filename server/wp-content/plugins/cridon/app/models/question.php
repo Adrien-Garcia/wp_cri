@@ -1063,7 +1063,11 @@ class Question extends \App\Override\Model\CridonMvcModel
                     }
 
                     if (!empty($support)) {
-                        $support = mvc_model('Support')->find_by_id($support);
+                        $supports = mvc_model('Support')->find_by_id($support);
+                        if (is_object($supports) && !empty($supports->id)) {
+                            $support = $supports;
+                            $expertise = CriListExpertiseBySupport($support->id);
+                        }
                     }
 
                     if (!empty($juriste)) {
@@ -1124,12 +1128,10 @@ class Question extends \App\Override\Model\CridonMvcModel
                         ));
                     }
 
-
-                    $expertise = CriListExpertiseBySupport($support->id);
                     $vars = array (
                         'numero_question'  => $srenum,
-                        'expertise'        => $expertise->label_front,
-                        'support'          => $support->label_front,
+                        'expertise'        => (empty($expertise) || empty($expertise->label_front)) ? '' : $expertise->label_front,
+                        'support'          => (empty($support)   || empty($support->label_front))   ? '' : $support->label_front,
                         'matiere'          => $matiere,
                         'competence'       => $competence,
                         'resume'           => $resume,
