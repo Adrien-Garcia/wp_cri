@@ -86,7 +86,7 @@
                 <p><strong>Étude : <?php echo $etude->office_name ?></strong> - CRPCEN : <?php echo $etude->crpcen ?> - Identifiant SEPA : <?php echo $id_sepa ?></p>
                 <h2>Vous avez choisi l’offre CRID’ONLINE <?php echo $level_label ?> pour <?php echo $price ?> € HT par an.</h2>
 
-                <p>Votre abonnement a bien été pris en compte pour la période du  <strong><?php echo date('d M Y',strtotime($start_subscription_date)) ?></strong> au <strong><?php echo date('d M Y',strtotime($end_subscription_date)) ?></strong>.</p>
+                <p>Votre abonnement a bien été pris en compte pour la période du  <strong><?php echo date('d F Y',strtotime($start_subscription_date)) ?></strong> au <strong><?php echo date('d M Y',strtotime($end_subscription_date)) ?></strong>.</p>
 
                 <p>Nous vous remercions de votre confiance</p>
 
