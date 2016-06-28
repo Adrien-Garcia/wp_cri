@@ -1066,7 +1066,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                         $supports = mvc_model('Support')->find_by_id($support);
                         if (is_object($supports) && !empty($supports->id)) {
                             $support = $supports;
-                            $expertise = CriListExpertiseBySupport($support->id);
+                            $expertise = CriExpertiseBySupport($support->id);
                         }
                     }
 

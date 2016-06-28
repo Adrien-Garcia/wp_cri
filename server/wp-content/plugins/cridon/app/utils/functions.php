@@ -727,7 +727,7 @@ function CriListAllSupportsByExpertises()
 }
 
 
-function CriListExpertiseBySupport($idSupport){
+function CriExpertiseBySupport($idSupport){
     $options = array(
         'fields' => 'ex.*',
         'synonym' => 'es',
@@ -1051,7 +1051,7 @@ function CriSendPostQuestConfirmation($question) {
             // prepare message
             $subject = Config::$mailSubjectQuestionStatusChange['1'];
             if (!empty ($question['support']) && !empty($question['support']->id)){
-                $expertise = CriListExpertiseBySupport($question['support']->id);
+                $expertise = CriExpertiseBySupport($question['support']->id);
             }
             $vars    = array(
                 'resume'          => $question['resume'],
