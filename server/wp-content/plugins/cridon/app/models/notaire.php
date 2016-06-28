@@ -1377,7 +1377,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $etude->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
                             $value .= "'" . $etude->crpcen. "', "; // YABONNE_YCRPCEN_0
                             $value .= "'" . $next_subscription_level. "', "; // YABONNE_YNIVEAU_0
-                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATE_0
+                            $value .= "TO_DATE('" . date('d/m/Y') . "', 'dd/mm/yyyy'), "; // YABONNE_YDATE_0
                             $value .= "'1',"; // YABONNE_YSTATUT_0
                             $value .= "'" . $next_subscription_price . "', "; // YABONNE_YTARIF_0
                             $value .= "TO_DATE('" . date('d/m/Y', strtotime($start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALDEB_0
