@@ -61,7 +61,7 @@
             </div>
         <?php else : ?>
             <div class="titre">
-                Mon abonnement en cours du <?php echo date("d/m/Y", strtotime($notaire->etude->start_subscription_date)) ?> au <?php echo date("d/m/Y", strtotime($notaire->etude->end_subscription_date)) ?>
+                Mon abonnement en cours du <?php echo date("d/m/Y", strtotime($notaire->etude->start_subscription_date)) ?> au <?php echo $notaire->etude->offre_promo == CONST_PROMO_PRIVILEGE ? date("d/m/Y", strtotime($notaire->etude->end_subscription_date .'+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days')) : date("d/m/Y", strtotime($notaire->etude->end_subscription_date)) ?>
             </div>
         <?php endif; ?>
         <ul>
