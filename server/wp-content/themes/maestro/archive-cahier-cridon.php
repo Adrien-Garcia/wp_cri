@@ -11,7 +11,7 @@
 		<div id="main" class="cf" role="main">
 			<div id="inner-content" class="wrap cf">
 
-				<h1 class="h1">Les Cahiers du CRIDON</h1>
+				<h1 class="h1">Les Cahiers du CRIDON LYON</h1>
 				<div class="listing object" id="sel-object">
 					
                 <?php
