@@ -531,7 +531,7 @@ if ( !defined( 'CONST_QUESTION_MAX_FILES_ERROR' ) ) {
     define( 'CONST_QUESTION_MAX_FILES_ERROR', 'Le nombre maximal de fichiers autorisés est de %s' );
 }
 if ( !defined( 'CONST_QUESTION_FILE_SIZE_ERROR' ) ) {
-    define( 'CONST_QUESTION_FILE_SIZE_ERROR', 'La taille maximale de chaque fichier ne doit pas dépasser %s' );
+    define( 'CONST_QUESTION_FILE_SIZE_ERROR', 'La taille maximale du fichier ne doit pas dépasser %s' );
 }//Default question answered per page
 if ( !defined( 'DEFAULT_QUESTION_PER_PAGE' ) ) {
     define( 'DEFAULT_QUESTION_PER_PAGE', 10 );

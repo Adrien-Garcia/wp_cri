@@ -562,14 +562,10 @@ class Question extends \App\Override\Model\CridonMvcModel
         }
         // support
         $options  = array(
-            'fields'     => 'label',
             'conditions' => "id = {$post[CONST_QUESTION_SUPPORT_FIELD]}",
             'limit'      => 1,
         );
-        $supports = mvc_model('QueryBuilder')->findOne('support', $options);
-        if (is_object($supports) && isset($supports->label)) {
-            $response['support'] = $supports->label;
-        }
+        $response['support'] = mvc_model('QueryBuilder')->findOne('support', $options);
 
         return $response;
     }
@@ -1068,8 +1064,9 @@ class Question extends \App\Override\Model\CridonMvcModel
 
                     if (!empty($support)) {
                         $supports = mvc_model('Support')->find_by_id($support);
-                        if (is_object($supports) && !empty($supports->label)) {
-                            $support = $supports->label;
+                        if (is_object($supports) && !empty($supports->id)) {
+                            $support = $supports;
+                            $expertise = CriExpertiseBySupport($support->id);
                         }
                     }
 
@@ -1131,12 +1128,10 @@ class Question extends \App\Override\Model\CridonMvcModel
                         ));
                     }
 
-
-                    $expertise = CriListExpertiseBySupport($support);
                     $vars = array (
                         'numero_question'  => $srenum,
-                        'expertise'        => $expertise->label_front,
-                        'support'          => $support,
+                        'expertise'        => (empty($expertise) || empty($expertise->label_front)) ? '' : $expertise->label_front,
+                        'support'          => (empty($support)   || empty($support->label_front))   ? '' : $support->label_front,
                         'matiere'          => $matiere,
                         'competence'       => $competence,
                         'resume'           => $resume,
