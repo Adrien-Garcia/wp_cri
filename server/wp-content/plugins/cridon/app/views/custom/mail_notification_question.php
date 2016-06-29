@@ -129,6 +129,40 @@
         </tr>
 
 
+        <tr>
+            <td colspan="3" width="600" height="30" style="background-color:#ccc"></td>
+        </tr>
+
+        <tr>
+            <td width="20" style="background-color:#ccc;"><?php //var_dump($post) ?></td>
+            <td width="560" style="background-color:#ccc; text-align:left; color:#2e4867; font-size:11px; line-height: 16px;">
+
+
+                <h2><center>SéCURITE - OPTIMISATION DE VOTRE TEMPS - MOBILITé – DIGITAL</center></h2>
+
+                <p> Nous vous rappelons que depuis le <u>18 janvier</u> vous pouvez poser vos questions écrites via votre site extranet <a href="http://www.cridon-lyon.fr" target="_blank">www.cridon-lyon.fr</A>, ce, quel que soit votre support, PC, tablette ou votre smartphone. <br />
+                <br />
+                Ce faisant, vous :<br />
+                ‐   faites l’économie d’une lettre d’accompagnement,<br />
+                ‐   êtes certain qu’elle nous est bien parvenue car vous recevez un accusé réception automatique,<br />
+                ‐   gagnez du temps,<br />
+                ‐   pouvez joindre jusqu’à 5 pièces, <br />
+                ‐   trouvez toutes vos consultations en cours de traitement sur le site « fonction » suivre mon compte,<br />
+                ‐   recevez en toute sécurité votre consultation sur votre espace privé après réception d’un avis d’envoi,<br />
+                ‐   visualisez votre consultation sur votre support, PC, tablette ou votre smartphone où que vous soyez. <br />
+                </p>
+                <br />
+                <p><u><center>Les fax ne seront plus traités dès le 1er janvier 2017</center></u></p>
+
+
+
+            </td>
+            <td width="20" style="background-color:#ccc;"></td>
+        </tr>
+
+        <tr>
+            <td colspan="3" width="600" height="30" style="background-color:#ccc"></td>
+        </tr>
 
         <tr>
             <td colspan="3" width="600" style="background-color:#15283f; line-height:0px; text-align:left"><a href="http://www.cridon-lyon.fr/" target="_blank"><img src="<?php echo plugins_url("../public/images/mail/cridon_footer.png", dirname(__FILE__)) ?>" width="265" height="120" alt="Cridon Lyon, partenaire expert du notaire" style="border:none" /></a></td>

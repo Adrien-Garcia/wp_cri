@@ -97,9 +97,12 @@
                 <p>Veuillez imprimer, remplir et nous envoyer le mandat de prélèvement SEPA signé par une personne habilitée ainsi qu’un RIB à l’adresse suivante :</p>
 
                 <p><i>CRIDON LYON<br />
-                        Service comptabilité<br />
-                        37 boulevard des Brotteaux<br />
-                        69455 LYON CEDEX 06</i></p>
+                    Service comptabilité<br />
+                    37 boulevard des Brotteaux<br />
+                    69455 LYON CEDEX 06</i>
+                </p>
+
+                <p>La <strong>R</strong>éférence <strong>U</strong>nique du <strong>M</strong>andat à reporter est la suivante : <?php echo $id_sepa ?>.</p>
 
                 <?php if ($B2B_B2C == 'B2B'): ?>
                     <p>Veuillez également envoyer une copie du mandat de prélèvement SEPA signé à votre banque.</p>
