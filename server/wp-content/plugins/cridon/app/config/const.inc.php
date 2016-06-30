@@ -1174,6 +1174,10 @@ if ( !defined( 'CONST_URL_SINEQUA' ) ) {
 if ( !defined( 'CONST_URL_INFO_PAGE_CRIDONLINE' ) ) {
     define( 'CONST_URL_INFO_PAGE_CRIDONLINE', '/cridonline-decouvrir-nos-offres/' );
 }
+//Fax Not accepted after date
+if ( !defined( 'CONST_DATE_FIN_FAX' ) ) {
+    define( 'CONST_DATE_FIN_FAX', '2016-12-31' );
+}
 //Promo
 if ( !defined( 'CONST_DATE_FIN_PROMO' ) ) {
     define( 'CONST_DATE_FIN_PROMO', '2016-09-30' );
