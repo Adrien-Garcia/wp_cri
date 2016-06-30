@@ -485,6 +485,12 @@ if ( !defined( 'CONST_COLLAB_SECRETAIRE_ASSIST' ) ) {
 if ( !defined( 'CONST_COLLAB_TECHNICIEN' ) ) {
     define( 'CONST_COLLAB_TECHNICIEN', 11 );
 }
+if ( !defined( 'CONST_QUESTION_EXPERTISE_DOCUMENTATION_ID' ) ) {
+    define( 'CONST_QUESTION_EXPERTISE_DOCUMENTATION_ID', 1 );
+}
+if ( !defined( 'CONST_QUESTION_SUPPORT_DOCUMENTATION_ID' ) ) {
+    define( 'CONST_QUESTION_SUPPORT_DOCUMENTATION_ID', 8 );
+}
 
 
 // Add Question Form

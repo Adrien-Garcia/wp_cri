@@ -119,7 +119,11 @@
             </div>
             <script type="text/javascript">
                 //<![CDATA[
-                var DocumentationID = <?php echo CONST_QUESTION_MATIERE_DOCUMENTATION_ID ?>;
+                var CONST = {
+                    DocumentationID : <?php echo CONST_QUESTION_MATIERE_DOCUMENTATION_ID ?>,
+                    DocumentationSupportID : <?php echo CONST_QUESTION_SUPPORT_DOCUMENTATION_ID ?>,
+                    DocumentationExpertiseID : <?php echo CONST_QUESTION_EXPERTISE_DOCUMENTATION_ID ?>
+                };
                 //]]>
             </script>
 		<!--[if lte IE 9]>
