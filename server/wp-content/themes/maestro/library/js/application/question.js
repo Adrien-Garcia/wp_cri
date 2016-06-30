@@ -37,6 +37,8 @@ App.Question = {
     buttonQuestionSupportSelector       : '.js-question-support-shortcut',
     buttonQuestionSupportNSelector      : 'js-question-support-shortcut-',
 
+    textQuestionExpertiseSelector       : '.js-expertise-niveau-text',
+
     owlCarouselSelector                 : "#owl-support",
 
     owlCarouselSelector2                 : "#owl-niveau-expertise",
@@ -72,6 +74,8 @@ App.Question = {
 
     $buttonQuestionDocumentation        : null,
     $buttonQuestionSupportShortcut      : null,
+
+    $textQuestionExpertise              : null,
 
     $blockQuestionError                 : null,
 
@@ -120,6 +124,8 @@ App.Question = {
 
         this.$objectQuestionField                   = $(this.objectQuestionFieldSelector);
         this.$messageQuestionField                  = $(this.messageQuestionFieldSelector);
+
+        this.$textQuestionExpertise                 = $(this.textQuestionExpertiseSelector);
 
         this.$owlCarousel                           = $(this.owlCarouselSelector);
         this.$owlCarousel2                           = $(this.owlCarouselSelector2);
@@ -462,6 +468,7 @@ App.Question = {
 
         // Get the id of expertise
         var id = radio.val();
+        var label = radio.data('label');
 
         this.$owlCarousel.owlCarousel('destroy');
         this.$owlCarousel2.owlCarousel('destroy');
@@ -488,6 +495,10 @@ App.Question = {
         });
 
         this.$owlCarousel.find('.owl-item').remove();
+
+        this.$textQuestionExpertise.html(label);
+        this.$textQuestionExpertise.removeClass();
+        this.$textQuestionExpertise.addClass(label.toLowerCase()+' '+this.textQuestionExpertiseSelector.slice(1)+' expertise');
 
         // Open tab (init carousel)
         this.openTabQuestionConsultation(false);
