@@ -578,7 +578,7 @@ function CriRenderView($path, $view_vars, $folder = "custom", $echo = true) {
         ob_start();
     }
     extract($view_vars);
-    require_once WP_PLUGIN_DIR . '/cridon/app/views/' . $folder . '/' . $path . '.php';
+    require WP_PLUGIN_DIR . '/cridon/app/views/' . $folder . '/' . $path . '.php';
     if (!$echo) {
         return ob_get_clean();
     }
