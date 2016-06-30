@@ -82,8 +82,53 @@
 				left: 20px;
 				@include do-el;
 				color:#FFF;
+				line-height: 22px;
+				height: 22px;
+				padding-left: 25px;
+				
+				&.initiale, &.medium, &.expert{
+
+					&:before{
+						position: absolute;
+						left: 0;
+						z-index:1;
+					}
+
+					&:after{
+						content:'';
+						width: 14px;
+						height: 14px;
+						background: #FFF;
+						position: absolute;
+						left: 3px;
+						top: 4px;
+						z-index:0;
+					}
+
+				}
+
+				&.initiale{
+					&:before{
+						@include svgicon('ico-expertise-initial', 20px, 20px, $jaune);
+					}
+				}
+				&.medium{
+					&:before{
+						@include svgicon('ico-expertise-medium', 20px, 20px, $vj_01);
+					}
+				}
+				&.expert{
+					&:before{
+						@include svgicon('ico-expertise-expert', 20px, 20px, $bleu);
+					}
+				}
+
+				&.hidden{
+					display: none;
+				}
 			}
 			
+
 		}
 
 		.onglets{
@@ -333,11 +378,15 @@
 
 			.consultation{
 
+
+
 				#owl-support{
 
 					.owl-item{
 
-						.label{
+
+
+						.label{ 
 							&:before{
 								//bottom:-14px;
 							}
@@ -351,11 +400,11 @@
 
 
 						// INITIALE 2 JOURS
-						.svg-initiale-jours{							
+						.svg-initiale-jours{ 							
 							&:before{
-								@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);
-								top: -130px;
-								margin-left: -53px;								
+								@include svgicon('ico-support-fusee', 110px, 110px, $vj_03);
+								top: -152px;
+								margin-left: -55px;								
 							}
 						}
 						// INITIALE 3 à 4 SEMAINES
@@ -370,26 +419,34 @@
 						// MEDIUM 5 JOURS
 						.svg-medium-jours{
 							&:before{
-								@include svgicon('ico-support-avion', 118px, 118px, $vj_03);								
+								@include svgicon('ico-avion-crayon-crayon', 100px, 100px, $vj_03);
+								top: -142px;
+								margin-left: -73px;								
 							}
 						}
 						// MEDIUM RDV TELEPHONIQUE
 						.svg-medium-rdv-tel{
 							&:before{
-								@include svgicon('ico-support-avion', 118px, 118px, $vj_03);								
+								@include svgicon('ico-avion-crayon-tel', 100px, 100px, $vj_03);	
+								top: -142px;
+								margin-left: -73px;							
 							}
 						}
 
 						// EXPERT 3 à 4 SEMAINES
 						.svg-expert-semaines{
 							&:before{
-								@include svgicon('ico-support-fusee', 118px, 118px, $vj_03);								
+								@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);
+								top: -130px;
+								margin-left: -53px;									
 							}
 						}
 						// EXPERT DOSSIER
 						.svg-expert-dossier{
 							&:before{
-								@include svgicon('ico-support-fusee', 118px, 118px, $vj_03);								
+								@include svgicon('ico-camion', 100px, 100px, $vj_03);
+								top: -142px;
+								margin-left: -56px;								
 							}
 						}
 
@@ -466,7 +523,7 @@
 						&:first-child{
 							.item{
 								&:before{
-									@include svgicon('ico-expertise-initial', 120px, 120px, $vj_03);
+									@include svgicon('ico-expertise-initial', 120px, 120px, $jaune); 
 									margin-left: -60px;								
 								}
 
@@ -475,7 +532,7 @@
 						&:nth-child(2){
 							.item{
 								&:before{
-									@include svgicon('ico-expertise-medium', 120px, 120px, $vj_03);
+									@include svgicon('ico-expertise-medium', 120px, 120px, $vert);
 									margin-left: -60px;	
 								}
 
@@ -484,7 +541,7 @@
 						&:last-child{
 							.item{
 								&:before{
-									@include svgicon('ico-expertise-expert', 120px, 120px, $vj_03);	
+									@include svgicon('ico-expertise-expert', 120px, 120px, $bleu);	
 									margin-left: -60px;	
 									//top: -130px;		 				
 								}

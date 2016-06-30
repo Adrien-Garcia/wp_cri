@@ -33,9 +33,9 @@ gulp.task('sass', function() {
     			//.pipe(autoprefixer('last 2 version'))
        //  		.pipe(minifycss())
 	    	.pipe(sourcemaps.write())
+    	.pipe(plumber.stop())
     .pipe(gulp.dest(libPath+'/css'))
-    	 .pipe(plumber.stop())
-	.pipe(reload({stream: true}));
+    .pipe(browserSync.stream({match: "**/*.css"}));
 	    
 });
 gulp.task('sass-build', function() {
@@ -53,22 +53,26 @@ gulp.task('sass-build', function() {
 
 gulp.task('iconfont', function () {
   return gulp.src([libPath+'/images/svgicons/*.svg'])
+	.pipe(plumber())
     .pipe(iconfont({
       fontName: 'aux-font',
       normalize: true,
       fontHeight: 1001,
-      preprendUnicode: true,
+      prependUnicode: true,
       formats: ['ttf', 'eot', 'woff', 'svg', 'woff2'],
       timestamp: runTimestamp
     }))
+    .pipe(plumber.stop())
     .on('glyphs', function (glyphs, options) {
         gulp.src(libPath+'/scss/templates/_icons.scss')
+        .pipe(plumber())
         .pipe(consolidate('lodash', {
           glyphs: glyphs,
           fontName: 'aux-font',
           fontPath: '../fonts/svgfont/',
           className: 'icon'
         }))
+        .pipe(plumber.stop())
         .pipe(gulp.dest(libPath+'/scss/modules'));
     })
     .pipe(gulp.dest(libPath+'/fonts/svgfont'));
@@ -116,11 +120,12 @@ gulp.task('sprite', function() {
 
 gulp.task('browser-sync', function() {
 
-	browserSync({
+	browserSync.init({
         proxy: options.env,
         browser: [],
         host: options.env,
-        open: 'external'
+        injectChanges: true,
+        open: false
     });
 
 });
@@ -142,7 +147,7 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('default', ['copy','sprite','iconfont', 'sass', 'uglify','browser-sync', 'watch'], function() {});
+gulp.task('default', ['copy','sprite',/*'iconfont',*/ 'sass', 'uglify','browser-sync', 'watch'], function() {});
 gulp.task('build', ['copy','sprite', 'iconfont','sass-build', 'uglify',], function() {});
 
 
