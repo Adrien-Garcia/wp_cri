@@ -7,7 +7,7 @@
 		<div class="titre">
 			<span class="close_layer layer-posez-question_close"></span>
 			<span class="texte"><?php _e('Poser une question'); ?></span>
-			<span class="expertise medium js-expertise-niveau-text">Niveau expertise</span>
+			<span class="expertise hidden js-expertise-niveau-text">Niveau expertise</span>
 		</div>
 		
 		<div class="onglets">
