@@ -83,11 +83,20 @@ echo get_template_part("content","ga");
 										<?php _e('Bases CRIDON'); ?> <span><?php _e('LYON'); ?></span> 
 									</a>
 								</li>
-								<li>
-									<a href="<?php echo CONST_URL_INFO_PAGE_CRIDONLINE ?>" title="Décourvrir l’offre CRID’ONLINE +">
-										<?php _e('Décourvrir l’offre CRID’ONLINE +'); ?>
-									</a>
-								</li>
+								
+								<?php if (!isPromoActive()) : ?>
+									<li> 
+										<a href="<?php echo CONST_URL_INFO_PAGE_CRIDONLINE ?>" title="Décourvrir l’offre CRID’ONLINE +">
+											<?php _e('Décourvrir l’offre CRID’ONLINE +'); ?>
+										</a>
+									</li>
+								<?php else : ?>
+									<li>
+										<a href="<?php echo CONST_URL_INFO_PAGE_CRIDONLINE_promo ?>" title="Décourvrir l’offre CRID’ONLINE +">
+											<?php _e('Décourvrir l’offre CRID’ONLINE +'); ?>
+										</a>
+									</li>
+								<?php endif ?>
 							</ul>
 						</li>
 					</ul>

@@ -1183,6 +1183,13 @@ if ( !defined( 'CONST_URL_SINEQUA' ) ) {
 if ( !defined( 'CONST_URL_INFO_PAGE_CRIDONLINE' ) ) {
     define( 'CONST_URL_INFO_PAGE_CRIDONLINE', '/cridonline-decouvrir-nos-offres/' );
 }
+
+if ( !defined( 'CONST_URL_INFO_PAGE_CRIDONLINE_promo' ) ) { 
+    define( 'CONST_URL_INFO_PAGE_CRIDONLINE_promo', '/cridonline-decouvrir-nos-offres-promotionnelles/' );
+}
+
+
+
 //Fax Not accepted after date
 if ( !defined( 'CONST_DATE_FIN_FAX' ) ) {
     define( 'CONST_DATE_FIN_FAX', '2016-12-31' );
