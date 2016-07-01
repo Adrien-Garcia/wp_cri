@@ -12,7 +12,7 @@
 		
 		<div class="onglets">
 			<div class="h2 open niveau-expertise js-question-button-expertise">1. <span><?php _e('Niveau d\'expertise'); ?></span></div>
-			<div class="h2 consultation js-question-button-consultation">2. <span><?php _e('Delai / Service'); ?></span></div>
+			<div class="h2 consultation js-question-button-consultation">2. <span><?php _e('Service / Delai'); ?></span></div>
 			<div class="h2 question js-question-button-ma-question">3. <span><?php _e('Ma question'); ?></span></div>
 
 		</div>
