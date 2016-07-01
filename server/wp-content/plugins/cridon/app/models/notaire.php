@@ -1452,12 +1452,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $end_subscription_date      = date('Y-m-d', strtotime($start_subscription_date . '+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
                     $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date . '-' . CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
 
+                    if (!empty($etude->offre_promo)){
+                        $updateOffrePromoValues[] = " {$etude->crpcen} THEN NULL ";
+                    }
+
+                    if ($etude->offre_promo != CONST_PROMO_PRIVILEGE){
+                        $updateStartDateValues[]        = " {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
+                    }
+
                     if (!empty($etude->next_subscription_level)) {
                         $updateLevelValues[] = " {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
                     }
                     $nextSubscriptionPrice          = mvc_model('Etude')->getSubscriptionPrice($etude, true);
                     $updatePriceValues[]            = " {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
-                    $updateStartDateValues[]        = " {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
                     $updateEndDateValues[]          = " {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
                     $updateEcheanceDateValues[]     = " {$etude->crpcen} THEN '" . $echeance_subscription_date . "' ";
                     $updateTransmisEcheanceValues[] = " {$etude->crpcen} THEN '0' ";
@@ -1472,7 +1479,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $etudeQuery[] = ' `subscription_price` = CASE crpcen WHEN ' . implode(' WHEN ', $updatePriceValues) . ' ELSE `subscription_price` ';
 
                     // subscription start date
-                    $etudeQuery[] = ' `start_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateStartDateValues) . ' ELSE `start_subscription_date` ';
+                    if (!empty($updateStartDateValues)){
+                        $etudeQuery[] = ' `start_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateStartDateValues) . ' ELSE `start_subscription_date` ';
+                    }
 
                     // subscription end date
                     $etudeQuery[] = ' `end_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEndDateValues) . ' ELSE `end_subscription_date` ';
@@ -1482,6 +1491,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                     // subscription transmis echeance
                     $etudeQuery[] = ' `transmis_echeance` = CASE crpcen WHEN ' . implode(' WHEN ', $updateTransmisEcheanceValues) . ' ELSE `transmis_echeance` ';
+
+                    // subscription offre promo
+                    if (!empty($updateOffrePromoValues)) {
+                        $etudeQuery[] = ' `offre_promo` = CASE crpcen WHEN ' . implode(' WHEN ', $updateOffrePromoValues) . ' ELSE `offre_promo` ';
+                    }
 
                     // exec query block
                     $this->wpdb->query($queryStart . implode(' END, ', $etudeQuery) . $queryEnd);

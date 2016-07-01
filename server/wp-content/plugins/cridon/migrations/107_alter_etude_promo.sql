@@ -1,0 +1,1 @@
+ALTER TABLE `cri_etude` ADD COLUMN `offre_promo` INT NULL AFTER `id_sepa`;

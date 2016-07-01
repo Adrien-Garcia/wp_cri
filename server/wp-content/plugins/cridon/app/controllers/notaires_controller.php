@@ -533,12 +533,14 @@ class NotairesController extends BasePublicController
                 $start_subscription_date = CONST_START_SUBSCRIPTION_PROMO_CHOC;
                 $end_subscription_date = CONST_END_SUBSCRIPTION_PROMO_CHOC;
                 $echeance_subscription_date = CONST_ECHEANCE_SUBSCRIPTION_PROMO_CHOC;
+                $offre_promo = CONST_PROMO_CHOC;
             } elseif ($_REQUEST['promo'] == CONST_PROMO_PRIVILEGE){
                 $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
                 $subscription_price = $subscriptionInfos[CONST_CRIDONLINE_LEVEL_2];
                 $start_subscription_date = date('Y-m-d');
                 $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
                 $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+                $offre_promo = CONST_PROMO_PRIVILEGE;
             } else {
                 echo json_encode(array('error' => CONST_CRIDONLINE_CGV_ERROR_MSG));
                 die();
@@ -552,6 +554,7 @@ class NotairesController extends BasePublicController
                     'end_subscription_date'      => $end_subscription_date,
                     'subscription_price'         => $subscription_price,
                     'id_sepa'                    => $this->calculateSepaId($notaire,$etude),
+                    'offre_promo'                => $offre_promo,
                     'a_transmettre'              => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                 )
             );
