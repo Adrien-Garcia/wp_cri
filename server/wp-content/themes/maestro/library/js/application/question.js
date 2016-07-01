@@ -1,4 +1,4 @@
-/* global App, jsvar, DocumentationID */
+/* global App, jsvar, CONST */
 'use strict';
 App.Question = {
 
@@ -37,6 +37,8 @@ App.Question = {
     buttonQuestionSupportSelector       : '.js-question-support-shortcut',
     buttonQuestionSupportNSelector      : 'js-question-support-shortcut-',
 
+    textQuestionExpertiseSelector       : '.js-expertise-niveau-text',
+
     owlCarouselSelector                 : "#owl-support",
 
     owlCarouselSelector2                 : "#owl-niveau-expertise",
@@ -72,6 +74,8 @@ App.Question = {
 
     $buttonQuestionDocumentation        : null,
     $buttonQuestionSupportShortcut      : null,
+
+    $textQuestionExpertise              : null,
 
     $blockQuestionError                 : null,
 
@@ -120,6 +124,8 @@ App.Question = {
 
         this.$objectQuestionField                   = $(this.objectQuestionFieldSelector);
         this.$messageQuestionField                  = $(this.messageQuestionFieldSelector);
+
+        this.$textQuestionExpertise                 = $(this.textQuestionExpertiseSelector);
 
         this.$owlCarousel                           = $(this.owlCarouselSelector);
         this.$owlCarousel2                           = $(this.owlCarouselSelector2);
@@ -462,6 +468,7 @@ App.Question = {
 
         // Get the id of expertise
         var id = radio.val();
+        var label = radio.data('label');
 
         this.$owlCarousel.owlCarousel('destroy');
         this.$owlCarousel2.owlCarousel('destroy');
@@ -489,21 +496,22 @@ App.Question = {
 
         this.$owlCarousel.find('.owl-item').remove();
 
+        this.$textQuestionExpertise.html(label);
+        this.$textQuestionExpertise.removeClass();
+        this.$textQuestionExpertise.addClass(label.toLowerCase()+' '+this.textQuestionExpertiseSelector.slice(1)+' expertise');
+
         // Open tab (init carousel)
         this.openTabQuestionConsultation(false);
     },
 
 
     eventButtonDocumentationClick: function () {
-        var min = {el: undefined, val: undefined};
-        this.$radioQuestionSupport.each(function(i, el) {
-            if ($(el).data('value') < min.val || min.val === undefined ) {
-                min.val = $(el).data('value');
-                min.el = $(el);
-            }
-        });
-        this.eventZoneQuestionSupportClick(min.el.parents(this.zoneQuestionSupportSelector).first());
-        this.$selectQuestionMatiere.val( DocumentationID).change();
+        var support = $('#support_' + CONST.DocumentationSupportID).first();
+        var expertise = $('#niveau-' + CONST.DocumentationExpertiseID).first();
+        this.eventZoneQuestionExpertiseClick(expertise);
+        this.eventZoneQuestionSupportClick(support);
+        this.$selectQuestionMatiere.val(CONST.DocumentationID).change();
+
         //this.eventSelectQuestionMatiereChange(false);
 
     },
