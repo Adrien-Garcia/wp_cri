@@ -1133,3 +1133,9 @@ function isPromoActive(){
     return false;
 }
 
+function isFaxAccepted(){
+    if (date('Y-m-d') <= CONST_DATE_FIN_FAX){
+        return true;
+    }
+    return false;
+}
