@@ -226,7 +226,7 @@ class NotairesController extends BasePublicController
     public function profil()
     {
         $this->prepareProfil();
-        $this->cridonline();
+        $this->cridonlineData();
         $message = '';
         if (isset($_REQUEST['message'])){
             if ($_REQUEST['message'] == 'modifyprofil'){
@@ -319,6 +319,13 @@ class NotairesController extends BasePublicController
     public function cridonline()
     {
         $this->prepareSecureAccess(CONST_CRIDONLINESUBSCRIPTION_ROLE);
+        $this->cridonlineData();
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_CRIDONLINE);
+    }
+
+    protected function cridonlineData()
+    {
         $notaire = CriNotaireData();
         $this->set('notaire', $notaire);
 
@@ -341,9 +348,8 @@ class NotairesController extends BasePublicController
             unset ($_REQUEST['error']);
         }
 
-        // tab rank
-        $this->set('onglet', CONST_ONGLET_CRIDONLINE);
     }
+
     /**
      * Notaire CridOnlineValidation Content Block (AJAX Friendly)
      * Associated template : app/views/notaires/contentcridonlineetape2.php
