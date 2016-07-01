@@ -126,7 +126,7 @@ class LoginsController extends MvcPublicController
             if (!empty($notaire)) {
                 //Validate role
                 if (!in_array(CONST_QUESTIONECRITES_ROLE,CriGetCollaboratorRoles($notaire))){
-                    $message = CONST_LOGIN_ROLE_ERROR_MSG;
+                    $message = CONST_WS_LOGIN_ROLE_ERROR_MSG;
                 } else {
                     $token = $this->generateToken($model, $notaire);
                     //No token generated

@@ -866,6 +866,9 @@ if ( !defined( 'CONST_WS_MSG_SUCCESS' ) ) {
 if ( !defined( 'CONST_WS_MSG_ERROR_METHOD' ) ) {
     define( 'CONST_WS_MSG_ERROR_METHOD',  'Action non autorisée');
 }
+if ( !defined( 'CONST_WS_LOGIN_ROLE_ERROR_MSG' ) ) {
+    define( 'CONST_WS_LOGIN_ROLE_ERROR_MSG',  'Vous ne possédez pas les droits pour accéder à cette application.');
+}
 
 // admin nb items per page
 if ( !defined( 'CONST_ADMIN_NB_ITEM_PERPAGE' ) ) {
