@@ -97,6 +97,9 @@
         <div class="submit">
             <input type="submit" value="Enregistrer">
         </div>
-        <p class="chps_obli"><?php _e("* Champs obligatoires"); ?></p>
+        <p class="chps_obli">
+            <?php _e("* Champs obligatoires"); ?><br />
+            <strong>Les notaires sont automatiquement intégrés</strong>
+        </p>
     </form>
 
