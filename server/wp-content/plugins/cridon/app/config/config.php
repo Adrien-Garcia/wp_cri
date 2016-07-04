@@ -878,11 +878,4 @@ class Config {
                 CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID
             )
     );
-
-    //HOTFIX poser question mobile support non correct
-    public static $valueSupport= array(
-        2 => 1,
-        6 => 7,
-        20 => 6
-    );
 }
