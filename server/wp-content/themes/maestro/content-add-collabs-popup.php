@@ -41,7 +41,9 @@
         </div>
         <div>
         <!-- <label for="collaborator_function">Fonction</label> -->
-        <select name="collaborator_function" id="collaborator_function" class="js-account-collaborateur-add-functioncollaborator <?php echo empty($collaborator['collaboratorfunction']) ? 'hidden' : '' ?>">
+        <select name="collaborator_function" id="collaborator_function" class="js-account-collaborateur-add-functioncollaborator
+        <?php echo ( empty($collaborator['collaboratorfunction']) && ($collaborator['notairefunction'] != CONST_NOTAIRE_COLLABORATEUR) )  ? 'hidden' : '' ?>"
+        >
             <option value="" disabled selected><?php _e('Fonction Collaborateur'); ?></option>
             <?php if(is_array($collaborateur_functions) && count($collaborateur_functions) > 0): ?>
                 <?php foreach($collaborateur_functions as $item): ?>
