@@ -158,6 +158,18 @@ function append_js_files()
 }
 add_action('wp_enqueue_scripts', 'append_js_files', 99);
 
+function custom_versioning_css_js($src) {
+    if (strrpos($src, '?') !== false) {
+        $src .= '&';
+    } else {
+        $src .= '?';
+    }
+    //use most frequent modified file
+    return $src . 'v=' . filemtime(get_template_directory() . '/library/css/style.css');
+}
+add_filter( 'style_loader_src', 'custom_versioning_css_js', 9999 );
+add_filter( 'script_loader_src', 'custom_versioning_css_js', 9999 );
+
 function cridonline_access()
 {
     if (CriIsNotaire() && CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)) {
