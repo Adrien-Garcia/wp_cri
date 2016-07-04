@@ -14,4 +14,4 @@ require_once '../wp-load.php';
 require_once $cridonDir . '/app/utils/class_loader.php';
 require_once $cridonDir . '/cridon_loader.php';
 $loader = new CridonLoader();
-//$loader->migrate();
+$loader->migrate();
