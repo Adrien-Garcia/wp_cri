@@ -12,7 +12,9 @@
 
 // load WP Core
 require_once '../wp-load.php';
-
+if (!defined( 'WP_ADMIN' )) {
+    define('WP_ADMIN', true);
+}
 global $wpdb;
 
 /**

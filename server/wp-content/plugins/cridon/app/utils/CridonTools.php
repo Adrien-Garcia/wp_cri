@@ -528,10 +528,102 @@ class CridonTools {
                 $clean_input[$k] = $this->clean($v);
             }
         } else {
-            $clean_input = trim(strip_tags($data));
+            $clean_input = trim(strip_tags(stripslashes($data)));
         }
 
         return $clean_input;
+    }
+
+    /**
+     * Renvoie une / plusieurs fonctions notaires
+     *
+     * @param array $fonctions of functions wanted
+     * @return array|null|object
+     */
+    public function getNotaireFunctions($fonctions)
+    {
+        global $wpdb;
+        $ids = implode(',',(array) $fonctions);
+
+        $sql = " SELECT f.`id` as `id_fonction_notaire`,f.`label` as `notaire_fonction_label`
+        FROM `{$wpdb->prefix}fonction` f
+        WHERE f.`displayed` =". CONST_DISPLAYED ." AND f.`id` in ($ids)";
+
+        return $wpdb->get_results($sql);
+    }
+
+
+    /**
+     * Renvoie une / plusieurs / toutes les fonctions collaborateur
+     *
+     * @param array $ids of functions wanted
+     * @return array|null|object
+     */
+    public function getCollaboratorFunctions()
+    {
+        global $wpdb;
+
+        $sql = " SELECT fc.`id` as `id_fonction_collaborateur`,fc.`label` as `collaborateur_fonction_label`
+        FROM `{$wpdb->prefix}fonction_collaborateur` fc
+        WHERE fc.`displayed` =".CONST_DISPLAYED;
+
+        return $wpdb->get_results($sql);
+    }
+
+
+    /**
+     * Redirect by escaping header already send by...
+     * useful outside the mvc_controller block
+     *
+     * @see MvcController::redirect
+     * @param string $location the url to be redirected
+     * @param int    $status
+     */
+    public function redirect($location = '', $status=302)
+    {
+        // MvcDispatcher::dispatch() doesn't run until after the WP has already begun to print out HTML, unfortunately, so
+        // this will almost always be done with JS instead of wp_redirect().
+        if (headers_sent()) {
+            $html = '
+                <script type="text/javascript">
+                    window.location = "'.$location.'";
+                </script>';
+            echo $html;
+        } else {
+            wp_redirect($location, $status);
+        }
+
+        die();
+
+    }
+
+    /**
+     * Check Collaborator office
+     *
+     * @param int    $collaborator_id
+     * @param mixed  $notary
+     * @return mixed
+     */
+    public function isSameOffice($collaborator_id, $notary)
+    {
+        if (is_object($notary) && property_exists($notary, 'crpcen')) {
+            global $wpdb;
+
+            $sql = "SELECT
+                         COUNT(`cn`.`id`) nb
+                    FROM
+                        `{$wpdb->prefix}notaire` cn
+                    WHERE
+                        `cn`.`id` = %d
+                    AND
+                        `cn`.`crpcen` = %s";
+
+            $result = $wpdb->get_row($wpdb->prepare($sql, $collaborator_id, $notary->crpcen));
+
+            return $result->nb;
+        }
+
+        return false;
     }
 }
 

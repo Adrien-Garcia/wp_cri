@@ -1,5 +1,7 @@
 <?php
-
+if (!defined( 'WP_ADMIN' )) {
+    define('WP_ADMIN', true);
+}
 // load WP Core
 require_once '../wp-load.php';
 

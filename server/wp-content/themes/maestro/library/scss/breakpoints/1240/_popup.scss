@@ -1,0 +1,757 @@
+
+
+#layer-posez-question{
+	
+	width: 1200px;
+	max-width: 1200px;
+	margin:0 auto;
+	padding: 0;
+
+	.block_top{
+		padding: 20px 20px 0 20px;
+		background: #FFF;
+		//height: 623px;
+
+		> .titre{
+
+			height: 85px;
+			line-height: 85px;
+			margin-bottom: 40px;
+
+
+			.close_layer{				
+				right: 27px;
+				cursor: pointer;
+
+				&:before{
+					@include svgicon('icon-close-layer-question', 36px, 36px, #FFF);					
+					top: 3px;
+					left: 3px;
+				}
+
+				&:hover{
+					&:before{
+						@include svgicon('icon-close-layer-question', 36px, 36px, $bleu);
+						font-weight: 700;
+					}
+				}
+
+				
+
+			}
+
+			.texte{	
+				height: 80px;
+				line-height: 80px;		
+				font-size: 50px;	
+				padding-left: 70px;
+
+				&:before{
+					@include svgicon('icon-consulter', 45px, 45px, #FFFFFF); 
+					margin-top: -23px;
+				}
+
+			}
+
+			.expertise{				
+				top: 18px;
+				left: 619px;
+				font-size: 40px;
+				height: 50px;
+				line-height: 50px;
+				padding-left: 60px;
+
+				&.initiale, &.medium, &.expert{
+
+					&:after{
+						content:'';
+						width: 35px;
+						height: 35px;
+						background: #FFF;
+						position: absolute;
+						left: 7px;
+						top: 9px;
+						z-index:0;
+					}
+
+				}
+
+				&.initiale{
+					&:before{
+						@include svgicon('ico-expertise-initial', 50px, 50px, $jaune);
+					}
+				}
+				&.medium{
+					&:before{
+						@include svgicon('ico-expertise-medium', 50px, 50px, $vj_01);
+					}
+				}
+				&.expert{
+					&:before{
+						@include svgicon('ico-expertise-expert', 50px, 50px, $bleu);
+					}
+				}
+			}
+			
+		}
+
+		.onglets{
+			
+			width: 1098px;
+			margin: 0 auto;
+
+			.h2{
+				width: 366px;				
+				font-size: 30px;
+				height: 90px; 
+				line-height: 60px;
+				padding: 0 36px;
+			}
+
+			.h2.open{				
+				width: 366px;
+			}
+
+			
+		}
+
+		.niveau-expertise{ /* 1er owl carousel */
+
+				#owl-niveau-expertise{
+
+					.owl-item{
+						//height: 356px;
+
+						.item{
+							width: 330px;
+							//margin: 180px auto 0 auto;
+
+
+						}
+
+						&:first-child{
+								
+							.item{
+								//border:solid 1px red;
+								margin-left: 0;
+							}
+						}
+					}	
+
+				}
+			}
+
+		.details{
+			
+			width: 1100px;
+			padding-bottom: 50px;
+
+			.consultation, .niveau-expertise{
+				
+
+				#owl-support, #owl-niveau-expertise{
+
+					-webkit-perspective: 1000px;
+						-webkit-transform-style: preserve-3d;
+						-moz-transform-style: preserve-3d;
+						transform-style: preserve-3d;
+
+					
+					.owl-item{
+						cursor: pointer;
+						@include transition(top 0.3s);
+						
+						-webkit-perspective: 1000px;
+						-webkit-transform-style: preserve-3d;
+						-moz-transform-style: preserve-3d;
+						transform-style: preserve-3d;
+						
+
+						.item{
+							
+							width: 330px;
+
+							&:before{								
+								@include transition(all 0.5s);
+							}
+
+							&:last-child{
+								margin-right: 0; 
+							}
+
+						}
+
+						a{
+							
+							font-size: 20px;
+							@include transition(all 0.3s);
+							margin-top: 30px;
+							margin-bottom: 42px;
+
+							&:after{
+								line-height: 18px;
+							}
+
+							&:before{
+								/* @include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
+								position: absolute;
+								left: 50%;
+								margin-left: -24px;
+								bottom:-15px;
+								
+								@include transition(all 0.3s); */
+							}
+
+						}
+
+						.description{							
+							text-align: justify;
+							width: 330px;
+							height: 54px;
+						}
+
+						&:nth-child(2){
+
+							.item{
+								//margin:190px auto 0 auto;
+							}
+						}
+
+						&:nth-child(3){
+							.item{
+								float: right;
+							}							
+						}
+
+					}
+
+				}				
+
+			}
+
+			.question{
+				padding-top: 60px;
+				width: 100%;
+
+				.block_gauche{
+					display: block;
+					width: 350px;
+					float: left;
+					margin-right: 40px;
+					padding-bottom: 20px;
+
+					.img{
+
+						background: url(../images/img-layer-posez-question.jpg) center center no-repeat;
+						background-size: cover;
+						width: 350px;
+						height: 204px; 
+					}
+
+					.titre{
+						font-size: 30px;
+						line-height: 30px;
+						color:$vj_02;
+						text-transform: uppercase;
+						@include do-me;
+						margin: 30px 0;
+						display: inline-block;
+
+					}
+
+					>p{
+						font-family: $garamond;
+						font-size: 20px; 
+						color:$rouge;
+						line-height: 24px;
+						margin: 0;
+					}
+					
+				}
+
+				.block_droit{
+					width: 710px;
+					clear: inherit;
+					float: left;
+
+
+
+					/*clear: both;
+					border:solid 1px transparent;*/
+
+					.form{
+						/*width: 100%;
+						padding-bottom: 20px;*/
+						margin-top: 0px;
+						//margin-bottom: 40px;
+
+						input[type="text"], textarea{							
+							margin-bottom: 15px;
+
+
+						}
+
+						select{							
+							margin-bottom: 15px;
+						}
+
+						input[type="submit"]{
+
+							margin-bottom: 0;
+							@include transition(all 0.3s);
+
+							&:hover{
+
+								color:$vert;
+								background: transparent;
+
+							}
+						}
+
+						input[type="file"]{
+							
+						}
+
+						.fileUpload {
+						 
+
+						}
+						.fileUpload input.upload {						  
+						}
+
+						.sep{							
+
+						}
+
+
+
+
+						.fileUpload {
+						    
+
+                            .btn-reset {
+                                
+							    float: right;
+							    font-size: 50px;
+							    height: 35px;
+							    line-height: 18px;
+							    position: relative;
+							    top: -8px;
+							    width: 35px;
+							    z-index: 102;
+
+                            }
+                            span {
+                                display: inline-block;
+                                float: left;
+                                padding: 0 10px;
+                                height: 100%;
+                                background: #ffffff;
+                                color: #000000;
+                            }
+                            span.fileName {
+                                max-width: 400px;
+
+                            }
+                            span.fileButtonFront {
+                                float: none;
+							    position: absolute;
+							    right: 33px;
+
+                            }
+						}
+
+						.fileUpload input.upload {
+						    width: 185px; 
+						    right: 33px;
+						    z-index: 100;
+						}
+
+						.sep{
+							
+
+
+
+						}
+
+						
+					}
+				}
+
+			}		
+			
+			
+		}
+
+		
+
+	}
+
+	.block_bottom{
+		padding: 60px 50px 20px 50px;
+		height: 450px;	
+
+
+		.block_03{
+
+			width: 100%;
+			padding-top: 0;
+			margin-top: 0;
+			margin-left: 0;
+
+
+			.block {
+				width: 330px;
+				height: 340px;
+				margin-right: 50px;
+
+				&:nth-child(3){ margin-right: 0;} 
+
+
+				&:hover {
+					.content {
+						&, &:before, &:after {
+							height: 270px;
+							background-position: 0 100%;
+						}
+					}
+				}
+
+
+				.content{
+					height: 150px;
+
+					&:before, &:after{
+						content: '';
+						width: calc(100% / 2);
+						position: absolute;
+						top: 0;
+						display: block;
+						height: 150px;
+						transition: height $duration ease, background $duration ease;
+						border:none;
+						box-sizing: border-box;
+
+						background: $vert;
+						@include gradient-opacity(transparentize($vert, 0.4),opacify($vert, 1));
+						background-size: 100% 200%;
+
+					}
+
+					&:before{
+						
+						@include border-radius(0 20px 0 0);
+						left: 0;
+					}
+
+					&:after{
+
+						@include border-radius(20px 0 0 0);
+						right: 0;
+
+
+					}
+
+										
+					.h2{ 
+						font-size: 50px;
+						line-height: 45px;
+						margin-top: 30px;
+
+						span{
+							font-size: 28px;
+							line-height: 30px;
+
+						}
+
+						&:before{
+						}
+					}
+
+					> a{
+					}
+				}
+
+				
+			}
+
+			
+			
+		}
+
+		
+
+	}
+
+	
+}
+
+
+#layer-cridonline,
+#layer-collaborateur-add,
+#layer-collaborateur-delete,
+#layer-update-etude,
+#layer-update-profil,
+.popup{
+	
+	width: 1200px;
+	max-width: 1200px;
+	margin:0 auto;
+	padding: 20px;
+
+	.message-erreur{
+
+		>div{
+			font-size: 16px;
+			line-height: 20px;
+			}
+			
+		}
+
+
+	>.titre{
+		
+		height: 100px;
+
+		&:before{
+			
+		}
+
+		.close_layer{
+			
+			
+			&:before{
+				
+			}
+
+			
+
+		}
+
+		.texte{  
+			
+
+			font-size: 50px;
+			margin-top: -20px;
+			/*line-height: 40px;
+			padding-left: 60px;
+			margin-top: -40px;*/
+
+			
+			> span{ display: inline;}	
+
+			&:before{
+
+				/*font-weight: normal;
+				top: 50%;
+				margin-top: -20px;
+				position: absolute;
+				left: 0;
+				display: block;*/
+
+			}	
+
+		}
+	}
+
+	.block{ 		
+		min-height: auto;
+
+		p{
+			/*width: 420px;
+			display: block;
+			margin: 0 auto;
+			line-height: 32px;*/
+
+			width: 100%;
+		}
+
+		a, form{
+			/*margin-top: 60px;
+			position: relative;
+			display: inline-block;
+			padding: 0 3px;
+			width: auto;*/
+			margin-bottom: 30px;
+			margin-top: 20px;
+
+			&:after{
+				width: 1100px;
+				height: 5px;
+				background: $bg-top-footer;
+				position: absolute;
+				bottom: -25px;
+				left: 50%;
+				margin-left: -550px;
+				content:'';
+			}
+		}
+	}
+
+
+	>form{
+		overflow: hidden;
+
+		>div{
+			width: 530px;
+			float: left;
+			margin-right: 30px;
+			margin-bottom: 20px;
+
+			&:nth-of-type(2n){
+				margin-right: 0;
+			}
+
+		}
+
+
+
+		input[type="text"], select{
+				max-width: 100%;
+				margin-bottom: 14px;
+			}
+
+		div.submit{
+			width: 100%;
+			clear: both;
+		}
+
+		p.chps_obli{
+			clear: both;
+		}
+
+
+		.droit-collaborateur{
+			margin-bottom: 60px;
+
+			clear: both;
+
+			
+
+			label{
+				
+				
+
+				span{
+				}
+
+				input{ opacity: 0;
+
+					
+
+				}
+
+				&:before{
+					
+				}
+
+				&.select{
+					&:before{
+						
+					}
+
+				}
+			}
+		}
+
+		div.email-personnelle{
+			
+			>div{
+				font-size: 16px;
+			    line-height: 20px;
+			}
+
+		}
+	}
+}
+
+#layer-update-profil{
+
+	> form{
+
+		div{
+			&.tel, &.mobile, &.fax{
+				width: 33.33%;
+				margin: 0 0 20px 0;
+			}
+			&.tel{
+				padding-right: 30px;
+			}
+			&.fax{
+				padding-left: 30px;
+			}
+
+			&.submit{
+				input{width: 150px;}
+			}
+
+			&.email{
+				input{
+
+				max-width: 100%;
+				}
+			}
+
+			&.message-erreur{
+				width: 100%;
+			}
+
+		}
+	}
+
+}
+
+#layer-update-profil{
+
+	
+
+}
+
+#layer-update-etude{
+
+	> form{
+
+		div{
+			width: 33.33%;
+			float: left;
+			margin: 0;
+			margin-bottom: 30px;
+
+			input[type="text"], select{
+				margin-bottom: 0;
+			}
+
+			&.adresse, &.email, &.cp, &.ville, &.tel, &.fax{
+				padding-right: 30px;
+			}
+			
+
+			&.nom{
+				width: 100%;
+				padding-right: 30px;
+				float: none;
+				clear: both;
+			}
+
+			&.submit{
+				width: 100%;
+
+				input{
+					width: 150px;
+				}
+
+			}
+
+		}
+	}
+}
+
+#layer-update-mdp{
+
+	> form{
+
+		div{
+			width: 100%;
+		}
+	}
+}

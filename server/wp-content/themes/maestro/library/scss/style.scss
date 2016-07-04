@@ -39,6 +39,9 @@ the whole project.
 // Sass functions
 @import "partials/functions";
 
+// icons
+@import "modules/icons";
+
 // import mixins
 @import "partials/mixins";
 
@@ -82,9 +85,6 @@ you hate oysters, then the world is your peanut butter & jelly sandwich.
 // pagination
 @import "modules/slider";
 
-// pagination
-@import "modules/icons";
-
 // owl carousel
 @import "modules/owl.carousel";
 
@@ -105,6 +105,24 @@ the other stylesheets. Remember, keep it light: Speed is Important.
 
 // styles in base.scss
 @import "breakpoints/base";
+
+/* ESPACE PRIVE*/
+@import "breakpoints/base/prive/generale"; 
+@import "breakpoints/base/prive/dashboard";
+@import "breakpoints/base/prive/questions";
+@import "breakpoints/base/prive/profil";
+@import "breakpoints/base/prive/facturation";
+@import "breakpoints/base/prive/cridonline";
+@import "breakpoints/base/prive/collaborateurs";
+
+/*POPUP*/
+@import "breakpoints/base/popup";
+
+/*LISTE*/
+@import "breakpoints/base/liste";
+
+/*SINGLE*/
+@import "breakpoints/base/single";   
 
 /*********************
 LARGER MOBILE DEVICES
@@ -130,6 +148,22 @@ you can add resource intensive styles.
 	// styles in 768up.scss
 	@import "breakpoints/768up";
 
+	/* ESPACE PRIVE*/
+	@import "breakpoints/768/prive/generale"; 
+	@import "breakpoints/768/prive/dashboard";
+	@import "breakpoints/768/prive/questions";
+	@import "breakpoints/768/prive/profil";
+	@import "breakpoints/768/prive/facturation";
+	@import "breakpoints/768/prive/cridonline";
+	@import "breakpoints/768/prive/collaborateurs";
+
+	/*POPUP*/
+	@import "breakpoints/768/popup";
+	/*LISTE*/
+	@import "breakpoints/768/liste"; 
+	/*SINGLE*/
+	@import "breakpoints/768/single";   
+
 } // end of media query
 
 /*********************
@@ -142,6 +176,22 @@ you can add resource intensive styles.
 
 	// styles in 1024up.scss
 	@import "breakpoints/1240up";
+
+	/* ESPACE PRIVE*/
+	@import "breakpoints/1240/prive/generale"; 
+	@import "breakpoints/1240/prive/dashboard";
+	@import "breakpoints/1240/prive/questions";
+	@import "breakpoints/1240/prive/profil";
+	@import "breakpoints/1240/prive/facturation";
+	@import "breakpoints/1240/prive/cridonline";
+	@import "breakpoints/1240/prive/collaborateurs";
+
+	/*POPUP*/
+	@import "breakpoints/1240/popup";
+	/*LISTE*/
+	@import "breakpoints/1240/liste"; 
+	/*SINGLE*/
+	@import "breakpoints/1240/single";   
 
 } // end of media query
 

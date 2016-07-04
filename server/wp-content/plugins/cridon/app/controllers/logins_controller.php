@@ -123,11 +123,18 @@ class LoginsController extends MvcPublicController
             $method = $request->getMethod();
             $notaire = $model->findByLoginAndPassword($request->get( $method, 'login' ), $request->get( $method, 'password' ) );
 
-            $token = $this->generateToken($model, $notaire);
-            //No token generated
-            if ($token) {
-                $success = true;
-                $message = CONST_WS_MSG_SUCCESS;
+            if (!empty($notaire)) {
+                //Validate role
+                if (!in_array(CONST_QUESTIONECRITES_ROLE,CriGetCollaboratorRoles($notaire))){
+                    $message = CONST_WS_LOGIN_ROLE_ERROR_MSG;
+                } else {
+                    $token = $this->generateToken($model, $notaire);
+                    //No token generated
+                    if ($token) {
+                        $success = true;
+                        $message = CONST_WS_MSG_SUCCESS;
+                    }
+                }
             }
         }
         //output token

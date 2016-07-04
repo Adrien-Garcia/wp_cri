@@ -11,7 +11,7 @@
 require_once '../wp-load.php';
 
 // Force update ?
-$force = isset($argv[1]) && $argv[1];
+$force = (isset($argv[1]) && $argv[1]) || (isset($_GET['force']) && $_GET['force']);
 
 // question model
 /**

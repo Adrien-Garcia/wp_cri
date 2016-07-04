@@ -130,7 +130,33 @@ class VeillesController extends BaseActuController {
         if ( !CriIsNotaire() ) {
             CriRefuseAccess();
         } else {
-            parent::show();
+            // check if user can access this level
+            $notaire = mvc_model('Notaire')->getUserConnectedData();
+            if (isset($this->params['id']) && $this->model->userCanAccessSingle($this->model->associatePostWithDocumentByPostName($this->params['id']),$notaire)) {
+                $download_url = '';
+                if (isset($_GET['id_doc']) && $_GET['id_doc']) {
+                    $download_url = mvc_public_url(array('controller' => 'documents', 'action' => 'download', 'id' => $_GET['id_doc']));
+                }
+                $this->set('download_url', $download_url);
+
+                parent::show();
+            } else {
+                if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE) && false) {
+                    $redirect = 'cridonline';
+                    $error = 'NIVEAU_VEILLE_INSUFFISANT';
+                } else {
+                    $redirect = 'show';
+                    $error = 'FONCTION_NON_AUTORISE';
+                }
+                // redirect to information page
+                $options = array(
+                    'controller' => 'notaires',
+                    'action'     => $redirect
+                );
+                $publicUrl  = MvcRouter::public_url($options);
+                $publicUrl.='?error='.$error;
+                wp_redirect( $publicUrl, 302 );
+            }
         }
     }
 

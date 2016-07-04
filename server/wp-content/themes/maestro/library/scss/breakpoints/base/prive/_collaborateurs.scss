@@ -1,0 +1,114 @@
+#mes-collaborateurs{
+
+	.bt-ajout{
+		background: $vert;
+		display: inline-block;
+		margin: 0 0 10px 0;
+		font-size: 13px;
+		font-family: $dosis;
+    	font-weight: 500;
+    	@include do-sm;
+		text-transform: uppercase;
+		line-height: 26px;
+		height: 26px;
+		color:#FFF;
+		text-decoration: none;
+		text-align: center;
+		position: relative;
+		padding:0 10px;
+		cursor: pointer;
+		
+		&:before{
+			@include svgicon('icon-angle-bottom', 8px, 8px, $vert);
+			position: absolute;
+			right:-15px;
+			top: 9px;
+			@include rotate(-90);
+		} 
+
+		&:hover{
+			background: $vj_03;
+			&:before{
+		      @include svgicon('icon-angle-bottom', 8px, 8px, $vj_03);
+		    }
+		}
+
+		
+
+		
+	}
+	
+	ul.list-collab{
+		margin: 0 0 0 0;
+		padding: 0;
+		width: 100%;
+
+		li{
+			margin: 0;
+			padding: 5px 0;
+			border-bottom:solid 4px $bg-top-footer;
+			width: 100%;
+			position: relative;
+
+			span{
+				display: inline-block;
+			}
+
+			.trash{
+				position: absolute;
+				right: 0;
+				top: 20px;
+
+				&:before{
+					@include svgicon('ico-trash', 19px, 19px,$bg-top-footer);	
+					position: absolute;
+					left: 50%;
+					margin-left: -8px;
+
+				}
+
+				
+
+				form{
+					opacity: 0;
+
+					input{
+						padding: 0;
+						width: 20px;
+					}
+				}
+			}
+
+			.block_01, .block_02, .block_03{
+				margin: 10px 0;
+				@include do-me;
+				font-size: 18px;
+
+				.nom{
+					font-family: $helvetica;
+					line-height: 18px;
+					//text-decoration: underline;
+					border-bottom: solid 1px $bleu;
+					cursor: pointer;
+					@include transition (all 0.3s);
+
+					&:hover{
+						border-bottom: solid 1px transparent;
+					}
+				}
+				.fonction{
+					@include do-me;
+					font-size: 15px;
+				}
+
+				.tel{
+					line-height: 22px;
+				}
+			}
+
+			&:last-child{
+				border:none;
+			}
+		}
+	}
+}

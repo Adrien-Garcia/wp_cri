@@ -1,0 +1,19 @@
+div#regles-facturation{
+
+	h2{
+	    font-size: inherit; 
+	    text-transform: uppercase;
+	    padding: inherit;
+	    line-height: inherit;
+
+	    color:$bleu;
+	    @include do-bo;
+	    padding: 10px 0;
+	}
+
+	h3{
+		color:$vert;
+		@include do-me;
+	}
+
+}

@@ -479,13 +479,18 @@ function getMatieresByNotaire(){
 }
 
 /**
- * Check if notaire can access finances
+ * Check if notaire can access sensitive informations
+ * @param string $role
  *
  * @return bool
  */
-function CriCanAccessFinance()
-{
-    return mvc_model('notaire')->userCanAccessFinance();
+function CriCanAccessSensitiveInfo($role) {
+    // check if user connected is notaire
+    if (CriIsNotaire()) {
+        // user data
+        return mvc_model('notaire')->userCanAccessSensitiveInfo($role);
+    }
+    return false;
 }
 
 /**
@@ -606,7 +611,6 @@ function CriPostQuestion() {
 
 /**
  * List of displayed Support order by priority (order field)
- *
  * @return array
  */
 function CriListSupport()
@@ -614,16 +618,23 @@ function CriListSupport()
     // init
     $supports = array();
 
-    // query optoins
+    // query options
     $options = array(
-        'selects'    => array('Support.id', 'Support.label_front', 'Support.value', 'Support.description'),
-        'conditions' => array(
-            'Support.displayed' => 1
+        'selects'    => array('s.id', 's.label_front', 's.value', 's.description','s.icon', 's.document', 's.order', 'es.id_expertise'),
+        'synonym'      => 'es',
+        'join'       => array(
+            array(
+                'table' => 'support s',
+                'column' => 's.id = es.id_support'
+            )
         ),
-        'order'      => 'Support.order ASC',
-        'limit'      => 3
+        'conditions' => array(
+            's.displayed' => 1
+        ),
+        'order'      => 's.order ASC'
     );
-    $items   = mvc_model('Support')->find($options);
+
+    $items   = mvc_model('QueryBuilder')->findAll( 'expertise_support',$options );
 
     // format output
     if (is_array($items) && count($items) > 0) {
@@ -633,13 +644,103 @@ function CriListSupport()
             $object->value = $item->value;
             $object->label_front = $item->label_front;
             $object->description = $item->description;
+            $object->icon = $item->icon;
+            $object->order = $item->order;
+            $object->document = wp_upload_dir()['baseurl'] . '/' . $item->document;
+            $object->id_expertise = $item->id_expertise;
 
             $supports[] = clone $object;
         }
     }
-
     return $supports;
+}
 
+/**
+ * List of displayed Support order by priority (order field)
+ *
+ * @return array
+ */
+function CriListExpertise()
+{
+    $expertises = array();
+
+    // query options
+    $options = array(
+        'conditions' => array(
+            'Expertise.displayed' => 1
+        ),
+        'order'      => 'Expertise.order ASC'
+    );
+
+    $items = mvc_model('Expertise')->find($options);
+
+    if (is_array($items) && count($items) > 0) {
+        foreach ($items as $item) {
+
+            $object = new \stdClass();
+            $object->id = $item->id;
+            $object->label_front = $item->label_front;
+            $object->description = $item->description;
+            $object->order = $item->order;
+            $object->document = wp_upload_dir()['baseurl'] . '/' . $item->document;
+            $object->supports = false;
+
+            $expertises[$object->id] = clone $object;
+        }
+    }
+    return $expertises;
+}
+
+/**
+ * List of displayed Expertises with Supports (order field)
+ *
+ * @return array
+ */
+function CriListAllSupportsByExpertises()
+{
+    $expertises = array();
+
+    $itemsSupport = CriListSupport();
+
+    $expertises = CriListExpertise();
+
+    // format output
+
+    // si on as des supports, foreach
+    if (is_array($itemsSupport) && count($itemsSupport) > 0) {
+        foreach ($itemsSupport as $support) {
+
+            // si l'expertise du support actuel existe
+            if( !empty($expertises[$support->id_expertise]) ) {
+
+                // si la liste des supports de cette expertise n'existe pas on l'initialise
+                if ( empty($expertises[$support->id_expertise]->supports) ) {
+                    $expertises[$support->id_expertise]->supports = array();
+                }
+                // on ajoute le support à l'expertise
+                $expertises[$support->id_expertise]->supports[$support->id] = clone $support;
+            }
+        }
+    }
+
+    return $expertises;
+}
+
+
+function CriExpertiseBySupport($idSupport){
+    $options = array(
+        'fields' => 'ex.*',
+        'synonym' => 'es',
+        'join' => array(
+            array(
+                'table' => 'expertise ex',
+                'column' => 'ex.id = es.id_expertise'
+            )
+        ),
+        'conditions' => 'es.id_support = '.$idSupport
+    );
+    $expertise = mvc_model('QueryBuilder')->findAll('expertise_support',$options,'ex.id' );
+    return $expertise[0];
 }
 
 /*
@@ -692,10 +793,10 @@ function CriRefuseAccess($error_code = "PROTECTED_CONTENT",$url=false) {
     }
 
     if( empty($request) ) {
-        $request = false;
+        $request = '';
     } else {
         $request = mb_strpos($request, get_home_url()) === false ? get_home_url() . $request : $request;
-        $request = urlencode(htmlspecialchars( $request, ENT_QUOTES, "UTF-8"));
+        $request = urlencode($request);
     }
 
     if (
@@ -906,3 +1007,135 @@ function CriVeilleWithUriFilters()
     return mvc_public_url(array('controller' => 'veilles', 'action' => 'index')) . $url;
 }
 
+/**
+ * Send confirmation to notary for posted question
+ *
+ * @param array $question
+ * @throws Exception
+ */
+function CriSendPostQuestConfirmation($question) {
+    // get connected user
+    global $current_user;
+
+    // set meail headers
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+    // retrieve notary data
+    $notary = mvc_model('Notaire')->find_one_by_id_wp_user($current_user->ID);
+    if (is_object($notary) && property_exists($notary, 'email_adress')) {
+        // check environnement
+        $env = getenv('ENV');
+        if (empty($env)|| ($env !== 'PROD')) {
+            if ($env === 'PREPROD') {
+                $dest = Config::$notificationAddressPreprod;
+            } else {
+                $dest = Config::$notificationAddressDev;
+            }
+        } else {
+            $dest = $notary->email_adress;
+            if (!$dest) { // notary email is empty
+                // send email to the office
+                $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+                if (is_object($offices) && $offices->office_email_adress_1) {
+                    $dest = $offices->office_email_adress_1;
+                } elseif (is_object($offices) && $offices->office_email_adress_2) {
+                    $dest = $offices->office_email_adress_2;
+                } elseif (is_object($offices) && $offices->office_email_adress_3) {
+                    $dest = $offices->office_email_adress_3;
+                }
+            }
+        }
+
+        // dest must be set
+        if ($dest) {
+            // prepare message
+            $subject = Config::$mailSubjectQuestionStatusChange['1'];
+            if (!empty ($question['support']) && !empty($question['support']->id)){
+                $expertise = CriExpertiseBySupport($question['support']->id);
+            }
+            $vars    = array(
+                'resume'          => $question['resume'],
+                'content'         => $question['content'],
+                'matiere'         => $question['matiere'],
+                'competence'      => $question['competence'],
+                'support'         => (empty($question['support']) || empty($question['support']->label_front)) ? '' : $question['support']->label_front ,
+                'expertise'       => (empty($expertise)           || empty($expertise->label_front))           ? '' : $expertise->label_front,
+                'creation_date'   => $question['dateSoumission'],
+                'date'            => $question['dateSoumission'],
+                'notaire'         => $notary,
+                'type_question'   => '1',
+            );
+            $message = CriRenderView('mail_notification_question', $vars, 'custom', false);
+
+            // send email
+            wp_mail($dest, $subject, $message, $headers);
+        }
+    }
+}
+
+/**
+ * Get list of all existing roles
+ *
+ * @return array
+ */
+function CriListRoles() {
+    return Config::$notaryRoles;
+}
+
+/**
+ * Get list of roles by collaborator
+ * @param mixed $collaborator
+ * @return array
+ */
+function CriGetCollaboratorRoles($collaborator) {
+    // get collaborator associated user
+    if (is_object($collaborator) && $collaborator->id_wp_user) {
+        $user = new WP_User($collaborator->id_wp_user);
+
+        // check if user is a WP_user vs WP_error
+        if ($user instanceof WP_User && is_array($user->roles)) {
+            return $user->roles;
+        }
+    }
+    return array();
+}
+
+/**
+ * Check if notaire can reset password
+ *
+ * @return bool
+ */
+function CriCanResetPwd() {
+    return mvc_model('notaire')->userCanResetPwd();
+}
+
+/**
+ * Get list of all existing roles by function
+ *
+ * @param string $type : notaries|collaborators
+ * @param int $idFonction
+ * @return array
+ */
+function CriListRolesByFunction($type, $idFonction) {
+    $roles = array();
+    if (!empty(Config::$notaryRolesByFunction[$type][$idFonction])) {
+        foreach (Config::$notaryRolesByFunction[$type][$idFonction] as $role) {
+            $roles[$role] = Config::getRoleLabel($role);
+        }
+    }
+    return $roles;
+}
+
+function isPromoActive(){
+    if (date('Y-m-d') <= CONST_DATE_FIN_PROMO){
+        return true;
+    }
+    return false;
+}
+
+function isFaxAccepted(){
+    if (date('Y-m-d') <= CONST_DATE_FIN_FAX){
+        return true;
+    }
+    return false;
+}

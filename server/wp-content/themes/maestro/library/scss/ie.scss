@@ -19,6 +19,7 @@ read those. Below, we need to import only the stuff IE can't
 understand (what's inside the media queries). We also need to
 import the mixins file so SASS can understand the variables.
 ******************************************************************/
+@import "modules/spritesheet.scss";
 
 @import "partials/variables"; // import variables
 @import "partials/mixins"; // import mixins

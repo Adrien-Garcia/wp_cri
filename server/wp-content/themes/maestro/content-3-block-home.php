@@ -15,7 +15,7 @@
 				<?php _e('Rechercher'); ?>
 				<span><?php _e('dans les bases de connaissances'); ?></span> 
 			</h2>
-			<a href="/rechercher-dans-les-bases-de-connaissances/">+</a>
+			<a href="<?php echo CONST_URL_SINEQUA ?>">+</a>
 		</div>						
 	</div>
 

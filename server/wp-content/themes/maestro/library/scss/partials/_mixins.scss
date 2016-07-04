@@ -23,6 +23,7 @@ http://web-design-weekly.com/blog/2013/05/12/handy-sass-mixins/
 /*********************
 TRANSITION
 *********************/
+@import "modules/icons";
 
 /*
 I totally rewrote this to be cleaner and easier to use.
@@ -88,16 +89,16 @@ ICONES SVG
 */
 
 @mixin svgicon($name, $fontsize, $lineheight, $color){
-    @extend .icon;
-    @extend .icon-#{$name};
+    @include icon;
+    @include icon-before($name);
     font-size:$fontsize;
     line-height:$lineheight;
     color:$color;
 }
 
 @mixin svgiconafter($name, $fontsize, $lineheight, $color){
-    @extend .icon;
-    @extend .icon-#{$name}-after;
+    @include icon;
+    @include icon-after($name);
     font-size:$fontsize;
     line-height:$lineheight;
     color:$color;
@@ -190,7 +191,7 @@ BT style crayon
     color:$color;
     font-size: 10px;
     text-decoration: none;
-    @extend .do-sm;
+    @include do-sm;
     display: block;
     text-align: center;
     text-transform: uppercase;
@@ -285,7 +286,7 @@ Lien souligné avec "+"
 
     &:after{
       content:'+';
-      @extend .do-el;
+      @include do-el;
       font-size: 40px;
       display: block;
       position: absolute;   
@@ -358,33 +359,61 @@ Lien bouton Mon compte rectangle
 
 @mixin bt-rectangle($fond, $color) {
 
-  display: inline-block;
-  padding: 3px 5px; 
+  /* display: inline-block;
+  padding: 4px 8px; 
   background: $fond;
   color:#FFF;
   text-transform: uppercase;
-  font-size: 11px;
-  @extend .do-sm;
+  font-size: 12px;
+  @include do-me;
   position: relative;
   text-decoration: none; 
   transition: all $duration;
-
+  @include border-radius(0);
+  -webkit-appearance: none;
+  
   text-indent: -9000;
-
+  
   &:before{
     @include svgicon('icon-angle-right', 15px, 15px, $fond); 
     position: absolute;
     top: 50%;
     margin-top: -7px;
     right: -4px;  
-  }
+  } */
+
+  background: $fond;
+    display: inline-block;
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    font-family: $dosis;
+      font-weight: 500;
+      @include do-me;
+    text-transform: uppercase;
+    line-height: 26px;
+    height: 26px;
+    color:$color;
+    text-decoration: none;
+    text-align: center;
+    position: relative;
+    padding:0 10px;
+    cursor: pointer;
+    
+    &:before{
+      @include svgicon('icon-angle-bottom', 8px, 8px, $vert);
+      position: absolute;
+      right:-15px;
+      top: 9px;
+      @include rotate(-90);
+    } 
 
   &:hover{
 
     background: $vj_03;
 
     &:before{
-      @include svgicon('icon-angle-right', 15px, 15px, $vj_03);
+      @include svgicon('icon-angle-bottom', 8px, 8px, $vj_03);
+      @include rotate(-90);
     }
   }
 
@@ -392,14 +421,14 @@ Lien bouton Mon compte rectangle
   @media only screen and (min-width: 760px) {
       
     
-    font-size: 12px;    
+    font-size: 14px;    
 
   }
 
   @media only screen and (min-width: 1240px) {
       
     
-    font-size: 14px;    
+    //font-size: 14px;    
 
   }
 

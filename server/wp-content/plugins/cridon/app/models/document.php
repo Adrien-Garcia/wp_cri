@@ -649,5 +649,55 @@ class Document extends \App\Override\Model\CridonMvcModel {
 
         return '/telechargement/'.$encrypted;
     }
-//End Encryption
+    //End Encryption
+
+    /**
+     * Get parent model
+     *
+     * @param int    $id id of element
+     * @param string $type type of parent (question, veille,...)
+     * @return mixed
+     * @throws Exception
+     */
+    public function getRelatedModel($id, $type)
+    {
+        $options = array(
+            'fields' => array(
+                "{$type}.*"
+            ),
+            'synonym' => 'd',
+            'conditions' => 'd.id = ' . $id,
+            'join'  => array(
+                array(
+                    'type'  => 'left',
+                    'table' => "{$type} as {$type}",
+                    'column' => " {$type}.id = d.id_externe"
+                )
+            )
+        );
+
+        $object = mvc_model('QueryBuilder')->findOne('document', $options, 'd.id');
+        return $object;
+    }
+
+    /**
+     * Check if doc already exist
+     *
+     * @param string $name
+     * @return bool
+     * @throws Exception
+     */
+    public function isDocExiste($name)
+    {
+        $document = mvc_model('QueryBuilder')->findOne('document',
+                                                     array(
+                                                         'fields'     => 'id',
+                                                         'conditions' => "name = '" . esc_sql(strip_tags($name)) . "'",
+                                                     )
+        );
+
+        writeLog($document);
+
+        return (is_object($document) && $document->id);
+    }
 }

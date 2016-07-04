@@ -1,0 +1,7 @@
+<?php
+if (is_admin()) {
+	//Hack : Do not display maintenance when connected in back office
+    $upgrading = time() - 60000;
+} else {
+    $upgrading = time();
+}

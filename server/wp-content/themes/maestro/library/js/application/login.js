@@ -1,4 +1,6 @@
 'use strict';
+/* global App, jsvar */
+
 App.Login = {
 
     panelConnexionSelector              : '.js-panel-connexion',
@@ -86,15 +88,15 @@ App.Login = {
 
         this.addListeners();
 
-        if (App.Utils.queryString['openLogin'] == "1") {
+        if (App.Utils.queryString.openLogin === "1") {
             this.eventPanelConnexionToggle();
         }
 
-        if (App.Utils.queryString['messageLogin'] != undefined) {
-            this.changeLoginErrorMessage(App.Utils.queryString['messageLogin']);
+        if (App.Utils.queryString.messageLogin !== undefined) {
+            this.changeLoginErrorMessage(App.Utils.queryString.messageLogin);
         }
 
-        this.targetUrl = App.Utils.queryString['requestUrl'] ? App.Utils.queryString['requestUrl'] : false;
+        this.targetUrl = App.Utils.queryString.requestUrl ? App.Utils.queryString.requestUrl : false;
 
         this.debug("Login : init end");
 
@@ -109,34 +111,34 @@ App.Login = {
 
         this.debug("Login : addListeners start");
 
-        this.$panelConnexionOpen.on("click", function(e) {
+        this.$panelConnexionOpen.on("click", function() {
             self.eventPanelConnexionToggle($(this));
-            if (this.href && this.href.substr(-1) != "#") {
+            if (this.href && this.href.substr(-1) !== "#") {
                 self.targetUrl = this.href;
             }
         });
 
-        this.$panelConnexionClose.on("click", function(e) {
+        this.$panelConnexionClose.on("click", function() {
             self.eventPanelConnexionToggle($(this));
         });
 
-        this.$buttonToConnexion.on("click", function(e) {
+        this.$buttonToConnexion.on("click", function() {
             self.eventToConnexion($(this));
         });
 
-        this.$buttonToMdp.on("click", function(e) {
+        this.$buttonToMdp.on("click", function() {
             self.eventToMdp($(this));
         });
-        this.$elementsConnexionErrorReset.on('click focus', function(e) {
+        this.$elementsConnexionErrorReset.on('click focus', function() {
             self.eventErrorReset($(this));
         });
 
-        this.$formConnexion.on('submit', function(e) {
+        this.$formConnexion.on('submit', function() {
             self.eventSubmitLogin($(this));
             return false;
         });
 
-        this.$formMdp.on('submit', function(e) {
+        this.$formMdp.on('submit', function() {
             self.eventSubmitPassword($(this));
             return false;
         });
@@ -200,7 +202,7 @@ App.Login = {
 
     eventSubmitLogin: function () {
         this.$blockConnexionErrorMessage.html('');
-        if (this.$fieldConnexionLogin.val() != '' && this.$fieldConnexionPassword.val() != '') {
+        if (this.$fieldConnexionLogin.val() !== '' && this.$fieldConnexionPassword.val() !== '') {
             jQuery.ajax({
                 type: 'POST',
                 url: jsvar.ajaxurl,
@@ -220,7 +222,7 @@ App.Login = {
 
     eventSubmitPassword: function () {
         this.$blockForgotErrorMessage.html('');
-        if (this.$fieldPasswordMail.val() != '' && this.$fieldPasswordCRPCEN.val() != '') {
+        if (this.$fieldPasswordMail.val() !== '' && this.$fieldPasswordCRPCEN.val() !== '') {
             jQuery.ajax({
                 type: 'POST',
                 url: jsvar.ajaxurl,
@@ -241,7 +243,7 @@ App.Login = {
     // AJAX LOGIN
     successLogin: function(data) {
         data = JSON.parse(data);
-        if(data == 'invalidlogin')
+        if(data === 'invalidlogin')
         {
             this.$blockConnexionErrorMessage.html(jsvar.login_error_msg);
         }
@@ -260,7 +262,7 @@ App.Login = {
     // AJAX Forgotten password
     successPassword: function(data) {
         data = JSON.parse(data);
-        if(data == 'success')
+        if(data === 'success')
         {
             this.$blockForgotErrorMessage.html(jsvar.password_crpcen_success_msg);
         }
@@ -279,6 +281,6 @@ App.Login = {
 
     debug: function(t) {
         App.debug(t);
-    },
+    }
 
 };

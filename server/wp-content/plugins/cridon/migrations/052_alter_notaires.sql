@@ -1,0 +1,2 @@
+ALTER TABLE `cri_notaire` ADD COLUMN `id_fonction_collaborateur` INT UNSIGNED DEFAULT 0 NOT NULL AFTER `newsletter`;
+ALTER TABLE `cri_notaire` ADD COLUMN `transmis_erp` TINYINT(1) UNSIGNED DEFAULT 0 NOT NULL AFTER `id_fonction_collaborateur`;

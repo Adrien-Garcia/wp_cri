@@ -49,65 +49,6 @@ I've edited it a bit, but it's a nice starting point.
 
 
 
-@font-face {
-    font-family: 'dosisbold';
-    src: url('../fonts/dosis-bold-webfont.eot');
-    src: url('../fonts/dosis-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/dosis-bold-webfont.woff2') format('woff2'),
-         url('../fonts/dosis-bold-webfont.woff') format('woff'),
-         url('../fonts/dosis-bold-webfont.ttf') format('truetype'),
-         url('../fonts/dosis-bold-webfont.svg#dosisbold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
-
-@font-face {
-    font-family: 'dosismedium';
-    src: url('../fonts/dosis-medium-webfont.eot');
-    src: url('../fonts/dosis-medium-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/dosis-medium-webfont.woff2') format('woff2'),
-         url('../fonts/dosis-medium-webfont.woff') format('woff'),
-         url('../fonts/dosis-medium-webfont.ttf') format('truetype'),
-         url('../fonts/dosis-medium-webfont.svg#dosismedium') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
-
-@font-face {
-    font-family: 'dosisregular';
-    src: url('../fonts/dosis-regular-webfont.eot');
-    src: url('../fonts/dosis-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/dosis-regular-webfont.woff2') format('woff2'),
-         url('../fonts/dosis-regular-webfont.woff') format('woff'),
-         url('../fonts/dosis-regular-webfont.ttf') format('truetype'),
-         url('../fonts/dosis-regular-webfont.svg#dosisregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'dosissemibold';
-    src: url('../fonts/dosis-semibold-webfont.eot');
-    src: url('../fonts/dosis-semibold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/dosis-semibold-webfont.woff2') format('woff2'),
-         url('../fonts/dosis-semibold-webfont.woff') format('woff'),
-         url('../fonts/dosis-semibold-webfont.ttf') format('truetype'),
-         url('../fonts/dosis-semibold-webfont.svg#dosissemibold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
 
 
 @font-face {
@@ -143,34 +84,6 @@ I've edited it a bit, but it's a nice starting point.
 
 
 
-@font-face {
-    font-family: 'dosisextralight';
-    src: url('../fonts/dosis-extralight-webfont.eot');
-    src: url('../fonts/dosis-extralight-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/dosis-extralight-webfont.woff2') format('woff2'),
-         url('../fonts/dosis-extralight-webfont.woff') format('woff'),
-         url('../fonts/dosis-extralight-webfont.ttf') format('truetype'),
-         url('../fonts/dosis-extralight-webfont.svg#dosisextralight') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-
-
-@font-face {
-    font-family: 'dosisextrabold';
-    src: url('../fonts/dosis-extrabold-webfont.eot');
-    src: url('../fonts/dosis-extrabold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/dosis-extrabold-webfont.woff2') format('woff2'),
-         url('../fonts/dosis-extrabold-webfont.woff') format('woff'),
-         url('../fonts/dosis-extrabold-webfont.ttf') format('truetype'),
-         url('../fonts/dosis-extrabold-webfont.svg#dosisextrabold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
 
 
 
@@ -181,33 +94,38 @@ $sans-serif:        Arial, "Helvetica Neue", Helvetica, sans-serif;
 $serif:             "Georgia", Cambria, Times New Roman, Times, serif;
 $dosis:             'Dosis', Helvetica, sans-serif;
 
-.do-re{
+@mixin do-re{
     font-family: $dosis;
     font-weight: 400;
 }
-.do-me{
+.do-re { @include do-re;}
+@mixin do-me{
     font-family: $dosis;
     font-weight: 500;
 }
-.do-bo{
-
+.do-me { @include do-me;}
+@mixin do-bo{
     font-family: $dosis;
     font-weight: 700;
 }
-.do-sm{
+.do-bo { @include do-bo;}
+@mixin do-sm{
     font-family: $dosis;
     font-weight: 600;
 }
-.do-el{
+.do-sm { @include do-sm;}
+@mixin do-el{
     font-family: $dosis;
     font-weight: 200;
 }
-.do-eb{
+.do-el { @include do-el;}
+@mixin do-eb{
     font-family: $dosis;
     font-weight: 800;
 }
+.do-eb { @include do-eb;}
 
 $helvetica: helveticaregular;
-$helvetica-bold:    helveticabold;
+$helvetica-bold: helveticabold;
 
-$garamond : 'EB Garamond';
+$garamond: 'EB Garamond', serif;

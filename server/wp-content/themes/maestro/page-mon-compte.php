@@ -9,48 +9,167 @@
 		
 
 		<div id="main" class="cf" role="main">
+			<div class="header-wrap">
+				<h1 class="wrap">Mon compte</h1>
+			</div>
 
 			<div id="inner-content" class="wrap cf">
  
-				<h1>Mon compte</h1>
-				<ul id="sel-compte">
-					<li class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == 1) ? " active " : ""?>" data-js-name="Dashboard" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentdashboard">
-						<a href="<?php get_home_url() ?>/notaires/" class="bt js-account-dashboard-button analytics_Dashboard_dashboard">Tableaux de bord</a>
-						<div id="tableau-de-bord" class="pannel js-account-ajax">
-                            <?php if (!isset($onglet) || $onglet == 1) : ?>
-                                <?php CriRenderView('contentdashboard', array('controller' => $this, 'questions' => $questions, 'notaire' => $notaire), 'notaires') ?>
-                            <?php endif; ?>
-						</div>
 
-					</li>
-					<li class="js-account-questions js-account-blocs <?php echo ($onglet == 2) ? " active " : ""?>" data-js-name="Questions" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentquestions">
-						<a href="<?php get_home_url() ?>/notaires/questions" class="bt js-account-questions-button analytics_Dashboard_questions">Mes Questions</a>
-						<div id="mes-questions" class="pannel js-account-ajax">
-                            <?php if ($onglet == 2) : ?>
-                                <?php CriRenderView('contentquestions', array('notaire' => $notaire, 'answered' => $answered,'pending'=> $pending,'juristesPending'=> $juristesPending,'juristesAnswered' => $juristesAnswered,'matieres' => $matieres,'controller' => $this), 'notaires') ?>
+				<!-- <a href="/wp-login.php?action=logout" class="logout"> Se déconnecter</a> -->
+				<div id="sidebar_prive">
+					<nav>
+						<ul id="sel-compte">
+							<li
+								class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) ? " active " : "" ?>"
+								data-js-name="Dashboard"
+								>
+
+								<a
+									data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentdashboard'));?>"
+									data-js-target-id="tableau-de-bord"
+									href="<?php echo mvc_public_url(array('controller' => 'notaires'));?>"
+									class="bt js-account-dashboard-button analytics_Dashboard_dashboard">
+									<span>Tableaux de bord</span>
+								</a>
+							</li>
+							<li
+								class="js-account-questions js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_QUESTION) ? " active " : "" ?>"
+								data-js-name="Questions"
+								>
+
+								<a
+									data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentquestions'));?>"
+									data-js-target-id="mes-questions"
+									href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'questions'));?>"
+									class="bt js-account-questions-button analytics_Dashboard_questions">
+									<span>Mes Questions</span>
+								</a>
+							</li>
+							<li
+								class="js-account-profil js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_PROFIL) ? " active " : "" ?>"
+								data-js-name="Profil"
+								>
+
+								<a
+									data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentprofil'));?>"
+									data-js-target-id="mon-profil"
+									href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'profil'));?>"
+									class="bt js-account-profil-button analytics_Dashboard_profil" id="sel-compte-profil-button">
+									<span>Mon profil</span>
+								</a>
+							</li>
+							<?php if (CriCanAccessSensitiveInfo(CONST_FINANCE_ROLE)): ?>
+							<li
+								class="js-account-facturation js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_FACTURATION) ? " active " : "" ?>"
+								data-js-name="Facturation"
+								>
+
+								<a
+									data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentfacturation'));?>"
+									data-js-target-id="regles-facturation"
+									href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'facturation'));?>"
+									class="bt js-account-facturation-button analytics_Dashboard_facturation">
+									<span>Règles de facturation</span>
+								</a>
+							</li>
+							<?php endif; ?>
+                            <?php if (!isPromoActive()) : ?>
+                                <?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE) && false): ?>
+                                <li
+                                    class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
+                                    data-js-name="Cridonline"
+                                    >
+
+                                    <a
+                                        data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonline')) ?>"
+                                        data-js-target-id="cridonline"
+                                        href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'cridonline'));?>"
+                                        class="bt js-account-cridonline-button analytics_Dashboard_cridonline cridonline">
+                                        <span><span>Crid</span>'Online</span>
+                                    </a>
+                                </li>
+                                <?php endif; ?>
+                            <?php else : ?>
+                                <?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE) && false): ?>
+                                    <li
+                                        class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
+                                        data-js-name="Cridonline"
+                                        >
+
+                                        <a
+                                            data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlinepromo')) ?>"
+                                            data-js-target-id="cridonline"
+                                            href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'cridonline'));?>"
+                                            class="bt js-account-cridonline-button analytics_Dashboard_cridonline cridonline">
+                                            <span><span>Crid</span>'Online</span>
+                                        </a>
+                                    </li>
+                                    <?php endif; ?>
                             <?php endif; ?>
-						</div>
-					</li>
-					<li class="js-account-profil js-account-blocs <?php echo ($onglet == 3) ? " active " : ""?>" data-js-name="Profil" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentprofil">
-						<a href="<?php get_home_url() ?>/notaires/profil" class="bt js-account-profil-button analytics_Dashboard_profil" id="sel-compte-profil-button">Mon profil</a>
-						<div id="mon-profil" class="pannel js-account-ajax">
-                            <?php if ($onglet == 3) : ?>
-                                <?php CriRenderView('contentprofil', array('matieres' => $matieres,'notaire' => $notaire), 'notaires') ?>
+							<?php if (CriCanAccessSensitiveInfo(CONST_COLLABORATEUR_TAB_ROLE)): ?>
+							<li
+								class="js-account-collaborateur js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>"
+								data-js-name="Collaborateur"
+								>
+
+								<a
+									data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'contentcollaborateur')) ?>"
+									data-js-target-id="mes-collaborateurs"
+									href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'collaborateur'));?>"
+									class="bt js-account-collaborateur-button analytics_Dashboard_collaborateur">
+									<span>Mes collaborateurs</span>
+								</a>
+							</li>
+							<?php endif; ?>
+						</ul>
+					</nav>
+				</div>
+				<div class="content">
+					<div id="tableau-de-bord" class="pannel js-account-ajax js-account-dashboard js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) ? " active " : "" ?>">
+                        <?php if (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) : ?>
+                            <?php CriRenderView('contentdashboard', array('controller' => $this, 'questions' => $questions, 'notaire' => $notaire, 'messageError' => $messageError), 'notaires') ?>
+                        <?php endif; ?>
+					</div>
+					<div id="mes-questions" class="pannel js-account-ajax js-account-questions js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_QUESTION) ? " active " : "" ?>">
+                        <?php if ($onglet == CONST_ONGLET_QUESTION) : ?>
+                            <?php CriRenderView('contentquestions', array('notaire' => $notaire, 'answered' => $answered,'pending'=> $pending,'juristesPending'=> $juristesPending,'juristesAnswered' => $juristesAnswered,'matieres' => $matieres,'controller' => $this), 'notaires') ?>
+                        <?php endif; ?>
+					</div>
+					<div id="mon-profil" class="pannel js-account-ajax js-account-profil js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_PROFIL) ? " active " : "" ?>">
+	                    <?php if ($onglet == CONST_ONGLET_PROFIL) : ?>
+	                        <?php CriRenderView('contentprofil', array('matieres' => $matieres,'notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3, 'message' => $message), 'notaires') ?>
+	                    <?php endif; ?>
+					</div>
+					<div id="regles-facturation" class="pannel js-account-ajax js-account-facturation js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_FACTURATION) ? " active " : "" ?>">
+                    	<?php if ($onglet == CONST_ONGLET_FACTURATION) : ?>
+                    		<?php CriRenderView('contentfacturation', array('notaire' => $notaire, 'content' => $content), 'notaires') ?>
+                        <?php endif; ?>
+					</div>
+                    <?php if (!isPromoActive()) : ?>
+                         <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>">
+                            <?php if ($onglet == CONST_ONGLET_CRIDONLINE) : ?>
+                                <?php CriRenderView('contentcridonline', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3, 'messageError' => $messageError ), 'notaires') ?>
+
                             <?php endif; ?>
-						</div>
-					</li>
-					<?php if (CriCanAccessFinance()): ?>
-					<li class="js-account-facturation js-account-blocs <?php echo ($onglet == 4) ? " active " : ""?>" data-js-name="Facturation" data-js-ajax-src="<?php get_home_url() ?>/notaires/contentfacturation">
-						<a href="<?php get_home_url() ?>/notaires/facturation" class="bt js-account-facturation-button analytics_Dashboard_facturation">Règles de facturation</a>
-						<div id="regles-facturation" class="pannel js-account-ajax">
-                        <?php if ($onglet == 4) : ?>
-                        	<?php CriRenderView('contentfacturation', array('notaire' => $notaire, 'content' => $content), 'notaires') ?>
-                            
+                        </div>
+                    <?php else : ?>
+                        <div id="cridonline" class="pannel js-account-ajax js-account-cridonline js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>">
+                            <?php if ($onglet == CONST_ONGLET_CRIDONLINE) : ?>
+                                <?php CriRenderView('contentcridonlinepromo', array('notaire' => $notaire, 'priceVeilleLevel2' => $priceVeilleLevel2, 'priceVeilleLevel3' => $priceVeilleLevel3, 'messageError' => $messageError ), 'notaires') ?>
+
                             <?php endif; ?>
-						</div>
-					</li>				
-					<?php endif ?>
-				</ul>
+                        </div>
+                    <?php endif; ?>
+                    <div id="mes-collaborateurs" class="pannel js-account-ajax js-account-collaborateur js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>">
+                        <?php if ($onglet == CONST_ONGLET_COLLABORATEUR) : ?>
+                            <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions, 'liste' => $liste,'message' => $message,'controller' => $this), 'notaires') ?>
+                        <?php endif; ?>
+                    </div>
+				</div>
+
+
+
 
 			</div>
 

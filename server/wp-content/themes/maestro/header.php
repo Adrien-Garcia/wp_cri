@@ -41,6 +41,9 @@
     if (CriIsNotaire()) {
         $bodyClass[] = "is_notaire";
     }
+	if (CriCanAccessSensitiveInfo(CONST_QUESTIONECRITES_ROLE)) {
+		$bodyClass[] = "has_question_role";
+	}
 ?>
 <body <?php body_class($bodyClass); ?>>
 <?php
@@ -61,13 +64,46 @@ echo get_template_part("content","ga");
 		<header class="header" role="banner" id="sel-header">
 			<div class="header-sup">
 				<div id="inner-header" class="wrap cf">
-					<a href="/rechercher-dans-les-bases-de-connaissances/" class="rechercher">
-						<?php _e('Rechercher dans les bases de connaissances'); ?>
-					</a>
-					<a class="contacter" href="#">
-						<?php _e('Contacter'); ?>
-					</a>
-					<a class="poser-question layer-posez-question_open js-question-open analytics_Poser_question" href="#">
+					<!-- <div class="logo-partenaires">
+						
+					</div> -->
+					<ul id="rechercher">
+						<li>
+							<a href="#">
+								<?php _e('Rechercher dans les bases de connaissances'); ?>
+							</a>
+							<ul class="overlay">
+								<li>
+									<a href="<?php echo CONST_URL_SINEQUA ?>" >
+										<?php _e('Bases CRIDON'); ?> <span><?php _e('LYON'); ?></span> 
+									</a>
+								</li>
+								
+								<?php if (!isPromoActive()) : ?>
+									<li> 
+										<a href="<?php echo CONST_URL_INFO_PAGE_CRIDONLINE ?>" title="Décourvrir l’offre CRID’ONLINE +">
+											<?php _e('Décourvrir l’offre CRID’ONLINE +'); ?>
+										</a>
+									</li>
+								<?php else : ?>
+									<li>
+										<a href="<?php echo CONST_URL_INFO_PAGE_CRIDONLINE_promo ?>" title="Décourvrir l’offre CRID’ONLINE +">
+											<?php _e('Décourvrir l’offre CRID’ONLINE +'); ?>
+										</a>
+									</li>
+								<?php endif ?>
+							</ul>
+						</li>
+					</ul>
+					<!-- <a class="contacter" href="#">
+						<?php // _e('Contacter'); ?>
+					</a> -->
+					<a
+						class="poser-question layer-posez-question_open js-question-open analytics_Poser_question"
+						data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE'; ?>"
+						href="#"
+					>
+
 						<?php _e('Poser une question'); ?>
 					</a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
@@ -85,6 +121,13 @@ echo get_template_part("content","ga");
 								<a class="acceder-compte desktop js-panel-connexion-open sel-open-onglet-connexion" href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')); ?>">
 									<?php _e('acceder à mon compte'); ?>
 								</a>
+								<ul class="logout-2">
+									<li>
+										<a href="/wp-login.php?action=logout" >
+											<?php _e('Se déconnecter'); ?>
+										</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					<?php endif; ?>

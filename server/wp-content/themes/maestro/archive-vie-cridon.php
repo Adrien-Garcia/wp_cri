@@ -11,7 +11,7 @@
 		<div id="main" class="cf" role="main">
 			<div id="inner-content" class="wrap cf">
 
-				<h1 class="h1">Vie du CRIDON</h1>
+				<h1 class="h1">Vie du CRIDON LYON</h1>
 
 				<div class="listing vie-cridon" id="sel-vie-cridon">
 					<?php set_query_var( 'objects', $objects ); ?>
