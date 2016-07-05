@@ -720,6 +720,9 @@ class Config {
                 CONST_QUESTIONECRITES_ROLE,
                 CONST_QUESTIONTELEPHONIQUES_ROLE,
             ),
+            CONST_NOTAIRE_COLLABORATEUR => array(
+                CONST_CONNAISANCE_ROLE,
+            ),
             CONST_NOTAIRE_GEOMETRE => array(
                 CONST_FINANCE_ROLE,
                 CONST_CONNAISANCE_ROLE,
