@@ -75,7 +75,7 @@
 							</li>
 							<?php endif; ?>
                             <?php if (!isPromoActive()) : ?>
-                                <?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE) && false): ?>
+                                <?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE)): ?>
                                 <li
                                     class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
                                     data-js-name="Cridonline"
@@ -91,7 +91,7 @@
                                 </li>
                                 <?php endif; ?>
                             <?php else : ?>
-                                <?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE) && false): ?>
+                                <?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE)): ?>
                                     <li
                                         class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
                                         data-js-name="Cridonline"

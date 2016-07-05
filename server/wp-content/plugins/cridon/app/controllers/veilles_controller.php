@@ -141,7 +141,7 @@ class VeillesController extends BaseActuController {
 
                 parent::show();
             } else {
-                if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE) && false) {
+                if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE)) {
                     $redirect = 'cridonline';
                     $error = 'NIVEAU_VEILLE_INSUFFISANT';
                 } else {
