@@ -447,6 +447,10 @@ if ( !defined( 'CONST_NOTAIRE_TRESORIER' ) ) {
 if ( !defined( 'CONST_NOTAIRE_CHARGE_DVP' ) ) {
     define( 'CONST_NOTAIRE_CHARGE_DVP', 26 );
 }
+// id of collaborator on cri_fonction
+if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
+    define( 'CONST_NOTAIRE_COLLABORATEUR', 27 );
+}
 if ( !defined( 'CONST_NOTAIRE_GEOMETRE' ) ) {
     define( 'CONST_NOTAIRE_GEOMETRE', 28 );
 }
@@ -1028,11 +1032,6 @@ if ( !defined( 'CONST_YDDEMDPTEL_RESETPWD_OFF' ) ) {
 }
 if ( !defined( 'CONST_YDDEMDPWEB_RESETPWD_OFF' ) ) {
     define( 'CONST_YDDEMDPWEB_RESETPWD_OFF', 1 );
-}
-
-// id of collaborator on cri_fonction
-if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
-    define( 'CONST_NOTAIRE_COLLABORATEUR', 27 );
 }
 
 if ( !defined( 'CONST_FACTURATION_PAGE_ID' ) ) {
