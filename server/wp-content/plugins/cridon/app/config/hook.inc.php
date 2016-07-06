@@ -170,24 +170,6 @@ function custom_versioning_css_js($src) {
 add_filter( 'style_loader_src', 'custom_versioning_css_js', 9999 );
 add_filter( 'script_loader_src', 'custom_versioning_css_js', 9999 );
 
-function cridonline_access()
-{
-    if (CriIsNotaire() && CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)) {
-        $oNotaire = CriNotaireData();
-        $lvl = Config::$authCridonOnline[(int) $oNotaire->etude->subscription_level];
-        wp_enqueue_script('cridonline', esc_url_raw('http://abo.prod.wkf.fr/auth/autologin.js?'.
-        'auth='.$lvl.
-        '&cid='.$oNotaire->id.
-        '&clname='.$oNotaire->last_name.
-        '&cfname='.$oNotaire->first_name.
-        '&cemail='.$oNotaire->email_adress.
-        '&pid=CRIDON')
-            , array());
-
-    }
-}
-add_action('wp_enqueue_scripts', 'cridonline_access', 50);
-
 /**
  * hook for connection
  */

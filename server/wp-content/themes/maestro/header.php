@@ -74,7 +74,10 @@ echo get_template_part("content","ga");
 							</a>
 							<ul class="overlay">
 								<li>
-									<a href="#" id="js-cridonline-link" data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE' ?>" >
+									<?php
+									list($access, $url) = CridonlineAutologinLink();
+									?>
+									<a href="<?php echo $url ?>" id="js-cridonline-link" data-js-cridonline-access="<?php echo $access ?>" >
 										<?php _e('Bases CRID’'); ?><span><?php _e('ONLINE'); ?></span>
 									</a>
 								</li>

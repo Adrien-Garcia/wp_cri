@@ -1045,3 +1045,27 @@ function init_select_level_meta_boxes( $post, $args ){
     // render view
     CriRenderView('level_meta_box', $vars);
 }
+
+/**
+ * @return [] : link value and type of link
+ */
+function CridonlineAutologinLink()
+{
+    // default URL when accessing to Cridonline.
+    $url = mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE';
+    $access = 0;
+    if (CriIsNotaire() && CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)) {
+        $oNotaire = CriNotaireData();
+        $lvl = Config::$authCridonOnline[(int) $oNotaire->etude->subscription_level];
+        $url = esc_url_raw('http://abo.prod.wkf.fr/auth/autologin.js?'.
+            'auth='.$lvl.
+            '&cid='.$oNotaire->id.
+            '&clname='.$oNotaire->last_name.
+            '&cfname='.$oNotaire->first_name.
+            '&cemail='.$oNotaire->email_adress.
+            '&pid=CRIDON');
+        $access = 1;
+
+    }
+    return array($access, $url);
+}
