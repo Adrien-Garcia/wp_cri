@@ -31,10 +31,9 @@ class NotairesController extends BasePublicController
             wp_logout();
             // redirect user to home page
             $this->redirect(home_url());
-        } elseif ( (isset($mvc_params['action'])
+        } elseif (isset($mvc_params['action'])
                   && (in_array($mvc_params['action'],Config::$protected_pages))
-                  && !$this->model->userCanAccessSensitiveInfo($role) )
-                  || $role == CONST_CRIDONLINESUBSCRIPTION_ROLE
+                  && !$this->model->userCanAccessSensitiveInfo($role)
         ) { // check if is page sensitive information && notary can access
             // redirect to profil page
             $url = mvc_public_url(array('controller' => 'notaires', 'action' => 'show'));

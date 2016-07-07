@@ -74,6 +74,11 @@ echo get_template_part("content","ga");
 							</a>
 							<ul class="overlay">
 								<li>
+									<a href="#" id="js-cridonline-link" data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE' ?>" >
+										<?php _e('Bases CRID’'); ?><span><?php _e('ONLINE'); ?></span>
+									</a>
+								</li>
+								<li>
 									<a href="<?php echo CONST_URL_SINEQUA ?>" >
 										<?php _e('Bases CRIDON'); ?> <span><?php _e('LYON'); ?></span> 
 									</a>
