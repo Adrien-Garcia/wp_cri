@@ -354,6 +354,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     }
                 }
             }
+            // delete duplicate values
+            $this->erpEtudeList = array_unique($this->erpEtudeList);
 
             // set list of existing notaire
             $this->setSiteNotaireList();
@@ -361,7 +363,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // insert or update data
             $this->manageNotaireData($force);
 
-            // set list of existing notaire
+            // set list of existing etude
             $this->setSiteEtudeList();
 
             // insert or update etude data
