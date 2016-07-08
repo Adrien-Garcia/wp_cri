@@ -81,15 +81,28 @@
         <tr>
             <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
-                <?php if (!empty($password)) : ?>
-                <p>
-                    Suite votre demande de réinitialisation veuillez trouver ci-joint votre nouveau mot de passe :
-                </p>
-                <p style="padding-left: 15px;">
-                    Accès à l'espace privé de notre site Internet :
-                    <strong><?php echo $password; ?></strong>
-                </p>
+                <p><strong>Étude : <?php echo $etude->office_name ?></strong> - CRPCEN : <?php echo $etude->crpcen ?> - <?php echo $notary->last_name.' '.$notary->first_name ?></p>
+
+                <?php if (empty($telPassword)): ?>
+                    <p>
+                        Suite votre demande de réinitialisation veuillez trouver ci-joint votre nouveau mot de passe :
+                    </p>
+                <?php else : ?>
+                    <p>
+                        Suite votre demande de réinitialisation veuillez trouver ci-joint vos nouveaux mots de passe :
+                    </p>
                 <?php endif ?>
+                    <p style="padding-left: 15px;">
+                        Accès à l'espace privé de notre site Internet :
+                        <strong><?php echo $webPassword; ?></strong>
+                    </p>
+                <?php if (!empty($telPassword)): ?>
+                    <p style="padding-left: 15px;">
+                        Accès au standard du CRIDON LYON :
+                        <strong><?php echo $telPassword; ?></strong>
+                        ( de 14H à 17H30 )
+                    </p>
+                <?php endif; ?>
                 <p></p>
             <td width="20" style="background-color:#fff;"></td>
         </tr>
