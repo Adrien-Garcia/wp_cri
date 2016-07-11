@@ -3378,18 +3378,21 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         // recuperation wp_user associé
         $user = $this->getAssociatedUserByNotaryId($notaryId);
         if ($user instanceof WP_User) {
+            // On récupère le notaire pour les anciens mdp
+            $notaire = $this->find_by_id($notaryId);
+
             // mettre à jour la table notaire
             $query = " UPDATE {$this->table}
                        SET web_password = %s,
-                       tel_password = %s,
+                       tel_password = %s
                        WHERE id = %d ";
             $this->wpdb->query($this->wpdb->prepare($query, $newWebPwd, $newTelPwd, $notaryId));
 
             // mettre à jour cri_users
             wp_set_password($newWebPwd, $user->ID);
 
-            // On n'envoie le nouveau de mdp téléphonique uniquement si le notaire a le droit de poser une question par téléphone.
-            if (!$this->userHasRole($user,CONST_QUESTIONTELEPHONIQUES_ROLE)){
+            // On n'envoie le nouveau de mdp téléphonique uniquement si le notaire a le droit de poser une question par téléphone et que le mdp est nouveau.
+            if (!$this->userHasRole($user,CONST_QUESTIONTELEPHONIQUES_ROLE) || $notaire->tel_password == $newTelPwd){
                 $newTelPwd = '';
             }
             // envoie email
