@@ -65,10 +65,10 @@
                 </a> <!-- Lien vers la page liste des question avec une ancre sur la question cliqué !-->
                 <ul>
                     <li>
-                        <?php
-                        $matiere = $question->matiere;
-                        ?>
-                        <img width="30" height="30" src="<?php echo $matiere->picto ; ?>" alt="<?php echo $matiere->short_label ; ?>">
+                        <?php $matiere = $question->matiere; ?>
+                        <?php if (!empty($matiere->picto)): ?>
+                            <img width="30" height="30" src="<?php echo $matiere->picto ; ?>" alt="<?php echo $matiere->short_label ; ?>">
+                        <?php endif; ?>
                     </li>
                     <li>
                         <span class="matiere"><?php echo $matiere->label ; ?></span>
