@@ -168,6 +168,8 @@ App.Question = {
                 self.openTabQuestionExpertise(false);
             }),
             onclose: (function(){
+                this.$owlCarousel.owlCarousel('destroy');
+                this.$owlCarousel2.owlCarousel('destroy');
                 $('body').removeClass('noscroll');
                 self.formInitialized = false;
                 self.formInit();
@@ -536,6 +538,7 @@ App.Question = {
     },
 
     openTabQuestionExpertise: function() {
+        this.$textQuestionExpertise.addClass('hidden');
         this.$owlCarousel2.owlCarousel('destroy');
         this.$owlCarousel.owlCarousel('destroy');
         this.owlCarouselInit2();
