@@ -13,7 +13,7 @@ App.Cridonline = {
 
         this.debug("CridOnline : init start");
 
-        this.linkMark = $('#' + this.prefix + this.linkSuffix);
+        this.linkMark = $('.' + this.prefix + this.linkSuffix);
         this.canAccess = parseInt(this.linkMark.data('js-cridonline-access'));
         this.linkValue =this.linkMark.attr('href');
 

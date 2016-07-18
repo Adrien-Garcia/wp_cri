@@ -77,7 +77,7 @@ echo get_template_part("content","ga");
 									<?php
 									list($access, $url) = CridonlineAutologinLink();
 									?>
-									<a href="<?php echo $url ?>" id="js-cridonline-link" data-js-cridonline-access="<?php echo $access ?>" >
+									<a href="<?php echo $url ?>" class="js-cridonline-link" data-js-cridonline-access="<?php echo $access ?>" >
 										<?php _e('Bases CRID’'); ?><span><?php _e('ONLINE'); ?></span>
 									</a>
 								</li>
