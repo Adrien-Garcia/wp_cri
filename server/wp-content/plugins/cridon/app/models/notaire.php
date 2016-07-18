@@ -1972,13 +1972,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     public function userCanAccessSensitiveInfo($role)
     {
         global $current_user;
+        return $this->userHasRole($current_user,$role);
+    }
 
-        $object = $this->getUserConnectedData();
-
-        return (isset($object->category)
-                && (strcasecmp($object->category, CONST_OFFICES_ROLE) === 0)
-                && in_array($role, (array) $current_user->roles)
-        ) ? true : false;
+    /**
+     * Return whether a user has a role or not
+     *
+     * @param object $user
+     * @param string $role
+     *
+     * @return bool
+     */
+    public function userHasRole($user,$role){
+        return in_array($role, (array) $user->roles);
     }
 
     //Start webservice
@@ -3185,8 +3191,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         SELECT * FROM dual;
                          */
                         foreach ($notaries as $notary) {
+                            $user = new WP_User($notary->id_wp_user);
                             // recuperation droit question ecrite et telephonique
-                            $droitQuest = $this->getDroitQuestEcriteEtTel($notary);
+                            $droitQuestEcrite = $this->userHasRole($user,CONST_QUESTIONECRITES_ROLE) ? CONST_YSREECR_ON : CONST_YSREECR_OFF;
+                            $droitQuestTel    = $this->userHasRole($user,CONST_QUESTIONTELEPHONIQUES_ROLE) ? CONST_YSRETEL_ON : CONST_YSRETEL_OFF;
 
                             // value block
                             $value  = $query;
@@ -3219,8 +3227,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . (empty($notary->tel_office) ? ' ' : $this->replaceQuote($notary->tel_office)) . "', "; // TELOFF
                             $value .= "'" . (empty($notary->fax_office) ? ' ' : $this->replaceQuote($notary->fax_office)) . "', "; // FAXOFF
                             $value .= "'" . (empty($notary->office_email_adress_1) ? ' ' : $this->replaceQuote($notary->office_email_adress_1)) . "', "; // WEBOFF
-                            $value .= "'" . $droitQuest->YSREECR . "', "; // YSREECR
-                            $value .= "'" . $droitQuest->YSRETEL . "', "; // YSRETEL
+                            $value .= "'" . $droitQuestEcrite . "', "; // YSREECR
+                            $value .= "'" . $droitQuestTel . "', "; // YSRETEL
                             $value .= "'" . CONST_YTRAITEE_PAR_SITE . "', "; // YTRAITEE
 
                             if ($notary->renew_pwd == 1) { // demande de renouvellement de MDP
@@ -3253,8 +3261,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     case CONST_DB_DEFAULT:
                     default:
                         foreach ($notaries as $notary) {
+                            $user = new WP_User($notary->id_wp_user);
                             // recuperation droit question ecrite et telephonique
-                            $droitQuest = $this->getDroitQuestEcriteEtTel($notary);
+                            $droitQuestEcrite = $this->userHasRole($user,CONST_QUESTIONECRITES_ROLE) ? CONST_YSREECR_ON : CONST_YSREECR_OFF;
+                            $droitQuestTel    = $this->userHasRole($user,CONST_QUESTIONTELEPHONIQUES_ROLE) ? CONST_YSRETEL_ON : CONST_YSRETEL_OFF;
 
                             $value = "(";
 
@@ -3281,8 +3291,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . $notary->tel_office . "', "; // TELOFF
                             $value .= "'" . $notary->fax_office . "', "; // FAXOFF
                             $value .= "'" . $notary->office_email_adress_1 . "', "; // WEBOFF
-                            $value .= "'" . $droitQuest->YSREECR . "', "; // YSREECR
-                            $value .= "'" . $droitQuest->YSRETEL . "', "; // YSRETEL
+                            $value .= "'" . $droitQuestEcrite . "', "; // YSREECR
+                            $value .= "'" . $droitQuestTel . "', "; // YSRETEL
                             $value .= "'" . CONST_YTRAITEE_PAR_SITE . "', "; // YTRAITEE
 
                             if ($notary->renew_pwd > 0) { // demande de renouvellement de MDP
@@ -3519,46 +3529,5 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $notary['Notaire']['id']           = $notaryId;
         $notary['Notaire']['cron_update_erp']  = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronExportNotary" )
         $this->save($notary);
-    }
-
-    /**
-     * Recuperation droit question ecrite / telephonique
-     *
-     * @param mixed $notary
-     * @return stdClass
-     */
-    protected function getDroitQuestEcriteEtTel($notary)
-    {
-        $droitQuest = new stdClass();
-        $droitQuest->YSREECR = CONST_YSREECR_OFF; // non
-        $droitQuest->YSRETEL = CONST_YSRETEL_OFF; // non
-
-        if ($notary->id_fonction == CONST_NOTAIRE_COLLABORATEUR
-            && !empty(Config::$notaryRolesByFunction['collaborators'][$notary->id_fonction_collaborateur])
-        ) { // collaborateur
-            // question ecrite
-            if (in_array(CONST_QUESTIONECRITES_ROLE, Config::$notaryRolesByFunction['collaborators'][$notary->id_fonction_collaborateur])
-            ) {
-                $droitQuest->YSREECR = CONST_YSREECR_ON;
-            }
-            // question telephonique
-            if (in_array(CONST_QUESTIONTELEPHONIQUES_ROLE, Config::$notaryRolesByFunction['collaborators'][$notary->id_fonction_collaborateur])
-            ) {
-                $droitQuest->YSRETEL = CONST_YSRETEL_ON;
-            }
-        } elseif (!empty(Config::$notaryRolesByFunction['notaries'][$notary->id_fonction])) {
-            // question ecrite
-            if (in_array(CONST_QUESTIONECRITES_ROLE, Config::$notaryRolesByFunction['notaries'][$notary->id_fonction])
-            ) {
-                $droitQuest->YSREECR = CONST_YSREECR_ON;
-            }
-            // question telephonique
-            if (in_array(CONST_QUESTIONTELEPHONIQUES_ROLE, Config::$notaryRolesByFunction['notaries'][$notary->id_fonction])
-            ) {
-                $droitQuest->YSRETEL = CONST_YSRETEL_ON;
-            }
-        }
-
-        return $droitQuest;
     }
 }

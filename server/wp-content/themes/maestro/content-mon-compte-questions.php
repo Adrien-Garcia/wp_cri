@@ -247,7 +247,8 @@ Vous n'avez actuellement aucune question en attente de réponse.
                 });
                 ?>
 
-                <?php if (! empty($a)) : ?>
+                <!-- Si on a au moins 2 documents, on aura : le document du cridon de la réponse + au moins une suite ou complément. -->
+                <?php if (count($documents) >= 2) : ?>
                 <ul class="suite-complement">
 
 
