@@ -26,9 +26,22 @@ class Etude extends \App\Override\Model\CridonMvcModel {
 
     public function getRelatedPrices($etude) {
 
-        // get number of members of the office
-        $options = array('conditions' => array('crpcen' => $etude->crpcen, 'id_fonction' => Config::$functionsPricesCridonline));
-        $nbCollaboratorEtude = mvc_model('QueryBuilder')->countItems('notaire', $options);
+        // get number of active members of the office
+        $options = array(
+            'conditions' => array(
+                'n.crpcen' => $etude->crpcen,
+                'n.id_fonction' => Config::$functionsPricesCridonline,
+                'u.user_status' => CONST_STATUS_ENABLED
+            ),
+            'synonym' => 'n',
+            'join' => array(
+                array(
+                    'table'  => 'users u',
+                    'column' => ' n.id_wp_user = u.id'
+                ),
+            )
+        );
+        $nbCollaboratorEtude = mvc_model('QueryBuilder')->countItems('notaire', $options, 'n.id');
 
         $subscriptionInfos = array();
         foreach (Config::$pricesLevelsVeilles as $level => $prices) {
