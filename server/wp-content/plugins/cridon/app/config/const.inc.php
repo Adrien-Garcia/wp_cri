@@ -580,7 +580,16 @@ if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
 if ( !defined( 'CONST_QUEST_ANSWERED' ) ) {
     define( 'CONST_QUEST_ANSWERED', 4 );
 }
-
+//Flag question en erreur
+if ( !defined( 'CONST_QUEST_SANS_ERREUR' ) ) {
+    define( 'CONST_QUEST_SANS_ERREUR', 0 );
+}
+if ( !defined( 'CONST_QUEST_EN_ERREUR' ) ) {
+    define( 'CONST_QUEST_EN_ERREUR', 1 );
+}
+if ( !defined( 'CONST_QUEST_EN_ERREUR_GRAVE' ) ) {
+    define( 'CONST_QUEST_EN_ERREUR_GRAVE', 2 );
+}
 // import GED
 if ( !defined( 'CONST_IMPORT_DOCUMENT_ORIGINAL_PATH' ) ) {
     $uploadDir = wp_upload_dir();

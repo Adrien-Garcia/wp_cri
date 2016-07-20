@@ -1376,14 +1376,17 @@ class Question extends \App\Override\Model\CridonMvcModel
     }
 
     /**
+     * @param int $flagErreur
+     *
      * @return array|null|object
      */
-    public function exportQuestion()
+    public function exportQuestion($flagErreur)
     {
         try {
             $questions = $this->find(array(
                                          'conditions' => array(
-                                             'transmis_erp' => 0
+                                             'transmis_erp' => 0,
+                                             'flag_erreur'  => $flagErreur
                                          )
                                      )
             );
@@ -1542,7 +1545,6 @@ class Question extends \App\Override\Model\CridonMvcModel
                             $value .= "'000000',"; // ZQUEST_SRENUM1_0
                             $value .= "' ',"; // ZQUEST_ZMESSERR_0
                             $value .= "'0'"; // ZQUEST_ZERR_0
-
                             $value .= ")";
 
                             $queryBloc[] = $value;
@@ -1622,17 +1624,32 @@ writeLog($query, 'query_export.log');
 
             // execution requete
             if (!empty($query)) {
-                if ($result = $this->adapter->execute($query) && !empty($qList)) {
+                try {
+                    $this->adapter->execute($query);
+                } catch (\Exception $e) {
+                    if (!empty($qList)){
+                        if($flagErreur === CONST_QUEST_SANS_ERREUR) {
+                            $updateFlagErreur = CONST_QUEST_EN_ERREUR;
+                        } else {
+                            $updateFlagErreur = CONST_QUEST_EN_ERREUR_GRAVE;
+                        }
+                        $sql = " UPDATE {$this->table} SET flag_erreur = {$updateFlagErreur} WHERE id IN (" . implode(', ', $qList) . ")";
+                        $this->wpdb->query($sql);
+                    } else {
+                        $this->logAndReportError();
+                    }
+                    return CONST_STATUS_CODE_GONE;
+                }
+                if (!empty($qList)) {
                     // update cri_question.transmis_erp
                     $sql = " UPDATE {$this->table} SET transmis_erp = 1 WHERE id IN (" . implode(', ', $qList) . ")";
                     $this->wpdb->query($sql);
+                    if ($flagErreur === CONST_QUEST_EN_ERREUR){
+                        $sql = " UPDATE {$this->table} SET flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id IN (" . implode(', ', $qList) . ")";
+                        $this->wpdb->query($sql);
+                    }
                 } else {
-                    // log erreur
-                    $error = sprintf(CONST_EXPORT_EMAIL_ERROR, date('d/m/Y à H:i:s'));
-                    writeLog($error, 'exportquestion.log','Cridon - Export');
-
-                    // send email
-                    reportError(CONST_EXPORT_EMAIL_ERROR, $error);
+                    $this->logAndReportError();
                 }
             }
 
@@ -1646,7 +1663,16 @@ writeLog($query, 'query_export.log');
             return CONST_STATUS_CODE_GONE;
         }
     } 
-    
+
+    protected function logAndReportError(){
+        // log erreur
+        $error = sprintf(CONST_EXPORT_EMAIL_ERROR, date('d/m/Y à H:i:s'));
+        writeLog($error, 'exportquestion.log','Cridon - Export');
+
+        // send email
+        reportError(CONST_EXPORT_EMAIL_ERROR, $error);
+    }
+
     /**
      * @return array
      */
