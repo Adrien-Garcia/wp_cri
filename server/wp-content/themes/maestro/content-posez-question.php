@@ -61,7 +61,7 @@
                                 <div
                                     data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
                                     data-order="<?php echo $support->order ; ?>"
-                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> <?php echo $support->icon; ?> ">
+                                    class=" item js-question-support-zone js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> <?php echo $support->icon; ?> ">
                                     <input
                                         title="support hidden"
                                         id="support_<?php echo $support->id ?>"
@@ -94,7 +94,7 @@
                                 <div
                                     data-analytics="<?php echo htmlspecialchars($support->label_front); ?>question"
                                     data-order="<?php echo $support->order ; ?>"
-                                    class=" item js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> <?php echo $support->icon; ?> ">
+                                    class=" item js-question-support-zone js-question-support-expertise js-question-support-expertise-<?php echo $support->id_expertise ; ?> <?php echo $support->icon; ?> ">
                                     <input
                                         title="support hidden"
                                         id="support_<?php echo $support->id ?>"

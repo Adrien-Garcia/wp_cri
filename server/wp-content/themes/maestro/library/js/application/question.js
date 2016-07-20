@@ -530,7 +530,7 @@ App.Question = {
                 }
             }
         }
-        var radio = this.$radioQuestionSupport.eq( support );
+        var radio = $( '#support_' + support );
         this.eventZoneQuestionSupportClick(radio.parents(this.zoneQuestionSupportSelector).first());
 
     },
