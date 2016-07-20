@@ -82,11 +82,15 @@ echo get_template_part("content","ga");
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo CONST_URL_SINEQUA ?>" >
+									<a href="<?php echo CONST_URL_SINEQUA ?>"  >
 										<?php _e('Bases CRIDON'); ?> <span><?php _e('LYON'); ?></span> 
 									</a>
 								</li>
-								
+								<li>
+									<a href="http://cridon.notaires.fr/" title="Accès avec votre clé Real">
+										<?php _e('Portail des 5 CRIDON'); ?> <span><?php _e('LYON'); ?></span> 
+									</a>
+								</li>								
 								<?php if (!isPromoActive()) : ?>
 									<li> 
 										<a href="<?php echo CONST_URL_INFO_PAGE_CRIDONLINE ?>" title="Décourvrir l’offre CRID’ONLINE +">
