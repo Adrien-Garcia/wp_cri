@@ -806,7 +806,19 @@ function sendNotificationForPostPublished( $post,$model ){
     $type = checkTypeNofication($completeModel);
     if( $type == 1 ){
         //all notaries
-        $notaires = mvc_model('Notaire')->find();        
+        $options = array (
+            'conditions' => array(
+                'u.user_status' => CONST_STATUS_ENABLED
+            ),
+             'synonym' => 'n',
+             'join' => array(
+                array(
+                    'table'  => 'users u',
+                    'column' => ' n.id_wp_user = u.id'
+                ),
+             )
+         );
+        $notaires = mvc_model('QueryBuilder')->findAll('notaire', $options, 'n.id');
     }elseif( $type == 0 ){
         $notaires = getNotariesByMatiere($completeModel);
     }else{
@@ -863,9 +875,16 @@ function getNotariesByMatiere( $model ){
             array(
                 'table' => 'notaire n',
                 'column' => 'n.id = mn.id_notaire'
-            )
+            ),
+            array(
+                'table'  => 'users u',
+                'column' => ' n.id_wp_user = u.id'
+            ),
         ),
-        'conditions' => 'mn.id_matiere = '.$model->id_matiere
+        'conditions' => array(
+            'mn.id_matiere' => $model->id_matiere,
+            'u.user_status' => CONST_STATUS_ENABLED
+        )
     );
     $notaires = mvc_model('QueryBuilder')->findAll( 'matiere_notaire',$options,'n.id' );
     $emails = array();
