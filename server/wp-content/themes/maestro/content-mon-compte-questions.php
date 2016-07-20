@@ -28,10 +28,15 @@
                     $matiere = $question->matiere;
                 ?>
 				<li>
-					<img src="<?php echo $matiere->picto; ?>" alt="<?php echo $matiere->short_label ; ?>">
+                    <?php if (!empty($matiere->picto)): ?>
+					    <img src="<?php echo $matiere->picto; ?>" alt="<?php echo $matiere->short_label ; ?>">
+                    <?php endif; ?>
 				</li>
 				<li>
-					<span class="matiere"><?php echo $matiere->label ; ?></span>
+                    <?php $trimMatiereLabel = trim($matiere->label) ?>
+                    <?php if (!empty($trimMatiereLabel)): ?>
+					    <span class="matiere"><?php echo $matiere->label ; ?></span>
+                    <?php endif; ?>
                     <?php
                         if ( !empty($question->content) ) {
                             $resume = wp_trim_words($question->content, 18 );
