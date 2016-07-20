@@ -508,8 +508,8 @@ App.Question = {
     eventButtonDocumentationClick: function () {
         var support = $('#support_' + CONST.DocumentationSupportID).first();
         var expertise = $('#niveau-' + CONST.DocumentationExpertiseID).first();
-        this.eventZoneQuestionExpertiseClick(expertise);
-        this.eventZoneQuestionSupportClick(support);
+        this.eventZoneQuestionExpertiseClick(expertise.parent());
+        this.eventZoneQuestionSupportClick(support.parent());
         this.$selectQuestionMatiere.val(CONST.DocumentationID).change();
 
         //this.eventSelectQuestionMatiereChange(false);
