@@ -1452,10 +1452,12 @@ App.Account = {
     },
 
     successNewsletterToggle: function (data) {
+        var self = this;
         data = JSON.parse(data);
-        if(data === 'success')
+        if(data.returnValue === 'success')
         {
-            this.eventAccountProfilOpen();
+            $(this.accountProfil).html(data.view);
+            self.initProfil();
         }
         else
         {

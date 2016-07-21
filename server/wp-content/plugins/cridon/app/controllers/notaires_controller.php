@@ -419,6 +419,7 @@ class NotairesController extends BasePublicController
     {
         // init response
         $ret = 'invalidemail';
+        $data = '';
 
         // Verify that the nonce is valid.
         if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_newsletter_nonce') && isset($_REQUEST['email'])) {
@@ -436,10 +437,23 @@ class NotairesController extends BasePublicController
                 );
                 $this->model->save($notaires);
                 $ret = 'success';
+
+                // Generate new page
+                $this->profil();
+                $vars = $this->view_vars;
+                $vars['is_ajax'] = true;
+                $vars['controller'] = $vars['this'];
+
+                $data = CriRenderView('contentprofil', $vars, 'notaires', false);
             }
         }
 
-        echo json_encode($ret);
+        $json = array(
+            'returnValue' => $ret,
+            'view' => $data
+        );
+
+        echo json_encode($json, JSON_HEX_QUOT | JSON_HEX_TAG);
 
         die;
     }
