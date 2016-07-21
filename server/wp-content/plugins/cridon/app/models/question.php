@@ -1395,11 +1395,11 @@ class Question extends \App\Override\Model\CridonMvcModel
             if (count($questions) > 0) {
                 // set adapter
                 $adapter = CridonOCIAdapter::getInstance();
-                // bloc de requette
+                // add query fields
                 $keys = $this->prepareQuery($adapter);
                 $queryBloc = array();
                 foreach ($questions as $question) {
-                    // remplit la liste des questions
+                    // Liste des questions pour les mettre à jour en fin de traitement
                     $qList[] = $question->id;
 
                     $documents = mvc_model('Document')->find(array(
@@ -1438,6 +1438,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                         $this->wpdb->query($sql);
                     } else {
                         $this->logAndReportError();
+                        return CONST_STATUS_CODE_GONE;
                     }
                     return CONST_STATUS_CODE_OK;
                 }
@@ -1451,6 +1452,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                     }
                 } else {
                     $this->logAndReportError();
+                    return CONST_STATUS_CODE_GONE;
                 }
             }
 
@@ -1467,9 +1469,9 @@ class Question extends \App\Override\Model\CridonMvcModel
 
     /**
      * Envoie les questions ayant un flag_erreur à 2
-     * Dans un premier temps envoi entier ; si échec
-     * Si échec -> envoi de la question sans son sontenu + envoi dans un email séparé le contenu de la question
-     * Si échec -> envoi de toutes les informations de la question dans un email séparé
+     * Dans un premier temps envoi entier
+     * Si échec -> envoi de la question sans son contenu + envoi dans un email le contenu de la question
+     * Si échec -> envoi de toutes les informations de la question dans un email
      *
      * @return int
      */
@@ -1485,7 +1487,7 @@ class Question extends \App\Override\Model\CridonMvcModel
             if (count($questions) > 0) {
                 // set adapter
                 $adapter = CridonOCIAdapter::getInstance();
-                // bloc de requette
+                // add query fields
                 $keys = $this->prepareQuery($adapter);
 
                 foreach ($questions as $question) {
