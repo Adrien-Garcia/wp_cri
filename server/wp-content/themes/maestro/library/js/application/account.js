@@ -281,13 +281,15 @@ App.Account = {
 
         this.$popupProfilOfficeModify              = $(this.accountPopupProfilOfficeModify);
 
-        nonce.name  = 'tokenpassword';
-        nonce.id    = 'tokenpassword';
-        nonce.value = jsvar.password_nonce;
+        var otherNonce   = document.createElement('input');
+        otherNonce.type  = 'hidden';
+        otherNonce.name  = 'tokenpassword';
+        otherNonce.id    = 'tokenpassword';
+        otherNonce.value = jsvar.password_nonce;
 
         this.$accountProfilPassword                = $(d + this.accountProfilSelector + this.accountPasswordSelector);
         this.$accountProfilPasswordForm            = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountFormSelector);
-        this.$accountProfilPasswordForm.append(nonce);
+        this.$accountProfilPasswordForm.append(otherNonce);
         this.$accountProfilPasswordEmail           = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountEmailSelector);
         this.$accountProfilPasswordEmailValidation = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountEmailSelector + this.accountValidationSelector);
         this.$accountProfilPasswordMessage         = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountMessageSelector);
