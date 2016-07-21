@@ -135,6 +135,49 @@ class Config {
         'message' => 'Les questions suivantes n\'ont pas encore de document associé : "%s"'
     );
 
+    public static $emailNotificationQuestionEmptyContent = array(
+        'to' => 'info@cridon-lyon.fr',//Client e-mail, only use it in production mode
+        'subject' => 'Question %s envoyée à l\'ERP sans son contenu',
+        'message' => "La question n° %s posée par le client : %s n'a pas pu être envoyée avec son contenu. \nLe voici dans un email séparé :
+        \nZTXTQUEST_0 : %s"
+    );
+
+    public static $emailNotificationQuestionNotSent = array(
+        'to' => 'info@cridon-lyon.fr',//Client e-mail, only use it in production mode
+        'subject' => 'Question %s non envoyée à l\'ERP',
+        'message' => "La question n° %s posée par le client : %s n'a pas pu être envoyée. Merci de trouver ci-après toutes les informations envoyés habituellement à l'ERP:
+        \nZQUEST_ZIDQUEST_0 : %s
+        \nZQUEST_ZTRAITEE_0 : %s
+        \nZQUEST_SREBPC_0 : %s
+        \nZQUEST_SRECCN_0 : %s
+        \nZQUEST_YCODESUP_0 : %s
+        \nZQUEST_YMATIERE_0 : %s
+        \nZQUEST_YMAT_0 : %s
+        \nZQUEST_YMAT_1 : %s
+        \nZQUEST_YMAT_2 : %s
+        \nZQUEST_YMAT_3 : %s
+        \nZQUEST_YMAT_4 : %s
+        \nZQUEST_ZCOMPETENC_0 : %s
+        \nZQUEST_ZCOMP_0 : %s
+        \nZQUEST_ZCOMP_1 : %s
+        \nZQUEST_ZCOMP_2 : %s
+        \nZQUEST_ZCOMP_3 : %s
+        \nZQUEST_ZCOMP_4 : %s
+        \nZQUEST_YRESUME_0 : %s
+        \nZQUEST_YSREASS_0 : %s
+        \nZQUEST_CREDAT_0 : %s
+        \nZQUEST_ZLIENS_0 : %s
+        \nZQUEST_ZLIENS_1 : %s
+        \nZQUEST_ZLIENS_2 : %s
+        \nZQUEST_ZLIENS_3 : %s
+        \nZQUEST_ZLIENS_4 : %s
+        \nZTXTQUEST_0 : %s
+        \nZQUEST_SRENUM1_0 : %s
+        \nZQUEST_ZMESSERR_0 : %s
+        \nZQUEST_ZERR_0 : %s
+        "
+    );
+
     // list of notaire functions cannot access finances
     public static $canAccessFinance = array(
         CONST_NOTAIRE_FONCTION,

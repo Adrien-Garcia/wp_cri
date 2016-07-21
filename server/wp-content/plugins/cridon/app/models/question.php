@@ -1394,238 +1394,39 @@ class Question extends \App\Override\Model\CridonMvcModel
             // verification nb question à exporter
             if (count($questions) > 0) {
                 // set adapter
-                switch (strtolower(CONST_IMPORT_OPTION)) {
-                    case self::IMPORT_ODBC_OPTION:
-                        $this->adapter = CridonODBCAdapter::getInstance();
-                        break;
-                    case self::IMPORT_OCI_OPTION:
-                        //if case above did not match, set OCI
-                        $this->adapter = CridonOCIAdapter::getInstance();
-                        break;
-                }
-
+                $adapter = CridonOCIAdapter::getInstance();
                 // bloc de requette
+                $keys = $this->prepareQuery($adapter);
                 $queryBloc = array();
-                // adapter instance
-                $adapter = $this->adapter;
-                // list des id question pour maj cri_question apres transfert
-                $qList = array();
+                foreach ($questions as $question) {
+                    // remplit la liste des questions
+                    $qList[] = $question->id;
 
-                // requete commune
-                $query  = " INTO " . CONST_DB_TABLE_QUESTTEMP;
-                $query .= " (";
-                $query .= $adapter::ZQUEST_ZIDQUEST_0 . ", "; // ZQUEST_ZIDQUEST_0
-                $query .= $adapter::ZQUEST_ZTRAITEE_0 . ", "; // ZQUEST_ZTRAITEE_0
-                $query .= $adapter::ZQUEST_SREBPC_0 . ", ";   // ZQUEST_SREBPC_0
-                $query .= $adapter::ZQUEST_SRECCN_0 . ", ";   // ZQUEST_SRECCN_0
-                $query .= $adapter::ZQUEST_YCODESUP_0 . ", ";   // ZQUEST_YCODESUP_0
-                $query .= $adapter::ZQUEST_YMATIERE_0 . ", ";   // ZQUEST_YMATIERE_0
-                $query .= $adapter::ZQUEST_YMAT_0 . ", ";   // ZQUEST_YMAT_0
-                $query .= $adapter::ZQUEST_YMAT_1 . ", ";   // ZQUEST_YMAT_1
-                $query .= $adapter::ZQUEST_YMAT_2 . ", ";   // ZQUEST_YMAT_2
-                $query .= $adapter::ZQUEST_YMAT_3 . ", ";   // ZQUEST_YMAT_3
-                $query .= $adapter::ZQUEST_YMAT_4 . ", ";   // ZQUEST_YMAT_4
-                $query .= $adapter::ZQUEST_ZCOMPETENC_0 . ", ";   // ZQUEST_ZCOMPETENC_0
-                $query .= $adapter::ZQUEST_ZCOMP_0 . ", ";   // ZQUEST_ZCOMP_0
-                $query .= $adapter::ZQUEST_ZCOMP_1 . ", ";   // ZQUEST_ZCOMP_1
-                $query .= $adapter::ZQUEST_ZCOMP_2 . ", ";   // ZQUEST_ZCOMP_2
-                $query .= $adapter::ZQUEST_ZCOMP_3 . ", ";   // ZQUEST_ZCOMP_3
-                $query .= $adapter::ZQUEST_ZCOMP_4 . ", ";   // ZQUEST_ZCOMP_4
-                $query .= $adapter::ZQUEST_YRESUME_0 . ", ";   // ZQUEST_YRESUME_0
-                $query .= $adapter::ZQUEST_YSREASS_0 . ", ";   // ZQUEST_YSREASS_0
-                $query .= $adapter::ZQUEST_CREDAT_0 . "";   // ZQUEST_CREDAT_0
-                $query .= ") ";
-                $query .= " VALUES ";
+                    $documents = mvc_model('Document')->find(array(
+                            'conditions' => array(
+                                'Document.id_externe' => $question->id
+                            ))
+                    );
 
-                // complement requete selon le type de BDD
-                switch (CONST_DB_TYPE) {
-                    case CONST_DB_ORACLE:
-                        /*
-                         * How to write a bulk insert in Oracle SQL
-                         INSERT ALL
-                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
-                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
-                          INTO mytable (column1, column2, column_n) VALUES (expr1, expr2, expr_n)
-                        SELECT * FROM dual;
-                         */
-                        // Add required fields on the Oracle DB
-                        $query = substr($query, 0, - strlen(")  VALUES ")).', ';
-                        $query .= $adapter::ZQUEST_ZLIENS_0 . ", ";   // ZQUEST_ZLIENS_0
-                        $query .= $adapter::ZQUEST_ZLIENS_1 . ", ";   // ZQUEST_ZLIENS_1
-                        $query .= $adapter::ZQUEST_ZLIENS_2 . ", ";   // ZQUEST_ZLIENS_2
-                        $query .= $adapter::ZQUEST_ZLIENS_3 . ", ";   // ZQUEST_ZLIENS_3
-                        $query .= $adapter::ZQUEST_ZLIENS_4 . ", ";   // ZQUEST_ZLIENS_4
-                        $query .= $adapter::ZQUEST_ZTXTQUEST_0 . ", ";   // ZQUEST_ZTXTQUEST_0
-                        $query .= $adapter::ZQUEST_SRENUM_0 . ", ";   // ZQUEST_SRENUM_0
-                        $query .= $adapter::ZQUEST_ZMESERR_0 . ", ";   // ZQUEST_ZMESSERR_0
-                        $query .= $adapter::ZQUEST_ZERR_0 . " ";   // ZQUEST_ZERR_0
+                    $competences = $this->prepareMatiereCompetence($question);
+                    $content = $this->prepareContent($question->content);
+                    $values = $this->prepareQueryValue($question, $documents, $competences, $content);
 
-                        $query .= ")  VALUES ";
-
-                        foreach ($questions as $question) {
-                            $documents = mvc_model('Document')->find(array(
-                                'conditions' => array(
-                                    'Document.id_externe' => $question->id
-                                ))
-                            );
-
-                            // remplit la liste des questions
-                            $qList[] = $question->id;
-                            // competence et matiere principale associées
-                            $compCode    = 0;
-                            $matiereCode = 0;
-                            if (isset($question->competence) && is_object($question->competence)) {
-                                if ($question->competence->id) {
-                                    $compCode = $question->competence->id;
-                                }
-                                if ($question->competence->code_matiere) {
-                                    $matiereCode = $question->competence->code_matiere;
-                                }
-                            }
-
-                            // competence et maitere secondaire associées
-                            $zquest_zcomp_0 = $zquest_zcomp_1 = $zquest_zcomp_2 = $zquest_zcomp_3 = $zquest_zcomp_4 = 0;
-                            $zquest_ymat_0  = $zquest_ymat_1 = $zquest_ymat_2 = $zquest_ymat_3 = $zquest_ymat_4 = 0;
-                            if (is_array($question->competences) && count($question->competences) > 0) {
-                                foreach ($question->competences as $key => $comp) {
-                                    $paramComp  = 'zquest_zcomp_' . $key;
-                                    $paramMat   = 'zquest_ymat_' . $key;
-                                    $$paramComp = $comp->id;
-                                    $$paramMat = $comp->code_matiere;
-                                }
-                            }
-
-                            $content = "' '";
-                            $trimQuestion = trim($question->content);
-                            if (!empty($trimQuestion)) {
-                                $content = trim(html_entity_decode($question->content));
-                                if (mb_strlen($content) <= static::ODBC_MAX_CHARS) {
-                                    $content = str_replace(array("\r\n","\r","\n","\\r","\\n","\\r\\n"), "'||chr(13)||chr(10)||'", $content); // avoid considering all forms of newline
-                                    $content = "'" . str_replace('\\\'', '\'\'', $content) . "'";
-                                } else {
-                                    $contents = str_split($content, static::ODBC_MAX_CHARS);
-                                    //to_clob('...') || to_clob('...')..
-                                    array_walk($contents, function(& $chunk) {
-                                        $chunk = str_replace(array("\r\n","\r","\n","\\r","\\n","\\r\\n"), "')||chr(13)||chr(10)||to_clob('", $chunk); // also change plain characters
-                                        $chunk = "to_clob('" . str_replace('\\\'', '\'\'', $chunk) . "')";
-                                    });
-                                    $content = implode('||', $contents);
-                                }
-                            }
-                            $value  = $query;
-                            $value .= "(";
-
-                            $value .= "'" . $question->id . "', "; // ZQUEST_ZIDQUEST_0
-                            $value .= "0, "; // ZQUEST_ZTRAITEE_0
-                            $value .= "'" . $question->client_number . "', "; // ZQUEST_SREBPC_0
-                            $value .= "'" . $question->sreccn . "', "; // ZQUEST_SRECCN_0
-                            $value .= "'" . $question->id_support . "', "; // ZQUEST_YCODESUP_0
-                            $value .= "'" . $matiereCode . "', "; // ZQUEST_YMATIERE_0
-                            $value .= "'" . $zquest_ymat_0 . "', "; // ZQUEST_YMAT_0
-                            $value .= "'" . $zquest_ymat_1 . "', "; // ZQUEST_YMAT_1
-                            $value .= "'" . $zquest_ymat_2 . "', "; // ZQUEST_YMAT_2
-                            $value .= "'" . $zquest_ymat_3 . "', "; // ZQUEST_YMAT_3
-                            $value .= "'" . $zquest_ymat_4 . "', "; // ZQUEST_YMAT_4
-                            $value .= "'" . $compCode . "', ";       // ZQUEST_ZCOMPETENC_0
-                            $value .= "'" . $zquest_zcomp_0 . "', "; // ZQUEST_ZCOMP_0
-                            $value .= "'" . $zquest_zcomp_1 . "', "; // ZQUEST_ZCOMP_1
-                            $value .= "'" . $zquest_zcomp_2 . "', "; // ZQUEST_ZCOMP_2
-                            $value .= "'" . $zquest_zcomp_3 . "', "; // ZQUEST_ZCOMP_3
-                            $value .= "'" . $zquest_zcomp_4 . "', "; // ZQUEST_ZCOMP_4
-                            $value .= "'" . ( empty($question->resume) ? ' ' : str_replace('\\\'', '\'\'', html_entity_decode($question->resume)) ) . "', "; // ZQUEST_YRESUME_0
-                            $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
-                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy'), "; // ZQUEST_CREDAT_0
-                            $value .= "'" . ( ( !empty($documents[0]) && !empty($documents[0]->id) ) ? mvc_model('Document')->generatePublicUrl($documents[0]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_0
-                            $value .= "'" . ( ( !empty($documents[1]) && !empty($documents[1]->id) ) ? mvc_model('Document')->generatePublicUrl($documents[1]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_1
-                            $value .= "'" . ( ( !empty($documents[2]) && !empty($documents[2]->id) ) ? mvc_model('Document')->generatePublicUrl($documents[2]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_2
-                            $value .= "'" . ( ( !empty($documents[3]) && !empty($documents[3]->id) ) ? mvc_model('Document')->generatePublicUrl($documents[3]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_3
-                            $value .= "'" . ( ( !empty($documents[4]) && !empty($documents[4]->id) ) ? mvc_model('Document')->generatePublicUrl($documents[4]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_4
-//                            $value .= $content . ","; // ZTXTQUEST_0
-                            $value .= "' ',"; // ZTXTQUEST_0
-                            $value .= "'000000',"; // ZQUEST_SRENUM1_0
-                            $value .= "' ',"; // ZQUEST_ZMESSERR_0
-                            $value .= "'0'"; // ZQUEST_ZERR_0
-                            $value .= ")";
-
-                            $queryBloc[] = $value;
-                        }
-                        // preparation requete en masse
-                        if (count($queryBloc) > 0) {
-                            $query = 'INSERT ALL ';
-                            $query .= implode(' ', $queryBloc);
-                            $query .= ' SELECT * FROM dual';
-writeLog($query, 'query_export.log');
-                        }
-                        break;
-                    case CONST_DB_DEFAULT:
-                    default:
-                        foreach ($questions as $question) {
-                            // remplit la liste des questions
-                            $qList[] = $question->id;
-
-                            // competence et matiere principale associées
-                            $compCode     = 0;
-                            $matiereCode  = 0;
-                            if (isset($question->competence) && is_object($question->competence)) {
-                                if ($question->competence->id) {
-                                    $compCode = $question->competence->id;
-                                }
-                                if ($question->competence->code_matiere) {
-                                    $matiereCode = $question->competence->code_matiere;
-                                }
-                            }
-
-                            // competence et maitere secondaire associées
-                            $zquest_zcomp_0 = $zquest_zcomp_1 = $zquest_zcomp_2 = $zquest_zcomp_3 = $zquest_zcomp_4 = 0;
-                            $zquest_ymat_0  = $zquest_ymat_1 = $zquest_ymat_2 = $zquest_ymat_3 = $zquest_ymat_4 = 0;
-                            if (is_array($question->competences) && count($question->competences) > 0) {
-                                foreach ($question->competences as $key => $comp) {
-                                    $paramComp  = 'zquest_zcomp_' . $key;
-                                    $paramMat   = 'zquest_ymat_' . $key;
-                                    $$paramComp = $comp->id;
-                                    $$paramMat = $comp->code_matiere;
-                                }
-                            }
-
-                            $value = "(";
-
-                            $value .= "'" . $question->id . "', "; // ZQUEST_ZIDQUEST_0
-                            $value .= "0, "; // ZQUEST_ZTRAITEE_0
-                            $value .= "'" . $question->client_number . "', "; // ZQUEST_SREBPC_0
-                            $value .= "'" . $question->sreccn . "', "; // ZQUEST_SRECCN_0
-                            $value .= "'" . $question->id_support . "', "; // ZQUEST_YCODESUP_0
-                            $value .= "'" . $matiereCode . "', "; // ZQUEST_YMATIERE_0
-                            $value .= "'" . $zquest_ymat_0 . "', "; // ZQUEST_YMAT_0
-                            $value .= "'" . $zquest_ymat_1 . "', "; // ZQUEST_YMAT_1
-                            $value .= "'" . $zquest_ymat_2 . "', "; // ZQUEST_YMAT_2
-                            $value .= "'" . $zquest_ymat_3 . "', "; // ZQUEST_YMAT_3
-                            $value .= "'" . $zquest_ymat_4 . "', "; // ZQUEST_YMAT_4
-                            $value .= "'" . $compCode . "', ";        // ZQUEST_ZCOMPETENC_0
-                            $value .= "'" . $zquest_zcomp_0 . "', "; // ZQUEST_ZCOMP_0
-                            $value .= "'" . $zquest_zcomp_1 . "', "; // ZQUEST_ZCOMP_1
-                            $value .= "'" . $zquest_zcomp_2 . "', "; // ZQUEST_ZCOMP_2
-                            $value .= "'" . $zquest_zcomp_3 . "', "; // ZQUEST_ZCOMP_3
-                            $value .= "'" . $zquest_zcomp_4 . "', "; // ZQUEST_ZCOMP_4
-                            $value .= "'" . $question->resume . "', "; // ZQUEST_YRESUME_0
-                            $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
-                            $value .= "'" . date('d/m/Y', strtotime($question->creation_date)) . "'"; // ZQUEST_CREDAT_0
-
-                            $value .= ")";
-
-                            $queryBloc[] = $value;
-                        }
-                        // preparation requete en masse
-                        if (count($queryBloc) > 0) {
-                            $query = 'INSERT' . $query . implode(', ', $queryBloc);
-                        }
-                        break;
+                    $queryBloc[] = $keys.$values;
+                }
+                // preparation requete en masse
+                if (count($queryBloc) > 0) {
+                    $query = 'INSERT ALL ';
+                    $query .= implode(' ', $queryBloc);
+                    $query .= ' SELECT * FROM dual';
+                    writeLog($query, 'query_export.log');
                 }
             }
 
             // execution requete
             if (!empty($query)) {
                 try {
-                    $this->adapter->execute($query);
+                    $adapter->execute($query);
                 } catch (\Exception $e) {
                     if (!empty($qList)){
                         if($flagErreur === CONST_QUEST_SANS_ERREUR) {
@@ -1638,11 +1439,11 @@ writeLog($query, 'query_export.log');
                     } else {
                         $this->logAndReportError();
                     }
-                    return CONST_STATUS_CODE_GONE;
+                    return CONST_STATUS_CODE_OK;
                 }
                 if (!empty($qList)) {
                     // update cri_question.transmis_erp
-                    $sql = " UPDATE {$this->table} SET transmis_erp = 1 WHERE id IN (" . implode(', ', $qList) . ")";
+                    $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . " WHERE id IN (" . implode(', ', $qList) . ")";
                     $this->wpdb->query($sql);
                     if ($flagErreur === CONST_QUEST_EN_ERREUR){
                         $sql = " UPDATE {$this->table} SET flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id IN (" . implode(', ', $qList) . ")";
@@ -1662,7 +1463,73 @@ writeLog($query, 'query_export.log');
             // status code
             return CONST_STATUS_CODE_GONE;
         }
-    } 
+    }
+
+    /**
+     * Envoie les questions ayant un flag_erreur à 2
+     * Dans un premier temps envoi entier ; si échec
+     * Si échec -> envoi de la question sans son sontenu + envoi dans un email séparé le contenu de la question
+     * Si échec -> envoi de toutes les informations de la question dans un email séparé
+     *
+     * @return int
+     */
+    public function exportQuestionEnErreurGrave(){
+        try {
+            $questions = $this->find(array(
+                    'conditions' => array(
+                        'transmis_erp' => 0,
+                        'flag_erreur' => CONST_QUEST_EN_ERREUR_GRAVE
+                    )
+                )
+            );
+            if (count($questions) > 0) {
+                // set adapter
+                $adapter = CridonOCIAdapter::getInstance();
+                // bloc de requette
+                $keys = $this->prepareQuery($adapter);
+
+                foreach ($questions as $question) {
+                    $documents = mvc_model('Document')->find(array(
+                            'conditions' => array(
+                                'Document.id_externe' => $question->id
+                            ))
+                    );
+
+                    $competences = $this->prepareMatiereCompetence($question);
+                    $content = $this->prepareContent($question->content);
+                    $values = $this->prepareQueryValue($question,$documents,$competences,$content);
+
+                    $query = 'INSERT '.$keys.$values;
+                    try {
+                        $adapter->execute($query);
+                        // Email content of the question via email
+                        $this->sendNotificationQuestionWithoutContent($question, $content);
+                    } catch (\Exception $e) {
+                        // write into logfile
+                        writeLog($e, 'exportquestionenerreurgrave.log');
+                        // Try to send the info without the content of the question (which is then sent via email)
+                        $values = $this->prepareQueryValue($question,$documents,$competences);
+                        $query = 'INSERT '.$keys.$values;
+                        try {
+                            $adapter->execute($query);
+                        } catch (\Exception $e) {
+                            // write into logfile
+                            writeLog($e, 'exportquestionenerreurgrave.log');
+                            //email all informations of the question
+                            $this->sendNotificationQuestionNotSent($question,$documents,$competences,$content);
+                        }
+                    }
+                    $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . " AND flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id = (" . $question->id . ")";
+                    $this->wpdb->query($sql);
+                }
+            }
+            return CONST_STATUS_CODE_OK;
+        } catch (\Exception $e){
+            // write into logfile
+            writeLog($e, 'exportquestionenerreurgrave.log');
+            return CONST_STATUS_CODE_GONE;
+        }
+    }
 
     protected function logAndReportError(){
         // log erreur
@@ -1671,6 +1538,172 @@ writeLog($query, 'query_export.log');
 
         // send email
         reportError(CONST_EXPORT_EMAIL_ERROR, $error);
+    }
+
+    protected function prepareQuery($adapter){
+        // requete commune
+        $query  = " INTO " . CONST_DB_TABLE_QUESTTEMP;
+        $query .= " (";
+        $query .= $adapter::ZQUEST_ZIDQUEST_0 . ", "; // ZQUEST_ZIDQUEST_0
+        $query .= $adapter::ZQUEST_ZTRAITEE_0 . ", "; // ZQUEST_ZTRAITEE_0
+        $query .= $adapter::ZQUEST_SREBPC_0 . ", ";   // ZQUEST_SREBPC_0
+        $query .= $adapter::ZQUEST_SRECCN_0 . ", ";   // ZQUEST_SRECCN_0
+        $query .= $adapter::ZQUEST_YCODESUP_0 . ", ";   // ZQUEST_YCODESUP_0
+        $query .= $adapter::ZQUEST_YMATIERE_0 . ", ";   // ZQUEST_YMATIERE_0
+        $query .= $adapter::ZQUEST_YMAT_0 . ", ";   // ZQUEST_YMAT_0
+        $query .= $adapter::ZQUEST_YMAT_1 . ", ";   // ZQUEST_YMAT_1
+        $query .= $adapter::ZQUEST_YMAT_2 . ", ";   // ZQUEST_YMAT_2
+        $query .= $adapter::ZQUEST_YMAT_3 . ", ";   // ZQUEST_YMAT_3
+        $query .= $adapter::ZQUEST_YMAT_4 . ", ";   // ZQUEST_YMAT_4
+        $query .= $adapter::ZQUEST_ZCOMPETENC_0 . ", ";   // ZQUEST_ZCOMPETENC_0
+        $query .= $adapter::ZQUEST_ZCOMP_0 . ", ";   // ZQUEST_ZCOMP_0
+        $query .= $adapter::ZQUEST_ZCOMP_1 . ", ";   // ZQUEST_ZCOMP_1
+        $query .= $adapter::ZQUEST_ZCOMP_2 . ", ";   // ZQUEST_ZCOMP_2
+        $query .= $adapter::ZQUEST_ZCOMP_3 . ", ";   // ZQUEST_ZCOMP_3
+        $query .= $adapter::ZQUEST_ZCOMP_4 . ", ";   // ZQUEST_ZCOMP_4
+        $query .= $adapter::ZQUEST_YRESUME_0 . ", ";   // ZQUEST_YRESUME_0
+        $query .= $adapter::ZQUEST_YSREASS_0 . ", ";   // ZQUEST_YSREASS_0
+        $query .= $adapter::ZQUEST_CREDAT_0 . ", ";   // ZQUEST_CREDAT_0
+        $query .= $adapter::ZQUEST_ZLIENS_0 . ", ";   // ZQUEST_ZLIENS_0
+        $query .= $adapter::ZQUEST_ZLIENS_1 . ", ";   // ZQUEST_ZLIENS_1
+        $query .= $adapter::ZQUEST_ZLIENS_2 . ", ";   // ZQUEST_ZLIENS_2
+        $query .= $adapter::ZQUEST_ZLIENS_3 . ", ";   // ZQUEST_ZLIENS_3
+        $query .= $adapter::ZQUEST_ZLIENS_4 . ", ";   // ZQUEST_ZLIENS_4
+        $query .= $adapter::ZQUEST_ZTXTQUEST_0 . ", ";   // ZQUEST_ZTXTQUEST_0
+        $query .= $adapter::ZQUEST_SRENUM_0 . ", ";   // ZQUEST_SRENUM_0
+        $query .= $adapter::ZQUEST_ZMESERR_0 . ", ";   // ZQUEST_ZMESSERR_0
+        $query .= $adapter::ZQUEST_ZERR_0 . " ";   // ZQUEST_ZERR_0
+        $query .= ")  VALUES ";
+
+        return $query;
+    }
+
+    protected function prepareMatiereCompetence ($question){
+        $result = array();
+        // competence et matiere principale associées
+        if (isset($question->competence) && is_object($question->competence)) {
+            if ($question->competence->id) {
+                $result['codeCompetence'] = $question->competence->id;
+            }
+            if ($question->competence->code_matiere) {
+                $result['codeMatiere'] = $question->competence->code_matiere;
+            }
+        }
+
+        // competence et matiere secondaire associées
+        if (is_array($question->competences) && count($question->competences) > 0) {
+            foreach ($question->competences as $key => $comp) {
+                $result['competence_'.$key] = $comp->id;
+                $result['matiere_'.$key] = $comp->code_matiere;
+            }
+        }
+        return $result;
+    }
+
+    protected function prepareContent($questionContent){
+        $content = "' '";
+        $trimQuestion = trim($questionContent);
+        if (!empty($trimQuestion)) {
+            $content = trim(html_entity_decode($questionContent));
+            if (mb_strlen($content) <= static::ODBC_MAX_CHARS) {
+                $content = str_replace(array("\r\n","\r","\n","\\r","\\n","\\r\\n"), "'||chr(13)||chr(10)||'", $content); // avoid considering all forms of newline
+                $content = "'" . str_replace('\\\'', '\'\'', $content) . "'";
+            } else {
+                $contents = str_split($content, static::ODBC_MAX_CHARS);
+                //to_clob('...') || to_clob('...')..
+                array_walk($contents, function(& $chunk) {
+                    $chunk = str_replace(array("\r\n","\r","\n","\\r","\\n","\\r\\n"), "')||chr(13)||chr(10)||to_clob('", $chunk); // also change plain characters
+                    $chunk = "to_clob('" . str_replace('\\\'', '\'\'', $chunk) . "')";
+                });
+                $content = implode('||', $contents);
+            }
+        }
+        return $content;
+    }
+
+    protected function prepareQueryValue($question,$documents,$competences,$content = "' '"){
+        $value = "(";
+
+        $value .= "'" . $question->id . "', "; // ZQUEST_ZIDQUEST_0
+        $value .= "0, "; // ZQUEST_ZTRAITEE_0
+        $value .= "'" . $question->client_number . "', "; // ZQUEST_SREBPC_0
+        $value .= "'" . $question->sreccn . "', "; // ZQUEST_SRECCN_0
+        $value .= "'" . $question->id_support . "', "; // ZQUEST_YCODESUP_0
+        $value .= "'" . ( empty($competences['codeMatiere']) ? 0 : $competences['codeMatiere'] ) . "', "; // ZQUEST_YMATIERE_0
+        $value .= "'" . ( empty($competences['matiere_0']) ? 0 : $competences['matiere_0'] )  . "', "; // ZQUEST_YMAT_0
+        $value .= "'" . ( empty($competences['matiere_1']) ? 0 : $competences['matiere_1'] ) . "', "; // ZQUEST_YMAT_1
+        $value .= "'" . ( empty($competences['matiere_2']) ? 0 : $competences['matiere_2'] ) . "', "; // ZQUEST_YMAT_2
+        $value .= "'" . ( empty($competences['matiere_3']) ? 0 : $competences['matiere_3'] ) . "', "; // ZQUEST_YMAT_3
+        $value .= "'" . ( empty($competences['matiere_4']) ? 0 : $competences['matiere_4'] ) . "', "; // ZQUEST_YMAT_4
+        $value .= "'" . ( empty($competences['codeCompetence']) ? 0 : $competences['codeCompetence'] ) . "', ";       // ZQUEST_ZCOMPETENC_0
+        $value .= "'" . ( empty($competences['competence_0']) ? 0 : $competences['competence_0'] ) . "', "; // ZQUEST_ZCOMP_0
+        $value .= "'" . ( empty($competences['competence_1']) ? 0 : $competences['competence_1'] ) . "', "; // ZQUEST_ZCOMP_1
+        $value .= "'" . ( empty($competences['competence_2']) ? 0 : $competences['competence_2'] ) . "', "; // ZQUEST_ZCOMP_2
+        $value .= "'" . ( empty($competences['competence_3']) ? 0 : $competences['competence_3'] ) . "', "; // ZQUEST_ZCOMP_3
+        $value .= "'" . ( empty($competences['competence_4']) ? 0 : $competences['competence_4'] ) . "', "; // ZQUEST_ZCOMP_4
+        $value .= "'" . ( empty($question->resume) ? ' ' : str_replace('\\\'', '\'\'', html_entity_decode($question->resume)) ) . "', "; // ZQUEST_YRESUME_0
+        $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
+        $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy'), "; // ZQUEST_CREDAT_0
+        $value .= "'" . ( ( !empty($documents[0]) && !empty($documents[0]->id) ) ? mvc_model('Document')->generatePublicUrl($documents[0]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_0
+        $value .= "'" . ( ( !empty($documents[1]) && !empty($documents[1]->id) ) ? mvc_model('Document')->generatePublicUrl($documents[1]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_1
+        $value .= "'" . ( ( !empty($documents[2]) && !empty($documents[2]->id) ) ? mvc_model('Document')->generatePublicUrl($documents[2]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_2
+        $value .= "'" . ( ( !empty($documents[3]) && !empty($documents[3]->id) ) ? mvc_model('Document')->generatePublicUrl($documents[3]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_3
+        $value .= "'" . ( ( !empty($documents[4]) && !empty($documents[4]->id) ) ? mvc_model('Document')->generatePublicUrl($documents[4]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_4
+        $value .= ( empty($content) ? ' ' : $content) . ","; // ZTXTQUEST_0
+        $value .= "'000000',"; // ZQUEST_SRENUM1_0
+        $value .= "' ',"; // ZQUEST_ZMESSERR_0
+        $value .= "'0'"; // ZQUEST_ZERR_0
+        $value .= ")";
+
+        return $value;
+    }
+
+    protected function sendNotificationQuestionWithoutContent($question,$content){
+        $info = Config::$emailNotificationQuestionEmptyContent;
+        wp_mail(
+            $info['to'],
+            sprintf($info['subject'],$question->id),
+            sprintf($info['message'],$question->id,$question->client_number,$content)
+        );
+    }
+
+    protected function sendNotificationQuestionNotSent($question,$documents,$competences,$content){
+        $info = Config::$emailNotificationQuestionNotSent;
+        wp_mail(
+            $info['to'],
+            sprintf($info['subject'],$question->id),
+            sprintf($info['message'],$question->id,$question->client_number,
+                $question->id,
+                0,
+                $question->client_number,
+                $question->sreccn,
+                $question->id_support,
+                $competences['codeMatiere'],
+                $competences['matiere_0'],
+                $competences['matiere_1'],
+                $competences['matiere_2'],
+                $competences['matiere_3'],
+                $competences['matiere_4'],
+                $competences['codeCompetence'],
+                $competences['competence_0'],
+                $competences['competence_1'],
+                $competences['competence_2'],
+                $competences['competence_3'],
+                $competences['competence_4'],
+                $question->resume,
+                $question->id_affectation,
+                $question->creation_date,
+                $documents[0],
+                $documents[1],
+                $documents[2],
+                $documents[3],
+                $documents[4],
+                $content,
+                000000,
+                ' ',
+                0
+            )
+        );
     }
 
     /**
