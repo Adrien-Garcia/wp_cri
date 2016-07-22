@@ -75,7 +75,7 @@ App.Account = {
     accountSoldeSVGSelector             : '#solde-circle-path',
     accountPopupCridonline              : '#layer-cridonline',
     accountQuestions                    : '#mes-questions',
-    accountProfil                       : '#profil',
+    accountProfil                       : '#mon-profil',
     accountCridonline                   : '#cridonline',
     accountCollaborateur                : '#mes-collaborateurs',
     accountPopupCollaborateurDelete     : '#layer-collaborateur-delete',
