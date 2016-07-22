@@ -1499,22 +1499,25 @@ class Question extends \App\Override\Model\CridonMvcModel
 
                     $query = 'INSERT '.$keys.$values;
                     try {
+                        // Try to send the complete question
                         $adapter->execute($query);
-                        // Email content of the question via email
-                        $this->sendNotificationQuestionWithoutContent($question, $content);
                     } catch (\Exception $e) {
                         // write into logfile
                         writeLog($e, 'exportquestionenerreurgrave.log');
+
                         // Try to send the info without the content of the question (which is then sent via email)
                         $values = $this->prepareQueryValue($question,$documents,$competences);
                         $query = 'INSERT '.$keys.$values;
                         try {
+                            // Try to send the question without its content
                             $adapter->execute($query);
+                            // Then send the content of the question via email
+                            $this->sendNotificationQuestionWithoutContent($question, $content);
                         } catch (\Exception $e) {
+                            // Since both request have failed, we send all the question information by email.
+                            $this->sendNotificationQuestionNotSent($question,$documents,$competences,$content);
                             // write into logfile
                             writeLog($e, 'exportquestionenerreurgrave.log');
-                            //email all informations of the question
-                            $this->sendNotificationQuestionNotSent($question,$documents,$competences,$content);
                         }
                     }
                     $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . " AND flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id = (" . $question->id . ")";
