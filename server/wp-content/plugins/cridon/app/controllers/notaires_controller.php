@@ -121,10 +121,7 @@ class NotairesController extends BasePublicController
     public function contentdashboard()
     {
         $this->show();
-        $vars = $this->view_vars;
-        $vars['is_ajax'] = true;
-        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
-        CriRenderView('contentdashboard', $vars,'notaires');
+        $this->renderView('contentdashboard', true);
         die();
     }
 
@@ -163,10 +160,7 @@ class NotairesController extends BasePublicController
     {
         //$this->prepareSecureAccess();
         $this->questions();
-        $vars = $this->view_vars;
-        $vars['is_ajax'] = true;
-        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
-        CriRenderView('contentquestions', $vars,'notaires');
+        $this->renderView('contentquestions', true);
         die();
     }
 
@@ -210,10 +204,7 @@ class NotairesController extends BasePublicController
     public function contentprofil()
     {
         $this->profil();
-        $vars = $this->view_vars;
-        $vars['is_ajax'] = true;
-        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
-        CriRenderView('contentprofil', $vars,'notaires');
+        $this->renderView('contentprofil', true);
         die();
     }
 
@@ -254,10 +245,7 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->facturation();
-        $vars = $this->view_vars;
-        $vars['is_ajax'] = true;
-        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
-        CriRenderView('contentfacturation', $vars,'notaires');
+        $this->renderView('contentfacturation', true);
         die();
     }
     /**
@@ -288,10 +276,7 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->cridonline();
-        $vars = $this->view_vars;
-        $vars['is_ajax'] = true;
-        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
-        CriRenderView('contentcridonline', $vars,'notaires');
+        $this->renderView('contentcridonline', true);
         die();
     }
     /**
@@ -304,10 +289,7 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->cridonline();
-        $vars = $this->view_vars;
-        $vars['is_ajax'] = true;
-        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
-        CriRenderView('contentcridonlinepromo', $vars,'notaires');
+        $this->renderView('contentcridonlinepromo', true);
         die();
     }
     /**
@@ -360,10 +342,7 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->cridonlinevalidation();
-        $vars = $this->view_vars;
-        $vars['is_ajax'] = true;
-        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
-        CriRenderView('contentcridonlineetape2', $vars,'notaires');
+        $this->renderView('contentcridonlineetape2', true);
         die();
     }
     /**
@@ -377,10 +356,7 @@ class NotairesController extends BasePublicController
         // access secured
         $this->cridonlinevalidation();
         $this->set('promo',$_GET['promo']);
-        $vars = $this->view_vars;
-        $vars['is_ajax'] = true;
-        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
-        CriRenderView('contentcridonlineetape2promo', $vars,'notaires');
+        $this->renderView('contentcridonlineetape2promo', true);
         die();
     }
     /**
@@ -419,6 +395,7 @@ class NotairesController extends BasePublicController
     {
         // init response
         $ret = 'invalidemail';
+        $data = '';
 
         // Verify that the nonce is valid.
         if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_newsletter_nonce') && isset($_REQUEST['email'])) {
@@ -436,10 +413,19 @@ class NotairesController extends BasePublicController
                 );
                 $this->model->save($notaires);
                 $ret = 'success';
+
+                // Generate new page
+                $this->profil();
+                $data = $this->renderView('contentprofil', false);
             }
         }
 
-        echo json_encode($ret);
+        $json = array(
+            'returnValue' => $ret,
+            'view' => $data
+        );
+
+        echo json_encode($json, JSON_HEX_QUOT | JSON_HEX_TAG);
 
         die;
     }
@@ -477,11 +463,7 @@ class NotairesController extends BasePublicController
 
                 $this->set('B2B_B2C',$_REQUEST['B2B_B2C']);
 
-                $vars = $this->view_vars;
-                $vars['is_ajax'] = true;
-                $vars['controller'] = $vars['this'];
-
-                $data = CriRenderView('contentcridonlinevalidationpopup', $vars, 'notaires', false);
+                $data = $this->renderView('contentcridonlinevalidationpopup', false);
 
                 $json = array(
                     'view' => $data,
@@ -568,12 +550,7 @@ class NotairesController extends BasePublicController
                 $this->model->sendCridonlineConfirmationMail($etude, $office['Etude'],$_REQUEST['B2B_B2C']);
 
                 $this->set('B2B_B2C',$_REQUEST['B2B_B2C']);
-
-                $vars = $this->view_vars;
-                $vars['is_ajax'] = true;
-                $vars['controller'] = $vars['this'];
-
-                $data = CriRenderView('contentcridonlinevalidationpopup', $vars, 'notaires', false);
+                $data = $this->renderView('contentcridonlinevalidationpopup', false);
 
                 $json = array(
                     'view' => $data,
@@ -735,10 +712,7 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->collaborateur();
-        $vars = $this->view_vars;
-        $vars['is_ajax'] = true;
-        $vars['controller'] = $vars['this']; //mandatory due to variable name changes in page-mon-compte.php "this" -> "controller"
-        $data = CriRenderView('contentcollaborateur', $vars,'notaires',false);
+        $data = $this->renderView('contentcollaborateur', false);
         $json = array(
             'view' => $data,
         );
@@ -788,15 +762,10 @@ class NotairesController extends BasePublicController
 
             $this->set('collaborator',$collaborator);
 
-
-            $vars = $this->view_vars;
-            $vars['is_ajax'] = true;
-            $vars['controller'] = $vars['this'];
-
             if (in_array($_GET['action'],Config::$collaborateurActions)) {
-                $data = CriRenderView('collaborateurajoutpopup', $vars, 'notaires', false);
+                $data = $this->renderView('collaborateurajoutpopup', false);
             } else {
-                $data = CriRenderView('contentupdateprofilpopup', $vars, 'notaires', false);
+                $data = $this->renderView('contentupdateprofilpopup', false);
             }
 
             $json = array(
@@ -883,11 +852,7 @@ class NotairesController extends BasePublicController
 
             $this->set('office',$office);
 
-            $vars = $this->view_vars;
-            $vars['is_ajax'] = true;
-            $vars['controller'] = $vars['this'];
-
-            $view = CriRenderView('contentupdateetudepopup', $vars, 'notaires', false);
+            $view = $this->renderView('contentupdateetudepopup', false);
 
             $json = array(
                 'view' => $view,
@@ -1007,5 +972,19 @@ class NotairesController extends BasePublicController
                 die();
             }
         }
+    }
+
+    /**
+     * render a view
+     * @param array $view name of view to render
+     * @param boolean $echo echo the view (true) / stock it in a var (false)
+     *
+     * @return string view
+     */
+    protected function renderView ($view, $echo){
+        $vars = $this->view_vars;
+        $vars['is_ajax'] = true;
+        $vars['controller'] = $vars['this'];
+        return CriRenderView($view, $vars, 'notaires', $echo);
     }
 }
