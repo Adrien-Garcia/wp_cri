@@ -1444,12 +1444,8 @@ class Question extends \App\Override\Model\CridonMvcModel
                 }
                 if (!empty($qList)) {
                     // update cri_question.transmis_erp
-                    $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . " WHERE id IN (" . implode(', ', $qList) . ")";
+                    $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . ", flag_erreur = " . CONST_QUEST_SANS_ERREUR . "  WHERE id IN (" . implode(', ', $qList) . ")";
                     $this->wpdb->query($sql);
-                    if ($flagErreur === CONST_QUEST_EN_ERREUR){
-                        $sql = " UPDATE {$this->table} SET flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id IN (" . implode(', ', $qList) . ")";
-                        $this->wpdb->query($sql);
-                    }
                 } else {
                     $this->logAndReportError();
                     return CONST_STATUS_CODE_GONE;
