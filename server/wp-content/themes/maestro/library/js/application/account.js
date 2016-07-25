@@ -75,7 +75,7 @@ App.Account = {
     accountSoldeSVGSelector             : '#solde-circle-path',
     accountPopupCridonline              : '#layer-cridonline',
     accountQuestions                    : '#mes-questions',
-    accountProfil                       : '#profil',
+    accountProfil                       : '#mon-profil',
     accountCridonline                   : '#cridonline',
     accountCollaborateur                : '#mes-collaborateurs',
     accountPopupCollaborateurDelete     : '#layer-collaborateur-delete',
@@ -236,16 +236,16 @@ App.Account = {
     initProfil: function() {
         this.debug('Account : Init Profil');
 
-        var nonce   = document.createElement('input');
-        nonce.type  = 'hidden';
-        nonce.name  = 'tokennewsletter';
-        nonce.id    = 'tokennewsletter';
-        nonce.value = jsvar.newsletter_nonce;
+        var newsletterNonce   = document.createElement('input');
+        newsletterNonce.type  = 'hidden';
+        newsletterNonce.name  = 'tokennewsletter';
+        newsletterNonce.id    = 'tokennewsletter';
+        newsletterNonce.value = jsvar.newsletter_nonce;
 
         var d = this.defaultSelector;
 
         this.$accountProfilNewsletterForm          = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountFormSelector);
-        this.$accountProfilNewsletterForm.append(nonce);
+        this.$accountProfilNewsletterForm.append(newsletterNonce);
         this.$accountProfilSubscription            = $(d + this.accountProfilSelector + this.accountProfilSubscriptionSelector);
         this.$accountProfilNewsletterMessage       = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountMessageSelector);
         this.$accountProfilNewsletterEmail         = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountEmailSelector);
@@ -281,13 +281,15 @@ App.Account = {
 
         this.$popupProfilOfficeModify              = $(this.accountPopupProfilOfficeModify);
 
-        nonce.name  = 'tokenpassword';
-        nonce.id    = 'tokenpassword';
-        nonce.value = jsvar.password_nonce;
+        var passwordNonce   = document.createElement('input');
+        passwordNonce.type  = 'hidden';
+        passwordNonce.name  = 'tokenpassword';
+        passwordNonce.id    = 'tokenpassword';
+        passwordNonce.value = jsvar.password_nonce;
 
         this.$accountProfilPassword                = $(d + this.accountProfilSelector + this.accountPasswordSelector);
         this.$accountProfilPasswordForm            = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountFormSelector);
-        this.$accountProfilPasswordForm.append(nonce);
+        this.$accountProfilPasswordForm.append(passwordNonce);
         this.$accountProfilPasswordEmail           = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountEmailSelector);
         this.$accountProfilPasswordEmailValidation = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountEmailSelector + this.accountValidationSelector);
         this.$accountProfilPasswordMessage         = $(d + this.accountProfilSelector + this.accountPasswordSelector + this.accountMessageSelector);
@@ -1450,10 +1452,12 @@ App.Account = {
     },
 
     successNewsletterToggle: function (data) {
+        var self = this;
         data = JSON.parse(data);
-        if(data === 'success')
+        if(data.returnValue === 'success')
         {
-            this.eventAccountProfilOpen();
+            $(this.accountProfil).html(data.view);
+            self.initProfil();
         }
         else
         {
