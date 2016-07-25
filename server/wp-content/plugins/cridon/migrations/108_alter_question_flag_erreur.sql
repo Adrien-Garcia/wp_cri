@@ -1,0 +1,1 @@
+ALTER TABLE `cri_question` ADD COLUMN `flag_erreur` INT NULL DEFAULT 0 AFTER `transmis_erp`;

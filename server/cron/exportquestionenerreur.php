@@ -16,6 +16,6 @@ require_once '../wp-load.php';
  */
 $model = mvc_model('question');
 // call export action
-$code = $model->exportQuestion(CONST_QUEST_SANS_ERREUR);
+$code = $model->exportQuestion(CONST_QUEST_EN_ERREUR);
 
 echo $code;
