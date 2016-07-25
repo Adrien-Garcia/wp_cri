@@ -1011,7 +1011,16 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
         try {
             $this->logs = array();
-            $notaires   = $this->find();
+            $options = array (
+                'synonym' => 'n',
+                'join' => array(
+                    array(
+                        'table'  => 'users u',
+                        'column' => ' n.id_wp_user = u.id'
+                    ),
+                )
+            );
+            $notaires = mvc_model('QueryBuilder')->findAll('notaire', $options, 'n.id');
 
             if (count($notaires) > 0) {
                 // adapter
@@ -1049,8 +1058,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $displayName = $notaire->first_name . ' ' . $notaire->last_name;
 
                     // set user status
-                    $userStatus = (isset($this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_STATUS])) ?
-                        $this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_STATUS] : CONST_STATUS_DISABLED;
+                    if (isset($this->erpNotaireData[$uniqueKey]) && isset($this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_STATUS])) {
+                        $userStatus = $this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_STATUS];
+                    } elseif (strtotime($notaire->user_registered. "+1 week") > time() && $notaire->user_status === CONST_STATUS_ENABLED) {
+                        // don't deactivate a user if he's not created on the ERP yet
+                        $userStatus = CONST_STATUS_ENABLED;
+                    } else {
+                        $userStatus = CONST_STATUS_DISABLED;
+                    }
 
                     if (!in_array($userName, $users['username'])) { // prepare the bulk insert query
                         $value = "(";
