@@ -81,7 +81,7 @@
    						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-juridique-panel">
 					      <div class="date js-accordion-button ">
 					      	<span class="jour"><?php echo strftime('%d',strtotime($current_date)) ?></span>
-					      	<span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,3) ?></span>
+					      	<span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,4) ?></span>
 					      	<span class="annee"><?php echo strftime('%Y',strtotime($current_date)) ?></span>
 					      </div>
 					      <div class="content">
@@ -128,7 +128,7 @@
    						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-formation-panel">
 					      <div class="date js-accordion-button">
                               <span class="jour"><?php echo strftime('%d',strtotime($current_date)) ?></span>
-                              <span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,3) ?></span>
+                              <span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,4) ?></span>
                               <span class="annee"><?php echo strftime('%Y',strtotime($current_date)) ?></span>
 					      </div>
 					      <div class="content">
@@ -272,7 +272,7 @@
 					<div class="img" style="background-image: url(<?php echo  $thumbnail_src[0] ?>);"></div>
 					<div class="date">
 						<span class="jour"><?php echo get_the_date( 'd') ?></span>
-						<span class="mois"><?php echo get_the_date( 'M') ?></span>
+						<span class="mois"><?php echo substr(get_the_date( 'F'),0,4) ?></span>
 						<span class="annee"><?php echo get_the_date( 'Y') ?></span> 
 					</div>
 
