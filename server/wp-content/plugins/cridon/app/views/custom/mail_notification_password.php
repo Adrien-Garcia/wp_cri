@@ -67,8 +67,8 @@
                 <?php
                 $home = home_url();
 
-                $modelFile = "banner.png";
-                $alt = "Ma veille juridique";
+                $modelFile = "banner-password.png";
+                $alt = "Modification de votre mot de passe";
                 ?>
                 <img src="<?php echo plugins_url( "../public/images/mail/".$modelFile, dirname(__FILE__) ) ?>" alt="<?php echo $alt ; ?>" />
             </td>
