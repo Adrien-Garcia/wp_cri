@@ -164,12 +164,12 @@ App.Question = {
             onopen: (function() {
                 self.owlCarouselInit();
                 self.owlCarouselInit2();
-                $('body').addClass('noscroll');
+                $('body').addClass('noscroll'); 
                 self.openTabQuestionExpertise(false);
             }),
             onclose: (function(){
-                this.$owlCarousel.owlCarousel('destroy');
-                this.$owlCarousel2.owlCarousel('destroy');
+                self.$owlCarousel.owlCarousel('destroy');
+                self.$owlCarousel2.owlCarousel('destroy');
                 $('body').removeClass('noscroll');
                 self.formInitialized = false;
                 self.formInit();
