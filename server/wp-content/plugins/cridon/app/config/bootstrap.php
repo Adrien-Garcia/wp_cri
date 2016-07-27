@@ -1077,7 +1077,7 @@ function CridonlineAutologinLink()
         $oNotaire = CriNotaireData();
         $lvl = Config::$authCridonOnline[(int) $oNotaire->etude->subscription_level];
         // Proxy : http://abo.prod.wkf.fr/auth --> SERVER_NAME/wolters
-        $url = esc_url_raw('https://abo-new/auth/autologin.js?'.
+        $url = esc_url_raw('/abo-new/auth/autologin.js?'.
             'auth='.$lvl.
             '&cid='.$oNotaire->id.
             '&clname='.$oNotaire->last_name.
