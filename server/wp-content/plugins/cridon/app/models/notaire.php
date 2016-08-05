@@ -985,7 +985,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     protected function sendNewTelPassword($notaire,$newTelPassword){
         $oldTelPassword = trim($notaire->tel_password);
         $newTelPassword = trim($newTelPassword);
-        if ($oldTelPassword !== $newTelPassword){
+        $user = new WP_User($notaire->id_wp_user);
+        if ($oldTelPassword !== $newTelPassword && $this->userHasRole($user, CONST_QUESTIONTELEPHONIQUES_ROLE)){
             $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
             $notaire->etude = $etude;
             $this->sendEmailForPwdChanged($notaire,'',$newTelPassword);
