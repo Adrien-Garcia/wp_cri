@@ -474,8 +474,9 @@ class Config {
     public static $questionPendingStatus = array(1,2,3);
 
     // Notification for password changed
-    public static $mailPasswordChange = array(
-        'subject' => 'Changement du mot de passe de %s',
+    public static $mailPassword = array(
+        'changeSubject' => 'Changement du mot de passe de %s',
+        'newSubject' => 'Identifiants d\'accès CRIDON LYON de %s',
     );
 
     // Content qualified by a "Niveau"
