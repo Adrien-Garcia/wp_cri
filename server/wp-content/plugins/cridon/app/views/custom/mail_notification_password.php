@@ -90,7 +90,7 @@
                 } else {
                     $text.= 'Suite à la création de votre compte, ';
                 }
-                if (!empty($telPassword)){
+                if (!empty($telPassword) && !empty($webPassword)){
                     $text.= 'veuillez trouver ci-joint vos nouveaux mots de passe : ';
                 } else {
                     $text.= 'veuillez trouver ci-joint votre nouveau mot de passe : ';
@@ -99,10 +99,12 @@
                 <p>
                     <?php echo $text ?>
                 </p>
-                <p style="padding-left: 15px;">
-                    Accès à l'espace privé de notre site Internet :
-                    <strong><?php echo $webPassword; ?></strong>
-                </p>
+                <?php if (!empty($webPassword)): ?>
+                    <p style="padding-left: 15px;">
+                        Accès à l'espace privé de notre site Internet :
+                        <strong><?php echo $webPassword; ?></strong>
+                    </p>
+                <?php endif; ?>
                 <?php if (!empty($telPassword)): ?>
                     <p style="padding-left: 15px;">
                         Accès au standard du CRIDON LYON :

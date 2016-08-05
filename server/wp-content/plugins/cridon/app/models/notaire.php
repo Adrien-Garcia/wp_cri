@@ -561,8 +561,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             if (isset($newData[$adapter::NOTAIRE_LNAME]))
                                 $updateLastnameValues[]     = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_LNAME]) . "' ";
 
-                            if (isset($newData[$adapter::NOTAIRE_PWDTEL]))
-                                $updatePwdtelValues[]       = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
+                            if (isset($newData[$adapter::NOTAIRE_PWDTEL])) {
+                                $updatePwdtelValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
+                                $this->sendNewTelPassword($currentData, $newData[$adapter::NOTAIRE_PWDTEL]);
+                            }
 
                             if (isset($newData[$adapter::NOTAIRE_INTERCODE]))
                                 $updateInterCodeValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_INTERCODE]) . "' ";
@@ -974,6 +976,21 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
     }
 
+    /**
+     * Send a mail to notaire if it's a new tel password
+     *
+     * @param $notaire
+     * @param $newTelPassword
+     */
+    protected function sendNewTelPassword($notaire,$newTelPassword){
+        $oldTelPassword = trim($notaire->tel_password);
+        $newTelPassword = trim($newTelPassword);
+        if ($oldTelPassword !== $newTelPassword){
+            $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
+            $notaire->etude = $etude;
+            $this->sendEmailForPwdChanged($notaire,'',$newTelPassword);
+        }
+    }
     /**
      * Set role for all notary
      *
