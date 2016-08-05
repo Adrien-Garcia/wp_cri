@@ -88,7 +88,7 @@ echo get_template_part("content","ga");
 								</li>
 								<li>
 									<a href="http://cridon.notaires.fr/" title="Accès avec votre clé Real">
-										<?php _e('Portail des 5 CRIDON'); ?> <span><?php _e('LYON'); ?></span> 
+										<?php _e('Portail des 5 CRIDON'); ?>
 									</a>
 								</li>								
 								<?php if (!isPromoActive()) : ?>
