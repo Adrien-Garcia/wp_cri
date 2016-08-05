@@ -84,6 +84,8 @@
                 <p><strong>Étude : <?php echo $etude->office_name ?></strong> - CRPCEN : <?php echo $etude->crpcen ?> - <?php echo $notary->last_name.' '.$notary->first_name ?></p>
 
                 <?php
+                $telPassword = trim($telPassword);
+                $webPassword = trim($webPassword);
                 $text = '';
                 if (!empty($notary->web_password)){
                     $text.= 'Suite à votre demande de réinitialisation, ';
