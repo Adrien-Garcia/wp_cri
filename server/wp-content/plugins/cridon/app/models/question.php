@@ -430,11 +430,11 @@ class Question extends \App\Override\Model\CridonMvcModel
                     'Question' => array(
                         'client_number' => $notaire->client_number,
                         'sreccn' => $notaire->code_interlocuteur,
-                        'resume' => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
+                        'resume' => stripslashes(htmlentities($post[CONST_QUESTION_OBJECT_FIELD])),
                         'creation_date' => $creationDate,
                         'id_support' => $post[CONST_QUESTION_SUPPORT_FIELD],// Support
                         'id_competence_1' => $post[CONST_QUESTION_COMPETENCE_FIELD],// Competence
-                        'content' => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD])// Message
+                        'content' => stripslashes(htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]))// Message
                     )
                 );
                 // insert question
@@ -534,8 +534,8 @@ class Question extends \App\Override\Model\CridonMvcModel
     {
         // response
         $response = array(
-            'resume'         => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]), // objet
-            'content'        => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]), // Message
+            'resume'         => stripslashes(htmlentities($post[CONST_QUESTION_OBJECT_FIELD])), // objet
+            'content'        => stripslashes(htmlentities($post[CONST_QUESTION_MESSAGE_FIELD])), // Message
             'matiere'        => '', // Matiere
             'competence'     => '', // Competence
             'support'        => '', // Support
