@@ -475,8 +475,8 @@ class Config {
 
     // Notification for password changed
     public static $mailPassword = array(
-        'changeSubject' => 'Changement du mot de passe de %s',
-        'newSubject' => 'Identifiants d\'accès CRIDON LYON de %s',
+        'changePasswordSubject' => 'Changement du mot de passe de %s',
+        'firstTimeTelPasswordSubject' => 'Identifiants d\'accès CRIDON LYON de %s',
     );
 
     // Content qualified by a "Niveau"

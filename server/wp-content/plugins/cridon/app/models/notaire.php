@@ -989,7 +989,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if ($oldTelPassword !== $newTelPassword && $this->userHasRole($user, CONST_QUESTIONTELEPHONIQUES_ROLE)){
             $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
             $notaire->etude = $etude;
-            $this->sendEmailForPwdChanged($notaire,'',$newTelPassword);
+            $this->sendEmailForPwdChanged($notaire,'',$newTelPassword, true);
         }
     }
     /**
@@ -3441,9 +3441,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      * @param object $notaire
      * @param string $newWebPwd
      * @param string $newTelPwd
+     * @param bool $firstTimeTelPassword
      * @throws Exception
      */
-    protected function sendEmailForPwdChanged($notaire, $newWebPwd, $newTelPwd)
+    protected function sendEmailForPwdChanged($notaire, $newWebPwd, $newTelPwd, $firstTimeTelPassword = false)
     {
         if (is_object($notaire) && is_object($notaire->etude)) {
             // email headers
@@ -3474,10 +3475,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
             // dest must be set
             if ($dest) {
-                if (empty($notaire->web_password)){
-                    $subject = 'newSubject';
+                if ($firstTimeTelPassword){
+                    $subject = 'firstTimeTelPasswordSubject';
                 } else {
-                    $subject = 'changeSubject';
+                    $subject = 'changePasswordSubject';
                 }
                 // prepare message
                 $subject = sprintf(Config::$mailPassword[$subject], $notaire->first_name . ' ' . $notaire->last_name);
