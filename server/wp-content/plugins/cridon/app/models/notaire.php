@@ -3503,7 +3503,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         unset($notaire);
     }
 
-    public function sendCridonlineConfirmationMail($etude,$subscription_info,$B2B_B2C) {
+    public function sendCridonlineConfirmationMail($notaire, $etude,$subscription_info,$B2B_B2C) {
         if ($subscription_info['subscription_level'] == 2){
             $level_label = CONST_CRIDONLINE_LABEL_LEVEL_2;
         } else {
@@ -3542,14 +3542,33 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $email = wp_mail( $dest , Config::$mailSubjectCridonline, $message, $headers, $documents );
             writeLog("not Prod: " . $email . "\n", "mailog.txt");
         } else {
-            $headers[] = 'BCC:'.Config::$notificationAddressCridon;
-            if (!empty($etude->office_email_adress_1)){
-                $destinataire = $etude->office_email_adress_1;
-            } elseif (!empty($etude->office_email_adress_2)){
-                $destinataire = $etude->etude->office_email_adress_2;
-            } elseif (!empty($etude->office_email_adress_3)){
-                $destinataire = $etude->office_email_adress_3;
+            // On récupère une adresse de l'étude
+            $office_email1 = trim($etude->office_email_adress_1);
+            $office_email2 = trim($etude->office_email_adress_2);
+            $office_email3 = trim($etude->office_email_adress_3);
+
+            if (!empty($office_email1)){
+                $office_email = $office_email1;
+            } elseif (!empty($office_email2)){
+                $office_email = $office_email2;
+            } elseif (!empty($office_email3)){
+                $office_email = $office_email3;
             }
+
+            // On récupère l'adresse d'envoi de l'email
+            $notaire_email = trim($notaire->email_adress);
+            if (!empty($notaire_email)) {
+                $destinataire = $notaire_email;
+                if (!empty($office_email)) {
+                    // On doit ajouter la copie à cet endroit afin de na pas avoir la même adresse principale et en copie. En effet, WP n'effectuera pas l'envoi de mail si c'est le cas.
+                    $headers[] = 'CC:' . $office_email;
+                }
+            } elseif (!empty($office_email)) {
+                $destinataire = $office_email;
+            }
+
+            $headers[] = 'BCC:' . Config::$notificationAddressCridon;
+
             if (!empty($destinataire)) {
                 wp_mail($destinataire, Config::$mailSubjectCridonline, $message, $headers, $documents );
             }

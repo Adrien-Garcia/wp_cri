@@ -459,7 +459,7 @@ class NotairesController extends BasePublicController
                 )
             );
             if (mvc_model('Etude')->save($office)) {
-                $this->model->sendCridonlineConfirmationMail($etude, $office['Etude'],$_REQUEST['B2B_B2C']);
+                $this->model->sendCridonlineConfirmationMail($notaire, $etude, $office['Etude'],$_REQUEST['B2B_B2C']);
 
                 $this->set('B2B_B2C',$_REQUEST['B2B_B2C']);
 
@@ -547,7 +547,7 @@ class NotairesController extends BasePublicController
                 )
             );
             if (mvc_model('Etude')->save($office)) {
-                $this->model->sendCridonlineConfirmationMail($etude, $office['Etude'],$_REQUEST['B2B_B2C']);
+                $this->model->sendCridonlineConfirmationMail($notaire, $etude, $office['Etude'],$_REQUEST['B2B_B2C']);
 
                 $this->set('B2B_B2C',$_REQUEST['B2B_B2C']);
                 $data = $this->renderView('contentcridonlinevalidationpopup', false);
