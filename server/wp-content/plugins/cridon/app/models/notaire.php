@@ -561,8 +561,10 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             if (isset($newData[$adapter::NOTAIRE_LNAME]))
                                 $updateLastnameValues[]     = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_LNAME]) . "' ";
 
-                            if (isset($newData[$adapter::NOTAIRE_PWDTEL]))
-                                $updatePwdtelValues[]       = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
+                            if (isset($newData[$adapter::NOTAIRE_PWDTEL])) {
+                                $updatePwdtelValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
+                                $this->sendNewTelPassword($currentData, $newData[$adapter::NOTAIRE_PWDTEL]);
+                            }
 
                             if (isset($newData[$adapter::NOTAIRE_INTERCODE]))
                                 $updateInterCodeValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_INTERCODE]) . "' ";
@@ -974,6 +976,22 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
     }
 
+    /**
+     * Send a mail to notaire if it's a new tel password
+     *
+     * @param $notaire
+     * @param $newTelPassword
+     */
+    protected function sendNewTelPassword($notaire,$newTelPassword){
+        $oldTelPassword = trim($notaire->tel_password);
+        $newTelPassword = trim($newTelPassword);
+        $user = new WP_User($notaire->id_wp_user);
+        if ($oldTelPassword !== $newTelPassword && $this->userHasRole($user, CONST_QUESTIONTELEPHONIQUES_ROLE)){
+            $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
+            $notaire->etude = $etude;
+            $this->sendEmailForPwdChanged($notaire,'',$newTelPassword, true);
+        }
+    }
     /**
      * Set role for all notary
      *
@@ -3411,7 +3429,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $newTelPwd = '';
             }
             // envoie email
-            $this->sendEmailForPwdChanged($notaryId, $newWebPwd, $newTelPwd);
+            $this->sendEmailForPwdChanged($notaire, $newWebPwd, $newTelPwd);
 
         }
         unset($keys);
@@ -3420,26 +3438,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     /**
      * Sending new PWDto notary  by email
      *
-     * @param int    $id
+     * @param object $notaire
      * @param string $newWebPwd
      * @param string $newTelPwd
+     * @param bool $firstTimeTelPassword
      * @throws Exception
      */
-    protected function sendEmailForPwdChanged($id, $newWebPwd, $newTelPwd)
+    protected function sendEmailForPwdChanged($notaire, $newWebPwd, $newTelPwd, $firstTimeTelPassword = false)
     {
-        $notary = mvc_model('QueryBuilder')->findOne('notaire',
-                                                     array(
-                                                         'fields' => 'id, first_name, last_name, crpcen, email_adress',
-                                                         'conditions' => 'id = ' . $id,
-                                                     )
-        );
-
-        if (is_object($notary)) {
+        if (is_object($notaire) && is_object($notaire->etude)) {
             // email headers
             $headers = array('Content-Type: text/html; charset=UTF-8');
 
-            // get
-            $etude = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+            $etude = $notaire->etude;
             // check environnement
             $env = getenv('ENV');
             if (empty($env)|| ($env !== 'PROD')) {
@@ -3449,7 +3460,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $dest = Config::$notificationAddressDev;
                 }
             } else {
-                $dest = $notary->email_adress;
+                $dest = $notaire->email_adress;
                 if (!$dest) { // notary email is empty
                     // send email to the office
                     if (is_object($etude) && $etude->office_email_adress_1) {
@@ -3464,12 +3475,17 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
             // dest must be set
             if ($dest) {
+                if ($firstTimeTelPassword){
+                    $subject = 'firstTimeTelPasswordSubject';
+                } else {
+                    $subject = 'changePasswordSubject';
+                }
                 // prepare message
-                $subject = sprintf(Config::$mailPasswordChange['subject'], $notary->first_name . ' ' . $notary->last_name);
+                $subject = sprintf(Config::$mailPassword[$subject], $notaire->first_name . ' ' . $notaire->last_name);
                 $vars    = array(
                     'webPassword' => $newWebPwd,
                     'telPassword' => $newTelPwd,
-                    'notary'      => $notary,
+                    'notary'      => $notaire,
                     'etude'       => $etude
                 );
                 $message = CriRenderView('mail_notification_password', $vars, 'custom', false);
@@ -3477,14 +3493,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // send email
                 if (wp_mail($dest, $subject, $message, $headers)) {
                     // reset all flag
-                    $this->resetPwd($notary->id, 'off');
+                    $this->resetPwd($notaire->id, 'off');
                 } else {
-                    writeLog($notary, 'majnotarypwd.log');
+                    writeLog($notaire, 'majnotarypwd.log');
                 }
             }
         }
         // free vars
-        unset($notary);
+        unset($notaire);
     }
 
     public function sendCridonlineConfirmationMail($etude,$subscription_info,$B2B_B2C) {

@@ -83,19 +83,30 @@
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
                 <p><strong>Étude : <?php echo $etude->office_name ?></strong> - CRPCEN : <?php echo $etude->crpcen ?> - <?php echo $notary->last_name.' '.$notary->first_name ?></p>
 
-                <?php if (empty($telPassword)): ?>
-                    <p>
-                        Suite votre demande de réinitialisation veuillez trouver ci-joint votre nouveau mot de passe :
-                    </p>
-                <?php else : ?>
-                    <p>
-                        Suite votre demande de réinitialisation veuillez trouver ci-joint vos nouveaux mots de passe :
-                    </p>
-                <?php endif ?>
+                <?php
+                $telPassword = trim($telPassword);
+                $webPassword = trim($webPassword);
+                $text = '';
+                if (!empty($notary->web_password)){
+                    $text.= 'Suite à votre demande de réinitialisation, ';
+                } else {
+                    $text.= 'Suite à la création de votre compte, ';
+                }
+                if (!empty($telPassword) && !empty($webPassword)){
+                    $text.= 'veuillez trouver ci-joint vos nouveaux mots de passe : ';
+                } else {
+                    $text.= 'veuillez trouver ci-joint votre nouveau mot de passe : ';
+                }
+                ?>
+                <p>
+                    <?php echo $text ?>
+                </p>
+                <?php if (!empty($webPassword)): ?>
                     <p style="padding-left: 15px;">
                         Accès à l'espace privé de notre site Internet :
                         <strong><?php echo $webPassword; ?></strong>
                     </p>
+                <?php endif; ?>
                 <?php if (!empty($telPassword)): ?>
                     <p style="padding-left: 15px;">
                         Accès au standard du CRIDON LYON :
