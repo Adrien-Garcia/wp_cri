@@ -1079,6 +1079,7 @@ function CridonlineAutologinLink()
         // Proxy : http://abo.prod.wkf.fr/auth --> SERVER_NAME/wolters
         $url = esc_url_raw('/wolters/autologin.js?'.
             'auth='.$lvl.
+            '&ccompany='.urlencode($oNotaire->etude->office_name).
             '&cid='.$oNotaire->id.
             '&clname='.$oNotaire->last_name.
             '&cfname='.$oNotaire->first_name.
