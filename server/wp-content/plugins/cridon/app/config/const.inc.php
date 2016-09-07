@@ -367,6 +367,15 @@ if ( !defined( 'CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID' ) ) {
 if ( !defined( 'CONST_SUPPORT_DOSSIER_EXPERT_ID' ) ) {
     define( 'CONST_SUPPORT_DOSSIER_EXPERT_ID',  13);
 }
+if ( !defined( 'CONST_SUPPORT_DOSSIER_EXPERT_ID' ) ) {
+    define( 'CONST_SUPPORT_LETTRE_HORS_DELAI_ID',  14);
+}
+if ( !defined( 'CONST_SUPPORT_DOSSIER_EXPERT_ID' ) ) {
+    define( 'CONST_SUPPORT_2_DAYS_INITIALE_HORS_DELAI_ID',  15);
+}
+if ( !defined( 'CONST_SUPPORT_DOSSIER_EXPERT_ID' ) ) {
+    define( 'CONST_SUPPORT_5_DAYS_MEDIUM_HORS_DELAI_ID',  16);
+}
 
 // Notaire fonctions id (used for filtering capability)
 if ( !defined( 'CONST_NOTAIRE_FONCTION' ) ) {
