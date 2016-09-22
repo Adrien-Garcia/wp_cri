@@ -1018,7 +1018,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 'join' => array(
                     array(
                         'table'  => 'users u',
-                        'column' => ' n.id_wp_user = u.id'
+                        'column' => ' n.id_wp_user = u.id',
+                        'type'   => 'left'
                     ),
                 )
             );
@@ -1062,7 +1063,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     // set user status
                     if (isset($this->erpNotaireData[$uniqueKey]) && isset($this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_STATUS])) {
                         $userStatus = $this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_STATUS];
-                    } elseif (strtotime($notaire->user_registered. "+1 week") > time() && $notaire->user_status === CONST_STATUS_ENABLED) {
+                    } elseif (!in_array($userName, $users['username']) || (strtotime($notaire->user_registered. "+1 week") > time() && $notaire->user_status === CONST_STATUS_ENABLED)) {
                         // don't deactivate a user if he's not created on the ERP yet
                         $userStatus = CONST_STATUS_ENABLED;
                     } else {
