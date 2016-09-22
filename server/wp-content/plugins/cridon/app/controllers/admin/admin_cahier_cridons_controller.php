@@ -149,7 +149,7 @@ class AdminCahierCridonsController extends BaseAdminController {
                         }
                     } elseif ($_POST['send_to'] === "notaires") {
                         $env = getenv('ENV');
-                        if (empty($env) || ($env !== 'PROD')) {
+                        if (empty($env) || ($env !== 'PROD')){
                             if ($env === 'PREPROD') {
                                 $dest = Config::$notificationAddressPreprod;
                             } else {
@@ -170,6 +170,10 @@ class AdminCahierCridonsController extends BaseAdminController {
                                         'table' => 'users u',
                                         'column' => ' n.id_wp_user = u.id'
                                     ),
+                                    array(
+                                        'table' => 'etude e',
+                                        'column' => ' n.crpcen = e.crpcen'
+                                    ),
                                 ),
                                 'conditions' => array(
                                     'u.user_status' => CONST_STATUS_ENABLED
@@ -181,7 +185,11 @@ class AdminCahierCridonsController extends BaseAdminController {
                                 $user = new WP_User($notaire->id_wp_user);
                                 $emailAddress = trim($notaire->email_adress);
                                 if (!empty($emailAddress) && mvc_model('Notaire')->userHasRole($user, CONST_CONNAISANCE_ROLE)) {
-                                    $emails[] = $notaire->email_adress;
+                                    $emails[] = $emailAddress;
+                                    $office_email = trim($notaire->office_email_adress_1);
+                                    if (!empty($office_email)){
+                                        $emails[] = $office_email;
+                                    }
                                 }
                             }
                             $emails_addresses = array_unique($emails);
