@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "./_eslint.js",
+    "./_eslint_user.js"
+  ],
+  "rules": {
+
+  }
+}
