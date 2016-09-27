@@ -194,6 +194,11 @@ php oneshot/executeMigrationsSQL.php
 
 L'état des migrations est consultable dans la table `cri_plugin_migrations`.
 
+Le suivi des numéros de migration (pour ne pas avoir deux fois le même numéro sur deux branches différentes) est compilé sur gitlab : 
+````
+http://git.jetpulp.hosting/php/wp_cridon/issues/1
+````
+
 ## Paramétrage des constantes applicatives
 ```
 wp-content/plugins/cridon/app/config/const.inc.php
