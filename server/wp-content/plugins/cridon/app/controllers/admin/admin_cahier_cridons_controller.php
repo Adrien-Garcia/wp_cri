@@ -119,5 +119,95 @@ class AdminCahierCridonsController extends BaseAdminController {
             }
         }
     }
-    
+
+    function email_sender()
+    {
+        if (!empty($_POST['cahier_cridon_parent_id']) &&
+            ((!empty($_POST['test_email']) && $_POST['send_to'] === "email_test")
+                || $_POST['send_to'] === "notaires"
+            )
+        ) {
+            $id_parent = esc_sql($_POST['cahier_cridon_parent_id']);
+            if (!empty($id_parent) && ctype_digit($id_parent)) {
+                $cahiers = $this->model->get_parent_and_childs($id_parent);
+                if (!empty ($cahiers['parent'])  && !empty($cahiers['childs'])) {
+                    $vars = array(
+                        'cahier_parent' => $cahiers['parent'][0],
+                        'cahier_childs' => $cahiers['childs']
+                    );
+
+                    $message = CriRenderView('mail_cahiers_cridon', $vars, 'custom', false);
+                    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                    if ($_POST['send_to'] === "email_test" && !empty($_POST['test_email'])) {
+                        $email = wp_mail($_POST['test_email'], Config::$mailSubjectCahierCridon, $message, $headers);
+                        writeLog("Email de test : " . $_POST['test_email'] . "\n"
+                            . "retour wp_mail : " . $email . "\n"
+                            . "message" . "\n" . $message, "cahiercridonmailog.txt");
+                        if ($email) {
+                            $this->flash('notice', 'L\'email a été correctement envoyé à ' . $_POST['test_email'] . ' !');
+                        }
+                    } elseif ($_POST['send_to'] === "notaires") {
+                        $env = getenv('ENV');
+                        if (empty($env) || ($env !== 'PROD')){
+                            if ($env === 'PREPROD') {
+                                $dest = Config::$notificationAddressPreprod;
+                            } else {
+                                $dest = Config::$notificationAddressDev;
+                            }
+                            $email = wp_mail($dest, Config::$mailSubjectCahierCridon, $message, $headers);
+                            writeLog("Email de test : " . $_POST['test_email'] . "\n"
+                                . "retour wp_mail : " . $email . "\n"
+                                . "message" . "\n" . $message, "cahiercridonmailog.txt");
+                            if ($email) {
+                                $this->flash('notice', 'L\'email a été correctement envoyé à ' . $dest . ' !');
+                            }
+                        } else {
+                            $options = array(
+                                'synonym' => 'n',
+                                'join' => array(
+                                    array(
+                                        'table' => 'users u',
+                                        'column' => ' n.id_wp_user = u.id'
+                                    ),
+                                    array(
+                                        'table' => 'etude e',
+                                        'column' => ' n.crpcen = e.crpcen'
+                                    ),
+                                ),
+                                'conditions' => array(
+                                    'u.user_status' => CONST_STATUS_ENABLED
+                                )
+                            );
+                            $notaires = mvc_model('QueryBuilder')->findAll('notaire', $options, 'n.id');
+                            $emails = array();
+                            foreach ($notaires as $notaire) {
+                                $user = new WP_User($notaire->id_wp_user);
+                                $emailAddress = trim($notaire->email_adress);
+                                if (!empty($emailAddress) && mvc_model('Notaire')->userHasRole($user, CONST_CONNAISANCE_ROLE)) {
+                                    $emails[] = $emailAddress;
+                                    $office_email = trim($notaire->office_email_adress_1);
+                                    if (!empty($office_email)){
+                                        $emails[] = $office_email;
+                                    }
+                                }
+                            }
+                            $emails_addresses = array_unique($emails);
+                            writeLog("Emails : " . $emails_addresses . "\n"
+                                . "message" . "\n" . $message, "cahiercridonmailog.txt");
+                            foreach ($emails_addresses as $email_address) {
+                                $email = wp_mail($email_address, Config::$mailSubjectCahierCridon, $message, $headers);
+                                writeLog("retour wp_mail : " . $email . "\n", "cahiercridonmailog.txt");
+                            }
+                            $this->flash('notice', 'Les emails ont été envoyés aux notaires !');
+                        }
+                    }
+                } else {
+                    $this->flash('error', 'Le numéro de cahier cridon lyon n\'est pas correct !');
+                }
+            } else {
+                $this->flash('error', 'Le numéro de cahier cridon lyon n\'est pas correct !');
+            }
+        }
+    }
 }

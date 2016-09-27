@@ -77,8 +77,13 @@ class Config {
         'formations'
     );
 
-    //Content qualified by a "Matière"
+    //Content with parent
     public static $contentWithParent = array(
+        'cahier_cridons',
+    );
+
+    //Content with specific email
+    public static $contentWithSpecificEmail = array(
         'cahier_cridons',
     );
 
@@ -273,8 +278,9 @@ class Config {
 
     );
 
-    // Notification for posted question
     public static $mailSubjectCridonline = 'Confirmation de votre souscription à crid\'online';
+
+    public static $mailSubjectCahierCridon = 'Nouveau cahier cridon lyon';
 
     public static $notificationAddressDev = "renaud.amsellem@jetpulp.fr";
 

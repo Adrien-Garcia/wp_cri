@@ -550,16 +550,16 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         if ($force || ($newDate > $oldDate)) {
                             // prepare all update   query
                             if (isset($newData[$adapter::NOTAIRE_CATEG]))
-                                $updateCategValues[]        = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CATEG]) . "' ";
+                                $updateCategValues[]        = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_CATEG]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_NUMCLIENT]))
-                                $updateNumclientValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_NUMCLIENT]) . "' ";
+                                $updateNumclientValues[]    = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_NUMCLIENT]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FNAME]))
-                                $updateFirstnameValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FNAME]) . "' ";
+                                $updateFirstnameValues[]    = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_FNAME]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_LNAME]))
-                                $updateLastnameValues[]     = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_LNAME]) . "' ";
+                                $updateLastnameValues[]     = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_LNAME]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_PWDTEL])) {
                                 $updatePwdtelValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PWDTEL]) . "' ";
@@ -567,27 +567,27 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             }
 
                             if (isset($newData[$adapter::NOTAIRE_INTERCODE]))
-                                $updateInterCodeValues[]    = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_INTERCODE]) . "' ";
+                                $updateInterCodeValues[]    = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_INTERCODE]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_CIVILIT]))
-                                $updateCivlitValues[]       = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CIVILIT]) . "' ";
+                                $updateCivlitValues[]       = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_CIVILIT]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_EMAIL]))
-                                $updateEmailValues[]        = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_EMAIL]) . "' ";
+                                $updateEmailValues[]        = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_EMAIL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FONC]))
-                                $updateFoncValues[]         = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FONC]) . "' ";
+                                $updateFoncValues[]         = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_FONC]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_TEL]))
-                                $updateTelValues[]         = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_TEL]) . "' ";
+                                $updateTelValues[]         = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_TEL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FAX]))
-                                $updateFaxValues[]         = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
+                                $updateFaxValues[]         = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_FAX]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_PORTABLE]))
-                                $updateMobileValues[]      = " {$currentData->id} THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
+                                $updateMobileValues[]      = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_PORTABLE]) . "' ";
 
-                            $updateDateModified[]          = " {$currentData->id} THEN '" . $dateModified . "' ";
+                            $updateDateModified[]          = " '{$currentData->id}' THEN '" . $dateModified . "' ";
                         }
                     }
                     // end optimisation
@@ -805,52 +805,52 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
                         // prepare all update   query
                         if (isset($newData[$adapter::NOTAIRE_SIGLE]))
-                            $updateSigleValues[]        = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_SIGLE]) . "' ";
+                            $updateSigleValues[]        = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_SIGLE]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_OFFICENAME]))
-                            $updateOfficenameValues[]    = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICENAME]) . "' ";
+                            $updateOfficenameValues[]    = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICENAME]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_ADRESS1]))
-                            $updateAdress1Values[]    = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS1]) . "' ";
+                            $updateAdress1Values[]    = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS1]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_ADRESS2]))
-                            $updateAdress2Values[]     = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS2]) . "' ";
+                            $updateAdress2Values[]     = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS2]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_ADRESS3]))
-                            $updateAdress3Values[]       = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS3]) . "' ";
+                            $updateAdress3Values[]       = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_ADRESS3]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_CP]))
-                            $updateCpValues[]    = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CP]) . "' ";
+                            $updateCpValues[]    = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_CP]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_CITY]))
-                            $updateCityValues[]       = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_CITY]) . "' ";
+                            $updateCityValues[]       = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_CITY]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_MAIL1]))
-                            $updateEmail1Values[]        = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL1]) . "' ";
+                            $updateEmail1Values[]        = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL1]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_MAIL2]))
-                            $updateEmail2Values[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL2]) . "' ";
+                            $updateEmail2Values[]         = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL2]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_MAIL3]))
-                            $updateEmail3Values[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL3]) . "' ";
+                            $updateEmail3Values[]         = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_MAIL3]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_OFFICETEL]))
-                            $updateTelValues[]      = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICETEL]) . "' ";
+                            $updateTelValues[]      = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICETEL]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_OFFICEFAX]))
-                            $updateFaxValues[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
+                            $updateFaxValues[]         = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_OFFICEFAX]) . "' ";
 
                         if (isset($newData[$adapter::NOTAIRE_YNIVEAU_0]) && $newData[$adapter::NOTAIRE_YNIVEAU_0] < $currentData->subscription_level){
                             if (isset($newData[$adapter::NOTAIRE_YVALDEB_0]) && date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0])) >= $currentData->start_subscription_date){
                                 if (!empty($newData[$adapter::NOTAIRE_YMOTIF_0])){
                                     if (in_array($newData[$adapter::NOTAIRE_YMOTIF_0],Config::$motiveImmediateUpdate)
                                         && isset($newData[$adapter::NOTAIRE_YVALFIN_0]) && isset($newData[$adapter::NOTAIRE_YDATECH_0])){
-                                        $updateLevelValues[]         = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
-                                        $updateStartDateValues[]     = " {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0]))) . "' ";
-                                        $updateEndDateValues[]       = " {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALFIN_0]))) . "' ";
-                                        $updateEcheanceDateValues[]  = " {$currentData->crpcen} THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YDATECH_0]))) . "' ";
+                                        $updateLevelValues[]         = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                        $updateStartDateValues[]     = " '{$currentData->crpcen}' THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALDEB_0]))) . "' ";
+                                        $updateEndDateValues[]       = " '{$currentData->crpcen}' THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YVALFIN_0]))) . "' ";
+                                        $updateEcheanceDateValues[]  = " '{$currentData->crpcen}' THEN '" . esc_sql(date('Y-m-d',strtotime($newData[$adapter::NOTAIRE_YDATECH_0]))) . "' ";
                                     } else {
-                                        $updateNextLevelValues[]     = " {$currentData->crpcen} THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
+                                        $updateNextLevelValues[]     = " '{$currentData->crpcen}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_YNIVEAU_0]) . "' ";
                                     }
                                 }
                             }
@@ -1036,7 +1036,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 'join' => array(
                     array(
                         'table'  => 'users u',
-                        'column' => ' n.id_wp_user = u.id'
+                        'column' => ' n.id_wp_user = u.id',
+                        'type'   => 'left'
                     ),
                 )
             );
@@ -1080,7 +1081,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     // set user status
                     if (isset($this->erpNotaireData[$uniqueKey]) && isset($this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_STATUS])) {
                         $userStatus = $this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_STATUS];
-                    } elseif (strtotime($notaire->user_registered. "+1 week") > time() && $notaire->user_status === CONST_STATUS_ENABLED) {
+                    } elseif (!in_array($userName, $users['username']) || (strtotime($notaire->user_registered. "+1 week") > time() && $notaire->user_status === CONST_STATUS_ENABLED)) {
                         // don't deactivate a user if he's not created on the ERP yet
                         $userStatus = CONST_STATUS_ENABLED;
                     } else {
@@ -1490,7 +1491,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date . '-' . CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
 
                     if (!empty($etude->offre_promo)){
-                        $updateOffrePromoValues[] = " {$etude->crpcen} THEN NULL ";
+                        $updateOffrePromoValues[] = " '{$etude->crpcen}'' THEN NULL ";
                     }
 
                     if ($etude->offre_promo != CONST_PROMO_PRIVILEGE){
@@ -1498,13 +1499,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     }
 
                     if (!empty($etude->next_subscription_level)) {
-                        $updateLevelValues[] = " {$etude->crpcen} THEN '" . $etude->next_subscription_level . "' ";
+                        $updateLevelValues[] = " '{$etude->crpcen}' THEN '" . $etude->next_subscription_level . "' ";
                     }
                     $nextSubscriptionPrice          = mvc_model('Etude')->getSubscriptionPrice($etude, true);
-                    $updatePriceValues[]            = " {$etude->crpcen} THEN '" . $nextSubscriptionPrice . "' ";
-                    $updateEndDateValues[]          = " {$etude->crpcen} THEN '" . $end_subscription_date . "' ";
-                    $updateEcheanceDateValues[]     = " {$etude->crpcen} THEN '" . $echeance_subscription_date . "' ";
-                    $updateTransmisEcheanceValues[] = " {$etude->crpcen} THEN '0' ";
+                    $updatePriceValues[]            = " '{$etude->crpcen}' THEN '" . $nextSubscriptionPrice . "' ";
+                    $updateEndDateValues[]          = " '{$etude->crpcen}' THEN '" . $end_subscription_date . "' ";
+                    $updateEcheanceDateValues[]     = " '{$etude->crpcen}' THEN '" . $echeance_subscription_date . "' ";
+                    $updateTransmisEcheanceValues[] = " '{$etude->crpcen}' THEN '0' ";
                 }
 
                 $etudeQuery = array();
@@ -1896,18 +1897,18 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     if ($newDate > $oldDate) {
                         // prepare all update   query
                         if (isset($newData[$parser::SOLDE_QUOTA])) {
-                            $updateQuotaValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_QUOTA]) . "' ";
+                            $updateQuotaValues[] = " '{$currentData->id}' THEN '" . esc_sql($newData[$parser::SOLDE_QUOTA]) . "' ";
                         }
 
                         if (isset($newData[$parser::SOLDE_NOMBRE])) {
-                            $updateNombreValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_NOMBRE]) . "' ";
+                            $updateNombreValues[] = " '{$currentData->id}' THEN '" . esc_sql($newData[$parser::SOLDE_NOMBRE]) . "' ";
                         }
 
                         if (isset($newData[$parser::SOLDE_POINTS])) {
-                            $updatePointsValues[] = " {$currentData->id} THEN '" . esc_sql($newData[$parser::SOLDE_POINTS]) . "' ";
+                            $updatePointsValues[] = " '{$currentData->id}' THEN '" . esc_sql($newData[$parser::SOLDE_POINTS]) . "' ";
                         }
 
-                        $updateDateArret[] = " {$currentData->id} THEN '" . $dateArret . "' ";
+                        $updateDateArret[] = " '{$currentData->id}' THEN '" . $dateArret . "' ";
                     }
                 }
 

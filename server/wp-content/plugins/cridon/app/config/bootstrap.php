@@ -335,9 +335,12 @@ function setAdminbarTranslation( $controllers ){
                 unset($actions['add']);
             }
         }
+        if (in_array($ctrl,Config::$contentWithSpecificEmail)){
+            $actions['email_sender'] = array('label' => 'Envoi Email');
+        }
         MvcConfiguration::append(array(
                 'AdminPages' => array(
-                    $ctrl => $actions
+                    $ctrl => $actions,
                 )
             )
         );

@@ -220,6 +220,52 @@ class CahierCridon extends \App\Override\Model\CridonMvcModel
     }
 
     /**
+     * Get parent and childs for a given parent id
+     * @param int $id_parent
+     * @return object $response
+     */
+    public function get_parent_and_childs($id_parent){
+        $parent = $this->get_parent($id_parent);
+        $childs = $this->get_childs($id_parent);
+
+        $response = array(
+            'parent' => $parent,
+            'childs' => $childs
+        );
+        return $response;
+    }
+
+    protected function get_childs($id_parent){
+        //We place the cahier_cridon fields after the other to keep the id ; otherwise, it's replaced by the matiere id.
+        $options ['fields'] = 'm.*,p.*,c.*';
+        $options ['join'] = array(
+            'matiere' => array(
+                'table' => 'matiere m',
+                'column' => ' c.id_matiere = m.id'
+            ),
+            'post' => array(
+                'table' => 'posts p',
+                'column' => ' c.post_id = p.id'
+            )
+        );
+        $options ['conditions'] = 'c.id_parent = '.$id_parent;
+        $options ['synonym'] = 'c';
+        return mvc_model('QueryBuilder')->findAll('cahier_cridon', $options, 'c.id');
+    }
+
+    protected function get_parent($id_parent){
+        $options ['join'] = array(
+            'post' => array(
+                'table' => 'posts p',
+                'column' => ' c.post_id = p.id'
+            )
+        );
+        $options ['conditions'] = 'c.id = '.$id_parent;
+        $options ['synonym'] = 'c';
+        return mvc_model('QueryBuilder')->findAll('cahier_cridon', $options, 'c.id');
+    }
+
+    /**
      * Get results
      *
      * @param mixed $q
