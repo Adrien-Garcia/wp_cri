@@ -1,23 +1,87 @@
 wp_cridon
+===================
+
+Wordpress version 4.3.6
+
+URLs
+-------------
+
+Site du CRIDON Lyon (base de connaissance notariale et interface pour poser des questions au experts CRIDON)
+
+* PROD : http://cridon-lyon.fr/
+* PREPROD : http://cridon.preprod.jetpulp.hosting/
+* DEV : http://cridon.dev.jetpulp.hosting/
+
 ----------
 
-# Installation
+Pré-Requis
+-------------
 
-Connect to the virtual machine
+- Apache 2.4 
+- MariaDB 10
+- PHP 5.6
+- OCI8 http://php.net/manual/en/book.oci8.php
+
+> **Note:**
+
+----------
+
+<i class="fa fa-cog"></i>Installation - Mise en route
+-------------
+
 ```
-vagrant ssh
+cd docker
+bash start.sh
 ```
 
-Gulp installation :
-```
-cd /var/www/wp_maestro/server/gulp
-ln -s /usr/lib/node_modules
-```
+<i class="fa fa-picture"></i>Thème custom
+-------------
 
-Gulp compilation :
-```
-gulp
-```
+Thème responsive
+Compatibilité Navigateur vendu
+
+----------
+
+<i class="fa fa-exchange"></i>ERP
+-------------
+
+Interface bidirectionnelle pour les questions et notaires avec l'ERP du CRIDON Lyon
+
+<i class="fa fa-cog"></i>Modules tiers installées
+-------------
+
+* ACF
+* WP MVC
+* Visualizer: Charts and Graphs
+
+----------
+
+<i class="fa fa-cog"></i>Modules développés installées
+-------------
+
+* Cridon : Module (MVC) permettant : 
+    - Interface avec les API, BDD, ... du Cridon 
+    - Interface avec les applications mobiles
+    - Le mailing des Cahiers/Vie du Cridon/Flash infos
+    - ...
+
+> **Note:**
+> Décrire ici  les modules développés installées et leur roles
+
+<i class="fa fa-server"></i>Hébergement
+-------------
+
+http://wikisi.addonline.local/index.php/Cat%C3%A9gorie:Cridon
+
+<i class="fa fa-help"></i>Informations spécifiques complémentaires
+--------------
+
+* Victor ALBERT victor.albert@jetpulp.fr [Dev Referent]
+* Renaud AMSELLEM renaud.amsellem@jetpulp.fr [Dev]
+* Alexandra PETIT alexandra.petit@jetpulp.fr [Inte]
+* Clément HORGUES clement.horgues@jetpulp.fr [Inte/Dev]
+* Jordan LOUAPRE jordan.louapre@jetpulp.fr [PP]
+
 
 # Configuration
 

@@ -1,7 +1,7 @@
 {
   "extends": [
     "./_eslint.js",
-    "./_eslint_user.js"
+    "./_eslint_projet.js"
   ],
   "rules": {
 
