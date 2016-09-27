@@ -692,40 +692,48 @@ App.Account = {
 
         this.debug("Account : addListenersCollaborateur");
 
-        $(document).on('change',this.$accountCollaborateurCap.selector, function (e) {
+        $(document).off('change',this.$accountCollaborateurCap.selector);
+        $(document).on('change',this.$accountCollaborateurCap.selector, function () {
             self.eventAccountCollaborateurCapabilities($(this));
         });
 
+        this.$accountCollaborateurDeleteForm.off('submit');
         this.$accountCollaborateurDeleteForm.on('submit', function (e) {
             e.returnValue = false;
             e.preventDefault();
             self.eventAccountCollaborateurDeleteSubmit($(this));
         });
 
+        this.$accountCollaborateurDeleteValidationForm.off('submit');
         this.$accountCollaborateurDeleteValidationForm.on('submit',function(e){
             e.returnValue = false;
             e.preventDefault();
             self.eventAccountCollaborateurDeleteValidationSubmit($(this));
         });
 
+        this.$accountCollaborateurAddButton.off('click');
         this.$accountCollaborateurAddButton.on('click', function (e) {
             self.eventAccountCollaborateurAddPopup($(this));
             return false;
         });
 
+        this.$accountCollaborateurModify.on('click');
         this.$accountCollaborateurModify.on('click', function (e) {
             self.eventAccountCollaborateurModifyPopup($(this));
             return false;
         });
 
+        $(document).off('change',this.$accountCollaborateurAddFunction.selector);
         $(document).on('change',this.$accountCollaborateurAddFunction.selector, function(e){
             self.eventAccountCollaborateurChangeFunction($(this));
         });
 
+        $(document).off('change',this.$accountCollaborateurAddFunctioncollaborateur.selector);
         $(document).on('change',this.$accountCollaborateurAddFunctioncollaborateur.selector, function(e){
             self.eventAccountCollaborateurChangeFunctionCollaborateur($(this));
         });
 
+        $(document).off('submit',this.$accountCollaborateurAddForm.selector);
         $(document).on('submit',this.$accountCollaborateurAddForm.selector, function (e) {
             e.returnValue = false;
             e.preventDefault();
@@ -736,6 +744,7 @@ App.Account = {
             }
         });
 
+        this.$accountCollaborateurPagination.off('click');
         this.$accountCollaborateurPagination.on('click', function (e) {
             e.returnValue = false;
             e.preventDefault();

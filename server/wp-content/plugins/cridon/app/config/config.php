@@ -221,7 +221,10 @@ class Config {
         CONST_SUPPORT_5_DAYS_MEDIUM_ID,
         CONST_SUPPORT_RDV_TEL_MEDIUM_ID,
         CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
-        CONST_SUPPORT_DOSSIER_EXPERT_ID
+        CONST_SUPPORT_DOSSIER_EXPERT_ID,
+        CONST_SUPPORT_LETTRE_HORS_DELAI_ID,
+        CONST_SUPPORT_2_DAYS_INITIALE_HORS_DELAI_ID,
+        CONST_SUPPORT_5_DAYS_MEDIUM_HORS_DELAI_ID
     );
 
     //Notification for published post
@@ -480,8 +483,9 @@ class Config {
     public static $questionPendingStatus = array(1,2,3);
 
     // Notification for password changed
-    public static $mailPasswordChange = array(
-        'subject' => 'Changement du mot de passe de %s',
+    public static $mailPassword = array(
+        'changePasswordSubject' => 'Changement du mot de passe de %s',
+        'firstTimeTelPasswordSubject' => 'Identifiants d\'accès CRIDON LYON de %s',
     );
 
     // Content qualified by a "Niveau"
