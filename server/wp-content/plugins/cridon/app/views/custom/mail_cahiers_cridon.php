@@ -67,7 +67,7 @@
                 <?php
                 $home = home_url();
 
-                $modelFile = "banner-cridonline.png";
+                $modelFile = "banner-cahier-cridon.jpg";
                 $alt = "Inscription Crid'online";
                 ?>
                 <img src="<?php echo plugins_url( "../public/images/mail/".$modelFile, dirname(__FILE__) ) ?>" alt="<?php echo $alt ; ?>" />
@@ -81,74 +81,83 @@
         <tr>
             <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
+                <table width="100%" height="100%" border="0">
+                    <tr>
+                        <td colspan="2" valign="top" width="100%">
+                            <h2><?php echo $cahier_parent->post_title ?></h2>
+
+                            <?php $class = mvc_model('CahierCridon'); ?>
+
+                            <?php if (method_exists($class, "getDocuments")) : ?>
+                                <?php
+                                $documents = $class::getDocuments($cahier_parent->id);
+                                ?>
+                                <?php foreach ($documents as $index => $document) : ?>
+                                    <?php
+                                    $options = array(
+                                        'controller' => 'documents',
+                                        'action'     => 'download',
+                                        'id'         => $document->id
+                                    );
+                                    $publicUrl  = MvcRouter::public_url($options);
+                                    ?>
+                                    <a href="<?php echo $publicUrl; ?>" title="télécharger le document pdf" target="_blank">Télécharger le sommaire</a>
+                                <?php endforeach; ?>
+
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><br /><br /></td>
+                    </tr>
 
 
-                <h2><?php echo $cahier_parent->post_title ?></h2>
 
-                <?php $class = mvc_model('CahierCridon'); ?>
-
-                <?php if (method_exists($class, "getDocuments")) : ?>
-                    <?php
-                    $documents = $class::getDocuments($cahier_parent->id);
-                    ?>
-                    <?php foreach ($documents as $index => $document) : ?>
-                        <?php
-                        $options = array(
-                            'controller' => 'documents',
-                            'action'     => 'download',
-                            'id'         => $document->id
-                        );
-                        $publicUrl  = MvcRouter::public_url($options);
-                        ?>
-                        <a href="<?php echo $publicUrl; ?>" title="télécharger le document pdf" target="_blank">Télécharger le sommaire</a>
-                    <?php endforeach; ?>
-
-                <?php endif; ?>
-
-
-                <ul  style="list-style-type: none;">
                 <?php foreach ($cahier_childs as $cahier): ?>
-                <li>
                     <!--matiere-->
                     <?php if (! empty($cahier->label)) : ?>
-                        <table>
-                            <tr>
-                                <td width="90" style="width:90px;height:90px;">
-                                    <img src="<?php echo $cahier->picto ?>" alt="icon" width="90" height="90" style="width:90px;height:90px;" /><br/>
-                                    <span class="section"><?php echo $cahier->label ?></span>
-                                </td>
-                                <td style="width:400px;" width="400">
-                                    <h3><?php echo $cahier->post_title ?></h3>
-                                </td>
-                            </tr>
-                        </table>
-                    <?php else : ?>
-                        <h1><?php echo $cahier->post_title ?></h1>
+                        <tr>
+                            <td width="90" height="90">
+                                <img src="<?php echo $cahier->picto ?>" alt="icon" width="90" height="90" style="width:90px;height:90px;" />
+                            </td>
+                            <td width="450" valign="top">
+                                <span class="section"><?php echo $cahier->label ?></span>
+                                <h3><?php echo $cahier->post_title ?></h3>
+                            </td>
+                        </tr>
+                     <?php else : ?>
+                        <tr>
+                            <td colspan="2">
+                                <h1><?php echo $cahier->post_title ?></h1>
+                            </td>
+                        </tr>
                     <?php endif; ?>
-                    <br/>
+
                     <?php if (method_exists($class, "getDocuments")) : ?>
-                        <?php
-                        $documents = $class::getDocuments($cahier->id);
-                        ?>
-                        <?php foreach ($documents as $index => $document) : ?>
-                            <?php
-                            $options = array(
-                                'controller' => 'documents',
-                                'action'     => 'download',
-                                'id'         => $document->id
-                            );
-                            $publicUrl  = MvcRouter::public_url($options);
-                            ?>
-                            <a href="<?php echo $publicUrl ; ?>" title="Télécharger le document pdf" target="_blank">Télécharger le document pdf</a>
-                        <?php endforeach; ?>
-
+                        <tr>
+                            <td colspan="2">
+                                <?php
+                                $documents = $class::getDocuments($cahier->id);
+                                ?>
+                                <?php foreach ($documents as $index => $document) : ?>
+                                    <?php
+                                    $options = array(
+                                        'controller' => 'documents',
+                                        'action'     => 'download',
+                                        'id'         => $document->id
+                                    );
+                                    $publicUrl  = MvcRouter::public_url($options);
+                                    ?>
+                                    <a href="<?php echo $publicUrl ; ?>" title="Télécharger le document pdf" target="_blank">Télécharger le document pdf</a>
+                                <?php endforeach; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><br /></td>
+                        </tr>
                     <?php endif; ?>
-                </li>
-                <p style="margin-top:5px;">
-
                 <?php endforeach ?>
-                </ul>
-
+                </table>
 
             <td width="20" style="background-color:#fff;"></td>
         </tr>
