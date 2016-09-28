@@ -28,6 +28,7 @@ db:
     environment:
         - MYSQL_ROOT_PASSWORD=root
         - MYSQL_DATABASE
+        - SERVER_NAME
 mailhog:
     container_name: wp_cridon-mailhog
     image: mailhog/mailhog

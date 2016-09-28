@@ -10,15 +10,19 @@ echo "Setup database when restoration is completed with this commands : "
 echo "docker-setup-db"
 echo ""
 
-if [ ! -f "../server/.htaccess"]
+if [ ! -f "../server/.htaccess" ]
 then
     echo ""
     echo "Copying htaccess"
+    echo ""
     cp ../conf/local/.htaccess ../server/
 fi
 
-if [ ! -f "../server/wp-config.php"]
+if [ ! -f "../server/wp-config.php" ]
 then
+    echo ""
+    echo "Copying wp-config"
+    echo ""
     cp ../conf/local/wp-config.php ../server/
 fi
 
