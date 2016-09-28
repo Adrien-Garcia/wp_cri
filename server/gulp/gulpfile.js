@@ -147,7 +147,7 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('default', ['copy','sprite',/*'iconfont',*/ 'sass', 'uglify','browser-sync', 'watch'], function() {});
+gulp.task('default', ['copy','sprite','iconfont', 'sass', 'uglify','browser-sync', 'watch'], function() {});
 gulp.task('build', ['copy','sprite', 'iconfont','sass-build', 'uglify',], function() {});
 
 

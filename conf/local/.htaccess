@@ -10,14 +10,14 @@ RewriteRule . /index.php [L]
 </IfModule>
 
 # END WordPress
+SetEnvIf Origin "^(http\:\/\/wp-cridon\.\w+\.jetpulp\.dev(\:\d{1,4})?)$" ORIGIN_SUB_DOMAIN=$1
 
 <FilesMatch "\.(cur|gif|ico|jpe?g|png|svgz?|webp)$">
    SetEnvIf Origin ":" IS_CORS
-   Header set Access-Control-Allow-Origin "http://wp-cridon.username.jetpulp.dev" env=IS_CORS
+   Header set Access-Control-Allow-Origin "%{ORIGIN_SUB_DOMAIN}e" env=IS_CORS
 </FilesMatch>
 
 # Allow access from all domains for web fonts
-SetEnvIf Origin "^(http\:\/\/wp-cridon\.username\.jetpulp\.dev(\:\d{1,4})?)$" ORIGIN_SUB_DOMAIN=$1
 <FilesMatch "\.(eot|otf|ttc|ttf|woff2?)$">
    Header set Access-Control-Allow-Origin "%{ORIGIN_SUB_DOMAIN}e" env=ORIGIN_SUB_DOMAIN
 </FilesMatch>

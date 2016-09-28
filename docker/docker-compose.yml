@@ -9,45 +9,61 @@ web:
         - ./web/php.ini:/usr/local/etc/php/php.ini
     environment:
         - ALLOW_OVERRIDE=true
-        - SERVER_NAME=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
-        - VIRTUAL_HOST=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
+        - SERVER_NAME
+        - SERVER_NAME_ALIAS
         - USER_UID
         - USER_GROUP
     links:
         - db:db
         - mailhog:mailhog
 #        - blackfire:blackfire
+        - gulp:gulp
 db:
     container_name: wp_cridon-db
     image: mariadb:10.0
     ports:
         - "3306:3306"
     volumes:
-        - /var/lib/boot2docker/mysql_wp_cridon:/var/lib/mysql
         - ./db:/docker-entrypoint-initdb.d
     environment:
         - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_DATABASE=wp_cridon
-        - SERVER_NAME=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
+        - MYSQL_DATABASE
 mailhog:
     container_name: wp_cridon-mailhog
     image: mailhog/mailhog
     ports:
         - "8025:8025"
-#blackfire:
-#    container_name: wp_cridon-blackfire
-#    image: blackfire/blackfire
-#    environment:
-#        - BLACKFIRE_SERVER_ID
-#        - BLACKFIRE_SERVER_TOKEN
-gulp-grunt-browser-sync:
-    container_name: gulp-grunt-browser-sync
-    image: registry.jetpulp.fr:5000/dev/gulp-grunt-browser-sync
+blackfire:
+    container_name: blackfire
+    image: blackfire/blackfire
+    environment:
+        - BLACKFIRE_SERVER_ID
+        - BLACKFIRE_SERVER_TOKEN
+gulp:
+    container_name: gulp-dev
+    image: registry.jetpulp.fr:5000/dev/gulp-dev
     ports:
         - "3000:3000"
         - "3001:3001"
     volumes:
         - ../server/:/app
     environment:
-        - BUILD_CMD=gulp
-        - SERVER_NAME=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
+        - BUILD_PATH=gulp
+        - SERVER_NAME
+        - USER_UID
+        - USER_GROUP
+    dns:
+        - 192.168.69.47
+search-replace-db:
+    container_name: search-replace-db
+    image: registry.jetpulp.fr:5000/dev/search-replace-db
+    volumes:
+        - ./db/config.yml:/app/config.yml
+    links:
+        - db:db
+    environment:
+        - DB_ENV_MYSQL_USER=root
+        - DB_ENV_MYSQL_PASSWORD=root
+        - DB_ENV_MYSQL_DATABASE=$MYSQL_DATABASE
+        - SERVER_NAME
+        - SERVER_NAME_ALIAS

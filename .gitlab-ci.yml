@@ -1,0 +1,5 @@
+deploy:
+    image: registry.jetpulp.fr:5000/dev/beanstalkapp:latest
+    stage: deploy
+    script:
+    - git push --prune git@addonline.git.beanstalkapp.com:/addonline/wp_cridon.git +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/*
