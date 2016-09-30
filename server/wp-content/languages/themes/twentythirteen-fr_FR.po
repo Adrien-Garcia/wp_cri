@@ -298,7 +298,7 @@ msgstr "C&rsquo;est plutôt gênant, vous ne trouvez pas&nbsp;?"
 msgid "Not Found"
 msgstr "Rien de trouvé"
 
-#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 1.9)  #-#-#-#-#
+#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 2.0)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:19
 msgid "https://wordpress.org/"

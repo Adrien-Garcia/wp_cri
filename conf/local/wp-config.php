@@ -26,7 +26,7 @@ define('DB_USER', 'root');
 /** Mot de passe de la base de données MySQL. */
 define('DB_PASSWORD', 'root');
 /** Adresse de l'hébergement MySQL. */
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'db');
 /** Jeu de caractères à utiliser par la base de données lors de la création des tables. */
 define('DB_CHARSET', 'utf8');
 /** Type de collation de la base de données.

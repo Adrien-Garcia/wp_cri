@@ -530,6 +530,11 @@ class Config {
         )
     );
 
+    // Motifs de changement de niveau :
+    // 1 : Résiliation à échéance
+    // 2 : Sans suite
+    // 3 : Résiliation immédiate
+    // 4 : Upgrade sans suite
     public static $motiveImmediateUpdate = array(2,3,4);
 
     // Notification for posted question
