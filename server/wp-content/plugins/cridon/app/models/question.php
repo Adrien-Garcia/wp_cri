@@ -2062,6 +2062,13 @@ class Question extends \App\Override\Model\CridonMvcModel
             && isset($post[CONST_QUESTION_COMPETENCE_FIELD]) && $post[CONST_QUESTION_COMPETENCE_FIELD] != ''
             && isset($post[CONST_QUESTION_MESSAGE_FIELD]) && $post[CONST_QUESTION_MESSAGE_FIELD] != ''
         ) {
+            // La première app peut envoyer '0' en compétence
+            if ($post[CONST_QUESTION_COMPETENCE_FIELD] == 0){
+                $competence = $post[CONST_QUESTION_MATIERE_FIELD];
+            } else {
+                $competence = $post[CONST_QUESTION_COMPETENCE_FIELD];
+            }
+
             // prepare data
             $question = array(
                 'Question' => array(
@@ -2070,7 +2077,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                     'resume'             => htmlentities($post[CONST_QUESTION_OBJECT_FIELD]),
                     'creation_date'      => date('Y-m-d H:i:s'),
                     'id_support'         => $post[CONST_QUESTION_SUPPORT_FIELD], // Support
-                    'id_competence_1'    => $post[CONST_QUESTION_COMPETENCE_FIELD], // Competence
+                    'id_competence_1'    => $competence, // Competence
                     'content'            => htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]), // Message
                     'mobile_push_token'  => ($post[CONST_QUESTION_PUSHTOKEN_FIELD]), // push token
                     'mobile_device_type' => ($post[CONST_QUESTION_DEVICETYPE_FIELD]) // device type
