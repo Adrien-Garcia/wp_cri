@@ -58,31 +58,7 @@ class NotairesController extends BasePublicController
      */
     protected function set_vars($vars)
     {
-        if (is_object($vars) && property_exists($vars, 'client_number')) {
-            $datas = mvc_model('solde')->getSoldeByClientNumber($vars->client_number);
-
-            // init data
-            $vars->nbAppel = $vars->nbCourrier = $vars->quota = $vars->pointConsomme = $vars->solde = 0;
-            $vars->date = '';
-
-            // quota, pointCosomme, solde
-            if (isset($datas[0])) {
-                $vars->quota = $datas[0]->quota;
-                $vars->pointConsomme = $datas[0]->totalPoint;
-                $vars->solde = intval($datas[0]->quota) - intval($datas[0]->totalPoint);
-                $vars->date = date('d/m/Y', strtotime($datas[0]->date_arret));
-            }
-
-            // fill nbAppel && nbCourrier
-            foreach($datas as $data) {
-                if ($data->type_support == CONST_SUPPORT_APPEL_ID) {
-                    $vars->nbAppel += $data->nombre;
-                } elseif ($data->type_support == CONST_SUPPORT_COURRIER_ID) {
-                    $vars->nbCourrier += $data->nombre;
-                }
-            }
-
-        }
+        $vars = $this->model->traitement_data_solde($vars);
         $this->set('object', $vars);
         MvcObjectRegistry::add_object($this->model->name, $this->object);
     }

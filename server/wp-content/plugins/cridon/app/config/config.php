@@ -939,4 +939,32 @@ class Config {
                 CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID
             )
     );
+    /**
+     * Tableau des codes supports correspondant à une question téléphonique
+     *
+     * @var array
+     */
+    public static $code_support_questions_tel = array(
+        CONST_SUPPORT_APPEL_ID,
+        CONST_SUPPORT_RDV_TEL_MEDIUM_ID
+    );
+    /**
+     * Tableau des codes supports correspondant à une question écrite
+     *
+     * @var array
+     */
+    public static $code_support_questions_ecrites = array(
+        CONST_SUPPORT_COURRIER_ID,
+        CONST_SUPPORT_NON_FACTURE,
+        CONST_SUPPORT_URG48H_ID,
+        CONST_SUPPORT_URGWEEK_ID,
+        CONST_SUPPORT_3_TO_4_WEEKS_INITIALE_ID,
+        CONST_SUPPORT_2_DAYS_INITIALE_ID,
+        CONST_SUPPORT_5_DAYS_MEDIUM_ID,
+        CONST_SUPPORT_3_TO_4_WEEKS_EXPERT_ID,
+        CONST_SUPPORT_DOSSIER_EXPERT_ID,
+        CONST_SUPPORT_LETTRE_HORS_DELAI_ID,
+        CONST_SUPPORT_2_DAYS_INITIALE_HORS_DELAI_ID,
+        CONST_SUPPORT_5_DAYS_MEDIUM_HORS_DELAI_ID
+    );
 }
