@@ -184,8 +184,10 @@ class AdminCahierCridonsController extends BaseAdminController {
                             foreach ($notaires as $notaire) {
                                 $user = new WP_User($notaire->id_wp_user);
                                 $emailAddress = trim($notaire->email_adress);
-                                if (!empty($emailAddress) && mvc_model('Notaire')->userHasRole($user, CONST_CONNAISANCE_ROLE)) {
-                                    $emails[] = $emailAddress;
+                                if (mvc_model('Notaire')->userHasRole($user, CONST_CONNAISANCE_ROLE)) {
+                                    if (!empty($emailAddress)) {
+                                        $emails[] = $emailAddress;
+                                    }
                                     $office_email = trim($notaire->office_email_adress_1);
                                     if (!empty($office_email)){
                                         $emails[] = $office_email;
