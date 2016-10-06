@@ -2281,4 +2281,29 @@ class Question extends \App\Override\Model\CridonMvcModel
             }
         }
     }
+
+    public function deleteQuestions($ids)
+    {
+        $options = array(
+            'table' => 'question',
+            'conditions' => 'id IN (' . implode(',',$ids) . ')'
+        );
+
+        //delete questions
+        $qb = new QueryBuilder;
+        $qb->delete($options);
+
+        // delete documents associated (prepare data)
+        $funcMapper = function ($id){
+            $object = new stdClass();
+            $object->id = $id;
+            return $object;
+        };
+
+        $questions = array_map($funcMapper,$ids);
+
+        $this->deleteAssociatedDocuments($questions);
+
+        return CONST_STATUS_CODE_OK;
+    }
 }
