@@ -1270,6 +1270,22 @@ class Question extends \App\Override\Model\CridonMvcModel
             if (count($this->questListForDelete) > 0) {
                 // obtenir une chaine sous la forme : '84803274728', '80603274726', '82605774731'
                 $conditions = "'" . implode("','", $this->questListForDelete) . "'";
+
+                $options = array(
+                    'table'      => $this->table,
+                    'conditions' => 'CONCAT(client_number, srenum) IN (' . $conditions . ')'
+                );
+
+                // execute query
+                $qb = new QueryBuilder;
+                $questions = $qb->find($options);
+                if (!empty($qb->error)) {
+                    throw new Exception($qb->error);
+                }
+
+                $this->deleteAssociatedDocuments($questions);
+
+                // delete questions
                 $query = "DELETE
                           FROM `{$this->table}`
                           WHERE CONCAT(client_number, srenum) IN (" . $conditions . ")";
@@ -1372,6 +1388,19 @@ class Question extends \App\Override\Model\CridonMvcModel
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $e->getMessage(),'Cridon - Question - Erreur création liste de suppression');
             writeLog($e, 'questionweeklyupdatesetListDelete.log');
+        }
+    }
+
+    public function deleteAssociatedDocuments($questions){
+
+        $database = new UIDatabase();
+
+        $object = new stdClass();
+        $object->type = 'question';
+
+        foreach ($questions as $question){
+            $object->id_externe = $question->id;
+            $database->deleteAll($object);
         }
     }
 
