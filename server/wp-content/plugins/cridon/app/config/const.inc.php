@@ -1099,6 +1099,12 @@ if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
+if ( !defined( 'CONST_ONGLET_MES_FACTURES' ) ) {
+    define( 'CONST_ONGLET_MES_FACTURES', 7 );
+}
+if ( !defined( 'CONST_ONGLET_MES_RELEVES' ) ) {
+    define( 'CONST_ONGLET_MES_RELEVES', 8 );
+}
 // capabilités d'aceès au solde
 if ( !defined( 'CONST_ACCESS_SOLDE' ) ) {
     define( 'CONST_ACCESS_SOLDE', 'access_solde' );
