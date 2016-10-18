@@ -122,6 +122,34 @@
 								</a>
 							</li>
 							<?php endif; ?>
+							<?php if (CriCanAccessSensitiveInfo(CONST_FINANCE_ROLE)): ?>
+								<li
+									class="js-account-mes-factures js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_MES_FACTURES) ? " active " : "" ?>"
+									data-js-name="MesFactures"
+								>
+
+									<a
+										data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'contentmesfactures')) ?>"
+										data-js-target-id="mes-factures"
+										href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'mesfactures'));?>"
+										class="bt js-account-mes-factures-button analytics_Dashboard_collaborateur">
+										<span>Mes factures</span>
+									</a>
+								</li>
+								<li
+									class="js-account-mes-releves js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_MES_RELEVES) ? " active " : "" ?>"
+									data-js-name="MesReleves"
+								>
+
+									<a
+										data-js-ajax-src="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'contentmesreleves')) ?>"
+										data-js-target-id="mes-releves"
+										href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'mesreleves'));?>"
+										class="bt js-account-mes-releves-button analytics_Dashboard_collaborateur">
+										<span>Mes relevés</span>
+									</a>
+								</li>
+							<?php endif; ?>
 						</ul>
 					</nav>
 				</div>
@@ -166,6 +194,16 @@
                             <?php CriRenderView('contentcollaborateur', array('collaborator_functions' => $collaborator_functions, 'liste' => $liste,'message' => $message,'controller' => $this), 'notaires') ?>
                         <?php endif; ?>
                     </div>
+					<div id="mes-factures" class="pannel js-account-ajax js-account-mes-factures js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_MES_FACTURES) ? " active " : "" ?>">
+						<?php if ($onglet == CONST_ONGLET_MES_FACTURES) : ?>
+							<?php CriRenderView('contentmesfactures', array('notaire' => $notaire, 'content' => $content), 'notaires') ?>
+						<?php endif; ?>
+					</div>
+					<div id="mes-releves" class="pannel js-account-ajax js-account-mes-releves js-account-content <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_MES_RELEVES) ? " active " : "" ?>">
+						<?php if ($onglet == CONST_ONGLET_MES_RELEVES) : ?>
+							<?php CriRenderView('contentmesreleves', array('notaire' => $notaire, 'content' => $content), 'notaires') ?>
+						<?php endif; ?>
+					</div>
 				</div>
 
 

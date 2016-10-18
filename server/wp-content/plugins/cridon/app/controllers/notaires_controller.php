@@ -951,6 +951,68 @@ class NotairesController extends BasePublicController
     }
 
     /**
+     * Notaire Mes Factures Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentmesfactures.php
+     *
+     * @return void
+     */
+    public function contentmesfactures()
+    {
+        // access secured
+        $this->mesfactures();
+        $this->renderView('contentmesfactures', true);
+        die();
+    }
+    /**
+     * Notaire Mes factures page
+     * Associated template : app/views/notaires/mesfactures.php
+     *
+     * @return void
+     */
+    public function mesfactures()
+    {
+        $this->prepareSecureAccess(CONST_FINANCE_ROLE);
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
+        //$content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
+        //$this->set('content',$content);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_MES_FACTURES);
+    }
+
+    /**
+     * Notaire Mes Relevés Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentmesreleves.php
+     *
+     * @return void
+     */
+    public function contentmesreleves()
+    {
+        // access secured
+        $this->mesreleves();
+        $this->renderView('contentmesreleves', true);
+        die();
+    }
+    /**
+     * Notaire Mes releves page
+     * Associated template : app/views/notaires/mesreleves.php
+     *
+     * @return void
+     */
+    public function mesreleves()
+    {
+        $this->prepareSecureAccess(CONST_FINANCE_ROLE);
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
+        //$content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
+        //$this->set('content',$content);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_MES_RELEVES);
+    }
+
+    /**
      * render a view
      * @param array $view name of view to render
      * @param boolean $echo echo the view (true) / stock it in a var (false)
