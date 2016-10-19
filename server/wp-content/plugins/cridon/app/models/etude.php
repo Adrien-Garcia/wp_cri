@@ -306,7 +306,12 @@ class Etude extends \App\Override\Model\CridonMvcModel {
 
             $env = getenv('ENV');
             if (empty($env) || ($env !== PROD)) {
-                wp_mail(Config::$notificationAddressPreprod, Config::$mailSubjectNotifFacture[0], $message, $headers);
+                if ($env === 'PREPROD') {
+                    $dest = Config::$notificationAddressPreprod;
+                } else {
+                    $dest = Config::$notificationAddressDev;
+                }
+                wp_mail($dest, Config::$mailSubjectNotifFacture, $message, $headers);
             } else {
                 /**
                  * wp_mail : envoie mail destinataire multiple
@@ -314,7 +319,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                  * @see wp-includes/pluggable.php : 228
                  * @param string|array $to Array or comma-separated list of email addresses to send message.
                  */
-                wp_mail($dest, Config::$mailSubjectNotifFacture[0], $message, $headers);
+                wp_mail($dest, Config::$mailSubjectNotifFacture, $message, $headers);
             }
         }
     }

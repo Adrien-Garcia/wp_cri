@@ -862,9 +862,7 @@ class Config {
     public static $importFactureParserPattern = '/^.*([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
 
     // Notification pour une nouvelle facture
-    public static $mailSubjectNotifFacture = array(
-        'Notification de nouvelle facture'
-    );
+    public static $mailSubjectNotifFacture = 'Notification de nouvelle facture';
 
     /**
      * @var array : liste de type de document non liés aux models de WPMVC
