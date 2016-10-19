@@ -382,7 +382,7 @@ class QueryBuilder{
                         $condition = "$k IN (";
                         foreach ($v as $value){
                             if (!is_numeric($value)) {
-                                $value = '"' . mysqli_real_escape_string($value) . '"'; //clean
+                                $value = '"' . esc_sql($value) . '"'; //clean
                             }
                             $condition.= $value.',';
                         }
@@ -391,7 +391,7 @@ class QueryBuilder{
                         $cond[] = $condition;
                     } else {
                         if (!is_numeric($v)) {
-                            $v = '"' . mysqli_real_escape_string($v) . '"'; //clean
+                            $v = '"' . esc_sql($v) . '"'; //clean
                         }
                         $cond[] = "$k = $v";
                     }
