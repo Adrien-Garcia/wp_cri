@@ -278,29 +278,36 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         $notary = $this->listNotaryToBeNotified($crpcen);
 
         $dest        = array();
+        $display_documents_url = true;
+        $office_dest = array();
         $office_name = '';
         if (is_array($notary) && count($notary) > 0) {
             foreach ($notary as $item) {
                 if (filter_var($item->email_adress, FILTER_VALIDATE_EMAIL)) {
                     $dest[] = $item->email_adress;
                 } elseif (filter_var($item->office_email_adress_1, FILTER_VALIDATE_EMAIL)) {
-                    $dest[] = $item->office_email_adress_1;
+                    $office_dest[] = $item->office_email_adress_1;
                 } elseif (filter_var($item->office_email_adress_2, FILTER_VALIDATE_EMAIL)) {
-                    $dest[] = $item->etude->office_email_adress_2;
+                    $office_dest[] = $item->etude->office_email_adress_2;
                 } elseif (filter_var($item->office_email_adress_3, FILTER_VALIDATE_EMAIL)) {
-                    $dest[] = $item->office_email_adress_3;
+                    $office_dest[] = $item->office_email_adress_3;
                 }
-
                 // nom de l'etude concernée
                 $office_name = $item->office_name;
             }
         }
+        if (empty($dest)){
+            $dest = $office_dest;
+            $display_documents_url = false;
+        }
 
         // destinataire non vide
         if (count($dest) > 0) {
+            array_unique($dest);
             $vars    = array(
-                'office_name' => $office_name,
-                'doc_url'     => $facture->download_url,
+                'office_name'           => $office_name,
+                'display_documents_url' => $display_documents_url,
+                'doc_url'               => $facture->download_url,
             );
             $message = CriRenderView('mail_notification_facture', $vars, 'custom', false);
 
