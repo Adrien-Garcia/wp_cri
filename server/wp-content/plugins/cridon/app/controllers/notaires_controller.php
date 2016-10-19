@@ -974,8 +974,8 @@ class NotairesController extends BasePublicController
         $this->prepareSecureAccess(CONST_FINANCE_ROLE);
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
-        //$content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
-        //$this->set('content',$content);
+        $factures = $this->model->getFactures($notaire, 'facture');
+        $this->set('factures', $factures);
 
         // tab rank
         $this->set('onglet', CONST_ONGLET_MES_FACTURES);
@@ -1005,8 +1005,8 @@ class NotairesController extends BasePublicController
         $this->prepareSecureAccess(CONST_FINANCE_ROLE);
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
-        //$content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
-        //$this->set('content',$content);
+        $releves = $this->model->getFactures($notaire, 'releveconso');
+        $this->set('releves', $releves);
 
         // tab rank
         $this->set('onglet', CONST_ONGLET_MES_RELEVES);

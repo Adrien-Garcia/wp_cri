@@ -3594,4 +3594,32 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $notary['Notaire']['cron_update_erp']  = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronExportNotary" )
         $this->save($notary);
     }
+
+    /**
+     * Retrieve all factures
+     *
+     * @param object $notaire
+     * @param string $type -- type of facture
+     *
+     * @return object $factures
+     */
+    public function getFactures($notaire, $type){
+
+        if ($type !== 'facture' && $type !== 'releveconso'){
+            return false;
+        }
+
+        $options = array(
+            //'fields'     => array('cn.*','cu.*','cf.label as notaire_fonction_label','cfc.label as collaborator_fonction_label'),
+            'conditions' => array(
+                'id_externe'      => $notaire->crpcen,
+                'type'            => $type
+            ),
+            'order'    => 'file_path'
+        );
+
+        $factures = mvc_model('QueryBuilder')->findAll('document', $options);
+
+        return $factures;
+    }
 }
