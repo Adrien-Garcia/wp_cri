@@ -71,7 +71,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      */
     public function importFacture()
     {
-        $this->importByType();
+        $this->importByType('facture');
     }
 
     /**
@@ -86,25 +86,32 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      */
     protected function importPdf($documents, $Iterator, $limit, $date, $documentModel, $type)
     {
-        // destination
-        $pathDest      = CONST_IMPORT_FACTURE_PATH;
-        // pattern import (recuperation des infos par nom de fichier)
-        $pattern       = Config::$importFacturePattern;
-        // patter de parsage de fichier dans repertoire source
-        $parserPattern = Config::$importFactureParserPattern;
-        // chemin de base
-        $filePath      = '/factures/';
-        // fichier log
-        $logFile       = 'importfactures.log';
+        switch ($type) {
+            case 'releveconso';
+                $pathDest      = CONST_IMPORT_RELEVECONSO_PATH;
+                $pattern       = Config::$importRelevePattern;
+                $parserPattern = Config::$importReleveParserPattern;
+                $filePath      = '/releveconso/';
+                $logFile       = 'importreleveconso.log';
 
-        // reafectation variable selon le type de traitement
-        if ($type == 'releveconso') {
-            $pathDest      = CONST_IMPORT_RELEVECONSO_PATH;
-            $pattern       = Config::$importRelevePattern;
-            $parserPattern = Config::$importReleveParserPattern;
-            $filePath      = '/releveconso/';
-            $logFile       = 'importreleveconso.log';
+                break;
+            case 'facture';
+                // destination
+                $pathDest      = CONST_IMPORT_FACTURE_PATH;
+                // pattern import (recuperation des infos par nom de fichier)
+                $pattern       = Config::$importFacturePattern;
+                // patter de parsage de fichier dans repertoire source
+                $parserPattern = Config::$importFactureParserPattern;
+                // chemin de base
+                $filePath      = '/factures/';
+                // fichier log
+                $logFile       = 'importfactures.log';
+
+                break;
+            default:
+                return ;
         }
+
         // parsage des documents
         foreach (new LimitIterator($documents, 0, $limit + 1) as $document) {
             try {
@@ -118,19 +125,24 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                         }
                         // CRPCEN present
                         if (!empty($matches[1]) && rename($document[0], $path . $fileInfo['basename'])) {
-                            $crpcen   = $matches[1];
-                            $typeFact = (!empty($matches[3])) ? $matches[3] : ' ';
+                            //Rappel : <CRPCEN_TYPEPIECE_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
+                            $crpcen     = $matches[1];
+                            $typePiece  = (!empty($matches[2])) ? $matches[2] : ' ';
+                            $numFacture = (!empty($matches[3])) ? $matches[3] : ' ';
+                            $typeFact   = (!empty($matches[4])) ? $matches[4] : ' ';
 
                             // donnees document
                             $docData = array(
                                 'Document' => array(
-                                    'file_path'     => $filePath . $date . '/' . $fileInfo['basename'],
-                                    'download_url'  => '/documents/download/' . $crpcen,
-                                    'date_modified' => date('Y-m-d H:i:s'),
-                                    'type'          => $type,
-                                    'id_externe'    => $crpcen,
-                                    'name'          => $fileInfo['basename'],
-                                    'label'         => $typeFact
+                                    'file_path'      => $filePath . $date . '/' . $fileInfo['basename'],
+                                    'download_url'   => '/documents/download/' . $crpcen,
+                                    'date_modified'  => date('Y-m-d H:i:s'),
+                                    'type'           => $type,
+                                    'id_externe'     => $crpcen,
+                                    'name'           => $fileInfo['basename'],
+                                    'numero_facture' => $numFacture,
+                                    'type_piece'     => $typePiece,
+                                    'type_facture'   => $typeFact,
                                 )
                             );
 
@@ -157,6 +169,8 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                                 }
 
                                 unset($crpcen);
+                                unset($numFacture);
+                                unset($typePiece);
                                 unset($typeFact);
                             }
                         }
@@ -193,7 +207,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      * @throws Exception
      * @return int
      */
-    protected function importByType($type = 'facture')
+    protected function importByType($type)
     {
         // bloc commun
         // offset block
@@ -205,6 +219,9 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         /** @var $documentModel Document */
         $documentModel = mvc_model('Document');
 
+        if (empty($type)){
+            return CONST_STATUS_CODE_GONE;
+        }
         switch ($type) {
             case 'releveconso';
                 // documents
@@ -216,7 +233,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 $documents  = new RegexIterator($Iterator, Config::$importReleveParserPattern, RecursiveRegexIterator::GET_MATCH);
 
                 break;
-            default:
+            case 'facture';
                 // documents
                 $Directory = new RecursiveDirectoryIterator(CONST_IMPORT_FACTURE_TEMP_PATH);
                 $Iterator  = new RecursiveIteratorIterator($Directory);
@@ -226,6 +243,8 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 $documents = new RegexIterator($Iterator, Config::$importFactureParserPattern, RecursiveRegexIterator::GET_MATCH);
 
                 break;
+            default:
+                return CONST_STATUS_CODE_GONE;
         }
         // import documents
         $this->importPdf($documents, $Iterator, $limit, $date, $documentModel, $type);

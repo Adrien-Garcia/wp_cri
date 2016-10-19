@@ -1144,7 +1144,7 @@ if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
 }
 if ( !defined( 'CONST_IMPORT_FACTURE_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
     $uploadDir = wp_upload_dir();
-    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFACTURETemp/' );
+    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFacture/' );
 }
 if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
     $uploadDir = wp_upload_dir();
@@ -1163,7 +1163,7 @@ if ( !defined( 'CONST_DISPLAYED' ) ) {
 // Start of block Import Releveconso
 if ( !defined( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
     $uploadDir = wp_upload_dir();
-    define( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH', $uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/' );
+    define( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH', $uploadDir['basedir'] . '/import/importsReleveconso/' );
 }
 if ( !defined( 'CONST_IMPORT_RELEVECONSO_PATH' ) ) { // emplacement definitif
     $uploadDir = wp_upload_dir();

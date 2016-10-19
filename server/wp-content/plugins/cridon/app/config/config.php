@@ -855,11 +855,11 @@ class Config {
 
     /**
      * Selon la regle de nommage des fichiers factures à importer
-     * <CRPCEN_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
+     * <CRPCEN_TYPEPIECE_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
      * @var string
      */
-    public static $importFacturePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/i';
-    public static $importFactureParserPattern = '/^.*([0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
+    public static $importFacturePattern = '/([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/i';
+    public static $importFactureParserPattern = '/^.*([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
 
     // Notification pour une nouvelle facture
     public static $mailSubjectNotifFacture = array(
@@ -879,8 +879,8 @@ class Config {
      * <CRPCEN_releveconso_AAAAMMJJ>.pdf
      * @var string
      */
-    public static $importRelevePattern = '/([0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/';
-    public static $importReleveParserPattern = '/^.*([0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
+    public static $importRelevePattern = '/([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/';
+    public static $importReleveParserPattern = '/^.*([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
 
     /**
      * Get role label by role
