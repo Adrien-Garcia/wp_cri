@@ -71,7 +71,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      */
     public function importFacture()
     {
-        $this->importByType('facture');
+        return $this->importByType('facture');
     }
 
     /**
@@ -260,7 +260,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      */
     public function importReleveconso()
     {
-        $this->importByType('releveconso');
+        return $this->importByType('releveconso');
     }
 
     /**
