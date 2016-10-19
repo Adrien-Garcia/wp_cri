@@ -121,11 +121,16 @@ gulp.task('sprite', function() {
 gulp.task('browser-sync', function() {
 
 	browserSync.init({
-        proxy: options.env,
-        browser: [],
+        proxy: {
+            target: "https://"+ options.env,
+        },
         host: options.env,
-        injectChanges: true,
-        open: false
+        open: "external",
+        browser: options.nav,
+        https: {
+            key: "/certs/my-certificate.key",
+            cert: "/certs/my-certificate.crt"
+        },
     });
 
 });
