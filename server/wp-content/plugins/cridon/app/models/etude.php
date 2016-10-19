@@ -118,60 +118,72 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 if (!empty($document[0])) { // document existe
                     $fileInfo = pathinfo($document[0]);
                     if (!empty($fileInfo['basename']) && preg_match($pattern, $fileInfo['basename'], $matches)) {
-                        $path = $pathDest . $date . DIRECTORY_SEPARATOR;
-                        if (!file_exists($path)) { // repertoire manquant
-                            // creation du nouveau repertoire
-                            wp_mkdir_p($path);
-                        }
                         // CRPCEN present
-                        if (!empty($matches[1]) && rename($document[0], $path . $fileInfo['basename'])) {
-                            //Rappel : <CRPCEN_TYPEPIECE_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
-                            $crpcen     = $matches[1];
-                            $typePiece  = (!empty($matches[2])) ? $matches[2] : ' ';
-                            $numFacture = (!empty($matches[3])) ? $matches[3] : ' ';
-                            $typeFact   = (!empty($matches[4])) ? $matches[4] : ' ';
+                        if (!empty($matches[1])) {
+                            $crpcen = $matches[1];
+                            if ($type === 'facture') {
+                                //Rappel : <CRPCEN_TYPEPIECE_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
+                                $typePiece = (!empty($matches[2])) ? $matches[2] : '';
+                                $numFacture = (!empty($matches[3])) ? $matches[3] : '';
+                                $typeFact = (!empty($matches[4])) ? $matches[4] : '';
+                                $dateFact = (!empty($matches[5])) ? $matches[5] : '';
+                            } else { //$type = 'releveconso'
+                                //Rappel : <CRPCEN_releveconso_AAAAMMJJ>.pdf
+                                $dateFact = (!empty($matches[3])) ? $matches[3] : '';
+                            }
 
-                            // donnees document
-                            $docData = array(
-                                'Document' => array(
-                                    'file_path'      => $filePath . $date . '/' . $fileInfo['basename'],
-                                    'download_url'   => '/documents/download/' . $crpcen,
-                                    'date_modified'  => date('Y-m-d H:i:s'),
-                                    'type'           => $type,
-                                    'id_externe'     => $crpcen,
-                                    'name'           => $fileInfo['basename'],
-                                    'numero_facture' => $numFacture,
-                                    'type_piece'     => $typePiece,
-                                    'type_facture'   => $typeFact,
-                                )
-                            );
-
-                            // insertion données
-                            $documentId = $documentModel->create($docData);
-
-                            // maj download_url
-                            if ($documentId) {
-                                $docData = array(
-                                    'Document' => array(
-                                        'id'           => $documentId,
-                                        'download_url' => '/documents/download/' . $documentId
-                                    )
-                                );
-                                $documentModel->save($docData);
-
-                                if ($type == 'facture') {
-                                    $facture                    = new \stdClass();
-                                    $facture->name              = $fileInfo['basename'];
-                                    $facture->download_url      = $documentModel->generatePublicUrl($documentId);
-
-                                    // send email to notaries
-                                    $this->sendEmailFacture($crpcen, $facture);
+                            $date = substr($dateFact, 0, 6);
+                            if ($date) {
+                                $path = $pathDest . $date . DIRECTORY_SEPARATOR;
+                                if (!file_exists($path)) { // repertoire manquant
+                                    // creation du nouveau repertoire
+                                    wp_mkdir_p($path);
                                 }
+                                if (rename($document[0], $path . $fileInfo['basename'])) {
+                                    // donnees document
+                                    $docData = array(
+                                        'Document' => array(
+                                            'file_path'         => $filePath . $date . '/' . $fileInfo['basename'],
+                                            'download_url'      => '/documents/download/' . $crpcen,
+                                            'date_modified'     => date('Y-m-d H:i:s'),
+                                            'type'              => $type,
+                                            'id_externe'        => $crpcen,
+                                            'name'              => $fileInfo['basename'],
+                                            'label'             => empty($dateFact) ? '' : $dateFact,
+                                            'numero_facture'    => empty($numFacture) ? '' : $numFacture,
+                                            'type_piece'        => empty($typePiece) ? '' : $typePiece,
+                                            'type_facture'      => empty($typeFact) ? '' : $typeFact,
+                                        )
+                                    );
 
-                                unset($crpcen);
-                                unset($numFacture);
-                                unset($typePiece);
-                                unset($typeFact);
+                                    // insertion données
+                                    $documentId = $documentModel->create($docData);
+
+                                    // maj download_url
+                                    if ($documentId) {
+                                        $docData = array(
+                                            'Document' => array(
+                                                'id' => $documentId,
+                                                'download_url' => '/documents/download/' . $documentId
+                                            )
+                                        );
+                                        $documentModel->save($docData);
+
+                                        if ($type == 'facture') {
+                                            $facture = new \stdClass();
+                                            $facture->name = $fileInfo['basename'];
+                                            $facture->download_url = $documentModel->generatePublicUrl($documentId);
+
+                                            // send email to notaries
+                                            $this->sendEmailFacture($crpcen, $facture);
+                                        }
+
+                                        unset($crpcen);
+                                        unset($numFacture);
+                                        unset($typePiece);
+                                        unset($typeFact);
+                                    }
+                                }
                             }
                         }
                         // liberation de variables
