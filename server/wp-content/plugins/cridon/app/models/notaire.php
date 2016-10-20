@@ -3610,7 +3610,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
 
         $options = array(
-            //'fields'     => array('cn.*','cu.*','cf.label as notaire_fonction_label','cfc.label as collaborator_fonction_label'),
             'conditions' => array(
                 'id_externe'      => $notaire->crpcen,
                 'type'            => $type
