@@ -1153,6 +1153,9 @@ if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
 if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.type
     define( 'CONST_DOC_TYPE_FACTURE', 'facture' );
 }
+if ( !defined( 'CONST_DOC_TYPE_REEVE_CONSO' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_REEVE_CONSO', 'releveconso' );
+}
 // End of block Import Facture
 if ( !defined( 'CONST_DISPLAYED' ) ) {
     define( 'CONST_DISPLAYED', 1 );

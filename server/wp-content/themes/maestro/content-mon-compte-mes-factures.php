@@ -22,8 +22,16 @@
         <?php foreach($factures as $facture): ?>
             <li class="js-account-filter-facture-<?php echo $facture->year ?> <?php echo $years[0] !== $facture->year ? 'hidden' : '' ?>">
                 <ul>
+                    <?php
+                    $options = array(
+                        'controller' => 'documents',
+                        'action'     => 'download',
+                        'id'         => $facture->id
+                    );
+                    $publicUrl  = MvcRouter::public_url($options);
+                    ?>
                     <li>
-                        <a href="#" class="num">
+                        <a href="<?php echo $publicUrl?>" class="num">
                             N° <?php echo $facture->numero_facture ?>
                         </a>
                     </li>
@@ -38,14 +46,6 @@
                         </div>
                     </li>
                     <li>
-                        <?php
-                        $options = array(
-                            'controller' => 'documents',
-                            'action'     => 'download',
-                            'id'         => $facture->id
-                        );
-                        $publicUrl  = MvcRouter::public_url($options);
-                        ?>
                         <a href="<?php echo $publicUrl?>" target="_blank" class="pdf"></a>
                     </li>
                 </ul>

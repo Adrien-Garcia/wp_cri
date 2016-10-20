@@ -975,10 +975,29 @@ class NotairesController extends BasePublicController
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
         $factures = $this->model->getFactures($notaire, 'facture');
+        usort($factures,array($this,'factureSort'));
         $this->set('factures', $factures);
 
         // tab rank
         $this->set('onglet', CONST_ONGLET_MES_FACTURES);
+    }
+
+    /**
+     * Fonction permettant de trier les factures en front
+     * Ordre demandé : Trier par année et mois décroissant puis par type_facture : Cotisation générale ; crionline puis services ponctuels
+     *
+     * @param $factureA
+     * @param $factureB
+     * @return int
+     */
+    protected function factureSort($factureA, $factureB){
+        if (substr($factureA->year,0,6) < substr($factureB->year,0,6)){return -1;}
+        if (substr($factureA->year,0,6) > substr($factureB->year,0,6)){return +1;}
+        if (strtolower($factureA->type_facture) === 'cg' || strtolower($factureA->type_facture) === 'cs'){return -1;}
+        if (strtolower($factureB->type_facture) === 'cg' || strtolower($factureB->type_facture) === 'cs'){return +1;}
+        if (strtolower($factureA->type_facture) === 'cridonline'){return -1;}
+        if (strtolower($factureB->type_facture) === 'cridonline'){return +1;}
+        return 0;
     }
 
     /**

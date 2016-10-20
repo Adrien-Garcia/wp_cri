@@ -3615,7 +3615,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 'id_externe'      => $notaire->crpcen,
                 'type'            => $type
             ),
-            'order'    => 'file_path'
+            'order'    => 'file_path desc'
         );
 
         $factures = mvc_model('QueryBuilder')->findAll('document', $options);
