@@ -21,7 +21,7 @@
 					<nav>
 						<ul id="sel-compte">
 							<li
-								class="js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) ? " active " : "" ?>"
+								class="dashboard js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) ? " active " : "" ?>"
 								data-js-name="Dashboard"
 								>
 
@@ -34,7 +34,7 @@
 								</a>
 							</li>
 							<li
-								class="js-account-questions js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_QUESTION) ? " active " : "" ?>"
+								class="questions js-account-questions js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_QUESTION) ? " active " : "" ?>"
 								data-js-name="Questions"
 								>
 
@@ -47,7 +47,7 @@
 								</a>
 							</li>
 							<li
-								class="js-account-profil js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_PROFIL) ? " active " : "" ?>"
+								class="profil js-account-profil js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_PROFIL) ? " active " : "" ?>"
 								data-js-name="Profil"
 								>
 
@@ -61,7 +61,7 @@
 							</li>
 							<?php if (CriCanAccessSensitiveInfo(CONST_FINANCE_ROLE)): ?>
 							<li
-								class="js-account-facturation js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_FACTURATION) ? " active " : "" ?>"
+								class="facturation js-account-facturation js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_FACTURATION) ? " active " : "" ?>"
 								data-js-name="Facturation"
 								>
 
@@ -77,7 +77,7 @@
                             <?php if (!isPromoActive()) : ?>
                                 <?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE)): ?>
                                 <li
-                                    class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
+                                    class="cridonline js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
                                     data-js-name="Cridonline"
                                     >
 
@@ -93,7 +93,7 @@
                             <?php else : ?>
                                 <?php if (CriCanAccessSensitiveInfo(CONST_CRIDONLINESUBSCRIPTION_ROLE)): ?>
                                     <li
-                                        class="js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
+                                        class="cridonline js-account-cridonline js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_CRIDONLINE) ? " active " : "" ?>"
                                         data-js-name="Cridonline"
                                         >
 
@@ -109,7 +109,7 @@
                             <?php endif; ?>
 							<?php if (CriCanAccessSensitiveInfo(CONST_COLLABORATEUR_TAB_ROLE)): ?>
 							<li
-								class="js-account-collaborateur js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>"
+								class="collaborateurs js-account-collaborateur js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_COLLABORATEUR) ? " active " : "" ?>"
 								data-js-name="Collaborateur"
 								>
 
@@ -124,7 +124,7 @@
 							<?php endif; ?>
 							<?php if (CriCanAccessSensitiveInfo(CONST_FINANCE_ROLE)): ?>
 								<li
-									class="js-account-mes-factures js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_MES_FACTURES) ? " active " : "" ?>"
+									class="factures js-account-mes-factures js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_MES_FACTURES) ? " active " : "" ?>"
 									data-js-name="MesFactures"
 								>
 
@@ -137,7 +137,7 @@
 									</a>
 								</li>
 								<li
-									class="js-account-mes-releves js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_MES_RELEVES) ? " active " : "" ?>"
+									class="mes-releves js-account-mes-releves js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_MES_RELEVES) ? " active " : "" ?>"
 									data-js-name="MesReleves"
 								>
 
@@ -146,7 +146,7 @@
 										data-js-target-id="mes-releves"
 										href="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'mesreleves'));?>"
 										class="bt js-account-mes-releves-button analytics_Dashboard_collaborateur">
-										<span>Mes relevés</span>
+										<span>Mes relevés de consommation</span>
 									</a>
 								</li>
 							<?php endif; ?>

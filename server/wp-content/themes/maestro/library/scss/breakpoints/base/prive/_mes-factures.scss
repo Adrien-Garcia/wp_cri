@@ -1,0 +1,96 @@
+div#mes-factures{
+	padding-right: 20px;
+
+	p {
+		font-size: 15px;
+		margin-bottom: 5px;
+		font-family: $dosis !important;
+	}
+
+	select{
+		color: #000;
+		opacity: 0.7;
+	    font-family: $helvetica;
+	    font-size: 12px;
+	    margin-bottom: 20px;
+	}
+
+	.liste-factures {
+		margin: 0;
+		padding: 0;
+		position: relative;
+		border-top: solid 5px #e6e6e6;
+
+		&:before{
+
+			@include svgicon('ico-sep', 19px, 19px, #e6e6e6);
+			position: absolute;
+			top: -5px;
+			background: #FFF;
+			left: 50%;
+			margin-left: -30px;
+		}
+
+
+		> li {
+			margin:0 0 0px 0;
+			padding: 24px 0 10px 0 ;
+			border-bottom:solid 5px #e6e6e6;
+
+			ul{
+				margin: 0;
+				padding: 0;
+				position: relative;
+
+				li{
+					margin: 0;
+					padding: 0;
+					font-size: 15px;
+					font-family: $dosis;
+
+					&::before{
+						content:none;
+					}
+
+					a {
+
+		                @include transition (all 0.3s);
+		            }
+
+					a.num{
+						text-decoration: underline;
+						color:$bleu;
+						font-family: $helvetica;
+						font-weight: normal;
+
+						&:hover {
+							text-decoration: none;
+						}
+					}
+
+					a.pdf { 
+						display: block;
+						&::before{
+							@include svgicon('icon-pdf', 19px, 19px, $rouge);
+						}
+
+						&:hover {
+							&::before{
+								opacity: 0.6;
+							}
+						}
+						
+					}
+
+					&:last-child {
+						position: absolute;
+						top: 0;
+						right: 0;
+					}
+				}
+			}
+		}
+
+	}
+
+}

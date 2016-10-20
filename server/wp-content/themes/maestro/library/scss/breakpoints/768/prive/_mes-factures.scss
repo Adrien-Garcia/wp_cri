@@ -1,0 +1,52 @@
+div#mes-factures{
+
+
+	.liste-factures {
+
+		&:before{
+
+			@include svgicon('ico-sep', 19px, 19px, #e6e6e6);
+			position: absolute;
+			top: -5px;
+			background: #FFF;
+			left: 50%;
+			margin-left: -30px;
+		}
+
+
+		> li {
+			padding: 30px 0 18px 0 ;
+
+
+			ul{
+
+
+				li{
+
+					font-size: 18px;
+
+					&::before{
+						content:none;
+					}
+
+					a.num{
+
+					}
+
+					a.pdf {
+						&::before{
+							@include svgicon('icon-pdf', 25px, 25px, $rouge);
+						}
+
+					}
+
+					&:last-child {
+
+					}
+				}
+			}
+		}
+
+	}
+
+}

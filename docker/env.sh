@@ -10,5 +10,7 @@ export DB_BACKUP_DIR=/vol/nfs_backup_sql/cridon
 export DB_BACKUP_SERVER=aotools.host.addonline.fr
 # local server name
 export SERVER_NAME=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
+export SERVER_NAME_IMAGES=images-wp-cridon.$JETPULP_USERNAME.jetpulp.dev
+export SERVER_NAME_STATIC=static-wp-cridon.$JETPULP_USERNAME.jetpulp.dev
 # database name
 export MYSQL_DATABASE=wp_cridon
