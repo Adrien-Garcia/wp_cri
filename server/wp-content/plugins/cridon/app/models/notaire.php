@@ -3610,6 +3610,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
 
         $options = array(
+            'fields' => '*,SUBSTRING(label,1,4) as year,SUBSTRING(label,5,2) as month,SUBSTRING(label,7,2) as day',
             'conditions' => array(
                 'id_externe'      => $notaire->crpcen,
                 'type'            => $type
