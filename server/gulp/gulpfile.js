@@ -53,7 +53,6 @@ gulp.task('sass-build', function() {
 
 gulp.task('iconfont', function () {
   return gulp.src([libPath+'/images/svgicons/*.svg'])
-	.pipe(plumber())
     .pipe(iconfont({
       fontName: 'aux-font',
       normalize: true,
@@ -62,7 +61,6 @@ gulp.task('iconfont', function () {
       formats: ['ttf', 'eot', 'woff', 'svg', 'woff2'],
       timestamp: runTimestamp
     }))
-    .pipe(plumber.stop())
     .on('glyphs', function (glyphs, options) {
         gulp.src(libPath+'/scss/templates/_icons.scss')
         .pipe(plumber())
