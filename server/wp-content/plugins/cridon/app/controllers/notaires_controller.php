@@ -991,12 +991,18 @@ class NotairesController extends BasePublicController
      * @return int
      */
     protected function factureSort($factureA, $factureB){
-        if (substr($factureA->year,0,6) < substr($factureB->year,0,6)){return -1;}
-        if (substr($factureA->year,0,6) > substr($factureB->year,0,6)){return +1;}
-        if (strtolower($factureA->type_facture) === 'cg' || strtolower($factureA->type_facture) === 'cs'){return -1;}
-        if (strtolower($factureB->type_facture) === 'cg' || strtolower($factureB->type_facture) === 'cs'){return +1;}
-        if (strtolower($factureA->type_facture) === 'cridonline'){return -1;}
-        if (strtolower($factureB->type_facture) === 'cridonline'){return +1;}
+        // On tri dans un premier temps sur l'année (du plus grand au plus petit)
+        if ($factureA->year < $factureB->year){return -1;}
+        if ($factureA->year > $factureB->year){return +1;}
+        // A année égale, on tri sur le type de facture : 'cg' et 'cs' en premier puis 'cridonline' puis tous les autres
+        $typeA = strtolower($factureA->type_facture);
+        $typeB = strtolower($factureB->type_facture);
+        if (in_array($typeA, array('cg', 'cs')) && !in_array($typeB, array('cg', 'cs'))) {return -1;}
+        if (in_array($typeB, array('cg', 'cs')) && !in_array($typeA, array('cg', 'cs'))) {return +1;}
+        if (in_array($typeA, array('cg', 'cs')) &&  in_array($typeB, array('cg', 'cs'))) {return 0;}
+        if ($typeA === 'cridonline' && $typeB !== 'cridonline'){return -1;}
+        if ($typeB === 'cridonline' && $typeA !== 'cridonline'){return +1;}
+        if ($typeA === 'cridonline' && $typeB === 'cridonline'){return 0;}
         return 0;
     }
 
