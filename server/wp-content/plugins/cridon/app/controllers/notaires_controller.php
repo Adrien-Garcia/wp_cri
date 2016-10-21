@@ -974,7 +974,7 @@ class NotairesController extends BasePublicController
         $this->prepareSecureAccess(CONST_FINANCE_ROLE);
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
-        $factures = $this->model->getFactures($notaire, 'facture');
+        $factures = $this->model->getFactures($notaire, CONST_DOC_TYPE_FACTURE);
         usort($factures,array($this,'factureSort'));
         $this->set('factures', $factures);
 
@@ -1030,7 +1030,7 @@ class NotairesController extends BasePublicController
         $this->prepareSecureAccess(CONST_FINANCE_ROLE);
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
-        $releves = $this->model->getFactures($notaire, 'releveconso');
+        $releves = $this->model->getFactures($notaire, CONST_DOC_TYPE_RELEVECONSO);
         $this->set('releves', $releves);
 
         // tab rank

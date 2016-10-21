@@ -71,7 +71,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      */
     public function importFacture()
     {
-        return $this->importByType('facture');
+        return $this->importByType(CONST_DOC_TYPE_FACTURE);
     }
 
     /**
@@ -87,7 +87,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     protected function importPdf($documents, $Iterator, $limit, $date, $documentModel, $type)
     {
         switch ($type) {
-            case 'releveconso';
+            case CONST_DOC_TYPE_RELEVECONSO;
                 $pathDest      = CONST_IMPORT_RELEVECONSO_PATH;
                 $pattern       = Config::$importRelevePattern;
                 $parserPattern = Config::$importReleveParserPattern;
@@ -95,7 +95,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 $logFile       = 'importreleveconso.log';
 
                 break;
-            case 'facture';
+            case CONST_DOC_TYPE_FACTURE;
                 // destination
                 $pathDest      = CONST_IMPORT_FACTURE_PATH;
                 // pattern import (recuperation des infos par nom de fichier)
@@ -121,7 +121,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                         // CRPCEN present
                         if (!empty($matches[1])) {
                             $crpcen = $matches[1];
-                            if ($type === 'facture') {
+                            if ($type === CONST_DOC_TYPE_FACTURE) {
                                 //Rappel : <CRPCEN_TYPEPIECE_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
                                 $typePiece = (!empty($matches[2])) ? $matches[2] : '';
                                 $numFacture = (!empty($matches[3])) ? $matches[3] : '';
@@ -169,7 +169,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                                         );
                                         $documentModel->save($docData);
 
-                                        if ($type == 'facture') {
+                                        if ($type === CONST_DOC_TYPE_FACTURE) {
                                             $facture = new \stdClass();
                                             $facture->name = $fileInfo['basename'];
                                             $facture->download_url = $documentModel->generatePublicUrl($documentId);
@@ -231,11 +231,11 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         /** @var $documentModel Document */
         $documentModel = mvc_model('Document');
 
-        if (empty($type)){
+        if (!in_array($type, array(CONST_DOC_TYPE_FACTURE, CONST_DOC_TYPE_RELEVECONSO))){
             return CONST_STATUS_CODE_GONE;
         }
         switch ($type) {
-            case 'releveconso';
+            case CONST_DOC_TYPE_RELEVECONSO;
                 // documents
                 $Directory  = new RecursiveDirectoryIterator(CONST_IMPORT_RELEVECONSO_TEMP_PATH);
                 $Iterator   = new RecursiveIteratorIterator($Directory);
@@ -245,7 +245,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 $documents  = new RegexIterator($Iterator, Config::$importReleveParserPattern, RecursiveRegexIterator::GET_MATCH);
 
                 break;
-            case 'facture';
+            case CONST_DOC_TYPE_FACTURE;
                 // documents
                 $Directory = new RecursiveDirectoryIterator(CONST_IMPORT_FACTURE_TEMP_PATH);
                 $Iterator  = new RecursiveIteratorIterator($Directory);
@@ -272,7 +272,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      */
     public function importReleveconso()
     {
-        return $this->importByType('releveconso');
+        return $this->importByType(CONST_DOC_TYPE_RELEVECONSO);
     }
 
     /**

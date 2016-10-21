@@ -3605,7 +3605,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function getFactures($notaire, $type){
 
-        if ($type !== 'facture' && $type !== 'releveconso'){
+        if ($type !== CONST_DOC_TYPE_FACTURE && $type !== CONST_DOC_TYPE_RELEVECONSO){
             return false;
         }
 
