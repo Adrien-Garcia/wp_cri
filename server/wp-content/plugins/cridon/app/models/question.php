@@ -1892,8 +1892,17 @@ class Question extends \App\Override\Model\CridonMvcModel
             // question
             $question = $this->getQuestionBy($data[$indexes['CRPCEN']], $data[$indexes['SRENUM']]);
             if ($question->id) { // quest exist
-                // ajout document dans Site
-                $this->addQuestDoc($path, $transDate, $question->id, $label, $indexes, $data, $errorDocList);
+                // Documents associés peuvent être soit question/reponse, soit suite, et le document courant peut être l'autre type
+                $documents = mvc_model('Document')->find(array(
+                    'conditions' => array(
+                        'Document.id_externe' => $question->id
+                    ))
+                );
+                $documents = assocToKeyVal($documents, 'cab', 'label');
+                if (!isset($documents[$data[$indexes['SUITE']]]) || strcmp($documents[$data[$indexes['SUITE']]], $label) !== 0) {
+                    // ajout document dans Site
+                    $this->addQuestDoc($path, $transDate, $question->id, $label, $indexes, $data, $errorDocList);
+                }
             } else { // sinon ajout nouvelle question, notaire, doc associés
                 $questData = array(
                     'Question' => array(
@@ -2013,6 +2022,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                     'type'          => 'question',
                     'id_externe'    => $questionId,
                     'name'          => $filename,
+                    'cab'           => $data[$indexes['SUITE']],
                     'label'         => $label
                 )
             );
@@ -2043,7 +2053,7 @@ class Question extends \App\Override\Model\CridonMvcModel
     {
         $query = "SELECT q.id, real_date FROM {$this->table} as q
                 LEFT JOIN {$this->wpdb->prefix}notaire as n on q.client_number = n.client_number
-                WHERE n.crpcen = '{$crpcen}' and q.srenum = '{$srenum}'
+                WHERE (n.crpcen = '{$crpcen}' or q.crpcen = '{$crpcen}') and q.srenum = '{$srenum}'
                 LIMIT 1";
 
         return $this->wpdb->get_row($query);
