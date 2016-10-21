@@ -822,8 +822,16 @@ function sendNotificationForPostPublished( $post,$model ){
              )
          );
         $notaires = mvc_model('QueryBuilder')->findAll('notaire', $options, 'n.id');
+        $emails = array();
+        foreach($notaires as $notaire){
+            $emailAddress = trim($notaire->email_adress);
+            if (!empty($emailAddress)) {
+                $emails[] = $notaire->email_adress;
+            }
+        }
+        $email_adresses = array_unique($emails);
     }elseif( $type == 0 ){
-        $notaires = getNotariesByMatiere($completeModel);
+        $email_adresses = getNotariesByMatiere($completeModel);
     }else{
         return false;//Don't send notification
     }
@@ -835,15 +843,22 @@ function sendNotificationForPostPublished( $post,$model ){
         } else {
             $dest = Config::$notificationAddressDev;
         }
-        $mail = wp_mail( $dest , $subject, $message, $headers );
-        writeLog("not Prod: " . $mail . "\n", "mailog.txt");
+        $email = wp_mail( $dest , $subject, $message, $headers );
+        writeLog("Email envoyé à : " . $dest . "\n"
+            . "retour wp_mail : " . $email, "mailog.txt");
+        foreach($email_adresses as $email_adress){
+            writeLog("L'Email serait envoyé à : " . $email_adress , "mailog.txt");
+        }
     } elseif( !empty( $notaires ) ){
-        foreach( $notaires as $notaire ){
-            if( isset($notaire->email_adress ) ){
-                wp_mail( $notaire->email_adress , $subject, $message, $headers );
+        foreach( $email_adresses as $email_adress ){
+            if( !empty( $email_adress ) ){
+                $email = wp_mail( $email_adress , $subject, $message, $headers );
+                writeLog("Email envoyé à : " . $email_adress . "\n"
+                    . "retour wp_mail : " . $email, "mailog.txt");
             }
         }
     }
+    return true;
 }
 
 function generateUrlByModel( $model ){
