@@ -831,7 +831,7 @@ function sendNotificationForPostPublished( $post,$model ){
         }
         $email_adresses = array_unique($emails);
     }elseif( $type == 0 ){
-        $email_adresses = getNotariesByMatiere($completeModel);
+        $email_adresses = getEmailsOfNotariesByMatiere($completeModel);
     }else{
         return false;//Don't send notification
     }
@@ -849,13 +849,11 @@ function sendNotificationForPostPublished( $post,$model ){
         foreach($email_adresses as $email_adress){
             writeLog("L'Email serait envoyé à : " . $email_adress , "mailog.txt");
         }
-    } elseif( !empty( $notaires ) ){
+    } elseif( $env === 'PROD' ){
         foreach( $email_adresses as $email_adress ){
-            if( !empty( $email_adress ) ){
-                $email = wp_mail( $email_adress , $subject, $message, $headers );
-                writeLog("Email envoyé à : " . $email_adress . "\n"
-                    . "retour wp_mail : " . $email, "mailog.txt");
-            }
+            $email = wp_mail( $email_adress , $subject, $message, $headers );
+            writeLog("Email envoyé à : " . $email_adress . "\n"
+                . "retour wp_mail : " . $email, "mailog.txt");
         }
     }
     return true;
@@ -885,7 +883,7 @@ function checkTypeNofication( $model ){
     return -1;//Don't send notification
 }
 
-function getNotariesByMatiere( $model ){
+function getEmailsOfNotariesByMatiere( $model ){
     $options = array(
         'fields'  => 'n.*',
         'synonym' => 'mn',
