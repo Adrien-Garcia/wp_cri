@@ -869,7 +869,8 @@ class Config {
      * @TODO : à completer avec type relevé de consommation
      */
     public static $exceptedDocTypeForModel = array(
-        CONST_DOC_TYPE_FACTURE
+        CONST_DOC_TYPE_FACTURE,
+        CONST_DOC_TYPE_REEVE_CONSO
     );
 
     /**
