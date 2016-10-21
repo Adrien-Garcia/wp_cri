@@ -2279,7 +2279,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $user = CriNotaireData();//get Notaire
         $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
         $query = '
-            SELECT d,q,s,m,c,n
+            SELECT d,q,s,m,c
             FROM (SELECT Q.*
                     FROM Question AS Q
                     JOIN Notaire AS N ON Q.client_number = N.client_number
