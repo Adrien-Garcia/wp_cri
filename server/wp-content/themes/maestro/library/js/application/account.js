@@ -73,6 +73,9 @@ App.Account = {
     accountFilterDateAuSelector         : '-au',
     accountFilterSelectMatiereSelector  : '-matiere',
 
+    accountFilterSelectFacturesByYear   : '-filter-by-year',
+    accountFilter                       : '-filter-facture',
+
     accountSoldeDataSelector            : '#js-solde-data',
     accountSoldeSVGSelector             : '#solde-circle-path',
     accountPopupCridonline              : '#layer-cridonline',
@@ -504,6 +507,13 @@ App.Account = {
 
     initMesFactures: function() {
         this.debug('Account : Init Mes Factures');
+
+        var d = this.defaultSelector;
+        this.$accountFilterSelectFacturesByYear  = $(d + this.accountFilterSelectFacturesByYear);
+        this.accountFilterFacture                = d + this.accountFilter;
+
+        this.$allFactures                        = $("[class^='js-account-filter-facture-']");
+
         this.addListenersMesFactures();
     },
 
@@ -793,6 +803,10 @@ App.Account = {
 
     addListenersMesFactures: function() {
         var self = this;
+
+        this.$accountFilterSelectFacturesByYear.on('change', function (e) {
+            self.eventFilterFacturesByYear($(this));
+        });
 
         this.debug("Account : addListenersMesFactures");
     },
@@ -1558,6 +1572,15 @@ App.Account = {
     successQuestionFilter: function (data) {
 
     },
+
+
+    eventFilterFacturesByYear: function(data) {
+        this.$allFactures.addClass('hidden');
+        $(this.accountFilterFacture + '-' + data.val()).removeClass('hidden');
+
+        return false;
+    },
+
 
     successNewsletterToggle: function (data) {
         var self = this;

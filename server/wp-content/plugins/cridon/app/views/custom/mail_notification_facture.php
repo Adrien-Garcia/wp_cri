@@ -85,7 +85,9 @@
                 <br>
                     Une nouvelle facture concerant l'étude "<?php echo $office_name; ?>" est à votre disposition.
                     <br>
+                    <?php if ($display_documents_url): ?>
                     Veuillez la télécharger ici : <a href="<?php echo $doc_url ?>"><?php echo $doc_url ?></a>
+                    <?php endif; ?>
                 </p>
                 <p></p>
             <td width="20" style="background-color:#fff;"></td>
