@@ -1130,20 +1130,29 @@ if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
 if ( !defined( 'CONST_TYPEFACTURE_CS' ) ) { // cotisation supplementaire
     define( 'CONST_TYPEFACTURE_CS', 'CS' );
 }
-if ( !defined( 'CONST_TYPEFACTURE_TRAD' ) ) { // traduction
-    define( 'CONST_TYPEFACTURE_TRAD', 'TRAD' );
+if ( !defined( 'CONST_TYPEFACTURE_CRIDONLINE' ) ) { // cridonline
+    define( 'CONST_TYPEFACTURE_CRIDONLINE', 'CRIDONLINE' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CONSULTATION' ) ) { // Consultation
+    define( 'CONST_TYPEFACTURE_CONSULTATION', 'CONSULT' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_DOSSIER' ) ) { // Dossier
+    define( 'CONST_TYPEFACTURE_DOSSIER', 'DOSSIER' );
 }
 if ( !defined( 'CONST_TYPEFACTURE_SAF' ) ) { // service d'assistance fiscale
     define( 'CONST_TYPEFACTURE_SAF', 'SAF' );
 }
-if ( !defined( 'CONST_TYPEFACTURE_CONF' ) ) { // formation
-    define( 'CONST_TYPEFACTURE_CONF', 'CONF' );
+if ( !defined( 'CONST_TYPEFACTURE_SEMAIRE' ) ) { // Formation
+    define( 'CONST_TYPEFACTURE_SEMAIRE', 'SEMAIRE' );
 }
-if ( !defined( 'CONST_TYPEFACTURE_CO' ) ) { // offre éditeur CridOnline
-    define( 'CONST_TYPEFACTURE_CO', 'CO' );
+if ( !defined( 'CONST_TYPEFACTURE_TRADUC' ) ) { // traduction
+    define( 'CONST_TYPEFACTURE_TRADUC', 'TRADUC' );
 }
-if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
-    define( 'BROCHNST_TYPEFACTURE_BROCH', 'BROCH' );
+if ( !defined( 'CONST_TYPEFACTURE_OUVRAGE' ) ) { // Ouvrage
+    define( 'CONST_TYPEFACTURE_OUVRAGE', 'OUVRAGE' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_DIVERS' ) ) { // Divers
+    define( 'CONST_TYPEFACTURE_DIVERS', 'DIVERS' );
 }
 if ( !defined( 'CONST_IMPORT_FACTURE_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
     $uploadDir = wp_upload_dir();

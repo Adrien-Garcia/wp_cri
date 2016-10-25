@@ -966,4 +966,17 @@ class Config {
         CONST_SUPPORT_2_DAYS_INITIALE_HORS_DELAI_ID,
         CONST_SUPPORT_5_DAYS_MEDIUM_HORS_DELAI_ID
     );
+
+    public static $libellesFactures = array(
+        CONST_TYPEFACTURE_CG            => 'Cotisation générale',
+        CONST_TYPEFACTURE_CS            => 'Cotisation supplémentaire',
+        CONST_TYPEFACTURE_CRIDONLINE    => 'Cridonline',
+        CONST_TYPEFACTURE_CONSULTATION  => 'Consultation',
+        CONST_TYPEFACTURE_DOSSIER       => 'Dossier',
+        CONST_TYPEFACTURE_SAF           => 'Service d\'assistance fiscale',
+        CONST_TYPEFACTURE_SEMAIRE       => 'Formation',
+        CONST_TYPEFACTURE_TRADUC        => 'Traduction',
+        CONST_TYPEFACTURE_OUVRAGE       => 'Ouvrage',
+        CONST_TYPEFACTURE_DIVERS        => 'Divers'
+    );
 }

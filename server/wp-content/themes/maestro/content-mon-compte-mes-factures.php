@@ -42,7 +42,7 @@
                     </li>
                     <li>
                         <div class="libele">
-                            <?php echo $facture->type_facture ?>
+                            <?php echo !empty(Config::$libellesFactures[strtoupper($facture->type_facture)]) ? Config::$libellesFactures[strtoupper($facture->type_facture)] : $facture->type_facture ?>
                         </div>
                     </li>
                     <li>

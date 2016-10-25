@@ -172,7 +172,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                                         if ($type === CONST_DOC_TYPE_FACTURE) {
                                             $facture = new \stdClass();
                                             $facture->name = $fileInfo['basename'];
-                                            $facture->download_url = $documentModel->generatePublicUrl($documentId);
+                                            $facture->download_url = home_url().$documentModel->generatePublicUrl($documentId);
 
                                             // send email to notaries
                                             $this->sendEmailFacture($crpcen, $facture);
