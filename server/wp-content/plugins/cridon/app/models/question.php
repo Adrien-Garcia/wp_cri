@@ -1650,7 +1650,9 @@ class Question extends \App\Override\Model\CridonMvcModel
         $value .= "'" . ( ( !empty($documents[2]) && !empty($documents[2]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[2]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_2
         $value .= "'" . ( ( !empty($documents[3]) && !empty($documents[3]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[3]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_3
         $value .= "'" . ( ( !empty($documents[4]) && !empty($documents[4]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[4]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_4
-        $value .= ( empty($content) ? ' ' : $content) . ","; // ZTXTQUEST_0
+        // HOTFIX
+        //$value .= ( empty($content) ? ' ' : $content) . ","; // ZTXTQUEST_0
+        $value .= ( empty($content) ? ' ' : ' ') . ","; // ZTXTQUEST_0
         $value .= "'000000',"; // ZQUEST_SRENUM1_0
         $value .= "' ',"; // ZQUEST_ZMESSERR_0
         $value .= "'0'"; // ZQUEST_ZERR_0
