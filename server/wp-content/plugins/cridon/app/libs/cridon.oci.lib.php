@@ -116,7 +116,8 @@ class CridonOCIAdapter implements DBConnect
         $isExec = oci_execute($this->statementId);
         if (!$isExec) {
             $error = oci_error();
-            $error = empty($error) ? CONST_CONNECTION_FAILED : $error['message'];
+            $error = empty($error) ? CONST_CONNECTION_FAILED."\n".$sql : $error['message'];
+            $error .= "\n".$sql;
             writeLog($error, 'execute.log');
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, $error,'Cridon - '.CONST_CONNECTION_FAILED);
             throw new Exception($error);
