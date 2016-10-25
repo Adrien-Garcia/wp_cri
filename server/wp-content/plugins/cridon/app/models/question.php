@@ -1410,7 +1410,8 @@ class Question extends \App\Override\Model\CridonMvcModel
 
                     $competences = $this->prepareMatiereCompetence($question);
                     $content = $this->prepareContent($question->content);
-                    $values = $this->prepareQueryValue($question, $documents, $competences, $content);
+                    $resume = $this->prepareResume($question->resume);
+                    $values = $this->prepareQueryValue($question, $documents, $competences, $resume,$content);
 
                     $queryBloc[] = $keys.$values;
                 }
@@ -1495,7 +1496,8 @@ class Question extends \App\Override\Model\CridonMvcModel
 
                     $competences = $this->prepareMatiereCompetence($question);
                     $content = $this->prepareContent($question->content);
-                    $values = $this->prepareQueryValue($question,$documents,$competences,$content);
+                    $resume = $this->prepareResume($question->resume);
+                    $values = $this->prepareQueryValue($question,$documents,$competences,$resume,$content);
 
                     $query = 'INSERT '.$keys.$values;
                     try {
@@ -1506,7 +1508,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                         writeLog($e, 'exportquestionenerreurgrave.log');
 
                         // Try to send the info without the content of the question (which is then sent via email)
-                        $values = $this->prepareQueryValue($question,$documents,$competences);
+                        $values = $this->prepareQueryValue($question,$documents,$competences,$resume);
                         $query = 'INSERT '.$keys.$values;
                         try {
                             // Try to send the question without its content
@@ -1515,7 +1517,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                             $this->sendNotificationQuestionWithoutContent($question, $content);
                         } catch (\Exception $e) {
                             // Since both request have failed, we send all the question information by email.
-                            $this->sendNotificationQuestionNotSent($question,$documents,$competences,$content);
+                            $this->sendNotificationQuestionNotSent($question,$documents,$competences,$resume,$content);
                             // write into logfile
                             writeLog($e, 'exportquestionenerreurgrave.log');
                         }
@@ -1622,7 +1624,16 @@ class Question extends \App\Override\Model\CridonMvcModel
         return $content;
     }
 
-    protected function prepareQueryValue($question,$documents,$competences,$content = "' '"){
+    protected function prepareResume($resume = ''){
+        if (!empty($resume)) {
+            $resume = html_entity_decode($resume);
+            $resume = str_replace('\\', '', $resume);
+            $resume = str_replace('\'', '\'\'', $resume);
+        }
+        return $resume;
+    }
+
+    protected function prepareQueryValue($question,$documents,$competences,$resume = "' '", $content = "' '"){
         $value = "(";
 
         $value .= "'" . $question->id . "', "; // ZQUEST_ZIDQUEST_0
@@ -1642,7 +1653,7 @@ class Question extends \App\Override\Model\CridonMvcModel
         $value .= "'" . ( empty($competences['competence_2']) ? 0 : $competences['competence_2'] ) . "', "; // ZQUEST_ZCOMP_2
         $value .= "'" . ( empty($competences['competence_3']) ? 0 : $competences['competence_3'] ) . "', "; // ZQUEST_ZCOMP_3
         $value .= "'" . ( empty($competences['competence_4']) ? 0 : $competences['competence_4'] ) . "', "; // ZQUEST_ZCOMP_4
-        $value .= "'" . ( empty($question->resume) ? ' ' : str_replace('\\\'', '\'\'', html_entity_decode($question->resume)) ) . "', "; // ZQUEST_YRESUME_0
+        $value .= "'" . ( empty($resume) ? ' ' : $resume ) . "', "; // ZQUEST_YRESUME_0
         $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
         $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy'), "; // ZQUEST_CREDAT_0
         $value .= "'" . ( ( !empty($documents[0]) && !empty($documents[0]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[0]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_0
@@ -1670,7 +1681,7 @@ class Question extends \App\Override\Model\CridonMvcModel
         );
     }
 
-    protected function sendNotificationQuestionNotSent($question,$documents,$competences,$content){
+    protected function sendNotificationQuestionNotSent($question,$documents,$competences,$resume,$content){
         $info = Config::$emailNotificationQuestionNotSent;
         wp_mail(
             $info['to'],
@@ -1693,7 +1704,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                 $competences['competence_2'],
                 $competences['competence_3'],
                 $competences['competence_4'],
-                $question->resume,
+                $resume,
                 $question->id_affectation,
                 $question->creation_date,
                 $documents[0],
