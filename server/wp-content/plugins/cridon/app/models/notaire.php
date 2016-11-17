@@ -110,9 +110,15 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     protected $csvParser;
 
     /**
+     * Used to identify notaires to update and those to create
      * @var array : list of existing notaire on Site
      */
     protected $siteNotaireList = array();
+
+    /**
+     * @var array used : to update roles by identifying those for whom the status changed
+     */
+    protected $roleUpdate = array();
 
     /**
      * @var array : list of notaire in ERP
@@ -420,7 +426,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
         // fill list of existing notaire on site with unique key (crpcen + passwd)
         foreach ($notaires as $notaire) {
-            array_push($this->siteNotaireList, $notaire->crpcen . $notaire->web_password);
+            $this->siteNotaireList[] = $notaire->crpcen . $notaire->web_password;
+            $this->roleUpdate[$notaire->crpcen . $notaire->web_password] = $notaire->id_fonction;
         }
     }
 
@@ -576,7 +583,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                                 $updateEmailValues[]        = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_EMAIL]) . "' ";
 
                             if (isset($newData[$adapter::NOTAIRE_FONC]))
+                            {
+                                if ($newData[$adapter::NOTAIRE_FONC] != $this->siteNotaireList[$key]) {
+                                    // roles will be considered as to be update
+                                    $this->roleUpdate[$key] = true;
+                                }
                                 $updateFoncValues[]         = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_FONC]) . "' ";
+                            }
 
                             if (isset($newData[$adapter::NOTAIRE_TEL]))
                                 $updateTelValues[]         = " '{$currentData->id}' THEN '" . esc_sql($newData[$adapter::NOTAIRE_TEL]) . "' ";
@@ -1108,23 +1121,24 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         // fill list of new notaries
                         $newNotaryUsers[] = $notaire;
 
-                    } else { // prepare the bulk update query
-                        if ($notaire->id_wp_user) {
-                            // pwd
-                            $bulkPwdUpdate[] = " {$notaire->id_wp_user} THEN '" . wp_hash_password($notaire->web_password) . "' ";
-                            // nicename
-                            $bulkNiceNameUpdate[] = " {$notaire->id_wp_user} THEN '" . sanitize_title($displayName) . "' ";
-                            // status
-                            $bulkStatusUpdate[] = " {$notaire->id_wp_user} THEN " . $userStatus . " ";
-                            // email
-                            $bulkEmailUpdate[] = " {$notaire->id_wp_user} THEN '" . $notaire->email_adress . "' ";
-                            // display name
-                            $bulkDisplayNameUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . esc_sql($displayName) . "' ";
+                    } elseif ($notaire->id_wp_user) {
+                        // pwd
+                        $bulkPwdUpdate[] = " {$notaire->id_wp_user} THEN '" . wp_hash_password($notaire->web_password) . "' ";
+                        // nicename
+                        $bulkNiceNameUpdate[] = " {$notaire->id_wp_user} THEN '" . sanitize_title($displayName) . "' ";
+                        // status
+                        $bulkStatusUpdate[] = " {$notaire->id_wp_user} THEN " . $userStatus . " ";
+                        // email
+                        $bulkEmailUpdate[] = " {$notaire->id_wp_user} THEN '" . $notaire->email_adress . "' ";
+                        // display name
+                        $bulkDisplayNameUpdate[] = " ID = {$notaire->id_wp_user} THEN '" . esc_sql($displayName) . "' ";
 
-                            // get user level
-                            $notaire->level = (!empty($this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_YNIVEAU])) ? $this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_YNIVEAU] : 0;
+                        // get user level
+                        $notaire->level = (!empty($this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_YNIVEAU])) ? $this->erpNotaireData[$uniqueKey][$adapter::NOTAIRE_YNIVEAU] : 0;
 
-                            // maj notary role
+                        // maj notary role
+                        if ($this->roleUpdate[$uniqueKey] === true) {
+                            // if update has changed the value
                             $this->majNotaireRole($notaire);
                         }
                     }
@@ -2952,7 +2966,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
 
     /**
-     * Set notaire role
+     * Set role for every new user
      *
      * @param mixed $notaries
      * @return void
@@ -2960,41 +2974,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     public function setNewNotaireRole($notaries)
     {
         foreach ($notaries as $notary) {
-            if (!$notary->id_wp_user) {
-                // get user by notary_id
-                $user = $this->getAssociatedUserByNotaryId($notary->id);
-            } else {
-                // get user by id
-                $user = new WP_User($notary->id_wp_user);
-            }
-
-            // user must be an instance of WP_User vs WP_Error
-            if ($user instanceof WP_User) {
-                // default role
-                if (!in_array($notary->category, Config::$notaryNoDefaultOffice)) { // Categ OFF
-                    $user->add_role(CONST_NOTAIRE_ROLE);
-                } else {
-                    if ($notary->category == CONST_CLIENTDIVERS_CATEG) { // Categ DIV
-                        $user->add_role(CONST_NOTAIRE_DIV_ROLE);
-                    } elseif ($notary->category == CONST_ORGANISMES_CATEG) { // Categ ORG
-                        $user->add_role(CONST_NOTAIRE_ORG_ROLE);
-                    }
-                }
-                $rolesNotaire = Config::$notaryRolesByFunction['notaries'];
-                if (!empty($rolesNotaire[$notary->id_fonction])){
-                    foreach ($rolesNotaire[$notary->id_fonction] as $role){
-                        $user->add_role($role);
-                    }
-                }
-
-                // disable admin bar
-                $this->disableAdminBar($notary);
-            }
+            $this->majNotaireRole($notary);
         }
     }
 
     /**
-     * Maj notaire role
+     * update roles for a user
      *
      * @param mixed $notary
      * @return void
@@ -3010,19 +2995,26 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         }
 
         // user must be an instance of WP_User vs WP_Error
-        if ($user instanceof WP_User
-            && property_exists($notary, 'level')
-            && intval($notary->level) > 0
-        ) {
-            /**
-             * finance role
-             * to be matched in list of authorized user by function
-             *
-             * @see \Config::$canAccessFinance
-             */
-            if (!in_array($notary->id_fonction, Config::$canAccessFinance)) {
-                $user->remove_role(CONST_FINANCE_ROLE);
+        if ($user instanceof WP_User) {
+            // default role
+            if (!in_array($notary->category, Config::$notaryNoDefaultOffice)) { // Categ OFF
+                $user->add_role(CONST_NOTAIRE_ROLE);
+            } else {
+                if ($notary->category == CONST_CLIENTDIVERS_CATEG) { // Categ DIV
+                    $user->add_role(CONST_NOTAIRE_DIV_ROLE);
+                } elseif ($notary->category == CONST_ORGANISMES_CATEG) { // Categ ORG
+                    $user->add_role(CONST_NOTAIRE_ORG_ROLE);
+                }
             }
+            $rolesNotaire = Config::$notaryRolesByFunction['notaries'];
+            if (!empty($rolesNotaire[$notary->id_fonction])){
+                foreach ($rolesNotaire[$notary->id_fonction] as $role){
+                    $user->add_role($role);
+                }
+            }
+
+            // disable admin bar
+            $this->disableAdminBar($notary);
         }
     }
 
