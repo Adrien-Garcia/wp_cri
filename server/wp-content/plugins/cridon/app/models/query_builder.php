@@ -60,9 +60,7 @@ class QueryBuilder{
      * @param integer $object_id
      */
     public function deleteDocument( $model,$object_id ){
-        $table = $model->table;
-        $type = str_replace( $this->wpdb->prefix, '', $table);
-        $conditions = 'type="'.$type.'" AND id_externe='.$object_id ;
+        $conditions = 'type="'.strtolower($model->name).'" AND id_externe='.$object_id ;
         $options = array(
             'table'       => 'document',
             'conditions'  => $conditions

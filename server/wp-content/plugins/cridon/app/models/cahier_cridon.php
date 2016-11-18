@@ -7,6 +7,8 @@
 
 class CahierCridon extends \App\Override\Model\CridonMvcModel
 {
+    use DocumentsHolderTrait;
+
     var $table = "{prefix}cahier_cridon";
     var $includes = array('Post', 'CahierCridon');
     var $belongs_to = array(
@@ -20,25 +22,6 @@ class CahierCridon extends \App\Override\Model\CridonMvcModel
         )
     );
     var $display_field = 'post_id';
-
-    public function delete($id)
-    {
-        $qb    = new QueryBuilder();
-        $model = $qb->find(array(
-                               'attributes' => array('id,post_id'),
-                               'model'      => $this->name,
-                               'conditions' => 'id = ' . $id
-                           ));
-        if (!empty($model)) {
-            if ($model[0]->post_id != null) {
-                //Delete post
-                $qb->deletePost($model[0]->post_id);
-            }
-        }
-        //Delete document
-        $qb->deleteDocument($this, $id);
-        parent::delete($id);
-    }
 
     public function importIntoSite()
     {
@@ -117,21 +100,6 @@ class CahierCridon extends \App\Override\Model\CridonMvcModel
                 }
             }
         }
-    }
-    /**
-     * Récupération des documents d'une cahiercridon
-     *
-     * @param integer $id Id de la cahiercridon
-     * @return mixed
-     */
-    public static function getDocuments($id){
-        $options = array(
-            'conditions' => array(
-                'type' => 'cahiercridon',//type de document
-                'id_externe' => $id //id de la cahier cridon
-            )
-        );
-        return mvc_model('Document')->find($options);
     }
 
     /**
