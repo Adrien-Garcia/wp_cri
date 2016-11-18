@@ -3,10 +3,13 @@ web:
     image: registry.jetpulp.fr:5000/dev/php56-apache-oci8
     ports:
         - "80:80"
+        - "443:443"
     volumes:
         - ../server:/var/www/wp_cridon/server
         - ./web/vhost.conf:/etc/apache2/sites-enabled/vhost.conf
         - ./web/php.ini:/usr/local/etc/php/php.ini
+    volumes_from:
+        - certificat-ssl
     environment:
         - ALLOW_OVERRIDE=true
         - SERVER_NAME
@@ -50,6 +53,8 @@ gulp:
         - "3001:3001"
     volumes:
         - ../server/:/app
+    volumes_from:
+        - certificat-ssl
     environment:
         - BUILD_PATH=gulp
         - SERVER_NAME
