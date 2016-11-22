@@ -530,9 +530,18 @@ function assocToKeyVal($assoc, $key_field, $val_field)
     $output = array();
     foreach ($assoc as $row)
     {
-        if (isset($row[$key_field]) and isset($row[$val_field]))
-        {
-            $output[$row[$key_field]] = $row[$val_field];
+        if (is_array($row)) {
+            if (isset($row[$key_field]) and isset($row[$val_field]))
+            {
+                $output[$row[$key_field]] = $row[$val_field];
+            }
+        } elseif (is_object($row)) {
+            if (isset($row->{$key_field}) and isset($row->{$val_field}))
+            {
+                $output[$row->{$key_field}] = $row->{$val_field};
+            }
+        } else {
+            throw new \InvalidArgumentException('The first array parameter must contain array or object.');
         }
     }
     return $output;
