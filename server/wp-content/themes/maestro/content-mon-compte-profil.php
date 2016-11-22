@@ -133,7 +133,7 @@
 	<h2><?php _e('Mes centres d\'intérêts'); ?></h2>
 
 	<div class="description">
-		Le notaire ou le collaborateur est invité à signaler la ou les thématiques juridiques pour lesquelles il souhaite disposer d'une veille ou information prioritaire. A défaut, il recevra l'information sur tous les domaines du droit.
+		Le notaire ou le collaborateur est invité à signaler la ou les thématiques juridiques pour lesquelles il souhaite recevoir automatiquement des veilles et informations prioritaires.
 	</div>
 	<form method="post" action="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'profil')); ?>" class="form-centre-interet">
 		<ul>
@@ -146,39 +146,39 @@
 			</li>
 			<?php endforeach; ?>
 		</ul>
-		<input type="submit" name="Valider" value="Valider" />
+		<input type="submit" name="Valider" value="Enregistrer" />
 	</form>
 </div>
 
-<div class="newsletter">
+<!--<div class="newsletter">
 
-	<h2><?php _e('Ma newsletter'); ?></h2>
+	<h2><?php /*_e('Ma newsletter'); */?></h2>
         <div class="description">
-            <?php if ($notaire->newsletter == 0 ):?>
+            <?php /*if ($notaire->newsletter == 0 ):*/?>
                 <script type="text/javascript">
                 //<![CDATA[
                 	jsvar.newsletter_success_msg = "Inscription terminée avec succès.";
                 //]]>
                 </script>
-            <?php _e('Vous n\'êtes pas inscrit à notre newsletter.'); ?>
-            <?php else : ?>
+            <?php /*_e('Vous n\'êtes pas inscrit à notre newsletter.'); */?>
+            <?php /*else : */?>
                 <script type="text/javascript">
                     //<![CDATA[
                     jsvar.newsletter_success_msg = "Désinscription terminée avec succès.";
                     //]]>
                 </script>
-            <?php _e('Vous êtes inscrit à notre newsletter selon vos centres d\'intérêts.'); ?>
-            <?php endif; ?>
+            <?php /*_e('Vous êtes inscrit à notre newsletter selon vos centres d\'intérêts.'); */?>
+            <?php /*endif; */?>
         </div>
-        <form method="post" accept-charset="utf-8" id="newsletterFormId1" class="form-newsletter js-account-profil-newsletter-form" data-js-ajax-newsletter-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionnewsletter'));?>">
-            <input type="hidden" name="userEmail" value="<?php echo $notaire->email_adress ?>" class="js-account-profil-newsletter-email" id="userEmail" placeholder="<?php _e('Votre adresse email'); ?>">
-            <input type="hidden" name="state" value="<?php echo $notaire->newsletter == 1 ? "0" : "1"; ?>" class="js-account-profil-newsletter-state">
-            <input type="submit" name="submit" value="<?php _e( ($notaire->newsletter == 0 ? "S'inscrire" : "Me désinscrire" ) ); ?>">
+        <form method="post" accept-charset="utf-8" id="newsletterFormId1" class="form-newsletter js-account-profil-newsletter-form" data-js-ajax-newsletter-url="<?php /*echo mvc_public_url(array('controller' => 'notaires','action' =>'souscriptionnewsletter'));*/?>">
+            <input type="hidden" name="userEmail" value="<?php /*echo $notaire->email_adress */?>" class="js-account-profil-newsletter-email" id="userEmail" placeholder="<?php /*_e('Votre adresse email'); */?>">
+            <input type="hidden" name="state" value="<?php /*echo $notaire->newsletter == 1 ? "0" : "1"; */?>" class="js-account-profil-newsletter-state">
+            <input type="submit" name="submit" value="<?php /*_e( ($notaire->newsletter == 0 ? "S'inscrire" : "Me désinscrire" ) ); */?>">
         </form>
         <div id="newsletterMsgId" class="js-account-profil-newsletter-message">
         </div>
 
-</div>
+</div>-->
 
 <div class="update-etude">
     <div id="layer-update-etude" class="popup">

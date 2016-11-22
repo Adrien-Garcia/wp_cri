@@ -1102,6 +1102,12 @@ if ( !defined( 'CONST_ONGLET_CRIDONLINE' ) ) {
 if ( !defined( 'CONST_ONGLET_COLLABORATEUR' ) ) {
     define( 'CONST_ONGLET_COLLABORATEUR', 6 );
 }
+if ( !defined( 'CONST_ONGLET_MES_FACTURES' ) ) {
+    define( 'CONST_ONGLET_MES_FACTURES', 7 );
+}
+if ( !defined( 'CONST_ONGLET_MES_RELEVES' ) ) {
+    define( 'CONST_ONGLET_MES_RELEVES', 8 );
+}
 // capabilités d'aceès au solde
 if ( !defined( 'CONST_ACCESS_SOLDE' ) ) {
     define( 'CONST_ACCESS_SOLDE', 'access_solde' );
@@ -1124,24 +1130,33 @@ if ( !defined( 'CONST_TYPEFACTURE_CG' ) ) { // cotisation generale
 if ( !defined( 'CONST_TYPEFACTURE_CS' ) ) { // cotisation supplementaire
     define( 'CONST_TYPEFACTURE_CS', 'CS' );
 }
-if ( !defined( 'CONST_TYPEFACTURE_TRAD' ) ) { // traduction
-    define( 'CONST_TYPEFACTURE_TRAD', 'TRAD' );
+if ( !defined( 'CONST_TYPEFACTURE_CRIDONLINE' ) ) { // cridonline
+    define( 'CONST_TYPEFACTURE_CRIDONLINE', 'CRIDONLINE' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_CONSULTATION' ) ) { // Consultation
+    define( 'CONST_TYPEFACTURE_CONSULTATION', 'CONSULT' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_DOSSIER' ) ) { // Dossier
+    define( 'CONST_TYPEFACTURE_DOSSIER', 'DOSSIER' );
 }
 if ( !defined( 'CONST_TYPEFACTURE_SAF' ) ) { // service d'assistance fiscale
     define( 'CONST_TYPEFACTURE_SAF', 'SAF' );
 }
-if ( !defined( 'CONST_TYPEFACTURE_CONF' ) ) { // formation
-    define( 'CONST_TYPEFACTURE_CONF', 'CONF' );
+if ( !defined( 'CONST_TYPEFACTURE_SEMAIRE' ) ) { // Formation
+    define( 'CONST_TYPEFACTURE_SEMAIRE', 'SEMAIRE' );
 }
-if ( !defined( 'CONST_TYPEFACTURE_CO' ) ) { // offre éditeur CridOnline
-    define( 'CONST_TYPEFACTURE_CO', 'CO' );
+if ( !defined( 'CONST_TYPEFACTURE_TRADUC' ) ) { // traduction
+    define( 'CONST_TYPEFACTURE_TRADUC', 'TRADUC' );
 }
-if ( !defined( 'CONST_TYPEFACTURE_BROCH' ) ) { // brochures
-    define( 'BROCHNST_TYPEFACTURE_BROCH', 'BROCH' );
+if ( !defined( 'CONST_TYPEFACTURE_OUVRAGE' ) ) { // Ouvrage
+    define( 'CONST_TYPEFACTURE_OUVRAGE', 'OUVRAGE' );
+}
+if ( !defined( 'CONST_TYPEFACTURE_DIVERS' ) ) { // Divers
+    define( 'CONST_TYPEFACTURE_DIVERS', 'DIVERS' );
 }
 if ( !defined( 'CONST_IMPORT_FACTURE_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
     $uploadDir = wp_upload_dir();
-    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFACTURETemp/' );
+    define( 'CONST_IMPORT_FACTURE_TEMP_PATH', $uploadDir['basedir'] . '/import/importsFacture/' );
 }
 if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
     $uploadDir = wp_upload_dir();
@@ -1149,6 +1164,9 @@ if ( !defined( 'CONST_IMPORT_FACTURE_PATH' ) ) { // repertoire  avec ERP
 }
 if ( !defined( 'CONST_DOC_TYPE_FACTURE' ) ) { // valeur du champ cri_document.type
     define( 'CONST_DOC_TYPE_FACTURE', 'facture' );
+}
+if ( !defined( 'CONST_DOC_TYPE_REEVE_CONSO' ) ) { // valeur du champ cri_document.type
+    define( 'CONST_DOC_TYPE_REEVE_CONSO', 'releveconso' );
 }
 // End of block Import Facture
 if ( !defined( 'CONST_DISPLAYED' ) ) {
@@ -1160,7 +1178,7 @@ if ( !defined( 'CONST_DISPLAYED' ) ) {
 // Start of block Import Releveconso
 if ( !defined( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH' ) ) { // repertoire d'echange avec ERP
     $uploadDir = wp_upload_dir();
-    define( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH', $uploadDir['basedir'] . '/import/importsRELEVECONSOTemp/' );
+    define( 'CONST_IMPORT_RELEVECONSO_TEMP_PATH', $uploadDir['basedir'] . '/import/importsReleveconso/' );
 }
 if ( !defined( 'CONST_IMPORT_RELEVECONSO_PATH' ) ) { // emplacement definitif
     $uploadDir = wp_upload_dir();

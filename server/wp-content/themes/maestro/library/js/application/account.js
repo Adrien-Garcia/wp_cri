@@ -13,6 +13,8 @@ App.Account = {
     accountFacturationSelector          : '-facturation',
     accountCollaborateurSelector        : '-collaborateur',
     accountCridonlineSelector           : '-cridonline',
+    accountMesFacturesSelector          : '-mes-factures',
+    accountMesRelevesSelector           : '-mes-releves',
 
     accountQuestionMoreSelector         : '-more',
     accountProfilSubscriptionSelector   : '-subscription',
@@ -71,6 +73,9 @@ App.Account = {
     accountFilterDateAuSelector         : '-au',
     accountFilterSelectMatiereSelector  : '-matiere',
 
+    accountFilterSelectFacturesByYear   : '-filter-by-year',
+    accountFilter                       : '-filter-facture',
+
     accountSoldeDataSelector            : '#js-solde-data',
     accountSoldeSVGSelector             : '#solde-circle-path',
     accountPopupCridonline              : '#layer-cridonline',
@@ -78,6 +83,8 @@ App.Account = {
     accountProfil                       : '#mon-profil',
     accountCridonline                   : '#cridonline',
     accountCollaborateur                : '#mes-collaborateurs',
+    accountMesFactures                  : '#mes-factures',
+    accountMesReleves                   : '#mes-releves',
     accountPopupCollaborateurDelete     : '#layer-collaborateur-delete',
     accountPopupCollaborateurAdd        : '#layer-collaborateur-add',
     accountPopupProfilModify            : '#layer-update-profil',
@@ -96,12 +103,16 @@ App.Account = {
     $accountFacturation                 : null,
     $accountCollaborateur               : null,
     $accountCridonline                  : null,
+    $accountMesFactures                 : null,
+    $accountMesReleves                  : null,
     $accountDashboardAjax               : null,
     $accountQuestionAjax                : null,
     $accountProfilAjax                  : null,
     $accountFacturationAjax             : null,
     $accountCridonlineAjax              : null,
     $accountCollaborateurAjax           : null,
+    $accountMesFacturesAjax             : null,
+    $accountMesRelevesAjax              : null,
 
     $accountDashboardButton             : null,
     $accountQuestionButton              : null,
@@ -109,6 +120,8 @@ App.Account = {
     $accountFacturationButton           : null,
     $accountCollaborateurButton         : null,
     $accountCridonlineButton            : null,
+    $accountMesFacturesButton           : null,
+    $accountMesRelevesButton            : null,
 
     $accountQuestionMoreButton          : null,
 
@@ -159,6 +172,8 @@ App.Account = {
         this.$accountFacturationButton   = $(d + this.accountFacturationSelector + b);
         this.$accountCollaborateurButton = $(d + this.accountCollaborateurSelector + b);
         this.$accountCridonlineButton    = $(d + this.accountCridonlineSelector + b);
+        this.$accountMesFacturesButton   = $(d + this.accountMesFacturesSelector + b);
+        this.$accountMesRelevesButton   = $(d + this.accountMesRelevesSelector + b);
 
         this.$accountDashboard           = $(d + this.accountDashboardSelector);
         this.$accountQuestion            = $(d + this.accountQuestionSelector);
@@ -166,6 +181,8 @@ App.Account = {
         this.$accountFacturation         = $(d + this.accountFacturationSelector);
         this.$accountCollaborateur       = $(d + this.accountCollaborateurSelector);
         this.$accountCridonline          = $(d + this.accountCridonlineSelector);
+        this.$accountMesFactures         = $(d + this.accountMesFacturesSelector);
+        this.$accountMesReleves          = $(d + this.accountMesRelevesSelector);
 
         this.$accountDashboardAjax       = this.$accountDashboard.find(d + a);
         this.$accountQuestionAjax        = this.$accountQuestion.find(d + a);
@@ -173,6 +190,8 @@ App.Account = {
         this.$accountFacturationAjax     = this.$accountFacturation.find(d + a);
         this.$accountCollaborateurAjax   = this.$accountCollaborateur.find(d + a);
         this.$accountCridonlineAjax      = this.$accountCridonline.find(d + a);
+        this.$accountMesFacturesAjax     = this.$accountMesFactures.find(d + a);
+        this.$accountMesRelevesAjax     = this.$accountMesReleves.find(d + a);
 
         this.$accountBlocks.each(function(i, e) {
             if ($(e).hasClass('active')) {
@@ -485,6 +504,24 @@ App.Account = {
             vertical: top
         });
     },
+
+    initMesFactures: function() {
+        this.debug('Account : Init Mes Factures');
+
+        var d = this.defaultSelector;
+        this.$accountFilterSelectFacturesByYear  = $(d + this.accountFilterSelectFacturesByYear);
+        this.accountFilterFacture                = d + this.accountFilter;
+
+        this.$allFactures                        = $("[class^='js-account-filter-facture-']");
+
+        this.addListenersMesFactures();
+    },
+
+    initMesReleves: function() {
+        this.debug('Account : Init Mes Relevés');
+        this.addListenersMesReleves();
+    },
+
     /*
      * Listeners for the Account page events
      */
@@ -524,6 +561,16 @@ App.Account = {
             e.preventDefault();
             self.eventAccountCridonlineOpen($(this));
         });
+        this.$accountMesFacturesButton.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountMesFacturesOpen($(this));
+        });
+        this.$accountMesRelevesButton.on("click", function(e) {
+            e.returnValue = false;
+            e.preventDefault();
+            self.eventAccountMesRelevesOpen($(this));
+        });
 
         this.debug("Account : addListeners end");
     },
@@ -536,8 +583,6 @@ App.Account = {
         var self = this;
 
         this.debug("Account : addListenersDashboard");
-
-
     },
 
     /*
@@ -753,6 +798,30 @@ App.Account = {
     },
 
     /*
+     * Listeners for the Account Mes Factures
+     */
+
+    addListenersMesFactures: function() {
+        var self = this;
+
+        this.$accountFilterSelectFacturesByYear.on('change', function (e) {
+            self.eventFilterFacturesByYear($(this));
+        });
+
+        this.debug("Account : addListenersMesFactures");
+    },
+
+    /*
+     * Listeners for the Account Mes Relevés
+     */
+
+    addListenersMesReleves: function() {
+        var self = this;
+
+        this.debug("Account : addListenersMesReleves");
+    },
+
+    /*
      * Event for Opening the dashboard (Ultimately AJAX)
      */
     eventAccountDashboardOpen: function(link) {
@@ -884,6 +953,50 @@ App.Account = {
                 // self.$accountCridonlineAjax.html(data);
                 self.debug('Account Cridonline Loaded');
                 self.initCridonline();
+            }
+        });
+        App.Utils.scrollTop();
+
+    },
+
+    /*
+     * Event for Opening the Mes factures
+     */
+    eventAccountMesFacturesOpen: function(link) {
+        var self = this;
+        var targetid = link.data('js-target-id');
+        this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
+        this.$accountMesFactures.addClass("active");
+        $.ajax({
+            url: link.data('js-ajax-src'),
+            success: function(data)
+            {
+                $('#'+targetid).html(data);
+                self.debug('Account Mes Factures Loaded');
+                self.initMesFactures();
+            }
+        });
+        App.Utils.scrollTop();
+
+    },
+
+    /*
+     * Event for Opening the Mes Relevés
+     */
+    eventAccountMesRelevesOpen: function(link) {
+        var self = this;
+        var targetid = link.data('js-target-id');
+        this.$accountBlocks.removeClass("active");
+        this.$accountContentBlocks.removeClass("active");
+        this.$accountMesReleves.addClass("active");
+        $.ajax({
+            url: link.data('js-ajax-src'),
+            success: function(data)
+            {
+                $('#'+targetid).html(data);
+                self.debug('Account Mes Releves Loaded');
+                self.initMesReleves();
             }
         });
         App.Utils.scrollTop();
@@ -1459,6 +1572,15 @@ App.Account = {
     successQuestionFilter: function (data) {
 
     },
+
+
+    eventFilterFacturesByYear: function(data) {
+        this.$allFactures.addClass('hidden');
+        $(this.accountFilterFacture + '-' + data.val()).removeClass('hidden');
+
+        return false;
+    },
+
 
     successNewsletterToggle: function (data) {
         var self = this;

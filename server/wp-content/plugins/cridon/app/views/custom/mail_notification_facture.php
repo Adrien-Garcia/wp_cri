@@ -67,7 +67,7 @@
                 <?php
                 $home = home_url();
 
-                $modelFile = "banner.png";
+                $modelFile = "banner-facture.png";
                 $alt = "Ma veille juridique";
                 ?>
                 <img src="<?php echo plugins_url( "../public/images/mail/".$modelFile, dirname(__FILE__) ) ?>" alt="<?php echo $alt ; ?>" />
@@ -83,9 +83,17 @@
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
                 <p>Bonjour,
                 <br>
-                    Une nouvelle facture concerant l'étude "<?php echo $office_name; ?>" est à votre disposition.
-                    <br>
-                    Veuillez la télécharger ici : <a href="<?php echo $doc_url ?>"><?php echo $doc_url ?></a>
+                    Nous vous prions de trouver ci-après une facture concernant l'étude "<?php echo $office_name; ?>".
+                    <br /><br />
+                    <?php if ($display_documents_url): ?>
+                    Vous pouvez la télécharger <a href="<?php echo $doc_url ?>">ici</a>.
+                    <?php endif; ?>
+                    <br /><br />
+                    De plus, retrouvez toutes vos factures dans votre espace <a href="<?php echo home_url().'/notaires/' ?>">Mon Compte</a>, onglet "Mes Factures".
+                    <br /><br />
+                    Cordialement,
+                    <br />
+                    Le CRIDON LYON
                 </p>
                 <p></p>
             <td width="20" style="background-color:#fff;"></td>

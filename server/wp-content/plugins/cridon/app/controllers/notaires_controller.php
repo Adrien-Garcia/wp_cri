@@ -951,6 +951,93 @@ class NotairesController extends BasePublicController
     }
 
     /**
+     * Notaire Mes Factures Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentmesfactures.php
+     *
+     * @return void
+     */
+    public function contentmesfactures()
+    {
+        // access secured
+        $this->mesfactures();
+        $this->renderView('contentmesfactures', true);
+        die();
+    }
+    /**
+     * Notaire Mes factures page
+     * Associated template : app/views/notaires/mesfactures.php
+     *
+     * @return void
+     */
+    public function mesfactures()
+    {
+        $this->prepareSecureAccess(CONST_FINANCE_ROLE);
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
+        $factures = $this->model->getFactures($notaire, CONST_DOC_TYPE_FACTURE);
+        usort($factures,array($this,'factureSort'));
+        $this->set('factures', $factures);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_MES_FACTURES);
+    }
+
+    /**
+     * Fonction permettant de trier les factures en front
+     * Ordre demandé : Trier par année et mois décroissant puis par type_facture : Cotisation générale ; crionline puis services ponctuels
+     *
+     * @param $factureA
+     * @param $factureB
+     * @return int
+     */
+    protected function factureSort($factureA, $factureB){
+        // On tri dans un premier temps sur l'année (du plus grand au plus petit)
+        if ($factureA->year < $factureB->year){return -1;}
+        if ($factureA->year > $factureB->year){return +1;}
+        // A année égale, on tri sur le type de facture : 'cg' et 'cs' en premier puis 'cridonline' puis tous les autres
+        $typeA = strtolower($factureA->type_facture);
+        $typeB = strtolower($factureB->type_facture);
+        if (in_array($typeA, array('cg', 'cs')) && !in_array($typeB, array('cg', 'cs'))) {return -1;}
+        if (in_array($typeB, array('cg', 'cs')) && !in_array($typeA, array('cg', 'cs'))) {return +1;}
+        if (in_array($typeA, array('cg', 'cs')) &&  in_array($typeB, array('cg', 'cs'))) {return 0;}
+        if ($typeA === 'cridonline' && $typeB !== 'cridonline'){return -1;}
+        if ($typeB === 'cridonline' && $typeA !== 'cridonline'){return +1;}
+        if ($typeA === 'cridonline' && $typeB === 'cridonline'){return 0;}
+        return 0;
+    }
+
+    /**
+     * Notaire Mes Relevés Content Block (AJAX Friendly)
+     * Associated template : app/views/notaires/contentmesreleves.php
+     *
+     * @return void
+     */
+    public function contentmesreleves()
+    {
+        // access secured
+        $this->mesreleves();
+        $this->renderView('contentmesreleves', true);
+        die();
+    }
+    /**
+     * Notaire Mes releves page
+     * Associated template : app/views/notaires/mesreleves.php
+     *
+     * @return void
+     */
+    public function mesreleves()
+    {
+        $this->prepareSecureAccess(CONST_FINANCE_ROLE);
+        $notaire = CriNotaireData();
+        $this->set('notaire',$notaire);
+        $releves = $this->model->getFactures($notaire, CONST_DOC_TYPE_RELEVECONSO);
+        $this->set('releves', $releves);
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_MES_RELEVES);
+    }
+
+    /**
      * render a view
      * @param array $view name of view to render
      * @param boolean $echo echo the view (true) / stock it in a var (false)

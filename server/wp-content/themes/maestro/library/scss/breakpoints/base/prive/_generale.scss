@@ -20,7 +20,7 @@
 
 		.header-wrap{
 			background: #FFF;
-			width:100%; 
+			width:100%;
 			display: block;
 			padding-top: 15px;
 			margin-top: 0;
@@ -35,7 +35,7 @@
 				&:before{
 					bottom:-9px;
 				}
-				
+
 			}
 		}
 
@@ -61,7 +61,7 @@
 							padding: 0;
 							margin: 0;
 
-							>a{
+							> a{
 								border-bottom:solid 1px #bcbcbc;
 								display: block;
 								width: 65px;
@@ -69,13 +69,12 @@
 								text-decoration: none;
 								position: relative;
 								background: $bg-top-footer;
-
 								@include transition(all 0.3s ease-in);
 
-								
+
 
 								&:after{
-									@include svgiconafter('ico-dashboard', 27px, 27px, $bleu); 
+									@include svgiconafter('ico-dashboard', 27px, 27px, $bleu);
 									position:absolute;
 									top: 50%;
 									left: 50%;
@@ -90,55 +89,52 @@
 
 								> span{
 									display: none;
-									
+
 								}
 
 								span{
 									@include transition(all 0.3s ease-in);
 								}
-
-
-
 							}
 
-							
 
-							&:first-child{ /* Dashboard*/
-								> a{								
+
+							&.dashboard{ /* Dashboard*/
+								> a{
 									&:after{
 										@include svgiconafter('ico-dashboard', 27px, 27px, $bleu);
 									}
 								}
 							}
-							&:nth-child(2){ /* Questions */
-								> a{								
+							&.questions{ /* Questions */
+								> a{
 									&:after{
 										@include svgiconafter('ico-questions', 28px, 28px, $bleu);
 										margin-left: -7px;
 									}
 								}
 							}
-							&:nth-child(3){ /* Profil */
-								> a{								
+							&.profil{ /* Profil */
+								> a{
 									&:after{
 										@include svgiconafter('icon-profil', 27px, 27px, $bleu);
 										margin-left: -15px;
 									}
 								}
 							}
-							&:nth-child(4){ /* Facturation */
-								> a{								
+							&.facturation{ /* Facturation */
+								> a{
 									&:after{
 										@include svgiconafter('ico-facturation', 27px, 27px, $bleu);
 									}
 								}
 							}
-							&:nth-child(5){ /* Cridonline */
-								> a{		
+							&.cridonline{ /* Cridonline */
+								> a{
 
 									span{
-										color:$rouge;	
-									}					
+										color:$rouge;
+									}
 
 									&:after{
 										@include svgiconafter('ico-cridonline', 27px, 27px, $rouge);
@@ -146,61 +142,79 @@
 									}
 								}
 							}
-							&:nth-child(6){ /* Collaborateurs */
-								> a{								
+							&.collaborateur{ /* Collaborateurs */
+								> a{
 									&:after{
 										@include svgiconafter('ico-collaborateur', 27px, 27px, $bleu);
 										margin-left: -18px;
 									}
 								}
 							}
-
-
-
-
-
-							&.active, &:hover{
-
-								>a{
-									background: $bleu;
-
-									&:before{
-										@include svgicon('icon-angle-bottom', 15px, 15px, $bleu);					
-										position:absolute;
-										top:50%;
-										right:-31px;
-										margin: -6px 0 0 0; 
-										display: block; 
-										z-index: 222;
-										@include rotate(-90);
-									}
-
+							&.factures{ /* factures */
+								> a{
 									&:after{
-										color:#FFF;
-									} 
+										@include svgiconafter('icon-mes-facture', 27px, 27px, $bleu);
+										margin-left: -11px;
+									}
+								}
+							}
+							&.mes-releves{ /* mes releves de consomation */
+								> a{
+									&:after{
+										@include svgiconafter('icon-releves-conso', 26px, 27px, $bleu);
+										margin-left: -14px;
+									}
 								}
 							}
 
-							&.active, &:hover{
 
-								>a.cridonline{
-									
-									background: $rouge;
 
-									&:before{
-										@include svgicon('icon-angle-bottom', 15px, 15px, $rouge);					
+
+
+							&.active,
+							 {
+
+								>a {
+									background: $bleu;
+
+									&::before {
+										@include svgicon('icon-angle-bottom', 15px, 15px, $bleu);
 										position:absolute;
 										top:50%;
 										right:-31px;
-										margin: -6px 0 0 0; 
-										display: block; 
+										margin: -6px 0 0 0;
+										display: block;
 										z-index: 222;
 										@include rotate(-90);
 									}
 
-									&:after{
+									&::after{
 										color:#FFF;
-									} 
+									}
+								}
+							}
+
+							&.active,
+							 {
+
+								> a.cridonline {
+
+									background: $rouge;
+
+									&::before{
+										@include svgicon('icon-angle-bottom', 15px, 15px, $rouge);
+										position:absolute;
+										top:50%;
+										right:-31px;
+										margin: -6px 0 0 0;
+										display: block;
+										z-index: 222;
+										@include rotate(-90);
+									}
+
+									&::after{
+										color:#FFF;
+									}
 								}
 							}
 
@@ -208,14 +222,14 @@
 					}
 				}
 
-				
+
 			}
 
 			>.content{
 				float: right;
 				width: 255px;
 				background: #FFF;
-				min-height: 450px; 
+				min-height: 600px;
 				padding-left: 20px;
 				padding-bottom: 40px;
 				//border:solid 1px red;
@@ -261,16 +275,16 @@
 				text-decoration: none;
 				float: right;
 				margin-bottom: 20px;
-			
+
 				&:after{ display: none;}
-			
+
 				&:hover{
 					border-bottom:solid 1px #FFF;
 					color:$rouge;
 				}
 			} */
 
-			
+
 		}
 	}
 }

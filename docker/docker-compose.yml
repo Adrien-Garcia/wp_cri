@@ -9,11 +9,12 @@ web:
         - ./web/vhost.conf:/etc/apache2/sites-enabled/vhost.conf
         - ./web/php.ini:/usr/local/etc/php/php.ini
     volumes_from:
-        - certificat-ssl
+          - certificat-ssl
     environment:
         - ALLOW_OVERRIDE=true
         - SERVER_NAME
-        - SERVER_NAME_ALIAS
+        - SERVER_NAME_IMAGES
+        - SERVER_NAME_STATIC
         - USER_UID
         - USER_GROUP
     links:
