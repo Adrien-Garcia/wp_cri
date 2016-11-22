@@ -236,17 +236,17 @@ class Question extends \App\Override\Model\CridonMvcModel
 
         } elseif(isset($queryOptions['weekly']) && $queryOptions['weekly']) {
             // except all questions not yet transmitted to ERP (new questions & 2006-2009)
-            $sql .= " WHERE srenum IS NOT NULL AND transmis_erp <> 0 ";
+            $sql .= " WHERE srenum IS NOT NULL OR (transmis_erp = 1 AND creation_date > " . strftime('%Y-%m-%d', strtotime('-6 days')) . ')';
             $questions = $this->wpdb->get_results($sql);
             // fill list of existing question on site with unique key (client_number + srenum)
             foreach ($questions as $question) {
-                array_push($this->siteQuestList, $question->client_number . $question->srenum);
+                $this->siteQuestList[$question->id] = $question->client_number . $question->srenum;
             }
         } else {
             $questions = $this->wpdb->get_results($sql);
             // fill list of existing question on site with unique key (client_number + srenum)
             foreach ($questions as $question) {
-                array_push($this->siteQuestList, $question->client_number . $question->srenum);
+                $this->siteQuestList[$question->id] = $question->client_number . $question->srenum;
             }
         }
     }
@@ -1268,17 +1268,10 @@ class Question extends \App\Override\Model\CridonMvcModel
              * $this->questListForDelete : tableau de couple "client_number + srenum"
              */
             if (count($this->questListForDelete) > 0) {
-                // obtenir une chaine sous la forme : '84803274728', '80603274726', '82605774731'
-                $conditions = "'" . implode("','", $this->questListForDelete) . "'";
-                $query = "DELETE
-                          FROM `{$this->table}`
-                          WHERE CONCAT(client_number, srenum) IN (" . $conditions . ")";
-
-                // execute query
-                $queryBuilder = mvc_model('QueryBuilder')->getInstanceMysqli();
-                $queryBuilder->query($query);
-                if (!empty($queryBuilder->error)) {
-                    throw new Exception($queryBuilder->error);
+                foreach ($this->questListForDelete as $id => $infos) {
+                    /** @var Question $questionModel */
+                    $questionModel = mvc_model('Question');
+                    $questionModel->delete($id);
                 }
             }
 
