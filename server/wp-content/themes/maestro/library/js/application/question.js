@@ -390,7 +390,7 @@ App.Question = {
     },
 
     /*
-     * Event
+     * Event : Remove file input content
      */
 
     eventFileReset: function (reset) {
@@ -411,11 +411,19 @@ App.Question = {
                 file.wrap('<form>').closest('form').get(0).reset();
                 file.unwrap();
                 self.eventFileChange(file);
+                if (i !== 0) {
+                    file.parents('.fileUpload').first().addClass('hidden');
+                }
             });
         }
         this.$fileQuestion = $(this.fileQuestionSelector);
     },
 
+    /**
+     * Update displayed filename according to file input content
+     * @param fileInput
+     * @returns {boolean}
+     */
     eventFileChange: function (fileInput) {
         var file = fileInput[0].files[0];
         if (file && file.size > jsvar.question_max_file_size) {
