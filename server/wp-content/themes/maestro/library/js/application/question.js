@@ -141,7 +141,7 @@ App.Question = {
             this.popupOverlayInit();
         }
 
-        if (App.Utils.queryString.openQuestion !== undefined && App.Utils.queryString.openQuestion === 1) {
+        if (typeof App.Utils.queryString.openQuestion !== 'undefined' && App.Utils.queryString.openQuestion == 1) {
             this.$popupOverlay.popup('show');
             this.openTabQuestionExpertise(false);
         }
