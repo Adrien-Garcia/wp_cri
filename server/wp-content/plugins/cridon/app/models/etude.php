@@ -139,11 +139,22 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                                     // creation du nouveau repertoire
                                     wp_mkdir_p($path);
                                 }
-                                if (rename($document[0], $path . $fileInfo['basename'])) {
+                                // Add or update file to the right location
+                                $moved = rename($document[0], $path . $fileInfo['basename']);
+
+                                // As filepath won't change when file is updated, model Document won't change either
+                                // Only work with model during insert, the above operation is sufficient for update
+                                $documentPath = $filePath . $date . '/' . $fileInfo['basename'];
+                                $exist = $documentModel->find_one(array(
+                                    'conditions' => array(
+                                        'file_path' => $documentPath,
+                                    )
+                                ));
+                                if ($moved && empty($exist)) {
                                     // donnees document
                                     $docData = array(
                                         'Document' => array(
-                                            'file_path'         => $filePath . $date . '/' . $fileInfo['basename'],
+                                            'file_path'         => $documentPath,
                                             'download_url'      => '/documents/download/' . $crpcen,
                                             'date_modified'     => date('Y-m-d H:i:s'),
                                             'type'              => $type,
@@ -161,13 +172,6 @@ class Etude extends \App\Override\Model\CridonMvcModel {
 
                                     // maj download_url
                                     if ($documentId) {
-                                        $docData = array(
-                                            'Document' => array(
-                                                'id' => $documentId,
-                                                'download_url' => '/documents/download/' . $documentId
-                                            )
-                                        );
-                                        $documentModel->save($docData);
 
                                         if ($type === CONST_DOC_TYPE_FACTURE) {
                                             $facture = new \stdClass();
