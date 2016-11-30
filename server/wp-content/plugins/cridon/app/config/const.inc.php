@@ -1142,8 +1142,8 @@ if ( !defined( 'CONST_TYPEFACTURE_DOSSIER' ) ) { // Dossier
 if ( !defined( 'CONST_TYPEFACTURE_SAF' ) ) { // service d'assistance fiscale
     define( 'CONST_TYPEFACTURE_SAF', 'SAF' );
 }
-if ( !defined( 'CONST_TYPEFACTURE_SEMAIRE' ) ) { // Formation
-    define( 'CONST_TYPEFACTURE_SEMAIRE', 'SEMAIRE' );
+if ( !defined( 'CONST_TYPEFACTURE_SEMINAIRE' ) ) { // Formation
+    define( 'CONST_TYPEFACTURE_SEMINAIRE', 'SEMINAIRE' );
 }
 if ( !defined( 'CONST_TYPEFACTURE_TRADUC' ) ) { // traduction
     define( 'CONST_TYPEFACTURE_TRADUC', 'TRADUC' );
