@@ -11,7 +11,9 @@ class Document extends \App\Override\Model\CridonMvcModel {
         'formation'     => 'Formation',
         'cahiercridon'  => 'Cahier cridon',
         'viecridon'     => 'Vie cridon',
-        'flash'         => 'Flash'
+        'flash'         => 'Flash',
+        'releveconso'   => 'Relevé Conso',
+        'facture'       => 'Facture'
     );
     /**
      * @var mixed
