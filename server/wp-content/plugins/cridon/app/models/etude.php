@@ -67,11 +67,15 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     /**
      * Import facture action
      *
+     * @param $sendMail bool Should notification mail be sent (default yes)
+     *
+     * @return int Status code
+     *
      * @throws Exception
      */
-    public function importFacture()
+    public function importFacture($sendMail = true)
     {
-        return $this->importByType(CONST_DOC_TYPE_FACTURE);
+        return $this->importByType(CONST_DOC_TYPE_FACTURE, $sendMail);
     }
 
     /**
@@ -83,8 +87,9 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      * @param string $date
      * @param Document $documentModel
      * @param string $type
+     * @param $sendMail bool Should notification mail be sent (default yes)
      */
-    protected function importPdf($documents, $Iterator, $limit, $date, $documentModel, $type)
+    protected function importPdf($documents, $Iterator, $limit, $date, $documentModel, $type, $sendMail = true)
     {
         switch ($type) {
             case CONST_DOC_TYPE_RELEVECONSO;
@@ -173,7 +178,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                                     // maj download_url
                                     if ($documentId) {
 
-                                        if ($type === CONST_DOC_TYPE_FACTURE) {
+                                        if ($type === CONST_DOC_TYPE_FACTURE && $sendMail) {
                                             $facture = new \stdClass();
                                             $facture->name = $fileInfo['basename'];
                                             $facture->download_url = home_url().$documentModel->generatePublicUrl($documentId);
@@ -220,10 +225,11 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      * Import de fichier par type (facture, releveconso)
      *
      * @param string $type
+     * @param $sendMail bool Should notification mail be sent (default yes)
      * @throws Exception
      * @return int
      */
-    protected function importByType($type)
+    protected function importByType($type, $sendMail = true)
     {
         // bloc commun
         // offset block
@@ -263,7 +269,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 return CONST_STATUS_CODE_GONE;
         }
         // import documents
-        $this->importPdf($documents, $Iterator, $limit, $date, $documentModel, $type);
+        $this->importPdf($documents, $Iterator, $limit, $date, $documentModel, $type, $sendMail);
 
         return CONST_STATUS_CODE_OK;
     }
@@ -272,11 +278,15 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     /**
      * Import Releve action
      *
+     * @param $sendMail bool Should notification mail be sent (default yes)
+     *
+     * @return int Status code
+     *
      * @throws Exception
      */
-    public function importReleveconso()
+    public function importReleveconso($sendMail = true)
     {
-        return $this->importByType(CONST_DOC_TYPE_RELEVECONSO);
+        return $this->importByType(CONST_DOC_TYPE_RELEVECONSO, $sendMail);
     }
 
     /**
