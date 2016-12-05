@@ -92,7 +92,7 @@
 
 	</ul> 
 
-	<a class="js-account-questions-button" href="<?php get_home_url() ?>/notaires/<?php echo $notaire->id ; ?>/questions">Toutes mes questions</a>
+	<a class="" href="<?php get_home_url() ?>/notaires/questions/#historique-questions">Toutes mes questions</a>
 
 
 </div>
