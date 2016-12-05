@@ -779,7 +779,8 @@ function sendNotificationForPostPublished( $post,$model ){
         if (property_exists($completeModel, 'documents')){
             $documents = $completeModel->documents;
         } else {
-            $documents = $class::getDocuments($model->id);
+            /** @var DocumentsHolderTrait $class */
+            $documents = $class::getDocuments($model);
         }
     }
     $matiere = (!empty($completeModel) && !empty($completeModel->matiere)) ? $completeModel->matiere : false;
