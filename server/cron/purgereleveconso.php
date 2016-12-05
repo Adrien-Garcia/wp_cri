@@ -37,6 +37,7 @@ foreach ($conso as $key => $item) {
         // recuperation de l'annee AAAA
         $year = substr($item->aaaammdd, 0, 4);
         if ($key == 0) { // L'année la plus récente (cf ORDER BY) est conservée
+            // (ensuite, c'est le changement d'étude ou d'année qui permettra de conserver le dernier doc)
             $crpcenLast = $item->crpcen;
             $yearLast   = $year;
             $dateLast   = $item->aaaammdd;
@@ -50,12 +51,13 @@ foreach ($conso as $key => $item) {
 
                     // supression physique du fichier correspondant
                     @unlink($file);
-                } else { // on change d'annee
+                } else { // on change d'annee, donc on maj les variables, mais on ne unlink pas le fichier
                     $crpcenLast = $item->crpcen;
                     $yearLast   = $year;
                     $dateLast   = $item->aaaammdd;
                 }
-            } else { // on passe au prochain crpcen
+            } else { // on passe au prochain crpcen, sans supprimer le premier document de la liste
+                // (et donc le dernier de l'année, puisque ORDER BY DESC)
                 $crpcenLast = $item->crpcen;
                 $yearLast   = $year;
                 $dateLast   = $item->aaaammdd;
