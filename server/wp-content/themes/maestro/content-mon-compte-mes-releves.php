@@ -23,8 +23,8 @@
                     <?php if ($releve->month == '12'): /* Relevé complet sur l'année */ ?>
                         <?php $text = 'Année complète'; ?>
                     <?php else: ?>
-                        <?php $dateObj = DateTime::createFromFormat('!m', $releve->month);
-                              $text    = $dateObj->format('F');
+                        <?php $dateObj = DateTime::createFromFormat('!m', $releve->month, new DateTimeZone('Europe/Paris'));
+                              $text    = ucfirst(strftime('%B', $dateObj->getTimestamp()));
                         ?>
                     <?php endif; ?>
                     <a href="<?php echo $publicUrl?>" target="_blank" class="mois"><?php echo $text ?></a>
