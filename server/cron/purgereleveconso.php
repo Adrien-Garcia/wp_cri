@@ -25,7 +25,7 @@ $sql = "
                 `d`.`id_externe` crpcen, `d`.`file_path`, `d`.`label` aaaammdd
         FROM
                 cri_document d
-        WHERE `type` = ".CONST_DOC_TYPE_RELEVECONSO." AND `label` NOT LIKE '{$currYear}%'
+        WHERE `type` = '".CONST_DOC_TYPE_RELEVECONSO."' AND `label` NOT LIKE '{$currYear}%'
         ORDER BY `id_externe`, `label` DESC
       ";
 // recuperation resultats
