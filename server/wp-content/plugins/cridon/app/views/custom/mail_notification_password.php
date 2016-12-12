@@ -67,8 +67,13 @@
                 <?php
                 $home = home_url();
 
-                $modelFile = "banner-password.png";
-                $alt = "Modification de votre mot de passe";
+                if ($new) {
+                    $modelFile = "banner-creation-password.png";
+                    $alt = "Création de votre mot de passe";
+                } else {
+                    $modelFile = "banner-password.png";
+                    $alt = "Modification de votre mot de passe";
+                }
                 ?>
                 <img src="<?php echo plugins_url( "../public/images/mail/".$modelFile, dirname(__FILE__) ) ?>" alt="<?php echo $alt ; ?>" />
             </td>
@@ -87,7 +92,7 @@
                 $telPassword = trim($telPassword);
                 $webPassword = trim($webPassword);
                 $text = '';
-                if (!empty($notary->web_password)){
+                if (!$new){
                     $text.= 'Suite à votre demande de réinitialisation, ';
                 } else {
                     $text.= 'Suite à la création de votre compte, ';
