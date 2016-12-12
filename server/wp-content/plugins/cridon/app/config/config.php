@@ -338,7 +338,7 @@ class Config {
     );
     public static $listOfControllersWpMvcOnSidebar = array(
         'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
-        'questions','soldes','supports','user_cridons','veilles','vie_cridons'
+        'questions','soldes','supports','user_cridons','veilles','vie_cridons','lieux'
     );
     public static $listOfControllersWithNoActionAdd = array(
         'notaires',
@@ -382,21 +382,32 @@ class Config {
         'question' => array(
             'add'    => 'Ajout d\'une question',
             'edit'   => 'Modification d\'une question'
+        ),
+        'lieu' => array(
+            'add'    => 'Ajout d\'un lieu',
+            'edit'   => 'Modification d\'un lieu'
         )
     );
     public static $titleFieldAdminForm = array(
-        'label'       => 'Libellé',
-        'code'        => 'Code',
-        'short_label' => 'Libellé court',
-        'displayed'   => 'Affiché sur le site ?',
-        'label_front' => 'Libellé en front',
-        'value'       => 'Valeur',
-        'description' => 'Description',
+        'address'       => 'Adresse',
         'client_number' => 'Numéro client',
-        'quota'         => 'Quota',
-        'type_support'  => 'Type du support',
+        'city'          => 'Ville',
+        'code'          => 'Code',
         'date_arret'    => 'Date d\'arrêt',
-        'question'      => 'Sur les questions ?'
+        'description'   => 'Description',
+        'displayed'     => 'Affiché sur le site ?',
+        'email'         => 'Email',
+        'is_cridon'     => 'Est le cridon ?',
+        'label'         => 'Libellé',
+        'label_front'   => 'Libellé en front',
+        'name'          => 'Nom',
+        'phone_number'  => 'Numéro de téléphone',
+        'postal_code'   => 'Code postal',
+        'question'      => 'Sur les questions ?',
+        'quota'         => 'Quota',
+        'short_label'   => 'Libellé court',
+        'type_support'  => 'Type du support',
+        'value'         => 'Valeur',
     );
     //End translation
 
