@@ -3471,7 +3471,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
             // dest must be set
             if ($dest) {
-                if ($firstTimeTelPassword){
+                if ($firstTimeTelPassword || empty($notaire->web_password)){
                     $subject = 'firstTimeTelPasswordSubject';
                     $new = true;
                 } else {
