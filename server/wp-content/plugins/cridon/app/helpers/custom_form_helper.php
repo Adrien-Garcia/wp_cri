@@ -28,11 +28,6 @@ class CustomFormHelper extends MvcFormHelper {
             'public' => false
         );
 
-        // MvcInflector::tableize does not work with lieu and lieux
-        if ($model_name === 'Lieu'){
-            $defaults['controller'] = 'lieux';
-        }
-
         $options = array_merge($defaults, $options);
         $this->model_name = $model_name;
         $this->object = MvcObjectRegistry::get_object($model_name);

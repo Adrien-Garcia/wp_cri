@@ -58,13 +58,6 @@ class AdminLieuxController extends BaseAdminController
         )
     );
 
-    public function __construct()
-    {
-        $this->set_meta_lieu();
-        $this->model->per_page = CONST_ADMIN_NB_ITEM_PERPAGE;
-        $this->file_includer = new MvcFileIncluder();
-    }
-
     public function index() {
         $this->init_default_columns();
         $this->process_params_for_search();
@@ -85,32 +78,6 @@ class AdminLieuxController extends BaseAdminController
         $this->create_or_save();
         $this->set_object();
         $this->load_helper('CustomForm');
-    }
-
-    //MvcInflector::singularize && MvcInflector::tableize is not working with 'Lieux'
-    protected function set_meta_lieu() {
-        $model = get_class($this);
-        $model = preg_replace('/Controller$/', '', $model);
-        $this->name = MvcInflector::underscore($model);
-        $this->views_path = '';
-        if (preg_match('/^Admin[A-Z]/', $model)) {
-            $this->views_path = 'admin/';
-            $model = preg_replace('/^Admin/', '', $model);
-        }
-
-        //DEBUT JETPULP
-        //$model = MvcInflector::singularize($model);
-        $model = 'Lieu'; // Singulier de 'Lieux'
-        //$this->views_path .= MvcInflector::tableize($model).'/';
-        $this->views_path .= 'lieux/';
-        //FIN JETPULP
-        $this->model_name = $model;
-        // To do: remove the necessity of this redundancy
-        if (class_exists($model)) {
-            $model_instance = new $model();
-            $this->model = $model_instance;
-            $this->{$model} = $model_instance;
-        }
     }
 
 }
