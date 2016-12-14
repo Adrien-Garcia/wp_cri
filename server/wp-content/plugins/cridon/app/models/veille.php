@@ -46,7 +46,7 @@ class Veille extends \App\Override\Model\CridonMvcModel {
         $roles = CriGetCollaboratorRoles($notaire);
         // subscription_level must be >= veille_level
         $subscription_level = isset($notaire->etude) && isset($notaire->etude->subscription_level) ? $notaire->etude->subscription_level : (isset($notaire->subscription_level) ? $notaire->subscription_level : 1);
-        $end_subscription_date = isset($notaire->etude) && isset($notaire->etude->end_subscription_date) ? $notaire->etude->end_subscription_date : (isset($notaire->end_subscription_date) ? $notaire->end_subscription_date : 1);
+        $end_subscription_date = isset($notaire->etude) && isset($notaire->etude->end_subscription_date) ? $notaire->etude->end_subscription_date : (isset($notaire->end_subscription_date) ? $notaire->end_subscription_date : '0000-00-00');
         return (in_array(CONST_CONNAISANCE_ROLE,$roles) && ($veille->level == 1 || ($subscription_level >= $veille->level && $end_subscription_date >= date('Y-d-m'))));
     }
 }
