@@ -1251,3 +1251,21 @@ if ( !defined( 'CONST_PROMO_CHOC' ) ) {
 if ( !defined( 'CONST_PROMO_PRIVILEGE' ) ) {
     define( 'CONST_PROMO_PRIVILEGE', 2 );
 }
+
+if ( !defined( 'CRIDONLINE_AUTOLOGIN_URL' ) ) {
+    switch ($env) {
+        case PROD:
+            // Proxy : http://abo.prod.wkf.fr/auth --> SERVER_NAME/wolters
+            $url = '/wolters/autologin.js';
+            break;
+        case PREPROD:
+        case DEV:
+            $url= 'https://abo.prod.wkf.fr/auth/autologin.js';
+            break;
+        case LOCAL:
+        default:
+            $url = '/wolters/autologin.js';
+            break;
+    }
+    define( 'CRIDONLINE_AUTOLOGIN_URL', $url);
+}
