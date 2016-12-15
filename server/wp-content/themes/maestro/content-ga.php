@@ -2,11 +2,19 @@
 if (CriIsNotaire()) :
     $notaire = CriNotaireData();
     ?>
-    <script>
-        dataLayer = [{
+    <script type="text/javascript">
+        //<![CDATA[
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
             'userID': '<?php echo $notaire->client_number ?>',
-            'Group': '<?php echo $notaire->category ?>'
-        }];
+            'Group': '<?php echo $notaire->category ?>',
+            'CRPCEN': '<?php echo $notaire->crpcen ?>',
+            'etudeName': '<?php echo $notaire->etude->office_name ?>',
+            'userName': '<?php echo $notaire->last_name ?> <?php echo $notaire->first_name ?>',
+            'etudePostalCode': '<?php echo $notaire->etude->cp ?>',
+            'userFonction': '<?php echo $notaire->fonction->label ?>'
+        });
+        //]]>
     </script>
 <?php endif; ?>
 <?php
