@@ -30,8 +30,17 @@
             <p>
                 <?php _e('Merci pour votre souscription, le service est désormais activé.'); ?><br />
                 <?php _e('Un email de confirmation vous a été envoyé.'); ?>
-            </p>            
-            <a href="/veilles"><!-- J'ai compris : découvrir l'offre de veille --> Découvrir l'offre CRID'ONLINE</a>
+            </p>
+            <?php
+            list($access, $url) = CridonlineAutologinLink();
+            ?>
+            <a href="<?php echo $url ?>"
+               class="js-cridonline-link"
+               data-js-cridonline-access="<?php echo $access ?>"
+               data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE'; ?>"
+            >
+                Découvrir l'offre CRID'ONLINE
+            </a>
         </div>
     </div>
 <?php endif; ?>

@@ -20,7 +20,7 @@ class QueryBuilder{
     /**
      * mysqli instance
      *
-     * @var null|mixed
+     * @var mysqli
      */
     protected $mysqli = null;
 
@@ -29,6 +29,7 @@ class QueryBuilder{
         global $wpdb;
         $this->wpdb = $wpdb;
         $this->lastInsertId = false;
+        $this->dbConnect();
     }
 
     /**
@@ -60,9 +61,7 @@ class QueryBuilder{
      * @param integer $object_id
      */
     public function deleteDocument( $model,$object_id ){
-        $table = $model->table;
-        $type = str_replace( $this->wpdb->prefix, '', $table);
-        $conditions = 'type="'.$type.'" AND id_externe='.$object_id ;
+        $conditions = 'type="'.strtolower($model->name).'" AND id_externe='.$object_id ;
         $options = array(
             'table'       => 'document',
             'conditions'  => $conditions
@@ -382,7 +381,7 @@ class QueryBuilder{
                         $condition = "$k IN (";
                         foreach ($v as $value){
                             if (!is_numeric($value)) {
-                                $value = '"' . mysqli_real_escape_string($value) . '"'; //clean
+                                $value = '"' . $this->mysqli->real_escape_string($value) . '"'; //clean
                             }
                             $condition.= $value.',';
                         }
@@ -391,7 +390,7 @@ class QueryBuilder{
                         $cond[] = $condition;
                     } else {
                         if (!is_numeric($v)) {
-                            $v = '"' . mysqli_real_escape_string($v) . '"'; //clean
+                            $v = '"' . $this->mysqli->real_escape_string($v) . '"'; //clean
                         }
                         $cond[] = "$k = $v";
                     }
@@ -408,7 +407,7 @@ class QueryBuilder{
             $cond = array();
             foreach( $options['not'] as $k=>$v ){
                 if( !is_numeric($v) ){
-                    $v = '"'.mysqli_real_escape_string($v).'"'; //clean
+                    $v = '"'.$this->mysqli->real_escape_string($v).'"'; //clean
                 }
                 $cond[] = "$k <> $v";
             }
@@ -427,7 +426,7 @@ class QueryBuilder{
                 }else{
                     foreach( $v as $l=>$w ){
                         if( !is_numeric( $w ) ){
-                            $w = '"'.mysqli_real_escape_string( $w ).'"'; //clean
+                            $w = '"'.$this->mysqli->real_escape_string( $w ).'"'; //clean
                         }
                         $cond[] = "$w";
                     }
@@ -510,7 +509,6 @@ class QueryBuilder{
      * @return mixed
      */
     public function getInstanceMysqli(){
-        $this->dbConnect();
         return $this->mysqli;
     }
 

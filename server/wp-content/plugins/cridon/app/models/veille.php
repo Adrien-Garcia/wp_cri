@@ -2,6 +2,8 @@
 
 class Veille extends \App\Override\Model\CridonMvcModel {
 
+    use DocumentsHolderTrait;
+
     var $table          = "{prefix}veille";
     var $includes       = array('Post','Matiere');
     var $belongs_to     = array(
@@ -9,35 +11,6 @@ class Veille extends \App\Override\Model\CridonMvcModel {
         'Matiere' => array('foreign_key' => 'id_matiere')
     );
     var $display_field = 'post_id';
-    public function delete($id) {
-        $qb = new QueryBuilder();
-        $model = $qb->find( array( 'attributes' => array('id,post_id'), 'model' => $this->name , 'conditions' => 'id = '.$id ) );
-        if( !empty( $model ) ){
-            if( $model[0]->post_id != null ){
-                //Delete post
-                $qb->deletePost( $model[0]->post_id );
-            }
-        }
-        //Delete document
-        $qb->deleteDocument( $this , $id );
-        parent::delete($id);
-    }
-    
-    /**
-     * Récupération des documents d'une veille
-     * 
-     * @param integer $id Id de la veille
-     * @return mixed
-     */
-    public static function getDocuments($id){
-        $options = array(
-            'conditions' => array(
-                'type' => 'veille',//type de document
-                'id_externe' => $id //id de la veille
-            )
-        );
-        return mvc_model('Document')->find($options);
-    }
 
     public function getList($params){
         $params['per_page'] = !empty($params['per_page']) ? $params['per_page'] : DEFAULT_POST_PER_PAGE;
@@ -72,6 +45,8 @@ class Veille extends \App\Override\Model\CridonMvcModel {
     {
         $roles = CriGetCollaboratorRoles($notaire);
         // subscription_level must be >= veille_level
-        return (in_array(CONST_CONNAISANCE_ROLE,$roles) && ($veille->level == 1 || ($notaire->etude->subscription_level >= $veille->level && $notaire->etude->end_subscription_date >= date('Y-d-m'))));
+        $subscription_level = isset($notaire->etude) && isset($notaire->etude->subscription_level) ? $notaire->etude->subscription_level : (isset($notaire->subscription_level) ? $notaire->subscription_level : 1);
+        $end_subscription_date = isset($notaire->etude) && isset($notaire->etude->end_subscription_date) ? $notaire->etude->end_subscription_date : (isset($notaire->end_subscription_date) ? $notaire->end_subscription_date : '0000-00-00');
+        return (in_array(CONST_CONNAISANCE_ROLE,$roles) && ($veille->level == 1 || ($subscription_level >= $veille->level && $end_subscription_date >= date('Y-d-m'))));
     }
 }
