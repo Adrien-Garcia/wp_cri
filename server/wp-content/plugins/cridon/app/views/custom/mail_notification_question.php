@@ -138,7 +138,8 @@
                 <td width="560" style="background-color:#ccc; text-align:left; color:#2e4867; font-size:11px; line-height: 16px;">
 
 
-                    <h2><center>SéCURITE - OPTIMISATION DE VOTRE TEMPS - MOBILITé – DIGITAL</center></h2>
+                    <h2><center>POLITIQUE DE DÉMATÉRIALISATION - ZÉRO PAPIER - PROTÉGEONS LA PLANÈTE<br/>
+                        ATTENTION : À PARTIR DU 1<sup>ER</sup> JANVIER 2017 AUCUN FAX EN RÉCEPTION NE SERA TRAITÉ - VOS CONSULTATIONS DEVRONT ÊTRE POSÉES UNIQUEMENT EN LIGNE DEPUIS VOTRE ESPACE PRIVÉ</center></h2>
 
                     <p> Nous vous rappelons que depuis le <u>18 janvier</u> vous pouvez poser vos questions écrites via votre site extranet <a href="http://www.cridon-lyon.fr" target="_blank">www.cridon-lyon.fr</A>, ce, quel que soit votre support, PC, tablette ou votre smartphone. <br />
                     <br />
@@ -152,8 +153,6 @@
                     ‐   visualisez votre consultation sur votre support, PC, tablette ou votre smartphone où que vous soyez. <br />
                     </p>
                     <br />
-                    <p><u><center>Les fax ne seront plus traités dès le 1er janvier 2017</center></u></p>
-
 
 
                 </td>
