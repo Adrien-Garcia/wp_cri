@@ -45,7 +45,7 @@
                                 ?>
                                 <?php if (method_exists($class, "getDocuments")) : ?>
                                     <?php
-                                    $documents = $class::getDocuments($object->id);
+                                    $documents = $class::getDocuments($object);
                                     ?>
                                     <?php foreach ($documents as $index => $document) : ?>
                                         <?php
@@ -77,7 +77,7 @@
                                         ?>
                                         <?php if (method_exists($class, "getDocuments")) : ?>
                                             <?php
-                                            $documents = $class::getDocuments($subcahier->id);
+                                            $documents = $class::getDocuments($subcahier);
                                             ?>
                                             <?php foreach ($documents as $index => $document) : ?>
                                                 <?php

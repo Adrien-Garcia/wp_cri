@@ -895,7 +895,7 @@ function checkTypeNofication( $model ){
 
 function getEmailsOfNotariesByMatiere( $model ){
     $options = array(
-        'fields'  => 'n.*',
+        'fields'  => 'n.*, e.subscription_level, e.end_subscription_date',
         'synonym' => 'mn',
         'join' => array(
             array(
@@ -905,6 +905,10 @@ function getEmailsOfNotariesByMatiere( $model ){
             array(
                 'table'  => 'users u',
                 'column' => ' n.id_wp_user = u.id'
+            ),
+            array(
+                'table'  => 'etude e',
+                'column' => ' n.crpcen = e.crpcen'
             ),
         ),
         'conditions' => array(

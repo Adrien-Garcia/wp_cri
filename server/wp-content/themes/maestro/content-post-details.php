@@ -72,7 +72,7 @@
             if (property_exists($object, 'documents')){
                 $documents = $object->documents;
             }else{
-                $documents = $class::getDocuments($object->id);                
+                $documents = $class::getDocuments($object);
             }
                 if (! empty($documents)) :
             ?>

@@ -75,7 +75,7 @@
                     if(property_exists($object,'documents')){
                         $documents = $object->documents;
                     }else{
-                        $documents = $class::getDocuments($object->id);
+                        $documents = $class::getDocuments($object);
                     }
                     foreach($documents as $document):
                         $url = home_url().$model->generatePublicUrl($document->id);

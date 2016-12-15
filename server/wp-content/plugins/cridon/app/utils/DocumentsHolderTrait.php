@@ -16,8 +16,8 @@ trait DocumentsHolderTrait
     public static function getDocuments($model){
         $options = array(
             'conditions' => array(
-                'type' => $model->name,
-                'id_externe' => $model->primary_key
+                'type' => $model->__model_name,
+                'id_externe' => $model->id
             )
         );
         return mvc_model('Document')->find($options);
