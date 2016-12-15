@@ -90,7 +90,7 @@
 
                             <?php if (method_exists($class, "getDocuments")) : ?>
                                 <?php
-                                $documents = $class::getDocuments($cahier_parent->id);
+                                $documents = $class::getDocuments($cahier_parent);
                                 ?>
                                 <?php foreach ($documents as $index => $document) : ?>
                                     <?php
@@ -137,7 +137,7 @@
                         <tr>
                             <td colspan="2">
                                 <?php
-                                $documents = $class::getDocuments($cahier->id);
+                                $documents = $class::getDocuments($cahier);
                                 ?>
                                 <?php foreach ($documents as $index => $document) : ?>
                                     <?php
