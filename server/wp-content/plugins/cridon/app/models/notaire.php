@@ -1673,7 +1673,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 ),
             );
             // exec query and return result as object
-            $object = $this->find_one($idWPoptions);
+            $object = self::$userConnectedData = $this->find_one($idWPoptions);
         }
 
         $object = $this->traitement_data_solde($object);
