@@ -14,6 +14,7 @@ services:
             - certificat-ssl:/certs
         environment:
             - VIRTUAL_HOST
+            - ALLOW_OVERRIDE=true
             - SERVER_NAME
             - USER_UID
             - USER_GROUP
@@ -22,6 +23,7 @@ services:
             - db
             - mailhog
             #- blackfire
+            - gulp
     db:
         container_name: ${COMPOSE_PROJECT_NAME}-db
         image: mariadb:10.0
@@ -29,7 +31,7 @@ services:
             - "${DOCKER_PORT_MYSQL}:3306"
         volumes:
             - ./db:/docker-entrypoint-initdb.d
-            - ${COMPOSE_PROJECT_NAME}-dbdata:/var/lib/mysql
+            - dbdata:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_DATABASE
@@ -72,3 +74,13 @@ services:
             - DB_ENV_MYSQL_PASSWORD=root
             - DB_ENV_MYSQL_DATABASE=$MYSQL_DATABASE
             - SERVER_NAME
+
+volumes:
+  dbdata:
+    external:
+      name: ${COMPOSE_PROJECT_NAME}-dbdata
+  certificat-ssl:
+    external: true
+
+networks:
+    default:
