@@ -1,0 +1,16 @@
+# this is our osx docker-compose building on top of the docker-compose, just mounting
+# the sync image - and set the USER_ID
+
+version: "2"
+services:
+  web:
+    volumes:
+      - wpcridon-sync:/var/www/html:rw # will be mounted on /var/www/html
+    environment:
+      - USER_UID=1000
+      - USER_GROUP=1000
+
+# that the important thing
+volumes:
+  wpcridon-sync:
+    external: true
