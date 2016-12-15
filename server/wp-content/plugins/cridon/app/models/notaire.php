@@ -3471,10 +3471,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
             // dest must be set
             if ($dest) {
-                if ($firstTimeTelPassword){
+                if ($firstTimeTelPassword || empty($notaire->web_password)){
                     $subject = 'firstTimeTelPasswordSubject';
+                    $new = true;
                 } else {
                     $subject = 'changePasswordSubject';
+                    $new = false;
                 }
                 // prepare message
                 $subject = sprintf(Config::$mailPassword[$subject], $notaire->first_name . ' ' . $notaire->last_name);
@@ -3482,7 +3484,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     'webPassword' => $newWebPwd,
                     'telPassword' => $newTelPwd,
                     'notary'      => $notaire,
-                    'etude'       => $etude
+                    'etude'       => $etude,
+                    'new'         => $new
                 );
                 $message = CriRenderView('mail_notification_password', $vars, 'custom', false);
 
