@@ -209,7 +209,17 @@
 				</div>
 
 
-				
+				<div class="twitter">
+					<div class="content">
+						<h2><?php _e('Partenaire expert du notaire'); ?></h2>
+
+						<a href="https://twitter.com/CRIDON_LYON" title="Compte Twitter du Cridon lyon" target="_blank" >
+							<span><?php _e('Suivez-nous sur Twitter'); ?></span>
+						</a>
+
+					</div>
+				</div>
+
 				<div class="veille-juridique js-home-block-link">
 					<div class="content">
 						<h2><?php _e('Veille juridique personnalisée'); ?> </h2>
