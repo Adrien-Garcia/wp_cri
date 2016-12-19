@@ -1495,7 +1495,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                     $query = 'INSERT '.$keys.$values;
                     try {
                         // Try to send the complete question
-                        $adapter->execute($query);
+                        $adapters->execute($query);
                     } catch (\Exception $e) {
                         // write into logfile
                         writeLog($e, 'exportquestionenerreurgrave.log');
@@ -1515,7 +1515,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                             writeLog($e, 'exportquestionenerreurgrave.log');
                         }
                     }
-                    $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . " AND flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id = (" . $question->id . ")";
+                    $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . ", flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id = " . $question->id;
                     $this->wpdb->query($sql);
                 }
             }
@@ -1626,7 +1626,7 @@ class Question extends \App\Override\Model\CridonMvcModel
         return $resume;
     }
 
-    protected function prepareQueryValue($question,$documents,$competences,$resume = "' '", $content = "' '"){
+    protected function prepareQueryValue($question,$documents,$competences,$resume = ' ', $content = ' '){
         $value = "(";
 
         $value .= "'" . $question->id . "', "; // ZQUEST_ZIDQUEST_0
@@ -1655,8 +1655,7 @@ class Question extends \App\Override\Model\CridonMvcModel
         $value .= "'" . ( ( !empty($documents[3]) && !empty($documents[3]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[3]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_3
         $value .= "'" . ( ( !empty($documents[4]) && !empty($documents[4]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[4]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_4
         // HOTFIX
-        //$value .= ( empty($content) ? ' ' : $content) . ","; // ZTXTQUEST_0
-        $value .= "'" . ( empty($content) ? ' ' : ' ') . "', "; // ZTXTQUEST_0
+        $value .= ( empty($content) ? ' ' : $content) . ","; // ZTXTQUEST_0
         $value .= "'000000',"; // ZQUEST_SRENUM1_0
         $value .= "' ',"; // ZQUEST_ZMESSERR_0
         $value .= "'0'"; // ZQUEST_ZERR_0
