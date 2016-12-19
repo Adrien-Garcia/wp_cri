@@ -5,15 +5,15 @@
 	.message-erreur{
 			font-size: 15px;
 			line-height: 18px;
-			
+
 		}
 
 	#main{
 		padding-top: 0;
 
 		.header-wrap{
-			height: 90px; 
-			padding-top: 20px;			
+			height: 90px;
+			padding-top: 20px;
 
 			h1{
 				font-size: 25px;
@@ -21,36 +21,34 @@
 				&:before{
 					bottom:-20px;
 				}
-				
+
 			}
 		}
 
-		
+
 		#inner-content{
 
 			&.wrap{width:680px;}
 
 			h1{}
 
-			
+
 
 
 			#sidebar_prive{
-				
+
 				width: 230px;
 
 				nav{
 					ul{
-						
+
 
 						>li{
 							position: relative;
 
-							
+
 							>a{
 								width: 230px;
-
-								
 
 								&:after{
 
@@ -78,17 +76,16 @@
 
 							}
 
-							
 
-							&:first-child{ /* Dashboard*/
-								> a{								
+							&.dashboard{ /* Dashboard*/
+								> a{
 									&:after{
 										//@include svgiconafter('ico-dashboard', 27px, 27px, $bleu);
 									}
 								}
 							}
-							&:nth-child(2){ /* Questions */
-								> a{								
+							&.questions{ /* Questions */
+								> a{
 									&:after{
 										@include svgiconafter('ico-questions', 27px, 27px, $bleu);
 										/*margin-left: -7px;*/
@@ -96,8 +93,8 @@
 									}
 								}
 							}
-							&:nth-child(3){ /* Profil */
-								> a{								
+							&.profil{ /* Profil */
+								> a{
 									&:after{
 										@include svgiconafter('icon-profil', 23px, 23px, $bleu);
 										/*margin-left: -15px;*/
@@ -106,16 +103,16 @@
 									}
 								}
 							}
-							&:nth-child(4){ /* Facturation */
-								> a{								
+							&.facturation{ /* Facturation */
+								> a{
 									&:after{
 										@include svgiconafter('ico-facturation', 31px, 31px, $bleu);
 										margin-top: -15px;
 									}
 								}
 							}
-							&:nth-child(5){ /* Cridonline */
-								> a{								
+							&.cridonline{ /* Cridonline */
+								> a{
 									&:after{
 										@include svgiconafter('ico-cridonline', 26px, 26px, $rouge);
 										margin-top: -15px;
@@ -123,8 +120,8 @@
 									}
 								}
 							}
-							&:nth-child(6){ /* Collaborateurs */
-								> a{								
+							&.collaborateur{ /* Collaborateurs */
+								> a{
 									&:after{
 										@include svgiconafter('ico-collaborateur', 20px, 20px, $bleu);
 										/*margin-left: -18px;*/
@@ -133,20 +130,83 @@
 									}
 								}
 							}
+							&.factures{ /* factures */
+								> a{
+									&:after{
+										@include svgiconafter('icon-mes-facture', 31px, 31px, $bleu);
+										margin-left: auto;
+									}
+								}
+							}
+							&.mes-releves{ /* mes releves de consomation */
+								> a{
+
+									span{
+										line-height: 24px;
+										padding-top: 13px;
+									}
+
+									&:after{
+										@include svgiconafter('icon-releves-conso', 28px, 28px, $bleu);
+										margin-left: auto;
+									}
+								}
+							}
 
 
+							&:hover
+							 {
 
+								> a {
+									background: $bleu;
+
+									&::before {
+										@include svgicon('icon-angle-bottom', 15px, 15px, $bleu);
+										position:absolute;
+										top:50%;
+										right:-31px;
+										margin: -6px 0 0 0;
+										display: block;
+										z-index: 222;
+										@include rotate(-90);
+									}
+
+									&::after{
+										color:#FFF;
+									}
+								}
+
+								> a.cridonline {
+
+									background: $rouge;
+
+									&::before{
+										@include svgicon('icon-angle-bottom', 15px, 15px, $rouge);
+										position:absolute;
+										top:50%;
+										right:-31px;
+										margin: -6px 0 0 0;
+										display: block;
+										z-index: 222;
+										@include rotate(-90);
+									}
+
+									&::after{
+										color:#FFF;
+									}
+								}
+							}
 
 
 							&.active, &:hover{
 
 								>a{
-									
+
 									&:before{}
 
 									&:after{
 										color:#FFF;
-									} 
+									}
 
 									span{
 										color:#FFF;
@@ -158,16 +218,16 @@
 					}
 				}
 
-				
+
 			}
 
 			>.content{
-				
+
 				width: 450px;
 				padding-left: 30px;
 
 				h2{
-					
+
 					font-size: 25px;
 
 					&.no-marge{
@@ -179,9 +239,9 @@
 					font-size: 14px;
 					line-height: 19px;
 				}
-				
 
-				
+
+
 			}
 		}
 	}

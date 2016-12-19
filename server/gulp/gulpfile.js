@@ -53,7 +53,6 @@ gulp.task('sass-build', function() {
 
 gulp.task('iconfont', function () {
   return gulp.src([libPath+'/images/svgicons/*.svg'])
-	.pipe(plumber())
     .pipe(iconfont({
       fontName: 'aux-font',
       normalize: true,
@@ -62,7 +61,6 @@ gulp.task('iconfont', function () {
       formats: ['ttf', 'eot', 'woff', 'svg', 'woff2'],
       timestamp: runTimestamp
     }))
-    .pipe(plumber.stop())
     .on('glyphs', function (glyphs, options) {
         gulp.src(libPath+'/scss/templates/_icons.scss')
         .pipe(plumber())
@@ -121,11 +119,16 @@ gulp.task('sprite', function() {
 gulp.task('browser-sync', function() {
 
 	browserSync.init({
-        proxy: options.env,
-        browser: [],
+        proxy: {
+            target: "https://"+ options.env,
+        },
         host: options.env,
-        injectChanges: true,
-        open: false
+        open: "external",
+        browser: options.nav,
+        https: {
+            key: "/certs/my-certificate.key",
+            cert: "/certs/my-certificate.crt"
+        },
     });
 
 });

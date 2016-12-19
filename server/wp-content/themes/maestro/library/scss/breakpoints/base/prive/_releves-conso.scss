@@ -1,0 +1,79 @@
+div#releves-conso {
+    padding-right: 20px;
+
+    h2 {
+        margin-bottom: 30px;
+    }
+
+    .titre {
+        width: 100%;
+        background: $bg-top-footer;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        @extend .do-re;
+        font-size: 20px;
+        color:$bleu;
+        position: relative;
+
+        &::before {
+            @include svgicon('icon-angle-bottom', 14px, 14px, #e6e6e6);
+            position: absolute;
+            bottom: -13px;
+            left: 50%; 
+            margin-left: -22px;
+        }
+
+    }
+    
+    ul { 
+        margin: 0;
+        padding: 0;
+
+        li {
+            margin: 0;
+            padding: 0;
+            height: 76px;
+            line-height: 76px;
+            border-bottom: solid 4px $bg-top-footer;
+
+            a {
+
+                @include transition (all 0.3s);
+            }
+
+            a.mois {
+                font-size: 15px;
+                font-family: $helvetica;
+                display: inline-block;
+                width: auto;
+                color:$bleu;
+
+                &:hover{
+                    text-decoration: none;
+                }
+            }
+
+            a.pdf { 
+                display: inline-block;
+                width: auto;
+
+                &::before{
+                    @include svgicon('icon-pdf', 19px, 19px, $rouge);
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    margin-top: -10px;
+                }
+
+                &:hover {
+                    &::before{
+                        opacity: 0.6;
+                    }
+                }
+                
+            }
+
+        }
+    }
+}

@@ -50,6 +50,6 @@ $indexes = array(
  */
 $model = mvc_model('Question');
 // call import action
-$resp = $model->importQuestion2006to2009($indexes);
+$resp = $model->importQuestion2006to2009($indexes, true);
 
 echo ($resp ? 'Import successful' : 'Import failed');

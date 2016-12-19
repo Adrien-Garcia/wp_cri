@@ -1673,7 +1673,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 ),
             );
             // exec query and return result as object
-            $object = $this->find_one($idWPoptions);
+            $object = self::$userConnectedData = $this->find_one($idWPoptions);
         }
 
         $object = $this->traitement_data_solde($object);
@@ -2293,7 +2293,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $user = CriNotaireData();//get Notaire
         $condAffectation = (!is_array($status)) ? 'Q.id_affectation = '.$status : 'Q.id_affectation IN ('.implode(',',$status).')';
         $query = '
-            SELECT d,q,s,m,c,n
+            SELECT d,q,s,m,c
             FROM (SELECT Q.*
                     FROM Question AS Q
                     JOIN Notaire AS N ON Q.client_number = N.client_number
@@ -3588,5 +3588,33 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $notary['Notaire']['id']           = $notaryId;
         $notary['Notaire']['cron_update_erp']  = ($action == 'on') ? 1 : 0; // flag pour notifier ERP ( immediatement RAZ par cron "cronExportNotary" )
         $this->save($notary);
+    }
+
+    /**
+     * Retrieve all factures
+     *
+     * @param object $notaire
+     * @param string $type -- type of facture
+     *
+     * @return object $factures
+     */
+    public function getFactures($notaire, $type){
+
+        if ($type !== CONST_DOC_TYPE_FACTURE && $type !== CONST_DOC_TYPE_RELEVECONSO){
+            return false;
+        }
+
+        $options = array(
+            'fields' => '*,SUBSTRING(label,1,4) as year,SUBSTRING(label,5,2) as month,SUBSTRING(label,7,2) as day',
+            'conditions' => array(
+                'id_externe'      => $notaire->crpcen,
+                'type'            => $type
+            ),
+            'order'    => 'file_path desc'
+        );
+
+        $factures = mvc_model('QueryBuilder')->findAll('document', $options);
+
+        return $factures;
     }
 }

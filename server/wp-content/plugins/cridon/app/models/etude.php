@@ -67,11 +67,15 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     /**
      * Import facture action
      *
+     * @param $sendMail bool Should notification mail be sent (default yes)
+     *
+     * @return int Status code
+     *
      * @throws Exception
      */
-    public function importFacture()
+    public function importFacture($sendMail = true)
     {
-        $this->importByType();
+        return $this->importByType(CONST_DOC_TYPE_FACTURE, $sendMail);
     }
 
     /**
@@ -83,81 +87,112 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      * @param string $date
      * @param Document $documentModel
      * @param string $type
+     * @param $sendMail bool Should notification mail be sent (default yes)
      */
-    protected function importPdf($documents, $Iterator, $limit, $date, $documentModel, $type)
+    protected function importPdf($documents, $Iterator, $limit, $date, $documentModel, $type, $sendMail = true)
     {
-        // destination
-        $pathDest      = CONST_IMPORT_FACTURE_PATH;
-        // pattern import (recuperation des infos par nom de fichier)
-        $pattern       = Config::$importFacturePattern;
-        // patter de parsage de fichier dans repertoire source
-        $parserPattern = Config::$importFactureParserPattern;
-        // chemin de base
-        $filePath      = '/factures/';
-        // fichier log
-        $logFile       = 'importfactures.log';
+        switch ($type) {
+            case CONST_DOC_TYPE_RELEVECONSO;
+                $pathDest      = CONST_IMPORT_RELEVECONSO_PATH;
+                $pattern       = Config::$importRelevePattern;
+                $parserPattern = Config::$importReleveParserPattern;
+                $filePath      = '/releveconso/';
+                $logFile       = 'importreleveconso.log';
 
-        // reafectation variable selon le type de traitement
-        if ($type == 'releveconso') {
-            $pathDest      = CONST_IMPORT_RELEVECONSO_PATH;
-            $pattern       = Config::$importRelevePattern;
-            $parserPattern = Config::$importReleveParserPattern;
-            $filePath      = '/releveconso/';
-            $logFile       = 'importreleveconso.log';
+                break;
+            case CONST_DOC_TYPE_FACTURE;
+                // destination
+                $pathDest      = CONST_IMPORT_FACTURE_PATH;
+                // pattern import (recuperation des infos par nom de fichier)
+                $pattern       = Config::$importFacturePattern;
+                // patter de parsage de fichier dans repertoire source
+                $parserPattern = Config::$importFactureParserPattern;
+                // chemin de base
+                $filePath      = '/factures/';
+                // fichier log
+                $logFile       = 'importfactures.log';
+
+                break;
+            default:
+                return ;
         }
+
         // parsage des documents
         foreach (new LimitIterator($documents, 0, $limit + 1) as $document) {
             try {
                 if (!empty($document[0])) { // document existe
                     $fileInfo = pathinfo($document[0]);
                     if (!empty($fileInfo['basename']) && preg_match($pattern, $fileInfo['basename'], $matches)) {
-                        $path = $pathDest . $date . DIRECTORY_SEPARATOR;
-                        if (!file_exists($path)) { // repertoire manquant
-                            // creation du nouveau repertoire
-                            wp_mkdir_p($path);
-                        }
                         // CRPCEN present
-                        if (!empty($matches[1]) && rename($document[0], $path . $fileInfo['basename'])) {
-                            $crpcen   = $matches[1];
-                            $typeFact = (!empty($matches[3])) ? $matches[3] : ' ';
+                        if (!empty($matches[1])) {
+                            $crpcen = $matches[1];
+                            if ($type === CONST_DOC_TYPE_FACTURE) {
+                                //Rappel : <CRPCEN_TYPEPIECE_NUMFACTURE_TYPEFACTURE_AAAAMMJJ>.pdf
+                                $typePiece = (!empty($matches[2])) ? $matches[2] : '';
+                                $numFacture = (!empty($matches[3])) ? $matches[3] : '';
+                                $typeFact = (!empty($matches[4])) ? $matches[4] : '';
+                                $dateFact = (!empty($matches[5])) ? $matches[5] : '';
+                            } else { //$type = 'releveconso'
+                                //Rappel : <CRPCEN_releveconso_AAAAMMJJ>.pdf
+                                $dateFact = (!empty($matches[3])) ? $matches[3] : '';
+                            }
 
-                            // donnees document
-                            $docData = array(
-                                'Document' => array(
-                                    'file_path'     => $filePath . $date . '/' . $fileInfo['basename'],
-                                    'download_url'  => '/documents/download/' . $crpcen,
-                                    'date_modified' => date('Y-m-d H:i:s'),
-                                    'type'          => $type,
-                                    'id_externe'    => $crpcen,
-                                    'name'          => $fileInfo['basename'],
-                                    'label'         => $typeFact
-                                )
-                            );
-
-                            // insertion données
-                            $documentId = $documentModel->create($docData);
-
-                            // maj download_url
-                            if ($documentId) {
-                                $docData = array(
-                                    'Document' => array(
-                                        'id'           => $documentId,
-                                        'download_url' => '/documents/download/' . $documentId
-                                    )
-                                );
-                                $documentModel->save($docData);
-
-                                if ($type == 'facture') {
-                                    $facture                    = new \stdClass();
-                                    $facture->name              = $fileInfo['basename'];
-                                    $facture->download_url      = $documentModel->generatePublicUrl($documentId);
-
-                                    // send email to notaries
-                                    $this->sendEmailFacture($crpcen, $facture);
+                            $date = substr($dateFact, 0, 6);
+                            if ($date) {
+                                $path = $pathDest . $date . DIRECTORY_SEPARATOR;
+                                if (!file_exists($path)) { // repertoire manquant
+                                    // creation du nouveau repertoire
+                                    wp_mkdir_p($path);
                                 }
+                                // Add or update file to the right location
+                                $moved = rename($document[0], $path . $fileInfo['basename']);
 
-                                unset($crpcen);
-                                unset($typeFact);
+                                // As filepath won't change when file is updated, model Document won't change either
+                                // Only work with model during insert, the above operation is sufficient for update
+                                $documentPath = $filePath . $date . '/' . $fileInfo['basename'];
+                                $exist = $documentModel->find_one(array(
+                                    'conditions' => array(
+                                        'file_path' => $documentPath,
+                                    )
+                                ));
+                                if ($moved && empty($exist)) {
+                                    // donnees document
+                                    $docData = array(
+                                        'Document' => array(
+                                            'file_path'         => $documentPath,
+                                            'download_url'      => '/documents/download/' . $crpcen,
+                                            'date_modified'     => date('Y-m-d H:i:s'),
+                                            'type'              => $type,
+                                            'id_externe'        => $crpcen,
+                                            'name'              => $fileInfo['basename'],
+                                            'label'             => empty($dateFact) ? '' : $dateFact,
+                                            'numero_facture'    => empty($numFacture) ? '' : $numFacture,
+                                            'type_piece'        => empty($typePiece) ? '' : $typePiece,
+                                            'type_facture'      => empty($typeFact) ? '' : $typeFact,
+                                        )
+                                    );
+
+                                    // insertion données
+                                    $documentId = $documentModel->create($docData);
+
+                                    // maj download_url
+                                    if ($documentId) {
+
+                                        if ($type === CONST_DOC_TYPE_FACTURE && $sendMail) {
+                                            $facture = new \stdClass();
+                                            $facture->name = $fileInfo['basename'];
+                                            $facture->download_url = home_url().$documentModel->generatePublicUrl($documentId);
+
+                                            // send email to notaries
+                                            $this->sendEmailFacture($crpcen, $facture);
+                                        }
+
+                                        unset($crpcen);
+                                        unset($numFacture);
+                                        unset($typePiece);
+                                        unset($typeFact);
+                                    }
+                                }
                             }
                         }
                         // liberation de variables
@@ -190,10 +225,11 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      * Import de fichier par type (facture, releveconso)
      *
      * @param string $type
+     * @param $sendMail bool Should notification mail be sent (default yes)
      * @throws Exception
      * @return int
      */
-    protected function importByType($type = 'facture')
+    protected function importByType($type, $sendMail = true)
     {
         // bloc commun
         // offset block
@@ -205,8 +241,11 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         /** @var $documentModel Document */
         $documentModel = mvc_model('Document');
 
+        if (!in_array($type, array(CONST_DOC_TYPE_FACTURE, CONST_DOC_TYPE_RELEVECONSO))){
+            return CONST_STATUS_CODE_GONE;
+        }
         switch ($type) {
-            case 'releveconso';
+            case CONST_DOC_TYPE_RELEVECONSO;
                 // documents
                 $Directory  = new RecursiveDirectoryIterator(CONST_IMPORT_RELEVECONSO_TEMP_PATH);
                 $Iterator   = new RecursiveIteratorIterator($Directory);
@@ -216,7 +255,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 $documents  = new RegexIterator($Iterator, Config::$importReleveParserPattern, RecursiveRegexIterator::GET_MATCH);
 
                 break;
-            default:
+            case CONST_DOC_TYPE_FACTURE;
                 // documents
                 $Directory = new RecursiveDirectoryIterator(CONST_IMPORT_FACTURE_TEMP_PATH);
                 $Iterator  = new RecursiveIteratorIterator($Directory);
@@ -226,9 +265,11 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 $documents = new RegexIterator($Iterator, Config::$importFactureParserPattern, RecursiveRegexIterator::GET_MATCH);
 
                 break;
+            default:
+                return CONST_STATUS_CODE_GONE;
         }
         // import documents
-        $this->importPdf($documents, $Iterator, $limit, $date, $documentModel, $type);
+        $this->importPdf($documents, $Iterator, $limit, $date, $documentModel, $type, $sendMail);
 
         return CONST_STATUS_CODE_OK;
     }
@@ -237,11 +278,15 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     /**
      * Import Releve action
      *
+     * @param $sendMail bool Should notification mail be sent (default yes)
+     *
+     * @return int Status code
+     *
      * @throws Exception
      */
-    public function importReleveconso()
+    public function importReleveconso($sendMail = true)
     {
-        $this->importByType('releveconso');
+        return $this->importByType(CONST_DOC_TYPE_RELEVECONSO, $sendMail);
     }
 
     /**
@@ -259,35 +304,47 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         $notary = $this->listNotaryToBeNotified($crpcen);
 
         $dest        = array();
+        $display_documents_url = true;
+        $office_dest = array();
         $office_name = '';
         if (is_array($notary) && count($notary) > 0) {
             foreach ($notary as $item) {
                 if (filter_var($item->email_adress, FILTER_VALIDATE_EMAIL)) {
                     $dest[] = $item->email_adress;
                 } elseif (filter_var($item->office_email_adress_1, FILTER_VALIDATE_EMAIL)) {
-                    $dest[] = $item->office_email_adress_1;
+                    $office_dest[] = $item->office_email_adress_1;
                 } elseif (filter_var($item->office_email_adress_2, FILTER_VALIDATE_EMAIL)) {
-                    $dest[] = $item->etude->office_email_adress_2;
+                    $office_dest[] = $item->etude->office_email_adress_2;
                 } elseif (filter_var($item->office_email_adress_3, FILTER_VALIDATE_EMAIL)) {
-                    $dest[] = $item->office_email_adress_3;
+                    $office_dest[] = $item->office_email_adress_3;
                 }
-
                 // nom de l'etude concernée
                 $office_name = $item->office_name;
             }
         }
+        if (empty($dest)){
+            $dest = $office_dest;
+            $display_documents_url = false;
+        }
 
         // destinataire non vide
         if (count($dest) > 0) {
+            array_unique($dest);
             $vars    = array(
-                'office_name' => $office_name,
-                'doc_url'     => $facture->download_url,
+                'office_name'           => $office_name,
+                'display_documents_url' => $display_documents_url,
+                'doc_url'               => $facture->download_url,
             );
             $message = CriRenderView('mail_notification_facture', $vars, 'custom', false);
 
             $env = getenv('ENV');
             if (empty($env) || ($env !== PROD)) {
-                wp_mail(Config::$notificationAddressPreprod, Config::$mailSubjectNotifFacture[0], $message, $headers);
+                if ($env === 'PREPROD') {
+                    $dest = Config::$notificationAddressPreprod;
+                } else {
+                    $dest = Config::$notificationAddressDev;
+                }
+                wp_mail($dest, Config::$mailSubjectNotifFacture, $message, $headers);
             } else {
                 /**
                  * wp_mail : envoie mail destinataire multiple
@@ -295,7 +352,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                  * @see wp-includes/pluggable.php : 228
                  * @param string|array $to Array or comma-separated list of email addresses to send message.
                  */
-                wp_mail($dest, Config::$mailSubjectNotifFacture[0], $message, $headers);
+                wp_mail($dest, Config::$mailSubjectNotifFacture, $message, $headers);
             }
         }
     }

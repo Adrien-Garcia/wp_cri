@@ -1515,7 +1515,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                             writeLog($e, 'exportquestionenerreurgrave.log');
                         }
                     }
-                    $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . " AND flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id = (" . $question->id . ")";
+                    $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . ", flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id = " . $question->id;
                     $this->wpdb->query($sql);
                 }
             }
@@ -1626,7 +1626,7 @@ class Question extends \App\Override\Model\CridonMvcModel
         return $resume;
     }
 
-    protected function prepareQueryValue($question,$documents,$competences,$resume = "' '", $content = "' '"){
+    protected function prepareQueryValue($question,$documents,$competences,$resume = ' ', $content = ' '){
         $value = "(";
 
         $value .= "'" . $question->id . "', "; // ZQUEST_ZIDQUEST_0
@@ -1655,8 +1655,7 @@ class Question extends \App\Override\Model\CridonMvcModel
         $value .= "'" . ( ( !empty($documents[3]) && !empty($documents[3]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[3]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_3
         $value .= "'" . ( ( !empty($documents[4]) && !empty($documents[4]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[4]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_4
         // HOTFIX
-        //$value .= ( empty($content) ? ' ' : $content) . ","; // ZTXTQUEST_0
-        $value .= "'" . ( empty($content) ? ' ' : ' ') . "', "; // ZTXTQUEST_0
+        $value .= ( empty($content) ? ' ' : $content) . ","; // ZTXTQUEST_0
         $value .= "'000000',"; // ZQUEST_SRENUM1_0
         $value .= "' ',"; // ZQUEST_ZMESSERR_0
         $value .= "'0'"; // ZQUEST_ZERR_0
@@ -1807,10 +1806,8 @@ class Question extends \App\Override\Model\CridonMvcModel
      * @params array $indexes
      * @return bool
      */
-    public function importQuestion2006to2009($indexes)
+    public function importQuestion2006to2009($indexes, $former = false)
     {
-        // wp default upload dir
-        $uploadDir = wp_upload_dir();
 
         // instance of csvPrser
         $csvParser = new CridonCsvParser();
@@ -1818,29 +1815,29 @@ class Question extends \App\Override\Model\CridonMvcModel
         try {
 
             // check if file exist
-            if (file_exists($uploadDir['basedir'] . '/questions2006_2010.csv')) {
+            if (file_exists(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'questions2006_2010.csv')) {
 
                 $csvParser->enclosure = '';
                 $csvParser->encoding(null, 'UTF-8');
-                $csvParser->auto($uploadDir['basedir'] . '/questions2006_2010.csv');
+                $csvParser->auto(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'questions2006_2010.csv');
 
                 // no error was found
                 if (property_exists($csvParser, 'data') && intval($csvParser->error) <= 0) {
 
                     // prepare question data
-                    $this->manageQuestData($indexes, $csvParser->data);
+                    $this->manageQuestData($indexes, $csvParser->data, $former);
 
                     // do archive
                     if ($this->importSuccess) {
-                        rename($uploadDir['basedir'] . '/questions2006_2010.csv', str_replace(".csv", ".csv." . date('YmdHi'), $uploadDir['basedir'] . '/questions2006_2010.csv'));
+                        rename(CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'questions2006_2010.csv', str_replace(".csv", ".csv." . date('YmdHi'), CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'questions2006_2010.csv'));
                     }
                 } else { // file content error
                     // write into logfile
-                    writeLog(sprintf(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Question (' . $uploadDir['basedir'] . '/questions2006_2010.csv)'), 'importQuest2006_2009.log');
+                    writeLog(sprintf(CONST_EMAIL_ERROR_CORRUPTED_FILE, 'Question (' . CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'questions2006_2010.csv)'), 'importQuest2006_2009.log');
                 }
             } else { // file doesn't exist
                 // write into logfile
-                writeLog(sprintf(CONST_EMAIL_ERROR_CONTENT, 'Question (' . $uploadDir['basedir'] . '/questions2006_2010.csv)'), 'importQuest2006_2009.log');
+                writeLog(sprintf(CONST_EMAIL_ERROR_CONTENT, 'Question (' . CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . 'questions2006_2010.csv)'), 'importQuest2006_2009.log');
             }
         } catch (Exception $e) {
 
@@ -1858,31 +1855,56 @@ class Question extends \App\Override\Model\CridonMvcModel
      * @param array $datas
      * @throws Exception
      */
-    public function manageQuestData($indexes = array(), $datas = array())
+    public function manageQuestData($indexes = array(), $datas = array(), $former = false)
     {
         // init  logs var
         $errorDocList = array();
 
+        $matieres = mvc_model('matiere')->find(array(
+            'conditions' => array(
+                'Matiere.displayed' => 1,
+            )
+        ));
+        $matieres = assocToKeyVal($matieres, 'id', 'label');
+
         foreach ($datas as $data) {
+
+            $creationDate = explode('/', $data[$indexes['DATE_CREATION']]);
+            $data[$indexes['DATE_CREATION']] = count($creationDate) === 3 ? implode('-', array_reverse($creationDate)) : $data[$indexes['DATE_CREATION']];
+            $affectationDate = explode('/', $data[$indexes['DATE_AFFECTATION']]);
+            $data[$indexes['DATE_AFFECTATION']] = count($affectationDate) === 3 ? implode('-', array_reverse($affectationDate)) : $data[$indexes['DATE_AFFECTATION']];
+            $reponseDate = explode('/', $data[$indexes['DATE_REPONSE']]);
+            $data[$indexes['DATE_REPONSE']] = count($reponseDate) === 3 ? implode('-', array_reverse($reponseDate)) : $data[$indexes['DATE_REPONSE']];
+
+
+            if (empty($data[$indexes['PDF']])) {
+                continue;
+            }
+
+            // doc label
+            $label = !ctype_digit($data[$indexes['SUITE']]) ? 'Suite' : 'question/reponse';
+
+            // Date réponse
+            $transDate = $reponseDate[2].$reponseDate[1];
+
+            $uploadDir = wp_upload_dir();
+            $path      = $uploadDir['basedir'] . '/questions/' . $transDate . '/';
+            if (!file_exists($path)) { // repertoire manquant
+                // creation du nouveau repertoire
+                wp_mkdir_p($path);
+            }
+
             // question
             $question = $this->getQuestionBy($data[$indexes['CRPCEN']], $data[$indexes['SRENUM']]);
-
             if ($question->id) { // quest exist
-                if ($data[$indexes['PDF']]) { // Champ PDF non vide
-                    // doc label
-                    $label = ($data[$indexes['SUITE']]) ? 'Suite' : 'question/reponse';
-
-                    // Date réponse réelle dans la table cri_question
-                    $transDate = $question->real_date;
-                    $transDate = date('Ym', strtotime($transDate));
-
-                    $uploadDir = wp_upload_dir();
-                    $path      = $uploadDir['basedir'] . '/questions/' . $transDate . '/';
-                    if (!file_exists($path)) { // repertoire manquant
-                        // creation du nouveau repertoire
-                        wp_mkdir_p($path);
-                    }
-
+                // Documents associés peuvent être soit question/reponse, soit suite, et le document courant peut être l'autre type
+                $documents = mvc_model('Document')->find(array(
+                    'conditions' => array(
+                        'Document.id_externe' => $question->id
+                    ))
+                );
+                $documents = assocToKeyVal($documents, 'cab', 'label');
+                if (!isset($documents[$data[$indexes['SUITE']]]) || strcmp($documents[$data[$indexes['SUITE']]], $label) !== 0) {
                     // ajout document dans Site
                     $this->addQuestDoc($path, $transDate, $question->id, $label, $indexes, $data, $errorDocList);
                 }
@@ -1890,28 +1912,22 @@ class Question extends \App\Override\Model\CridonMvcModel
                 $questData = array(
                     'Question' => array(
                         'srenum'           => $data[$indexes['SRENUM']],
+                        'client_number'    => '8' . $data[$indexes['CRPCEN']],
                         'crpcen'           => $data[$indexes['CRPCEN']],
-                        'resume'           => $data[$indexes['OBJET']],
+                        'resume'           => empty($data[$indexes['OBJET']]) ? $matieres[$indexes['COMPETENCE']] : $data[$indexes['OBJET']],
                         'id_competence_1'  => $data[$indexes['COMPETENCE']],
                         'juriste'          => $data[$indexes['JURISTE']],
                         'id_support'       => $data[$indexes['SUPPORT']],
                         'id_affectation'   => $data[$indexes['CODE_AFFECTATION']],
                         'creation_date'    => $data[$indexes['DATE_CREATION']],
                         'affectation_date' => $data[$indexes['DATE_AFFECTATION']],
-                        'real_date'        => $data[$indexes['DATE_REPONSE']]
+                        'real_date'        => $data[$indexes['DATE_REPONSE']],
+                        'transmis_erp'     => 1,
                     )
                 );
 
                 // question id
                 $questionId = mvc_model('Question')->create($questData);
-
-                // ajout document
-                // doc label
-                $label = 'question/reponse';
-
-                // Date réponse réelle dans la table cri_question
-                $transDate = $data[$indexes['DATE_REPONSE']];
-                $transDate = date('Ym', strtotime($transDate));
 
                 $uploadDir = wp_upload_dir();
                 $path      = $uploadDir['basedir'] . '/questions/' . $transDate . '/';
@@ -1919,51 +1935,54 @@ class Question extends \App\Override\Model\CridonMvcModel
                 // ajout document dans Site
                 $this->addQuestDoc($path, $transDate, $questionId, $label, $indexes, $data, $errorDocList);
 
-                // ajout notaire associe
-                $notaryData = array(
-                    'category'           => '-',
-                    'first_name'         => $data[$indexes['NOTAIRE_PRENOM']],
-                    'last_name'          => $data[$indexes['NOTAIRE_NOM']],
-                    'crpcen'             => $data[$indexes['CRPCEN']],
-                    'web_password'       => CONST_NOTARY_PWD,
-                    'tel_password'       => '-',
-                    'code_interlocuteur' => '-',
-                    'id_civilite'        => '-',
-                    'email_adress'       => '-',
-                    'id_fonction'        => '-',
-                    'tel'                => '-',
-                    'fax'                => '-',
-                    'tel_portable'       => '-',
-                    'date_modified'      => $data[$indexes['DATE_CREATION']],
-                    'id_wp_user'         => 0,
-                );
+                if (!$former) {
 
-                // notaire id
-                $notaryId = mvc_model('Notaire')->create($notaryData);
-
-                // creation wp_user associe
-                // utilisation de requette simple vs fonction native de wp pour insertion user afin d'eviter
-                // l'affection de role par defaut
-                $displayName = $data[$indexes['NOTAIRE_PRENOM']] . ' ' . $data[$indexes['NOTAIRE_NOM']];
-                $userData    = array(
-                    'user_login'      => $data[$indexes['CRPCEN']] . CONST_LOGIN_SEPARATOR . $notaryId,
-                    'user_pass'       => wp_hash_password(CONST_NOTARY_PWD),
-                    'user_nicename'   => sanitize_title($displayName),
-                    'user_email'      => ' - ',
-                    'user_registered' => $data[$indexes['DATE_CREATION']],
-                    'user_status'     => CONST_STATUS_ENABLED,
-                    'display_name'    => $displayName,
-                );
-
-                if ($this->wpdb->insert($this->wpdb->users, $userData)) {
-                    // maj Notaire.id_wp_user
-                    $notaryUpdData = array(
-                        'Notaire' => array(
-                            'id'         => $notaryId,
-                            'id_wp_user' => $this->wpdb->insert_id
-                        )
+                    // ajout notaire associe
+                    $notaryData = array(
+                        'category'           => '-',
+                        'first_name'         => $data[$indexes['NOTAIRE_PRENOM']],
+                        'last_name'          => $data[$indexes['NOTAIRE_NOM']],
+                        'crpcen'             => $data[$indexes['CRPCEN']],
+                        'web_password'       => CONST_NOTARY_PWD,
+                        'tel_password'       => '-',
+                        'code_interlocuteur' => '-',
+                        'id_civilite'        => '-',
+                        'email_adress'       => '-',
+                        'id_fonction'        => '-',
+                        'tel'                => '-',
+                        'fax'                => '-',
+                        'tel_portable'       => '-',
+                        'date_modified'      => $data[$indexes['DATE_CREATION']],
+                        'id_wp_user'         => 0,
                     );
-                    mvc_model('Notaire')->save($notaryUpdData);
+
+                    // notaire id
+                    $notaryId = mvc_model('Notaire')->create($notaryData);
+
+                    // creation wp_user associe
+                    // utilisation de requette simple vs fonction native de wp pour insertion user afin d'eviter
+                    // l'affection de role par defaut
+                    $displayName = $data[$indexes['NOTAIRE_PRENOM']] . ' ' . $data[$indexes['NOTAIRE_NOM']];
+                    $userData    = array(
+                        'user_login'      => $data[$indexes['CRPCEN']] . CONST_LOGIN_SEPARATOR . $notaryId,
+                        'user_pass'       => wp_hash_password(CONST_NOTARY_PWD),
+                        'user_nicename'   => sanitize_title($displayName),
+                        'user_email'      => ' - ',
+                        'user_registered' => $data[$indexes['DATE_CREATION']],
+                        'user_status'     => CONST_STATUS_ENABLED,
+                        'display_name'    => $displayName,
+                    );
+
+                    if ($this->wpdb->insert($this->wpdb->users, $userData)) {
+                        // maj Notaire.id_wp_user
+                        $notaryUpdData = array(
+                            'Notaire' => array(
+                                'id'         => $notaryId,
+                                'id_wp_user' => $this->wpdb->insert_id
+                            )
+                        );
+                        mvc_model('Notaire')->save($notaryUpdData);
+                    }
                 }
             }
         }
@@ -1987,16 +2006,11 @@ class Question extends \App\Override\Model\CridonMvcModel
      * @param mixed $errorDocList
      * @throws Exception
      */
-    protected function addQuestDoc($path, $transDate, $questionId, $label, $indexes, $data, $errorDocList)
+    protected function addQuestDoc($path, $transDate, $questionId, $label, $indexes, $data, &$errorDocList)
     {
         // fichier pdf
-        $storedInfoFile = $data[$indexes['PDF']];
-        $docName = pathinfo($data[$indexes['PDF']])['basename'];//premier PDF
-
-        if (($iPos = strpos($docName, '_')) !== false) {
-            //a prefix can be mentionned in the file. Don't use it.
-            $docName = substr($docName, $iPos + 1);
-        }
+        $storedInfoFile = CONST_IMPORT_DOCUMENT_ORIGINAL_PATH . $data[$indexes['PDF']];
+        $docName = pathinfo($data[$indexes['PDF']])['basename'];
 
         // Incrémenter le nom de fichier s'il existe déjà dans le dossier le même nom de fichier
         $filename = mvc_model('Document')->incrementFileName($path, $docName);
@@ -2013,6 +2027,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                     'type'          => 'question',
                     'id_externe'    => $questionId,
                     'name'          => $filename,
+                    'cab'           => $data[$indexes['SUITE']],
                     'label'         => $label
                 )
             );
@@ -2041,9 +2056,9 @@ class Question extends \App\Override\Model\CridonMvcModel
      */
     public function getQuestionBy($crpcen, $srenum)
     {
-        $query = "SELECT id, real_date FROM {$this->table} as q
-                LEFT JOIN {$this->wpdb->prefix}notary as n on q.client_number = n.client_number
-                WHERE n.crpcen = '{$crpcen}' and q.srenum = '{$srenum}'
+        $query = "SELECT q.id, real_date FROM {$this->table} as q
+                LEFT JOIN {$this->wpdb->prefix}notaire as n on q.client_number = n.client_number
+                WHERE (n.crpcen = '{$crpcen}' or q.crpcen = '{$crpcen}') and q.srenum = '{$srenum}'
                 LIMIT 1";
 
         return $this->wpdb->get_row($query);

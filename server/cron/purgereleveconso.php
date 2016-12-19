@@ -25,7 +25,7 @@ $sql = "
                 `d`.`id_externe` crpcen, `d`.`file_path`, `d`.`label` aaaammdd
         FROM
                 cri_document d
-        WHERE `type` = 'releveconso' AND `label` NOT LIKE '{$currYear}%'
+        WHERE `type` = '".CONST_DOC_TYPE_RELEVECONSO."' AND `label` NOT LIKE '{$currYear}%'
         ORDER BY `id_externe`, `label` DESC
       ";
 // recuperation resultats
@@ -37,6 +37,7 @@ foreach ($conso as $key => $item) {
         // recuperation de l'annee AAAA
         $year = substr($item->aaaammdd, 0, 4);
         if ($key == 0) { // L'année la plus récente (cf ORDER BY) est conservée
+            // (ensuite, c'est le changement d'étude ou d'année qui permettra de conserver le dernier doc)
             $crpcenLast = $item->crpcen;
             $yearLast   = $year;
             $dateLast   = $item->aaaammdd;
@@ -50,12 +51,13 @@ foreach ($conso as $key => $item) {
 
                     // supression physique du fichier correspondant
                     @unlink($file);
-                } else { // on change d'annee
+                } else { // on change d'annee, donc on maj les variables, mais on ne unlink pas le fichier
                     $crpcenLast = $item->crpcen;
                     $yearLast   = $year;
                     $dateLast   = $item->aaaammdd;
                 }
-            } else { // on passe au prochain crpcen
+            } else { // on passe au prochain crpcen, sans supprimer le premier document de la liste
+                // (et donc le dernier de l'année, puisque ORDER BY DESC)
                 $crpcenLast = $item->crpcen;
                 $yearLast   = $year;
                 $dateLast   = $item->aaaammdd;
