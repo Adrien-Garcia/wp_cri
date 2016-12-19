@@ -1495,7 +1495,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                     $query = 'INSERT '.$keys.$values;
                     try {
                         // Try to send the complete question
-                        $adapters->execute($query);
+                        $adapter->execute($query);
                     } catch (\Exception $e) {
                         // write into logfile
                         writeLog($e, 'exportquestionenerreurgrave.log');
