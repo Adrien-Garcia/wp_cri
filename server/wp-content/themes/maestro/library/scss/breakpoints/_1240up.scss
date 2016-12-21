@@ -41,9 +41,9 @@ LAYOUT & GRID STYLES
 *********************/
 
 .wrap {
-	width: 1200px; 
+	width: 1200px;
 	margin: 0 auto;
-	
+
 }
 
 /*********************
@@ -51,17 +51,17 @@ HEADER STYLES
 *********************/
 
 .header {
-	height:180px;  
+	height:180px;
 
 	.header-sup{
 
-		
-		height: 60px;
-		/*background: $vj_01; 
-		display: block;*/
-		
 
-		
+		height: 60px;
+		/*background: $vj_01;
+		display: block;*/
+
+
+
 
 		/* .logo-partenaires{
 			display: block; // Masquer les logos des éditeurs pour le lot 1
@@ -70,20 +70,20 @@ HEADER STYLES
 			position: absolute;
 			left: 0;
 			top: 15px;
-		
+
 			//@include sprite($partenaire-header);
-		
+
 			a{
 				display: inline-block;
 				@include transition(all 0.3s);
-		
+
 				&:hover{
 					opacity: 0.8;
 				}
 			}
-		
-			
-		
+
+
+
 		} */
 
 		a.contacter{display: none;}
@@ -91,7 +91,7 @@ HEADER STYLES
 		.rechercher{
 			width: 393px;
 			height: 40px;
-			
+
 
 			&:before{
 				@include svgicon('icon-rechercher', 26px, 26px, #FFFFFF);
@@ -104,10 +104,10 @@ HEADER STYLES
 		ul#rechercher{
 			width: 393px;
 			height: 40px;
-			left: 365px; 
+			left: 365px;
 
 
-			>li{ 
+			>li{
 				height: 50px;
 
 				>a{
@@ -138,8 +138,8 @@ HEADER STYLES
 					}
 				}
 
-				>ul{	
-					top: 50px;		
+				>ul{
+					top: 50px;
 
 
     				&:before{
@@ -159,7 +159,7 @@ HEADER STYLES
     					line-height: 50px;
 
 
-    					
+
 
 
     					&:before{
@@ -168,18 +168,18 @@ HEADER STYLES
 
 
     					> a{
-    						
+
     						height: 50px;
 	    					line-height: 50px;
 	    					font-size: 16px;
 
-    						&:hover{ 
+    						&:hover{
     						}
 
     						span{
     						}
 
-    						
+
 
     					}
 
@@ -197,9 +197,9 @@ HEADER STYLES
 
 			}
 
-			
 
-			
+
+
 
 		}
 
@@ -215,10 +215,10 @@ HEADER STYLES
 				@include svgicon('icon-consulter', 26px, 26px, #FFFFFF);
 				top:7px;
 				left: 10px;
-				
+
 			}
 
-			
+
 		}
 
 		#acceder-compte{
@@ -226,8 +226,8 @@ HEADER STYLES
 			height: 40px;
 			line-height: 40px;
 			right: 0;
-			left:  inherit;			
-			padding-left: 50px;	
+			left:  inherit;
+			padding-left: 50px;
 
 
 			margin: 0;
@@ -244,13 +244,13 @@ HEADER STYLES
 					font-size: 16px;
 					line-height: 40px;
 
-					&:before{				
-						@include svgicon('icon-compte', 26px, 26px, $vert);	
+					&:before{
+						@include svgicon('icon-compte', 26px, 26px, $vert);
 						top:7px;
-						//left: 10px;				
+						//left: 10px;
 					}
 				}
-			
+
 
 				> ul.logout-2{
 					bottom: -50px;
@@ -263,13 +263,13 @@ HEADER STYLES
 
 					> li{
 						height: 50px;
-						
-						> a{ 							
+
+						> a{
 							height: 50px;
 							line-height: 50px;
 							font-size: 16px;
 							padding-right: 0px;
-							
+
 						}
 					}
 				}
@@ -286,36 +286,36 @@ HEADER STYLES
 		#inner-header{
 			position: relative;
 
-			h1, .h1 {	
+			h1, .h1 {
 				margin-left: 10px;
-		
+
 				width: 510px;
 				float: left;
 				height: 120px;
-				background-size: 310px 85px;	
-				background-position: left center;			
+				background-size: 310px 85px;
+				background-position: left center;
 			}
 
 			#bt-nav-mobile{
 				display: none;
-			   
+
 
 			}
 
 		}
 	}
-	
+
 }
 
 
 /****
 
-  _        _ __   _______ ____    ____   ___  ____  _____ _____  _   _ _   _ _____    ___  _   _ _____ ____ _____ ___ ___  _   _ 
+  _        _ __   _______ ____    ____   ___  ____  _____ _____  _   _ _   _ _____    ___  _   _ _____ ____ _____ ___ ___  _   _
  | |      / \\ \ / / ____|  _ \  |  _ \ / _ \/ ___|| ____|__  / | | | | \ | | ____|  / _ \| | | | ____/ ___|_   _|_ _/ _ \| \ | |
  | |     / _ \\ V /|  _| | |_) | | |_) | | | \___ \|  _|   / /  | | | |  \| |  _|   | | | | | | |  _| \___ \ | |  | | | | |  \| |
  | |___ / ___ \| | | |___|  _ <  |  __/| |_| |___) | |___ / /_  | |_| | |\  | |___  | |_| | |_| | |___ ___) || |  | | |_| | |\  |
  |_____/_/   \_\_| |_____|_| \_\ |_|    \___/|____/|_____/____|  \___/|_| \_|_____|  \__\_\\___/|_____|____/ |_| |___\___/|_| \_|
-                                                                                                                                 
+
 
 */
 
@@ -333,12 +333,12 @@ HEADER STYLES
 
 /*
 
-  ____                       _                       _ _ 
+  ____                       _                       _ _
  |  _ \ __ _  __ _  ___     / \   ___ ___ _   _  ___(_) |
  | |_) / _` |/ _` |/ _ \   / _ \ / __/ __| | | |/ _ \ | |
  |  __/ (_| | (_| |  __/  / ___ \ (_| (__| |_| |  __/ | |
  |_|   \__,_|\__, |\___| /_/   \_\___\___|\__,_|\___|_|_|
-             |___/                                       
+             |___/
 
 
 */
@@ -348,25 +348,25 @@ HEADER STYLES
 body.page-template-front-page{
 
 	#content {
-		
+
 		padding:180px 0 0 0;
 
 		.row_01{
 
 			.falsh-info{
-			height: 70px; 
+			height: 70px;
 			padding-top: 25px;
-			transition: height $duration ease, padding $duration ease;	
+			transition: height $duration ease, padding $duration ease;
 
 				.titre{
-					
-					
+
+
 					float: left;
 					width: 140px;
 
 					.close {
 						top: -15px;
-						right: -1040px; 
+						right: -1040px;
 					}
 
 					.open{
@@ -375,23 +375,23 @@ body.page-template-front-page{
 
 				}
 
-				.content{ 
+				.content{
 					float: left;
 					width: 1040px;
-					
 
-					.texte{ 
+
+					.texte{
 						width: 860px;
 						height: 30px;
 						overflow: hidden;
 						padding-right: 20px;
 						line-height: 30px;
-						font-size: 17px;	
-						float: left;		
+						font-size: 17px;
+						float: left;
 					}
 
 					a{
-						
+
 						height: 14px;
 						line-height: 14px;
 						width: 37px;
@@ -407,7 +407,7 @@ body.page-template-front-page{
 
 				&.closed{
 					padding-top: 5px;
-					height: 40px; 
+					height: 40px;
 					.close{visibility: hidden;}
 
 					.open{visibility: visible;}
@@ -430,31 +430,31 @@ body.page-template-front-page{
 
 					width: 380px;
 					height: 380px;
-					margin-right: 30px; 
+					margin-right: 30px;
 
 					&:nth-child(3){ //margin-right: 0;
 					}
-					
+
 
 					.content{
 						height: 190px;
-						
+
 
 						&:before, &:after{
-							height: 190px; 
+							height: 190px;
 
 						}
 
-						&:before{							
+						&:before{
 							@include border-radius(0 22px 0 0);
-						} 
-
-						&:after{ 
-							@include border-radius(22px 0 0 0);	
 						}
-						
-						h2{ 
-							font-size: 50px; 
+
+						&:after{
+							@include border-radius(22px 0 0 0);
+						}
+
+						h2{
+							font-size: 50px;
 							line-height: 40px;
 							margin: 80px 0 0 0;
 
@@ -466,7 +466,7 @@ body.page-template-front-page{
 
 						> a{
 							font-size: 48px;
-							line-height: 10px;							
+							line-height: 10px;
 						}
 					}
 
@@ -477,49 +477,49 @@ body.page-template-front-page{
 								background-position: 0 100%;
 							}
 
-							> a{ font-weight: 700;} 
+							> a{ font-weight: 700;}
 						}
 
-						
+
 					}
 				}
 
 				.consulter{
-					
+
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-consulter', 40px, 40px, #FFFFFF);		 			
+						@include svgicon('icon-consulter', 40px, 40px, #FFFFFF);
 						position:absolute;
 						top:-55px;
-						left:calc( 50% - 22px ); 
+						left:calc( 50% - 22px );
 					}
-					
+
 				}
 
 				.rechercher{
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-rechercher', 40px, 40px, #FFFFFF);					
+						@include svgicon('icon-rechercher', 40px, 40px, #FFFFFF);
 						position:absolute;
 						top:-55px;
-						left:calc( 50% - 22px ); 
+						left:calc( 50% - 22px );
 					}
-					
+
 
 				}
 
-				.acceder{				
+				.acceder{
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-veille-juridique', 30px, 30px, #FFFFFF);					
+						@include svgicon('icon-veille-juridique', 30px, 30px, #FFFFFF);
 						position:absolute;
 						top:-50px;
-						left:calc( 50% - 26px ); 
+						left:calc( 50% - 26px );
 					}
-					
+
 				}
 			}
 
@@ -559,57 +559,57 @@ body.page-template-front-page{
 			}
 
 			#onglets{
-				/*margin-bottom: 40px;	*/	
-				
+				/*margin-bottom: 40px;	*/
+
 
 				h3{
 					font-size: 30px;
 					line-height: 70px;
-					
-				}	
+
+				}
 			}
 
-			.details{				
+			.details{
 
 				.accordion{
-					
+
 
 					.panel{
 
 						.date{
-							
-							width: 180px;		
+
+							width: 180px;
 
 							span.jour{
 
 								&:before{
 									left: 170px;
 								}
-							}					
+							}
 						}
 
 
-						
-						.content{							
 
-							width: 640px; 	
-							max-width: 640px; 	
-							padding: 0 30px 0 30px;						
+						.content{
+
+							width: 640px;
+							max-width: 640px;
+							padding: 0 30px 0 30px;
 
 							> ul{
-								
 
-								> li{									
+
+								> li{
 									float: none;
 									clear: both;
-									height: 80px;									
+									height: 80px;
 
 									&:first-child{padding-bottom:0;}
 									&:nth-child(2){padding:0;}
 									&:last-child{padding-top: 0; height: 59px;}
 
 									>img{
-										
+
 										/*margin:0 0 43px 0;
 										float: left;
 										margin-right: 10px;*/
@@ -617,10 +617,10 @@ body.page-template-front-page{
 
 									h4{
 										font-size: 30px;
-										line-height: 23px;										
+										line-height: 23px;
 									}
 
-									.chapeau-categorie{		 
+									.chapeau-categorie{
 
 										font-size: 15px;
 										line-height: 18px;
@@ -632,7 +632,7 @@ body.page-template-front-page{
 										line-height: 14px;
 									}
 
-									> a {		
+									> a {
 
 									position: absolute;
 									right: 0;
@@ -645,13 +645,13 @@ body.page-template-front-page{
 
 					}
 
-					.blockEnd{						
-						
+					.blockEnd{
+
 					}
-					
-					> a{/*Lien toutes la veille juridique*/						
+
+					> a{/*Lien toutes la veille juridique*/
 						margin: 40px 0 50px 0;
-						
+
 					}
 				}
 
@@ -667,20 +667,20 @@ body.page-template-front-page{
 							height: auto;
 						}
 
-						
 
-					} 
+
+					}
 				}
 
 			}
 		}
 
-		
+
 		.row_03{
 
 
 			padding-top:0px;
-			height: 657px; 
+			height: 657px;
 
 			h2{}
 
@@ -695,7 +695,7 @@ body.page-template-front-page{
 				height: 585px;
 				padding: 115px 115px 80px 115px;
 				margin-left: 20px;
-				margin-bottom: 0; 
+				margin-bottom: 0;
 				position: absolute;
 				right: 0;
 				top: 35px;
@@ -706,22 +706,22 @@ body.page-template-front-page{
 				    width: 330px;
 				}
 
-				&:before{					
-					@include svgicon('icon-angle-bottom', 20px, 19px, $bg-top-footer); 
+				&:before{
+					@include svgicon('icon-angle-bottom', 20px, 19px, $bg-top-footer);
 				}
 
-				&:after{					
+				&:after{
 					top: 115px;
 					@include svgiconafter('ico-cridonline-logo', 112px, 112px, #FFF);
-					margin-left: -135px; 
+					margin-left: -135px;
 				}
 
-				ul{					
+				ul{
 					height: 150px;
 					margin-top: 160px;
 
-					li{						
-						padding-left: 18px;	
+					li{
+						padding-left: 18px;
 						&:before{}
 					}
 				}
@@ -739,65 +739,80 @@ body.page-template-front-page{
 				}
 			}
 
+			.twitter {
+				width: 282px;
+			    position: absolute;
+			    left: 0;
+			    top: 35px;
+			    height: 251px;
+			    padding-top: 105px;
+
+			    &::before {
+					@include svgiconafter('icon-twitter', 40px, 40px, #FFF);
+					position: absolute;
+					top: 45px;
+					left: 50%;
+					margin-left: -25px;
+				}
+
+			    .content {
+			    	margin-top: 0;
+
+			    	a {
+			    		padding-top: 180px;
+
+			    		&::after {
+			    			bottom: 26px;
+			    		}
+			    	}
+			    }
+			}
+
 			.veille-juridique{
-				width: 585px;
-				height: 232px;
-				
+				width: 282px;
+				height: 251px;
 				position: absolute;
 				padding: 105px 0 0 0;
-				left: 0;
+				left: 302px;
 				top: 35px;
 				margin-right: 0px;
-
 				cursor: pointer;
 
-				&:before{
+				&::before {
 					display:block;
-					@include svgicon('icon-veille', 49px, 49px, #FFF);	
 					top: 38px;
 					left: 50%;
-					margin-left: -25px;				
-					
-
-
+					margin-left: -25px;
 				}
 
-				&:after{
-					//display:block;
-					@include svgiconafter('icon-angle-top', 20px, 19px, $bg-top-footer);
+				&::after {
 					position: absolute;
 					top: 0px;
-					/*left: 50%;
-					margin-left: -32px; 
-					transition: color $duration ease;*/
 				}
 
-				.content{
+				.content {
+					h2 {
+						margin: 0 ;
+					}
 
-					h2{
-						
-						margin: 0 ;					
-					} 
-
-					> a{					
-						margin: 5px 0 0 0; 
-					} 
+					> a {
+						margin-top: 5px;
+					}
 				}
 			}
 
-			.info-flash-exclu, .cridon-app{
+			.info-flash-exclu,
+			.cridon-app {
 				width: 282px;
-				height: 332px;
+				height: 314px;
 				position: absolute;
 				padding-top: 97px;
-
 				cursor: pointer;
 
 
 				&:before{
-					display:block;
-								
-					position:absolute;
+					display: block;
+					position: absolute;
 					top: 32px;
 					left: 50%;
 					margin-left: -26px;
@@ -805,8 +820,7 @@ body.page-template-front-page{
 				}
 
 				&:after{
-					//content:'';
-					display:block;
+					display: block;
 					position: absolute;
 					top: 0px;
 					left: 50%;
@@ -814,13 +828,13 @@ body.page-template-front-page{
 
 
 				}
- 
+
 
 			}
 
-			.cridon-app{				
-				margin-right: 30px; 				
-				top: 288px;
+			.cridon-app{
+				margin-right: 30px;
+				top: 306px;
 				left: 303px;
 
 				h2{
@@ -828,69 +842,49 @@ body.page-template-front-page{
 				}
 
 				a{
-					margin-top: 10px;
+					margin-top: 5px;
 				}
 
-				&:before{					
-					@include svgicon('icon-appli', 51px, 51px, #FFF);
+				&:before{
 					margin-left: -14px;
 				}
 
-				&:after{					
-					//@include sprite ($angle-before-veille-juri);					
-					@include svgiconafter('icon-angle-top', 20px, 20px, $bg-top-footer);
-				}
-
-
-				.img-main{						
+				.img-main{
 					background: url(../images/origin/img-main-appli-desktop.png);
 					background-size: 100%;
 					width: 131px;
-					height: 116px;  
+					height: 110px;
 					position: absolute;
 					left: 0px;
-					bottom: 0px; 
-
-
-
+					bottom: 0px;
 				}
 
-				.img-appli{	
-					
-
+				.img-appli{
 					background: url(../images/origin/ico-appli-tablette.png);
 					background-size: 100%;
 					position: absolute;
 					right: 23px;
-					bottom: 9px; 
-
+					bottom: 2px;
 					width: 66px;
 					height: 109px;
 					display: block;
-					
 				}
 
 			}
 
 			.info-flash-exclu{
+				left: 0;
+				top: 306px;
 
-				left: 0; 
-				top: 288px;
-				&:before{					
-					@include svgicon('icon-nl', 51px, 51px, #FFF);
+				a{
+					margin-top: 5px;
 				}
-
-				&:after{					
-					//@include sprite ($angle-before-info-flash);					
-					@include svgiconafter('icon-angle-top', 20px, 20px, $bg-top-footer); 
-				}
-
 			}
-			
+
 		}
 
 		.row_04{
-			.actualite{				
+			.actualite{
 
 				.img{
 					height: 225px;
@@ -898,29 +892,29 @@ body.page-template-front-page{
 					float: left;
 					margin-bottom: 0px;
 					margin-right: 30px;
-					
+
 				}
 
-				
+
 
 				.content{
-					width: 510px;					
-					padding: 0 0 0 40px;					
+					width: 510px;
+					padding: 0 0 0 40px;
 
 					> h3{}
 
 					.chapeau{
 						text-align: left;
 						font-size: 20px;
-						margin-top: 10px;						
+						margin-top: 10px;
 
-					} 
+					}
 
 					.description{
 						width: 470px;
 					}
 
-					> a{						
+					> a{
 						margin: 15px 0 0 0;
 						/*position: absolute;
 						bottom: 0px;*/
@@ -930,8 +924,8 @@ body.page-template-front-page{
 
 			}
 
-			a.LienVieCridon{/*Lien toutes la veille juridique*/	
-				
+			a.LienVieCridon{/*Lien toutes la veille juridique*/
+
 			}
 
 		}
@@ -957,20 +951,20 @@ body.page-template-front-page{
 body.page #content,
 body.single #content
 {
-	padding-top: 180px; 
+	padding-top: 180px;
 
 	.breadcrumbs{
 
 	}
 
-	#main{	
+	#main{
 
-	padding-top: 50px;	
+	padding-top: 50px;
 
 
 		.h1{
-			
-			margin: 0 0 50px 0; 
+
+			margin: 0 0 50px 0;
 			font-size: 50px;
 			line-height: 40px;
 		}
@@ -982,16 +976,16 @@ body.single #content
 				font-size: 15px;
 				line-height: 18px;
 
-				
 
-			    h2, h3{		    	
+
+			    h2, h3{
 			    	font-size: 20px;
 			    	line-height: 24px;
-			    	
+
 			    }
 
 			    h4{font-size: 18px;}
-				
+
 				p{
 			    font-size: 15px;
 			    line-height: 18px;
@@ -999,7 +993,7 @@ body.single #content
 		    }
 
 		}
-		
+
 	}
 
 }
@@ -1009,33 +1003,33 @@ body.single #content
 	.gform_wrapper{
 
 		.top_label select.large{
-			max-width: 100%; 
-			width: 100%; 
+			max-width: 100%;
+			width: 100%;
 			margin-right: 0;
 		}
 
 		textarea.large{
-			max-width: 100%; 
+			max-width: 100%;
 			width: 100%;
 		}
-		
+
 
 		.gform_body{
 
 			.gfield { /*li*/
-				
+
 
 				.gfield_label{
 					font-size: 18px;
 					margin: 5px 0;
-					
+
 				}
 
 				.ginput_container{
-					
+
 
 					input{
-						
+
 					}
 				}
 
@@ -1045,17 +1039,17 @@ body.single #content
 						width: 100%;
 					}
 
-					
+
 				}
 
 				&.obligatoire {
 					max-width: 100%;
 					width: 100%;
 
-					
+
 
 					span{
-						
+
 					}
 				}
 			}
@@ -1089,12 +1083,12 @@ body.single #content
 
 /*
 
-  ____                                                                      _       
- |  _ \ __ _  __ _  ___   _ __ ___   ___  _ __     ___ ___  _ __ ___  _ __ | |_ ___ 
+  ____                                                                      _
+ |  _ \ __ _  __ _  ___   _ __ ___   ___  _ __     ___ ___  _ __ ___  _ __ | |_ ___
  | |_) / _` |/ _` |/ _ \ | '_ ` _ \ / _ \| '_ \   / __/ _ \| '_ ` _ \| '_ \| __/ _ \
  |  __/ (_| | (_| |  __/ | | | | | | (_) | | | | | (_| (_) | | | | | | |_) | ||  __/
  |_|   \__,_|\__, |\___| |_| |_| |_|\___/|_| |_|  \___\___/|_| |_| |_| .__/ \__\___|
-             |___/                                                   |_|            
+             |___/                                                   |_|
 
 */
 
@@ -1120,10 +1114,10 @@ body.single #content
 
 			> ul{
 				clear: both;
-				
+
 
 				>li{
-					
+
 					width: 25%;
 					float: left;
 					margin-right: 0px;
@@ -1139,12 +1133,12 @@ body.single #content
 
 						height: 50px;
 						font-size: 24px;
-						padding: 0;  
-						line-height: 20px; 
+						padding: 0;
+						line-height: 20px;
 						width: 300px;
 
 
-						
+
 
 						&:before{}
 
@@ -1156,29 +1150,29 @@ body.single #content
 
 						h2{
 							font-size: 30px;
-							line-height: 20px;	
+							line-height: 20px;
 							margin-bottom: 35px;
-							
-						}
-					}					
 
-					
+						}
+					}
+
+
 					&.active{
 
-						
+
 						div.pannel{
 								width: 1200px !important;
-								
+
 							}
 
-						div#mon-profil.pannel{							
-							left: -600px; 
-							
+						div#mon-profil.pannel{
+							left: -600px;
+
 						}
 
-						div#tableau-de-bord.pannel{							
+						div#tableau-de-bord.pannel{
 							left:0px;
-							
+
 						}
 
 						div#mes-questions.pannel{
@@ -1195,21 +1189,21 @@ body.single #content
 
 			}
 
-		}	
+		}
 	}
-	
+
 
 
 } */
 
 /*
 
-  ____                                    _             _   
- |  _ \ __ _  __ _  ___    ___ ___  _ __ | |_ __ _  ___| |_ 
+  ____                                    _             _
+ |  _ \ __ _  __ _  ___    ___ ___  _ __ | |_ __ _  ___| |_
  | |_) / _` |/ _` |/ _ \  / __/ _ \| '_ \| __/ _` |/ __| __|
- |  __/ (_| | (_| |  __/ | (_| (_) | | | | || (_| | (__| |_ 
+ |  __/ (_| | (_| |  __/ | (_| (_) | | | | || (_| | (__| |_
  |_|   \__,_|\__, |\___|  \___\___/|_| |_|\__\__,_|\___|\__|
-             |___/                                          
+             |___/
 
 */
 
@@ -1227,7 +1221,7 @@ body.single #content
 
 				.entry-content{
 
-					> p{					
+					> p{
 					    font-size: 30px;
 					    line-height: 30px;
 					    width: 660px;
@@ -1262,17 +1256,17 @@ body.single #content
 						padding-left: 100px;
 
 						table{
-							
+
 
 							tr{
 
 
 								td{
-									
+
 									font-size: 18px;
 									line-height: 20px;
 
-									span{ 
+									span{
 										font-size:15px;
 									}
 
@@ -1355,8 +1349,8 @@ NAVIGATION STYLES
 		position: relative;
 
 		a {
-			
-			border-bottom: 0; 
+
+			border-bottom: 0;
 
 			/*
 			you can use hover styles here even though this size
@@ -1365,7 +1359,7 @@ NAVIGATION STYLES
 			&:hover, &:focus {
 
 				color:$rouge;
-				
+
 				text-decoration: none;
 			}
 		}
@@ -1378,7 +1372,7 @@ NAVIGATION STYLES
 		*/
 		ul.sub-menu,
 		ul.children {
-		
+
 			margin-top: 0;
 			//border: 1px solid #ccc;
 			border-top: 0;
@@ -1441,7 +1435,7 @@ NAVIGATION STYLES
 			}
 		}
 
-		
+
 
 	} /* end .menu ul li */
 
@@ -1467,11 +1461,11 @@ SIDEBARS & ASIDES
 FOOTER STYLES
 *********************/
 
-.footer {	
+.footer {
 
 	.block-links {
-		
-		padding: 60px 0; 
+
+		padding: 60px 0;
 
 		ul {
 			height: 90px;
@@ -1480,18 +1474,18 @@ FOOTER STYLES
 				width: 380px;
 				height: 90px;
 				font-size: 20px;
-				padding: 0px 15px;		
+				padding: 0px 15px;
 
 				span{
 					margin-top: 25px;
-				}					
+				}
 
 				a {
 					font-size: 20px;
 					bottom: 16px;
 					padding-right: 23px;
 					right: 15px;
-					
+
 
 					&:after{
 						font-size: 40px;
@@ -1499,7 +1493,7 @@ FOOTER STYLES
 					}
 				}
 
-				&:after {					 
+				&:after {
 					//@include sprite($angle-before-links-footer-tablette);
 					@include svgiconafter('icon-angle-bottom', 15px, 15px, $bg-top-footer);
 					left: 90px;
@@ -1513,26 +1507,26 @@ FOOTER STYLES
 
 
 				&.formations {
-					margin-right: 30px;					
+					margin-right: 30px;
 
 					&:before {
-						@include svgicon('icon-catalogue', 73px, 73px,$white);				
+						@include svgicon('icon-catalogue', 73px, 73px,$white);
 
 					}
 				}
 
 				&.cahier {
-					margin-right: 30px;					
+					margin-right: 30px;
 
 					&:before {
-					@include svgicon('icon-cahier', 73px, 73px,$white);			
+					@include svgicon('icon-cahier', 73px, 73px,$white);
 
 					}
 				}
 
-				&.services {					
+				&.services {
 					&:before {
-						@include svgicon('icon-servicesplus', 73px, 73px,$white);		
+						@include svgicon('icon-servicesplus', 73px, 73px,$white);
 
 					}
 				}
@@ -1552,63 +1546,48 @@ FOOTER STYLES
 
 			&:after{ display: none;}
 
-			.chapeau {} 
+			.chapeau {}
 			.descriptif {
 				display: block;
-				font-size: 15px; 
+				font-size: 15px;
 				line-height: 18px;
 				font-family: $helvetica;
 				color:rgba(255, 255, 255, 0.6);
-				
+
 			}
 			.partenaires{
 				margin-top: 75px;
 
-				> div{
-					
-					
-
-					span{}
-				}
-
 				ul{
 					width: auto;
-
 					li{
-						
-						&:first-child{}
-
 						img{ height: 30px;}
 					}
 				}
-				
-				
 			}
-
-		}
-		&:after {
 		}
 
 	}
 	.block-right {
 
-		width: 380px;	
+		width: 380px;
 
 		ul{
 			li{
 				padding-left: 62px;
 
-				&:before{					
+				&:before{
 					left: 3px;
 				}
-				
+
 				h4{
-					font-size: 20px; 
+					font-size: 20px;
 				}
 			}
 		}
-		
+
 	}
+	
 	.footer-bottom {
 		height: inherit;
 		padding: 0;
@@ -1618,7 +1597,7 @@ FOOTER STYLES
 
 		#inner-footer{
 			padding: 0;
-			
+
 
 			> p{
 				display: inline-block;
@@ -1643,11 +1622,11 @@ FOOTER STYLES
 					display: inline-block;
 				}
 
-				
+
 			}
 			.logoJP {
 				float: right;
-				
+
 				margin-top: 0px;
 
 				height: 50px;
@@ -1658,7 +1637,7 @@ FOOTER STYLES
 
 		}
 
-		
+
 	}
 
 }

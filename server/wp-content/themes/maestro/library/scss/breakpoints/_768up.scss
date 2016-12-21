@@ -57,10 +57,10 @@ HEADER STYLES
 
 		display: block;
 		height: 50px;
-		background: $vj_01; 
-		
+		background: $vj_01;
 
-		
+
+
 
 		.logo-partenaires{
 			display: none;
@@ -89,7 +89,7 @@ HEADER STYLES
 			padding: 0;
 
 
-			>li{ 
+			>li{
 				margin: 0;
 				padding: 0;
 				width: 100%;
@@ -114,7 +114,7 @@ HEADER STYLES
 					&:before{
 						display:block;
 						font-weight: normal;
-						@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
+						@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);
 						position:absolute;
 						top:6px;
 						left: 8px;
@@ -163,7 +163,7 @@ HEADER STYLES
 						z-index:-10;
 						position: absolute;
 						top: 22px;
-						left: 0; 
+						left: 0;
 
 						transition:all 0.3s;
 
@@ -193,7 +193,7 @@ HEADER STYLES
     					background: #FFF;
 
 
-    					
+
 
 
     					&:before{
@@ -215,17 +215,17 @@ HEADER STYLES
     						border-bottom:solid 1px #FFF;
 
     						@include transition(all 0.3s);
-    						
+
 
     						&:hover{
-    							opacity: 0.9; 
+    							opacity: 0.9;
     						}
 
     						span{
     							font-weight: 400 !important;
     						}
 
-    						
+
 
     					}
 
@@ -236,7 +236,7 @@ HEADER STYLES
     							font-size: 15px;
     							color:$rouge;
     							text-decoration: underline;
-    							font-family: $garamond; 
+    							font-family: $garamond;
     							text-transform: none;
 
     							&:hover{
@@ -250,9 +250,9 @@ HEADER STYLES
 
 			}
 
-			
 
-			
+
+
 
 		}
 
@@ -276,7 +276,7 @@ HEADER STYLES
 			&:before{
 				display:block;
 				font-weight: normal;
-				@include svgicon('icon-consulter', 20px, 20px, #FFFFFF);					
+				@include svgicon('icon-consulter', 20px, 20px, #FFFFFF);
 				position:absolute;
 				top:6px;
 				left: 8px;
@@ -287,7 +287,7 @@ HEADER STYLES
 					color: $vert;
 				}
 			}
-			
+
 		}
 
 		#acceder-compte{
@@ -311,7 +311,7 @@ HEADER STYLES
 				a.acceder-compte{
 					@include transition(all 0.3s ease-in);
 					width: 175px;
-					height: 30px;					
+					height: 30px;
 					background: #FFF;
 					text-decoration: none;
 					font-family: $dosis;
@@ -323,12 +323,12 @@ HEADER STYLES
 					padding-left: 40px;
 					display: block;
 
-					
+
 
 					&:before{
 						display:block;
 						font-weight: normal;
-						@include svgicon('icon-compte', 20px, 20px, '');	 				
+						@include svgicon('icon-compte', 20px, 20px, '');
 						position:absolute;
 						top:4px;
 						left: 8px;
@@ -366,7 +366,7 @@ HEADER STYLES
     				margin: 0;
     				bottom: -75px;
     				left: 0;
-    				z-index: 3000; 
+    				z-index: 3000;
 
     				&:before{
 						@include svgicon('icon-angle-bottom', 18px, 18px, $vj_02);
@@ -393,7 +393,7 @@ HEADER STYLES
 						z-index:-10;
 						position: absolute;
 						top: 35px;
-						left: 0; 
+						left: 0;
 						transition:all 0.3s;
 
     				}
@@ -429,13 +429,13 @@ HEADER STYLES
 							display: block;
     						margin-top: 35px;
     						@include transition(all 0.3s);
-    						
+
 
     						&:hover{
     							opacity: 0.9;
     						}
 
-    						
+
 
     					}
     				}
@@ -444,7 +444,7 @@ HEADER STYLES
 			}
 
 		}
-		
+
 	}
 
 	.header-bottom{
@@ -454,18 +454,18 @@ HEADER STYLES
 		#inner-header{
 			position: relative;
 
-			h1, .h1 {	
-		
+			h1, .h1 {
+
 				width: 225px;
 				height: 80px;
-				background-size: 225px 60px;				
+				background-size: 225px 60px;
 			}
 
 			#bt-nav-mobile{
 				position: absolute;
-			    //top: 25px; 
+			    //top: 25px;
 			    left: 10px;
-			   
+
 
 			}
 
@@ -483,12 +483,12 @@ HEADER STYLES
 			width: 365px;
 			height: 100%;
 
-			.fieldset{ 
+			.fieldset{
 				visibility: visible;
 			}
 		}
 	}
-	
+
 }
 
 
@@ -496,12 +496,12 @@ HEADER STYLES
 
 /*
 
-  ____                       _                       _ _ 
+  ____                       _                       _ _
  |  _ \ __ _  __ _  ___     / \   ___ ___ _   _  ___(_) |
  | |_) / _` |/ _` |/ _ \   / _ \ / __/ __| | | |/ _ \ | |
  |  __/ (_| | (_| |  __/  / ___ \ (_| (__| |_| |  __/ | |
  |_|   \__,_|\__, |\___| /_/   \_\___\___|\__,_|\___|_|_|
-             |___/                                       
+             |___/
 
 
 */
@@ -516,11 +516,11 @@ body.page-template-front-page{
 
 
 		.row_01{
-			.falsh-info{		
+			.falsh-info{
 
 				.titre{
-					
-					font-size: 20px; 
+
+					font-size: 20px;
 					margin-bottom: 0;
 
 					.close, .open{ cursor: pointer;}
@@ -538,10 +538,10 @@ body.page-template-front-page{
 
 				}
 
-				.content{ 
+				.content{
 
 					.texte{
-						width: 570px;						
+						width: 570px;
 					}
 
 					a{
@@ -579,34 +579,34 @@ body.page-template-front-page{
 					margin-right: 15px;
 
 					&:nth-child(3){ margin-right: 0;}
-					
+
 
 					.content{
 						height: 105px;
-						
+
 
 						&:before, &:after{
-							
+
 							height: 105px;
 
 						}
 
 						&:before{
-							
+
 							@include border-radius(0 15px 0 0);
 							left: 0;
 						}
 
 						&:after{
- 
+
 							@include border-radius(15px 0 0 0);
 							right: 0;
 						}
-						
 
-						
-						h2{ 
-							font-size: 27px; 
+
+
+						h2{
+							font-size: 27px;
 							line-height: 28px;
 							margin: 35px 0 0 0;
 
@@ -617,7 +617,7 @@ body.page-template-front-page{
 
 						> a{
 							font-size: 30px;
-							line-height: 10px;						
+							line-height: 10px;
 						}
 					}
 
@@ -628,51 +628,51 @@ body.page-template-front-page{
 								background-position: 0 100%;
 							}
 
-							> a{ font-weight: 700;} 
+							> a{ font-weight: 700;}
 						}
 
-						
+
 					}
-					
-					
+
+
 				}
 
 				.consulter{
-					
+
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-consulter', 20px, 20px, #FFFFFF);					
+						@include svgicon('icon-consulter', 20px, 20px, #FFFFFF);
 						position:absolute;
 						top:-20px;
-						left:calc( 50% - 10px ); 
+						left:calc( 50% - 10px );
 					}
-					
+
 				}
 
 				.rechercher{
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);					
+						@include svgicon('icon-rechercher', 20px, 20px, #FFFFFF);
 						position:absolute;
 						top:-20px;
-						left:calc( 50% - 10px ); 
+						left:calc( 50% - 10px );
 					}
-					
+
 
 				}
 
-				.acceder{				
+				.acceder{
 
 					h2:before{
 						display:block;
-						@include svgicon('icon-veille-juridique', 18px, 18px, #FFFFFF);					
+						@include svgicon('icon-veille-juridique', 18px, 18px, #FFFFFF);
 						position:absolute;
 						top:-20px;
-						left:calc( 50% - 16px ); 
+						left:calc( 50% - 16px );
 					}
-					
+
 				}
 			}
 
@@ -714,7 +714,7 @@ body.page-template-front-page{
 			}
 
 			#onglets{
-				margin-bottom: 40px;				
+				margin-bottom: 40px;
 			}
 
 			.details{
@@ -724,14 +724,14 @@ body.page-template-front-page{
 
 				.accordion{
 
-					text-align: center; 
+					text-align: center;
 
 					.panel{
 
 						height: 225px;
 						// width: 440px;
 						float: left;
-						
+
 
 
 						.date{
@@ -739,26 +739,26 @@ body.page-template-front-page{
 							width: 100px;
 							float: left;
 							padding: 55px 0;
-							cursor: pointer; 
+							cursor: pointer;
 							font-weight: normal;
-							
+
 
 							&:before{
-								
-								
-								top: 50%;
-								margin-top: -22px; 
-								left:23px; 
 
-								
+
+								top: 50%;
+								margin-top: -22px;
+								left:23px;
+
+
 								@include sprite($angle-before-date-accordion-tablette);
-								
+
 							}
 
 							&:after{
-								
-								
-								top: 50%; 
+
+
+								top: 50%;
 								left:inherit;
 								right: -15px;
 								margin-top: -22px;
@@ -800,35 +800,35 @@ body.page-template-front-page{
 
 
 						}
- 
-						&:nth-child(1){							
+
+						&:nth-child(1){
 							.date{
 								&:after{
-									@include sprite($angle-after-date-accordion-mobile_01-tablette);									
+									@include sprite($angle-after-date-accordion-mobile_01-tablette);
 								}
 							}
 						}
 
-						&:nth-child(2){							
+						&:nth-child(2){
 							.date{
 								&:after{
-									@include sprite($angle-after-date-accordion-mobile_02-tablette);									
+									@include sprite($angle-after-date-accordion-mobile_02-tablette);
 								}
 							}
 						}
 
-						&:nth-child(3){							
+						&:nth-child(3){
 							.date{
 								&:after{
-									@include sprite($angle-after-date-accordion-mobile_03-tablette);									
+									@include sprite($angle-after-date-accordion-mobile_03-tablette);
 								}
 							}
 						}
 
 
-						
+
 						.content{
-							
+
 							width: 340px;
 							max-width: 340px;
 							height: 225px;
@@ -839,11 +839,11 @@ body.page-template-front-page{
 							transition: max-width $duration ease, opacity $duration/2 ease, padding $duration ease;
 
 							> ul{
-								
 
-								> li{									
+
+								> li{
 									float: none;
-									clear: both;									
+									clear: both;
 
 									&:first-child{padding-bottom: 4px};
 									&:nth-child(2){padding:2px 0};
@@ -856,7 +856,7 @@ body.page-template-front-page{
                                     }
 
 									h4{
-										
+
 										text-align: left;
 										float: left;
 										width: calc(100% - 40px);
@@ -864,9 +864,9 @@ body.page-template-front-page{
 										margin-bottom: 5px;
 									}
 
-									.chapeau-categorie{										
+									.chapeau-categorie{
 
-										text-align: left; 
+										text-align: left;
 										float: left;
 										width: calc(100% - 40px);
 										height: 36px;
@@ -882,8 +882,8 @@ body.page-template-front-page{
 										float: left;
 									}
 
-									> a {									
-										
+									> a {
+
 										float: right;
 										margin: 0;
 
@@ -893,7 +893,7 @@ body.page-template-front-page{
 										line-height: 14px;
 
 										&:after{
-											border-width: 7px 0 7px 9px; 
+											border-width: 7px 0 7px 9px;
 
 											right:-9px;
 
@@ -910,11 +910,11 @@ body.page-template-front-page{
 						height: 225px;
 						width: 20px;
 						float: right;
-						
+
 					}
-					
+
 					> a{/*Lien toutes la veille juridique*/
-						
+
 						margin: 40px 0 60px 0;
 						width: 100%;
 
@@ -922,18 +922,18 @@ body.page-template-front-page{
 					}
 
 				}
-				
+
 				#accordion-formations{ /* specifique accordion formations*/
 					.panel .content > ul > li .chapeau-categorie{
 						max-height: 56px;
 						height: auto;
 					}
 				}
-				
+
 
 				div.panel.closed{
 
-					
+
 					/*height: 60px;*/
 					max-height: 225px;
 					// max-width: 100px;
@@ -950,7 +950,7 @@ body.page-template-front-page{
 
 				}
 
-				
+
 			}
 
 		}
@@ -963,7 +963,7 @@ body.page-template-front-page{
 
 				font-size: 30px;
 				line-height: 35px;
-					
+
 			}
 
 			a{
@@ -1005,7 +1005,7 @@ body.page-template-front-page{
 					left: 50%;
 					top: 0px;
 					margin-left: -24px;*/
-					@include svgicon('icon-angle-bottom', 20px, 19px, $bg-top-footer); 
+					@include svgicon('icon-angle-bottom', 20px, 19px, $bg-top-footer);
 				}
 
 				&:after{
@@ -1026,7 +1026,7 @@ body.page-template-front-page{
 					padding: 0;
 
 					display: none;*/
-					display: block; 
+					display: block;
 					margin-top: 115px;
 					height: 80px;
 					overflow: hidden;
@@ -1076,35 +1076,60 @@ body.page-template-front-page{
 				}
 			}
 
+			.twitter {
+				width: 100%;
+				height: 180px;
+				margin-right: 0;
+				padding: 35px 10px;
+				margin-bottom: 25px;
+
+				&::before {
+					@include svgiconafter('icon-twitter', 40px, 40px, #FFF);
+					position: absolute;
+					top: 32px;
+					left: 50%;
+					margin-left: -25px;
+				}
+
+				&::after {
+					@include svgiconafter('icon-angle-top', 20px, 19px, $bg-top-footer);
+					@include rotate(180);
+					position: absolute;
+					left:50%;
+					margin-left: -32px;
+					top: 0;
+				}
+
+				.content {
+					margin-top: 45px;
+
+					a {
+						padding-top: 115px;
+					}
+				}
+			}
+
 
 
 			.veille-juridique{
 				width: 100%;
 				height: 210px;
-				padding:35px 0 20px 0;
+				padding: 40px 0 20px 0;
 				margin-bottom: 25px;
 
 				&:before{
-					font-size: 46px;
-					line-height: 46px;
-					/*color:#FFF;
-					position: absolute;*/
-					top: 35px;
-					margin-left: -23px;
+					@include svgicon('icon-veille', 49px, 49px, #FFF);
 					left:50%;
-
+					margin-left: -25px;
+					top: 32px;
 				}
 
 				&:after{
-					/*position: absolute;
-					top: 0;
-					@include rotate(180);
-					color:$bg-top-footer;*/
+					@include svgiconafter('icon-angle-top', 20px, 19px, $bg-top-footer);
 					font-size: 20px;
 					line-height: 19px;
 					margin-left: -32px;
 					left:50%;
-
 				}
 
 
@@ -1113,10 +1138,10 @@ body.page-template-front-page{
 					text-align: center;
 
 					h2{
-						text-align: center;	
-						width: 100%;	
-						margin-top: 60px;		
-					} 
+						text-align: center;
+						width: 100%;
+						margin-top: 60px;
+					}
 
 					> a{
 						margin-top: 10px;
@@ -1124,19 +1149,19 @@ body.page-template-front-page{
 
 						display: block;
 
-						&:after{							
+						&:after{
 							top: 25px;
 							/*left: 0;*/
 
 						}
 
-					} 
+					}
 				}
 			}
 
 			.info-flash-exclu, .cridon-app{
 				width: 320px;
-				padding: 35px 0;	
+				padding: 35px 0;
 
 				height: 250px;
 
@@ -1145,78 +1170,92 @@ body.page-template-front-page{
 					line-height: 50px;
 					top: 32px;
 					left:50%;
-				}	
+				}
 
 				&:after{
 					font-size: 20px;
 					line-height: 19px;
 					margin-left: -32px;
 					left:50%;
-				}	
-
-
-
-				h2{					
-					
 				}
-				a{	
+
+
+
+				h2{
+
+				}
+				a{
 					font-size: 20px;
 					margin-top: 10px;
 					width: 100%;
-					&:after{	
+					&:after{
 
 						top: 20px;
 					}
-				} 
+				}
 			}
 
 			.cridon-app{
+
+				&:before{
+					@include svgicon('icon-appli', 51px, 51px, #FFF);
+				}
+
+				&:after{
+					@include svgiconafter('icon-angle-top', 20px, 20px, $bg-top-footer);
+				}
 
 				h2{
 					width: 70%;
 					margin: 0 auto;
 				}
-				
-				
 
 				a{
 					width: 100%;
 					margin:10px auto 0 auto;
 				}
-				
+
 			}
 
 			.info-flash-exclu{
+				margin-right: 20px;
 
-			margin-right: 20px;								
+				&:before{
+					@include svgicon('icon-nl', 51px, 51px, #FFF);
+				}
+
+				&:after{
+					//@include sprite ($angle-before-info-flash);
+					@include svgiconafter('icon-angle-top', 20px, 20px, $bg-top-footer);
+				}
 
 				h2{
-					padding: 0; 
+					padding: 0;
 					margin: 0;
-				}	
+				}
 			}
 
-			
+
 		}
 
 		.row_04{
-			
-			padding: 60px 0 20px 0;			
 
-			
+			padding: 60px 0 20px 0;
+
+
 
 			h2{
-				
+
 				font-size: 50px;
 				line-height: 40px;
 
-				span{					
+				span{
 
 					font-size: 30px;
 
-				}				
+				}
 
-				
+
 
 			}
 
@@ -1226,7 +1265,7 @@ body.page-template-front-page{
 				.img{
 					height: 310px;
 					margin-bottom: 40px;
-					
+
 				}
 
 				.date{
@@ -1235,7 +1274,7 @@ body.page-template-front-page{
 					padding: 55px 0;
 					float: left;
 
-					
+
 					&:after{
 
 						@include rotate(-90);
@@ -1248,8 +1287,8 @@ body.page-template-front-page{
 					}
 
 					span{
-					
-						display: block; 
+
+						display: block;
 						line-height: inherit;
 						height: auto;
 					}
@@ -1276,26 +1315,26 @@ body.page-template-front-page{
 					padding: 0 20px 0 40px;
 					position: relative;
     				height: 225px;
-					
+
 
 					> h3{
 
 						font-size: 30px;
 						line-height: 35px;
 						text-align: left;
-						margin: 0;						
+						margin: 0;
 
 					}
 
 					.chapeau{
 						text-align: left;
 						font-size: 20px;
-						margin-top: 10px;						
+						margin-top: 10px;
 
-					} 
+					}
 
 					.description{
-						
+
 						text-align: left;
 						font-size: 15px;
 						/*position: absolute;
@@ -1303,10 +1342,10 @@ body.page-template-front-page{
 						max-height: 72px;
 						width: 430px;
 						margin-top: 35px;
-						
+
 
 						s{
-							
+
 
 						}
 
@@ -1314,14 +1353,14 @@ body.page-template-front-page{
 					}
 
 					> a{
-						
+
 						margin: 0;
 						/*position: absolute;
 						bottom: 0px;*/
 						margin-top: 10px;
 
 						height: 18px;
-					      width: 47px; 
+					      width: 47px;
 					      font-size: 13px;
 					      line-height: 18px;
 
@@ -1343,9 +1382,9 @@ body.page-template-front-page{
 
 			a.LienVieCridon{/*Lien toutes la veille juridique*/
 
-					
+
 				margin: 40px 0 22px 0;
-				
+
 			}
 
 		}
@@ -1365,7 +1404,7 @@ body.single #content{
 
 	padding-top: 130px;
 
-	.breadcrumbs{		
+	.breadcrumbs{
 		display: block;
 		padding-top: 30px;
 
@@ -1386,16 +1425,16 @@ body.single #content{
 			font-size: 15px;
 			line-height: 24px;
 		}
-	
+
 
 	}
 
 	#main{
-		
+
 		padding-top: 60px;
 
 		.h1{
-			
+
 			font-size: 50px;
 			line-height: 55px;
 			margin-bottom: 50px;
@@ -1403,21 +1442,21 @@ body.single #content{
 
 		article{
 
-			section{			
+			section{
 
 			    h2, h3{
-			    	
+
 			    	font-size: 18px;
 			    	line-height: 20px;
 
-			    	
+
 			    }
 		    }
 
 		}
 
-		
-		
+
+
 	}
 
 }
@@ -1428,12 +1467,12 @@ body.single #content{
 
 /*
 
-  ____                                                                      _       
- |  _ \ __ _  __ _  ___   _ __ ___   ___  _ __     ___ ___  _ __ ___  _ __ | |_ ___ 
+  ____                                                                      _
+ |  _ \ __ _  __ _  ___   _ __ ___   ___  _ __     ___ ___  _ __ ___  _ __ | |_ ___
  | |_) / _` |/ _` |/ _ \ | '_ ` _ \ / _ \| '_ \   / __/ _ \| '_ ` _ \| '_ \| __/ _ \
  |  __/ (_| | (_| |  __/ | | | | | | (_) | | | | | (_| (_) | | | | | | |_) | ||  __/
  |_|   \__,_|\__, |\___| |_| |_| |_|\___/|_| |_|  \___\___/|_| |_| |_| .__/ \__\___|
-             |___/                                                   |_|            
+             |___/                                                   |_|
 
 */
 
@@ -1455,28 +1494,28 @@ body.single #content{
 
 
 			> ul{
-				
+
 
 				>li{
 
 					&.active{
 
-						
+
 						div.pannel{
 								display: block;
 								width: 660px !important;
 								top: 0;
-								position: relative; 
+								position: relative;
 							}
 
-						div#mon-profil.pannel{							
+						div#mon-profil.pannel{
 							left: -334px;
-							
+
 						}
 
-						div#tableau-de-bord.pannel{							
+						div#tableau-de-bord.pannel{
 							left:0px;
-							
+
 						}
 
 						div#mes-questions.pannel{
@@ -1493,9 +1532,9 @@ body.single #content{
 
 			}
 
-		}	
+		}
 	}
-	
+
 
 
 } */
@@ -1504,12 +1543,12 @@ body.single #content{
 
 /*
 
-  ____                                    _             _   
- |  _ \ __ _  __ _  ___    ___ ___  _ __ | |_ __ _  ___| |_ 
+  ____                                    _             _
+ |  _ \ __ _  __ _  ___    ___ ___  _ __ | |_ __ _  ___| |_
  | |_) / _` |/ _` |/ _ \  / __/ _ \| '_ \| __/ _` |/ __| __|
- |  __/ (_| | (_| |  __/ | (_| (_) | | | | || (_| | (__| |_ 
+ |  __/ (_| | (_| |  __/ | (_| (_) | | | | || (_| | (__| |_
  |_|   \__,_|\__, |\___|  \___\___/|_| |_|\__\__,_|\___|\__|
-             |___/                                          
+             |___/
 
 */
 
@@ -1538,7 +1577,7 @@ body.single #content{
 
 						padding-left: 10px;
 
-						
+
 					}
 				}
 			}
@@ -1547,7 +1586,7 @@ body.single #content{
 
 }
 
- 
+
 
 
 
@@ -1676,13 +1715,13 @@ SIDEBARS & ASIDES
 FOOTER STYLES
 *********************/
 
-.footer {	
+.footer {
 
 	.poser-question{display: none;}
 
 	.block-links {
 
-		
+
 		padding: 40px 0;
 
 		ul {
@@ -1695,11 +1734,11 @@ FOOTER STYLES
 				float: left;
 				font-size: 13px;
 				line-height: 21px;
-				padding: 0px 10px; 	
-				margin-bottom: 0;			
+				padding: 0px 10px;
+				margin-bottom: 0;
 
 				a {
-					
+
 					bottom: 10px;
 					font-size: 14px;
 					padding-right: 15px;
@@ -1707,11 +1746,11 @@ FOOTER STYLES
 					&:after{
 						font-size: 21px;
 						top: 4px;
-						
+
 					}
 				}
 
-				&:after {					
+				&:after {
 					left: 40px;
 					font-size: 10px;
 					line-height: 10px;
@@ -1724,28 +1763,28 @@ FOOTER STYLES
 
 				&.formations {
 					margin-right: 15px;
-					
+
 
 					&:before {
-						@include svgicon('icon-catalogue', 52px, 52px,$white);				
+						@include svgicon('icon-catalogue', 52px, 52px,$white);
 
 					}
 				}
 
 				&.cahier {
 					margin-right: 15px;
-					
+
 
 					&:before {
-					@include svgicon('icon-cahier', 52px, 52px,$white);			
+					@include svgicon('icon-cahier', 52px, 52px,$white);
 
 					}
 				}
 
 				&.services {
-					
+
 					&:before {
-						@include svgicon('icon-servicesplus', 52px, 52px,$white);		
+						@include svgicon('icon-servicesplus', 52px, 52px,$white);
 
 					}
 				}
@@ -1755,20 +1794,20 @@ FOOTER STYLES
 
 	.footer-cridon {
 		padding: 45px 0 60px 0;
-		min-height: 410px; 
+		min-height: 410px;
 
 		.block-left {
 			width: 330px;
 			float: left;
 			text-align: left;
-			padding:0 10px 0 54px; 
+			padding:0 10px 0 54px;
 			position: relative;
 
 
 			&:before {
-				
+
 				@include sprite($logo-cridon-footer-tablette2);
-				margin: 0 0 0 -54px; 
+				margin: 0 0 0 -54px;
 
 			}
 
@@ -1783,20 +1822,20 @@ FOOTER STYLES
 			.chapeau {
 				text-align: left;
 				margin-top: 20px;
-				
+
 				span {
-					
+
 					font-size: 20px;
 					line-height: 20px;
-				} 
+				}
 				p {
-					
-					font-size: 15px; 
+
+					font-size: 15px;
 					line-height: 18px;
 				}
-			} 
+			}
 			.descriptif {
-				
+
 			}
 
 			.partenaires{
@@ -1804,30 +1843,14 @@ FOOTER STYLES
 				margin-top: 60px;
 
 				> div{
-					
 					text-align: left;
 					font-size: 20px;
-
-					span{}
 				}
 
 				ul{
 					margin-left: 0;
-
-					li{
-						
-						&:first-child{}
-
-						img{}
-					}
 				}
-				
-				
 			}
-
-		}
-		&:after {
-			
 		}
 
 	}
@@ -1846,9 +1869,9 @@ FOOTER STYLES
 				padding: 10px 0 10px 55px;
 				height: 70px;
 				border-bottom: solid 1px rgba(255, 255, 255, 0.2);
-				
+
 				&:before{
-					display:block;										
+					display:block;
 					position:absolute;
 					top:10px;
 					left: 0px;
@@ -1866,7 +1889,7 @@ FOOTER STYLES
 
 				a{
 					@include lien-souligne(#FFF);
-					padding-right: 20px; 
+					padding-right: 20px;
 					transition: border-color $duration/2 ease $duration/4;
 
 					&:after{
@@ -1879,6 +1902,12 @@ FOOTER STYLES
 						span{ border-bottom:solid 1px $bg-cridon-footer;}
 					}
 
+				}
+
+				&.twitter{
+					&:before{
+						@include svgicon('icon-twitter', 33px, 33px, #FFFFFF);
+					}
 				}
 
 				&.application{
@@ -1899,12 +1928,12 @@ FOOTER STYLES
 					}
 				}
 
-				&:last-child{ margin-bottom: 0;} 
+				&:last-child{ margin-bottom: 0;}
 			}
-		} 
+		}
 	}
 	.footer-bottom {
-		 
+
 		padding: 35px 0;
 
 		nav {
@@ -1915,13 +1944,13 @@ FOOTER STYLES
 			ul{
 				display: inline-block;
 
-				
+
 			}
 
-			
+
 		}
 		.logoJP {
-			
+
 			margin-top: 10px;
 
 		}
