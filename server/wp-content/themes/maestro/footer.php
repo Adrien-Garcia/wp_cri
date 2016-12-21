@@ -57,6 +57,10 @@
 							</div>
 							<div class="block-right">
 								<ul>
+									<li class="twitter">
+										<h4><?php  _e('Partenaire expert du notaire'); ?></h4>
+										<a href="https://twitter.com/CRIDON_LYON" target="_blank" tittle="Twitter Cridon-lyon" ><span><?php _e('Suivez-nous sur twitter'); ?></span></a>
+									</li>
 									<li class="application">
 										<h4><?php  _e('Le cridon Lyon dans ma poche'); ?></h4>
 										<a href="/le-cridon-dans-ma-poche/"><span><?php _e('Découvrir notre application'); ?></span></a>
