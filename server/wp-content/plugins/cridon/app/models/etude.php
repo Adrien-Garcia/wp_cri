@@ -217,7 +217,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         if (!empty($doc)) {
             // appel action d'import
             $documents->rewind();
-            $this->importPdf($documents, $Iterator, $limit, $date, $documentModel, $type);
+            $this->importPdf($documents, $Iterator, $limit, $date, $documentModel, $type, $sendMail);
         }
     }
 
