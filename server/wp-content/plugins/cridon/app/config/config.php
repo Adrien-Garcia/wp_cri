@@ -878,7 +878,7 @@ class Config {
      * <CRPCEN_releveconso_AAAAMMJJ>.pdf
      * @var string
      */
-    public static $importRelevePattern = '/([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/';
+    public static $importRelevePattern = '/([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf/i';
     public static $importReleveParserPattern = '/^.*([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([0-9]+)\.pdf$/i';
 
     /**
