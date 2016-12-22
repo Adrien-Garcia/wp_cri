@@ -390,15 +390,21 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                       {$wpdb->prefix}etude ce
                       ON
                         ce.crpcen = `cn`.`crpcen`
+                    INNER JOIN
+                      {$wpdb->prefix}users u
+                      ON
+                        cn.id_wp_user = `u`.`ID`
                     WHERE
                       `cn`.`crpcen` = %s
+                    AND
+                      `u`.`user_status` = %s
                     AND (
                           `cn`.`id_fonction_collaborateur` IN ({$collaborator_comptable})
                           OR
                           `cn`.`id_fonction` IN ({$notary_fonction})
                     ) ";
 
-        return $wpdb->get_results($wpdb->prepare($query, $crpcen));
+        return $wpdb->get_results($wpdb->prepare($query, $crpcen, CONST_STATUS_ENABLED));
     }
 
 }
