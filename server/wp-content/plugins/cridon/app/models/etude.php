@@ -304,36 +304,22 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         $notary = $this->listNotaryToBeNotified($crpcen);
 
         $dest        = array();
-        $display_documents_url = true;
-        $office_dest = array();
         $office_name = '';
         if (is_array($notary) && count($notary) > 0) {
             foreach ($notary as $item) {
                 if (filter_var($item->email_adress, FILTER_VALIDATE_EMAIL)) {
                     $dest[] = $item->email_adress;
-                } elseif (filter_var($item->office_email_adress_1, FILTER_VALIDATE_EMAIL)) {
-                    $office_dest[] = $item->office_email_adress_1;
-                } elseif (filter_var($item->office_email_adress_2, FILTER_VALIDATE_EMAIL)) {
-                    $office_dest[] = $item->etude->office_email_adress_2;
-                } elseif (filter_var($item->office_email_adress_3, FILTER_VALIDATE_EMAIL)) {
-                    $office_dest[] = $item->office_email_adress_3;
                 }
                 // nom de l'etude concernée
                 $office_name = $item->office_name;
             }
-        }
-        if (empty($dest)){
-            $dest = $office_dest;
-            $display_documents_url = false;
         }
 
         // destinataire non vide
         if (count($dest) > 0) {
             array_unique($dest);
             $vars    = array(
-                'office_name'           => $office_name,
-                'display_documents_url' => $display_documents_url,
-                'doc_url'               => $facture->download_url,
+                'office_name'           => $office_name
             );
             $message = CriRenderView('mail_notification_facture', $vars, 'custom', false);
 
@@ -367,25 +353,17 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     {
         global $wpdb;
 
-        // Collaborateur comptable
-        $collaborator_comptable = implode(', ', Config::$notaryFunctionCollaboratorComptableId);
-
         // Notaire fonction
         $notary_fonction = implode(', ', Config::$allowedNotaryFunction);
 
         // requette
         $query = "  SELECT
+                      `cn`.`id_wp_user`,
+                      `cn`.`id_fonction`,
                       `cn`.`email_adress`,
-                      `ce`.`office_name`,
-                      `ce`.`office_email_adress_1`,
-                      `ce`.`office_email_adress_2`,
-                      `ce`.`office_email_adress_3`
+                      `ce`.`office_name`
                     FROM
                       `{$wpdb->prefix}notaire` cn
-                    LEFT JOIN
-                      `{$wpdb->prefix}fonction_collaborateur` cfc
-                      ON
-                        `cfc`.`id` = `cn`.`id_fonction_collaborateur`
                     LEFT JOIN
                       {$wpdb->prefix}etude ce
                       ON
@@ -397,14 +375,21 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                     WHERE
                       `cn`.`crpcen` = %s
                     AND
-                      `u`.`user_status` = %s
-                    AND (
-                          `cn`.`id_fonction_collaborateur` IN ({$collaborator_comptable})
-                          OR
-                          `cn`.`id_fonction` IN ({$notary_fonction})
-                    ) ";
+                      `u`.`user_status` = %s";
 
-        return $wpdb->get_results($wpdb->prepare($query, $crpcen, CONST_STATUS_ENABLED));
+        $emailInfos = array();
+
+        /** @var Notaire $notaireModel */
+        $notaireModel = mvc_model('notaire');
+
+        foreach ($wpdb->get_results($wpdb->prepare($query, $crpcen, CONST_STATUS_ENABLED)) as $info) {
+            $userWP = get_user_by('id', $info->id_wp_user);
+            if (in_array($info->id_fonction, $notary_fonction) || $notaireModel->userHasRole($userWP, CONST_FINANCE_ROLE)) {
+                $emailInfos[] = $info;
+            }
+        }
+
+        return $emailInfos;
     }
 
 }
