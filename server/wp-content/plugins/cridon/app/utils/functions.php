@@ -502,7 +502,7 @@ function CriCanAccessSensitiveInfo($role) {
  *
  * @return array
  */
-function CriListMatieres()
+function CriListQuestionsMatieres()
 {
     // init
     $matieres = array();
@@ -511,7 +511,7 @@ function CriListMatieres()
     $options = array(
         'selects' => array('Matiere.id', 'Matiere.label', 'Matiere.code'),
         'conditions' => array(
-            'Matiere.displayed' => 1
+            'Matiere.question' => 1
         ),
         'order' => 'Matiere.label ASC'
     );
