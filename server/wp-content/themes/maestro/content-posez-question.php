@@ -126,7 +126,7 @@
 				<div class="block_droit">
 					<div class="form">
 						<?php 
-							$matieres = CriListMatieres();
+							$matieres = CriListQuestionsMatieres();
 						 ?>
 						<select name="question_matiere" id="question_matiere" class="js-question-select-matiere" >
                             <option selected value="">Choisir une matière</option>
