@@ -1514,7 +1514,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                             // write into logfile
                             writeLog($e, 'exportquestionenerreurgrave.log');
                         } finally {
-                            $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . ", flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id = " . $question->id;
+                            $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . " WHERE id = " . $question->id;
                             $this->wpdb->query($sql);
                         }
                     }
