@@ -459,7 +459,7 @@ class Question extends \App\Override\Model\CridonMvcModel
 
                     // validate file size, max upload authorized,...
                     if ($criFileUploader->validate()) {
-                        $listDocuments = $criFileUploader->execute();
+                        $listDocuments = $criFileUploader->execute($notaire->crpcen);
 
                         if (is_array($listDocuments) && count($listDocuments) > 0) {
                             foreach ($listDocuments as $document) {
