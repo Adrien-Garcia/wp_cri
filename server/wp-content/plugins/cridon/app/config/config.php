@@ -338,7 +338,7 @@ class Config {
     );
     public static $listOfControllersWpMvcOnSidebar = array(
         'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
-        'questions','soldes','supports','user_cridons','veilles','vie_cridons','lieux'
+        'questions','soldes','supports','user_cridons','veilles','vie_cridons','lieux', 'sessions'
     );
     public static $listOfControllersWithNoActionAdd = array(
         'notaires',
@@ -386,6 +386,10 @@ class Config {
         'lieu' => array(
             'add'    => 'Ajout d\'un lieu',
             'edit'   => 'Modification d\'un lieu'
+        ),
+        'session' => array(
+            'add'    => 'Ajout d\'une nouvelle session de formation',
+            'edit'   => 'Modifier les informations d\'une session de formation'
         )
     );
     public static $titleFieldAdminForm = array(
@@ -408,6 +412,8 @@ class Config {
         'short_label'   => 'Libellé court',
         'type_support'  => 'Type du support',
         'value'         => 'Valeur',
+        'date'          => 'Date',
+        'timetable'     => 'Horaire',
     );
     //End translation
 
@@ -428,19 +434,9 @@ class Config {
 
     // Content qualified by a "Custom Date"
     public static $contentWithCustomDate = array(
-        'formations',
+        'sessions',
     );
-    public static $dateTitleMetabox = 'Date de formation';// Titre du metabox date de formation
-
-    public static $contentWithAddress = array(
-        'formations',
-    );
-    // Titre des metabox - adresse de formation
-    public static $addressTitleMetabox = array(
-        'address' => 'Adresse de la formation',
-        'postal_code' => 'Code postal de la formation',
-        'town' => 'Ville de la formation'
-    ) ;
+    public static $dateTitleMetabox = 'Date de session';// Titre du metabox date de formation
 
     //Label des affectations sur les questions
     public static $labelAffection = array(

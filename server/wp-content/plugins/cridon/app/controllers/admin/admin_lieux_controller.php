@@ -65,7 +65,7 @@ class AdminLieuxController extends BaseAdminController
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
         //Load custom helper
-        $this->load_helper('AdminLieu');
+        $this->load_helper('AdminNoview');
     }
 
     public function add(){

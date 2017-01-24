@@ -77,10 +77,7 @@ class CridonMvcModel extends \MvcModel{
      */
     protected function processOptions($options)
     {
-        $processOptions = array(
-            'joins' => array(),
-            'fields' => array()
-        );
+        $processOptions = array();
         if (isset($options['joins']) && is_array($options['joins'])) {
             foreach ($options['joins'] as $model => $join) {
                 if (isset($join['foreign_key'])) { // join condition required
@@ -102,7 +99,7 @@ class CridonMvcModel extends \MvcModel{
             }
         }
 
-        return $processOptions;
+        return array_merge($options, $processOptions);
     }
 
     /**

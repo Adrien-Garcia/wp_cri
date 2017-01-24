@@ -11,7 +11,9 @@ class Formation extends \App\Override\Model\CridonMvcModel
         'Matiere' => array('foreign_key' => 'id_matiere')
     );
     var $has_many = array(
-        'Session' => array('foreign_key' => 'id_formation')
+        'Session' => array(
+            'foreign_key' => 'id'
+        )
     );
     var $display_field = 'name';
 }
