@@ -1873,7 +1873,8 @@ class Question extends \App\Override\Model\CridonMvcModel
                 'Matiere.displayed' => 1,
             )
         ));
-        $matieres = assocToKeyVal($matieres, 'id', 'label');
+        $nomMatieres = assocToKeyVal($matieres, 'id', 'label');
+        $matieres = assocToKeyVal($matieres, 'id', 'code');
 
         foreach ($datas as $data) {
 
@@ -1902,6 +1903,8 @@ class Question extends \App\Override\Model\CridonMvcModel
                 wp_mkdir_p($path);
             }
 
+            $data[$indexes['CRPCEN']] = str_pad($data[$indexes['CRPCEN']], 5, '0', STR_PAD_LEFT);
+
             // question
             $question = $this->getQuestionBy($data[$indexes['CRPCEN']], $data[$indexes['SRENUM']]);
             if ($question->id) { // quest exist
@@ -1922,8 +1925,8 @@ class Question extends \App\Override\Model\CridonMvcModel
                         'srenum'           => $data[$indexes['SRENUM']],
                         'client_number'    => '8' . $data[$indexes['CRPCEN']],
                         'crpcen'           => $data[$indexes['CRPCEN']],
-                        'resume'           => empty($data[$indexes['OBJET']]) ? $matieres[$indexes['COMPETENCE']] : $data[$indexes['OBJET']],
-                        'id_competence_1'  => $data[$indexes['COMPETENCE']],
+                        'resume'           => empty($data[$indexes['OBJET']]) ? $nomMatieres[$data[$indexes['COMPETENCE']]] : $data[$indexes['OBJET']],
+                        'id_competence_1'  => $matieres[$data[$indexes['COMPETENCE']]],
                         'juriste'          => $data[$indexes['JURISTE']],
                         'id_support'       => $data[$indexes['SUPPORT']],
                         'id_affectation'   => $data[$indexes['CODE_AFFECTATION']],
