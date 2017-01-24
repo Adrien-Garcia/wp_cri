@@ -43,4 +43,49 @@ class FormationsController extends BaseActuController
         $this->set('formationsPassees', $formationsPassees);
         $this->set_pagination($collection);
     }
+
+
+    public function calendar()
+    {
+        $params = $this->params;
+
+        $month = $params['month'];
+        $tmpmonth = DateTime::createFromFormat('!m', $month);
+        $tmpmonth = $tmpmonth->format('F');
+        $year = $params['year'];
+
+        $firstdayofmonth = new DateTime('first day of '. $tmpmonth . ' ' . $year);
+        $daytostartofweek = intval($firstdayofmonth->format('N')) -1;
+        $firstday = $firstdayofmonth->modify('-'. $daytostartofweek .' days');
+
+        $lastdayofmonth = new DateTime('last day of '. $tmpmonth . ' ' . $year);
+        $daytoendofweek = 7 - intval($lastdayofmonth->format('N'));
+        $lastday = $lastdayofmonth->modify('+'. $daytoendofweek .' days');
+
+        $calendar = array();
+
+        $date = $firstday;
+        while ($lastday->getTimestamp() > $date->getTimestamp()) {
+            $calendar[$date->format('Y-m-d')] = array(
+                'day' => $date->format('d'),
+                'month' => $date->format('m'),
+                'year' => $date->format('Y'),
+                'weekday' => $date->format('l'),
+            );
+            $date->modify('+1 day');
+        }
+
+        $this->set('month', $month);
+        $this->set('year', $year);
+        $this->set('calendar', $calendar);
+
+    }
+
+    public function calendar_now()
+    {
+        $this->params['year']         = date('Y');
+        $this->params['month']        = date('m');
+
+        $this->calendar();
+    }
 }
