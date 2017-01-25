@@ -16,7 +16,7 @@
                  <h1 class="h1">Calendrier des formations</h1>
 
                 <div id="calendar">
-                    <?php var_dump($calendar); ?>
+                    <?php $calendar; ?>
                 </div>
 
             </div>
