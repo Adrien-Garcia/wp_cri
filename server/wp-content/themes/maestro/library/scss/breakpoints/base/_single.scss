@@ -11,7 +11,8 @@
 */
 
 
-body.single, #content.single {
+body.single,
+#content.single {
 
 
 	#inner-content{
@@ -284,16 +285,14 @@ body.single, #content.single {
 									margin-top: -13px;
 								}
 
-
-
 								> a {
 									@include do-re;
 									font-size: 16px;
 									color: $bleu;
 									text-decoration: none;
 									text-decoration: underline;
-
-
+									display: block;
+									line-height: 18px;
 								}
 							}
 						}
@@ -301,6 +300,8 @@ body.single, #content.single {
 					}
 
 				}
+
+
 			}
 
 		}
@@ -326,7 +327,216 @@ body.single, #content.single {
 
 	}
 
+	&.single-formations {
+
+		article {
+			padding-bottom: 0 !important;
+			margin-bottom: 36px;
+		}
+		
+		#inner-content article .date {
+			margin-bottom: 3px;
+
+			&::before {
+				display: none;
+			}
+		}
+
+		#inner-content > a{
+			width: auto;
+			margin: auto;
+			display: inline-block;
+			margin-bottom: 10px;
+			display: block;
+
+			&.liste {
+				width: 230px;
+			}
+
+			&.agenda {
+				width: 250px;
+				margin-bottom: 50px;
+
+				&:before{
+					display: none;
+				}
+			}
+
+		}
+
+		.session {
+			height: 90px;
+			background: $bleu;
+			@include do-re;
+			font-size: 15px;
+			color: $white;
+			text-align: center;
+			padding: 10px 0;
+
+			p{
+				margin: 0;
+				padding: 0;
+				line-height: 18px;
+
+				&.lieu {
+					padding: 0 80px;
+					margin-bottom: 11px;
+				}
+
+				&.horaire {
+					position: relative;
+					margin-top: 16px;
+
+					&::after {
+						content:'';
+						width: 40px;
+						height: 1px;
+						background: $white;
+						position: absolute;
+						top: -8px;
+						left: 50%;
+						margin-left: -20px;
+					}
+				}
+			}
+
+
+		}
+
+		a.bt {
+			height: 30px;
+			background: $vert;
+			color: $white;
+			text-transform: uppercase;
+			@include do-re;
+			font-size: 15px;
+			text-align: center;
+			display: block;
+			text-decoration: none;
+			line-height: 30px;
+			margin-top: 10px;
+			position: relative;
+			margin-right: 5px;
+			margin-bottom: 20px;
+
+			&::before {
+				@include svgicon('icon-angle-bottom', 5px, 5px, $vert);
+				position: absolute;
+				right: -10px;
+				top: 50%;
+				margin-top: -3px;
+				@include rotate(-90);
+			}
+		}
+
+		.liste-sessions {
+			border-top: solid 4px $bg-top-footer;
+			margin-top: 35px;
+			padding-top: 30px;
+			overflow: hidden;
+
+			p.titre {
+				font-family: $garamond;
+				font-size: 20px;
+				line-height: 24px;
+				color: $rouge;
+				display: inline-block;
+				height: auto !important;
+				margin: 0;
+
+				&::after {
+					content:'';
+					width: 100%;
+					position: relative;
+					height: 1px;
+					background: $rouge;
+					display: block;
+
+				}
+			}
+
+			ul {
+				margin: 30px 0 0 0;
+				padding: 0;
+
+				li{
+					margin: 0 0 10px 0;
+					padding: 0 0 10px 0;
+					border-bottom: solid 1px $bg-top-footer;
+					float: left;
+					width: 100%;
+
+					&:last-child {
+						border-bottom: none;
+					}
+
+					.session-item {
+						width: 170px;
+						float: left;
+						overflow: hidden;
+
+						p{
+							margin: 0;
+							line-height: 18px;
+							@include do-re;
+							padding-right: 50px;
+
+							&.session {
+
+								&-date {
+									font-size: 18px;
+									text-transform: uppercase;
+									color: $bleu;
+								}
+
+								&-lieu {
+									@include do-re;
+									font-size: 15px;
+									margin-bottom: 10px;
+									font-size: 15px;
+									line-height: 18px;
+								}
+
+								&-horaire {
+									position: relative;
+									margin-top: 18px;
+
+									&::before {
+										content:'';
+										width: 40px;
+										height: 1px;
+										background: $bleu;
+										top: -7px;
+										left: 0;
+										position: absolute;
+									}
+								}
+							}
+						}
+
+					}
+
+					a.preinscrire {
+						float: right;
+						width: 110px;
+						background: $bg-top-footer;
+						color: #818181;
+
+						&::before {
+							color: $bg-top-footer;
+						}
+					}
+
+				}
+			}
+		}
+	}
+
+	
+
 }
+
+
 
 #content.single-vie-cridon{
 
