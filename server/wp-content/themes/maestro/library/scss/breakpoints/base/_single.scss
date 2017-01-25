@@ -1,11 +1,11 @@
 /*
 
-  ____ ___ _   _  ____ _     _____   
- / ___|_ _| \ | |/ ___| |   | ____|  
- \___ \| ||  \| | |  _| |   |  _|    
-  ___) | || |\  | |_| | |___| |___    
- |____/___|_| \_|\____|_____|_____|     
-                                                                               
+  ____ ___ _   _  ____ _     _____
+ / ___|_ _| \ | |/ ___| |   | ____|
+ \___ \| ||  \| | |  _| |   |  _|
+  ___) | || |\  | |_| | |___| |___
+ |____/___|_| \_|\____|_____|_____|
+
 
 
 */
@@ -13,12 +13,12 @@
 
 body.single, #content.single {
 
-	
+
 	#inner-content{
 
 		.titre {
 			height: 43px;
-			
+
 			span{
 				margin: 20px 0;
 			}
@@ -42,7 +42,7 @@ body.single, #content.single {
 				margin-left: -30px;
 
 
-				
+
 			}
 
 
@@ -70,7 +70,7 @@ body.single, #content.single {
 				margin-bottom: 20px;
 
 				&:before{
-					@include svgicon('icon-angle-bottom', 15px, 15px, $vert);					
+					@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
 					position:absolute;
 					bottom: -15px;
 					left: 50%;
@@ -91,7 +91,7 @@ body.single, #content.single {
 					width: 30px;
 					height: 30px;
 					float: left;
-					
+
 					.img-cat{
 						width: 30px;
 						height: 30px;
@@ -159,7 +159,7 @@ body.single, #content.single {
 					}
 				}
 
-				
+
 				.block_right{
 					float: right;
 					width: calc(100% - 50px);
@@ -211,103 +211,13 @@ body.single, #content.single {
 					width: 100%;
 					padding-left: 50px;
 
-					
-
 					.content{
 						font-family: $helvetica;
 					    font-size: 13px;
 					    line-height: 18px;
 					    color:$bleu;
-
-					    /*a{
-					    	color:$rouge;
-					    	text-decoration: underline;
-
-					    	&:hover{
-					    		text-decoration: none;
-					    	}
-					    }
-
-					    s{
-							background: $jaune;
-							text-decoration: none;
-
-						}
-
-					    h2, h3{
-					    	
-					    	font-size: 15px;
-					    	line-height: 18px;					    	
-					    	text-transform: uppercase;
-					    	
-					    	margin: 0;
-					    	position: relative;
-
-					    	
-					    }
-
-					    h2{
-					    	color:$bleu;
-					    	@include do-bo;
-					    	padding: 10px 0;
-					    	&:after{
-					    		content:'';
-								width: 40px;
-								height: 1px;
-								background: $bleu;
-								position: absolute;
-								left: 0;
-								bottom: 0;
-					    	}
-				    	}
-
-				    	h3{
-				    		color:$vert;
-				    		@include do-me;
-				    		margin-left: 20px;
-				    	}
-
-					    >p{
-					    	margin: 15px 0;
-					    }
-
-					    h3 + p {
-					    	color:$vert;
-                            margin: 0 0 0 20px;
-                        }
-
-					    >ul, ol{
-
-					    	margin: 0;
-					    	padding: 0;
-
-					    	>li{
-					    		position: relative;
-					    		display: block;
-					    		vertical-align: middle;
-					    		line-height: 14px;
-
-					    		padding: 3px 0 0 20px;
-					    		margin: 0 0 5px 0;
-
-
-					    		&:before{
-					    			content:'';
-					    			height: 8px;
-					    			width: 8px;
-					    			border:solid 1px $rouge;
-					    			@include border-radius(25px);
-					    			display: block;
-					    			position: absolute;
-					    			left: 0;
-					    			top: 50%;
-					    			margin-top: -5px;
-
-					    		}
-
-					    	}
-					    }*/
 					}
+
 					.adresse{
 						font-family: $helvetica-bold;
 						font-size: 12px;
@@ -352,40 +262,43 @@ body.single, #content.single {
 
 					.documents-liees{
 						width: 100%;
-						padding: 20px;
 						margin-top: 20px;
 						background: #e6e6e6;
 
-						>ul{
+						> ul {
 							margin: 0;
-							padding: 0;
+							padding: 20px 0;
 
-							>li{
+							> li {
 								margin: 0;
-								padding: 3px 0;
+								padding: 0;
+								position: relative;
+								padding-left: 60px;
+								padding-right: 20px;
 
-								>a{
+								&:before {
+									@include svgicon('icon-pdf', 25px, 25px, $rouge);
+									position: absolute;
+									left: 20px;
+									top: 50%;
+									margin-top: -13px;
+								}
+
+
+
+								> a {
 									@include do-re;
-									font-size: 14px;
-									color:$bleu;
+									font-size: 16px;
+									color: $bleu;
 									text-decoration: none;
-									
-									&:hover{
-										//text-decoration: underline;
-										//@include do-me;
-									}
+									text-decoration: underline;
 
-									/* &:before{
-										content:'|';
-										position: relative;
-										left: -10px;
-									} */
 
 								}
 							}
 						}
 
-					}					
+					}
 
 				}
 			}
@@ -393,10 +306,6 @@ body.single, #content.single {
 		}
 
 		> a{
-			/*
-			background: $vert;
-			display: block;
-			color:#FFF;*/
 
 			@include bt-rectangle($vert, #FFF);
 			width: 70px;
@@ -417,13 +326,13 @@ body.single, #content.single {
 
 	}
 
-
-
-
 }
 
 #content.single-vie-cridon{
-	
-	#inner-content article .details .block_full, #inner-content article .details .block_right {width: 100%;}
-	
+
+	#inner-content article .details .block_full,
+	#inner-content article .details .block_right {
+		width: 100%;
+	}
+
 }

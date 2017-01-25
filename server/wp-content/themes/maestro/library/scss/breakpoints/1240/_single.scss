@@ -1,11 +1,11 @@
 /***
 
-  ____ ___ _   _  ____ _     _____  __     _______ ___ _     _     _____ ____  
- / ___|_ _| \ | |/ ___| |   | ____| \ \   / / ____|_ _| |   | |   | ____/ ___| 
- \___ \| ||  \| | |  _| |   |  _|    \ \ / /|  _|  | || |   | |   |  _| \___ \ 
+  ____ ___ _   _  ____ _     _____  __     _______ ___ _     _     _____ ____
+ / ___|_ _| \ | |/ ___| |   | ____| \ \   / / ____|_ _| |   | |   | ____/ ___|
+ \___ \| ||  \| | |  _| |   |  _|    \ \ / /|  _|  | || |   | |   |  _| \___ \
   ___) | || |\  | |_| | |___| |___    \ V / | |___ | || |___| |___| |___ ___) |
- |____/___|_| \_|\____|_____|_____|    \_/  |_____|___|_____|_____|_____|____/ 
-                                                                               
+ |____/___|_| \_|\____|_____|_____|    \_/  |_____|___|_____|_____|_____|____/
+
 
 
 ***/
@@ -18,7 +18,7 @@
 
 		.titre {
 			height: auto;
-			
+
 			span{
 				margin-top: 34px;
 			}
@@ -33,7 +33,7 @@
 
 			padding-top: 20px;
 			padding-bottom: 30px;
-			
+
 
 			.date{
 
@@ -44,7 +44,7 @@
 				padding: 50px 0;
 				margin-bottom: 0;
 
-				
+
 
 				&:before{
 					display: none;
@@ -52,7 +52,7 @@
 				}
 
 				&:after{
-					@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
+					@include svgiconafter('icon-angle-right', 45px, 45px, $vert);
 					position:absolute;
 					bottom: 50%;
 					margin-bottom: -23px;
@@ -89,19 +89,19 @@
 
 
 				float: right;
-				width: 730px; 
+				width: 730px;
 				margin-right: 220px;
 
 				.block_left{
 					width: 100px;
 					min-height: 100px;
-					margin-right: 10px;	
+					margin-right: 10px;
 
 					.img-cat{
 
-						width: 100px;	
+						width: 100px;
 						height: 100px;
-								
+
 						img{
 							width: 100px;
 							height: 100px;
@@ -112,11 +112,11 @@
 
 				// NIVEAU DES VEILLES
 				&.niveau1{
-					.img-cat{								
+					.img-cat{
 						&:after{
 							content:url(../images/reference-desktop.svg);
 							width: 100px;
-							height: 100px;									
+							height: 100px;
 							top: 120px;
 						}
 					}
@@ -126,7 +126,7 @@
 						&:after{
 							content:url(../images/premium-desktop.svg);
 							width: 100px;
-							height: 100px;									
+							height: 100px;
 							top: 120px;
 						}
 					}
@@ -136,7 +136,7 @@
 						&:after{
 							content:url(../images/excellence-desktop.svg);
 							width: 100px;
-							height: 100px;									
+							height: 100px;
 							top: 120px;
 						}
 					}
@@ -152,11 +152,11 @@
 						font-size: 15px;
 						margin-bottom: 5px;
 						top: -2px;
-						
-					} 
 
-					h1{ 
-						
+					}
+
+					h1{
+
 						font-size: 30px;
 						line-height: 30px;
 
@@ -171,9 +171,9 @@
 
 					.extrait{
 						font-size: 15px;
-						
-					}	
-					
+
+					}
+
 
 				}
 
@@ -182,7 +182,7 @@
 					float: right;
 					width: 620px;
 					padding-left: 0;
-					
+
 
 					.content{
 						font-size: 15px;
@@ -191,37 +191,39 @@
 					    h2, h3{
 					    	font-size: 20px !important;
 					    	line-height: 25px;	}
-					    
-				    	h3{margin-left: 40px;}					    
+
+				    	h3{margin-left: 40px;}
 
 					    h3 + p { margin-left: 40px;}
 
-					    
+
 					}
-					
+
 					.mots_cles{
 
-						margin:20px 0 0 0; 
+						margin:20px 0 0 0;
 						padding: 0;
 						height: 18px;
 
-						>li{		
+						>li{
 						font-size: 12px;
-							
+
 						}
 					}
 				}
 			}
 
 		}
-		
+
 	}
 
 }
 
 #content.single-vie-cridon{
 
-	
-	#inner-content article .details .block_right, #inner-content article .details .block_full {width: 730px;}
-	
+	#inner-content article .details .block_right,
+	#inner-content article .details .block_full {
+		width: 730px;
+	}
+
 }
