@@ -2631,6 +2631,12 @@ CALENDAR STYLES
 
 #calendar {
     width: 100%;
+    @include do-sm;
+    font-size: 16px;
+
+    /*********************
+    CALENDAR HEADER
+    *********************/
     .calendar__wrapper--header {
         background: #eee;
         border-color: #bcbcbc;
@@ -2640,10 +2646,8 @@ CALENDAR STYLES
     }
     .calendar__header--navigation {
         width: 100%;
-        //line-height: 73px;
         height: 100%;
         position: relative;
-        @include do-sm;
         font-size: 20px;
         text-transform: uppercase;
 
@@ -2687,5 +2691,115 @@ CALENDAR STYLES
 
     .calendar__header--weekdays {
         display: none;
+    }
+
+    /*********************
+    CALENDAR BODY
+    *********************/
+    .calendar__body {
+        margin: 0;
+    }
+
+    /*********************
+    CALENDAR DAYS
+    *********************/
+    .calendar__day {
+        min-height: 36px;
+        border-bottom: 1px solid #bcbcbc;
+        padding: 0 4px;
+    }
+
+    .calendar__day-side {
+        height: 36px;
+        line-height: 35px;
+        display: inline-block;
+        vertical-align: top;
+        width: 81px;
+
+        & > * {
+            height: 100%;
+            vertical-align: top;
+        }
+    }
+
+    .calendar__day-number {
+        width: 36px;
+        position: relative;
+        display: inline-block;
+        text-align: center;
+        background-color: transparent;
+        z-index: 0;
+
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            border-radius: 50%;
+            margin: 5px;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: -1;
+        }
+    }
+
+    .calendar__day--today .calendar__day-number {
+        color: #fff;
+        &:before {
+            background-color: $bleu;
+        }
+    }
+
+    .calendar__day--greyed .calendar__day-number {
+        opacity: .5;
+    }
+
+    .calendar__day-name {
+        display: inline-block;
+        opacity: .6;
+        width: 41px;
+    }
+
+
+
+    /*********************
+    CALENDAR DAYS CONTENT
+    *********************/
+    .calendar__day-content {
+        display: inline-block;
+        width: calc(100% - 85px);
+    }
+
+    .calendar__day-event {
+        @include do-re;
+        @include ellipsis;
+        height: 36px;
+        font-size: 15px;
+        line-height: 36px;
+    }
+
+    .calendar__day-sessions {
+        display: block;
+        margin: 0;
+        padding-top: 3px;
+    }
+
+    .calendar__session {
+        margin: 0 0 3px;
+        padding: 0;
+        height: 30px;
+        line-height: 30px;
+
+        &:before {
+            content: none;
+        }
+    }
+
+    .calendar__session-name {
+        @include ellipsis;
+        color: #FFF;
+        padding-left: 5px;
+        font-size: 15px;
     }
 }

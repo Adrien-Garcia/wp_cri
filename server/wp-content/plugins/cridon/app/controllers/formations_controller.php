@@ -104,6 +104,7 @@ class FormationsController extends BaseActuController
             $calendar[$date->format('Y-m-d')] = array(
                 'date' => clone $date,
                 'today' => $date->getTimestamp() == $today,
+                'in_month' => $date->format('m') == $month,
             );
             $date->modify('+1 day');
         }

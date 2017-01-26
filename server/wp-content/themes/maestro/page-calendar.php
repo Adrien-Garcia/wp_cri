@@ -45,12 +45,28 @@ $year = $data['year'];
                         </ul>
                     </div>
                     <div class="calendar__wrapper--body">
-                    <?php $calendar; ?>
                         <ul class="calendar__body">
                             <?php foreach ($calendar as $date => $day): ?>
-                                <li class="calendar__day <?php echo $day['today'] ? 'calendar__day--today' : '' ?>" data-date="<?php echo $date; ?>">
-                                    <?php echo $date ; ?>
-                                    <?php echo $day['today'] ? '✓' : '' ; ?>
+                                <li class="calendar__day <?php echo $day['today'] ? 'calendar__day--today' : '' ?> <?php echo !$day['in_month'] ? 'calendar__day--greyed' : '' ?>" data-date="<?php echo $day; ?>">
+                                    <div class="calendar__day-side">
+                                        <div class="calendar__day-number">
+                                            <?php echo $day['date']->format('j') ; ?>
+                                        </div>
+                                        <div class="calendar__day-name"><?php echo $day['date']->format('D') ; ?></div>
+
+                                    </div>
+                                    <div class="calendar__day-content">
+                                        <?php if (!empty($day['event'])) : ?>
+                                            <div class="calendar__day-event" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
+                                        <?php endif; ?>
+                                        <ul class="calendar__day-sessions">
+                                            <?php foreach ($day['sessions'] as $index => $session) : ?>
+                                                <li class="calendar__session" style="background-color: <?php echo !empty($session['matiere']->color) ? $session['matiere']->color : '#000' ?>;">
+                                                    <div class="calendar__session-name"><?php echo $session['short_name'] ; ?></div>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
