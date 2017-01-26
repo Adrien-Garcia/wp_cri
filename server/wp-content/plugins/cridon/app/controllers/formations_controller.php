@@ -61,9 +61,21 @@ class FormationsController extends BaseActuController
 
         $calendar = $this->_fill_calendar_data($calendar);
 
-        $this->set('month', $month);
-        $this->set('year', $year);
-        $this->set('calendar', $calendar);
+        $data = array(
+            'month' => $month,
+            'year' => $year,
+            'calendar' => $calendar,
+            'prev_month' => array(
+                'month' => ($month-1) >= 1 ? $month-1 : 12,
+                'year' => ($month-1) >= 1 ? $year : $year-1,
+            ),
+            'next_month' => array(
+                'month' => ($month+1) <= 12 ? $month+1 : 1,
+                'year' => ($month+1) <= 12 ? $year : $year+1,
+            ),
+        );
+
+        $this->set('data', $data);
 
     }
 

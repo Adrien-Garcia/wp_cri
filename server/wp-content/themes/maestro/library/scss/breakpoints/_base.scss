@@ -2623,14 +2623,69 @@ a.logoJP:hover{opacity: 1;
 		-moz-border-radius: 0 !important;
 	}
 
-
-
-
-
-
-
-
-
 }
 
+/*********************
+CALENDAR STYLES
+*********************/
 
+#calendar {
+    width: 100%;
+    .calendar__wrapper--header {
+        background: #eee;
+        border-color: #bcbcbc;
+        border-width: 1px 0;
+        border-style: solid;
+        height: 73px;
+    }
+    .calendar__header--navigation {
+        width: 100%;
+        //line-height: 73px;
+        height: 100%;
+        position: relative;
+        @include do-sm;
+        font-size: 20px;
+        text-transform: uppercase;
+
+        & > * {
+            display: block;
+            text-align: center;
+            line-height: 71px;
+
+        }
+    }
+
+    .calendar__button {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 49px;
+        text-decoration: none;
+        &:before {
+            vertical-align: middle;
+            @include svgicon('icon-flech-arrow',18px, 18px, $bleu);
+        }
+    }
+    .calendar__button--next {
+        right: 0;
+    }
+    .calendar__button--previous {
+        left: 0;
+        &:before {
+            transform: rotateY(180deg);
+        }
+    }
+
+    .calendar__block--currentmonth {
+        margin: 0 auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 49px;
+        left: 49px;
+    }
+
+    .calendar__header--weekdays {
+        display: none;
+    }
+}
