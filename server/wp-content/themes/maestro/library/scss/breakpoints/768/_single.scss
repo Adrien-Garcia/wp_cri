@@ -15,11 +15,11 @@
 
 
 	#inner-content{
+
 		.titre {
 			height: auto;
 
 			span{
-				/*margin: 20px 0;*/
 				margin-top: 34px;
 			}
 		}
@@ -186,6 +186,92 @@
 		}
 
 
+	}
+
+	&.single-formations {
+
+		#inner-content > a{
+			margin: 0;
+
+			float: left;
+
+			&.liste {
+				margin-left: 100px;
+			}
+
+			&.agenda {
+				margin-left: 20px;
+			}
+			
+
+		}
+
+		article {
+			position: relative;
+
+			.session {
+				width: 180px;
+			    position: absolute;
+			    top: 242px;
+			    height: 90px;
+
+			    p.lieu {
+			    	padding: 0;
+			    }
+			}
+
+			a.bt {
+				width: 180px;
+			    position: absolute;
+			    top: 330px;
+			    @include transition(all 0.3s);
+
+			    &:hover {
+			    	background: $vj_03;
+
+			    	&::before {
+						color: $vj_03;
+					}
+			    }
+			}
+		}
+
+		.liste-sessions {
+			clear: both;
+
+			ul {
+				li {
+					width: 25%;
+					border-bottom: none;
+					border-left: solid 1px $bg-top-footer;
+					padding-left: 20px;
+					padding-bottom: 0;
+					margin-bottom: 30px;
+
+					.session-item {
+						width: 100%;
+					}
+
+					a.preinscrire {
+						position: relative;
+						top: 0;
+						float: left;
+						width: 115px;
+						margin-bottom: 0;
+
+						&:hover {
+					    	background: $vert;
+					    	color: $white;
+
+					    	&::before {
+								color: $vert;
+							}
+					    }
+					}
+				}
+			}
+		}
+		
 	}
 
 }

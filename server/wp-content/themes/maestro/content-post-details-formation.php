@@ -128,6 +128,30 @@
                 </div>
                 <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
             </li>
+            <li>
+                <div class="session-item">
+                    <p class="session-date">26 dec 2016</p>
+                    <p class="session-lieu">Chambre des Notaires de Moselle</p>
+                    <p class="session-horaire">Le matin</p>
+                </div>
+                <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
+            </li>
+            <li>
+                <div class="session-item">
+                    <p class="session-date">26 dec 2016</p>
+                    <p class="session-lieu">Chambre des Notaires de Moselle</p>
+                    <p class="session-horaire">Le matin</p>
+                </div>
+                <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
+            </li>
+            <li>
+                <div class="session-item">
+                    <p class="session-date">26 dec 2016</p>
+                    <p class="session-lieu">Chambre des Notaires de Moselle</p>
+                    <p class="session-horaire">Le matin</p>
+                </div>
+                <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
+            </li>
         </ul>
     </div>
 

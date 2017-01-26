@@ -87,6 +87,7 @@ body.single,
 
 
 			.details{
+				overflow: hidden;
 
 				.block_left{
 					width: 30px;
@@ -386,6 +387,7 @@ body.single,
 				&.horaire {
 					position: relative;
 					margin-top: 16px;
+					font-size: 15px;
 
 					&::after {
 						content:'';
@@ -500,6 +502,7 @@ body.single,
 								&-horaire {
 									position: relative;
 									margin-top: 18px;
+									font-size: 15px;
 
 									&::before {
 										content:'';
