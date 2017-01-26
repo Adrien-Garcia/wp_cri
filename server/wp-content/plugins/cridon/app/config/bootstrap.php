@@ -521,7 +521,7 @@ function arrayGet($array = array(), $key = 0, $default = null) {
  * @return  array
  * @throws  \InvalidArgumentException
  */
-function assocToKeyVal($assoc, $key_field, $val_field)
+function assocToKeyVal($assoc, $key_field, $val_field = null)
 {
     if ( ! is_array($assoc))
     {
@@ -531,14 +531,14 @@ function assocToKeyVal($assoc, $key_field, $val_field)
     foreach ($assoc as $row)
     {
         if (is_array($row)) {
-            if (isset($row[$key_field]) and isset($row[$val_field]))
+            if (isset($row[$key_field]))
             {
-                $output[$row[$key_field]] = $row[$val_field];
+                $output[$row[$key_field]] = !is_null($val_field) && isset($row[$val_field]) ? $row[$val_field] : $row;
             }
         } elseif (is_object($row)) {
-            if (isset($row->{$key_field}) and isset($row->{$val_field}))
+            if (isset($row->{$key_field}))
             {
-                $output[$row->{$key_field}] = $row->{$val_field};
+                $output[$row->{$key_field}] = !is_null($val_field) && isset($row->{$val_field}) ? $row->{$val_field} : $row;
             }
         } else {
             throw new \InvalidArgumentException('The first array parameter must contain array or object.');
