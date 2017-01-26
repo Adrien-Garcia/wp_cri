@@ -12,7 +12,7 @@ $year = $data['year'];
             </div>
         </div>
 
-        <div id="inner-content" class=" cf">
+        <div id="inner-content" class="wrap-desktop cf">
 
             <div id="main" class="cf" role="main">
 
@@ -53,11 +53,13 @@ $year = $data['year'];
                                             <?php echo $day['date']->format('j') ; ?>
                                         </div>
                                         <div class="calendar__day-name"><?php echo $day['date']->format('D') ; ?></div>
-
+                                        <?php if (!empty($day['event'])) : ?>
+                                            <div class="calendar__day-event calendar__day-event--tablet" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="calendar__day-content">
                                         <?php if (!empty($day['event'])) : ?>
-                                            <div class="calendar__day-event" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
+                                            <div class="calendar__day-event calendar__day-event--mobile" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
                                         <?php endif; ?>
                                         <ul class="calendar__day-sessions">
                                             <?php foreach ($day['sessions'] as $index => $session) : ?>

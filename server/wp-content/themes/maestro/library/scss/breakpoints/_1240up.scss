@@ -40,7 +40,7 @@ body {}
 LAYOUT & GRID STYLES
 *********************/
 
-.wrap {
+.wrap, .wrap-desktop {
 	width: 1200px;
 	margin: 0 auto;
 
@@ -1622,13 +1622,10 @@ FOOTER STYLES
 					display: inline-block;
 				}
 
-
 			}
 			.logoJP {
 				float: right;
-
 				margin-top: 0px;
-
 				height: 50px;
     			line-height: 50px;
 				&:before{top:13px;}
@@ -1637,8 +1634,54 @@ FOOTER STYLES
 
 		}
 
-
 	}
 
 }
 
+/*********************
+CALENDAR STYLES
+*********************/
+
+#calendar {
+    $calendar-line-height: 36px;
+    $calendar-sidebar-width: 164px;
+    $calendar-margin: 3px;
+
+    width: 1200px;
+
+    .calendar__header--weekdays {
+        display: block;
+    }
+
+    .calendar__weekdays {
+        display: inline-block;
+        float: none;
+        padding: 0;
+        width: calc( (1200px / 7 ) );
+    }
+
+    .calendar__day-side {
+        display: none;
+    }
+
+    .calendar__day-content {
+        width: calc(100% - #{$calendar-sidebar-width + $calendar-margin});
+    }
+
+    .calendar__day-event {
+        @include no-ellipsis;
+        display: block;
+        width: $calendar-sidebar-width;
+        line-height: 13px;
+        opacity: .6;
+        padding: 7px 15px;
+        height: auto;
+
+        &--mobile {
+            display: inline-block;
+        }
+        &--tablet {
+            display: none;
+        }
+    }
+}

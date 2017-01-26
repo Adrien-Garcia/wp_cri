@@ -2630,6 +2630,10 @@ CALENDAR STYLES
 *********************/
 
 #calendar {
+    $calendar-line-height: 36px;
+    $calendar-sidebar-width: 81px;
+    $calendar-margin: 3px;
+
     width: 100%;
     @include do-sm;
     font-size: 16px;
@@ -2655,7 +2659,6 @@ CALENDAR STYLES
             display: block;
             text-align: center;
             line-height: 71px;
-
         }
     }
 
@@ -2704,17 +2707,18 @@ CALENDAR STYLES
     CALENDAR DAYS
     *********************/
     .calendar__day {
-        min-height: 36px;
+        min-height: $calendar-line-height;
         border-bottom: 1px solid #bcbcbc;
         padding: 0 4px;
+        line-height: 0;
     }
 
     .calendar__day-side {
-        height: 36px;
-        line-height: 35px;
+        height: $calendar-line-height;
+        line-height: $calendar-line-height;
         display: inline-block;
         vertical-align: top;
-        width: 81px;
+        width: $calendar-sidebar-width;
 
         & > * {
             height: 100%;
@@ -2723,7 +2727,7 @@ CALENDAR STYLES
     }
 
     .calendar__day-number {
-        width: 36px;
+        width: $calendar-line-height;
         position: relative;
         display: inline-block;
         text-align: center;
@@ -2768,25 +2772,29 @@ CALENDAR STYLES
     *********************/
     .calendar__day-content {
         display: inline-block;
-        width: calc(100% - 85px);
+        width: calc(100% - #{$calendar-sidebar-width + $calendar-margin});
     }
 
     .calendar__day-event {
         @include do-re;
         @include ellipsis;
-        height: 36px;
+        height: $calendar-line-height;
         font-size: 15px;
         line-height: 36px;
+
+        &--tablet {
+            display: none;
+        }
     }
 
     .calendar__day-sessions {
         display: block;
         margin: 0;
-        padding-top: 3px;
+        padding-top: $calendar-margin;
     }
 
     .calendar__session {
-        margin: 0 0 3px;
+        margin: 0 0 $calendar-margin;
         padding: 0;
         height: 30px;
         line-height: 30px;

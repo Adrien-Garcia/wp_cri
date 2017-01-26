@@ -1958,5 +1958,38 @@ FOOTER STYLES
 
 }
 
+/*********************
+CALENDAR STYLES
+*********************/
+
+#calendar {
+    $calendar-line-height: 36px;
+    $calendar-sidebar-width: 164px;
+    $calendar-margin: 3px;
+
+    .calendar__day-side {
+        height: auto;
+        width: $calendar-sidebar-width;
+    }
+
+    .calendar__day-content {
+        width: calc(100% - #{$calendar-sidebar-width + $calendar-margin});
+    }
+
+    .calendar__day-event {
+        @include no-ellipsis;
+        display: block;
+        width: $calendar-sidebar-width;
+        line-height: 13px;
+        opacity: .6;
+        padding: 7px 15px;
+        height: auto;
+
+        &--mobile {
+            display: none;
+        }
+    }
+}
+
 
 
