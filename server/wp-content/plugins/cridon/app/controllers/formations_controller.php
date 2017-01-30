@@ -6,6 +6,11 @@
 require_once 'base_actu_controller.php';
 class FormationsController extends BaseActuController
 {
+    /** @var DateTime : first day oh the requested month for calendar view */
+    protected $firstDayOfMonth;
+
+    /** @var DateTime : last day oh the requested month for calendar view */
+    protected $lastDayOfMonth;
 
     /**
      * Action Archive
@@ -70,10 +75,12 @@ class FormationsController extends BaseActuController
         $tmpmonth = $tmpmonth->format('F');
 
         $firstdayofmonth = new DateTime('first day of '. $tmpmonth . ' ' . $year);
+        $this->firstDayOfMonth = clone $firstdayofmonth;
         $daytostartofweek = intval($firstdayofmonth->format('N')) -1;
         $firstday = $firstdayofmonth->modify('-'. $daytostartofweek .' days');
 
         $lastdayofmonth = new DateTime('last day of '. $tmpmonth . ' ' . $year);
+        $this->lastDayOfMonth = clone $lastdayofmonth;
         $daytoendofweek = 7 - intval($lastdayofmonth->format('N'));
         $lastday = $lastdayofmonth->modify('+'. $daytoendofweek .' days');
 
@@ -83,7 +90,7 @@ class FormationsController extends BaseActuController
         $today = strtotime('today midnight');
         while ($lastday->getTimestamp() > $date->getTimestamp()) {
             $calendar[$date->format('Y-m-d')] = array(
-                'date' => $date,
+                'date' => clone $date,
                 'today' => $date->getTimestamp() == $today,
             );
             $date->modify('+1 day');
@@ -91,51 +98,87 @@ class FormationsController extends BaseActuController
         return $calendar;
     }
 
+    /**
+     * $calendar = array(
+     *   'yyyymmdd' => array(
+     *     'date' => Datetime
+     *     'today' => bool
+     *     'event' => (optional) Name for the event of the day @TODO
+     *     'sessions' => array(
+     *       array(
+     *         'name' => string
+     *         'short_name' => string
+     *         'matiere' => Matiere|MvcObject
+     *         'time' => string
+     *         'url' => string
+     *         'action' => string : URL
+     *         'action_label' => string
+     *         'details' => string : HTML content
+     *       )
+     *     )
+     *   )
+     * )
+     *
+     * @param $calendar array : Content corresponds to the calendar view
+     * @return array : The very same calendar filled with sessions values
+     * @throws Exception
+     */
     protected function _fill_calendar_data($calendar) {
-        foreach ($calendar as $n => $day) {
-            $rand = rand(-5, 5);
 
-            $day['event'] = $rand > 3 ? 'Universités lorem ipsum dolor sit amet' : null;
+        $modelSession = new Session();
+        $sessions = $modelSession->find(array(
+            'conditions' => array(
+                'OR' => array(
+                    'Session.date >= ' => $this->firstDayOfMonth->format('Y-m-d'),
+                    'Session.date <= ' => $this->lastDayOfMonth->format('Y-m-d')
+                )
+            ),
+            'joins' => array(
+                'Formation',
+            ),
+            'order' => 'Session.date ASC',
+        ));
 
-            $day['sessions'] = array();
+        // As current ORM does not handle multiple JOIN
+        $formations = $this->model->find(array(
+            'joins' => array(
+                'Post',
+                'Matiere',
+            ),
+        ));
+        $formations = assocToKeyVal($formations, 'id');
 
-            $nb = $rand >=0 ? $rand : 0;
-
-            for ($i = 0; $i < $nb; $i++) {
-                $data = array(
-                    'name' => 'Couple et patrimoine : optimiser le choix du régime matrimonial '.$i,
-                    'short_name' => 'Optimisation régime matrimonial '.$i,
-                    'matiere' => mvc_model('Matiere')->find_by_id($i+1),
-                    'time' => 'Après-midi',
-                    'url' => '/formations/'.$i,
-                );
-
-                $j = rand(1,5);
-                switch ($j) {
-                    case 1: // dispensé en chambre + connecté + notaire!=chambre
-                        $data['contact_cridon'] = '/contact/cridon-formation';
-                        break;
-                    case 2: // dispensé en chambre + connecté + notaire==chambre
-                        $data['chambre_name'] = 'Chambre régionale des notaires d\'auvergne-rhône-alpes';
-                        $data['chambre_phone'] = '0102030405';
-                        $data['chambre_email'] = 'contact@institutxavier.fr';
-                        break;
-                    case 3: // dispensé en chambre + pas connecté
-                        $data['place'] = 'Institut Xavier - Grenoble';
-                        break;
-                    case 4: // dispensé au cridon + connecté
-                        $data['inscription_url'] = '/inscription-formation/'.$i;
-                        break;
-                    case 5: // dispensé au cridon + pas connecté @TODO pas dans les maquettes, à spécifier ?
-                        $data['contact_cridon'] = '/contact/cridon-formation';
-                        break;
-                }
-
-                $day['sessions'][] = $data;
+        foreach ($sessions as $session) {
+            $key = $session->date;
+            if (!isset($calendar[$key])) {
+                throw new OutOfBoundsException(sprintf('Key %s not found for current calendar', $key));
             }
-
-            $calendar[$n] = $day;
+            $formation = $formations[$session->id_formation];
+            $urlOptions = array(
+                'controller' => 'documents',
+                'action'     => 'download',
+                'id'         => $session->id_formation
+            );
+            $lineSession = array(
+                'name' => $formation->post->post_title,
+                'short_name' => $formation->short_name,
+                'matiere' => $formation->matiere,
+                'time' => $session->timetable,
+                'url' => MvcRouter::public_url($urlOptions)
+            );
+            $this->addSessionAction($lineSession);
+            $calendar[$key]['sessions'][] = $lineSession;
         }
+
         return $calendar;
+    }
+
+    /**
+     * Will provide session line in calendar with information concerning subscription or contact
+     * @param $lineSession array : a Session entry in calendar
+     */
+    protected function addSessionAction(& $lineSession)
+    {
+        /** @TODO */
     }
 }
