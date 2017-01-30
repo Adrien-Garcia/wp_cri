@@ -2711,6 +2711,7 @@ CALENDAR STYLES
         border-bottom: 1px solid #bcbcbc;
         padding: 0 4px;
         line-height: 0;
+        position: relative;
     }
 
     .calendar__day-side {
@@ -2791,6 +2792,10 @@ CALENDAR STYLES
         display: block;
         margin: 0;
         padding-top: $calendar-margin;
+
+        .calendar__session-content {
+            display: none;
+        }
     }
 
     .calendar__session {
@@ -2809,5 +2814,28 @@ CALENDAR STYLES
         color: #FFF;
         padding-left: 5px;
         font-size: 15px;
+    }
+
+    .calendar__session-block {
+        position: absolute;
+        right: 50px;
+        bottom: -#{150px + 18px};
+        height: 150px;
+        width: 220px;
+
+        filter: drop-shadow(0 0 3px rgba(0,0,0,.3));
+
+        background: #eee;
+        z-index: 1;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            right: calc(50% + 15px);
+            width: 30px;
+            @include svgicon('icon-angle-top', 30px, 30px, #eee);
+
+        }
     }
 }

@@ -15,7 +15,6 @@ $year = $data['year'];
         <div id="inner-content" class="wrap-desktop cf">
 
             <div id="main" class="cf" role="main">
-
                  <h1 class="h1">Calendrier des formations</h1>
 
                 <div id="calendar">
@@ -38,17 +37,17 @@ $year = $data['year'];
                         </div>
                         <ul class="calendar__header--weekdays"><!--
                             <?php for ($i=0;$i<7;$i++) : ?>
-                                --><li class="calendar__weekdays" data-col-weekday="<?php echo $i ; ?>">
+                             --><li class="calendar__weekdays" data-col-weekday="<?php echo $i ; ?>">
                                     <?php echo strftime('%A', strtotime('next Monday +' . $i . 'days')); ?>
                                 </li><!--
                             <?php endfor; ?>
 
-                        --></ul>
+                     --></ul>
                     </div>
                     <div class="calendar__wrapper--body">
                         <ul class="calendar__body"><!--
                             <?php foreach ($calendar as $date => $day): ?>
-                                --><li class="calendar__day <?php echo $day['today'] ? 'calendar__day--today' : '' ?> <?php echo !$day['in_month'] ? 'calendar__day--greyed' : '' ?>" data-date="<?php echo $day; ?>">
+                             --><li class="calendar__day <?php echo $day['today'] ? 'calendar__day--today' : '' ?> <?php echo !$day['in_month'] ? 'calendar__day--greyed' : '' ?>" data-date="<?php echo $day; ?>">
                                     <div class="calendar__day-side">
                                         <div class="calendar__day-number">
                                             <?php echo $day['date']->format('j') ; ?>
@@ -62,17 +61,30 @@ $year = $data['year'];
                                         <?php if (!empty($day['event'])) : ?>
                                             <div class="calendar__day-event calendar__day-event--mobile" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
                                         <?php endif; ?>
-                                        <ul class="calendar__day-sessions">
+                                        <ul class="calendar__day-sessions <?php echo (count($day['sessions']) > 4 ? 'calendar__day-sessions--scrollable' : '') ; ?>">
                                             <?php foreach ($day['sessions'] as $index => $session) : ?>
-                                                <li class="calendar__session" style="background-color: <?php echo !empty($session['matiere']->color) ? $session['matiere']->color : '#000' ?>;">
+                                                <li 
+                                                    class="calendar__session" 
+                                                    data-session="<?php echo $session['id'] ; ?>"
+                                                    style="background-color: <?php echo !empty($session['matiere']->color) ? $session['matiere']->color : '#000' ?>;"
+                                                >
                                                     <div class="calendar__session-name"><?php echo $session['short_name'] ; ?></div>
+                                                    <div class="calendar__session-content">
+                                                        <div class="calendar__session-content--header">
+                                                            <img class="calendar__session-matiere--icon" src="<?php echo $session['matiere']->picto; ?>" alt="<?php echo $session['matiere']->label ; ?>" width="30" height="30">
+                                                            <span class="calendar__session-content--name"><?php echo $session['name'] ; ?></span>
+                                                        </div>
+                                                    </div>
                                                 </li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
+                                    <div class="calendar__session-block">
+
+                                    </div>
                                 </li><!--
                             <?php endforeach; ?>
-                            --></ul>
+                         --></ul>
                     </div>
                 </div>
 

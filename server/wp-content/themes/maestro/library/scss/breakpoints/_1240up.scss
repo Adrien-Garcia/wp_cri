@@ -1695,7 +1695,6 @@ CALENDAR STYLES
         height: 170px;
         max-height: 170px;
         padding: 0 3px;
-        overflow: hidden;
 
         &:nth-child(7n) { //dimanche
             border-right: none;
@@ -1718,6 +1717,7 @@ CALENDAR STYLES
 
     .calendar__day-content {
         width: 100%;
+        overflow:hidden;
     }
 
     .calendar__day-number {
@@ -1747,6 +1747,17 @@ CALENDAR STYLES
         }
         &--tablet {
             display: inline-block;
+        }
+    }
+
+    .calendar__day-sessions {
+        height: 135px;
+
+        &.calendar__day-sessions--scrollable {
+            height: 135px;
+            overflow: auto;
+            margin: 0 -316px 0 0;
+            padding-right: 300px;
         }
     }
 }
