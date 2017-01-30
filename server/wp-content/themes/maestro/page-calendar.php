@@ -27,7 +27,7 @@ $year = $data['year'];
                             <div class="calendar__block--currentmonth">
                                 <?php
                                 setlocale(LC_TIME, 'fr_FR');
-                                $actual_month = strftime('%B', DateTime::createFromFormat('!m',$month)->getTimestamp());
+                                $actual_month = utf8_encode(strftime('%B', DateTime::createFromFormat('!m',$month)->getTimestamp()));
                                 $actual_month = ($year == strftime('%Y') ) ? $actual_month : $actual_month . ' ' . $year;
                                 echo $actual_month;
                                 ?>
@@ -36,25 +36,26 @@ $year = $data['year'];
                                 &nbsp;
                             </a>
                         </div>
-                        <ul class="calendar__header--weekdays">
+                        <ul class="calendar__header--weekdays"><!--
                             <?php for ($i=0;$i<7;$i++) : ?>
-                                <li class="calendar__weekdays" data-col-weekday="<?php echo $i ; ?>">
+                                --><li class="calendar__weekdays" data-col-weekday="<?php echo $i ; ?>">
                                     <?php echo strftime('%A', strtotime('next Monday +' . $i . 'days')); ?>
-                                </li>
+                                </li><!--
                             <?php endfor; ?>
-                        </ul>
+
+                        --></ul>
                     </div>
                     <div class="calendar__wrapper--body">
-                        <ul class="calendar__body">
+                        <ul class="calendar__body"><!--
                             <?php foreach ($calendar as $date => $day): ?>
-                                <li class="calendar__day <?php echo $day['today'] ? 'calendar__day--today' : '' ?> <?php echo !$day['in_month'] ? 'calendar__day--greyed' : '' ?>" data-date="<?php echo $day; ?>">
+                                --><li class="calendar__day <?php echo $day['today'] ? 'calendar__day--today' : '' ?> <?php echo !$day['in_month'] ? 'calendar__day--greyed' : '' ?>" data-date="<?php echo $day; ?>">
                                     <div class="calendar__day-side">
                                         <div class="calendar__day-number">
                                             <?php echo $day['date']->format('j') ; ?>
                                         </div>
                                         <div class="calendar__day-name"><?php echo $day['date']->format('D') ; ?></div>
                                         <?php if (!empty($day['event'])) : ?>
-                                            <div class="calendar__day-event calendar__day-event--tablet" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
+                                            <div class="calendar__day-event calendar__day-event--tablet js-calendar-ellipsis" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
                                         <?php endif; ?>
                                     </div>
                                     <div class="calendar__day-content">
@@ -69,9 +70,9 @@ $year = $data['year'];
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
-                                </li>
+                                </li><!--
                             <?php endforeach; ?>
-                        </ul>
+                            --></ul>
                     </div>
                 </div>
 

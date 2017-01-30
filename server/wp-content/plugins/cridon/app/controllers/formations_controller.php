@@ -100,7 +100,7 @@ class FormationsController extends BaseActuController
 
         $date = $firstday;
         $today = strtotime('today midnight');
-        while ($lastday->getTimestamp() > $date->getTimestamp()) {
+        while ($lastday->getTimestamp() >= $date->getTimestamp()) {
             $calendar[$date->format('Y-m-d')] = array(
                 'date' => clone $date,
                 'today' => $date->getTimestamp() == $today,

@@ -1648,40 +1648,105 @@ CALENDAR STYLES
     $calendar-margin: 3px;
 
     width: 1200px;
+    border: 1px solid #bcbcbc;
+
+    .calendar__wrapper--header {
+        height: auto;
+        border-top: none;
+    }
+
+    .calendar__header--navigation {
+        height: 75px;
+        border-bottom: 1px solid #bcbcbc;
+    }
 
     .calendar__header--weekdays {
         display: block;
+        background: #eee;
+        margin: 0;
+        height: 55px;
     }
 
     .calendar__weekdays {
         display: inline-block;
         float: none;
-        padding: 0;
-        width: calc( (1200px / 7 ) );
+        padding: 13px 0;
+        text-transform: capitalize;
+        height: 100%;
+        border-right: 1px solid #bcbcbc;
+        width: 171px;
+        text-align: center;
+        vertical-align: middle;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    .calendar__body {
+        line-height: 0;
+    }
+
+    .calendar__day {
+        line-height: 16px;
+        display: inline-block;
+        width: 171px;
+        border-right: 1px solid #bcbcbc;
+        height: 170px;
+        max-height: 170px;
+        padding: 0 3px;
+        overflow: hidden;
+
+        &:nth-child(7n) { //dimanche
+            border-right: none;
+            width: 172px;
+        }
+
+        &:nth-last-child(-n+7) { //last line
+            border-bottom: none;
+        }
     }
 
     .calendar__day-side {
+        height: 32px;
+
+    }
+
+    .calendar__day-name {
         display: none;
     }
 
     .calendar__day-content {
-        width: calc(100% - #{$calendar-sidebar-width + $calendar-margin});
+        width: 100%;
+    }
+
+    .calendar__day-number {
+        float: right;
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+        line-height: 32px;
+        margin: 0 2px 0 2px;
     }
 
     .calendar__day-event {
         @include no-ellipsis;
         display: block;
-        width: $calendar-sidebar-width;
         line-height: 13px;
         opacity: .6;
-        padding: 7px 15px;
-        height: auto;
+        padding: 5px 0 0 4px;
+        width: calc(100% - 36px);
+        max-height: 32px;
+        height: 32px;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
 
         &--mobile {
-            display: inline-block;
+            display: none;
         }
         &--tablet {
-            display: none;
+            display: inline-block;
         }
     }
 }
