@@ -310,6 +310,7 @@ body.single,
 		> a{
 
 			@include bt-rectangle($vert, #FFF);
+			@include transition(background 0.3s);
 			width: 70px;
 			height: 30px;
 			line-height: 30px;
@@ -319,9 +320,19 @@ body.single,
 
             &:before{
     			@include svgicon('icon-angle-right', 15px, 15px, $vert);
+    			@include rotate(180);
+    			@include transition(color 0.3s);
     			right: inherit;
     			left: -5px;
-    			@include rotate(180);
+    		}
+
+    		&:hover {
+    			&:before {
+    				@include svgicon('icon-angle-right', 15px, 15px, $vert);
+	    			@include rotate(180);
+	    			right: inherit;
+	    			left: -5px;
+    			}
     		}
 		}
 

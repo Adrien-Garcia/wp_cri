@@ -217,6 +217,30 @@
 
 	}
 
+	&.single-formations {
+
+		#inner-content > a{
+			width: 237px;
+
+			&.liste {
+				margin-left: 350px;
+			}
+
+		}
+
+		.liste-sessions {
+			float: left;
+			width: 100%;
+
+			ul {
+				li {
+					width: 16.66%;
+				}
+			}
+		}
+
+	}
+
 }
 
 #content.single-vie-cridon{

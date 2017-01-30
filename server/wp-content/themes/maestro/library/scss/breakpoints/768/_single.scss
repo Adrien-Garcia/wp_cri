@@ -177,6 +177,12 @@
 
 					.documents-liees {
 						float: left;
+
+						> ul > li > a {
+							&:hover {
+								text-decoration: none;
+							}
+						}
 					}
 
 
@@ -192,11 +198,22 @@
 
 		#inner-content > a{
 			margin: 0;
-
 			float: left;
+
+
 
 			&.liste {
 				margin-left: 100px;
+
+				&::before{
+					@include transition(color 0.3s);
+				}
+
+				&:hover {
+					&::before {
+						color: $vj_03;
+					}
+				}
 			}
 
 			&.agenda {
@@ -225,6 +242,10 @@
 			    position: absolute;
 			    top: 330px;
 			    @include transition(all 0.3s);
+
+			    &::before {
+			    	@include transition(color 0.3s);
+			    }
 
 			    &:hover {
 			    	background: $vj_03;
@@ -258,6 +279,10 @@
 						float: left;
 						width: 115px;
 						margin-bottom: 0;
+
+						&::before {
+							@include transition(color 0.2s);
+						}
 
 						&:hover {
 					    	background: $vert;
