@@ -246,12 +246,16 @@ class MvcInflector {
 
     public static function rules($type, $rules, $reset = false) {
 
+        if (!in_array($type,array('singular','plural','uninflected'))){
+            return;
+        }
+
         $variable_name = '_'.$type;
         
         foreach ($rules as $rule => $pattern) {
             if (is_array($pattern)) {
                 if ($reset) {
-                    self::${$var}[$rule] = $pattern;
+                    self::${$variable_name}[$rule] = $pattern;
                 } else {
                     if ($rule === 'uninflected') {
                         self::${$variable_name}[$rule] = array_merge($pattern, self::${$variable_name}[$rule]);

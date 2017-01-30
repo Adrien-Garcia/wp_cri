@@ -218,6 +218,25 @@ function add_menu_icons_styles(){
 	content: "\f237";
 }
 
+/***Lieux*/
+#adminmenu .toplevel_page_mvc_lieux div.wp-menu-image:before {
+	content: "\f319";
+}
+
+/***Sessions*/
+#adminmenu .toplevel_page_mvc_sessions div.wp-menu-image:before {
+	content: "\f469";
+}
+/***Supports*/
+#adminmenu .toplevel_page_mvc_supports div.wp-menu-image:before {
+	content: "\f125";
+}
+
+/***Soldes*/
+#adminmenu .toplevel_page_mvc_soldes div.wp-menu-image:before {
+	content: "\f491";
+}
+
 
 
 
