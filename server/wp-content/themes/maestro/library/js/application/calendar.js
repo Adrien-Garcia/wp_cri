@@ -28,6 +28,12 @@ App.Calendar = {
             self.$ellipsis.each(function () {
                 App.Utils.multilineEllipsis(this);
             });
+            $('.calendar__day-sessions--scrollable').each(function () {
+                var scrollable = this;
+                var rapport = $(scrollable).innerHeight() / scrollable.scrollHeight;
+                scrollable.calendarScrollbar = $(scrollable).parent().find('.calendar__day-sessions-scrollbar--bar').first();
+                $(scrollable.calendarScrollbar).css('height', (rapport * 100) + '%');
+            });
         }).register('screen and (max-width: 1239px)', function () {
             self.$ellipsis.each(function () {
                 App.Utils.unEllipsis(this);
@@ -49,17 +55,21 @@ App.Calendar = {
         this.debug('addListeners start');
 
         this.$session.on('click.calendar.showSession', function () {
-            self.sessionClickListeners(this);
+            self.sessionClickEvent(this);
         });
 
         this.$sessionCloseBlock.on('click', function () {
             self.sessionBlockClose();
         });
 
+        $('.calendar__day-sessions--scrollable').on('scroll', function () {
+            self.sessionsScrollEvent(this);
+        });
+
         this.debug('addListeners end');
     },
 
-    sessionClickListeners: function (session) {
+    sessionClickEvent: function (session) {
         var self = this;
         var $session = $(session);
         var $block = $('#' + $session.data('block'));
@@ -81,6 +91,14 @@ App.Calendar = {
                 self.sessionBlockClose();
             }
         });
+    },
+
+    sessionsScrollEvent: function (scrollable) {
+        var scrollbar = scrollable.calendarScrollbar;
+        var scrollbarH = $(scrollbar).height();
+        var rapport = scrollable.scrollTop / scrollable.scrollHeight;
+        var top = scrollbarH * rapport;
+        $(scrollbar).css('top', top + 'px');
     },
 
     sessionBlockClose: function () {

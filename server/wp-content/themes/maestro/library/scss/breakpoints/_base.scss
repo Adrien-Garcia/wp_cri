@@ -2819,7 +2819,7 @@ CALENDAR STYLES
     .calendar__session-block {
         position: absolute;
         right: 50px;
-        top: 18px;
+        top: #{18px + 30px};
         width: 220px;
         min-height: 100px;
         display: none;
@@ -2837,12 +2837,16 @@ CALENDAR STYLES
             right: calc(50% + 7px);
             width: 15px;
             @include svgicon('icon-angle-top', 15px, 15px, #eee);
-
+            transform: rotateZ(.1deg); // Fix for Firefox dropshadow having wrong colors
         }
 
         &.calendar__session-block--open {
             display: block;
         }
+    }
+
+    .calendar__day-sessions-scrollbar {
+        display: none;
     }
 
     .calendar__session-block-button--close {

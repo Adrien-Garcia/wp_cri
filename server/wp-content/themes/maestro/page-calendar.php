@@ -61,6 +61,11 @@ $year = $data['year'];
                                         <?php if (!empty($day['event'])) : ?>
                                             <div class="calendar__day-event calendar__day-event--mobile" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
                                         <?php endif; ?>
+                                        <?php if ((count($day['sessions']) > 4)) : ?>
+                                            <div class="calendar__day-sessions-scrollbar">
+                                                <div class="calendar__day-sessions-scrollbar--bar"></div>
+                                            </div>
+                                        <?php endif; ?>
                                         <ul class="calendar__day-sessions <?php echo (count($day['sessions']) > 4 ? 'calendar__day-sessions--scrollable' : '') ; ?>">
                                             <?php foreach ($day['sessions'] as $index => $session) : ?>
                                                 <li 
