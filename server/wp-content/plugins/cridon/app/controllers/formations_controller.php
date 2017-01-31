@@ -181,4 +181,9 @@ class FormationsController extends BaseActuController
     {
         /** @TODO */
     }
+
+    public function demande()
+    {
+
+    }
 }

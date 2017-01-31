@@ -1207,7 +1207,8 @@ body.single #content
 
 */
 
-#content.page-contact{
+#content.page-contact,
+#content.page-formation-form {
 
 	#inner-content{
 
@@ -1309,6 +1310,53 @@ body.single #content
 		padding: 100px 0 0 0;
 	}
 
+}
+
+//
+//   __                            _   _                               _             _
+//  / _| ___  _ __ _ __ ___   __ _| |_(_) ___  _ __     ___ ___  _ __ | |_ __ _  ___| |_
+// | |_ / _ \| '__| '_ ` _ \ / _` | __| |/ _ \| '_ \   / __/ _ \| '_ \| __/ _` |/ __| __|
+// |  _| (_) | |  | | | | | | (_| | |_| | (_) | | | | | (_| (_) | | | | || (_| | (__| |_
+// |_|  \___/|_|  |_| |_| |_|\__,_|\__|_|\___/|_| |_|  \___\___/|_| |_|\__\__,_|\___|\__|
+//
+//
+
+#content.page-formation-form {
+
+	.article-header {
+		height: 100px !important;
+	}
+
+	.col2 {
+		width: 490px;
+		float: right;
+
+		&:first-child {
+			margin-left: 220px;
+		}
+	}
+
+	.h3 {
+		font-size: 30px;
+		line-height: 30px;
+	}
+
+	.textarea {
+		margin-bottom: 10px;
+	}
+
+	label {
+		font-size: 18px;
+		line-height: 40px;
+	}
+
+	p{
+		font-size: 15px;
+	}
+
+	div.important {
+		font-size: 15px;
+	}
 }
 
 

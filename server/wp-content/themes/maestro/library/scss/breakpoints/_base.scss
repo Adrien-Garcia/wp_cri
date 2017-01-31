@@ -1865,7 +1865,8 @@ body.single #content {
 
 */
 
-#content.page-contact{
+#content.page-contact,
+#content.page-formation-form {
 
 	#inner-content{
 
@@ -1998,6 +1999,98 @@ body.single #content {
 		}
 	}
 
+}
+
+//
+//   __                            _   _                               _             _
+//  / _| ___  _ __ _ __ ___   __ _| |_(_) ___  _ __     ___ ___  _ __ | |_ __ _  ___| |_
+// | |_ / _ \| '__| '_ ` _ \ / _` | __| |/ _ \| '_ \   / __/ _ \| '_ \| __/ _` |/ __| __|
+// |  _| (_) | |  | | | | | | (_| | |_| | (_) | | | | | (_| (_) | | | | || (_| | (__| |_
+// |_|  \___/|_|  |_| |_| |_|\__,_|\__|_|\___/|_| |_|  \___\___/|_| |_|\__\__,_|\___|\__|
+//
+//
+
+#content.page-formation-form {
+	#main::before {
+		//display: none;
+	}
+
+	.col2 {
+		margin-bottom: 40px;
+	}
+
+	.h3{
+		@include do-me;
+		font-size: 20px;
+		line-height: 20px;
+		color: $vert;
+		text-transform: uppercase;
+		margin-bottom: 20px;
+	}
+
+	p{
+		font-family: $helvetica;
+		font-size: 13px;
+		color: $bleu;
+		line-height: 18px;
+	}
+
+	div.important {
+		background: $gris;
+		padding: 20px;
+		font-size: 13px;
+		color: $bleu;
+		line-height: 18px;
+
+		.titre {
+			@include do-bo;
+			color: $rouge;
+			text-transform: uppercase;
+			margin-bottom: 10px;
+			font-size: 20px;
+		}
+	}
+
+	.required {
+		color: $rouge;
+	}
+
+	.required-info {
+		border-bottom: solid 4px #e6e6e6;
+    	height: 30px;
+    	font-family: arial;
+    	font-size: 10px;
+    	color: #170910;
+    	text-align: right;
+    	margin-bottom: 20px;
+	}
+
+	select{
+		line-height: 40px;
+		font-size: 14px;
+	}
+
+	label {
+		font-size: 14px;
+	}
+
+	.message {
+		font-size: 14px;
+    	padding: 10px 0 10px 15px;
+    	margin-top: 20px;
+
+    	display: none;
+
+    	&.valide {
+			border-left: solid 5px $vert;
+    		color: $vert;
+    	}
+
+    	&.error {
+    		border-left: solid 5px $rouge;
+    		color: $rouge;
+    	}
+	}
 }
 
 
