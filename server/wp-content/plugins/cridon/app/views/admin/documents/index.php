@@ -13,24 +13,15 @@
         </select>
     </p>
 
-    <p class="search-box">
-        <label class="screen-reader-text" for="post-search-input">Search:</label>
-        <input type="hidden" name="page" value="<?php echo MvcRouter::admin_page_param($model->name); ?>" />
-        <input type="text" name="q" value="<?php echo empty($params['q']) ? '' : $params['q']; ?>" />
-        <input type="submit" value="Search" class="button" />
-    </p>
+<?php
+require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/search.php';
+?>
 
 </form>
 
-<div class="tablenav">
-
-    <div class="tablenav-pages">
-    
-        <?php echo paginate_links($pagination); ?>
-    
-    </div>
-
-</div>
+<?php
+require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/nav.php';
+?>
 
 <div class="clear"></div>
 
@@ -50,14 +41,8 @@
     
 </table>
 
-<div class="tablenav">
-
-    <div class="tablenav-pages">
-    
-        <?php echo paginate_links($pagination); ?>
-    
-    </div>
-
-</div>
+<?php
+require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/nav.php';
+?>
 
 <br class="clear" />

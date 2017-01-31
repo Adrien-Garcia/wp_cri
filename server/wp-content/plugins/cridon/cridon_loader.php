@@ -84,9 +84,9 @@ class CridonLoader extends MvcPluginLoader
 
                             foreach($queries as $query){
                                 // Last row in array after explode can be a single space.
-                                $testEmpty = trim($query);
-                                if (empty($testEmpty)){
-                                    break;
+                                $query = trim($query);
+                                if (empty($query)){
+                                    continue;
                                 }
 
                                 // We keep `if` statements and not `elseif` so if we forget a `;` for queries separator, all of the queries would still be executed.

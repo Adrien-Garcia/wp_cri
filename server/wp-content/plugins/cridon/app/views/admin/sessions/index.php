@@ -2,6 +2,6 @@
 
 <?php
 
-$helperName = 'admin_matiere';
+$helperName = 'admin_noview';
 
 require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/index.php';

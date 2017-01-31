@@ -182,6 +182,13 @@ Lorsque le type de support vaut 0, il s'agit du nombre de points initiaux d'une 
 Il doit donc y avoir autant de lignes avec support 0 que d'étude,
 alors qu'il n'y a pas de ligne avec un support autre tant qu'il n'y a pas eu de consommation de points.
 
+### Formations
+
+Les formations sont des models disposant de plusieurs sessions, elles-même rattachées à des lieux.
+Selon la nature des lieux, le process d'inscription varie. Ce process dépend de la localisation de l'étude du notaire et n'est donc disponible que lorsque le notaire est connecté.
+
+![](http://yuml.me/91912e6e.png)
+
 ## Migrations SQL
 
 Ce Wordpress se base sur des Models custom, ayant chacun leur propre table. Cela permet de faire évoluer le model par étape, sans opération manuelle en BO.
