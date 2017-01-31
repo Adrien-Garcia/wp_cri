@@ -41,10 +41,15 @@
 								<div>
 									<label>Nombre de participants <span class="required">*</span></label>
 									<select name="" id="" class="gfield_select" required="required" tabindex="">
-										<option value="" selected="selected">1</option>
+										<option value="">-</option>
+										<option value="">1</option>
 										<option value="">2</option>
 										<option value="">3</option>
 									</select>
+								</div>
+								<div>
+									<label>Thématique <span class="required">*</span></label>
+									<input type="text" name="" id="" required="required" class="large" tabindex="">
 								</div>
 								<div>
 									<label>Commentaires</label>
