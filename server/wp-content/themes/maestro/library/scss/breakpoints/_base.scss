@@ -2819,9 +2819,11 @@ CALENDAR STYLES
     .calendar__session-block {
         position: absolute;
         right: 50px;
-        bottom: -#{150px + 18px};
-        height: 150px;
+        top: 18px;
         width: 220px;
+        min-height: 100px;
+        display: none;
+        padding: 3px;
 
         filter: drop-shadow(0 0 3px rgba(0,0,0,.3));
 
@@ -2832,10 +2834,134 @@ CALENDAR STYLES
             content: '';
             position: absolute;
             top: -15px;
-            right: calc(50% + 15px);
-            width: 30px;
-            @include svgicon('icon-angle-top', 30px, 30px, #eee);
+            right: calc(50% + 7px);
+            width: 15px;
+            @include svgicon('icon-angle-top', 15px, 15px, #eee);
+
+        }
+
+        &.calendar__session-block--open {
+            display: block;
+        }
+    }
+
+    .calendar__session-block-button--close {
+        position: absolute;
+        top: -9px;
+        right: -9px;
+        width: 26px;
+        height: 26px;
+        background: #324968;
+        border-radius: 50%;
+        line-height: 26px;
+        color: transparent;
+        cursor: pointer;
+
+        &:before {
+            @include svgicon('icon-croix', 13px, 13px, #fff);
+            display: block;
+            height: 26px;
+            width: 26px;
+            text-align: center;
+            line-height: 24px;
+            vertical-align: middle;
+        }
+    }
+
+    .calendar__session-content--header {
+        background: #fff;
+        width: 100%;
+        padding: 7px 8px;
+
+        .calendar__session-matiere--icon {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .calendar__session-content--name {
+            width: calc(100% - 35px);
+            display: inline-block;
+            line-height: 1.12;
+            text-transform: uppercase;
+        }
+    }
+
+    .calendar__session-content--body {
+        padding: 0 7px 8px;
+        font-size: 15px;
+        line-height: 1.12;
+
+        hr {
+            display: block;
+            margin: 10px 0;
+            padding: 0 1px;
+            background: #bcbcbc;
+            height: 4px;
+            width: 100%;
+            border: none;
+        }
+    }
+
+    .calendar__session-content--time,
+    .calendar__session-content--place {
+        line-height: 1;
+        padding: 10px 0;
+    }
+
+    .calendar__session-content--place {
+        position: relative;
+
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 20%;
+            height: 1px;
+            background: $text-color;
+        }
+    }
+
+    .calendar__session-content--more {
+        font-family: $garamond;
+        color: $rouge;
+        display: block;
+        font-weight: normal;
+        margin-bottom: 10px;
+
+        &:after {
+            content: '+';
+            display: inline-block;
+            @include do-el;
+            font-size: 25px;
+            line-height: 15px;
+            position: relative;
+            top: 2px;
+        }
+
+        &:hover:after {
+            font-weight: normal;
 
         }
     }
+
+    .calendar__session-content-button {
+        @include bt-rectangle($vert, #FFF);
+        margin-top: 9px;
+    }
+
+    .calendar__session-content-chambre {
+        line-height: 1.2;
+
+        &--name {
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        &--telephone,
+        &--email {
+            font-weight: normal;
+            padding-bottom: 1px;
+        }
+    }
+
 }

@@ -135,7 +135,9 @@ App.Utils = {
     },
 
     unEllipsis: function (el) {
-        el.innerHTML = el.dataset.innerHTML;
+        if (el.dataset.innerHTML) {
+            el.innerHTML = el.dataset.innerHTML;
+        }
     },
 
     debug: function (t) {

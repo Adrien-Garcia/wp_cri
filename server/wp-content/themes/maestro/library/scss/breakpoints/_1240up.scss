@@ -1760,4 +1760,51 @@ CALENDAR STYLES
             padding-right: 300px;
         }
     }
+
+    .calendar__session-block {
+        top: -50%;
+        bottom: auto;
+        right: -230px;
+        left: auto;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: calc(50% - 15px);
+            left: -15px;
+            width: 15px;
+            @include svgicon('icon-angle-left', 60px, 60px, #eee);
+
+        }
+
+        &:nth-child(6n), //samedi et dimanche
+        &:nth-child(7n) {
+            left: -230px;
+            right: auto;
+        }
+    }
+
+    .calendar__day {
+        &:nth-child(6n), //samedi et dimanche
+        &:nth-child(7n) {
+            .calendar__session-block {
+                left: -230px;
+                right: auto;
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    right: -14px;
+                    left: auto;
+                    width: 15px;
+                    @include svgicon('icon-angle-right', 60px, 60px, #eee);
+
+                }
+            }
+        }
+    }
+
+    .calendar__session-block-button--close::before {
+        line-height: 26px;
+    }
 }

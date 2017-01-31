@@ -64,8 +64,9 @@ $year = $data['year'];
                                         <ul class="calendar__day-sessions <?php echo (count($day['sessions']) > 4 ? 'calendar__day-sessions--scrollable' : '') ; ?>">
                                             <?php foreach ($day['sessions'] as $index => $session) : ?>
                                                 <li 
-                                                    class="calendar__session" 
+                                                    class="calendar__session js-calendar__session" 
                                                     data-session="<?php echo $session['id'] ; ?>"
+                                                    data-block="calendar__session-block-<?php echo $date ; ?>"
                                                     style="background-color: <?php echo !empty($session['matiere']->color) ? $session['matiere']->color : '#000' ?>;"
                                                 >
                                                     <div class="calendar__session-name"><?php echo $session['short_name'] ; ?></div>
@@ -74,13 +75,41 @@ $year = $data['year'];
                                                             <img class="calendar__session-matiere--icon" src="<?php echo $session['matiere']->picto; ?>" alt="<?php echo $session['matiere']->label ; ?>" width="30" height="30">
                                                             <span class="calendar__session-content--name"><?php echo $session['name'] ; ?></span>
                                                         </div>
+                                                        <div class="calendar__session-content--body">
+                                                            <?php if ($session['place']) : ?>
+                                                                <div class="calendar__session-content--place"><?php echo $session['place'] ; ?></div>
+                                                            <?php endif; ?>
+                                                            <?php if ($session['time']) : ?>
+                                                                <div class="calendar__session-content--time"><?php echo $session['time'] ; ?></div>
+                                                            <?php endif; ?>
+                                                            <?php if ($session['url']) : ?>
+                                                                <a href="<?php echo $session['url'] ; ?>" class="calendar__session-content--more">En savoir plus</a>
+                                                            <?php endif; ?>
+                                                            <a href="#" class="calendar__session-content-button calendar__session-content-button--register">Se pré-inscrire</a>
+                                                            <a href="#" class="calendar__session-content-button calendar__session-content-button--contact">Contacter le Cridon Lyon</a>
+                                                            <?php if ($session['chambre_name']) : ?>
+                                                            <hr/>
+                                                            <div class="calendar__session-content-chambre">
+                                                                <div class="calendar__session-content-chambre--name"><?php echo $session['chambre_name'] ; ?></div>
+                                                                <?php if ($session['chambre_phone']) : ?>
+                                                                <div class="calendar__session-content-chambre--telephone"><?php echo $session['chambre_phone'] ; ?></div>
+                                                                <?php endif; ?>
+                                                                <?php if ($session['chambre_email']) : ?>
+                                                                <div class="calendar__session-content-chambre--email"><?php echo $session['chambre_email'] ; ?></div>
+                                                                <?php endif; ?>
+                                                            </div>
+                                                            <?php endif; ?>
+                                                        </div>
                                                     </div>
                                                 </li>
                                             <?php endforeach; ?>
                                         </ul>
                                     </div>
-                                    <div class="calendar__session-block">
+                                    <div class="calendar__session-block js-calendar__session-block" id="calendar__session-block-<?php echo $date ; ?>">
+                                        <div class="calendar__session-block-button--close js-calendar__session-block-button--close">X</div>
+                                        <div class="calendar__session-block-content">
 
+                                        </div>
                                     </div>
                                 </li><!--
                             <?php endforeach; ?>
