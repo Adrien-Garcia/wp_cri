@@ -293,4 +293,9 @@ class FormationsController extends BaseActuController
         }
         return $data;
     }
+
+    public function demande()
+    {
+
+    }
 }
