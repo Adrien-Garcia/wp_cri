@@ -40,7 +40,7 @@
 							<form action="">
 								<div>
 									<label>Nombre de participants <span class="required">*</span></label>
-									<select name="" id="" class="gfield_select" tabindex="">
+									<select name="" id="" class="gfield_select" required="required" tabindex="">
 										<option value="" selected="selected">1</option>
 										<option value="">2</option>
 										<option value="">3</option>
