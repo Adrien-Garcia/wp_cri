@@ -67,6 +67,7 @@ $year = $data['year'];
                                             </div>
                                         <?php endif; ?>
                                         <ul class="calendar__day-sessions <?php echo (count($day['sessions']) > 4 ? 'calendar__day-sessions--scrollable' : '') ; ?>">
+                                            <?php if (is_array($day['sessions'])): ?>
                                             <?php foreach ($day['sessions'] as $index => $session) : ?>
                                                 <li 
                                                     class="calendar__session js-calendar__session" 
@@ -108,6 +109,7 @@ $year = $data['year'];
                                                     </div>
                                                 </li>
                                             <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </ul>
                                     </div>
                                     <div class="calendar__session-block js-calendar__session-block" id="calendar__session-block-<?php echo $date ; ?>">

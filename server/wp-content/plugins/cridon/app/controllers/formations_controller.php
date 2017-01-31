@@ -177,7 +177,8 @@ class FormationsController extends BaseActuController
                 'short_name' => $formation->short_name,
                 'matiere' => $formation->matiere,
                 'time' => $session->timetable,
-                'url' => MvcRouter::public_url($urlOptions)
+                'url' => MvcRouter::public_url($urlOptions),
+                'id' => $session->id
             );
             $this->addSessionAction($lineSession);
             $calendar[$key]['sessions'][] = $lineSession;

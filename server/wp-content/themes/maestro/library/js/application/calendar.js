@@ -2,9 +2,10 @@
 /* global App, jsvar, enquire */
 
 App.Calendar = {
+    offsetMobileBlock: 50,
+    offsetDesktopBlock: 15,
 
     ellispisSelector: '.js-calendar-ellipsis',
-
     sessionSelector: '.js-calendar__session',
     sessionBlockSelector: '.js-calendar__session-block',
     sessionBlockCloseSelector: '.js-calendar__session-block-button--close',
@@ -74,20 +75,35 @@ App.Calendar = {
         var $session = $(session);
         var $block = $('#' + $session.data('block'));
         var content = $session.find('.calendar__session-content').html();
+        var off = self.offsetDesktopBlock;
 
         this.sessionBlockClose();
         $block.find('.calendar__session-block-content').html(content);
         $block.addClass('calendar__session-block--open');
+        $session.addClass('calendar__session--open');
+
+        if ($(window).width() < 1240) {
+            off = $session[0].offsetTop + self.offsetMobileBlock;
+        } else {
+            off = $session[0].offsetTop + self.offsetDesktopBlock;
+            off -= $block.outerHeight() / 2;
+        }
+        $block.css('top', off + 'px');
 
         /**
-         *  Cet event est supprimé à chaque 'fermeture' de session
+         *  Cet event est supprimé à chaque 'fermeture' de block session
          *  @see sessionBlockClose
          *  */
         $(document).on('click.calendar.hideSession', function (e) {
             /**
-             * if click outside the current session
+             * if click outside the current session and block
              */
-            if (!$session.is(e.target) && $session.has(e.target).length === 0) {
+            if (
+                !$session.is(e.target)
+                && $session.has(e.target).length === 0
+                && !$block.is(e.target)
+                && $block.has(e.target).length === 0
+            ) {
                 self.sessionBlockClose();
             }
         });
@@ -102,8 +118,10 @@ App.Calendar = {
     },
 
     sessionBlockClose: function () {
+        this.$session.removeClass('calendar__session--open');
         this.$sessionBlock.removeClass('calendar__session-block--open');
-        this.$sessionBlock.find('calendar__session-block-content').attr('style', '').html('');
+        this.$sessionBlock
+            .find('calendar__session-block-content').html('');
         $(document).off('click.calendar.hideSession');
     },
 
