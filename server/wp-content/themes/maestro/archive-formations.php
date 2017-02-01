@@ -50,8 +50,10 @@
 					</div>
 					<?php endif; ?>
 				</div>
-
+				<a href="/catalogue-formations/" class="bt-formation">Consulter la liste complète des formations</a>
 			</div>					
+
+
 
 		</div>
 		
