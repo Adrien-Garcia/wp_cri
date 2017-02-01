@@ -75,7 +75,7 @@ $year = $data['year'];
                                                     data-block="calendar__session-block-<?php echo $date ; ?>"
                                                     style="background-color: <?php echo !empty($session['matiere']->color) ? $session['matiere']->color : '#000' ?>;"
                                                 >
-                                                    <div class="calendar__session-name"><?php echo $session['short_name'] ; ?></div>
+                                                    <div class="calendar__session-name"><?php echo $session['name'] ; ?></div>
                                                     <div class="calendar__session-content">
                                                         <div class="calendar__session-content--header">
                                                             <img class="calendar__session-matiere--icon" src="<?php echo $session['matiere']->picto; ?>" alt="<?php echo $session['matiere']->label ; ?>" width="30" height="30">
