@@ -23,6 +23,7 @@
 
 				<?php // if (have_posts()) : while (have_posts()) : the_post(); ?>
 					<?php set_query_var( 'object', $object ); ?>
+					<?php set_query_var( 'sessions', $sessions ); ?>
 
 					<?php echo get_template_part("content","post-details-formation"); ?>
 

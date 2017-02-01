@@ -32,6 +32,25 @@ class FormationsController extends BaseActuController
         $this->set_pagination($collection);
     }
 
+    public function show(){
+        parent::show();
+        $formation = $this->object;
+        if (!empty($formation->id)) {
+            $options = array(
+                'conditions' => array(
+                    'id_formation' => $formation->id,
+                    'date >= ' => date('Y-m-d')
+                ),
+                'order' => 'date asc'
+            );
+            $sessions = mvc_model('Session')->find($options);
+
+            //$this->addContactAction($sessions);
+            // Pass data to the single-formation view
+            $this->set('sessions', $sessions);
+        }
+    }
+
     public function past()
     {
         $this->process_params_for_search();
@@ -175,10 +194,50 @@ class FormationsController extends BaseActuController
 
     /**
      * Will provide session line in calendar with information concerning subscription or contact
-     * @param $lineSession array : a Session entry in calendar
+     * @param $session array : the session with all data
+     * @param $lieuxAssociatedToEtude : every lieu associated to current etude
+     * @param $currentSession
      */
-    protected function addSessionAction(& $lineSession)
+    protected function addContactAction($session, $lieuxAssociatedToEtude, $currentSession = null)
     {
-        /** @TODO */
+        // @TODO KEEP THIS FUNCTION ON MERGE REQUEST AND DELETE THIS COMMENT
+        $data ['action'] = $data ['action_label'] =  $data['details'] = '';
+        $view_vars = array();
+        $view_vars ['lieu'] = '';
+        $view_vars ['contact_lieu'] = false;
+        // Pour les différents cas ; se reporter à goo.gl/0fHVxB
+        if (!is_user_logged_in()){
+            $error_code = "PROTECTED_CONTENT";
+            $data ['action'] = "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . urlencode($_SERVER['REQUEST_URI']);
+
+            $data ['action_label'] = 'Se former';
+        } elseif (!CriIsNotaire() || !in_array(CriNotaireData()->id_fonction, Config::$allowedNotaryFunction) ) {
+            if (!$session->lieu->is_cridon){
+                $view_vars ['lieu'] = $session->lieu;
+            }
+        } else {
+            if ($session->lieu->is_cridon) {
+                $data ['action'] = '/session-pré-inscription-cridon';
+                $data ['action_label'] = 'Se pré-inscrire';
+            } else {
+                // L'étude dépend-t-elle du lieu ?
+                $view_vars ['lieu'] = $session->lieu;
+                $etudeIsAssociatedToLieu = false;
+                foreach ($lieuxAssociatedToEtude as $lieu) {
+                    if ($session->id_lieu == $lieu->id) {
+                        $etudeIsAssociatedToLieu = true;
+                        $view_vars ['contact_lieu'] = true;
+                        break;
+                    }
+                }
+                if (!$etudeIsAssociatedToLieu) {
+                    $data ['action'] = '/session-contact-cridon';
+                    $data ['action_label'] = 'Contacter le CRIDON LYON';
+                }
+            }
+        }
+        $view_vars ['session'] = $data;
+        $data ['details'] = CriRenderView('session_details',$view_vars,'sessions',false);
+        return $data;
     }
 }
