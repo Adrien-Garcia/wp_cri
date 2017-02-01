@@ -154,6 +154,7 @@ class FormationsController extends BaseActuController
             ),
             'joins' => array(
                 'Formation',
+                'Lieu'
             ),
             'order' => 'Session.date ASC',
         ));
@@ -166,6 +167,10 @@ class FormationsController extends BaseActuController
             ),
         ));
         $formations = assocToKeyVal($formations, 'id');
+
+        // On récupère les lieux dont dépends l'étude
+        $modelEtude = new Etude();
+        $lieuxAssociatedToEtude = $modelEtude->getLieuxAssociatedToEtude();
 
         foreach ($sessions as $session) {
             $key = $session->date;
@@ -185,7 +190,7 @@ class FormationsController extends BaseActuController
                 'time' => $session->timetable,
                 'url' => MvcRouter::public_url($urlOptions)
             );
-            $this->addSessionAction($lineSession);
+            $this->addContactAction($lineSession, $session, $lieuxAssociatedToEtude);
             $calendar[$key]['sessions'][] = $lineSession;
         }
 
