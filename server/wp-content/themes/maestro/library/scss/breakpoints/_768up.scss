@@ -1587,6 +1587,92 @@ body.single #content{
 }
 
 
+ //   __                            _   _                                 _        _
+ //  / _| ___  _ __ _ __ ___   __ _| |_(_) ___  _ __             ___ __ _| |_ __ _| | ___   __ _ _   _  ___
+ // | |_ / _ \| '__| '_ ` _ \ / _` | __| |/ _ \| '_ \   _____   / __/ _` | __/ _` | |/ _ \ / _` | | | |/ _ \
+ // |  _| (_) | |  | | | | | | (_| | |_| | (_) | | | | |_____| | (_| (_| | || (_| | | (_) | (_| | |_| |  __/
+ // |_|  \___/|_|  |_| |_| |_|\__,_|\__|_|\___/|_| |_|          \___\__,_|\__\__,_|_|\___/ \__, |\__,_|\___|
+ //                                                                                        |___/
+ //
+
+#content.page-catalogue-formation {
+
+	#inner-content {
+		padding: 0 30px;
+	}
+
+	#main article {
+
+		.top {
+			overflow: hidden;
+
+			.wrapper-img {
+				width: 228px;
+				float: left;
+			}
+
+			.wrapper-text {
+				width: calc(100% - 258px);
+				float: right;
+				margin-top: 0;
+
+				a.bt-agenda {
+					width: 274px;
+
+					&:hover {
+						background: #eee;
+						
+						&::after {
+							opacity: 0;
+						}
+					}
+				}
+			}
+		}
+
+		
+
+		
+
+		.wrapper-catalogue {
+			margin: 40px 0 50px 0;
+			 width: calc(100%);
+
+			ul{
+
+				> li{
+					// Matiere
+					.nom-matiere {
+						cursor: pointer;
+					}
+
+					
+
+					> ul.formations {
+						display: none;
+
+						li{
+							> .nom-formation {
+								font-size: 18px;
+								line-height: 22px;
+								width: 600px;
+								padding-right: 0;
+							}
+
+							> a:hover{
+								opacity: 0.8;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+}
+
+
 
 
 
