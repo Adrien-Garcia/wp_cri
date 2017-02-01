@@ -14,6 +14,6 @@
 <?php endif; ?>
 
 <!-- Bouton CTA : "Contacter le cridon lyon" si notaire + chambre dont il ne dépends pas ; "Se pré-inscrire" si le lieu est le cridon et le notaire connecté -->
-<?php if (!empty($session['action']) && !empty($session['action_label'])): ?>
-    <a href="<?php echo $session['action'] ?>"><?php echo $session['action_label'] ?></a>
+<?php if (!empty($action) && !empty($action_label)): ?>
+    <a href="<?php echo $action ?>" class="bt preinscrire"><?php echo $action_label ?></a>
 <?php endif; ?>

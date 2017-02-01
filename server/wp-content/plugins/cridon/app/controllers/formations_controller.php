@@ -45,7 +45,15 @@ class FormationsController extends BaseActuController
             );
             $sessions = mvc_model('Session')->find($options);
 
-            //$this->addContactAction($sessions);
+            // On récupère les lieux dont dépends l'étude
+            $modelEtude = new Etude();
+            $lieuxAssociatedToEtude = $modelEtude->getLieuxAssociatedToEtude();
+            foreach($sessions as $key => $session){
+                $data = $this->addContactAction($session,$lieuxAssociatedToEtude);
+                $sessions[$key]->action         = $data ['action'];
+                $sessions[$key]->action_label   = $data ['action_label'];
+                $sessions[$key]->contact_lieu   = $data ['contact_lieu'];
+            }
             // Pass data to the single-formation view
             $this->set('sessions', $sessions);
         }
@@ -147,7 +155,7 @@ class FormationsController extends BaseActuController
         $modelSession = new Session();
         $sessions = $modelSession->find(array(
             'conditions' => array(
-                'OR' => array(
+                'AND' => array(
                     'Session.date >= ' => $this->firstDayOfMonth->format('Y-m-d'),
                     'Session.date <= ' => $this->lastDayOfMonth->format('Y-m-d')
                 )
@@ -190,7 +198,10 @@ class FormationsController extends BaseActuController
                 'time' => $session->timetable,
                 'url' => MvcRouter::public_url($urlOptions)
             );
-            $this->addContactAction($lineSession, $session, $lieuxAssociatedToEtude);
+            $data = $this->addContactAction($session, $lieuxAssociatedToEtude);
+            $lineSession ['action']         = $data ['action'];
+            $lineSession ['action_label']   = $data ['action_label'];
+            $lineSession ['details']        = CriRenderView('session_details',$data,'sessions',false);
             $calendar[$key]['sessions'][] = $lineSession;
         }
 
@@ -201,37 +212,32 @@ class FormationsController extends BaseActuController
      * Will provide session line in calendar with information concerning subscription or contact
      * @param $session array : the session with all data
      * @param $lieuxAssociatedToEtude : every lieu associated to current etude
-     * @param $currentSession
      */
-    protected function addContactAction($session, $lieuxAssociatedToEtude, $currentSession = null)
+    protected function addContactAction($session, $lieuxAssociatedToEtude)
     {
-        // @TODO KEEP THIS FUNCTION ON MERGE REQUEST AND DELETE THIS COMMENT
-        $data ['action'] = $data ['action_label'] =  $data['details'] = '';
-        $view_vars = array();
-        $view_vars ['lieu'] = '';
-        $view_vars ['contact_lieu'] = false;
+        $data ['action'] = $data ['action_label'] =  $data['details'] = $data ['lieu'] = '';
+        $data ['contact_lieu'] = false;
         // Pour les différents cas ; se reporter à goo.gl/0fHVxB
+        if (!$session->lieu->is_cridon){
+            $data ['lieu'] = $session->lieu;
+        }
         if (!is_user_logged_in()){
             $error_code = "PROTECTED_CONTENT";
             $data ['action'] = "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . urlencode($_SERVER['REQUEST_URI']);
 
             $data ['action_label'] = 'Se former';
-        } elseif (!CriIsNotaire() || !in_array(CriNotaireData()->id_fonction, Config::$allowedNotaryFunction) ) {
-            if (!$session->lieu->is_cridon){
-                $view_vars ['lieu'] = $session->lieu;
-            }
-        } else {
+        } elseif (CriIsNotaire() && in_array(CriNotaireData()->id_fonction, Config::$allowedNotaryFunction) ) {
             if ($session->lieu->is_cridon) {
                 $data ['action'] = '/session-pré-inscription-cridon';
                 $data ['action_label'] = 'Se pré-inscrire';
             } else {
                 // L'étude dépend-t-elle du lieu ?
-                $view_vars ['lieu'] = $session->lieu;
+                $data ['lieu'] = $session->lieu;
                 $etudeIsAssociatedToLieu = false;
                 foreach ($lieuxAssociatedToEtude as $lieu) {
                     if ($session->id_lieu == $lieu->id) {
                         $etudeIsAssociatedToLieu = true;
-                        $view_vars ['contact_lieu'] = true;
+                        $data ['contact_lieu'] = true;
                         break;
                     }
                 }
@@ -241,8 +247,6 @@ class FormationsController extends BaseActuController
                 }
             }
         }
-        $view_vars ['session'] = $data;
-        $data ['details'] = CriRenderView('session_details',$view_vars,'sessions',false);
         return $data;
     }
 }

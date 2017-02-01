@@ -13,11 +13,16 @@
     <div class="session">
         <p class="lieu"><?php echo $nextSession->lieu->name ?></p>
         <p class="horaire"><?php echo $nextSession->timetable ?></p>
+        <?php if ($nextSession->contact_lieu): ?>
+            <p><?php echo $nextSession->lieu->phone_number ?></p>
+            <p><?php echo $nextSession->lieu->email ?></p>
+        <?php endif; ?>
     </div>
 
+        <?php if (!empty($nextSession->action) && !empty($nextSession->action_label)): ?>
+            <a href="<?php echo $nextSession->action ?>" class="bt inscription-session"><?php _e($nextSession->action_label) ?></a>
+        <?php endif; ?>
     <?php } ?>
-
-    <a href="" class="bt inscription-session"><?php _e('Se pré-inscrire'); ?></a>
 
 	<div class="details <?php if(!empty($niveau)){echo $niveau;} ?>">
 		<?php if (isset($object->matiere)) : ?>
@@ -96,61 +101,19 @@
                 <?php foreach ($sessions as $session): ?>
                     <li>
                         <div class="session-item">
-                            <p class="session-date"><?php echo $session->date ?></p>
+                            <p class="session-date"><?php echo strftime('%d %b %G',strtotime($session->date)) ?></p>
                             <p class="session-lieu"><?php echo $session->lieu->name ?></p>
                             <p class="session-horaire"><?php echo $session->timetable ?></p>
                         </div>
-                        <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
+                        <?php if ($session->contact_lieu): ?>
+                            <p><?php echo $session->lieu->phone_number ?></p>
+                            <p><?php echo $session->lieu->email ?></p>
+                        <?php endif; ?>
+                        <?php if (!empty($session->action) && !empty($session->action_label)): ?>
+                            <a href="<?php echo $session->action ?>" class="bt preinscrire"><?php _e($session->action_label) ?></a>
+                        <?php endif; ?>
                     </li>
                 <?php endforeach; ?>
-                <li>
-                     <div class="session-item">
-                        <p class="session-date">26 dec 2016</p>
-                        <p class="session-lieu">Chambre des Notaires de Moselle</p>
-                        <p class="session-horaire">Le matin</p>
-                    </div>
-                    <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
-                </li>
-                <li>
-                     <div class="session-item">
-                        <p class="session-date">26 dec 2016</p>
-                        <p class="session-lieu">Chambre des Notaires de Moselle</p>
-                        <p class="session-horaire">Le matin</p>
-                    </div>
-                    <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
-                </li>
-                <li>
-                    <div class="session-item">
-                        <p class="session-date">26 dec 2016</p>
-                        <p class="session-lieu">Chambre des Notaires de Moselle</p>
-                        <p class="session-horaire">Le matin</p>
-                    </div>
-                    <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
-                </li>
-                <li>
-                    <div class="session-item">
-                        <p class="session-date">26 dec 2016</p>
-                        <p class="session-lieu">Chambre des Notaires de Moselle</p>
-                        <p class="session-horaire">Le matin</p>
-                    </div>
-                    <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
-                </li>
-                <li>
-                    <div class="session-item">
-                        <p class="session-date">26 dec 2016</p>
-                        <p class="session-lieu">Chambre des Notaires de Moselle</p>
-                        <p class="session-horaire">Le matin</p>
-                    </div>
-                    <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
-                </li>
-                <li>
-                    <div class="session-item">
-                        <p class="session-date">26 dec 2016</p>
-                        <p class="session-lieu">Chambre des Notaires de Moselle</p>
-                        <p class="session-horaire">Le matin</p>
-                    </div>
-                    <a href="#" class="bt preinscrire"><?php _e('Se pré-inscrire'); ?></a>
-                </li>
             </ul>
         </div>
     <?php endif; ?>
