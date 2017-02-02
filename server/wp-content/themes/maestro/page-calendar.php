@@ -84,8 +84,10 @@ $year = $data['year'];
                                                             <span class="calendar__session-content--name"><?php echo $session['name'] ; ?></span>
                                                         </div>
                                                         <div class="calendar__session-content--body">
-                                                            <?php if ($session['place']) : ?>
-                                                                <div class="calendar__session-content--place"><?php echo $session['place'] ; ?></div>
+                                                            <?php if ($session['lieu']) : ?>
+                                                                <div class="calendar__session-content--place">
+                                                                    <?php echo $session['lieu']->is_cridon ? strtoupper($session['lieu']->name) : $session['lieu']->name; ?>
+                                                                </div>
                                                             <?php endif; ?>
                                                             <?php if ($session['time']) : ?>
                                                                 <div class="calendar__session-content--time"><?php echo $session['time'] ; ?></div>
@@ -93,17 +95,18 @@ $year = $data['year'];
                                                             <?php if ($session['url']) : ?>
                                                                 <a href="<?php echo $session['url'] ; ?>" class="calendar__session-content--more">En savoir plus</a>
                                                             <?php endif; ?>
-                                                            <a href="#" class="calendar__session-content-button calendar__session-content-button--register">Se pré-inscrire</a>
-                                                            <a href="#" class="calendar__session-content-button calendar__session-content-button--contact">Contacter le Cridon Lyon</a>
-                                                            <?php if ($session['chambre_name']) : ?>
+                                                            <?php if ($session['action'] && $session['action_label']) : ?>
+                                                            <a href="<?php echo $session['action'] ; ?>" class="calendar__session-content-button"><?php echo $session['action_label'] ; ?></a>
+                                                            <?php endif; ?>
+                                                            <?php if ($session['contact_lieu']) : ?>
                                                             <hr/>
                                                             <div class="calendar__session-content-chambre">
-                                                                <div class="calendar__session-content-chambre--name"><?php echo $session['chambre_name'] ; ?></div>
-                                                                <?php if ($session['chambre_phone']) : ?>
-                                                                <div class="calendar__session-content-chambre--telephone"><?php echo $session['chambre_phone'] ; ?></div>
+                                                                <div class="calendar__session-content-chambre--name"><?php echo $session['lieu']->name ; ?></div>
+                                                                <?php if ($session['lieu']->phone_number) : ?>
+                                                                <div class="calendar__session-content-chambre--telephone"><?php echo $session['lieu']->phone_number ; ?></div>
                                                                 <?php endif; ?>
-                                                                <?php if ($session['chambre_email']) : ?>
-                                                                <div class="calendar__session-content-chambre--email"><?php echo $session['chambre_email'] ; ?></div>
+                                                                <?php if ($session['lieu']->email) : ?>
+                                                                <div class="calendar__session-content-chambre--email"><?php echo $session['lieu']->email ; ?></div>
                                                                 <?php endif; ?>
                                                             </div>
                                                             <?php endif; ?>

@@ -220,8 +220,8 @@ class FormationsController extends BaseActuController
             }
             $formation = $formations[$session->id_formation];
             $urlOptions = array(
-                'controller' => 'documents',
-                'action'     => 'download',
+                'controller' => 'formations',
+                'action'     => 'show',
                 'id'         => $session->id_formation
             );
             $lineSession = array(
@@ -235,7 +235,10 @@ class FormationsController extends BaseActuController
             $data = $this->addContactAction($session, $lieuxAssociatedToEtude);
             $lineSession ['action']         = $data ['action'];
             $lineSession ['action_label']   = $data ['action_label'];
-            $lineSession ['details']        = CriRenderView('session_details',$data,'sessions',false);
+            $lineSession ['lieu']           = $data['lieu'];
+            $lineSession ['contact_lieu']   = $data['contact_lieu'];
+
+//            $lineSession ['details']        = CriRenderView('session_details',$data,'sessions',false);
             $calendar[$key]['sessions'][] = $lineSession;
         }
 
@@ -244,42 +247,43 @@ class FormationsController extends BaseActuController
 
     /**
      * Will provide session line in calendar with information concerning subscription or contact
-     * @param $session array : the session with all data
+     * @param $session Session : the session with all data
      * @param $lieuxAssociatedToEtude : every lieu associated to current etude
+     * @return array
      */
     protected function addContactAction($session, $lieuxAssociatedToEtude)
     {
-        $data ['action'] = $data ['action_label'] =  $data['details'] = $data ['lieu'] = '';
+        $data ['action'] = $data ['action_label'] =  $data['details'] = '';
+        $data ['lieu'] = $session->lieu;
         $data ['contact_lieu'] = false;
         // Pour les différents cas ; se reporter à goo.gl/0fHVxB
-        if (!$session->lieu->is_cridon){
-            $data ['lieu'] = $session->lieu;
-        }
-        if (!is_user_logged_in()){
+        if (CriIsNotaire() && in_array(CriNotaireData()->id_fonction, Config::$allowedNotaryFunction) ) { // Line 2 (logged in is notaire)
+            // L'étude dépend-t-elle du lieu ?
+            $etudeIsAssociatedToLieu = false;
+            foreach ($lieuxAssociatedToEtude as $lieu) {
+                if ($session->id_lieu == $lieu->id) {
+                    $etudeIsAssociatedToLieu = true;
+                    break;
+                }
+            }
+
+            if ($session->lieu->is_cridon) { // Cell B2 (préinscription)
+                $data ['action'] = '/session-pre-inscription-cridon';
+                $data ['action_label'] = 'Se pré-inscrire';
+            } else if ($etudeIsAssociatedToLieu) { // Cell C2 (informations contact)
+                $data ['contact_lieu'] = true;
+            } else { // Cell D2 (contact Cridon)
+                $data ['action'] = '/session-contact-cridon';
+                $data ['action_label'] = 'Contacter le CRIDON LYON';
+            }
+
+        } else if (CriIsNotaire()) { // Line 3 (logged in not notaire (collab...))
+            // $data ['lieu'] = $session->lieu;
+        } else if (!is_user_logged_in()){ // Line 4 (not logged in)
             $error_code = "PROTECTED_CONTENT";
             $data ['action'] = "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . urlencode($_SERVER['REQUEST_URI']);
 
             $data ['action_label'] = 'Se former';
-        } elseif (CriIsNotaire() && in_array(CriNotaireData()->id_fonction, Config::$allowedNotaryFunction) ) {
-            if ($session->lieu->is_cridon) {
-                $data ['action'] = '/session-pré-inscription-cridon';
-                $data ['action_label'] = 'Se pré-inscrire';
-            } else {
-                // L'étude dépend-t-elle du lieu ?
-                $data ['lieu'] = $session->lieu;
-                $etudeIsAssociatedToLieu = false;
-                foreach ($lieuxAssociatedToEtude as $lieu) {
-                    if ($session->id_lieu == $lieu->id) {
-                        $etudeIsAssociatedToLieu = true;
-                        $data ['contact_lieu'] = true;
-                        break;
-                    }
-                }
-                if (!$etudeIsAssociatedToLieu) {
-                    $data ['action'] = '/session-contact-cridon';
-                    $data ['action_label'] = 'Contacter le CRIDON LYON';
-                }
-            }
         }
         return $data;
     }
