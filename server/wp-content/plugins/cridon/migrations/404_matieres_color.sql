@@ -1,0 +1,16 @@
+ALTER TABLE `cri_matiere` ADD COLUMN IF NOT EXISTS `color` VARCHAR(255) NULL AFTER `question`;
+UPDATE `cri_matiere` SET `color` = "#7e4a94" WHERE `code` = "A";
+UPDATE `cri_matiere` SET `color` = "#f9b200" WHERE `code` = "B";
+UPDATE `cri_matiere` SET `color` = "#bdcd00" WHERE `code` = "C";
+UPDATE `cri_matiere` SET `color` = "#928a91" WHERE `code` = "D";
+UPDATE `cri_matiere` SET `color` = "#07acad" WHERE `code` = "E";
+UPDATE `cri_matiere` SET `color` = "#a51848" WHERE `code` = "F";
+UPDATE `cri_matiere` SET `color` = "#006a4e" WHERE `code` = "G";
+UPDATE `cri_matiere` SET `color` = "#e30066" WHERE `code` = "H";
+UPDATE `cri_matiere` SET `color` = "#c7ac7d" WHERE `code` = "K";
+UPDATE `cri_matiere` SET `color` = "#004494" WHERE `code` = "L";
+UPDATE `cri_matiere` SET `color` = "#e64335" WHERE `code` = "O";
+UPDATE `cri_matiere` SET `color` = "#4ab076" WHERE `code` = "P";
+UPDATE `cri_matiere` SET `color` = "#68b022" WHERE `code` = "I";
+UPDATE `cri_matiere` SET `color` = "#008bcf" WHERE `code` = "X";
+UPDATE `cri_matiere` SET `color` = "#f6e100" WHERE `code` = "N";

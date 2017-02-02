@@ -413,4 +413,20 @@ Lien bouton Mon compte rectangle
 
 }
 
+@mixin ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+@mixin no-ellipsis {
+    text-overflow: initial;
+    overflow: initial;
+    display: initial;
+    white-space: initial;
+    max-width: initial;
+}
+
 

@@ -888,6 +888,15 @@ function CriBreadcrumb()
                                                             'controller' => $mvc_params['controller']
                                                         ));
                 $vars['breadcrumbs'][] = $archive;
+            } else if ($mvc_params['controller'] == 'formations' && $mvc_params['action'] == 'calendar') {
+                $archive               = new stdClass();
+                $archive->title        = 'Calendrier des formations';
+                $archive->url          = mvc_public_url(array(
+                    'controller' => $mvc_params['controller'],
+                    'action' => $mvc_params['action'],
+                ));
+                $vars['breadcrumbs'][] = $archive;
+
             } else {
                 if ($mvc_params['controller'] !== 'matieres') {
 

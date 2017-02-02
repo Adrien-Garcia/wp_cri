@@ -84,21 +84,47 @@ class FormationsController extends BaseActuController
     {
         $params = $this->params;
 
-        $month = !empty($params['month']) ? $params['month'] : date('m');
-        $year = !empty($params['year']) ? $params['year'] : date('Y');
+        $matches = array();
+        $month = date('m');
+        $year = date('Y');
+
+        if (preg_match('/^(\d{2})(-)(\d{4})$/', $params['id'], $matches) ) {
+            $month = !empty($params['id']) ? $matches[1] : date('m');
+            $year = !empty($params['id']) ? $matches[3] : date('Y');
+        } else if (preg_match('/^(\d{4})(-)(\d{2})$/', $params['id'], $matches)) {
+            $month = !empty($params['id']) ? $matches[3] : date('m');
+            $year = !empty($params['id']) ? $matches[1] : date('Y');
+        }
 
         $calendar = $this->_generate_calendar_array($month, $year);
 
         $calendar = $this->_fill_calendar_data($calendar);
 
-        $this->set('month', $month);
-        $this->set('year', $year);
-        $this->set('calendar', $calendar);
+        $prev_month = ($month-1) >= 1 ? $month-1 : 12;
+        $prev_month = ($prev_month < 10 ? '0'.strval($prev_month) : strval($prev_month));
+        $next_month = ($month+1) <= 12 ? $month+1 : 1;
+        $next_month = ($next_month < 10 ? '0'.strval($next_month) : strval($next_month));
+
+        $data = array(
+            'month' => $month,
+            'year' => $year,
+            'calendar' => $calendar,
+            'prev_month' => array(
+                'month' => $prev_month,
+                'year' => strval(($month-1) >= 1 ? $year : $year-1),
+            ),
+            'next_month' => array(
+                'month' => $next_month,
+                'year' => strval(($month+1) <= 12 ? $year : $year+1),
+            ),
+        );
+
+        $this->set('data', $data);
 
     }
 
     protected function _generate_calendar_array($month = null, $year = null) {
-        $month = (!empty($month) && intval($month) < 12 && intval($month) > 0 ) ? $month : date('m');
+        $month = (!empty($month) && intval($month) <= 12 && intval($month) > 0 ) ? $month : date('m');
         $year = (!empty($year) && intval($year) > 1970) ? $year : date('Y');
 
         $tmpmonth = DateTime::createFromFormat('!m', $month);
@@ -118,10 +144,11 @@ class FormationsController extends BaseActuController
 
         $date = $firstday;
         $today = strtotime('today midnight');
-        while ($lastday->getTimestamp() > $date->getTimestamp()) {
+        while ($lastday->getTimestamp() >= $date->getTimestamp()) {
             $calendar[$date->format('Y-m-d')] = array(
                 'date' => clone $date,
                 'today' => $date->getTimestamp() == $today,
+                'in_month' => $date->format('m') == $month,
             );
             $date->modify('+1 day');
         }
@@ -202,7 +229,8 @@ class FormationsController extends BaseActuController
                 'short_name' => $formation->short_name,
                 'matiere' => $formation->matiere,
                 'time' => $session->timetable,
-                'url' => MvcRouter::public_url($urlOptions)
+                'url' => MvcRouter::public_url($urlOptions),
+                'id' => $session->id
             );
             $data = $this->addContactAction($session, $lieuxAssociatedToEtude);
             $lineSession ['action']         = $data ['action'];

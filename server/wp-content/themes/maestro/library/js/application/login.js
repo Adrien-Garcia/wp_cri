@@ -3,51 +3,51 @@
 
 App.Login = {
 
-    panelConnexionSelector              : '.js-panel-connexion',
+    panelConnexionSelector: '.js-panel-connexion',
 
-    formConnexionSelector               : '.js-panel-connexion-connexion-form',
-    formMdpSelector                     : '.js-panel-connexion-mdp-form',
+    formConnexionSelector: '.js-panel-connexion-connexion-form',
+    formMdpSelector: '.js-panel-connexion-mdp-form',
 
-    eventToConnexionSelector            : '.js-panel-connexion-to-connexion',
-    eventToMdpSelector                  : '.js-panel-connexion-to-mdp',
+    eventToConnexionSelector: '.js-panel-connexion-to-connexion',
+    eventToMdpSelector: '.js-panel-connexion-to-mdp',
 
-    eventConnexionOpenSelector          : '.js-panel-connexion-open',
-    eventConnexionCloseSelector         : '.js-panel-connexion-close',
+    eventConnexionOpenSelector: '.js-panel-connexion-open',
+    eventConnexionCloseSelector: '.js-panel-connexion-close',
 
-    eventConnexionErrorResetSelector    : '.js-panel-connexion-reset-error',
+    eventConnexionErrorResetSelector: '.js-panel-connexion-reset-error',
 
-    blockConnexionErrorMessageSelector  : '.js-login-error-message-block',
-    blockForgotErrorMessageSelector     : '.js-forgot-error-message-block',
+    blockConnexionErrorMessageSelector: '.js-login-error-message-block',
+    blockForgotErrorMessageSelector: '.js-forgot-error-message-block',
 
-    fieldConnexionLoginSelector         : '.js-login-login-field',
-    fieldConnexionPasswordSelector      : '.js-login-password-field',
-    fieldPasswordMailSelector           : '.js-password-mail-field',
-    fieldPasswordCRPCENSelector         : '.js-password-crpcen-field',
+    fieldConnexionLoginSelector: '.js-login-login-field',
+    fieldConnexionPasswordSelector: '.js-login-password-field',
+    fieldPasswordMailSelector: '.js-password-mail-field',
+    fieldPasswordCRPCENSelector: '.js-password-crpcen-field',
 
-    $panelConnexion                     : null,
-    $panelConnexionOpen                 : null,
-    $panelConnexionClose                : null,
+    $panelConnexion: null,
+    $panelConnexionOpen: null,
+    $panelConnexionClose: null,
 
-    $formConnexion                      : null,
+    $formConnexion: null,
 
-    $buttonToConnexion                  : null,
-    $buttonToMdp                        : null,
+    $buttonToConnexion: null,
+    $buttonToMdp: null,
 
-    $elementsConnexionErrorReset        : null,
+    $elementsConnexionErrorReset: null,
 
-    $blockConnexionErrorMessage         : null,
-    $blockForgotErrorMessage            : null,
+    $blockConnexionErrorMessage: null,
+    $blockForgotErrorMessage: null,
 
-    $fieldConnexionLogin                : null,
-    $fieldConnexionPassword             : null,
-    $fieldPasswordMail                  : null,
-    $fieldPasswordCRPCEN                : null,
+    $fieldConnexionLogin: null,
+    $fieldConnexionPassword: null,
+    $fieldPasswordMail: null,
+    $fieldPasswordCRPCEN: null,
 
-    targetUrl                           : false,
+    targetUrl: false,
 
 
-    init: function() {
-        this.debug("Login : init start");
+    init: function () {
+        this.debug('Login : init start');
 
         this.$panelConnexion            = $(this.panelConnexionSelector);
         this.$panelConnexionClose       = $(this.eventConnexionCloseSelector);
@@ -59,10 +59,10 @@ App.Login = {
         this.$buttonToConnexion         = $(this.eventToConnexionSelector);
         this.$buttonToMdp               = $(this.eventToMdpSelector);
 
-        this.$blockConnexionErrorMessage= $(this.blockConnexionErrorMessageSelector);
+        this.$blockConnexionErrorMessage = $(this.blockConnexionErrorMessageSelector);
         this.$blockForgotErrorMessage   = $(this.blockForgotErrorMessageSelector);
 
-        this.$elementsConnexionErrorReset=$(this.eventConnexionErrorResetSelector);
+        this.$elementsConnexionErrorReset = $(this.eventConnexionErrorResetSelector);
 
         this.$fieldConnexionLogin       = $(this.fieldConnexionLoginSelector);
         this.$fieldConnexionPassword    = $(this.fieldConnexionPasswordSelector);
@@ -88,7 +88,7 @@ App.Login = {
 
         this.addListeners();
 
-        if (App.Utils.queryString.openLogin === "1") {
+        if (App.Utils.queryString.openLogin === '1') {
             this.eventPanelConnexionToggle();
         }
 
@@ -98,62 +98,61 @@ App.Login = {
 
         this.targetUrl = App.Utils.queryString.requestUrl ? App.Utils.queryString.requestUrl : false;
 
-        this.debug("Login : init end");
-
+        this.debug('Login : init end');
     },
 
 
     /*
      * Listeners for the Login page events
      */
-    addListeners: function() {
+    addListeners: function () {
         var self = this;
 
-        this.debug("Login : addListeners start");
+        this.debug('Login : addListeners start');
 
-        this.$panelConnexionOpen.on("click", function() {
+        this.$panelConnexionOpen.on('click', function () {
             self.eventPanelConnexionToggle($(this));
-            if (this.href && this.href.substr(-1) !== "#") {
+            if (this.href && this.href.substr(-1) !== '#') {
                 self.targetUrl = this.href;
             }
         });
 
-        this.$panelConnexionClose.on("click", function() {
+        this.$panelConnexionClose.on('click', function () {
             self.eventPanelConnexionToggle($(this));
         });
 
-        this.$buttonToConnexion.on("click", function() {
+        this.$buttonToConnexion.on('click', function () {
             self.eventToConnexion($(this));
         });
 
-        this.$buttonToMdp.on("click", function() {
+        this.$buttonToMdp.on('click', function () {
             self.eventToMdp($(this));
         });
-        this.$elementsConnexionErrorReset.on('click focus', function() {
+        this.$elementsConnexionErrorReset.on('click focus', function () {
             self.eventErrorReset($(this));
         });
 
-        this.$formConnexion.on('submit', function() {
+        this.$formConnexion.on('submit', function () {
             self.eventSubmitLogin($(this));
             return false;
         });
 
-        this.$formMdp.on('submit', function() {
+        this.$formMdp.on('submit', function () {
             self.eventSubmitPassword($(this));
             return false;
         });
 
 
-        this.debug("Login : addListeners end");
+        this.debug('Login : addListeners end');
     },
 
     /*
      * Event for toggling on and off the flash
      */
 
-    eventPanelConnexionToggle: function(button) {
-        this.$panelConnexion.toggleClass("open");
-        if (this.$panelConnexion.hasClass("open")) {
+    eventPanelConnexionToggle: function (button) {
+        this.$panelConnexion.toggleClass('open');
+        if (this.$panelConnexion.hasClass('open')) {
             this.$formConnexion.addClass('active');
             this.$formMdp.removeClass('active');
         } else {
@@ -161,32 +160,32 @@ App.Login = {
             this.$formMdp.removeClass('active');
         }
 
-        if (button && button.data('login-message')){
+        if (button && button.data('login-message')) {
             this.changeLoginErrorMessage(button.data('login-message'));
         }
     },
 
-    eventToConnexion : function() {
-        this.$formConnexion.addClass("active");
-        this.$formMdp.removeClass("active");
+    eventToConnexion: function () {
+        this.$formConnexion.addClass('active');
+        this.$formMdp.removeClass('active');
     },
 
-    eventToMdp : function() {
-        this.$formConnexion.removeClass("active");
-        this.$formMdp.addClass("active");
+    eventToMdp: function () {
+        this.$formConnexion.removeClass('active');
+        this.$formMdp.addClass('active');
     },
 
-    changeLoginErrorMessage : function(error) {
-        var message = "";
+    changeLoginErrorMessage: function (error) {
+        var message = '';
         switch (error) {
-            case "PROTECTED_CONTENT":
-                message = "Ce contenu est réservé aux utilisateurs enregistrés, veuillez vous connecter.";
+            case 'PROTECTED_CONTENT':
+                message = 'Ce contenu est réservé aux utilisateurs enregistrés, veuillez vous connecter.';
                 break;
-            case "ERROR_NOT_CONNECTED_QUESTION":
-                message = "Veuillez vous connectez pour poser une question.";
+            case 'ERROR_NOT_CONNECTED_QUESTION':
+                message = 'Veuillez vous connectez pour poser une question.';
                 break;
-            case "ERROR_NEWSLETTER_NOT_CONNECTED":
-                message = "Veuillez vous connecter pour choisir vos abonnements.";
+            case 'ERROR_NEWSLETTER_NOT_CONNECTED':
+                message = 'Veuillez vous connecter pour choisir vos abonnements.';
                 break;
             default:
                 message = error;
@@ -196,8 +195,8 @@ App.Login = {
     },
 
     eventErrorReset: function () {
-        this.$blockConnexionErrorMessage.text("");
-        this.$blockForgotErrorMessage.text("");
+        this.$blockConnexionErrorMessage.text('');
+        this.$blockForgotErrorMessage.text('');
     },
 
     eventSubmitLogin: function () {
@@ -210,14 +209,13 @@ App.Login = {
                     action: 'logins_connect',
                     login: this.$fieldConnexionLogin.val(),
                     token: $('#token').val(),
-                    password: this.$fieldConnexionPassword.val()
+                    password: this.$fieldConnexionPassword.val(),
                 },
-                success: this.successLogin.bind(this)
+                success: this.successLogin.bind(this),
             });
         } else {
             this.$blockConnexionErrorMessage.html(jsvar.login_empty_error_msg);
         }
-
     },
 
     eventSubmitPassword: function () {
@@ -230,20 +228,19 @@ App.Login = {
                     action: 'lost_password',
                     email: this.$fieldPasswordMail.val(),
                     token: $('#tokenpwd').val(),
-                    crpcen: this.$fieldPasswordCRPCEN.val()
+                    crpcen: this.$fieldPasswordCRPCEN.val(),
                 },
-                success: this.successPassword.bind(this)
+                success: this.successPassword.bind(this),
             });
         } else {
             this.$blockForgotErrorMessage.html(jsvar.password_empty_crpcen_msg);
         }
-
     },
 
     // AJAX LOGIN
-    successLogin: function(data) {
+    successLogin: function (data) {
         data = JSON.parse(data);
-        if(data === 'invalidlogin')
+        if (data === 'invalidlogin')
         {
             this.$blockConnexionErrorMessage.html(jsvar.login_error_msg);
         }
@@ -256,13 +253,12 @@ App.Login = {
             window.location.href = data;
         }
         return false;
-
     },
 
     // AJAX Forgotten password
-    successPassword: function(data) {
+    successPassword: function (data) {
         data = JSON.parse(data);
-        if(data === 'success')
+        if (data === 'success')
         {
             this.$blockForgotErrorMessage.html(jsvar.password_crpcen_success_msg);
         }
@@ -271,7 +267,6 @@ App.Login = {
             this.$blockForgotErrorMessage.html(jsvar.password_crpcen_error_msg);
         }
         return false;
-
     },
 
     resetTargetUrl: function () {
@@ -279,8 +274,8 @@ App.Login = {
     },
 
 
-    debug: function(t) {
+    debug: function (t) {
         App.debug(t);
-    }
+    },
 
 };
