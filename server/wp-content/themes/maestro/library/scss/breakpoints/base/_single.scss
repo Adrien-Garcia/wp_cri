@@ -18,10 +18,10 @@ body.single,
 	#inner-content{
 
 		.titre {
-			height: 43px;
+			min-height: 43px;
 
 			span{
-				margin: 20px 0;
+				margin: 20px 0 30px 0;
 			}
 		}
 
@@ -377,13 +377,14 @@ body.single,
 		}
 
 		.session {
-			height: 90px;
+			//height: 90px;
 			background: $bleu;
 			@include do-re;
 			font-size: 15px;
 			color: $white;
 			text-align: center;
 			padding: 10px 0;
+			margin-bottom: 20px;
 
 			p{
 				margin: 0;
@@ -391,8 +392,9 @@ body.single,
 				line-height: 18px;
 
 				&.lieu {
-					padding: 0 80px;
+					//padding: 0 80px;
 					margin-bottom: 11px;
+					@include do-bo;
 				}
 
 				&.horaire {
@@ -410,6 +412,15 @@ body.single,
 						left: 50%;
 						margin-left: -20px;
 					}
+				}
+
+				&.telephone {
+					//margin-top: 5px;
+				}
+
+				&.email {
+					margin-bottom: 11px;
+
 				}
 			}
 
@@ -525,9 +536,27 @@ body.single,
 										position: absolute;
 									}
 								}
+
 							}
 						}
 
+					}
+
+					.wrapper-session-contact {
+						float: left;
+						width: 100%;
+						margin: 15px 0 10px 0;
+						border-left:solid 5px $bg-top-footer;
+						padding: 2px 5px;
+						display: inline-block;
+						width: auto;
+						@include do-sm;
+
+						p {
+							margin: 3px 0;
+							line-height: 18px;
+							@include do-re;
+						}
 					}
 
 					a.preinscrire {
@@ -538,6 +567,13 @@ body.single,
 
 						&::before {
 							color: $bg-top-footer;
+						}
+
+						&.large {
+							float: left;
+							width: auto;
+							padding: 0 10px;
+							margin-bottom: 10px;
 						}
 					}
 

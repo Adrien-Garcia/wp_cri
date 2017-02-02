@@ -234,7 +234,16 @@
 
 			ul {
 				li {
-					width: 16.66%;
+					width: 20%;
+					min-height: 170px;
+
+					.session-item {
+						p{
+							padding: 0 20px 0 0;
+						}
+					}
+
+					
 				}
 			}
 		}

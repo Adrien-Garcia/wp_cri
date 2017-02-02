@@ -230,10 +230,22 @@
 				width: 180px;
 			    position: absolute;
 			    top: 242px;
-			    height: 90px;
+			    height: auto;
+			    padding: 10px;
 
-			    p.lieu {
-			    	padding: 0;
+			    p {
+
+		    		&.lieu {
+				    	padding: 0;
+				    }
+
+			    	&.telephone {
+				    	margin-top: 10px;
+				    }
+
+				    &.email {
+				    	margin-bottom: 15px;
+				    }
 			    }
 			}
 
@@ -262,15 +274,23 @@
 
 			ul {
 				li {
-					width: 25%;
+					width: 33.33%;
 					border-bottom: none;
 					border-left: solid 1px $bg-top-footer;
 					padding-left: 20px;
 					padding-bottom: 0;
 					margin-bottom: 30px;
+					min-height: 190px;
 
 					.session-item {
 						width: 100%;
+
+						
+					}
+
+					.wrapper-session-contact {
+						margin-left: -10px;
+    					border-left: solid 2px #e6e6e6;
 					}
 
 					a.preinscrire {
