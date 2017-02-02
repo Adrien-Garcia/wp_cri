@@ -46,8 +46,11 @@ class FormationsController extends BaseActuController
             $sessions = mvc_model('Session')->find($options);
 
             // On récupère les lieux dont dépends l'étude
-            $modelEtude = new Etude();
-            $lieuxAssociatedToEtude = $modelEtude->getLieuxAssociatedToEtude();
+            $lieuxAssociatedToEtude = array();
+            if (!empty($notaire = CriNotaireData())){
+                $modelEtude = new Etude();
+                $lieuxAssociatedToEtude = $modelEtude->getLieuxAssociatedToEtude($notaire->crpcen);
+            }
             foreach($sessions as $key => $session){
                 $data = $this->addContactAction($session,$lieuxAssociatedToEtude);
                 $sessions[$key]->action         = $data ['action'];
@@ -177,8 +180,11 @@ class FormationsController extends BaseActuController
         $formations = assocToKeyVal($formations, 'id');
 
         // On récupère les lieux dont dépends l'étude
-        $modelEtude = new Etude();
-        $lieuxAssociatedToEtude = $modelEtude->getLieuxAssociatedToEtude();
+        $lieuxAssociatedToEtude = array();
+        if (!empty($notaire = CriNotaireData())){
+            $modelEtude = new Etude();
+            $lieuxAssociatedToEtude = $modelEtude->getLieuxAssociatedToEtude($notaire->crpcen);
+        }
 
         foreach ($sessions as $session) {
             $key = $session->date;

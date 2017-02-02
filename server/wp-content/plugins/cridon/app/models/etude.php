@@ -416,21 +416,20 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     }
 
     /**
-     * Récupère tous les lieux dont dépends l'étude de l'utilisateur connecté
+     * Récupère tous les lieux dont dépends l'étude du crpcen passé en entré
+     * @param string $crpcen of the etude
      * @return array | object of lieux
      */
-    public function getLieuxAssociatedToEtude () {
+    public function getLieuxAssociatedToEtude ($crpcen) {
         global $wpdb;
-        $notaire = CriNotaireData();
-        // custom query on lieu_etude since it is not a model
-        if (empty($notaire->crpcen)){
+        if (empty($crpcen)){
             return array();
         }
         $query = '
             SELECT *
                 FROM '.$wpdb->prefix.'lieu as L
                 JOIN '.$wpdb->prefix.'lieu_etude as LE ON L.id = LE.id_lieu
-                AND LE.crpcen = '.$notaire->crpcen.'
+                AND LE.crpcen = '.$crpcen.'
                 ';
 
         return $wpdb->get_results($query);

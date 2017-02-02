@@ -2,7 +2,7 @@
 
 <br>
 <br>
-<!-- Nom du lieu - ex : Chambre départementale des notaires de la région de la france de la terre -->
+<!-- Nom du lieu - ex : Chambre départementale des notaires du Rhône -->
 <?php if ($lieu): ?>
     <p><?php echo $lieu->name ?></p>
 <?php endif; ?>
