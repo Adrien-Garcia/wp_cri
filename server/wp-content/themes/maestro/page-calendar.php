@@ -20,7 +20,7 @@ $year = $data['year'];
                 <div id="calendar">
                     <div class="calendar__wrapper--header">
                         <div class="calendar__header--navigation">
-                            <a href="calendrier-des-formations?month=<?php echo $data['prev_month']['month'] ?>&year=<?php echo $data['prev_month']['year'] ?>" class="calendar__button calendar__button--previous">
+                            <a href="/calendrier-des-formations/<?php echo $data['prev_month']['month'] ?>-<?php echo $data['prev_month']['year'] ?>" class="calendar__button calendar__button--previous">
                                 &nbsp;
                             </a>
                             <div class="calendar__block--currentmonth">
@@ -31,7 +31,7 @@ $year = $data['year'];
                                 echo $actual_month;
                                 ?>
                             </div>
-                            <a href="/calendrier-des-formations?month=<?php echo $data['next_month']['month'] ?>&year=<?php echo $data['next_month']['year'] ?>" class="calendar__button calendar__button--next">
+                            <a href="/calendrier-des-formations/<?php echo $data['next_month']['month'] ?>-<?php echo $data['next_month']['year'] ?>" class="calendar__button calendar__button--next">
                                 &nbsp;
                             </a>
                         </div>
@@ -52,7 +52,9 @@ $year = $data['year'];
                                         <div class="calendar__day-number">
                                             <?php echo $day['date']->format('j') ; ?>
                                         </div>
-                                        <div class="calendar__day-name"><?php echo $day['date']->format('D') ; ?></div>
+                                        <div class="calendar__day-name">
+                                            <?php echo strftime('%a', $day['date']->getTimestamp()); ?>
+                                        </div>
                                         <?php if (!empty($day['event'])) : ?>
                                             <div class="calendar__day-event calendar__day-event--tablet js-calendar-ellipsis" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
                                         <?php endif; ?>

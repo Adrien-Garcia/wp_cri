@@ -54,24 +54,38 @@ class FormationsController extends BaseActuController
     {
         $params = $this->params;
 
-        $month = !empty($params['month']) ? $params['month'] : date('m');
-        $year = !empty($params['year']) ? $params['year'] : date('Y');
+        $matches = array();
+        $month = date('m');
+        $year = date('Y');
+
+        if (preg_match('/^(\d{2})(-)(\d{4})$/', $params['id'], $matches) ) {
+            $month = !empty($params['id']) ? $matches[1] : date('m');
+            $year = !empty($params['id']) ? $matches[3] : date('Y');
+        } else if (preg_match('/^(\d{4})(-)(\d{2})$/', $params['id'], $matches)) {
+            $month = !empty($params['id']) ? $matches[3] : date('m');
+            $year = !empty($params['id']) ? $matches[1] : date('Y');
+        }
 
         $calendar = $this->_generate_calendar_array($month, $year);
 
         $calendar = $this->_fill_calendar_data($calendar);
+
+        $prev_month = ($month-1) >= 1 ? $month-1 : 12;
+        $prev_month = ($prev_month < 10 ? '0'.strval($prev_month) : strval($prev_month));
+        $next_month = ($month+1) <= 12 ? $month+1 : 1;
+        $next_month = ($next_month < 10 ? '0'.strval($next_month) : strval($next_month));
 
         $data = array(
             'month' => $month,
             'year' => $year,
             'calendar' => $calendar,
             'prev_month' => array(
-                'month' => ($month-1) >= 1 ? $month-1 : 12,
-                'year' => ($month-1) >= 1 ? $year : $year-1,
+                'month' => $prev_month,
+                'year' => strval(($month-1) >= 1 ? $year : $year-1),
             ),
             'next_month' => array(
-                'month' => ($month+1) <= 12 ? $month+1 : 1,
-                'year' => ($month+1) <= 12 ? $year : $year+1,
+                'month' => $next_month,
+                'year' => strval(($month+1) <= 12 ? $year : $year+1),
             ),
         );
 
@@ -80,7 +94,7 @@ class FormationsController extends BaseActuController
     }
 
     protected function _generate_calendar_array($month = null, $year = null) {
-        $month = (!empty($month) && intval($month) < 12 && intval($month) > 0 ) ? $month : date('m');
+        $month = (!empty($month) && intval($month) <= 12 && intval($month) > 0 ) ? $month : date('m');
         $year = (!empty($year) && intval($year) > 1970) ? $year : date('Y');
 
         $tmpmonth = DateTime::createFromFormat('!m', $month);
