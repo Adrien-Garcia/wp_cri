@@ -60,38 +60,36 @@
 							<div class="h3">Afin de finaliser votre pré-inscription, veuillez remplir le formulaire suivant :</div>
 							<!-- Fin -->
 
-							<form action="">
+							<form action="" method="post">
 								<div>
-									<label>Nombre de participants <span class="required">*</span></label>
-									<select name="" id="" class="gfield_select" required="required" tabindex="">
-										<option value="">-</option>
-										<option value="">1</option>
-										<option value="">2</option>
-										<option value="">3</option>
-									</select>
+									<label for="formationParticipants">Nombre de participants <span class="required">*</span></label>
+                                    <input type="number" value="-" min="1" name="formationParticipants" id="formationParticipants" class="large" required="required" tabindex="0" />
 								</div>
 								<div>
-									<label>Thématique <span class="required">*</span></label>
-									<input type="text" name="" id="" required="required" class="large" tabindex="">
+									<label for="formationTheme">Thématique <span class="required">*</span></label>
+									<input type="text" name="formationTheme" id="formationTheme" required="required" class="large" tabindex="1">
 								</div>
 								<div>
-									<label>Commentaires</label>
+                                    <label for="formationCommentaire">Commentaires</label>
 									<!-- Pré inscription / Demande de cession de formation -->
 									<p class="label">Merci de renseigner les informations personnelles des participants (nom / prénom) ainsi qu'une proposition de date et de lieux souhaités</p>
 									<!-- Fin -->
-									<textarea name="" id="" cols="30" rows="10" class="textarea" tabindex=""></textarea>
+									<textarea name="formationCommentaire" id=""formationCommentaire cols="30" rows="10" class="textarea" tabindex="2"></textarea>
 								</div>
 								<div class="required-info">*Champs obligatoires</div>
-
-								<input type="submit" id="" class="gform_button button" value="Envoyer la demande" tabindex="" />
-
-								<input type="submit" id="" class="gform_button button" value="Valider la pré-inscription" tabindex="" />
-
+								<input type="submit" name="formationSubmit" id="formationSubmit" class="gform_button button" value="Envoyer la demande Valider la pré-inscription" tabindex="10" />
 							</form>
-							<div class="message error">
-								Veuillez remplir les champs obligatoires
+                            <?php if (!empty($error)) : ?>
+							<div class="message error show">
+								<?php echo $error ; ?>
 							</div>
-						</div>
+                            <?php endif; ?>
+                            <?php if (!empty($valid)) : ?>
+                            <div class="message valide show">
+                                <?php echo $valid ; ?>
+                            </div>
+                            <?php endif; ?>
+                        </div>
 
 						
 

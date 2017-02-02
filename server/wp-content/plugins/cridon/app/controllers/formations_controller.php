@@ -296,6 +296,22 @@ class FormationsController extends BaseActuController
 
     public function demande()
     {
+        $params = $this->params;
 
+        if (!empty($params['formationSubmit'])) {
+
+            if (!empty($params['formationParticipants']) && !empty($params['formationTheme'])) {
+                $formationParticipants = $params['formationParticipants'];
+                $formationTheme = $params['formationTheme'];
+
+
+                $this->set('valid', ' Votre demande a bien été envoyée. ');
+                return true;
+
+            } else {
+                $this->set('error', 'Veuillez remplir les champs obligatoires.');
+            }
+        }
+        return false;
     }
 }
