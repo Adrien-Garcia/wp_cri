@@ -2,7 +2,7 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
 	<?php
     if (!empty($sessions)){
-        $nextSession = array_shift($sessions);
+        $nextSession = reset($sessions);
     ?>
 	<div class="date sel-object-date">
 		<span class="jour"><?php echo strftime('%d',strtotime($nextSession->date)) ?></span>
