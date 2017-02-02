@@ -32,7 +32,7 @@
 					<a href="<?php echo MvcRouter::public_url(array('controller' => 'formations', 'action'     => 'index')) ?>" class="bt liste">
 						<?php _e('Retour à la liste des formations'); ?>
 					</a>
-					<a href="#" class="bt agenda"><?php _e('Consulter l\'agenda des formations'); ?></a>
+					<a href="<?php echo MvcRouter::public_url(array('controller' => 'formations', 'action'     => 'calendar')) ?>" class="bt agenda"><?php _e('Consulter l\'agenda des formations'); ?></a>
 
 				<?php // endwhile; ?>
 
