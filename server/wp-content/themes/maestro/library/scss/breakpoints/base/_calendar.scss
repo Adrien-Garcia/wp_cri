@@ -268,18 +268,18 @@ CALENDAR STYLES
         &:before {
             @include svgicon('icon-croix', 13px, 13px, #fff);
             display: block;
-            height: 26px;
+            height: 27px;
             width: 26px;
             text-align: center;
             line-height: 26px;
             vertical-align: middle;
             position: relative;
-            top: -1px;
-            right: 1px;
+            top: 0px;
+            right: 0px;
         }
 
         &:hover {
-            opacity: .7;
+            opacity: .9;
         }
     }
 

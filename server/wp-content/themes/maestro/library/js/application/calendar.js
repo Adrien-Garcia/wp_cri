@@ -3,7 +3,7 @@
 
 App.Calendar = {
     offsetMobileBlock: 50,
-    offsetDesktopBlock: 15,
+    offsetDesktopBlock: 45,
 
     ellispisSelector: '.js-calendar-ellipsis',
     sessionSelector: '.js-calendar__session',
