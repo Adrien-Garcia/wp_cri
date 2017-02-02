@@ -78,7 +78,6 @@
             ?>
 			<div class="documents-liees">
 				<ul>
-
                     <?php foreach ($documents as $index => $document) : ?>
                         <?php
                         $options = array(
@@ -88,7 +87,11 @@
                         );
                         $publicUrl  = MvcRouter::public_url($options);
                         ?>
-                        <li><a href="<?php echo $publicUrl ; ?>" target="_blank"><?php echo $document->name ; ?></a></li>
+                        <li>
+                            <a href="<?php echo $publicUrl ; ?>" target="_blank">
+                                <?php echo $document->name ; ?>
+                            </a>
+                        </li>
                     <?php endforeach; ?>
 				</ul>
 			</div>

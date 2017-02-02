@@ -1,26 +1,27 @@
 /*
 
-  ____ ___ _   _  ____ _     _____   
- / ___|_ _| \ | |/ ___| |   | ____|  
- \___ \| ||  \| | |  _| |   |  _|    
-  ___) | || |\  | |_| | |___| |___    
- |____/___|_| \_|\____|_____|_____|     
-                                                                               
+  ____ ___ _   _  ____ _     _____
+ / ___|_ _| \ | |/ ___| |   | ____|
+ \___ \| ||  \| | |  _| |   |  _|
+  ___) | || |\  | |_| | |___| |___
+ |____/___|_| \_|\____|_____|_____|
+
 
 
 */
 
 
-body.single, #content.single {
+body.single,
+#content.single {
 
-	
+
 	#inner-content{
 
 		.titre {
-			height: 43px;
-			
+			min-height: 43px;
+
 			span{
-				margin: 20px 0;
+				margin: 20px 0 30px 0;
 			}
 		}
 
@@ -42,7 +43,7 @@ body.single, #content.single {
 				margin-left: -30px;
 
 
-				
+
 			}
 
 
@@ -70,7 +71,7 @@ body.single, #content.single {
 				margin-bottom: 20px;
 
 				&:before{
-					@include svgicon('icon-angle-bottom', 15px, 15px, $vert);					
+					@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
 					position:absolute;
 					bottom: -15px;
 					left: 50%;
@@ -86,12 +87,13 @@ body.single, #content.single {
 
 
 			.details{
+				overflow: hidden;
 
 				.block_left{
 					width: 30px;
 					height: 30px;
 					float: left;
-					
+
 					.img-cat{
 						width: 30px;
 						height: 30px;
@@ -159,7 +161,7 @@ body.single, #content.single {
 					}
 				}
 
-				
+
 				.block_right{
 					float: right;
 					width: calc(100% - 50px);
@@ -211,103 +213,13 @@ body.single, #content.single {
 					width: 100%;
 					padding-left: 50px;
 
-					
-
 					.content{
 						font-family: $helvetica;
 					    font-size: 13px;
 					    line-height: 18px;
 					    color:$bleu;
-
-					    /*a{
-					    	color:$rouge;
-					    	text-decoration: underline;
-
-					    	&:hover{
-					    		text-decoration: none;
-					    	}
-					    }
-
-					    s{
-							background: $jaune;
-							text-decoration: none;
-
-						}
-
-					    h2, h3{
-					    	
-					    	font-size: 15px;
-					    	line-height: 18px;					    	
-					    	text-transform: uppercase;
-					    	
-					    	margin: 0;
-					    	position: relative;
-
-					    	
-					    }
-
-					    h2{
-					    	color:$bleu;
-					    	@include do-bo;
-					    	padding: 10px 0;
-					    	&:after{
-					    		content:'';
-								width: 40px;
-								height: 1px;
-								background: $bleu;
-								position: absolute;
-								left: 0;
-								bottom: 0;
-					    	}
-				    	}
-
-				    	h3{
-				    		color:$vert;
-				    		@include do-me;
-				    		margin-left: 20px;
-				    	}
-
-					    >p{
-					    	margin: 15px 0;
-					    }
-
-					    h3 + p {
-					    	color:$vert;
-                            margin: 0 0 0 20px;
-                        }
-
-					    >ul, ol{
-
-					    	margin: 0;
-					    	padding: 0;
-
-					    	>li{
-					    		position: relative;
-					    		display: block;
-					    		vertical-align: middle;
-					    		line-height: 14px;
-
-					    		padding: 3px 0 0 20px;
-					    		margin: 0 0 5px 0;
-
-
-					    		&:before{
-					    			content:'';
-					    			height: 8px;
-					    			width: 8px;
-					    			border:solid 1px $rouge;
-					    			@include border-radius(25px);
-					    			display: block;
-					    			position: absolute;
-					    			left: 0;
-					    			top: 50%;
-					    			margin-top: -5px;
-
-					    		}
-
-					    	}
-					    }*/
 					}
+
 					.adresse{
 						font-family: $helvetica-bold;
 						font-size: 12px;
@@ -352,53 +264,53 @@ body.single, #content.single {
 
 					.documents-liees{
 						width: 100%;
-						padding: 20px;
 						margin-top: 20px;
 						background: #e6e6e6;
 
-						>ul{
+						> ul {
 							margin: 0;
-							padding: 0;
+							padding: 20px 0;
 
-							>li{
+							> li {
 								margin: 0;
-								padding: 3px 0;
+								padding: 0;
+								position: relative;
+								padding-left: 60px;
+								padding-right: 20px;
 
-								>a{
+								&:before {
+									@include svgicon('icon-pdf', 25px, 25px, $rouge);
+									position: absolute;
+									left: 20px;
+									top: 50%;
+									margin-top: -13px;
+								}
+
+								> a {
 									@include do-re;
-									font-size: 14px;
-									color:$bleu;
+									font-size: 16px;
+									color: $bleu;
 									text-decoration: none;
-									
-									&:hover{
-										//text-decoration: underline;
-										//@include do-me;
-									}
-
-									/* &:before{
-										content:'|';
-										position: relative;
-										left: -10px;
-									} */
-
+									text-decoration: underline;
+									display: block;
+									line-height: 18px;
 								}
 							}
 						}
 
-					}					
+					}
 
 				}
+
+
 			}
 
 		}
 
 		> a{
-			/*
-			background: $vert;
-			display: block;
-			color:#FFF;*/
 
 			@include bt-rectangle($vert, #FFF);
+			@include transition(background 0.3s);
 			width: 70px;
 			height: 30px;
 			line-height: 30px;
@@ -408,22 +320,279 @@ body.single, #content.single {
 
             &:before{
     			@include svgicon('icon-angle-right', 15px, 15px, $vert);
+    			@include rotate(180);
+    			@include transition(color 0.3s);
     			right: inherit;
     			left: -5px;
-    			@include rotate(180);
+    		}
+
+    		&:hover {
+    			&:before {
+    				@include svgicon('icon-angle-right', 15px, 15px, $vert);
+	    			@include rotate(180);
+	    			right: inherit;
+	    			left: -5px;
+    			}
     		}
 		}
 
 
 	}
 
+	&.single-formations {
+
+		article {
+			padding-bottom: 0 !important;
+			margin-bottom: 36px;
+		}
+		
+		#inner-content article .date {
+			margin-bottom: 3px;
+
+			&::before {
+				display: none;
+			}
+		}
+
+		#inner-content > a{
+			width: auto;
+			margin: auto;
+			display: inline-block;
+			margin-bottom: 10px;
+			display: block;
+
+			&.liste {
+				width: 230px;
+			}
+
+			&.agenda {
+				width: 250px;
+				margin-bottom: 50px;
+
+				&:before{
+					display: none;
+				}
+			}
+
+		}
+
+		.session {
+			//height: 90px;
+			background: $bleu;
+			@include do-re;
+			font-size: 15px;
+			color: $white;
+			text-align: center;
+			padding: 10px 0;
+			margin-bottom: 20px;
+
+			p{
+				margin: 0;
+				padding: 0;
+				line-height: 18px;
+
+				&.lieu {
+					//padding: 0 80px;
+					margin-bottom: 11px;
+					@include do-bo;
+				}
+
+				&.horaire {
+					position: relative;
+					margin-top: 16px;
+					font-size: 15px;
+
+					&::after {
+						content:'';
+						width: 40px;
+						height: 1px;
+						background: $white;
+						position: absolute;
+						top: -8px;
+						left: 50%;
+						margin-left: -20px;
+					}
+				}
+
+				&.telephone {
+					//margin-top: 5px;
+				}
+
+				&.email {
+					margin-bottom: 11px;
+
+				}
+			}
 
 
+		}
+
+		a.bt {
+			height: 30px;
+			background: $vert;
+			color: $white;
+			text-transform: uppercase;
+			@include do-re;
+			font-size: 15px;
+			text-align: center;
+			display: block;
+			text-decoration: none;
+			line-height: 30px;
+			margin-top: 10px;
+			position: relative;
+			margin-right: 5px;
+			margin-bottom: 20px;
+
+			&::before {
+				@include svgicon('icon-angle-bottom', 5px, 5px, $vert);
+				position: absolute;
+				right: -10px;
+				top: 50%;
+				margin-top: -3px;
+				@include rotate(-90);
+			}
+		}
+
+		.liste-sessions {
+			border-top: solid 4px $bg-top-footer;
+			margin-top: 35px;
+			padding-top: 30px;
+			overflow: hidden;
+
+			p.titre {
+				font-family: $garamond;
+				font-size: 20px;
+				line-height: 24px;
+				color: $rouge;
+				display: inline-block;
+				height: auto !important;
+				margin: 0;
+
+				&::after {
+					content:'';
+					width: 100%;
+					position: relative;
+					height: 1px;
+					background: $rouge;
+					display: block;
+
+				}
+			}
+
+			ul {
+				margin: 30px 0 0 0;
+				padding: 0;
+
+				li{
+					margin: 0 0 10px 0;
+					padding: 0 0 10px 0;
+					border-bottom: solid 1px $bg-top-footer;
+					float: left;
+					width: 100%;
+
+					&:last-child {
+						border-bottom: none;
+					}
+
+					.session-item {
+						width: 170px;
+						float: left;
+						overflow: hidden;
+
+						p{
+							margin: 0;
+							line-height: 18px;
+							@include do-re;
+							padding-right: 50px;
+
+							&.session {
+
+								&-date {
+									font-size: 18px;
+									text-transform: uppercase;
+									color: $bleu;
+								}
+
+								&-lieu {
+									@include do-re;
+									font-size: 15px;
+									margin-bottom: 10px;
+									font-size: 15px;
+									line-height: 18px;
+								}
+
+								&-horaire {
+									position: relative;
+									margin-top: 18px;
+									font-size: 15px;
+
+									&::before {
+										content:'';
+										width: 40px;
+										height: 1px;
+										background: $bleu;
+										top: -7px;
+										left: 0;
+										position: absolute;
+									}
+								}
+
+							}
+						}
+
+					}
+
+					.wrapper-session-contact {
+						float: left;
+						width: 100%;
+						margin: 15px 0 10px 0;
+						border-left:solid 5px $bg-top-footer;
+						padding: 2px 5px;
+						display: inline-block;
+						width: auto;
+						@include do-sm;
+
+						p {
+							margin: 3px 0;
+							line-height: 18px;
+							@include do-re;
+						}
+					}
+
+					a.preinscrire {
+						float: right;
+						width: 110px;
+						background: $bg-top-footer;
+						color: #818181;
+
+						&::before {
+							color: $bg-top-footer;
+						}
+
+						&.large {
+							float: left;
+							width: auto;
+							padding: 0 10px;
+							margin-bottom: 10px;
+						}
+					}
+
+				}
+			}
+		}
+	}
+
+	
 
 }
 
+
+
 #content.single-vie-cridon{
-	
-	#inner-content article .details .block_full, #inner-content article .details .block_right {width: 100%;}
-	
+
+	#inner-content article .details .block_full,
+	#inner-content article .details .block_right {
+		width: 100%;
+	}
+
 }

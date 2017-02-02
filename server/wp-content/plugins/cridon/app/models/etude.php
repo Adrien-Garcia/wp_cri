@@ -12,6 +12,14 @@ class Etude extends \App\Override\Model\CridonMvcModel {
             'foreign_key' => 'crpcen'
         )
     );
+    public $has_and_belongs_to_many = array(
+        'Lieu' => array(
+            'foreign_key' => 'crpcen',
+            'association_foreign_key' => 'id_lieu',
+            'join_table' => '{prefix}lieu_etude',
+            'fields' => array('id','name','is_cridon','address','postal_code','city','phone_number','email')
+        )
+    );
     var $includes       = array('Sigle');
     var $belongs_to     = array(
         'Sigle' => array('foreign_key' => 'id_sigle')
@@ -405,6 +413,26 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                     ) ";
 
         return $wpdb->get_results($wpdb->prepare($query, $crpcen, CONST_STATUS_ENABLED));
+    }
+
+    /**
+     * Récupère tous les lieux dont dépends l'étude du crpcen passé en entré
+     * @param string $crpcen of the etude
+     * @return array | object of lieux
+     */
+    public function getLieuxAssociatedToEtude ($crpcen) {
+        global $wpdb;
+        if (empty($crpcen)){
+            return array();
+        }
+        $query = '
+            SELECT *
+                FROM '.$wpdb->prefix.'lieu as L
+                JOIN '.$wpdb->prefix.'lieu_etude as LE ON L.id = LE.id_lieu
+                AND LE.crpcen = '.$crpcen.'
+                ';
+
+        return $wpdb->get_results($query);
     }
 
 }
