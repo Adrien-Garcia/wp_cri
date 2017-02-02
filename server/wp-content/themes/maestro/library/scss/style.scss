@@ -126,6 +126,9 @@ the other stylesheets. Remember, keep it light: Speed is Important.
 /*SINGLE*/
 @import "breakpoints/base/single";   
 
+/*PAGE*/
+@import "breakpoints/base/page";
+
 /*********************
 LARGER MOBILE DEVICES
 This is for devices like the Galaxy Note or something that's
@@ -167,6 +170,8 @@ you can add resource intensive styles.
 	@import "breakpoints/768/liste"; 
 	/*SINGLE*/
 	@import "breakpoints/768/single";   
+	/*PAGE*/
+	@import "breakpoints/768/page";
 
 } // end of media query
 
@@ -197,6 +202,8 @@ you can add resource intensive styles.
 	@import "breakpoints/1240/liste"; 
 	/*SINGLE*/
 	@import "breakpoints/1240/single";   
+	/*PAGE*/
+	@import "breakpoints/1240/page";   
 
 } // end of media query
 
