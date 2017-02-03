@@ -52,7 +52,7 @@ class FormationsController extends BaseActuController
                 $lieuxAssociatedToEtude = $modelEtude->getLieuxAssociatedToEtude($notaire->crpcen);
             }
             foreach($sessions as $key => $session){
-                $data = $this->addContactAction($session,$lieuxAssociatedToEtude);
+                $data = $this->addContactAction($session,$lieuxAssociatedToEtude, false);
                 $sessions[$key]->action         = $data ['action'];
                 $sessions[$key]->action_label   = $data ['action_label'];
                 $sessions[$key]->contact_lieu   = $data ['contact_lieu'];
