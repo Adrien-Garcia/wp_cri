@@ -19,14 +19,6 @@ gulp-build:
       - server/wp-content/themes/maestro/library/images/sprites/spritesheet.png
     expire_in: 1 day
 
-gulp-test:
-  image: registry.jetpulp.fr:5000/dev/gulp:latest
-  stage: test
-  script:
-  - cd server/gulp
-  - ln -s /node_modules
-  - gulp test
-
 deploy_preprod:
   image: registry.jetpulp.fr:5000/dev/capistrano:latest
   stage: deploy
