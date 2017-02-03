@@ -1,96 +1,93 @@
-div#mes-factures{
-	padding-right: 20px;
+div#mes-factures {
+    padding-right: 20px;
 
-	p {
-		font-size: 15px;
-		margin-bottom: 5px;
-		font-family: $dosis !important;
-	}
+    p {
+        font-size: 15px;
+        margin-bottom: 5px;
+        font-family: $dosis !important;
+    }
 
-	select{
-		color: #000;
-		opacity: 0.7;
-	    font-family: $helvetica;
-	    font-size: 12px;
-	    margin-bottom: 20px;
-	}
+    select {
+        color: #000;
+        opacity: .7;
+        font-family: $helvetica;
+        font-size: 12px;
+        margin-bottom: 20px;
+    }
 
-	.liste-factures {
-		margin: 0;
-		padding: 0;
-		position: relative;
-		border-top: solid 5px #e6e6e6;
+    .liste-factures {
+        margin: 0;
+        padding: 0;
+        position: relative;
+        border-top: solid 5px #e6e6e6;
 
-		&:before{
+        &::before {
+            @include svgicon('ico-sep', 19px, 19px, #e6e6e6);
+            position: absolute;
+            top: -5px;
+            background: #fff;
+            left: 50%;
+            margin-left: -30px;
+        }
 
-			@include svgicon('ico-sep', 19px, 19px, #e6e6e6);
-			position: absolute;
-			top: -5px;
-			background: #FFF;
-			left: 50%;
-			margin-left: -30px;
-		}
 
+        > li {
+            margin: 0;
+            padding: 24px 0 10px;
+            border-bottom: solid 5px #e6e6e6;
 
-		> li {
-			margin:0 0 0px 0;
-			padding: 24px 0 10px 0 ;
-			border-bottom:solid 5px #e6e6e6;
+            ul {
+                margin: 0;
+                padding: 0;
+                position: relative;
 
-			ul{
-				margin: 0;
-				padding: 0;
-				position: relative;
+                li {
+                    margin: 0;
+                    padding: 0;
+                    font-size: 15px;
+                    font-family: $dosis;
 
-				li{
-					margin: 0;
-					padding: 0;
-					font-size: 15px;
-					font-family: $dosis;
+                    &::before {
+                        content: none;
+                    }
 
-					&::before{
-						content:none;
-					}
+                    a {
+                        @include transition (all .3s);
+                    }
 
-					a {
+                    a.num {
+                        text-decoration: underline;
+                        color: $bleu;
+                        font-family: $helvetica;
+                        font-weight: normal;
 
-		                @include transition (all 0.3s);
-		            }
+                        &:hover {
+                            text-decoration: none;
+                        }
+                    }
 
-					a.num{
-						text-decoration: underline;
-						color:$bleu;
-						font-family: $helvetica;
-						font-weight: normal;
+                    a.pdf {
+                        display: block;
 
-						&:hover {
-							text-decoration: none;
-						}
-					}
+                        &::before {
+                            @include svgicon('icon-pdf', 19px, 19px, $rouge);
+                        }
 
-					a.pdf { 
-						display: block;
-						&::before{
-							@include svgicon('icon-pdf', 19px, 19px, $rouge);
-						}
+                        &:hover {
+                            &::before {
+                                opacity: .6;
+                            }
+                        }                        
+                    }
 
-						&:hover {
-							&::before{
-								opacity: 0.6;
-							}
-						}
-						
-					}
+                    &:last-child {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                    }
+                }
+            }
+        }
 
-					&:last-child {
-						position: absolute;
-						top: 0;
-						right: 0;
-					}
-				}
-			}
-		}
-
-	}
-
+    }
 }

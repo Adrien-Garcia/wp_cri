@@ -1,111 +1,93 @@
-div#mon-profil{
-					
-	.mes-informations{
-		
+div#mon-profil {
+    .mes-informations {
+        .coordonnees {
+            width: 100%;
 
-		h2{}
+            .nom {
+                width: 100%;
+                margin-bottom: 25px;
+            }
 
-		
+            .adresse,
+            .contact,
+            .mail {
+                margin-bottom: 25px;
+            }
 
-		.coordonnees{
-			
-			width: 100%;
+            > a,
+            .update {
+                margin-top: 7px;
+                font-size: 14px;
+                display: inline-block;
+                padding: 0 10px;
+            }
 
-			.notaire, .etude{
-				/* width: 50%;
-				float: left;
-				margin-top: 0; */
-			}
-			
+        }
+    }
 
-			.nom{
-				width: 100%;
-				margin-bottom: 25px;
+    .mes-centres-dinterets, .newsletter{
 
-				span{}
-			}
+        padding-bottom: 30px;
+        margin-bottom: 20px;
 
-			.adresse, .contact, .mail{
-				
-				margin-bottom: 25px;
-			}
+        h2{ }
 
-			> a, .update{
-				    
-					margin-top: 7px;
-					font-size: 14px;
-					display: inline-block;
-					padding: 0 10px;
+        .description{
+            font-size: 17px;
+            line-height: 20px;
+        }
 
+        form{
 
-			}
+            > ul{
+                clear: both;
 
-		}
-	}
+                li{
+                    /* width: 50%;
+                    float: left; */
+                    padding: 3px 0;
 
-	.mes-centres-dinterets, .newsletter{
+                    &:nth-child(even){
+                        //padding-right: 10px;
+                    }
 
-		padding-bottom: 30px;
-		margin-bottom: 20px;
+                    &:nth-child(even){
+                        //padding-left: 10px;
+                    }
 
-		h2{ }
+                    &:before{ content:none;}
 
-		.description{
-			font-size: 17px;
-			line-height: 20px;
-		}
-
-		form{
-
-			> ul{
-				clear: both;
-
-				li{
-					/* width: 50%;
-					float: left; */
-					padding: 3px 0;
-
-					&:nth-child(even){
-						//padding-right: 10px;
-					}
-
-					&:nth-child(even){
-						//padding-left: 10px;
-					}
-
-					&:before{ content:none;}
-
-					label{
-						font-size: 20px;
-						line-height: 30px;
+                    label{
+                        font-size: 20px;
+                        line-height: 30px;
 
 
-						&:before{
+                        &:before{
 
 
-						}
-						
-						input{}
+                        }
 
-					}
-				}
-			}
+                        input{}
 
-			a, input[type="submit"]{
+                    }
+                }
+            }
 
-				//margin-left: 608px;
+            a, input[type="submit"]{
 
-			}
-		}
+                //margin-left: 608px;
 
-		
-	}
+            }
+        }
 
-	.newsletter{
 
-		> a{
-			margin-left: 568px;
-		}
-	}
+    }
+
+    .newsletter{
+
+        > a{
+            margin-left: 568px;
+        }
+    }
 
 }

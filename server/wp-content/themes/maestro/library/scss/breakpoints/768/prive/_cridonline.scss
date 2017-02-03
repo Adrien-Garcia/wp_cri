@@ -1,187 +1,151 @@
-.cridonline-offres{
+.cridonline-offres {
 
-	.description{
-		font-size: 17px;
-		line-height: 20px;
-	}
-
-
-	.bloc-cridonline{
-		width: 400px;
-		height: 470px;
-
-		&.large {
-			height: 520px;
-			.content {
-				height: 367px;
-			}
-		}
-
-		> .en-tete{
-		}
-
-		.content{
-			padding:0px 90px 15px 90px;
-			height: 262px;
-
-			.titre{
-				font-size: 19px;
-			}
-
-			.prix{
-				font-size: 57px;
-
-				span{
-					font-size: 19px;
-				}
-			}
-
-			ul{
-
-				li{
-					font-size: 15px;
-					line-height: 19px;
-				}
-			}
-
-			>a {
-				font-size: 15px;
-				margin-top: 10px;
-
-				margin-left: 8px;
-
-				&:after{
-				}
-			}
-
-			
-
-			input[type="submit"]{
-				width: 200px !important;
-				font-size: 13px !important;
-				margin-left: -100px;
-			}
-
-		}
-
-		
-
-		&.niveau-1{			
-			.en-tete{				
-				background-size: 183px 85px;
-			}			
-		}
-
-		&.niveau-2{	
-			.en-tete{				
-				background-size: 183px 85px;
-			}			
-		}
-		&.niveau-3{
-			.en-tete{
-				background-size: 183px 85px;
-			}			
-		}
+    .description {
+        font-size: 17px;
+        line-height: 20px;
+    }
 
 
-		&.on{
-			width: 430px;
-			left: -10px;		   
-		}
+    .bloc-cridonline {
+        width: 400px;
+        height: 470px;
 
-		&.off{
-			margin-left: 8px;
-		}
+        &.large {
+            height: 520px;
 
-		
-		
-	}
+            .content {
+                height: 367px;
+            }
+        }
+
+        .content {
+            padding: 0 90px 15px 90px;
+            height: 262px;
+
+            .titre {
+                font-size: 19px;
+            }
+
+            .prix {
+                font-size: 57px;
+
+                span {
+                    font-size: 19px;
+                }
+            }
+
+            ul {
+                li {
+                    font-size: 15px;
+                    line-height: 19px;
+                }
+            }
+
+            >a {
+                font-size: 15px;
+                margin-top: 10px;
+                margin-left: 8px;
+            }
+
+
+
+            input[type='submit'] {
+                width: 200px !important;
+                font-size: 13px !important;
+                margin-left: -100px;
+            }
+
+        }
+
+
+
+        &.niveau-1 {
+            .en-tete {
+                background-size: 183px 85px;
+            }
+        }
+
+        &.niveau-2 {
+            .en-tete {
+                background-size: 183px 85px;
+            }
+        }
+
+        &.niveau-3 {
+            .en-tete {
+                background-size: 183px 85px;
+            }
+        }
+
+
+        &.on {
+            width: 430px;
+            left: -10px;
+        }
+
+        &.off {
+            margin-left: 8px;
+        }
+    }
 
 }
 
-div#cridonline{
+div#cridonline {
 
-	input[type="submit"]{
-			width: 180px;
-			font-size: 16px;
-		}
-
-	
-
-	.wrap-link{
-		width: 100%;
-		margin-left: 0;
-		text-align: center;
-		a{
-
-			font-size: 20px;
-
-			&:after{
-				left:195px;
-				margin-left: 0;
-			}
-		}
-	} 
+    input[type='submit'] {
+        width: 180px;
+        font-size: 16px;
+    }
 
 
 
-	.message-offre{
-		font-size: 17px;
-		line-height: 20px;
-	}
+    .wrap-link {
+        width: 100%;
+        margin-left: 0;
+        text-align: center;
 
-	
+        a {
 
-	.bloc-souscription{
-		width: 100%;
+            font-size: 20px;
+
+            &::after {
+                left: 195px;
+                margin-left: 0;
+            }
+        }
+    }
 
 
-		form{
 
-			label{
-				
-				line-height: 24px;
-				
+    .message-offre {
+        font-size: 17px;
+        line-height: 20px;
+    }
 
-				span{/*Message*/
 
-				    right: auto;
-				    left:0px;
-				    top: 2px;
-				}
 
-				input{ 
-				}
+    .bloc-souscription {
+        width: 100%;
 
-				&:before{
-				}
+        form {
 
-				&.cguv{
-					height: 33px;
-				}
+            label {
+                line-height: 24px;
 
-				&.select{
-					&:before{
-					}
+                span {   //*Message*/
+                    right: auto;
+                    left: 0;
+                    top: 2px;
+                }
 
-				}
+                &.cguv {
+                    height: 33px;
+                }
+            }
 
-			}
-
-			>a{
-				font-size: 17px;
-
-				&:after{
-				}
-			}
-
-			input[type="submit"]{
-
-			}
-		}
-
-		
-
-		
-	}
+            >a {
+                font-size: 17px;
+            }
+        }
+    }
 }

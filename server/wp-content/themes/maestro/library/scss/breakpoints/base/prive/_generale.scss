@@ -1,290 +1,256 @@
-#content.page-mon-compte{
+#content.page-mon-compte {
 
-	.message-erreur{
-		font-family: $helvetica;
-		font-size: 12px;
-		line-height: 16px;
-		margin: 30px 0;
-		border-left:solid 5px $rouge;
-		padding: 10px 0 10px 15px;
-		color:$rouge;
-	}
+    .message-erreur {
+        font-family: $helvetica;
+        font-size: 12px;
+        line-height: 16px;
+        margin: 30px 0;
+        border-left: solid 5px $rouge;
+        padding: 10px 0 10px 15px;
+        color: $rouge;
+    }
 
-	#main{
-		background: linear-gradient(90deg, #e6e6e6 50%, #FFFFFF 50%);
-		padding-top: 0;
+    #main {
+        background: linear-gradient(90deg, #e6e6e6 50%, #fff 50%);
+        padding-top: 0;
 
-		&:before{
-			display: none;
-		}
+        &::before {
+            display: none;
+        }
 
-		.header-wrap{
-			background: #FFF;
-			width:100%;
-			display: block;
-			padding-top: 15px;
-			margin-top: 0;
-			height: 66px;
+        .header-wrap {
+            background: #fff;
+            width: 100%;
+            display: block;
+            padding-top: 15px;
+            margin-top: 0;
+            height: 66px;
 
-			h1{
-				float: left;
-				background: #FFF;
-				font-size: 20px;
-				margin-bottom: 0;
+            h1 {
+                float: left;
+                background: #fff;
+                font-size: 20px;
+                margin-bottom: 0;
 
-				&:before{
-					bottom:-9px;
-				}
+                &::before {
+                    bottom: -9px;
+                }
 
-			}
-		}
+            }
+        }
 
-		#inner-content{
+        #inner-content {
 
-			&.wrap{width:320px;}
-
-
-
-			#sidebar_prive{
-				width: 65px;
-				float: left;
-				background: $bg-top-footer;
-				height: 100%;
-
-				nav{
-					ul{
-						margin: 0;
-						padding: 0;
-
-						>li{
-							//background: $bg-top-footer;
-							padding: 0;
-							margin: 0;
-
-							> a{
-								border-bottom:solid 1px #bcbcbc;
-								display: block;
-								width: 65px;
-								height: 75px;
-								text-decoration: none;
-								position: relative;
-								background: $bg-top-footer;
-								@include transition(all 0.3s ease-in);
+            &.wrap { width: 320px; }
 
 
 
-								&:after{
-									@include svgiconafter('ico-dashboard', 27px, 27px, $bleu);
-									position:absolute;
-									top: 50%;
-									left: 50%;
-									margin-left: -13px;
-									margin-top: -13px;
-									@include transition(all 0.3s ease-in);
-								}
+            #sidebar_prive {
+                width: 65px;
+                float: left;
+                background: $bg-top-footer;
+                height: 100%;
 
-								&:before{
-									@include transition(color 0.3s ease-in);
-								}
+                nav {
+                    ul {
+                        margin: 0;
+                        padding: 0;
 
-								> span{
-									display: none;
+                        >li {
+                            padding: 0;
+                            margin: 0;
 
-								}
+                            > a {
+                                @include transition(all .3s ease-in);
+                                border-bottom: solid 1px #bcbcbc;
+                                display: block;
+                                width: 65px;
+                                height: 75px;
+                                text-decoration: none;
+                                position: relative;
+                                background: $bg-top-footer;
 
-								span{
-									@include transition(all 0.3s ease-in);
-								}
-							}
+                                &::after {
+                                    @include svgiconafter('ico-dashboard', 27px, 27px, $bleu);
+                                    @include transition(all .3s ease-in);
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    margin-left: -13px;
+                                    margin-top: -13px;
+                                }
 
+                                &::before {
+                                    @include transition(color .3s ease-in);
+                                }
 
+                                > span {
+                                    display: none;
 
-							&.dashboard{ /* Dashboard*/
-								> a{
-									&:after{
-										@include svgiconafter('ico-dashboard', 27px, 27px, $bleu);
-									}
-								}
-							}
-							&.questions{ /* Questions */
-								> a{
-									&:after{
-										@include svgiconafter('ico-questions', 28px, 28px, $bleu);
-										margin-left: -7px;
-									}
-								}
-							}
-							&.profil{ /* Profil */
-								> a{
-									&:after{
-										@include svgiconafter('icon-profil', 27px, 27px, $bleu);
-										margin-left: -15px;
-									}
-								}
-							}
-							&.facturation{ /* Facturation */
-								> a{
-									&:after{
-										@include svgiconafter('ico-facturation', 27px, 27px, $bleu);
-									}
-								}
-							}
-							&.cridonline{ /* Cridonline */
-								> a{
+                                }
 
-									span{
-										color:$rouge;
-									}
-
-									&:after{
-										@include svgiconafter('ico-cridonline', 27px, 27px, $rouge);
-
-									}
-								}
-							}
-							&.collaborateur{ /* Collaborateurs */
-								> a{
-									&:after{
-										@include svgiconafter('ico-collaborateur', 27px, 27px, $bleu);
-										margin-left: -18px;
-									}
-								}
-							}
-							&.factures{ /* factures */
-								> a{
-									&:after{
-										@include svgiconafter('icon-mes-facture', 27px, 27px, $bleu);
-										margin-left: -11px;
-									}
-								}
-							}
-							&.mes-releves{ /* mes releves de consomation */
-								> a{
-									&:after{
-										@include svgiconafter('icon-releves-conso', 26px, 27px, $bleu);
-										margin-left: -14px;
-									}
-								}
-							}
+                                span {
+                                    @include transition(all .3s ease-in);
+                                }
+                            }
 
 
 
+                            &.dashboard { // Dashboard
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('ico-dashboard', 27px, 27px, $bleu);
+                                    }
+                                }
+                            }
+
+                            &.questions { // Questions
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('ico-questions', 28px, 28px, $bleu);
+                                        margin-left: -7px;
+                                    }
+                                }
+                            }
+
+                            &.profil { //* Profil
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('icon-profil', 27px, 27px, $bleu);
+                                        margin-left: -15px;
+                                    }
+                                }
+                            }
+
+                            &.facturation { // Facturation
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('ico-facturation', 27px, 27px, $bleu);
+                                    }
+                                }
+                            }
+
+                            &.cridonline { // Cridonline
+                                > a {
+                                    span {
+                                        color: $rouge;
+                                    }
+
+                                    &::after {
+                                        @include svgiconafter('ico-cridonline', 27px, 27px, $rouge);
+                                    }
+                                }
+                            }
+
+                            &.collaborateur { // Collaborateurs
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('ico-collaborateur', 27px, 27px, $bleu);
+                                        margin-left: -18px;
+                                    }
+                                }
+                            }
+
+                            &.factures { // factures
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('icon-mes-facture', 27px, 27px, $bleu);
+                                        margin-left: -11px;
+                                    }
+                                }
+                            }
+
+                            &.mes-releves { // mes releves de consomation 
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('icon-releves-conso', 26px, 27px, $bleu);
+                                        margin-left: -14px;
+                                    }
+                                }
+                            }
+
+                            &.active {
+                                >a {
+                                    background: $bleu;
+
+                                    &::before {
+                                        @include svgicon('icon-angle-bottom', 15px, 15px, $bleu);
+                                        @include rotate(-90);
+                                        position: absolute;
+                                        top: 50%;
+                                        right: -31px;
+                                        margin: -6px 0 0;
+                                        display: block;
+                                        z-index: 222;
+                                    }
+
+                                    &::after {
+                                        color: #fff;
+                                    }
+                                }
+                            }
+
+                            &.active {
+
+                                > a.cridonline {
+
+                                    background: $rouge;
+
+                                    &::before {
+                                        @include svgicon('icon-angle-bottom', 15px, 15px, $rouge);
+                                        @include rotate(-90);
+                                        position: absolute;
+                                        top: 50%;
+                                        right: -31px;
+                                        margin: -6px 0 0;
+                                        display: block;
+                                        z-index: 222;
+                                    }
+
+                                    &::after {
+                                        color: #fff;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
 
 
-							&.active,
-							 {
+            }
 
-								>a {
-									background: $bleu;
+            >.content {
+                float: right;
+                width: 255px;
+                background: #fff;
+                min-height: 600px;
+                padding-left: 20px;
+                padding-bottom: 40px;
+                overflow: hidden;
 
-									&::before {
-										@include svgicon('icon-angle-bottom', 15px, 15px, $bleu);
-										position:absolute;
-										top:50%;
-										right:-31px;
-										margin: -6px 0 0 0;
-										display: block;
-										z-index: 222;
-										@include rotate(-90);
-									}
+                >div {
+                    display: none;
 
-									&::after{
-										color:#FFF;
-									}
-								}
-							}
+                    &.active { display: block;}
+                }
 
-							&.active,
-							 {
+                h2 {
+                    @include do-me;
+                    text-transform: uppercase;
+                    font-size: 20px;
+                    line-height: 20px;
+                    color: $vert;
+                    margin-top: 0;
+                }
 
-								> a.cridonline {
+                p {
+                    font-size: 12px;
+                    font-family: $helvetica;
+                    line-height: 18px;
+                }
+            }
 
-									background: $rouge;
-
-									&::before{
-										@include svgicon('icon-angle-bottom', 15px, 15px, $rouge);
-										position:absolute;
-										top:50%;
-										right:-31px;
-										margin: -6px 0 0 0;
-										display: block;
-										z-index: 222;
-										@include rotate(-90);
-									}
-
-									&::after{
-										color:#FFF;
-									}
-								}
-							}
-
-						}
-					}
-				}
-
-
-			}
-
-			>.content{
-				float: right;
-				width: 255px;
-				background: #FFF;
-				min-height: 600px;
-				padding-left: 20px;
-				padding-bottom: 40px;
-				//border:solid 1px red;
-				overflow: hidden;
-
-				>div{
-					display: none;
-					&.active{ display: block;}
-				}
-
-				h2{
-					text-transform: uppercase;
-					font-size: 20px;
-					line-height: 20px;
-					color:$vert;
-					margin-top: 0;
-					@include do-me;
-				}
-
-				p{
-					font-size: 12px;
-					font-family: $helvetica;
-					line-height: 18px;
-				}
-			}
-
-
-			/* a.logout{
-				color:$rouge;
-				background: none;
-				display: inline-block;
-				width: auto;
-				text-transform: none;
-				font-size: 14px;
-				@include do-el;
-				float: none;
-				margin: 0;
-				padding: 0;
-				text-align: left;
-				border-bottom:solid 1px $rouge;
-				height: auto;
-				line-height: 18px;
-				text-decoration: none;
-				float: right;
-				margin-bottom: 20px;
-
-				&:after{ display: none;}
-
-				&:hover{
-					border-bottom:solid 1px #FFF;
-					color:$rouge;
-				}
-			} */
-
-
-		}
-	}
+        }
+    }
 }
