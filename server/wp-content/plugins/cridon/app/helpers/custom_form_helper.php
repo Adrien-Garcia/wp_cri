@@ -126,24 +126,29 @@ class CustomFormHelper extends MvcFormHelper {
             $html .= '<option value="">'.$empty_name.'</option>';
         }
         $optGroup = false;
-        $hasGroup = false;
+        $oldGroup = false;
         foreach ($options['options'] as $key => $value) {
             if (is_object($value)) {
                 $key = $value->__id;
-                $optGroup = isset($value->__group) && ($value->__group !== $optGroup) ? $value->__group : false;
+                $oldGroup = $optGroup;
+                if (isset($value->__group) && ($value->__group !== $optGroup)) { // si group exist et différent du précédent
+                    $optGroup = $value->__group;
+                } else if (!isset($value->__group)) { // si pas de groupe
+                    $optGroup = false;
+                }
                 $value = $value->__name;
             }
-            if ($optGroup) {
-                if ($hasGroup) {
-                    $html .= '</optgroup>';
-                }
+            if ($optGroup !== $oldGroup && $oldGroup) { // si groupe différent mais pas premier
+                $html .= '</optgroup>';
+            }
+            if ($optGroup !== $oldGroup && $optGroup) { // si groupe différent et group existe
                 $html .= '<optgroup label="'.$optGroup.'">';
                 $hasGroup = true;
             }
             $selected_attribute = $options['value'] == $key ? ' selected="selected"' : '';
             $html .= '<option value="'.$this->esc_attr($key).'"'.$selected_attribute.'>'.$value.'</option>';
         }
-        if ($hasGroup) {
+        if ($optGroup) {
             $html .= '</optgroup>';
         }
         $html .= '</select>';
