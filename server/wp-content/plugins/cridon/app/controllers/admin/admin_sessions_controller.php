@@ -132,10 +132,8 @@ class AdminSessionsController extends BaseAdminController
             $object->formation = $this->Formation->find_one_by_id($object->id_formation);
         }
 
-        return empty($object->formation) ? null : HtmlHelper::admin_object_link($object->formation, array(
-            'action' => 'edit',
-            'text' => $object->formation->post->post_title,
-        ));
+        $controllerFormations = new AdminFormationsController();
+        return empty($object->formation) ? null : $controllerFormations->post_edit_link($object->formation);
     }
 
     public function lieuLink($object){
