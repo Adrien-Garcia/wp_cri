@@ -103,10 +103,14 @@ $year = $data['year'];
                                                             <div class="calendar__session-content-chambre">
                                                                 <div class="calendar__session-content-chambre--name"><?php echo $session['lieu']->name ; ?></div>
                                                                 <?php if ($session['lieu']->phone_number) : ?>
-                                                                <div class="calendar__session-content-chambre--telephone"><?php echo $session['lieu']->phone_number ; ?></div>
+                                                                <div class="calendar__session-content-chambre--telephone"><span>Tel. :</span>
+                                                                    <a href="tel:<?php echo $session['lieu']->phone_number ; ?>" ><?php echo $session['lieu']->phone_number ; ?></a>
+                                                                </div>
                                                                 <?php endif; ?>
                                                                 <?php if ($session['lieu']->email) : ?>
-                                                                <div class="calendar__session-content-chambre--email"><?php echo $session['lieu']->email ; ?></div>
+                                                                <div class="calendar__session-content-chambre--email"><span>Email :</span>
+                                                                    <a href="mailto:<?php echo $session['lieu']->email ; ?>" ><?php echo $session['lieu']->email ; ?></a>
+                                                                </div>
                                                                 <?php endif; ?>
                                                             </div>
                                                             <?php endif; ?>

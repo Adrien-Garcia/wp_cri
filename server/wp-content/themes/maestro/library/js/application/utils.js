@@ -106,12 +106,13 @@ App.Utils = {
         return $('body')[0].className.split(/\s+/);
     },
 
-    scrollTop: function (_duration, _hash) {
+    scrollTop: function (_duration, _hash, _offset) {
         var top = (typeof _hash !== 'undefined') ? $(_hash).offset().top - ($('header.header').height() + 30) : 0;
         var duration = (typeof _duration !== 'undefined') ? _duration : 700;
+        var offset = (typeof _offset !== 'undefined') ? _offset : 0;
         // hash = (hash !== undefined) ? hash : "";
         $('html, body').animate({
-            scrollTop: top,
+            scrollTop: top + offset,
         }, duration, function () {
             // window.location.hash = hash;
         });
@@ -138,6 +139,22 @@ App.Utils = {
         if (el.dataset.innerHTML) {
             el.innerHTML = el.dataset.innerHTML;
         }
+    },
+
+    cumulativeOffset: function (_element) {
+        var top = 0,
+            left = 0,
+            element = _element;
+        do {
+            top += element.offsetTop  || 0;
+            left += element.offsetLeft || 0;
+            element = element.offsetParent;
+        } while (element);
+
+        return {
+            top: top,
+            left: left,
+        };
     },
 
     debug: function (t) {
