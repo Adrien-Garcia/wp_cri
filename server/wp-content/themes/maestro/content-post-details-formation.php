@@ -12,8 +12,8 @@
 
         <div class="session">
             <p class="lieu"><?php echo $nextSession->lieu->name ?></p><?php if ($nextSession->contact_lieu): ?>
-                <p class="telephone"><?php echo $nextSession->lieu->phone_number ?></p>
-                <p class="email"><?php echo $nextSession->lieu->email ?></p>
+                <p class="telephone"><a href="tel:<?php echo $nextSession->lieu->phone_number ?>"><?php echo $nextSession->lieu->phone_number ?></a></p>
+                <p class="email"><a href="mailto:<?php echo $nextSession->lieu->email ?>"><?php echo $nextSession->lieu->email ?></a></p>
             <?php endif; ?>
             <p class="horaire"><?php echo $nextSession->timetable ?></p>
             
@@ -106,9 +106,9 @@
                         </div>
                         <?php if ($session->contact_lieu): ?>
                             <div class="wrapper-session-contact">
-                            Contact :
-                                <p class="session-telephone"><?php echo $session->lieu->phone_number ?></p>
-                                <p class="session-mail"><?php echo $session->lieu->email ?></p>
+                            Contact
+                                <p class="session-telephone">Tél. : <a href="tel:<?php echo $session->lieu->phone_number ?>"><?php echo $session->lieu->phone_number ?></a></p>
+                                <p class="session-mail">Email : <a href="mailto:<?php echo $session->lieu->email ?>"><?php echo $session->lieu->email ?></a></p>
                             </div>
                         <?php endif; ?>
                         <?php if (!empty($session->action) && !empty($session->action_label)): ?>
