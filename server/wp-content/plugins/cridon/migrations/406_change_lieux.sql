@@ -1,3 +1,11 @@
+ALTER TABLE `cri_lieu`
+CHANGE COLUMN `city` `city` VARCHAR(50) NOT NULL AFTER `email`,
+CHANGE COLUMN `postal_code` `postal_code` VARCHAR(8) NOT NULL AFTER `city`,
+CHANGE COLUMN `address` `address_1` VARCHAR(255) NULL DEFAULT NULL AFTER `postal_code`,
+ADD COLUMN `client_number` VARCHAR(10) NOT NULL AFTER `id`,
+ADD COLUMN `address_2` VARCHAR(255) NULL DEFAULT NULL AFTER `address_1`,
+ADD COLUMN `address_3` VARCHAR(255) NULL DEFAULT NULL AFTER `address_2`,
+ADD COLUMN `fax_number` VARCHAR(16) NULL DEFAULT NULL AFTER `address_3`;
 
 TRUNCATE `cri_lieu`;
 
