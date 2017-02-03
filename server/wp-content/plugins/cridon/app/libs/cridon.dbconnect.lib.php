@@ -156,6 +156,26 @@ interface DBConnect
     const NOTAIRE_OFFICEFAX  = 'FAX_0';
 
     /**
+     * @var string : related entity code
+     */
+    const NOTAIRE_ORGANISME_1  = 'BPCGRU_0';
+
+    /**
+     * @var string : related entity code
+     */
+    const NOTAIRE_ORGANISME_2  = 'ZGRU1_0';
+
+    /**
+     * @var string : related entity code
+     */
+    const NOTAIRE_ORGANISME_3  = 'ZGRU2_0';
+
+    /**
+     * @var string : related entity code
+     */
+    const NOTAIRE_ORGANISME_4  = 'ZGRU3_0';
+
+    /**
      * @var string : notary level
      */
     const NOTAIRE_YNIVEAU = 'YNIVEAU_0';

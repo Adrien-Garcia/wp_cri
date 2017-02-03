@@ -218,7 +218,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     //if case above did not match, set OCI
                     $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
                 default :
-                    //both OCI and ODBC will can this
                     $this->importEtudes();
                     $this->importNotaires($force);
                     break;
@@ -262,6 +261,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         ));
         $this->siteEtudeList = assocToKeyVal($etudes, 'crpcen');
 
+        $organismes = mvc_model('organisme')->find();
+        $organismes = assocToKeyVal($organismes, 'client_number', 'id');
+
         $adapter = $this->adapter;
         $etudesInfos = array(
             $adapter::NOTAIRE_CRPCEN,
@@ -280,7 +282,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $adapter::NOTAIRE_YNIVEAU_0,
             $adapter::NOTAIRE_YVALDEB_0,
             $adapter::NOTAIRE_YVALFIN_0,
-            $adapter::NOTAIRE_YDATECH_0
+            $adapter::NOTAIRE_YDATECH_0,
+            $adapter::NOTAIRE_ORGANISME_1,
+            $adapter::NOTAIRE_ORGANISME_2,
+            $adapter::NOTAIRE_ORGANISME_3,
+            $adapter::NOTAIRE_ORGANISME_4
         );
         $etudesInfos = implode(', ', $etudesInfos);
 
@@ -346,6 +352,29 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         } catch (\Exception $e) {
                             // write into logfile
                             writeLog($e, 'etude.log');
+                            $errors[] = $e->getMessage();
+                            continue; // if entity may have not been created, should no handle links with Organisms
+                        }
+                    }
+                    // Handle links between studies and organisms
+                    $content = array();
+                    // Cannot use variable to access const without using reflection, which seems to be heavy for only 4 lines !
+                    if (!empty(trim($data[$adapter::NOTAIRE_ORGANISME_1])) && isset($organismes[$data[$adapter::NOTAIRE_ORGANISME_1]])) {
+                        $content[] = '(' . $aData['crpcen'] . ', ' . $organismes[$data[$adapter::NOTAIRE_ORGANISME_1]] . ')';
+                    }
+                    if (!empty(trim($data[$adapter::NOTAIRE_ORGANISME_2])) && isset($organismes[$data[$adapter::NOTAIRE_ORGANISME_2]])) {
+                        $content[] = '(' . $aData['crpcen'] . ', ' . $organismes[$data[$adapter::NOTAIRE_ORGANISME_2]] . ')';
+                    }
+                    if (!empty(trim($data[$adapter::NOTAIRE_ORGANISME_3])) && isset($organismes[$data[$adapter::NOTAIRE_ORGANISME_3]])) {
+                        $content[] = '(' . $aData['crpcen'] . ', ' . $organismes[$data[$adapter::NOTAIRE_ORGANISME_3]] . ')';
+                    }
+                    if (!empty(trim($data[$adapter::NOTAIRE_ORGANISME_4])) && isset($organismes[$data[$adapter::NOTAIRE_ORGANISME_4]])) {
+                        $content[] = '(' . $aData['crpcen'] . ', ' . $organismes[$data[$adapter::NOTAIRE_ORGANISME_4]] . ')';
+                    }
+                    if (!empty($content)) {
+                        try {
+                            $this->wpdb->query('INSERT INTO ' . $this->wpdb->prefix . 'organisme_etude (crpcen, id_organisme) VALUES ' . implode(', ', $content));
+                        } catch (Exception $e) {
                             $errors[] = $e->getMessage();
                         }
                     }

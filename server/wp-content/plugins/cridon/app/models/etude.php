@@ -7,7 +7,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     public $primary_key = 'crpcen';
     public $display_field = 'office_name';
     public $table = '{prefix}etude';
-    var $has_many       = array(
+    public $has_many       = array(
         'Notaire' => array(
             'foreign_key' => 'crpcen'
         )
@@ -20,8 +20,8 @@ class Etude extends \App\Override\Model\CridonMvcModel {
             'fields' => array('id','name','is_cridon','address','postal_code','city','phone_number','email')
         )
     );
-    var $includes       = array('Sigle');
-    var $belongs_to     = array(
+    public $includes       = array('Sigle');
+    public $belongs_to     = array(
         'Sigle' => array('foreign_key' => 'id_sigle')
     );
 
@@ -30,7 +30,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      *
      * @var array
      */
-    var $listDocs = array();
+    public $listDocs = array();
 
     public function getRelatedPrices($etude) {
 
