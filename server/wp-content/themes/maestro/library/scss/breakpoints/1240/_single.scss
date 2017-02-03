@@ -236,9 +236,15 @@
 				li {
 					width: 20%;
 					min-height: 170px;
+					&:nth-child(4) {
+						clear: none;
+					}
+					&:nth-child(6) {
+						clear: both;
+					}
 
 					.session-item {
-						p{
+						p {
 							padding: 0 20px 0 0;
 						}
 					}

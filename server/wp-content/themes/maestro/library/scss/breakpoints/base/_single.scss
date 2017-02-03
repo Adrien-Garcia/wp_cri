@@ -386,7 +386,7 @@ body.single,
 			padding: 10px 0;
 			margin-bottom: 20px;
 
-			p{
+			p {
 				margin: 0;
 				padding: 0;
 				line-height: 18px;
@@ -415,11 +415,18 @@ body.single,
 				}
 
 				&.telephone {
-					//margin-top: 5px;
+					a {
+						color: #fff;
+						text-decoration: none;
+					}
 				}
 
 				&.email {
 					margin-bottom: 11px;
+					a {
+						color: #fff;
+						text-decoration: none;
+					}
 
 				}
 			}
@@ -495,15 +502,15 @@ body.single,
 					}
 
 					.session-item {
-						width: 170px;
+						width: 140px;
 						float: left;
 						overflow: hidden;
 
-						p{
+						p {
 							margin: 0;
 							line-height: 18px;
 							@include do-re;
-							padding-right: 50px;
+							padding-right: 10px;
 
 							&.session {
 
@@ -544,18 +551,25 @@ body.single,
 
 					.wrapper-session-contact {
 						float: left;
-						width: 100%;
-						margin: 15px 0 10px 0;
-						border-left:solid 5px $bg-top-footer;
-						padding: 2px 5px;
-						display: inline-block;
 						width: auto;
-						@include do-sm;
+						padding: 2px 0;
+						display: inline-block;
+						@include do-re;
 
 						p {
-							margin: 3px 0;
 							line-height: 18px;
 							@include do-re;
+							text-transform: none;
+							margin: 3px 0;
+
+							a {
+								color: $bleu;
+								text-decoration: none;
+
+								&:hover {
+									//text-decoration: none;
+								}
+							}
 						}
 					}
 
@@ -564,17 +578,17 @@ body.single,
 						width: 110px;
 						background: $bg-top-footer;
 						color: #818181;
+						text-overflow: ellipsis;
+						height: auto;
 
 						&::before {
 							color: $bg-top-footer;
 						}
 
 						&.large {
-							float: left;
-							width: auto;
-							padding: 0 10px;
-							margin-bottom: 10px;
-						}
+					    	line-height: 20px;
+					    	padding: 5px 0;
+					    }
 					}
 
 				}
@@ -588,7 +602,7 @@ body.single,
 
 
 
-#content.single-vie-cridon{
+#content.single-vie-cridon {
 
 	#inner-content article .details .block_full,
 	#inner-content article .details .block_right {
