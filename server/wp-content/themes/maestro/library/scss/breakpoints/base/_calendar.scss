@@ -136,10 +136,12 @@ CALENDAR STYLES
         }
     }
 
-    .calendar__day--greyed .calendar__day-number {
-        opacity: .5;
+    .calendar__day--greyed {
+        .calendar__day-number ,
+        .calendar__day-content {
+            opacity: .5;
+        }
     }
-
     .calendar__day-name {
         display: inline-block;
         opacity: .6;

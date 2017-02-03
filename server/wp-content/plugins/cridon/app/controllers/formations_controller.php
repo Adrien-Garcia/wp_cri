@@ -131,14 +131,14 @@ class FormationsController extends BaseActuController
         $tmpmonth = $tmpmonth->format('F');
 
         $firstdayofmonth = new DateTime('first day of '. $tmpmonth . ' ' . $year);
-        $this->firstDayOfMonth = clone $firstdayofmonth;
         $daytostartofweek = intval($firstdayofmonth->format('N')) -1;
         $firstday = $firstdayofmonth->modify('-'. $daytostartofweek .' days');
+        $this->firstDayOfMonth = clone $firstday;
 
         $lastdayofmonth = new DateTime('last day of '. $tmpmonth . ' ' . $year);
-        $this->lastDayOfMonth = clone $lastdayofmonth;
         $daytoendofweek = 7 - intval($lastdayofmonth->format('N'));
         $lastday = $lastdayofmonth->modify('+'. $daytoendofweek .' days');
+        $this->lastDayOfMonth = clone $lastday;
 
         $calendar = array();
 
@@ -225,20 +225,20 @@ class FormationsController extends BaseActuController
                 'id'         => $session->id_formation
             );
             $lineSession = array(
-                'name' => $formation->post->post_title,
+                'name'       => $formation->post->post_title,
                 'short_name' => $formation->short_name,
-                'matiere' => $formation->matiere,
-                'time' => $session->timetable,
-                'url' => MvcRouter::public_url($urlOptions),
-                'id' => $session->id
+                'matiere'    => $formation->matiere,
+                'time'       => $session->timetable,
+                'url'        => MvcRouter::public_url($urlOptions),
+                'id'         => $session->id
             );
-            $data = $this->addContactAction($session, $lieuxAssociatedToEtude);
+            $before_today = DateTime::createFromFormat('Y-m-d', $session->date)->getTimestamp() < time();
+            $data = $this->addContactAction($session, $lieuxAssociatedToEtude, $before_today);
+
             $lineSession ['action']         = $data ['action'];
             $lineSession ['action_label']   = $data ['action_label'];
             $lineSession ['lieu']           = $data['lieu'];
             $lineSession ['contact_lieu']   = $data['contact_lieu'];
-
-//            $lineSession ['details']        = CriRenderView('session_details',$data,'sessions',false);
             $calendar[$key]['sessions'][] = $lineSession;
         }
 
@@ -249,9 +249,10 @@ class FormationsController extends BaseActuController
      * Will provide session line in calendar with information concerning subscription or contact
      * @param $session Session : the session with all data
      * @param $lieuxAssociatedToEtude : every lieu associated to current etude
+     * @param $remove_actions boolean : If true remove the actions
      * @return array
      */
-    protected function addContactAction($session, $lieuxAssociatedToEtude)
+    protected function addContactAction($session, $lieuxAssociatedToEtude, $remove_actions = true)
     {
         $data ['action'] = $data ['action_label'] =  $data['details'] = '';
         $data ['lieu'] = $session->lieu;
@@ -284,6 +285,11 @@ class FormationsController extends BaseActuController
             $data ['action'] = "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . urlencode($_SERVER['REQUEST_URI']);
 
             $data ['action_label'] = 'Se former';
+        }
+
+        if ($remove_actions) {
+            $data ['action'] = false;
+            $data ['action_label'] = false;
         }
         return $data;
     }
