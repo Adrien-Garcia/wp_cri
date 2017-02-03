@@ -50,6 +50,7 @@ class AdminSessionsController extends BaseAdminController
     public function index() {
         $this->init_default_columns();
         $this->process_params_for_search();
+        $this->params['order'] = 'date DESC';
         $collection = $this->model->paginate($this->params);
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
