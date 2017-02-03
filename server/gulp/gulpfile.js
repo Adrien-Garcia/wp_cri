@@ -26,7 +26,7 @@ options = minimist(process.argv.slice(2), knownOptions);
 gulp.task('sass', function() {
 
 	/* SASS task */
-	gulp.src(libPath+'/scss/*.scss')
+	return gulp.src(libPath+'/scss/*.scss')
 		.pipe(plumber())
 		.pipe(sourcemaps.init())
 		.pipe(sass({outputStyle: 'nested', includePaths: ['./breakpoints']}))
@@ -36,18 +36,6 @@ gulp.task('sass', function() {
 		.pipe(plumber.stop())
 		.pipe(gulp.dest(libPath+'/css'))
 		.pipe(browserSync.stream({match: "**/*.css"}));
-
-});
-gulp.task('sass-build', function() {
-
-	/* SASS task */
-	gulp.src(libPath+'/scss/*.scss')
-		.pipe(plumber())
-		.pipe(sass({outputStyle: 'compressed'}))
-		.pipe(autoprefixer('last 2 version'))
-		// .pipe(minifycss())
-		.pipe(plumber.stop())
-		.pipe(gulp.dest(libPath+'/css'));
 
 });
 
@@ -76,7 +64,7 @@ gulp.task('iconfont', function () {
 		.pipe(gulp.dest(libPath+'/fonts/svgfont'));
 });
 
-gulp.task('uglify', function() {
+gulp.task('js-build', function() {
 
 	/* JS task */
 	gulp.src([libPath+'/js/!(app|_eslint|_eslint_projet).js'])
@@ -87,7 +75,7 @@ gulp.task('uglify', function() {
 		.pipe(gulp.dest(libPath+'/js/min/'));
 
 	/* JS task */
-	gulp.src([libPath+'/js/app.js', libPath+'/js/application/*.js'])
+    return gulp.src([libPath+'/js/app.js', libPath+'/js/application/*.js'])
 		.pipe(plumber())
 		.pipe(concat('app.concat.js'))
 		//.pipe(uglify())
@@ -112,7 +100,7 @@ gulp.task('sprite', function() {
 
 	spriteData.css
 		.pipe(gulp.dest(libPath+'/scss/modules/'));
-
+    return spriteData;
 });
 
 
@@ -134,7 +122,7 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('copy', function() {
-	gulp.src(libPath+'/bower_components/*/dist/*.min.js')
+	return gulp.src(libPath+'/bower_components/*/dist/*.min.js')
 		.pipe(plumber())
 		.pipe(gulp.dest(libPath+'/js/'));
 });
@@ -145,10 +133,40 @@ gulp.task('watch', function() {
 	gulp.watch(libPath+'/images/origin/*.*', ['sprite']).on('change', browserSync.reload);
 	gulp.watch(libPath+'/images/svgicons/*.*', ['iconfont']).on('change', browserSync.reload);
 	gulp.watch(libPath+'/scss/**/*.scss', ['sass']);
-	// gulp.watch(libPath+'/js/**/*.js', ['uglify', browserSync.reload]);
+	gulp.watch(libPath+'/js/**/*.js', ['js-build', browserSync.reload]);
 	gulp.watch(themePath+'/**/*.php').on('change', browserSync.reload);
 
 });
 
-gulp.task('default', ['copy','sprite','iconfont', 'sass', 'uglify','browser-sync', 'watch'], function() {});
-gulp.task('build', ['copy','sprite', 'iconfont','sass-build', 'uglify'], function() {});
+gulp.task('default', ['copy','sprite','iconfont', 'sass', 'js-build','browser-sync', 'watch'], function() {});
+
+
+/*******************************************************************************************************
+ _____ _____ ____ _____
+ |_   _| ____/ ___|_   _|
+ | | |  _| \___ \ | |
+ | | | |___ ___) || |
+ |_| |_____|____/ |_|
+
+ *******************************************************************************************************/
+gulp.task('test', [], function() {});
+
+/*******************************************************************************************************
+ ____  _   _ ___ _     ____
+ | __ )| | | |_ _| |   |  _ \
+ |  _ \| | | || || |   | | | |
+ | |_) | |_| || || |___| |_| |
+ |____/ \___/|___|_____|____/
+
+ *******************************************************************************************************/
+
+gulp.task('sass-build', ['sprite', 'iconfont'], function() {
+    return gulp.src(libPath+'/scss/*.scss')
+        .pipe(plumber())
+        .pipe(sass({ outputStyle: 'compressed' }))
+        .pipe(autoprefixer('last 2 version'))
+        .pipe(plumber.stop())
+        .pipe(gulp.dest(libPath+'/css'))
+});
+
+gulp.task('build', ['copy', 'sass-build', 'js-build'], function() {});
