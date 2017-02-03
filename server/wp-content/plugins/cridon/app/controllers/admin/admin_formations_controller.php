@@ -63,9 +63,7 @@ class AdminFormationsController extends BaseAdminController
         if (!isset($this->params['joins'])) {
             $this->params['joins'] = array();
         }
-        if (!in_array('Session', $this->params['joins'])) {
-            $this->params['joins'][] = 'Session';
-        }
+        $this->params['order'] = 'ID DESC';
 
         $collection = $this->model->paginate($this->params);
         $this->set('objects', $collection['objects']);

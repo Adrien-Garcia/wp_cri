@@ -50,6 +50,7 @@ class AdminSessionsController extends BaseAdminController
     public function index() {
         $this->init_default_columns();
         $this->process_params_for_search();
+        $this->params['order'] = 'date DESC';
         $collection = $this->model->paginate($this->params);
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
@@ -90,9 +91,9 @@ class AdminSessionsController extends BaseAdminController
     {
         $this->load_model('Formation');
         $formations = $this->Formation->find(array(
-            'selects' => array('id', 'Post.post_title'),
-            'joins' => array('Post'),
-            'order' => 'Post.post_date DESC'
+            'selects' => array('id', 'Post.post_title', 'Matiere.code', 'Matiere.label'),
+            'joins' => array('Post', 'Matiere'),
+            'order' => 'Matiere.code DESC'
         ));
 
         $options = array();
@@ -101,7 +102,11 @@ class AdminSessionsController extends BaseAdminController
                 if (!isset($formation->post) || empty($formation->post->post_title)) {
                     continue;
                 }
-                $options[$formation->id] =  $formation->post->post_title;
+                $option = new StdClass();
+                $option->__id = $formation->id;
+                $option->__name = $formation->post->post_title;
+                $option->__group = $formation->matiere->label;
+                $options[$formation->id] =  $option;
             }
         }
 
@@ -132,10 +137,8 @@ class AdminSessionsController extends BaseAdminController
             $object->formation = $this->Formation->find_one_by_id($object->id_formation);
         }
 
-        return empty($object->formation) ? null : HtmlHelper::admin_object_link($object->formation, array(
-            'action' => 'edit',
-            'text' => $object->formation->post->post_title,
-        ));
+        $controllerFormations = new AdminFormationsController();
+        return empty($object->formation) ? null : $controllerFormations->post_edit_link($object->formation);
     }
 
     public function lieuLink($object){
