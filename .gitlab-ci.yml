@@ -1,5 +1,45 @@
-deploy:
-    image: registry.jetpulp.fr:5000/dev/beanstalkapp:latest
-    stage: deploy
-    script:
-    - git push --prune git@addonline.git.beanstalkapp.com:/addonline/wp_cridon.git +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/*
+gulp-build:
+  image: registry.jetpulp.fr:5000/dev/gulp:latest
+  stage: build
+  script:
+  - cd server/gulp
+  - ln -s /node_modules
+  - gulp build
+  artifacts:
+    paths:
+      - server/wp-content/themes/maestro/library/css/style.css
+      - server/wp-content/themes/maestro/library/css/login.css
+      - server/wp-content/themes/maestro/library/css/ie.css
+      - server/wp-content/themes/maestro/library/css/front-back-styles.css
+      - server/wp-content/themes/maestro/library/css/admin.css
+      - server/wp-content/themes/maestro/library/js/min/app.min.js
+      - server/wp-content/themes/maestro/library/js/min/scripts.min.js
+      - server/wp-content/themes/maestro/library/js/min/slider.min.js
+      - server/wp-content/themes/maestro/library/fonts/svgfont
+      - server/wp-content/themes/maestro/library/images/sprites/spritesheet.png
+    expire_in: 1 day
+
+gulp-test:
+  image: registry.jetpulp.fr:5000/dev/gulp:latest
+  stage: test
+  script:
+  - cd server/gulp
+  - ln -s /node_modules
+  - gulp test
+
+deploy_preprod:
+  image: registry.jetpulp.fr:5000/dev/capistrano:latest
+  stage: deploy
+  environment:
+      name: preprod
+      url: http://cridon.jetpulp.work
+  only:
+    - feature/capistrano
+  before_script:
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  script:
+   - cd capistrano
+   - cap preprod deploy
