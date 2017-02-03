@@ -21,9 +21,15 @@ class FormationsController extends BaseActuController
 
         // params
         $params = $this->params;
+        if (!isset($this->params['joins'])) {
+            $this->params['joins'] = array();
+        }
+        if (!in_array('Session', $this->params['joins'])) {
+            $this->params['joins'][] = 'Session';
+        }
         // Formations a venir : triées de la plus proche à la plus éloignée
-        $params['order']      = 'custom_post_date ASC';
-        $params['conditions'] = array('custom_post_date >= ' => date('Y-m-d'));
+        $params['order']      = 'Session.date ASC';
+        $params['conditions'] = array('Session.date >= ' => date('Y-m-d'));
         $collection = $this->model->paginate($params);
         $formationsFutures = $collection['objects'];
 
@@ -68,9 +74,15 @@ class FormationsController extends BaseActuController
 
         // params
         $params = $this->params;
+        if (!isset($params['joins'])) {
+            $params['joins'] = array();
+        }
+        if (!in_array('Session', $params['joins'])) {
+            $params['joins'][] = 'Session';
+        }
         // Formations passées : triées de la plus récente à la plus ancienne
-        $params['order']      = 'custom_post_date DESC';
-        $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
+        $params['order']      = 'Session.date DESC';
+        $params['conditions'] = array('Session.date < ' => date('Y-m-d'));
         // get collection
         $collection = $this->model->paginate($params);
         $formationsPassees = $collection['objects'];

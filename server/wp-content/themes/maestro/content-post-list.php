@@ -11,8 +11,8 @@ foreach ($objects as $key => $object) :
 
 	<!-- POUR LES FORMATIONS LA DATE CORRESPOND A CELLE DU JOUR DE LA FORMATION ET NON A CELLE DE LA CREATION DE LA FORMATION EN BDD -->
 	<?php
-	    if ( !empty($object->__model_name) && $object->__model_name == 'Formation' && !empty($object->custom_post_date) ){
-            $current_date = $object->custom_post_date;
+	    if ( !empty($object->__model_name) && $object->__model_name == 'Formation' && !empty($object->session) ){
+            $current_date = $object->session->date;
         } else {
             if ($current_date != get_the_date('Y-m-d')) {
                 $current_date = get_the_date('Y-m-d');
