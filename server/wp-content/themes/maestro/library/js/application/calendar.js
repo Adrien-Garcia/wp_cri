@@ -76,6 +76,7 @@ App.Calendar = {
         var $block = $('#' + $session.data('block'));
         var content = $session.find('.calendar__session-content').html();
         var off = self.offsetDesktopBlock;
+        var mobile = false;
 
         this.sessionBlockClose();
         $block.find('.calendar__session-block-content').html(content);
@@ -84,11 +85,17 @@ App.Calendar = {
 
         if ($(window).width() < 1240) {
             off = $session[0].offsetTop + self.offsetMobileBlock;
+            mobile = true;
         } else {
             off = $session[0].offsetTop + self.offsetDesktopBlock;
             off -= $block.outerHeight() / 2;
         }
         $block.css('top', off + 'px');
+        if (mobile) {
+            window.setTimeout(function () {
+                App.Utils.scrollTop(700, '#' + $block[0].id, -self.offsetMobileBlock);
+            }, 350);
+        }
 
         /**
          *  Cet event est supprimé à chaque 'fermeture' de block session
@@ -107,6 +114,7 @@ App.Calendar = {
                 self.sessionBlockClose();
             }
         });
+
     },
 
     sessionsScrollEvent: function (scrollable) {
