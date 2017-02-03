@@ -91,9 +91,9 @@ class AdminSessionsController extends BaseAdminController
     {
         $this->load_model('Formation');
         $formations = $this->Formation->find(array(
-            'selects' => array('id', 'Post.post_title'),
-            'joins' => array('Post'),
-            'order' => 'Post.post_date DESC'
+            'selects' => array('id', 'Post.post_title', 'Matiere.code', 'Matiere.label'),
+            'joins' => array('Post', 'Matiere'),
+            'order' => 'Matiere.code DESC'
         ));
 
         $options = array();
@@ -102,7 +102,11 @@ class AdminSessionsController extends BaseAdminController
                 if (!isset($formation->post) || empty($formation->post->post_title)) {
                     continue;
                 }
-                $options[$formation->id] =  $formation->post->post_title;
+                $option = new StdClass();
+                $option->__id = $formation->id;
+                $option->__name = $formation->post->post_title;
+                $option->__group = $formation->matiere->label;
+                $options[$formation->id] =  $option;
             }
         }
 

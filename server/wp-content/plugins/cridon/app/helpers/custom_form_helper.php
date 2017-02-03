@@ -109,4 +109,44 @@ class CustomFormHelper extends MvcFormHelper {
     private function input_name($field_name) {
         return 'data['.$this->model_name.']['.MvcInflector::underscore($field_name).']';
     }
+
+    public function select_tag($field_name, $options=array()) {
+        $defaults = array(
+            'empty' => false,
+            'value' => null
+        );
+
+        $options = array_merge($defaults, $options);
+        $options['options'] = empty($options['options']) ? array() : $options['options'];
+        $options['name'] = $field_name;
+        $attributes_html = self::attributes_html($options, 'select');
+        $html = '<select'.$attributes_html.'>';
+        if ($options['empty']) {
+            $empty_name = is_string($options['empty']) ? $options['empty'] : '';
+            $html .= '<option value="">'.$empty_name.'</option>';
+        }
+        $optGroup = false;
+        $hasGroup = false;
+        foreach ($options['options'] as $key => $value) {
+            if (is_object($value)) {
+                $key = $value->__id;
+                $optGroup = isset($value->__group) && ($value->__group !== $optGroup) ? $value->__group : false;
+                $value = $value->__name;
+            }
+            if ($optGroup) {
+                if ($hasGroup) {
+                    $html .= '</optgroup>';
+                }
+                $html .= '<optgroup label="'.$optGroup.'">';
+                $hasGroup = true;
+            }
+            $selected_attribute = $options['value'] == $key ? ' selected="selected"' : '';
+            $html .= '<option value="'.$this->esc_attr($key).'"'.$selected_attribute.'>'.$value.'</option>';
+        }
+        if ($hasGroup) {
+            $html .= '</optgroup>';
+        }
+        $html .= '</select>';
+        return $html;
+    }
 }
