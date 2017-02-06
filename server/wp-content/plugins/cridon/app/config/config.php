@@ -338,7 +338,7 @@ class Config {
     );
     public static $listOfControllersWpMvcOnSidebar = array(
         'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
-        'questions','soldes','supports','user_cridons','veilles','vie_cridons','lieux', 'sessions'
+        'questions','soldes','supports','user_cridons','veilles','vie_cridons','organismes', 'sessions'
     );
     public static $listOfControllersWithNoActionAdd = array(
         'notaires',
@@ -383,9 +383,9 @@ class Config {
             'add'    => 'Ajout d\'une question',
             'edit'   => 'Modification d\'une question'
         ),
-        'lieu' => array(
-            'add'    => 'Ajout d\'un lieu',
-            'edit'   => 'Modification d\'un lieu'
+        'organisme' => array(
+            'add'    => 'Ajout d\'un organisme',
+            'edit'   => 'Modification d\'un organisme'
         ),
         'session' => array(
             'add'    => 'Ajout d\'une nouvelle session de formation',

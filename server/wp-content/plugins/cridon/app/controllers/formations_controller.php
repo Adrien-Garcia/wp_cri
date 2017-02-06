@@ -45,17 +45,17 @@ class FormationsController extends BaseActuController
             );
             $sessions = mvc_model('Session')->find($options);
 
-            // On récupère les lieux dont dépends l'étude
-            $lieuxAssociatedToEtude = array();
+            // On récupère les organismes dont dépends l'étude
+            $organismesAssociatedToEtude = array();
             if (!empty($notaire = CriNotaireData())){
                 $modelEtude = new Etude();
-                $lieuxAssociatedToEtude = $modelEtude->getLieuxAssociatedToEtude($notaire->crpcen);
+                $organismesAssociatedToEtude = $modelEtude->getOrganismesAssociatedToEtude($notaire->crpcen);
             }
             foreach($sessions as $key => $session){
-                $data = $this->addContactAction($session,$lieuxAssociatedToEtude, false);
-                $sessions[$key]->action         = $data ['action'];
-                $sessions[$key]->action_label   = $data ['action_label'];
-                $sessions[$key]->contact_lieu   = $data ['contact_lieu'];
+                $data = $this->addContactAction($session,$organismesAssociatedToEtude, false);
+                $sessions[$key]->action = $data ['action'];
+                $sessions[$key]->action_label = $data ['action_label'];
+                $sessions[$key]->contact_organisme = $data ['contact_organisme'];
             }
             // Pass data to the single-formation view
             $this->set('sessions', $sessions);
@@ -192,7 +192,7 @@ class FormationsController extends BaseActuController
             ),
             'joins' => array(
                 'Formation',
-                'Lieu'
+                'Organisme'
             ),
             'order' => 'Session.date ASC',
         ));
@@ -206,11 +206,11 @@ class FormationsController extends BaseActuController
         ));
         $formations = assocToKeyVal($formations, 'id');
 
-        // On récupère les lieux dont dépends l'étude
-        $lieuxAssociatedToEtude = array();
+        // On récupère les organismes dont dépends l'étude
+        $organismesAssociatedToEtude = array();
         if (!empty($notaire = CriNotaireData())){
             $modelEtude = new Etude();
-            $lieuxAssociatedToEtude = $modelEtude->getLieuxAssociatedToEtude($notaire->crpcen);
+            $organismesAssociatedToEtude = $modelEtude->getOrganismesAssociatedToEtude($notaire->crpcen);
         }
 
         foreach ($sessions as $session) {
@@ -233,12 +233,12 @@ class FormationsController extends BaseActuController
                 'id'         => $session->id
             );
             $before_today = DateTime::createFromFormat('Y-m-d', $session->date)->getTimestamp() < time();
-            $data = $this->addContactAction($session, $lieuxAssociatedToEtude, $before_today);
+            $data = $this->addContactAction($session, $organismesAssociatedToEtude, $before_today);
 
             $lineSession ['action']         = $data ['action'];
             $lineSession ['action_label']   = $data ['action_label'];
-            $lineSession ['lieu']           = $data['lieu'];
-            $lineSession ['contact_lieu']   = $data['contact_lieu'];
+            $lineSession ['organisme']           = $data['organisme'];
+            $lineSession ['contact_organisme']   = $data['contact_organisme'];
             $calendar[$key]['sessions'][] = $lineSession;
         }
 
@@ -248,38 +248,38 @@ class FormationsController extends BaseActuController
     /**
      * Will provide session line in calendar with information concerning subscription or contact
      * @param $session Session : the session with all data
-     * @param $lieuxAssociatedToEtude : every lieu associated to current etude
+     * @param $organismesAssociatedToEtude : every organism associated to current etude
      * @param $remove_actions boolean : If true remove the actions
      * @return array
      */
-    protected function addContactAction($session, $lieuxAssociatedToEtude, $remove_actions = true)
+    protected function addContactAction($session, $organismesAssociatedToEtude, $remove_actions = true)
     {
         $data ['action'] = $data ['action_label'] =  $data['details'] = '';
-        $data ['lieu'] = $session->lieu;
-        $data ['contact_lieu'] = false;
+        $data ['organisme'] = $session->organisme;
+        $data ['contact_organisme'] = false;
         // Pour les différents cas ; se reporter à goo.gl/0fHVxB
         if (CriIsNotaire() && in_array(CriNotaireData()->id_fonction, Config::$allowedNotaryFunction) ) { // Line 2 (logged in is notaire)
-            // L'étude dépend-t-elle du lieu ?
-            $etudeIsAssociatedToLieu = false;
-            foreach ($lieuxAssociatedToEtude as $lieu) {
-                if ($session->id_lieu == $lieu->id) {
-                    $etudeIsAssociatedToLieu = true;
+            // L'étude dépend-t-elle d'un organisme ?
+            $etudeIsAssociatedToOrganisme = false;
+            foreach ($organismesAssociatedToEtude as $organisme) {
+                if ($session->id_organisme == $organisme->id) {
+                    $etudeIsAssociatedToOrganisme = true;
                     break;
                 }
             }
 
-            if ($session->lieu->is_cridon) { // Cell B2 (préinscription)
+            if ($session->organisme->is_cridon) { // Cell B2 (préinscription)
                 $data ['action'] = '/session-pre-inscription-cridon';
                 $data ['action_label'] = 'Se pré-inscrire';
-            } else if ($etudeIsAssociatedToLieu) { // Cell C2 (informations contact)
-                $data ['contact_lieu'] = true;
+            } else if ($etudeIsAssociatedToOrganisme) { // Cell C2 (informations contact)
+                $data ['contact_organisme'] = true;
             } else { // Cell D2 (contact Cridon)
                 $data ['action'] = '/session-contact-cridon';
                 $data ['action_label'] = 'Contacter le CRIDON LYON';
             }
 
         } else if (CriIsNotaire()) { // Line 3 (logged in not notaire (collab...))
-            // $data ['lieu'] = $session->lieu;
+            // DO NOTHING
         } else if (!is_user_logged_in()){ // Line 4 (not logged in)
             $error_code = "PROTECTED_CONTENT";
             $data ['action'] = "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . urlencode($_SERVER['REQUEST_URI']);

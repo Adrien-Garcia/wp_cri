@@ -41,9 +41,9 @@ class AdminSessionsController extends BaseAdminController
             'label' => 'Formation',
             'value_method' => 'formationLink'
         ),
-        'lieu' => array(
-            'label' => 'Lieu',
-            'value_method' => 'lieuLink'
+        'organisme' => array(
+            'label' => 'Organisme',
+            'value_method' => 'organismeLink'
         )
     );
 
@@ -60,7 +60,7 @@ class AdminSessionsController extends BaseAdminController
 
     public function add(){
         $this->setFormations();
-        $this->setLieux();
+        $this->setOrganismes();
         $this->prepareInputDate();
         $this->create_or_save();
         $this->load_helper('CustomForm');
@@ -68,7 +68,7 @@ class AdminSessionsController extends BaseAdminController
 
     public function edit() {
         $this->setFormations();
-        $this->setLieux();
+        $this->setOrganismes();
         $this->prepareInputDate();
         $this->verify_id_param();
         $this->create_or_save();
@@ -113,22 +113,22 @@ class AdminSessionsController extends BaseAdminController
         $this->set('formations', $options);
     }
 
-    private function setLieux()
+    private function setOrganismes()
     {
-        $this->load_model('Lieu');
-        $lieux = $this->Lieu->find(array(
+        $this->load_model('Organisme');
+        $organismes = $this->Organisme->find(array(
             'selects' => array('id', 'name'),
             'order' => 'name'
         ));
 
         $options = array();
-        if (is_array($lieux) && count($lieux) > 0) {
-            foreach ($lieux as $lieu) {
-                $options[$lieu->id] =  $lieu->name;
+        if (is_array($organismes) && count($organismes) > 0) {
+            foreach ($organismes as $organisme) {
+                $options[$organisme->id] =  $organisme->name;
             }
         }
 
-        $this->set('lieux', $options);
+        $this->set('organismes', $options);
     }
 
     public function formationLink($object){
@@ -141,15 +141,15 @@ class AdminSessionsController extends BaseAdminController
         return empty($object->formation) ? null : $controllerFormations->post_edit_link($object->formation);
     }
 
-    public function lieuLink($object){
-        if (empty($object->lieu)) {
-            $this->load_model('Lieu');
-            $object->lieu = $this->Lieu->find_one_by_id($object->id_lieu);
+    public function organismeLink($object){
+        if (empty($object->organisme)) {
+            $this->load_model('Organisme');
+            $object->organisme = $this->Organisme->find_one_by_id($object->id_organisme);
         }
 
-        return empty($object->lieu) ? null : HtmlHelper::admin_object_link($object->lieu, array(
+        return empty($object->organisme) ? null : HtmlHelper::admin_object_link($object->organisme, array(
             'action' => 'edit',
-            'text' => $object->lieu->name,
+            'text' => $object->organisme->name,
         ));
     }
 }

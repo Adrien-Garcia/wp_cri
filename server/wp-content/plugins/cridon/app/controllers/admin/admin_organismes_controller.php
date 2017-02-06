@@ -14,7 +14,7 @@
 // base admin ctrl
 require_once 'base_admin_controller.php';
 
-class AdminLieuxController extends BaseAdminController
+class AdminOrganismesController extends BaseAdminController
 {
     /**
      * Default searchable field
@@ -36,10 +36,10 @@ class AdminLieuxController extends BaseAdminController
     var $default_columns = array(
         'id',
         'name' => array(
-            'label' => 'Nom du lieu',
+            'label' => 'Nom de l\'organisme',
         ),
         'is_cridon' => array(
-            'label'=>'Le lieu est le cridon ?'
+            'label'=>'Est-ce le Cridon Lyon ?'
         ),
         'address' => array(
             'label'=>'Adresse'

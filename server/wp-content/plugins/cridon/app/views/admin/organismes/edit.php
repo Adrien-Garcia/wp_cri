@@ -1,5 +1,5 @@
 <div class="mvc-title">
-    <h2><?php echo Config::$titleAdminForm['lieu']['edit'] ?></h2>
+    <h2><?php echo Config::$titleAdminForm['organisme']['edit'] ?></h2>
 </div>
 <div class="mvc-form">
     <?php echo $this->custom_form->create($model->name          ,array('enctype'=>true,'action' =>$this->action)); ?>

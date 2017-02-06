@@ -84,9 +84,9 @@ $year = $data['year'];
                                                             <span class="calendar__session-content--name"><?php echo $session['name'] ; ?></span>
                                                         </div>
                                                         <div class="calendar__session-content--body">
-                                                            <?php if ($session['lieu']) : ?>
+                                                            <?php if ($session['organisme']) : ?>
                                                                 <div class="calendar__session-content--place">
-                                                                    <?php echo $session['lieu']->is_cridon ? strtoupper($session['lieu']->name) : $session['lieu']->name; ?>
+                                                                    <?php echo $session['organisme']->is_cridon ? strtoupper($session['organisme']->name) : $session['organisme']->name; ?>
                                                                 </div>
                                                             <?php endif; ?>
                                                             <?php if ($session['time']) : ?>
@@ -98,18 +98,18 @@ $year = $data['year'];
                                                             <?php if ($session['action'] && $session['action_label']) : ?>
                                                             <a href="<?php echo $session['action'] ; ?>" class="calendar__session-content-button"><?php echo $session['action_label'] ; ?></a>
                                                             <?php endif; ?>
-                                                            <?php if ($session['contact_lieu']) : ?>
+                                                            <?php if ($session['contact_organisme']) : ?>
                                                             <hr/>
                                                             <div class="calendar__session-content-chambre">
-                                                                <div class="calendar__session-content-chambre--name"><?php echo $session['lieu']->name ; ?></div>
-                                                                <?php if ($session['lieu']->phone_number) : ?>
+                                                                <div class="calendar__session-content-chambre--name"><?php echo $session['organisme']->name ; ?></div>
+                                                                <?php if ($session['organisme']->phone_number) : ?>
                                                                 <div class="calendar__session-content-chambre--telephone"><span>Tel. :</span>
-                                                                    <a href="tel:<?php echo $session['lieu']->phone_number ; ?>" ><?php echo $session['lieu']->phone_number ; ?></a>
+                                                                    <a href="tel:<?php echo $session['organisme']->phone_number ; ?>" ><?php echo $session['organisme']->phone_number ; ?></a>
                                                                 </div>
                                                                 <?php endif; ?>
-                                                                <?php if ($session['lieu']->email) : ?>
+                                                                <?php if ($session['organisme']->email) : ?>
                                                                 <div class="calendar__session-content-chambre--email"><span>Email :</span>
-                                                                    <a href="mailto:<?php echo $session['lieu']->email ; ?>" ><?php echo $session['lieu']->email ; ?></a>
+                                                                    <a href="mailto:<?php echo $session['organisme']->email ; ?>" ><?php echo $session['organisme']->email ; ?></a>
                                                                 </div>
                                                                 <?php endif; ?>
                                                             </div>
