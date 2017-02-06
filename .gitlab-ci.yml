@@ -19,12 +19,12 @@ gulp-build:
       - server/wp-content/themes/maestro/library/images/sprites/spritesheet.png
     expire_in: 1 day
 
-deploy_preprod:
+deploy_dev:
   image: registry.jetpulp.fr:5000/dev/capistrano:latest
   stage: deploy
   environment:
-      name: preprod
-      url: http://cridon.jetpulp.work
+      name: dev
+      url: http://cridon.dev.jetpulp.hosting
   only:
     - feature/capistrano
   before_script:
@@ -34,4 +34,4 @@ deploy_preprod:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
   script:
    - cd capistrano
-   - cap preprod deploy
+   - cap dev deploy
