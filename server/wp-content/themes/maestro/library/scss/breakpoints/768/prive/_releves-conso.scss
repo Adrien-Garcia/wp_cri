@@ -1,32 +1,6 @@
 div#releves-conso {
-    // padding-right: 20px;
 
-    // h2 {
-    //     margin-bottom: 25px;
-    // }
-
-    // .titre {
-    //     width: 100%;
-    //     background: $bg-top-footer;
-    //     height: 50px;
-    //     text-align: center;
-    //     line-height: 50px;
-    //     @extend .do-re;
-    //     font-size: 20px;
-    //     color:$bleu;
-    //     position: relative;
-
-    //     &::before {
-    //         @include svgicon('icon-angle-bottom', 14px, 14px, #e6e6e6);
-    //         position: absolute;
-    //         bottom: -13px;
-    //         left: 50%; 
-    //         margin-left: -22px;
-    //     }
-
-    // }
-    
-    ul { 
+    ul {
         margin: 0;
         padding: 0;
 
@@ -39,23 +13,19 @@ div#releves-conso {
 
             a.mois {
                 font-size: 18px;
-                // font-family: $helvetica;
-                // display: inline-block;
-                // width: 70%;
             }
 
-            a.pdf { 
+            a.pdf {
                 display: inline-block;
                 width: 20%;
 
-                &::before{
+                &::before {
                     @include svgicon('icon-pdf', 25px, 25px, $rouge);
                     position: absolute;
                     right: 0;
                     top: 50%;
                     margin-top: -10px;
                 }
-                
             }
 
         }

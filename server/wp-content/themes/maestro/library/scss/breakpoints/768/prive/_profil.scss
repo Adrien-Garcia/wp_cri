@@ -25,67 +25,41 @@ div#mon-profil {
         }
     }
 
-    .mes-centres-dinterets, .newsletter{
+    .mes-centres-dinterets,
+    .newsletter {
 
         padding-bottom: 30px;
         margin-bottom: 20px;
 
-        h2{ }
-
-        .description{
+        .description {
             font-size: 17px;
             line-height: 20px;
         }
 
-        form{
+        form {
 
-            > ul{
+            > ul {
                 clear: both;
 
-                li{
-                    /* width: 50%;
-                    float: left; */
+                li {
                     padding: 3px 0;
 
-                    &:nth-child(even){
-                        //padding-right: 10px;
+                    &::before {
+                        content: none;
                     }
 
-                    &:nth-child(even){
-                        //padding-left: 10px;
-                    }
-
-                    &:before{ content:none;}
-
-                    label{
+                    label {
                         font-size: 20px;
                         line-height: 30px;
-
-
-                        &:before{
-
-
-                        }
-
-                        input{}
-
                     }
                 }
             }
-
-            a, input[type="submit"]{
-
-                //margin-left: 608px;
-
-            }
         }
-
-
     }
 
-    .newsletter{
+    .newsletter {
 
-        > a{
+        > a {
             margin-left: 568px;
         }
     }

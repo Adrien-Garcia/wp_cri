@@ -1,110 +1,94 @@
-#content.page-mon-compte{
+#content.page-mon-compte {
 
-	.message-erreur{
-			font-size: 16px;
-			line-height: 20px;
-		}
+    .message-erreur {
+        font-size: 16px;
+        line-height: 20px;
+    }
 
-	.breadcrumbs{ 
-		display: block;
-		height: 80px;
-	}
+    .breadcrumbs {
+        display: block;
+        height: 80px;
+    }
 
-	#main{
-		padding-top: 0;
+    #main {
+        padding-top: 0;
 
-		&:before{
-			display: block;
-		}
+        &::before {
+            display: block;
+        }
 
-		.header-wrap{
-			height: 160px; 
-			padding-top: 70px;
-			margin-top: 0px; 
+        .header-wrap {
+            height: 160px;
+            padding-top: 70px;
+            margin-top: 0;
 
-			h1{
-				font-size: 30px;
+            h1 {
+                font-size: 30px;
 
-				&:before{
-					bottom:-20px;
-				}
-				
-			}
+                &::before {
+                    bottom: -20px;
+                }
 
-		}
+            }
+        }
 
-        #inner-content{
-
-        	&.wrap{width:1200px;}
-
+        #inner-content {
             overflow: hidden;
 
-
-			#sidebar_prive{
-				
-				width: 305px;
-
-				nav{
-					ul{
-						
-
-						>li{
-							
-							>a{
-								width: 305px;
-
-								&:after{
-									left: 15px;
-								}
-
-								span{								
-									font-size: 20px;
-									padding-left: 60px; 
-									text-align: left;
-
-									> span{
-										padding-left: 0;
-									}
-								}
+            &.wrap {
+                width: 1200px;
+            }
 
 
+            #sidebar_prive {
+                width: 305px;
 
-							}
+                nav {
+                    ul {
+                        > li {
+                            > a {
+                                width: 305px;
 
-							&.active{
+                                &::after {
+                                    left: 15px;
+                                }
 
-								>a{
-									
-									&:before{}
+                                span {
+                                    font-size: 20px;
+                                    padding-left: 60px;
+                                    text-align: left;
 
-									&:after{
-										color:#FFF;
-									} 
+                                    > span {
+                                        padding-left: 0;
+                                    }
+                                }
+                            }
 
-									span{
-										color:#FFF;
-									}
-								}
-							}
+                            &.active {
+                                >a {
+                                    &::after {
+                                        color: #fff;
+                                    }
 
-						}
-					}
-				}
+                                    span {
+                                        color: #fff;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-				
-			}
+            >.content {
+                width: 895px;
+                padding-left: 100px;
 
-			>.content{
-				
-				width: 895px;
-				padding-left: 100px;
-
-				h2{
-					font-size: 30px;
-					line-height: 25px;
-				}
-				
-			}
-		}
-	}
+                h2 {
+                    font-size: 30px;
+                    line-height: 25px;
+                }
+            }
+        }
+    }
 }

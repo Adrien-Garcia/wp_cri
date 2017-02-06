@@ -1,165 +1,107 @@
-.cridonline-offres{
+.cridonline-offres {
 
-	.description{
-		font-size:20px;
-		line-height: 22px;
-	}
+    .description {
+        font-size: 20px;
+        line-height: 22px;
+    }
 
-	.bloc-cridonline{
-		width: 257px;
-		height: 470px;
-		float: left;
-		margin-right: 12px;
-		background: #FFF;
-		margin-top: 15px; 
-		margin-bottom: 35px;
-		&.large {
-			height: 520px;
-			.content {
-				height: 367px;
-			}
-			&.on {
-				height: 540px;
-			}
-		}
-		
+    .bloc-cridonline {
+        width: 257px;
+        height: 470px;
+        float: left;
+        margin-right: 12px;
+        background: #fff;
+        margin-top: 15px;
+        margin-bottom: 35px;
 
-		> .en-tete{
-		}
+        &.large {
+            height: 520px;
 
-		.content{
-			padding:0px 15px 15px 15px;
+            .content {
+                height: 367px;
+            }
 
+            &.on {
+                height: 540px;
+            }
+        }
 
+        .content {
+            padding: 0 15px 15px;
 
-			.titre{
-			}
+            input[type='submit'] {
+                width: 200px !important;
+                font-size: 13px !important;
+                margin-left: -100px;
+            }
+        }
 
-			.prix{
+        &.niveau-3 {
+            margin-right: 0;
 
-				span{
-				}
-			}
+            .en-tete {
+                height: 127px;
+            }
+        }
 
-			ul{
+        &.on {
+            width: 257px;
+            height: 490px;
+            top: -10px;
+            left: 0;
+        }
 
-				li{}
-			}
-
-			>a {
-
-				&:after{
-				}
-			}
-
-			input[type="submit"]{
-				width: 200px !important;
-				font-size: 13px !important;
-				margin-left: -100px;
-			}
-		}
-
-		&.niveau-3{
-			margin-right: 0;
-
-			.en-tete{
-				height: 127px;
-			}
-		}
-
-		&.on{
-			width: 257px;
-			height: 490px;
-			top: -10px;
-			left: 0px;		   
-		}
-
-		&.off{
-			margin-left: 0px;
-		}
-		
-		
-	}
+        &.off {
+            margin-left: 0;
+        }
+    }
 }
 
-div#cridonline{
+div#cridonline {
 
-	input[type="submit"]{
-			width: 180px;
-			font-size: 16px;
-		}
+    input[type='submit'] {
+        width: 180px;
+        font-size: 16px;
+        }
 
-	
+    .wrap-link {
+        clear: both;
+        width: 400px;
+        margin: 0 auto;
 
+        a {
+            &::after {
+                top: 50px;
+            }
+        }
+    }
 
-	.wrap-link{
-		clear: both;
-	    width: 400px;
-	    margin: 0 auto 0 auto;
-
-	    a{
-	    	&:after{
-	    		top: 50px;
-	    	}
-	    }
-	} 
-
-	.message-offre{
-		font-size: 20px;
-		line-height: 24px;
-	}
-
-	
-
-	.bloc-souscription{
-		width: 470px;
+    .message-offre {
+        font-size: 20px;
+        line-height: 24px;
+    }
 
 
-		form{
 
-			label{
-				
-				
+    .bloc-souscription {
+        width: 470px;
 
-				span{/*Message*/				
+        form {
+            label {
+                span { //Message
+                    font-size: 20px;
+                    line-height: 33px;
+                    top: -8px;
+                }
 
-				    font-size: 20px;
-				    line-height: 33px;
-				    top: -8px;
-				}
+                &.marge {
+                    margin-bottom: 30px;
+                }
+            }
 
-				input{ 
-				}
-
-				&:before{
-				}
-
-				&.marge{
-					margin-bottom: 30px;
-				}
-
-				&.select{
-					&:before{
-					}
-
-				}
-
-			}
-
-			>a{
-				font-size: 20px;
-
-				&:after{
-				}
-			}
-
-			input[type="submit"]{
-
-			}
-		}
-
-		
-
-		
-	}
+            > a {
+                font-size: 20px;
+            }
+        }
+    }
 }
