@@ -5,4 +5,4 @@
     'value' => isset($object) && property_exists($object, 'date') ? $object->date : date('Y-m-d')
 )); ?>
 <?php echo $this->custom_form->belongs_to_dropdown('Formation', $formations, array('label' => 'Formation','style' => 'width: 200px;', 'empty' => false)); ?>
-<?php echo $this->custom_form->belongs_to_dropdown('Lieu', $lieux, array('label' => 'Lieu','style' => 'width: 200px;', 'empty' => false)); ?>
+<?php echo $this->custom_form->belongs_to_dropdown('Organisme', $organismes, array('label' => 'Organisme','style' => 'width: 200px;', 'empty' => false)); ?>

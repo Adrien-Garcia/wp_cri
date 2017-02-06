@@ -391,7 +391,7 @@ body.single,
 				padding: 0;
 				line-height: 18px;
 
-				&.lieu {
+				&.organisme {
 					//padding: 0 80px;
 					margin-bottom: 11px;
 					@include do-bo;
@@ -520,7 +520,7 @@ body.single,
 									color: $bleu;
 								}
 
-								&-lieu {
+								&-organisme {
 									@include do-re;
 									font-size: 15px;
 									margin-bottom: 10px;

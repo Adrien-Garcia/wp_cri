@@ -1009,8 +1009,3 @@ function CridonlineAutologinLink()
     }
     return array($access, $url);
 }
-
-// On ajoute 'lieu' aux irréguliers dans les variables du module wp_mvc car celui-ci pluralize 'lieu' en 'lieus'
-MvcInflector::rules('singular',array('irregular' => array('lieux' => 'lieu')));
-MvcInflector::rules('plural',array('irregular' => array('lieu' => 'lieux')));
-
