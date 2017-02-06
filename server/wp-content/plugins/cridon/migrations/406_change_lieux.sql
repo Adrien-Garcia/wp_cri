@@ -10,7 +10,7 @@ ADD COLUMN `fax_number` VARCHAR(16) NULL DEFAULT NULL AFTER `address_3`;
 TRUNCATE `cri_lieu`;
 
 INSERT INTO `cri_lieu` (client_number, name, is_cridon, address_1, address_2, address_3, postal_code, city, email, phone_number, fax_number) VALUES
-('899990', "Cridon", 1, '37 Boulevard des Brotteaux', NULL, NULL, '69455', 'LYON', 'informations@cridon-lyon.fr', '0437247924', NULL),
+('899990', "Cridon Lyon", 1, '37 Boulevard des Brotteaux', NULL, NULL, '69455', 'LYON', 'informations@cridon-lyon.fr', '0437247924', NULL),
 ('801000', "Chambre des Notaires de l'Ain", 0, '18 bis rue des Dîmes', NULL, NULL, '01000', 'BOURG EN BRESSE', 'chambre.ain@notaires.fr', '0474232021', '0474222599'),
 ('803000', "Chambre des Notaires de l'Allier", 0, '19 rue Diderot', NULL, NULL, '03000', 'MOULINS', 'chambre.allier@notaires.fr', '0470441030', '0470446720'),
 ('804000', "Chambre des Notaires d'Alpes de  Haute Provence", 0, '39 boulevard Victor-Hugo', 'BP 108', NULL, '04004', 'DIGNE LES BAINS Cedex', 'chambre04@notaires.fr', '0492314392', '0492310616'),
