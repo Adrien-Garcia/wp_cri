@@ -61,7 +61,7 @@ echo get_template_part("content","ga");
 			<?php echo get_template_part("content","posez-question"); ?>
 		</div>
 
-		<header class="header" role="banner" id="sel-header">
+		<header class="header sel-header" role="banner">
 			<div class="header-sup">
 				<div id="inner-header" class="wrap cf">
 					<!-- <div class="logo-partenaires">

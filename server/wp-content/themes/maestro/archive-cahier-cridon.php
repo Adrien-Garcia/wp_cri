@@ -12,7 +12,7 @@
 			<div id="inner-content" class="wrap cf">
 
 				<h1 class="h1">Les Cahiers du CRIDON LYON</h1>
-				<div class="listing object" id="sel-object">
+				<div class="listing object">
 					
                 <?php
                 $current_date = null;
@@ -29,9 +29,9 @@
                         ?>
                         <div class="date sel-object-date">
                             <div class="sep"></div>
-                            <span class="jour"><?php echo get_the_date( 'd') ?></span>
-                            <span class="mois"><?php echo get_the_date( 'M') ?></span>
-                            <span class="annee"><?php echo get_the_date( 'Y') ?></span>
+                            <span class="jour sel-date_day"><?php echo get_the_date( 'd') ?></span>
+                            <span class="mois sel-date_month"><?php echo get_the_date( 'M') ?></span>
+                            <span class="annee sel-date_year"><?php echo get_the_date( 'Y') ?></span>
                         </div>
                         <?php endif; ?>
 

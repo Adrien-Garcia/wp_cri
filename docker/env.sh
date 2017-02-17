@@ -14,6 +14,8 @@ function init {
     export DB_BACKUP_SERVER=aotools.host.addonline.fr
     # local server name
     export SERVER_NAME=wp-cridon.$JETPULP_USERNAME.jetpulp.dev
+    # domain against which running test scripts
+    export BASE_HOST_URL=${BASE_HOST_URL:-https://$SERVER_NAME}
     # database name
     export MYSQL_DATABASE=wp_cridon
     # every vitural_host separated by , (used for nginx proxy)
