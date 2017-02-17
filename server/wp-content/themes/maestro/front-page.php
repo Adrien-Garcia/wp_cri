@@ -8,7 +8,7 @@
 
    	<div id="content">
 
-   		<div class="row_01" id="sel-front-page">
+   		<div class="row_01">
    			<div id="inner-content" class="wrap cf">
 				
 				<div class="falsh-info js-flash-info">
@@ -28,11 +28,11 @@
 							$_flash_excerpt = get_the_excerpt();
 							$_flash_url = get_permalink();
 						 ?>
-					<div class="content" id="sel-flash-present">
+					<div class="content">
 						<div class="texte">
 							<?php //echo $_flash_title; ?>
 							<?php echo truncate($_flash_title,110, '...'); ?>
-							<a id="sel-flash-link-present" href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
+							<a class="sel-read_flash_link-home" href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
 						</div>
 						
 					</div>
@@ -64,8 +64,8 @@
    			<div id="inner-content" class="wrap cf">
 
    				<div id="onglets">
-   					<h3 class="juridique open js-tab-veille-open"><span><?php _e('Veille juridique'); ?></span></h3>   				
-   					<h3 class="formations js-tab-formation-open"><span><?php _e('Formations'); ?></span></h3>
+   					<h3 class="juridique open js-tab-veille-open sel-accordion_content_title-home"><span><?php _e('Veille juridique'); ?></span></h3>
+   					<h3 class="formations js-tab-formation-open sel-accordion_content_title-home"><span><?php _e('Formations'); ?></span></h3>
    				</div>
    				<div class="details">
    					<div id="accordion-juridique" class="accordion js-tab-veille open">
@@ -78,8 +78,8 @@
                             $current_date = $date['date'];
 						?>
 						<?php // var_dump($_date) ?>
-   						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-juridique-panel">
-					      <div class="date js-accordion-button ">
+   						<div class="panel js-accordion-content<?php if($keyd > 0): ?> closed<?php endif; ?> sel-accordion_content">
+					      <div class="date js-accordion-button sel-accordion_content_open_button">
 					      	<span class="jour"><?php echo strftime('%d',strtotime($current_date)) ?></span>
 					      	<span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,4) ?></span>
 					      	<span class="annee"><?php echo strftime('%Y',strtotime($current_date)) ?></span>
@@ -109,7 +109,7 @@
 					    <?php wp_reset_query(); ?>
 					    <div class="blockEnd"></div>
 
-					    <a href="<?php echo MvcRouter::public_url(array('controller' => 'veilles', 'action'     => 'index')) ?>" id="sel-hp-veilles-link" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
+					    <a href="<?php echo MvcRouter::public_url(array('controller' => 'veilles', 'action'     => 'index')) ?>" class="sel-veille_cridon_link" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
    						
    					</div>
 
@@ -125,7 +125,7 @@
                             $current_date = $date['date'];
 						?>
 						<?php // var_dump($_date) ?>
-   						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-formation-panel">
+   						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-accordion_content">
 					      <div class="date js-accordion-button">
                               <span class="jour"><?php echo strftime('%d',strtotime($current_date)) ?></span>
                               <span class="mois"><?php echo mb_substr(strftime('%b',strtotime($current_date)),0,4) ?></span>
@@ -277,13 +277,13 @@
                 $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
 
 				//var_dump($thumbnail_src);  ?>
-				<div class="actualite" id="sel-actu-cridon-home">
+				<div class="actualite sel-actualite">
 					<?php // the_post_thumbnail(array(480, 225)); ?>
 					<div class="img" style="background-image: url(<?php echo  $thumbnail_src[0] ?>);"></div>
 					<div class="date">
-						<span class="jour"><?php echo get_the_date( 'd') ?></span>
-						<span class="mois"><?php echo substr(get_the_date( 'F'),0,4) ?></span>
-						<span class="annee"><?php echo get_the_date( 'Y') ?></span> 
+						<span class="jour sel-date_day"><?php echo get_the_date( 'd') ?></span>
+						<span class="mois sel-date_month"><?php echo substr(get_the_date( 'F'),0,4) ?></span>
+						<span class="annee sel-date_year"><?php echo get_the_date( 'Y') ?></span>
 					</div>
 
 					<div class="content">
@@ -300,7 +300,7 @@
 		    	<?php wp_reset_query(); ?>
 		    <?php endif; ?>
 
-				<a href="<?php echo MvcRouter::public_url(array('controller' => 'vie_cridons', 'action'     => 'index')) ?>" title="Lorem" class="LienVieCridon" ><span> <?php _e('Toute la vie du CRIDON LYON'); ?> </span></a>
+				<a href="<?php echo MvcRouter::public_url(array('controller' => 'vie_cridons', 'action'     => 'index')) ?>" title="Lorem" class="LienVieCridon sel-vie_cridon_link" ><span> <?php _e('Toute la vie du CRIDON LYON'); ?> </span></a>
 			</div>
 		</div>
 

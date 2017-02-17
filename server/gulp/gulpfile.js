@@ -79,7 +79,7 @@ gulp.task('iconfont', function () {
 gulp.task('uglify', function() {
 	
 	/* JS task */
-	gulp.src(libPath+'/js/!(app).js')
+	gulp.src([libPath+'/js/!(app|_eslint|_eslint_projet).js'])
         .pipe(plumber())
     	.pipe(uglify())
     	.pipe(rename({suffix: '.min'}))
@@ -128,7 +128,7 @@ gulp.task('browser-sync', function() {
         https: {
             key: "/certs/my-certificate.key",
             cert: "/certs/my-certificate.crt"
-        },
+        }
     });
 
 });
@@ -151,6 +151,4 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['copy','sprite','iconfont', 'sass', 'uglify','browser-sync', 'watch'], function() {});
-gulp.task('build', ['copy','sprite', 'iconfont','sass-build', 'uglify',], function() {});
-
-
+gulp.task('build', ['copy','sprite', 'iconfont','sass-build', 'uglify'], function() {});
