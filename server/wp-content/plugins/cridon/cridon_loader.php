@@ -64,6 +64,7 @@ class CridonLoader extends MvcPluginLoader
                         // only check if the version is not exist
                         if (!in_array((int) $current, $listVersions)) {
                             $updates[$current] = file_get_contents($pluginPath.DIRECTORY_SEPARATOR.$migration);
+                            $encodingFile = mb_detect_encoding($updates[$current]);
                         }
                     }
                 }
@@ -84,9 +85,9 @@ class CridonLoader extends MvcPluginLoader
 
                             foreach($queries as $query){
                                 // Last row in array after explode can be a single space.
-                                $testEmpty = trim($query);
-                                if (empty($testEmpty)){
-                                    break;
+                                $query = trim($query);
+                                if (empty($query)){
+                                    continue;
                                 }
 
                                 // We keep `if` statements and not `elseif` so if we forget a `;` for queries separator, all of the queries would still be executed.
@@ -111,7 +112,7 @@ class CridonLoader extends MvcPluginLoader
                                     }
                                 }
 
-                                if (preg_match_all("|(UPDATE ([a-zA-Z0-9`_\s()={}':\";\-éèà@ùê&\'\.]*);)|", $query, $matches)) {
+                                if (preg_match_all("|(UPDATE ([a-zA-Z0-9`_\s()={}':\";\-éèàùêîôâ@&ÉÈÀÙÊÎÔÂ\'\.]*);)|", $query, $matches)) {
                                     if (!empty($matches[0])) {
                                         foreach ($matches[0] as $update) {
                                             $wpdb->query($update);
@@ -127,7 +128,7 @@ class CridonLoader extends MvcPluginLoader
                                         }
                                     }
                                 }
-                                if (preg_match_all("|INSERT ([a-zA-Z0-9`_\s(),':\";\-\/\\\\éèà@ùê&\'\.]*)|", $query, $matches)) { // insert
+                                if (preg_match_all("|INSERT ([a-zA-Z0-9`_\s(),':\";\-\/\\\\éèàùêîôâ@&ÉÈÀÙÊÎÔÂ\'\.]*)|", $query, $matches)) { // insert
                                     if (!empty($matches[0])) {
                                         foreach ($matches[0] as $update) {
                                             if ($update) {

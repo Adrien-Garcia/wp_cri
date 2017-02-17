@@ -5,23 +5,27 @@
  */
 
 var App = {};
-if ($ === undefined) {
-    $ = jQuery;
+if (typeof $ === 'undefined') {
+    window.$ = jQuery;
 }
 
 App = {
     debug: function (t) {
+        // eslint-disable-next-line no-console
         console.log(t);
-    }
+    },
 };
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     App.Utils.init();
     App.Home.init();
     App.Login.init();
-    if($(".page-mon-compte").length > 0) {
-    	App.Account.init();
+    if ($('.page-mon-compte').length > 0) {
+        App.Account.init();
     }
     App.Question.init();
     App.Cridonline.init();
+    if ($('.page-calendar').length > 0) {
+        App.Calendar.init();
+    }
 });

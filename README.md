@@ -1,15 +1,15 @@
 wp_cridon
 ===================
 
-Wordpress version 4.3.6
+Wordpress version 4.3 avec mises à jour automatiques
 
 URLs
 -------------
 
 Site du CRIDON Lyon (base de connaissance notariale et interface pour poser des questions au experts CRIDON)
 
-* PROD : http://cridon-lyon.fr/
-* PREPROD : http://cridon.preprod.jetpulp.hosting/
+* PROD : https://cridon-lyon.fr/
+* PREPROD : https://cridon.jetpulp.work/
 * DEV : http://cridon.dev.jetpulp.hosting/
 
 ----------
@@ -181,6 +181,13 @@ Lorsque le type de support vaut 0, il s'agit du nombre de points initiaux d'une 
 
 Il doit donc y avoir autant de lignes avec support 0 que d'étude,
 alors qu'il n'y a pas de ligne avec un support autre tant qu'il n'y a pas eu de consommation de points.
+
+### Formations
+
+Les formations sont des models disposant de plusieurs sessions, elles-même rattachées à des lieux.
+Selon la nature des lieux, le process d'inscription varie. Ce process dépend de la localisation de l'étude du notaire et n'est donc disponible que lorsque le notaire est connecté.
+
+![](http://yuml.me/565da0eb)
 
 ## Migrations SQL
 

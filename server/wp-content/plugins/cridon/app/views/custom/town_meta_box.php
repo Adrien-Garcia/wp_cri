@@ -1,2 +1,0 @@
-<?php $town = (is_object($oModel) && property_exists($oModel, 'town') && $oModel->town) ? $oModel->town : '' ?>
-<input maxlength="40" name="town" id="town" value="<?php echo $town ?>" <?php echo $town ?> >

@@ -521,7 +521,7 @@ function arrayGet($array = array(), $key = 0, $default = null) {
  * @return  array
  * @throws  \InvalidArgumentException
  */
-function assocToKeyVal($assoc, $key_field, $val_field)
+function assocToKeyVal($assoc, $key_field, $val_field = null)
 {
     if ( ! is_array($assoc))
     {
@@ -531,14 +531,14 @@ function assocToKeyVal($assoc, $key_field, $val_field)
     foreach ($assoc as $row)
     {
         if (is_array($row)) {
-            if (isset($row[$key_field]) and isset($row[$val_field]))
+            if (isset($row[$key_field]))
             {
-                $output[$row[$key_field]] = $row[$val_field];
+                $output[$row[$key_field]] = !is_null($val_field) && isset($row[$val_field]) ? $row[$val_field] : $row;
             }
         } elseif (is_object($row)) {
-            if (isset($row->{$key_field}) and isset($row->{$val_field}))
+            if (isset($row->{$key_field}))
             {
-                $output[$row->{$key_field}] = $row->{$val_field};
+                $output[$row->{$key_field}] = !is_null($val_field) && isset($row->{$val_field}) ? $row->{$val_field} : $row;
             }
         } else {
             throw new \InvalidArgumentException('The first array parameter must contain array or object.');
@@ -935,116 +935,6 @@ function getEmailsOfNotariesByMatiere( $model ){
 function loadAdminCustomCss(){
     wp_register_style( 'mvcform-style-css', plugins_url('cridon/app/public/css/form-style.css'), false ); 
     wp_enqueue_style( 'mvcform-style-css' );
-}
-
-// Date de formation
-add_action('add_meta_boxes','formation_post_date_meta_box');
-
-function formation_post_date_meta_box(){
-    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithCustomDate)) {
-        // init meta box depends on the current type of content
-        add_meta_box('id_meta_boxes_link_post_date', Config::$dateTitleMetabox , 'content_formation_post_date', 'post', 'side', 'high', $_GET['cridon_type']);
-        wp_enqueue_script('jquery-ui-core');
-        wp_enqueue_script('jquery-ui-datepicker');
-
-        wp_enqueue_script('jquery-ui-i18n-fr', plugins_url('cridon/app/public/js/jquery.ui.datepicker-fr.js'), array('jquery-ui-datepicker'));
-        wp_register_script( 'formation-js', plugins_url('cridon/app/public/js/bo/formation.js'), array('jquery') );
-        wp_enqueue_script('formation-js');
-        wp_enqueue_style('jquery-ui-css', plugins_url('cridon/app/public/css/jquery-ui.css'));
-    }
-}
-
-// Adresse de formation : adresse, code postal & ville
-add_action('add_meta_boxes','formation_post_address_meta_box');
-
-function formation_post_address_meta_box(){
-    if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithAddress)) {
-        // init meta box depends on the current type of content
-        add_meta_box('id_meta_boxes_link_post_address', Config::$addressTitleMetabox['address'], 'content_formation_post_address', 'post', 'side', 'high', $_GET['cridon_type']);
-        add_meta_box('id_meta_boxes_link_post_postal_code', Config::$addressTitleMetabox['postal_code'], 'content_formation_post_postal_code', 'post', 'side', 'high', $_GET['cridon_type']);
-        add_meta_box('id_meta_boxes_link_post_town', Config::$addressTitleMetabox['town'], 'content_formation_post_town', 'post', 'side', 'high', $_GET['cridon_type']);
-    }
-
-}
-
-/**
- * Init metabox
- *
- * @param \WP_Post $post
- */
-function content_formation_post_date( $post, $args ){
-    //args contains only one param : key to model name using config
-    $models = $args['args'];
-    $config = arrayGet(Config::$data, $models, reset(Config::$data));
-    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
-
-    // prepare vars
-    $vars = array(
-        'oModel' => $oModel
-    );
-
-    // render view
-    CriRenderView('date_meta_box', $vars);
-}
-
-/**
- * Init metabox adresse de la formation
- *
- * @param \WP_Post $post
- */
-function content_formation_post_address( $post, $args ){
-    //args contains only one param : key to model name using config
-    $models = $args['args'];
-    $config = arrayGet(Config::$data, $models, reset(Config::$data));
-    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
-
-    // prepare vars
-    $vars = array(
-        'oModel' => $oModel
-    );
-
-    // render view
-    CriRenderView('address_meta_box', $vars);
-}
-
-/**
- * Init metabox code postal de la formation
- *
- * @param \WP_Post $post
- */
-function content_formation_post_postal_code( $post, $args ){
-    //args contains only one param : key to model name using config
-    $models = $args['args'];
-    $config = arrayGet(Config::$data, $models, reset(Config::$data));
-    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
-
-    // prepare vars
-    $vars = array(
-        'oModel' => $oModel
-    );
-
-    // render view
-    CriRenderView('postal_code_meta_box', $vars);
-}
-
-/**
- * Init metabox ville de la formation
- *
- * @param \WP_Post $post
- */
-function content_formation_post_town( $post, $args ){
-    //args contains only one param : key to model name using config
-    $models = $args['args'];
-    $config = arrayGet(Config::$data, $models, reset(Config::$data));
-    $oModel  = findBy( $config['name'] , $post->ID );//Find Current model
-
-    // prepare vars
-    $vars = array(
-        'oModel' => $oModel
-    );
-
-    // render view
-    CriRenderView('town_meta_box', $vars);
 }
 
 // Level meta_box

@@ -55,7 +55,7 @@ class QueryConstructorModel {
     protected function start(){
         //step 1: Put current model in FROM with his alias
         $this->prepareFrom();
-        //step 2: Get all joins and put theirs in query
+        //step 2: Get all joins and put them in query
         $this->prepareJoin();
         //step 3: Put in WHERE all conditions if exist
         if(isset($this->options['conditions']) ){
@@ -189,7 +189,13 @@ class QueryConstructorModel {
     }    
     
     /**
-     * Get WHERE
+     * Exemple :
+     * 'conditions' => array(
+     *   'OR' => array(
+     *     'Session.date >= ' => $this->firstDayOfMonth->format('Y-m-d'),
+     *     'Session.date <= ' => $this->lastDayOfMonth->format('Y-m-d')
+     *   )
+     * )
      */
     protected function prepareWhere($conditions = null){
         $use_table_alias = isset($this->options['use_table_alias']) ? $this->options['use_table_alias'] : true;

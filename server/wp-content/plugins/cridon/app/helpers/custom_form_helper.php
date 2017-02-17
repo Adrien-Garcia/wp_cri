@@ -27,6 +27,7 @@ class CustomFormHelper extends MvcFormHelper {
             'controller' => MvcInflector::tableize($model_name),
             'public' => false
         );
+
         $options = array_merge($defaults, $options);
         $this->model_name = $model_name;
         $this->object = MvcObjectRegistry::get_object($model_name);
@@ -63,7 +64,24 @@ class CustomFormHelper extends MvcFormHelper {
         $html .= '<input'.$attributes_html.' />';
         $html .= $this->after_input($field_name, $options);
         return $html;
-    }    
+    }
+
+    public function date_input($field_name, $options = array()) {
+        $defaults = array(
+            'id' => $this->input_id($field_name),
+            'name' => $this->input_name($field_name),
+            'type' => 'text',
+            'class' => 'datepicker',
+            'value' => date('Y-m-d')
+        );
+        $options = array_merge($defaults, $options);
+        $attributes_html = self::attributes_html($options, 'input');
+        $html = $this->before_input($field_name, $options);
+        $html .= '<input'.$attributes_html.' />';
+        $html .= $this->after_input($field_name, $options);
+        return $html;
+    }
+
     private function before_input($field_name, $options) {
         $defaults = array(
             'before' => '<div>'
@@ -90,5 +108,50 @@ class CustomFormHelper extends MvcFormHelper {
     
     private function input_name($field_name) {
         return 'data['.$this->model_name.']['.MvcInflector::underscore($field_name).']';
+    }
+
+    public function select_tag($field_name, $options=array()) {
+        $defaults = array(
+            'empty' => false,
+            'value' => null
+        );
+
+        $options = array_merge($defaults, $options);
+        $options['options'] = empty($options['options']) ? array() : $options['options'];
+        $options['name'] = $field_name;
+        $attributes_html = self::attributes_html($options, 'select');
+        $html = '<select'.$attributes_html.'>';
+        if ($options['empty']) {
+            $empty_name = is_string($options['empty']) ? $options['empty'] : '';
+            $html .= '<option value="">'.$empty_name.'</option>';
+        }
+        $optGroup = false;
+        $oldGroup = false;
+        foreach ($options['options'] as $key => $value) {
+            if (is_object($value)) {
+                $key = $value->__id;
+                $oldGroup = $optGroup;
+                if (isset($value->__group) && ($value->__group !== $optGroup)) { // si group exist et différent du précédent
+                    $optGroup = $value->__group;
+                } else if (!isset($value->__group)) { // si pas de groupe
+                    $optGroup = false;
+                }
+                $value = $value->__name;
+            }
+            if ($optGroup !== $oldGroup && $oldGroup) { // si groupe différent mais pas premier
+                $html .= '</optgroup>';
+            }
+            if ($optGroup !== $oldGroup && $optGroup) { // si groupe différent et group existe
+                $html .= '<optgroup label="'.$optGroup.'">';
+                $hasGroup = true;
+            }
+            $selected_attribute = $options['value'] == $key ? ' selected="selected"' : '';
+            $html .= '<option value="'.$this->esc_attr($key).'"'.$selected_attribute.'>'.$value.'</option>';
+        }
+        if ($optGroup) {
+            $html .= '</optgroup>';
+        }
+        $html .= '</select>';
+        return $html;
     }
 }

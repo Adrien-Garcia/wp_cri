@@ -338,7 +338,7 @@ class Config {
     );
     public static $listOfControllersWpMvcOnSidebar = array(
         'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
-        'questions','soldes','supports','user_cridons','veilles','vie_cridons'
+        'questions','soldes','supports','user_cridons','veilles','vie_cridons','organismes', 'sessions'
     );
     public static $listOfControllersWithNoActionAdd = array(
         'notaires',
@@ -382,21 +382,38 @@ class Config {
         'question' => array(
             'add'    => 'Ajout d\'une question',
             'edit'   => 'Modification d\'une question'
+        ),
+        'organisme' => array(
+            'add'    => 'Ajout d\'un organisme',
+            'edit'   => 'Modification d\'un organisme'
+        ),
+        'session' => array(
+            'add'    => 'Ajout d\'une nouvelle session de formation',
+            'edit'   => 'Modifier les informations d\'une session de formation'
         )
     );
     public static $titleFieldAdminForm = array(
-        'label'       => 'Libellé',
-        'code'        => 'Code',
-        'short_label' => 'Libellé court',
-        'displayed'   => 'Affiché sur le site ?',
-        'label_front' => 'Libellé en front',
-        'value'       => 'Valeur',
-        'description' => 'Description',
+        'address'       => 'Adresse',
         'client_number' => 'Numéro client',
-        'quota'         => 'Quota',
-        'type_support'  => 'Type du support',
+        'city'          => 'Ville',
+        'code'          => 'Code',
         'date_arret'    => 'Date d\'arrêt',
-        'question'      => 'Sur les questions ?'
+        'description'   => 'Description',
+        'displayed'     => 'Affiché sur le site ?',
+        'email'         => 'Email',
+        'is_cridon'     => 'Est le cridon ?',
+        'label'         => 'Libellé',
+        'label_front'   => 'Libellé en front',
+        'name'          => 'Nom',
+        'phone_number'  => 'Numéro de téléphone',
+        'postal_code'   => 'Code postal',
+        'question'      => 'Sur les questions ?',
+        'quota'         => 'Quota',
+        'short_label'   => 'Libellé court',
+        'type_support'  => 'Type du support',
+        'value'         => 'Valeur',
+        'date'          => 'Date',
+        'timetable'     => 'Horaire',
     );
     //End translation
 
@@ -417,19 +434,9 @@ class Config {
 
     // Content qualified by a "Custom Date"
     public static $contentWithCustomDate = array(
-        'formations',
+        'sessions',
     );
-    public static $dateTitleMetabox = 'Date de formation';// Titre du metabox date de formation
-
-    public static $contentWithAddress = array(
-        'formations',
-    );
-    // Titre des metabox - adresse de formation
-    public static $addressTitleMetabox = array(
-        'address' => 'Adresse de la formation',
-        'postal_code' => 'Code postal de la formation',
-        'town' => 'Ville de la formation'
-    ) ;
+    public static $dateTitleMetabox = 'Date de session';// Titre du metabox date de formation
 
     //Label des affectations sur les questions
     public static $labelAffection = array(

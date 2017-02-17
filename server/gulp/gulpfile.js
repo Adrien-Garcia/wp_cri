@@ -35,8 +35,8 @@ gulp.task('sass', function() {
 	    	.pipe(sourcemaps.write())
     	.pipe(plumber.stop())
     .pipe(gulp.dest(libPath+'/css'))
-   .pipe(browserSync.stream({match: "**/*.css"}));
-
+    .pipe(reload({stream: true}));
+	    
 });
 gulp.task('sass-build', function() {
 
@@ -48,7 +48,7 @@ gulp.task('sass-build', function() {
        		// .pipe(minifycss())
     	 .pipe(plumber.stop())
     .pipe(gulp.dest(libPath+'/css'));
-
+	    
 });
 
 gulp.task('iconfont', function () {
@@ -77,7 +77,7 @@ gulp.task('iconfont', function () {
 });
 
 gulp.task('uglify', function() {
-
+	
 	/* JS task */
 	gulp.src([libPath+'/js/!(app|_eslint|_eslint_projet).js'])
         .pipe(plumber())
@@ -85,7 +85,7 @@ gulp.task('uglify', function() {
     	.pipe(rename({suffix: '.min'}))
         .pipe(plumber.stop())
     	.pipe(gulp.dest(libPath+'/js/min/'));
-
+    	
     /* JS task */
 	gulp.src([libPath+'/js/app.js', libPath+'/js/application/*.js'])
         .pipe(plumber())
@@ -97,7 +97,7 @@ gulp.task('uglify', function() {
 });
 
 gulp.task('sprite', function() {
-
+    
 	/* SPRITE task */
 	var spriteData = gulp.src(libPath+'/images/origin/*.{png,jpg,gif}')
 		.pipe(spritesmith({
@@ -105,11 +105,11 @@ gulp.task('sprite', function() {
 			imgPath: '../images/sprites/spritesheet.png',
 			cssName: '_spritesheet.scss'
 		}));
-
+	
 	  	spriteData.img
 	  		.pipe(imagemin())
 	  		.pipe(gulp.dest(libPath+'/images/sprites/'));
-
+	  				
 	  	spriteData.css
 	  		.pipe(gulp.dest(libPath+'/scss/modules/'));
 
@@ -120,7 +120,7 @@ gulp.task('browser-sync', function() {
 
 	browserSync.init({
         proxy: {
-            target: "https://"+ options.env
+            target: "https://"+ options.env,
         },
         host: options.env,
         open: "external",
@@ -140,15 +140,17 @@ gulp.task('copy', function() {
 });
 
 gulp.task('watch', function() {
-
+	 
 	/* WATCH task */
      gulp.watch(libPath+'/images/origin/*.*', ['sprite']).on('change', browserSync.reload);
      gulp.watch(libPath+'/images/svgicons/*.*', ['iconfont']).on('change', browserSync.reload);
 	 gulp.watch(libPath+'/scss/**/*.scss', ['sass']);
-	 // gulp.watch(libPath+'/js/**/*.js', ['uglify', browserSync.reload]);
+	 gulp.watch(libPath+'/js/**/*.js', ['uglify', browserSync.reload]);
 	 gulp.watch(themePath+'/**/*.php').on('change', browserSync.reload);
 
 });
 
 gulp.task('default', ['copy','sprite','iconfont', 'sass', 'uglify','browser-sync', 'watch'], function() {});
-gulp.task('build', ['copy','sprite', 'iconfont','sass-build', 'uglify'], function() {});
+gulp.task('build', ['copy','sprite', 'iconfont','sass-build', 'uglify',], function() {});
+
+

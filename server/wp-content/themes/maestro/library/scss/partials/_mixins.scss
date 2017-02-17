@@ -136,11 +136,11 @@ ICONES SVG
 @mixin rotate ($deg) {
   @include transform(rotate(#{$deg}deg));
 }
- 
+
 // scale
 @mixin scale($scale) {
 	 @include transform(scale($scale));
-} 
+}
 // translate
 @mixin translate ($x, $y) {
    @include transform(translate($x, $y));
@@ -215,12 +215,12 @@ BT style crayon
     @media only screen and (min-width: 760px) {
 
       /*height: 18px;
-      width: 47px; 
+      width: 47px;
       font-size: 13px;
       line-height: 18px;
 
       &:after{
-       
+
         border-width: 8px 0 10px 10px;
         border-color: transparent transparent transparent $fond;
         border-style: dotted none dotted solid;
@@ -228,24 +228,24 @@ BT style crayon
         top: 0;
         right: -9px;
       }*/
-    
+
 
     }
-    
+
     &:hover {
       background: transparent;
       color:$fond;
-      &:after{
+      &:after {
       border-color: transparent transparent transparent transparent;
-        
+
       }
     }
 
 
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      
+
       &:after{
-       
+
         border-style: solid none solid solid;
       }
 
@@ -253,7 +253,7 @@ BT style crayon
 
  }
 
- 
+
 
 
 
@@ -264,7 +264,7 @@ BT style crayon
 
 Lien souligné avec "+"
 
- */ 
+ */
 
  @mixin lien-souligne($color) {
     font-family: $garamond;
@@ -280,7 +280,7 @@ Lien souligné avec "+"
 
     span{
 
-    border-bottom: solid 1px $color; 
+    border-bottom: solid 1px $color;
     }
 
 
@@ -289,22 +289,22 @@ Lien souligné avec "+"
       @include do-el;
       font-size: 40px;
       display: block;
-      position: absolute;   
-      line-height: 20px;  
+      position: absolute;
+      line-height: 20px;
       transition: font-weight $duration/2 ease $duration/4;
-      
+
     }
 
     @media only screen and (min-width: 760px) {
-      
+
       font-size: 20px;
       span{}
 
 
       &:after{
-        font-size: 48px;      
+        font-size: 48px;
 
-      }    
+      }
 
     }
     &:hover {
@@ -326,7 +326,7 @@ Css gradient opacity
  */
 
 
-  @mixin gradient-opacity($rgba1, $rgba2) {  
+  @mixin gradient-opacity($rgba1, $rgba2) {
     background: -moz-linear-gradient(top, $rgba1 0%, $rgba2 50%) 0 0 / 100% 200%;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$rgba1), color-stop(50%,$rgba2)) 0 0 / 100% 200%;
     background: -webkit-linear-gradient(top, $rgba1 0%,$rgba2 50%) 0 0 / 100% 200%;
@@ -359,29 +359,6 @@ Lien bouton Mon compte rectangle
 
 @mixin bt-rectangle($fond, $color) {
 
-  /* display: inline-block;
-  padding: 4px 8px; 
-  background: $fond;
-  color:#FFF;
-  text-transform: uppercase;
-  font-size: 12px;
-  @include do-me;
-  position: relative;
-  text-decoration: none; 
-  transition: all $duration;
-  @include border-radius(0);
-  -webkit-appearance: none;
-  
-  text-indent: -9000;
-  
-  &:before{
-    @include svgicon('icon-angle-right', 15px, 15px, $fond); 
-    position: absolute;
-    top: 50%;
-    margin-top: -7px;
-    right: -4px;  
-  } */
-
   background: $fond;
     display: inline-block;
     margin: 0 0 10px 0;
@@ -398,14 +375,14 @@ Lien bouton Mon compte rectangle
     position: relative;
     padding:0 10px;
     cursor: pointer;
-    
+
     &:before{
       @include svgicon('icon-angle-bottom', 8px, 8px, $vert);
       position: absolute;
       right:-15px;
       top: 9px;
       @include rotate(-90);
-    } 
+    }
 
   &:hover{
 
@@ -419,21 +396,37 @@ Lien bouton Mon compte rectangle
 
 
   @media only screen and (min-width: 760px) {
-      
-    
-    font-size: 14px;    
+
+
+    font-size: 14px;
 
   }
 
   @media only screen and (min-width: 1240px) {
-      
-    
-    //font-size: 14px;    
+
+
+    //font-size: 14px;
 
   }
 
 
 
+}
+
+@mixin ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+@mixin no-ellipsis {
+    text-overflow: initial;
+    overflow: initial;
+    display: initial;
+    white-space: initial;
+    max-width: initial;
 }
 
 

@@ -1,11 +1,11 @@
 /*
 
-  ____ ___ _   _  ____ _     _____  __     _______ ___ _     _     _____ ____  
- / ___|_ _| \ | |/ ___| |   | ____| \ \   / / ____|_ _| |   | |   | ____/ ___| 
- \___ \| ||  \| | |  _| |   |  _|    \ \ / /|  _|  | || |   | |   |  _| \___ \ 
+  ____ ___ _   _  ____ _     _____  __     _______ ___ _     _     _____ ____
+ / ___|_ _| \ | |/ ___| |   | ____| \ \   / / ____|_ _| |   | |   | ____/ ___|
+ \___ \| ||  \| | |  _| |   |  _|    \ \ / /|  _|  | || |   | |   |  _| \___ \
   ___) | || |\  | |_| | |___| |___    \ V / | |___ | || |___| |___| |___ ___) |
- |____/___|_| \_|\____|_____|_____|    \_/  |_____|___|_____|_____|_____|____/ 
-                                                                               
+ |____/___|_| \_|\____|_____|_____|    \_/  |_____|___|_____|_____|_____|____/
+
 
 
 */
@@ -15,11 +15,11 @@
 
 
 	#inner-content{
+
 		.titre {
 			height: auto;
-			
+
 			span{
-				/*margin: 20px 0;*/
 				margin-top: 34px;
 			}
 		}
@@ -32,7 +32,7 @@
 		article{
 
 			padding-top: 20px;
-			
+
 
 			.date{
 
@@ -43,7 +43,7 @@
 				padding: 50px 0;
 				margin-bottom: 0;
 
-				
+
 
 				&:before{
 					display: none;
@@ -51,7 +51,7 @@
 				}
 
 				&:after{
-					@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
+					@include svgiconafter('icon-angle-right', 45px, 45px, $vert);
 					position:absolute;
 					bottom: 50%;
 					margin-bottom: -23px;
@@ -85,6 +85,7 @@
 
 
 			.details{
+				min-height: 400px;
 
 				.block_left{
 
@@ -92,17 +93,17 @@
 
 					.img-cat{
 
-						height: 50px;	
-						width: 50px;			
+						height: 50px;
+						width: 50px;
 						margin-right: 10px;
-						
+
 						img{
 							width: 50px;
 							height: 50px;
 						}
-						
-					}					
-					
+
+					}
+
 				}
 
 				// NIVEAU DES VEILLES
@@ -111,7 +112,7 @@
 						&:after{
 							content:url(../images/reference-tablette.svg);
 							width: 50px;
-							height: 50px;									
+							height: 50px;
 							top: 60px;
 							left: 0;
 							//background-size: 50px 50px;
@@ -124,7 +125,7 @@
 						&:after{
 							content:url(../images/premium-tablette.svg);
 							width: 50px;
-							height: 50px;									
+							height: 50px;
 							top: 60px;
 							left: 0;
 							@include rotate(0);
@@ -136,7 +137,7 @@
 						&:after{
 							content:url(../images/excellence-tablette.svg);
 							width: 50px;
-							height: 50px;									
+							height: 50px;
 							top: 60px;
 							left: 0;
 							@include rotate(0);
@@ -144,164 +145,189 @@
 					}
 				}
 
-				
+
 				.block_right{
-					
+
 					width: 400px;
 					min-height: auto;
 
 
-					.matiere{					
+					.matiere{
 
 						line-height: 20px;
 						position: relative;
-						top: -3px; 
+						top: -3px;
 						padding: 0 5px;
 					}
-
-
-					h1{}
-
-					.chapeau{}
 				}
 
 				.block_full{
 
-					
+
 					clear: none;
 					float: right;
 					width: 460px;
 					padding-left: 60px;
-
-					.content{
-						
-
-					    a{
-					    	
-
-					    	&:hover{
-					    		
-					    	}
-					    }
-
-					    s{
-							
-
-						}
-
-					    h2, h3{	}
-
-					    h2{					    	
-				    	}
-
-				    	h3{}
-
-					    >p{ }
-
-					    h3 + p { }
-
-					    >ul, ol{
-
-					    	
-
-					    	>li{		    		
-
-
-					    		&:before{
-					    			
-					    		}
-
-					    	}
-					    }
-					}
-
-					
-
 
 					.mots_cles{
 
 						margin:10px 0 0 0;
 						padding: 0;
 						height: 18px;
-
-						>li{								
-							
-
-							&:before{
-								
-
-							}
-
-							&:last-child{
-								&:before{}
-							}
-						}
 					}
 
-					.documents-liees{						
-
+					.documents-liees {
 						float: left;
 
-						>ul{
-							width: 100%;
-							float: left;
-
-							>li{
-
-								float: left;
-								
-
-								> a{
-									
-									font-size: 16px;
-									padding-left: 10px;
-									position: relative;	
-									margin-right: 10px;								
-									
-
-									&:before{
-										content:'';
-										position: absolute;
-										right:-10px;
-										//color:$vert;
-										width: 1px;
-										background: $bleu;
-										height: 18px;
-										z-index: 200;
-										top:2px;
-										@include transition(all 0.3s);
-										//margin-top: -9px;
-									}
-
-									&:hover{ 
-
-										text-decoration: underline;
- 
-										
-									}
-
-								}
+						> ul > li > a {
+							&:hover {
+								text-decoration: none;
 							}
 						}
-
 					}
- 
+
 
 				}
 			}
 
 		}
 
-		> a{}
+
+	}
+
+	&.single-formations {
+
+		#inner-content > a {
+			margin: 0;
+			float: left;
 
 
+
+			&.liste {
+				margin-left: 100px;
+
+				&::before {
+					@include transition(color 0.3s);
+				}
+
+				&:hover {
+					&::before {
+						color: $vj_03;
+					}
+				}
+			}
+
+			&.agenda {
+				margin-left: 20px;
+			}
+			
+
+		}
+
+		article {
+			position: relative;
+
+			.session {
+				width: 180px;
+			    position: absolute;
+			    top: 242px;
+			    height: auto;
+			    padding: 10px;
+
+			    p {
+
+		    		&.organisme {
+				    	padding: 0;
+				    }
+
+			    	&.telephone {
+				    	margin-top: 10px;
+				    }
+
+				    &.email {
+				    	margin-bottom: 15px;
+				    }
+			    }
+			}
+
+			a.bt {
+				width: 180px;
+			    position: absolute;
+			    top: 330px;
+			    @include transition(all 0.3s);
+
+			    &::before {
+			    	@include transition(color 0.3s);
+			    }
+
+			    &:hover {
+			    	background: $vj_03;
+
+			    	&::before {
+						color: $vj_03;
+					}
+			    }
+			}
+		}
+
+		.liste-sessions {
+			clear: both;
+
+			ul {
+				li {
+					width: 33.33%;
+					border-bottom: none;
+					border-left: solid 1px $bg-top-footer;
+					padding-left: 20px;
+					padding-bottom: 0;
+					margin-bottom: 30px;
+					min-height: 180px;
+
+					&:nth-child(4n) {
+						clear: both;
+					}
+
+					.session-item {
+						width: 100%;
+					}
+
+					.wrapper-session-contact {
+    					margin-top: 10px;
+					}
+
+					a.preinscrire {
+						position: relative;
+						top: 0;
+						float: left;
+						width: 115px;
+						margin-bottom: 0;
+
+						&::before {
+							@include transition(color 0.2s);
+						}
+
+						&:hover {
+					    	background: $vert;
+					    	color: $white;
+
+					    	&::before {
+								color: $vert;
+							}
+					    }
+
+					    
+					}
+				}
+			}
+		}
+		
 	}
 
 }
 
 #content.single-vie-cridon{
 
-	
+
 	#inner-content article .details .block_right {width: 460px;}
-	
+
 }

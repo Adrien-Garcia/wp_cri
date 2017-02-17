@@ -12,6 +12,14 @@ class Etude extends \App\Override\Model\CridonMvcModel {
             'foreign_key' => 'crpcen'
         )
     );
+    public $has_and_belongs_to_many = array(
+        'Organisme' => array(
+            'foreign_key' => 'crpcen',
+            'association_foreign_key' => 'id_organisme',
+            'join_table' => '{prefix}organisme_etude',
+            'fields' => array('id','name','is_cridon','address','postal_code','city','phone_number','email')
+        )
+    );
     var $includes       = array('Sigle');
     var $belongs_to     = array(
         'Sigle' => array('foreign_key' => 'id_sigle')
@@ -405,6 +413,26 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                     ) ";
 
         return $wpdb->get_results($wpdb->prepare($query, $crpcen, CONST_STATUS_ENABLED));
+    }
+
+    /**
+     * Récupère tous les organismes dont dépend l'étude du crpcen passé en entré
+     * @param string $crpcen of the etude
+     * @return object[] organisms
+     */
+    public function getOrganismesAssociatedToEtude ($crpcen) {
+        global $wpdb;
+        if (empty($crpcen)){
+            return array();
+        }
+        $query = '
+            SELECT *
+                FROM '.$wpdb->prefix.'organisme as O
+                JOIN '.$wpdb->prefix.'organisme_etude as OE ON O.id = OE.id_organisme
+                AND OE.crpcen = '.$crpcen.'
+                ';
+
+        return $wpdb->get_results($query);
     }
 
 }

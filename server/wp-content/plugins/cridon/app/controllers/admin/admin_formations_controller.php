@@ -20,7 +20,7 @@ class AdminFormationsController extends BaseAdminController
      * Search join
      * @var array
      */
-    var $default_search_joins = array('Matiere','Post');
+    var $default_search_joins = array('Matiere','Post', 'Session');
 
     /**
      * Default searchable field
@@ -30,9 +30,6 @@ class AdminFormationsController extends BaseAdminController
         'id',
         'Post.post_title',
         'Matiere.label',
-        'Formation.address',
-        'Formation.postal_code',
-        'Formation.town'
     );
 
     /**
@@ -45,22 +42,9 @@ class AdminFormationsController extends BaseAdminController
             'label' => 'Titre',
             'value_method' => 'post_edit_link'
         ),
-        'date' => array(
-            'label' => 'Date',
-            'value_method' => 'post_date'
-        ),
         'matiere' => array(
             'label'=>'Matière',
             'value_method' => 'matiere_edit_link'
-        ),
-        'address' => array(
-            'label'=>'Adresse'
-        ),
-        'postal_code' => array(
-            'label'=>'Code Postal'
-        ),
-        'town' => array(
-            'label'=>'Ville'
         )
     );
 
@@ -76,19 +60,12 @@ class AdminFormationsController extends BaseAdminController
         $this->init_default_columns();
         $this->process_params_for_search();
 
-        $params = $this->params;
-
-        if (isset($_GET['option']) && $_GET['option'] != 'all') {
-            if ($_GET['option'] == 'old') { // Formations passées : triées de la plus récente à la plus ancienne
-                $params['order']      = 'custom_post_date DESC';
-                $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
-            } elseif ($_GET['option'] == 'new') { // Formations a venir : triées de la plus proche à la plus éloignée
-                $params['order']      = 'custom_post_date ASC';
-                $params['conditions'] = array('custom_post_date >= ' => date('Y-m-d'));
-            }
+        if (!isset($this->params['joins'])) {
+            $this->params['joins'] = array();
         }
+        $this->params['order'] = 'ID DESC';
 
-        $collection = $this->model->paginate($params);
+        $collection = $this->model->paginate($this->params);
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
         // Load custom helper
@@ -120,15 +97,6 @@ class AdminFormationsController extends BaseAdminController
 
         return empty($object->post) ? null : '<a href="' . $this->postEditUrl($object,
                 $this) . '" title="Edit">' . $object->post->__name . '</a>';
-    }
-
-    public function post_date($object)
-    {
-        $custom_date = '';
-        if (property_exists($object, 'custom_post_date') && $object->custom_post_date && $object->custom_post_date != '0000-00-00') {
-            $custom_date = date('d/m/Y', strtotime($object->custom_post_date));
-        }
-        return $custom_date;
     }
 
     private function trim($str){
