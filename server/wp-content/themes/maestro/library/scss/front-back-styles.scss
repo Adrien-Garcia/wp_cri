@@ -1,362 +1,317 @@
 // Sass variables
-@import "partials/variables";
+@import 'partials/variables';
 
 // typography
-@import "partials/typography";
+@import 'partials/typography';
 
 // import mixins
-@import "partials/mixins";
+@import 'partials/mixins';
 
-/******************************************************************************************/
-/* HEADINGS
-/* - Pour les sites responsive, la taille des typos est à spécifier dans chaque breakpoints
-/* - Les couleurs se configurent dans _variables.scss
-/******************************************************************************************/
+// /******************************************************************************************/
+// /* HEADINGS
+// /* - Pour les sites responsive, la taille des typos est à spécifier dans chaque breakpoints
+// /* - Les couleurs se configurent dans _variables.scss
+// /******************************************************************************************/
 
-body{
-	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+body {
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 * {
-  -webkit-tap-highlight-color : transparent;
-  &::-moz-focus-inner {
-    border: 0;
-  }
-}
+    -webkit-tap-highlight-color: transparent;
 
-h1, .h1 {
-  font-size: 30px;
-  line-height: 24px;
-  color:$bleu;
-  text-transform: uppercase;
-}
-
-h2, .h2 {
-  font-size: 1.75em;
-  line-height: 1.4em;
-  //margin-bottom: 0.375em;
-  color:$h2-color;
-}
-
-h3, .h3 {
-  font-size: 1.125em;
-  color:$h3-color;
-}
-
-h4, .h4 {
-  font-size: 1.1em;
-  font-weight: 700;
-  color:$vert;
-}
-
-h1, .h1, h2, .h2, h3, .h3, h4, .h4{
-
-  text-rendering: optimizelegibility;
-  font-weight: 500;
-
-  /*
-  if you're going to use webfonts, be sure to check your weights
-  http://css-tricks.com/watch-your-font-weight/
-  */
-
-  /* removing text decoration from all headline links */
-  a {
-    text-decoration: underline;
-    color:$rouge; 
-
-    &:hover{
-      text-decoration: none;
+    &::-moz-focus-inner {
+        border: 0;
     }
-  }
-
 }
 
-#tinymce, .single article .content, body.page article .entry-content, #regles-facturation{
-
-  color:$bleu;
-
-  a{
-    color:$rouge;
-    text-decoration: underline;
-
-    &:hover{
-      text-decoration: none;
-    }
-  }
-
-  s{
-    background: $jaune;
-    text-decoration: none;
-
-  }
-
-  h2, h3{
-    
-    font-size: 15px;
-    line-height: 18px;                
-    text-transform: uppercase;    
-    margin: 0;
-    position: relative;
-    
-  }
-
-  h2{
-    color:$bleu;
-    @include do-bo;
-    padding: 10px 0;
-    &:after{
-      content:'';
-      width: 40px;
-      height: 1px;
-      background: $bleu;
-      position: absolute;
-      left: 0;
-      bottom: 0;
-    }
-  }
-
-  h3{
-    color:$vert;
-    @include do-me;
-    margin-left: 20px;
-  }
-
-  h4{
-     color:$bleu;
-    @include do-me;
-    line-height: 18px;                
-    text-transform: uppercase;    
-    margin: 0;
-    position: relative;
-    margin: 10px 0 5px
-  }
-
-  p{
-    margin: 10px 0;
-  }
-
-  h3 + p {
-    color:$vert;
-     margin: 0 0 10px 20px;
-            }
-
-  ul, ol{
-
-    margin: 10px 0;
-    padding: 0;
-
-    li{
-      position: relative;
-      display: block;
-      vertical-align: middle;
-      line-height: 20px;
-
-      padding: 3px 0 0 20px;
-      margin: 0 0 5px 0;
-
-
-      &:before{
-        content:'';
-        height: 8px;
-        width: 8px;
-        border:solid 1px $rouge;
-        @include border-radius(25px);
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        margin-top: -5px;
-
-      }
-
-    }
-  }
-
+h1,
+.h1 {
+    font-size: 30px;
+    line-height: 24px;
+    color: $bleu;
+    text-transform: uppercase;
 }
 
-/*********************************************************************************************
-/* LIENS
-/* - Courleur & comportement génériques. A surcharger pour les différentes partie de la charte
-*********************************************************************************************/
-
-a, a:visited {
-  color: $link-color;
-
-  /* on hover */
-  &:hover, &:focus {
-    color: $link-hover;
-    outline:none;
-  }
-
-  /* on click */
-  &:active {
-
-  }
-
-  /* mobile tap color */
-  &:link {
-    /*
-    this highlights links on iPhones/iPads.
-    so it basically works like the :hover selector
-    for mobile devices.
-    */
-    -webkit-tap-highlight-color : transparent;
-  }
+h2,
+.h2 {
+    font-size: 1.75em;
+    line-height: 1.4em;
+    color: $h2-color;
 }
 
-/****************/
-/* LISTS
-/****************/
+h3,
+.h3 {
+    font-size: 1.125em;
+    color: $h3-color;
+}
 
-ul, ol{
+h4,
+.h4 {
+    font-size: 1.1em;
+    font-weight: 700;
+    color: $vert;
+}
 
-  margin:20px 0 20px 20px;
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
 
-  li{
+    text-rendering: optimizelegibility;
+    font-weight: 500;
+    // /*
+    // if you're going to use webfonts, be sure to check your weights
+    // http://css-tricks.com/watch-your-font-weight/
+    // */
 
-    position:relative;
-    padding:0 0 0 15px;
-    list-style-type: none;
+    // /* removing text decoration from all headline links */
+    a {
+        text-decoration: underline;
+        color: $rouge;
 
-    &:before{
-
-      /*content:"\25CF";
-      position:absolute;
-      top:0;
-      left:0;*/
-
-    }
-
-    a{
-
-
-
-    }
-
-    ul, ol{
-
-      li{
-
-        &:before{
-
-          content:"-";
-
+        &:hover {
+            text-decoration: none;
         }
+    }
 
-      }
+}
+
+#tinymce,
+.single article .content,
+body.page article .entry-content,
+#regles-facturation {
+    color: $bleu;
+
+    a {
+        color: $rouge;
+        text-decoration: underline;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    s {
+        background: $jaune;
+        text-decoration: none;
 
     }
 
-  }
+    h2,
+    h3 {
+        font-size: 15px;
+        line-height: 18px;
+        text-transform: uppercase;
+        margin: 0;
+        position: relative;
+    }
 
+    h2 {
+        @include do-bo;
+        color: $bleu;
+        padding: 10px 0;
+
+        &::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: $bleu;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+    }
+
+    h3 {
+        @include do-me;
+        color: $vert;
+        margin-left: 20px;
+    }
+
+    h4 {
+        @include do-me;
+        color: $bleu;
+        line-height: 18px;
+        text-transform: uppercase;
+        margin: 0;
+        position: relative;
+        margin: 10px 0 5px;
+    }
+
+    p {
+        margin: 10px 0;
+    }
+
+    h3 + p {
+        color: $vert;
+        margin: 0 0 10px 20px;
+    }
+
+    ul,
+    ol {
+        margin: 10px 0;
+        padding: 0;
+
+        li {
+            position: relative;
+            display: block;
+            vertical-align: middle;
+            line-height: 20px;
+            padding: 3px 0 0 20px;
+            margin: 0 0 5px;
+
+
+            &::before {
+                @include border-radius(25px);
+                content: '';
+                height: 8px;
+                width: 8px;
+                border: solid 1px $rouge;
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 50%;
+                margin-top: -5px;
+            }
+        }
+    }
 }
 
-/****************/
-/* PARAGRAPHS
-/****************/
-p{
+// /*********************************************************************************************
+// /* LIENS
+// /* - Courleur & comportement génériques. A surcharger pour les différentes partie de la charte
+// *********************************************************************************************/
 
-  //text-color:$text-color;
+a,
+a:visited {
+    color: $link-color;
 
-  /*-ms-word-break: break-all;
-   -ms-word-wrap: break-all;*/
-     word-break: break-word;
-  // cleaning up the ragged lines and breaks
-  -webkit-hyphens: none;
-     -moz-hyphens: none;
-          hyphens: none;
-  // sets a minimum number of characters before and after the break
-  -webkit-hyphenate-before: 2;
-   -webkit-hyphenate-after: 3;
-           hyphenate-lines: 3;
-  // enabling fancy ligatures when available
-  -webkit-font-feature-settings: "liga", "dlig";
-   -moz-font-feature-settings: "liga=1, dlig=1";
-      -ms-font-feature-settings: "liga", "dlig";
-       -o-font-feature-settings: "liga", "dlig";
-          font-feature-settings: "liga", "dlig";
+    //* on hover */
+    &:hover,
+    &:focus {
+        color: $link-hover;
+        outline: none;
+    }
 
+    //* mobile tap color */
+    &:link {
+        // this highlights links on iPhones/iPads.
+        // so it basically works like the :hover selector
+        // for mobile devices.
+        -webkit-tap-highlight-color: transparent;
+    }
 }
 
-/*********************
-BUTTON DEFAULTS
-*********************/
+// /****************/
+// /* LISTS
+// /****************/
+
+ul,
+ol {
+    margin: 20px 0 20px 20px;
+
+    li {
+        position: relative;
+        padding: 0 0 0 15px;
+        list-style-type: none;
+
+        ul,
+        ol {
+            li {
+                &::before {
+                    content: '-';
+                }
+            }
+        }
+    }
+}
+
+// /****************/
+// /* PARAGRAPHS
+// /****************/
+p {
+    word-break: break-word;
+    // cleaning up the ragged lines and breaks
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    hyphens: none;
+    // sets a minimum number of characters before and after the break
+    -webkit-hyphenate-before: 2;
+    -webkit-hyphenate-after: 3;
+    hyphenate-lines: 3;
+    // enabling fancy ligatures when available
+    -webkit-font-feature-settings: 'liga', 'dlig';
+    -moz-font-feature-settings: 'liga=1, dlig=1';
+    -ms-font-feature-settings: 'liga', 'dlig';
+    -o-font-feature-settings: 'liga', 'dlig';
+    font-feature-settings: 'liga', 'dlig';
+}
+
+// /*********************
+// BUTTON DEFAULTS
+// *********************/
 
 %btn {
-
-  display: inline-block;
-  position: relative;
-
-  font-family: $sans-serif;
-  text-decoration: none;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: normal;
-
-  padding: 5px 24px;
-  border-radius: 4px;
-  border: 0;
-  cursor: pointer;
-  
-  @include transition(all 0.14s ease-in-out);
-
-  &:hover,
-  &:focus {
-    
-  }
-
-  // click
-  &:active {
-    
-  }
-
-}
-
-/*********************
-BTN-1
-*********************/
-a.btn-1 {
-
-  @extend %btn;
-
-  background:$btn-1-background;
-  color: $btn-1-text;
-
-  &:hover,
-  &:focus {
-    color: $white;
-    background:lighten($btn-1-background, 10%);
+    @include transition(all .14s ease-in-out);
+    display: inline-block;
+    position: relative;
+    font-family: $sans-serif;
     text-decoration: none;
-  }
-
-  &:active {
-    
-  }
-
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: normal;
+    padding: 5px 24px;
+    border-radius: 4px;
+    border: 0;
+    cursor: pointer;
 }
 
-/*************************************
-MEDIA (uniquement pour la partie back)
-*************************************/
-/* entry content */
+// /*********************
+// BTN-1
+// *********************/
+a.btn-1 {
+    @extend %btn;
+    background: $btn-1-background;
+    color: $btn-1-text;
+
+    &:hover,
+    &:focus {
+        color: $white;
+        background: lighten($btn-1-background, 10%);
+        text-decoration: none;
+    }
+}
+
+// /*************************************
+// MEDIA (uniquement pour la partie back)
+// *************************************/
+// /* entry content */
 .mce-content-body {
 
-  .alignleft, img.alignleft {
-    margin-right: 1.5em;
-    display: inline;
-    float: left;
-  }
-  .alignright, img.alignright {
-    margin-left: 1.5em;
-    display: inline;
-    float: right;
-  }
-  .aligncenter, img.aligncenter {
-    margin-right: auto;
-    margin-left: auto;
-    display: block;
-    clear: both;
-  }
+    .alignleft,
+    img.alignleft {
+        margin-right: 1.5em;
+        display: inline;
+        float: left;
+    }
 
+    .alignright,
+    img.alignright {
+        margin-left: 1.5em;
+        display: inline;
+        float: right;
+    }
+
+    .aligncenter,
+    img.aligncenter {
+        margin-right: auto;
+        margin-left: auto;
+        display: block;
+        clear: both;
+    }
 }
-
