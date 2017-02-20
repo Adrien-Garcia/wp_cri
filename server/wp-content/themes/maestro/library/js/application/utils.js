@@ -106,12 +106,13 @@ App.Utils = {
         return $('body')[0].className.split(/\s+/);
     },
 
-    scrollTop: function (_duration, _hash, _offset) {
+    scrollTop: function (_duration, _hash, _offset, _element) {
         var top = (typeof _hash !== 'undefined') ? $(_hash).offset().top - ($('header.header').height() + 30) : 0;
         var duration = (typeof _duration !== 'undefined') ? _duration : 700;
         var offset = (typeof _offset !== 'undefined') ? _offset : 0;
+        var element = (typeof _element !== 'undefined') ? _element : 'html, body';
         // hash = (hash !== undefined) ? hash : "";
-        $('html, body').animate({
+        $(element).animate({
             scrollTop: top + offset,
         }, duration, function () {
             // window.location.hash = hash;
@@ -131,7 +132,7 @@ App.Utils = {
         el.dataset.innerHTML = el.innerHTML;
         while (el.scrollHeight > el.offsetHeight && wordArray.length > 0) {
             wordArray.pop();
-            el.innerHTML = wordArray.join(' ') + '...';
+            el.innerHTML = wordArray.join(' ') + '&hellip;';
         }
     },
 
