@@ -12,7 +12,7 @@ CALENDAR STYLES
     @include do-sm;
     font-size: 16px;
 
-    margin-bottom: 70px;
+    margin-bottom: 30px;
 
     /*********************
     CALENDAR HEADER
@@ -382,6 +382,8 @@ CALENDAR STYLES
         }
     }
 
+    
+
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
@@ -391,3 +393,62 @@ CALENDAR STYLES
         box-shadow: 0 0 10px rgba(0,0,0,.4);
     }
 }
+
+
+//
+// LEGENDE CALENDRIER
+//
+
+.page-calendar {
+    .legende {
+        padding: 0 20px;
+        margin-bottom: 50px;
+        ul {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+
+            li {
+                vertical-align: middle;
+                position: relative;
+                margin: 0 10px 10px 30px;
+                padding: 0;
+                height: 22px;
+                display: inline-block;
+                width: 38%;
+                float: left;
+
+                span {
+                    @include do-re;
+                    position: relative;
+                    line-height: 22px;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    color: #818181;
+                    display: block;
+                    background-color: #FFF;
+                }
+
+                &::before {
+                    @include svgicon('icon-angle-right', 18px, 18px, inherit);
+                    position: absolute;
+                    left: -8px;
+                    top: 50%;
+                    margin-top: -9px;
+                    display: block;
+                }
+
+                &::after {
+                    content: '';
+                    width: 22px;
+                    height: 22px;
+                    background-color: inherit;
+                    position: absolute;
+                    left: -30px;
+                    top: 0;
+                }
+            }
+        }
+    }
+}
+

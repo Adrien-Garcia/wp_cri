@@ -209,3 +209,21 @@ CALENDAR STYLES
         line-height: 26px;
     }
 }
+
+//
+// LEGENDE CALENDRIER
+//
+
+.page-calendar {
+    .legende {
+        ul {
+            li {
+                width: 10%;
+
+                span {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

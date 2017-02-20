@@ -133,6 +133,24 @@ $year = $data['year'];
                     </div>
                 </div>
 
+                <div class="legende">
+                    <ul>
+                        <li style="color: #7e4a94; background-color: #7e4a94;"><span>Construction</span></li>
+                        <li style="color: #990044; background-color: #990044;"><span>Obligations</span></li>
+                        <li style="color: #445588; background-color: #445588;"><span>Rural</span></li>
+                        <li style="color: #776666; background-color: #776666;"><span>Transversalité</span></li>
+                        <li style="color: #152648; background-color: #152648;"><span>Privé</span></li>
+                        <li style="color: #456987; background-color: #456987;"><span>Commercial</span></li>
+                        <li style="color: #456789; background-color: #456789;"><span>Environnement</span></li>
+                        <li style="color: #bb5588; background-color: #bb5588;"><span>Fiscal</span></li>
+                        <li style="color: #a5487a; background-color: #a5487a;"><span>Collectivités</span></li>
+                        <li style="color: #159264; background-color: #159264;" ><span>Social</span></li>
+                        <li style="color: #990099; background-color: #990099;"><span>Management</span></li>
+                        <li style="color: #000333; background-color: #000333;"><span>Procédure</span></li>
+                        <li style="color: #773311; background-color: #773311;"><span>Famille</span></li>
+                    </ul>        
+                </div>
+
             </div>
 
         </div>
