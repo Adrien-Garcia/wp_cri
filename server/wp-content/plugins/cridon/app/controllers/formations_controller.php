@@ -33,6 +33,7 @@ class FormationsController extends BaseActuController
     }
 
     public function show(){
+        $params = $this->params;
         parent::show();
         $formation = $this->object;
         if (!empty($formation->id)) {
@@ -56,6 +57,11 @@ class FormationsController extends BaseActuController
                 $sessions[$key]->action = $data ['action'];
                 $sessions[$key]->action_label = $data ['action_label'];
                 $sessions[$key]->contact_organisme = $data ['contact_organisme'];
+                if (!empty($params['sessionid']) && $sessions[$key]->id === $params['sessionid']) {
+                    $sessions[$key]->selected = true;
+                } else {
+                    $sessions[$key]->selected = false;
+                }
             }
             // Pass data to the single-formation view
             $this->set('sessions', $sessions);
@@ -219,6 +225,7 @@ class FormationsController extends BaseActuController
                 throw new OutOfBoundsException(sprintf('Key %s not found for current calendar', $key));
             }
             $formation = $formations[$session->id_formation];
+            $before_today = DateTime::createFromFormat('Y-m-d', $session->date)->getTimestamp() < time();
             $urlOptions = array(
                 'controller' => 'formations',
                 'action'     => 'show',
@@ -232,7 +239,9 @@ class FormationsController extends BaseActuController
                 'url'        => MvcRouter::public_url($urlOptions),
                 'id'         => $session->id
             );
-            $before_today = DateTime::createFromFormat('Y-m-d', $session->date)->getTimestamp() < time();
+            if (!$before_today) {
+                $lineSession['url'] .= '?'.http_build_query(array('sessionid' => $session->id));
+            }
             $data = $this->addContactAction($session, $organismesAssociatedToEtude, $before_today);
 
             $lineSession ['action']         = $data ['action'];
