@@ -413,9 +413,9 @@ CALENDAR STYLES
                 position: relative;
                 margin: 0 10px 10px 30px;
                 padding: 0;
-                height: 22px;
+                min-height: 22px;
                 display: inline-block;
-                width: 38%;
+                width: 50%;
                 float: left;
 
                 span {
@@ -433,9 +433,11 @@ CALENDAR STYLES
                     @include svgicon('icon-angle-right', 18px, 18px, inherit);
                     position: absolute;
                     left: -8px;
-                    top: 50%;
+                    top: 10px;
                     margin-top: -9px;
                     display: block;
+                    //fix rendering pb on FF
+                    transform: rotateZ(-2deg);
                 }
 
                 &::after {
