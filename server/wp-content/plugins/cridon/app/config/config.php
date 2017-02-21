@@ -338,7 +338,8 @@ class Config {
     );
     public static $listOfControllersWpMvcOnSidebar = array(
         'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
-        'questions','soldes','supports','user_cridons','veilles','vie_cridons','organismes', 'sessions'
+        'questions','soldes','supports','user_cridons','veilles','vie_cridons','organismes', 'sessions',
+        'evenements'
     );
     public static $listOfControllersWithNoActionAdd = array(
         'notaires',
@@ -390,6 +391,10 @@ class Config {
         'session' => array(
             'add'    => 'Ajout d\'une nouvelle session de formation',
             'edit'   => 'Modifier les informations d\'une session de formation'
+        ),
+        'evenement' => array(
+            'add'    => 'Ajout d\'un nouvel évènment',
+            'edit'   => 'Modifier les informations d\'un évènement'
         )
     );
     public static $titleFieldAdminForm = array(
@@ -401,6 +406,7 @@ class Config {
         'description'   => 'Description',
         'displayed'     => 'Affiché sur le site ?',
         'email'         => 'Email',
+        'evenement'     => 'Nom de l\'évènement',
         'is_cridon'     => 'Est le cridon ?',
         'label'         => 'Libellé',
         'label_front'   => 'Libellé en front',
@@ -434,7 +440,7 @@ class Config {
 
     // Content qualified by a "Custom Date"
     public static $contentWithCustomDate = array(
-        'sessions',
+        'sessions','evenements',
     );
     public static $dateTitleMetabox = 'Date de session';// Titre du metabox date de formation
 
