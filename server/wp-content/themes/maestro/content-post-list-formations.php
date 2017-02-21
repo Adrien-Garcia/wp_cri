@@ -48,7 +48,7 @@
                 <?php echo wp_trim_words( wp_strip_all_tags( $formation->post->post_content, true ), 35, "..." ) ?>
             </div>
             <div class="lieux-formation">
-                <p class="organisme"><?php echo $session->organisme->name ?></p>
+                <p class="organisme"><?php echo $session->entite->office_name ?></p>
                 <p class="horaire"><?php echo $session->timetable ?></p>
             </div>
             <a href="<?php echo get_permalink($formation->post->ID); ?>" title="<?php $formation->post->post_title ?>">Lire</a>

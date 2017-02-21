@@ -40,6 +40,40 @@ class CridonMvcModel extends \MvcModel{
             CridonMvcModel::$schema_db[$this->table_reference] = $this->schema;
         }
     }
+
+    protected function init_associations() {
+        parent::init_associations();
+        if (!empty($this->belongs_to)) {
+            foreach ($this->belongs_to as $key => $value) {
+                if (is_string($key) && is_array($value)) {
+                    $association_name = $key;
+                    if (isset($value['referenced_key'])) {
+                        $this->associations[$association_name]['referenced_key'] = $value['referenced_key'];
+                    }
+                }
+            }
+        }
+        if (!empty($this->has_many)) {
+            foreach ($this->has_many as $key => $value) {
+                if (is_string($key) && is_array($value)) {
+                    $association_name = $key;
+                    if (isset($value['referenced_key'])) {
+                        $this->associations[$association_name]['referenced_key'] = $value['referenced_key'];
+                    }
+                }
+            }
+        }
+        if (!empty($this->has_and_belongs_to_many)) {
+            foreach ($this->has_and_belongs_to_many as $key => $value) {
+                if (is_string($key) && is_array($value)) {
+                    $association_name = $key;
+                    if (isset($value['referenced_key'])) {
+                        $this->associations[$association_name]['referenced_key'] = $value['referenced_key'];
+                    }
+                }
+            }
+        }
+    }
     
     public function convertSchemaToString($model,$alias,$index = -1){
         $schema = CridonMvcModel::$schema_db['`'.$model->table.'`'];

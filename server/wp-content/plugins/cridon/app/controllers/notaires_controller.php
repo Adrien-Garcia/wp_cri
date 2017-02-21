@@ -288,9 +288,9 @@ class NotairesController extends BasePublicController
         $this->set('notaire', $notaire);
 
         $options = array('conditions' => array('crpcen' => $notaire->crpcen));
-        /** @var $etude Etude*/
-        $etude   = mvc_model('Etude')->find_one($options);
-        $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
+        /** @var $entite Entite*/
+        $entite   = mvc_model('Entite')->find_one($options);
+        $subscriptionInfos = mvc_model('Entite')->getRelatedPrices($entite);
         if (is_array($subscriptionInfos) && count($subscriptionInfos) > 0) {
             foreach ($subscriptionInfos as $level => $price) {
                 //set name of variable
@@ -415,27 +415,27 @@ class NotairesController extends BasePublicController
             die();
         }
         // find the office
-        $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
-        if (!empty($etude) && !empty($_REQUEST['level']) && intval($_REQUEST['level']) > $etude->subscription_level) {
-            $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
+        $entite = mvc_model('Entite')->find_one_by_crpcen($notaire->crpcen);
+        if (!empty($entite) && !empty($_REQUEST['level']) && intval($_REQUEST['level']) > $entite->subscription_level) {
+            $subscriptionInfos = mvc_model('Entite')->getRelatedPrices($entite);
             $subscription_price = $subscriptionInfos[$_REQUEST['level']];
             $start_subscription_date = date('Y-m-d');
             $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
             $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
             $office = array(
-                'Etude' => array(
+                'Entite' => array(
                     'crpcen'                     => $notaire->crpcen,
                     'subscription_level'         => $_REQUEST['level'],
                     'start_subscription_date'    => $start_subscription_date,
                     'echeance_subscription_date' => $echeance_subscription_date,
                     'end_subscription_date'      => $end_subscription_date,
                     'subscription_price'         => $subscription_price,
-                    'id_sepa'                    => $this->calculateSepaId($notaire,$etude),
+                    'id_sepa'                    => $this->calculateSepaId($notaire,$entite),
                     'a_transmettre'              => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                 )
             );
-            if (mvc_model('Etude')->save($office)) {
-                $this->model->sendCridonlineConfirmationMail($notaire, $etude, $office['Etude'],$_REQUEST['B2B_B2C']);
+            if (mvc_model('Entite')->save($office)) {
+                $this->model->sendCridonlineConfirmationMail($notaire, $entite, $office['Entite'],$_REQUEST['B2B_B2C']);
 
                 $this->set('B2B_B2C',$_REQUEST['B2B_B2C']);
 
@@ -472,10 +472,10 @@ class NotairesController extends BasePublicController
         return true;
     }
 
-    protected function calculateSepaId($notaire,$etude){
+    protected function calculateSepaId($notaire,$entite){
         $start = 'CRI'.$notaire->client_number;
-        if (!empty($etude->id_sepa)){
-            return $start.(sprintf('%05d',substr($etude->id_sepa,-5) + 1));
+        if (!empty($entite->id_sepa)){
+            return $start.(sprintf('%05d',substr($entite->id_sepa,-5) + 1));
         } else {
             return $start.'00001';
         }
@@ -489,17 +489,17 @@ class NotairesController extends BasePublicController
             echo json_encode(array('error' => CONST_CRIDONLINE_CGV_ERROR_MSG));
             die();
         }
-        $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
-        if (!empty($etude) && intval($_REQUEST['level']) > $etude->subscription_level) {
+        $entite = mvc_model('Entite')->find_one_by_crpcen($notaire->crpcen);
+        if (!empty($entite) && intval($_REQUEST['level']) > $entite->subscription_level) {
             if ($_REQUEST['promo'] == CONST_PROMO_CHOC){
-                $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
+                $subscriptionInfos = mvc_model('Entite')->getRelatedPrices($entite);
                 $subscription_price = $subscriptionInfos[$_REQUEST['level']];
                 $start_subscription_date = CONST_START_SUBSCRIPTION_PROMO_CHOC;
                 $end_subscription_date = CONST_END_SUBSCRIPTION_PROMO_CHOC;
                 $echeance_subscription_date = CONST_ECHEANCE_SUBSCRIPTION_PROMO_CHOC;
                 $offre_promo = CONST_PROMO_CHOC;
             } elseif ($_REQUEST['promo'] == CONST_PROMO_PRIVILEGE){
-                $subscriptionInfos = mvc_model('Etude')->getRelatedPrices($etude);
+                $subscriptionInfos = mvc_model('Entite')->getRelatedPrices($entite);
                 $subscription_price = $subscriptionInfos[CONST_CRIDONLINE_LEVEL_2];
                 $start_subscription_date = date('Y-m-d');
                 $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
@@ -510,20 +510,20 @@ class NotairesController extends BasePublicController
                 die();
             }
             $office = array(
-                'Etude' => array(
+                'Entite' => array(
                     'crpcen'                     => $notaire->crpcen,
                     'subscription_level'         => $_REQUEST['level'],
                     'start_subscription_date'    => $start_subscription_date,
                     'echeance_subscription_date' => $echeance_subscription_date,
                     'end_subscription_date'      => $end_subscription_date,
                     'subscription_price'         => $subscription_price,
-                    'id_sepa'                    => $this->calculateSepaId($notaire,$etude),
+                    'id_sepa'                    => $this->calculateSepaId($notaire,$entite),
                     'offre_promo'                => $offre_promo,
                     'a_transmettre'              => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                 )
             );
-            if (mvc_model('Etude')->save($office)) {
-                $this->model->sendCridonlineConfirmationMail($notaire, $etude, $office['Etude'],$_REQUEST['B2B_B2C']);
+            if (mvc_model('Entite')->save($office)) {
+                $this->model->sendCridonlineConfirmationMail($notaire, $entite, $office['Entite'],$_REQUEST['B2B_B2C']);
 
                 $this->set('B2B_B2C',$_REQUEST['B2B_B2C']);
                 $data = $this->renderView('contentcridonlinevalidationpopup', false);
@@ -806,7 +806,7 @@ class NotairesController extends BasePublicController
     }
 
 
-    public function gestionetude(){
+    public function gestionentite(){
         if (empty($_POST['office_crpcen']) ) {
             $notaire = CriNotaireData();
             $office['office_crpcen'] = $notaire->crpcen;
@@ -815,20 +815,20 @@ class NotairesController extends BasePublicController
                     'crpcen' => $office['office_crpcen']
                 )
             );
-            $etude   = mvc_model('Etude')->find_one($options);
-            $office['office_name'] = empty($etude->office_name) ? '' : trim($etude->office_name) ;
-            $office['office_address_1'] = empty($etude->adress_1) ? '' : trim($etude->adress_1) ;
-            $office['office_address_2'] = empty($etude->adress_2) ? '' : trim($etude->adress_2) ;
-            $office['office_address_3'] = empty($etude->adress_3) ? '' : trim($etude->adress_3) ;
-            $office['office_postalcode'] = empty($etude->cp) ? '' : trim($etude->cp) ;
-            $office['office_city'] = empty($etude->city) ? '' : trim($etude->city) ;
-            $office['office_email'] = empty($etude->office_email_adress_1) ? '' : trim($etude->office_email_adress_1) ;
-            $office['office_phone'] = empty($etude->tel) ? '' : trim($etude->tel);
-            $office['office_fax'] = empty($etude->fax) ? '' : trim($etude->fax);
+            $entite   = mvc_model('Entite')->find_one($options);
+            $office['office_name'] = empty($entite->office_name) ? '' : trim($entite->office_name) ;
+            $office['office_address_1'] = empty($entite->adress_1) ? '' : trim($entite->adress_1) ;
+            $office['office_address_2'] = empty($entite->adress_2) ? '' : trim($entite->adress_2) ;
+            $office['office_address_3'] = empty($entite->adress_3) ? '' : trim($entite->adress_3) ;
+            $office['office_postalcode'] = empty($entite->cp) ? '' : trim($entite->cp) ;
+            $office['office_city'] = empty($entite->city) ? '' : trim($entite->city) ;
+            $office['office_email'] = empty($entite->office_email_adress_1) ? '' : trim($entite->office_email_adress_1) ;
+            $office['office_phone'] = empty($entite->tel) ? '' : trim($entite->tel);
+            $office['office_fax'] = empty($entite->fax) ? '' : trim($entite->fax);
 
             $this->set('office',$office);
 
-            $view = $this->renderView('contentupdateetudepopup', false);
+            $view = $this->renderView('contentupdateentitepopup', false);
 
             $json = array(
                 'view' => $view,
@@ -842,7 +842,7 @@ class NotairesController extends BasePublicController
 
                 // get current notary data
                 $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
-                // maj données d'etude
+                // maj données d'entite
                 if (in_array($this->current_notaire->id_fonction, Config::$allowedNotaryFunction)) {
                     // update profil
                     if (!$this->model->updateOffice($data)){

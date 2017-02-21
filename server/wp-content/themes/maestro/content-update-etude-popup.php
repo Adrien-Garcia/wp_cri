@@ -6,7 +6,7 @@
         </span>
     </div>   
 
-    <form class="js-account-profil-office-modify-form" data-js-ajax-modify-office-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestionetude')); ?>">
+    <form class="js-account-profil-office-modify-form" data-js-ajax-modify-office-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestionentite')); ?>">
     <input type="hidden" class="js-account-profil-office-modify-crpcen" value="<?php echo empty($office['office_crpcen']) ? '' : $office['office_crpcen'] ?>">
         <div class="nom">
             <input type="text" name="etude_name" placeholder="<?php _e('Nom de l\'étude'); ?>" id="etude_name" class="js-account-profil-office-modify-name" value="<?php echo empty($office['office_name']) ? '' : $office['office_name'] ?>" disabled>

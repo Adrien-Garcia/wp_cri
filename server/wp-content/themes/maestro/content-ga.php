@@ -9,9 +9,9 @@ if (CriIsNotaire()) :
             'userID': '<?php echo $notaire->client_number ?>',
             'Group': '<?php echo $notaire->category ?>',
             'CRPCEN': '<?php echo $notaire->crpcen ?>',
-            'etudeName': '<?php echo $notaire->etude->office_name ?>',
+            'etudeName': '<?php echo $notaire->entite->office_name ?>',
             'userName': '<?php echo $notaire->last_name ?> <?php echo $notaire->first_name ?>',
-            'etudePostalCode': '<?php echo $notaire->etude->cp ?>',
+            'etudePostalCode': '<?php echo $notaire->entite->cp ?>',
             'userFonction': '<?php echo $notaire->fonction->label ?>'
         });
         //]]>

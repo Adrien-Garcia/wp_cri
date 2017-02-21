@@ -11,7 +11,7 @@ require_once 'base_admin_controller.php';
 
 class AdminNotairesController extends BaseAdminController
 {
-    var $default_search_joins = array('Etude');
+    var $default_search_joins = array('Entite');
     /**
      *
      * @var array
@@ -22,7 +22,7 @@ class AdminNotairesController extends BaseAdminController
         'client_number',
         'crpcen',
         'email_adress',
-        'Etude.office_name',
+        'Entite.office_name',
         'tel'
     );
     /**
@@ -45,7 +45,7 @@ class AdminNotairesController extends BaseAdminController
      */
     public function displayOfficeName($object)
     {    
-        return empty( $object->etude ) ? null : $object->etude->__name;
+        return empty( $object->entite ) ? null : $object->entite->__name;
     }
     
     public function index() {

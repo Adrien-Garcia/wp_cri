@@ -926,7 +926,7 @@ function getEmailsOfNotariesByMatiere( $model ){
                 'column' => ' n.id_wp_user = u.id'
             ),
             array(
-                'table'  => 'etude e',
+                'table'  => 'entite e',
                 'column' => ' n.crpcen = e.crpcen'
             ),
         ),
@@ -1014,10 +1014,10 @@ function CridonlineAutologinLink()
     $access = 0;
     if (CriIsNotaire() && CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)) {
         $oNotaire = CriNotaireData();
-        $lvl = Config::$authCridonOnline[(int) $oNotaire->etude->subscription_level];
+        $lvl = Config::$authCridonOnline[(int) $oNotaire->entite->subscription_level];
         $url = esc_url_raw(CRIDONLINE_AUTOLOGIN_URL . '?'.
             'auth='.$lvl.
-            '&ccompany='.urlencode($oNotaire->etude->office_name).
+            '&ccompany='.urlencode($oNotaire->entite->office_name).
             '&cid='.$oNotaire->id.
             '&clname='.$oNotaire->last_name.
             '&cfname='.$oNotaire->first_name.

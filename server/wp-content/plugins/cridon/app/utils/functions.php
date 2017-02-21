@@ -235,7 +235,7 @@ function getPushFormations ($nb_date) {
     // On récupère toutes les sessions des dates souhaitées trié par date puis id descendant
     $sessions = $wpdb->get_results(
         'SELECT s.id as session_id, s.date as session_date, s.timetable as session_timetable,p.*,o.*,m.* FROM cri_session as s
-        INNER JOIN cri_organisme o ON s.id_organisme = o.id
+        INNER JOIN cri_entite o ON s.id_organisme = o.id
         INNER JOIN cri_formation f ON s.id_formation = f.id
         INNER JOIN cri_matiere m   ON f.id_matiere   = m.id
         INNER JOIN cri_posts p ON f.post_id = p.ID
@@ -1121,7 +1121,7 @@ function CriSendPostQuestConfirmation($question) {
             $dest = $notary->email_adress;
             if (!$dest) { // notary email is empty
                 // send email to the office
-                $offices = mvc_model('Etude')->find_one_by_crpcen($notary->crpcen);
+                $offices = mvc_model('Entite')->find_one_by_crpcen($notary->crpcen);
                 if (is_object($offices) && $offices->office_email_adress_1) {
                     $dest = $offices->office_email_adress_1;
                 } elseif (is_object($offices) && $offices->office_email_adress_2) {

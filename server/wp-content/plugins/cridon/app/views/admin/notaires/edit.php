@@ -16,8 +16,8 @@
     <?php echo $this->form->input('tel_password',array( 'type'=>'text','label' => 'Mot de passe Tel','disabled' => true )); ?>
     <?php
         $sigle = '';
-        if( !empty( $object->etude ) && !empty( $object->etude->sigle ) ){
-            $sigle = $object->etude->sigle->label;
+        if( !empty( $object->entite ) && !empty( $object->entite->sigle ) ){
+            $sigle = $object->entite->sigle->label;
         }
     ?>
     <?php
@@ -28,12 +28,12 @@
     ?>
     <?php echo $this->form->input('tel_password',array( 'type'=>'text','label' => 'Sigle','value' => $sigle,'disabled' => true )); ?>
     <?php
-    $etude = '';
-    if( !empty($object->etude)){
-        $etude = $object->etude->office_name;
+    $entite = '';
+    if( !empty($object->entite)){
+        $entite = $object->entite->office_name;
     }
     ?>
-    <?php echo $this->form->input('crpcen',array( 'type'=>'text','label' => 'Nom de l\'office','value' => $etude,'disabled' => true )); ?>
+    <?php echo $this->form->input('crpcen',array( 'type'=>'text','label' => 'Nom de l\'office','value' => $entite,'disabled' => true )); ?>
     <?php echo $this->form->input('code_interlocuteur',array( 'type'=>'text','label' => 'Code interlocuteur','disabled' => true )); ?>
     <?php
         $civility = '';
@@ -55,21 +55,21 @@
     <?php echo $this->form->input('code_interlocuteur',array( 'type'=>'text','label' => 'Fonction (Texte)','value' => $fonction,'disabled' => true )); ?>
     <?php
         $adress_1 = $adress_2 = $adress_3 = $cp = $city = $office_email_adress_1 = $office_email_adress_2 = $office_email_adress_3 = '';
-        if( !empty( $object->etude ) ){
-            $adress_1 = $object->etude->adress_1;
-            $adress_2 = $object->etude->adress_2;
-            $adress_3 = $object->etude->adress_3;
-            $cp = $object->etude->cp;
-            $city = $object->etude->city;
-            $office_email_adress_1 = $object->etude->office_email_adress_1;
-            $office_email_adress_2 = $object->etude->office_email_adress_2;
-            $office_email_adress_3 = $object->etude->office_email_adress_3;
+        if( !empty( $object->entite ) ){
+            $adress_1 = $object->entite->adress_1;
+            $adress_2 = $object->entite->adress_2;
+            $adress_3 = $object->entite->adress_3;
+            $cp = $object->entite->cp;
+            $city = $object->entite->city;
+            $office_email_adress_1 = $object->entite->office_email_adress_1;
+            $office_email_adress_2 = $object->entite->office_email_adress_2;
+            $office_email_adress_3 = $object->entite->office_email_adress_3;
         }
     ?>
     <?php
     /*
      * Le champ 'email_adress' est utilisé à chaque fois car adress_1,adress_2 ... n'appartient pas au modèle Notaire.
-     * Les valeurs sont initialisés par celui du modèle Etude lié.
+     * Les valeurs sont initialisés par celui du modèle Entite lié.
      */
     ?>
     <?php echo $this->form->input('email_adress',array( 'type'=>'text','label' => 'Ligne adresse 1','value'=>$adress_1,'disabled' => true )); ?>

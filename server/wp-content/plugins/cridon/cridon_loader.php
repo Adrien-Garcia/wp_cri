@@ -104,7 +104,7 @@ class CridonLoader extends MvcPluginLoader
                                     dbDelta($query);
                                 }
                                 //If ALTER QUERY
-                                if (preg_match_all("|ALTER TABLE ([a-zA-Z0-9`_\s(),]*)|", $query, $matches)) {
+                                if (preg_match_all("|ALTER TABLE ([a-zA-Z0-9`_\s()',]*)|", $query, $matches)) {
                                     if (!empty($matches[0])) {
                                         foreach ($matches[0] as $alter) {
                                             $wpdb->query($alter);
@@ -112,7 +112,7 @@ class CridonLoader extends MvcPluginLoader
                                     }
                                 }
 
-                                if (preg_match_all("|(UPDATE ([a-zA-Z0-9`_\s()={}':\";\-éèàùêîôâ@&ÉÈÀÙÊÎÔÂ\'\.]*);)|", $query, $matches)) {
+                                if (preg_match_all("|UPDATE (.*)|", $query, $matches)) {
                                     if (!empty($matches[0])) {
                                         foreach ($matches[0] as $update) {
                                             $wpdb->query($update);

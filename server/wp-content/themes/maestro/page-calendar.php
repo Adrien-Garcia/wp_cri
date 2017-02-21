@@ -99,7 +99,7 @@ $year = $data['year'];
                                                 >
                                                     <div class="calendar__session-name calendar__session-name--name js-calendar-ellipsis" title="<?php echo $session['name'] ; ?>"><?php echo $session['name'] ; ?></div><!--
                                                     <?php if ($session['organisme']) : ?>
-                                                        --><div class="calendar__session-name calendar__session-name--organisme"><?php echo $session['organisme']->is_cridon ? strtoupper($session['organisme']->name) : $session['organisme']->name; ?></div>
+                                                        --><div class="calendar__session-name calendar__session-name--organisme"><?php echo $session['organisme']->is_cridon ? strtoupper($session['organisme']->office_name) : $session['organisme']->office_name; ?></div>
                                                     <?php endif; ?><!--
                                                     --><div class="calendar__session-content">
                                                         <div class="calendar__session-content--header">
@@ -109,7 +109,7 @@ $year = $data['year'];
                                                         <div class="calendar__session-content--body">
                                                             <?php if ($session['organisme']) : ?>
                                                                 <div class="calendar__session-content--place">
-                                                                    <?php echo $session['organisme']->is_cridon ? strtoupper($session['organisme']->name) : $session['organisme']->name; ?>
+                                                                    <?php echo $session['organisme']->is_cridon ? strtoupper($session['organisme']->office_name) : $session['organisme']->office_name; ?>
                                                                 </div>
                                                             <?php endif; ?>
                                                             <?php if ($session['time']) : ?>
@@ -124,7 +124,7 @@ $year = $data['year'];
                                                             <?php if ($session['contact_organisme']) : ?>
                                                             <hr/>
                                                             <div class="calendar__session-content-chambre">
-                                                                <div class="calendar__session-content-chambre--name"><?php echo $session['organisme']->name ; ?></div>
+                                                                <div class="calendar__session-content-chambre--name"><?php echo $session['organisme']->office_name ; ?></div>
                                                                 <?php if ($session['organisme']->phone_number) : ?>
                                                                 <div class="calendar__session-content-chambre--telephone"><span>Tel. :</span>
                                                                     <a href="tel:<?php echo $session['organisme']->phone_number ; ?>" ><?php echo $session['organisme']->phone_number ; ?></a>

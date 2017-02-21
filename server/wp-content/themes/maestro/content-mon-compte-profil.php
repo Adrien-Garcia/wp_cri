@@ -11,36 +11,36 @@
 	<div class="coordonnees">
 		<div class="etude">
 			<div class="nom">
-				<span><?php echo $notaire->etude->office_name ?></span>
+				<span><?php echo $notaire->entite->office_name ?></span>
 			</div>
 
 			<div class="adresse">
-                <?php if (!empty($notaire->etude->adress_1)): ?>
-				<span><?php echo $notaire->etude->adress_1 ?></span>
+                <?php if (!empty($notaire->entite->adress_1)): ?>
+				<span><?php echo $notaire->entite->adress_1 ?></span>
                 <?php endif; ?>
-				<?php if (!empty($notaire->etude->adress_2)): ?>
-					<span><?php echo $notaire->etude->adress_2 ?></span>
+				<?php if (!empty($notaire->entite->adress_2)): ?>
+					<span><?php echo $notaire->entite->adress_2 ?></span>
 				<?php endif ?>
-				<?php if (!empty($notaire->etude->adress_3)): ?>
-					<span><?php echo $notaire->etude->adress_3 ?></span>
+				<?php if (!empty($notaire->entite->adress_3)): ?>
+					<span><?php echo $notaire->entite->adress_3 ?></span>
 				<?php endif ?>				
-				<span><?php echo $notaire->etude->cp.' '.$notaire->etude->city ?></span>
+				<span><?php echo $notaire->entite->cp.' '.$notaire->entite->city ?></span>
 			</div>
 
 			<div class="mail">
-				<span id="sel-compte-mail"><?php echo $notaire->etude->office_email_adress_1 ?></span>
+				<span id="sel-compte-mail"><?php echo $notaire->entite->office_email_adress_1 ?></span>
 			</div>
 
-            <?php if (!empty($notaire->etude->tel) || !empty($notaire->etude->fax)): ?>
+            <?php if (!empty($notaire->entite->tel) || !empty($notaire->entite->fax)): ?>
 
 			<div class="contact">
 
-                <?php if (!empty($notaire->etude->tel) && preg_match("/\+?\d{6,}/", $notaire->etude->tel) ): ?>
-				<span>Tel <a href="tel:<?php echo $notaire->etude->tel ?>"><?php echo $notaire->etude->tel ?></a></span>
+                <?php if (!empty($notaire->entite->tel) && preg_match("/\+?\d{6,}/", $notaire->entite->tel) ): ?>
+				<span>Tel <a href="tel:<?php echo $notaire->entite->tel ?>"><?php echo $notaire->entite->tel ?></a></span>
                 <?php endif; ?>
 
-                <?php if (!empty($notaire->etude->fax) && preg_match("/\+?\d{6,}/", $notaire->etude->fax)): ?>
-				<span>Fax <a href="tel:<?php echo $notaire->etude->fax ?>"><?php echo $notaire->etude->fax ?></a></span>
+                <?php if (!empty($notaire->entite->fax) && preg_match("/\+?\d{6,}/", $notaire->entite->fax)): ?>
+				<span>Fax <a href="tel:<?php echo $notaire->entite->fax ?>"><?php echo $notaire->entite->fax ?></a></span>
                 <?php endif; ?>
 			</div>
 
@@ -48,7 +48,7 @@
 
 			<?php if (CriCanAccessSensitiveInfo(CONST_MODIFYOFFICE_ROLE)) : ?>
                 <div class="update update-etude js-account-profil-office-modify"
-                data-js-ajax-modify-office-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestionetude')); ?>">
+                data-js-ajax-modify-office-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestionentite')); ?>">
                 <?php _e('Modifier les informations de l\'étude'); ?></div>
             <?php endif; ?>
 		</div>

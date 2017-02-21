@@ -43,7 +43,7 @@ class AdminSessionsController extends BaseAdminController
         ),
         'organisme' => array(
             'label' => 'Organisme',
-            'value_method' => 'organismeLink'
+            'value_method' => 'organismeLabel'
         )
     );
 
@@ -117,16 +117,20 @@ class AdminSessionsController extends BaseAdminController
 
     private function setOrganismes()
     {
-        $this->load_model('Organisme');
-        $organismes = $this->Organisme->find(array(
-            'selects' => array('id', 'name'),
-            'order' => 'name'
+        $this->load_model('Entite');
+        $organismes = $this->Entite->find(array(
+            'selects' => array('id', 'office_name'),
+            'conditions' => array(
+                'is_organisme' => 1
+            ),
+            'joins' => array(),//dummy join to avoid loading of all relations
+            'order' => 'office_name'
         ));
 
         $options = array();
         if (is_array($organismes) && count($organismes) > 0) {
             foreach ($organismes as $organisme) {
-                $options[$organisme->id] =  $organisme->name;
+                $options[$organisme->id] =  $organisme->office_name;
             }
         }
 
@@ -143,15 +147,12 @@ class AdminSessionsController extends BaseAdminController
         return empty($object->formation) ? null : $controllerFormations->post_edit_link($object->formation);
     }
 
-    public function organismeLink($object){
+    public function organismeLabel($object){
         if (empty($object->organisme)) {
-            $this->load_model('Organisme');
-            $object->organisme = $this->Organisme->find_one_by_id($object->id_organisme);
+            $this->load_model('Entite');
+            $object->organisme = $this->Entite->find_one_by_id($object->id_organisme);
         }
 
-        return empty($object->organisme) ? null : HtmlHelper::admin_object_link($object->organisme, array(
-            'action' => 'edit',
-            'text' => $object->organisme->name,
-        ));
+        return empty($object->organisme) ? null : $object->organisme->office_name;
     }
 }

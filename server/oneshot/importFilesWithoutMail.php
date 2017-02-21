@@ -12,9 +12,9 @@ if (!empty($argv[1]) || !in_array($argv[1], array('r', 'f'))) {
 }
 
 /**
- * @var $model Etude
+ * @var $model Entite
  */
-$model = mvc_model('etude');
+$model = mvc_model('entite');
 
 if ('f' === $argv[1]) {
     $code = $model->importFacture(false);
