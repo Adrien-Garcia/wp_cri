@@ -61,7 +61,6 @@ CALENDAR STYLES
 
         &:nth-child(7n) { //dimanche
             border-right: none;
-            width: 172px;
         }
 
         &:nth-last-child(-n+7) { //last line
