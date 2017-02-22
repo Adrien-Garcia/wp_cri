@@ -48,6 +48,30 @@
         }
     }
 
+    .organisme {
+        @include do-bo;
+        font-size: 15px;
+        line-height: 18px;
+    }
+
+    .horaire {
+        @include do-re;
+        font-size: 15px;
+        padding-top: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        position: relative;
+        &::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: $bleu;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+
     .required {
         color: $rouge;
     }
@@ -68,6 +92,12 @@
     }
 
     label {
+        font-size: 14px;
+    }
+
+    p.label {
+        @include do-el;
+        margin-bottom: 2px;
         font-size: 14px;
     }
 
