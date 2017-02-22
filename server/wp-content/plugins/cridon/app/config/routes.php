@@ -86,6 +86,8 @@ MvcRouter::public_connect('calendrier-des-formations/{:id:[0-9-]+}', array('cont
 MvcRouter::public_connect('calendrier-des-formations', array('controller' => 'formations', 'action' => 'calendar'));
 MvcRouter::public_connect('formations/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'formations', 'action' => 'show'));
 MvcRouter::public_connect('demande-formations', array('controller' => 'formations', 'action' => 'demande'));
+MvcRouter::public_connect('demande-formations/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'formations', 'action' => 'demande'));
+MvcRouter::public_connect('preinscription/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'formations', 'action' => 'preinscription'));
 MvcRouter::public_connect('veilles/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'veilles', 'action' => 'show'));
 MvcRouter::public_connect('cahier_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'cahier_cridons', 'action' => 'show'));
 MvcRouter::public_connect('vie_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'vie_cridons', 'action' => 'show'));

@@ -294,24 +294,141 @@ class FormationsController extends BaseActuController
         return $data;
     }
 
-    public function demande()
+    public function preinscription()
     {
         $params = $this->params;
+        $session = false;
+        if (!empty($params['id'])) {
+            $sessionId = $params['id'];
+            $options = array(
+                'conditions' => array(
+                    'id' => $sessionId,
+                    'date > ' => date('Y-m-d'),
+                )
+            );
+            $session = mvc_model('Session')->find($options);
+            // get first element of response
+            $session = reset($session);
+        }
 
-        if (!empty($params['formationSubmit'])) {
+        if (empty($session)) {
+            $params['id'] = null;
+            $url = MvcRouter::public_url(array(
+                    'controller'=> 'formations',
+                    'action' => 'demande',
+                    'id' => ''
+                )
+            );
+            wp_redirect($url);
+            return null;
+        }
 
-            if (!empty($params['formationParticipants']) && !empty($params['formationTheme'])) {
-                $formationParticipants = $params['formationParticipants'];
-                $formationTheme = $params['formationTheme'];
+        if ($session->organisme->is_cridon) {
+            $preinscription = array(
+                'formation' => array(
+                    'title' => $session->formation->post->post_title,
+                    'content' => $session->formation->post->post_content,
+                    'url' => MvcRouter::public_url(array(
+                        'controller'=> 'formations',
+                        'action' => 'show',
+                        'id' => $session->formation->id,
+                    )).'?'.http_build_query(array('sessionid' => $session->id)),
+                    'organisme' => $session->organisme->name,
+                    'city' => $session->organisme->city,
+                    'time' => $session->timetable,
+                    '_formation' => $session->formation,
+                    '_session' => $session,
+                ),
+            );
+
+            $this->set('preinscription', $preinscription);
+
+            if (!empty($params['formationSubmit'])) {
+
+                if (!empty($params['formationParticipants']) && !empty($params['formationCommentaire'])) {
+                    $formationParticipants = $params['formationParticipants'];
+                    $formationCommentaire = $params['formationCommentaire'];
 
 
-                $this->set('valid', ' Votre demande a bien été envoyée. ');
-                return true;
+                    $this->set('valid', ' Votre demande a bien été envoyée. ');
+                    return true;
 
-            } else {
-                $this->set('error', 'Veuillez remplir les champs obligatoires.');
+                } else {
+                    $this->set('error', 'Veuillez remplir les champs obligatoires.');
+                }
             }
         }
         return false;
     }
+
+
+    public function demande()
+    {
+        $params = $this->params;
+        $formation = false;
+        if (!empty($params['id'])) {
+            $formationId = $params['id'];
+            $formation = mvc_model('Formation')->find_by_id($formationId);
+
+            if (empty($formation)) {
+                $params['id'] = null;
+                $url = MvcRouter::public_url(array(
+                        'controller'=> 'formations',
+                        'action' => 'demande',
+                        'id' => ''
+                    )
+                );
+                wp_redirect($url);
+            }
+        }
+
+        if (!$formation) { // Demande Générique (pas d'id de formation)
+            $demandeGenerique = array('1');
+            $this->set('demandeGenerique', $demandeGenerique);
+            if (!empty($params['formationSubmit'])) {
+
+                if (!empty($params['formationCommentaire']) && !empty($params['formationTheme'])) {
+                    $formationTheme = $params['formationTheme'];
+                    $formationCommentaire = $params['formationCommentaire'];
+
+
+                    $this->set('valid', ' Votre demande a bien été envoyée. ');
+                    return true;
+
+                } else {
+                    $this->set('error', 'Veuillez remplir les champs obligatoires.');
+                }
+            }
+        } else {
+            $demandeFormation = array(
+                'formation' => array(
+                    'title' => $formation->post->post_title,
+                    'content' => $formation->post->post_content,
+                    'url' => MvcRouter::public_url(array(
+                        'controller'=> 'formations',
+                        'action' => 'show',
+                        'id' => $formation->id
+                    )),
+                    '_formation' => $formation,
+                ),
+            );
+            $this->set('demandeFormation', $demandeFormation);
+            if (!empty($params['formationSubmit'])) {
+
+                if (!empty($params['formationParticipants']) && !empty($params['formationCommentaire'])) {
+                    $formationParticipants = $params['formationParticipants'];
+                    $formationCommentaire = $params['formationCommentaire'];
+
+
+                    $this->set('valid', ' Votre demande a bien été envoyée. ');
+                    return true;
+
+                } else {
+                    $this->set('error', 'Veuillez remplir les champs obligatoires.');
+                }
+            }
+        }
+        return false;
+    }
+
 }
