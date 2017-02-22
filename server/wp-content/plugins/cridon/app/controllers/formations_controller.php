@@ -293,4 +293,19 @@ class FormationsController extends BaseActuController
         }
         return $data;
     }
+
+    public function catalog($year = 'current')
+    {
+        $option = get_option('cridon_next_year_catalog_published');
+        $this->set('catalogPublished', $option);
+    }
+
+    public function catalognextyear()
+    {
+        $option = get_option('cridon_next_year_catalog_published');
+        $this->set('catalogPublished', $option);
+        if ($option){
+            $this->catalog('next');
+        }
+    }
 }
