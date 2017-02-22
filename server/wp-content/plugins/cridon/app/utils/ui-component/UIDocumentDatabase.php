@@ -4,7 +4,7 @@
  *
  * This file is part of project 
  *
- * File name : UIDatabase.php
+ * File name : UIDocumentDatabase.php
  * Project   : wp_cridon
  *
  * @author Etech
@@ -12,7 +12,7 @@
  *
  */
 
-class UIDatabase {
+class UIDocumentDatabase {
     private $model;
     
     public function __construct(){

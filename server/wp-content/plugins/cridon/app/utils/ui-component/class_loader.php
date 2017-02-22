@@ -11,7 +11,8 @@
  * @contributor Fabrice MILA
  *
  */
-require_once 'UIDatabase.php';
+require_once 'UIDocumentDatabase.php';
+require_once 'UIMillesimeDatabase.php';
 require_once 'UIFields.php';
 require_once 'UIContainer.php';
 require_once 'fields/UISpan.php';

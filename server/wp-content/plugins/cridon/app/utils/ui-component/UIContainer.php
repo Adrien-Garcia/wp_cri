@@ -16,17 +16,17 @@ class UIContainer extends UIFields{
     
     private $content;
     private $title;
-    private $database;
+    private $documentDatabase;
+    private $millesimeDatabase;
     private $currentObject;
     private $currentModel;
     private $type;
 
     public function __construct(){
-        $this->database = new UIDatabase();
+        $this->documentDatabase  = new UIDocumentDatabase();
+        $this->millesimeDatabase = new UIMillesimeDatabase();
         //Defaults
         $this->setClass('inside');
-        $this->setTitle( 'Documents' );
-        //
         $this->init();
     }
     
@@ -87,8 +87,9 @@ class UIContainer extends UIFields{
     
     /**
      * Construct view
+     * @param $model string - model to display
      */
-    public function create(){
+    public function create($model){
         $input = new UIText();
         $input->setPlaceholder('Rechercher');
         $input->setClass('relationship_search');
@@ -102,10 +103,10 @@ class UIContainer extends UIFields{
         $html .= '<table class="widefat"><thead><tr><th>';
         $html .= $input->create(); 
         $html .= '</th></tr></thead></table>';
-        $html .= $this->createLeft();
+        $html .= $this->createLeft($model);
         $html .= '</div>';
         $html .= '<div class="relationship_right">';
-        $html .= $this->createRight();
+        $html .= $this->createRight($model);
         $html .= '</div>';
         $html .= '</div>';
         $html .= '</div>';
@@ -114,16 +115,28 @@ class UIContainer extends UIFields{
     
     /**
      * Create left view
-     * 
+     * @param $modelName string - model to display
+     *
      * @return string
      */
-    protected function createLeft(){
-        //Fill with not associated documents
-        $data = $this->database->find( array('conditions' => array(
-            'type' => $this->type,
-            'id_externe' => '',
-        ) ) );
-        $this->left = $this->createItems($data);;
+    protected function createLeft($modelName){
+        if ($modelName == 'Millesime'){
+            // We give the possibility to add millesime from Y-1 to Y+2
+            $this->left = array();
+            for ($i= -1 ;$i < 3 ;$i++){
+                $left       = new stdClass();
+                $left->id = $left->name = date("Y",strtotime($i." year"));
+
+                $this->left [] = $left;
+            }
+        } else {
+            //Fill with not associated documents
+            $data = $this->documentDatabase->find( array('conditions' => array(
+                'type' => $this->type,
+                'id_externe' => '',
+            ) ) );
+            $this->left = $this->createDocumentItems($data);
+        }
         $ul = new UIList();
         $ul->setClass('bl relationship_list ui-sortable');
         if( empty( $this->left ) ){
@@ -138,7 +151,7 @@ class UIContainer extends UIFields{
             $a->setId( 'ui_a'.$left->id );
             $span1 = new UISpan();
             $span1->setClass('relationship-item-info');
-            $span1->setText('document');
+            $span1->setText($modelName);
             $span2 = new UISpan();
             $span2->setClass('cri-button-add');
             $a->setContent(array($span1,$span2));
@@ -150,21 +163,40 @@ class UIContainer extends UIFields{
     } 
     /**
      * Create right view
-     * 
+     *
+     * @param $modelName string - model to display
      * @return string
      */
-    protected function createRight(){
+    protected function createRight($modelName){
         if( $this->currentObject != null ){
-            $options = array(
-                'conditions' => array(
-                    'type' => $this->type,
-                    'id_externe'=>  $this->currentObject->id,
-                ) 
-            );
-            $data = $this->database->find( $options );
+            if ($modelName == 'Millesime'){
+                //Get millésime for current model
+                $options = array(
+                    'conditions' => array(
+                        'id_formation' => $this->currentObject->id,
+                    )
+                );
 
-            //Documents of current object ( model ) 
-            $this->right = $this->createItems($data);
+                $data = $this->millesimeDatabase->find($options);
+                $this->right = array();
+                foreach ($data as $item){
+                    $right = new stdClass();
+                    $right->id = $right->name = $item->year;
+                    $this->right [] = $right;
+                }
+            } else {
+                //Get documents for current model
+                $options = array(
+                    'conditions' => array(
+                        'type' => $this->type,
+                        'id_externe' => $this->currentObject->id,
+                    )
+                );
+                $data = $this->documentDatabase->find($options);
+
+                //Documents of current object ( model )
+                $this->right = $this->createDocumentItems($data);
+            }
         }
         $ul = new UIList();
         $ul->setClass('bl relationship_list');
@@ -179,11 +211,11 @@ class UIContainer extends UIFields{
             $a->setId( 'ui_a'.$right->id );
             $span1 = new UISpan();
             $span1->setClass('relationship-item-info');
-            $span1->setText('document');
+            $span1->setText($modelName);
             $span2 = new UISpan();
             $span2->setClass('cri-button-remove');
             $hidden = new UIHidden();
-            $hidden->setName('uiDocument[]');
+            $hidden->setName('ui'.$modelName.'[]');
             $hidden->setValue('ui_a'.$right->id);
             $a->setContent(array($span1,$span2,$hidden));
             $li->setContent($a);
@@ -193,7 +225,7 @@ class UIContainer extends UIFields{
         return $ul->create();
     }
 
-    protected function createItems($data) {
+    protected function createDocumentItems($data) {
         $res = array();
         foreach( $data as $v ){
             $cls = new stdClass();
@@ -206,24 +238,40 @@ class UIContainer extends UIFields{
     }
     
     public function save(){
-        if( isset( $_POST ) && !empty( $_POST['uiDocument'] )  ){
-            $data = array();
-            foreach( $_POST['uiDocument'] as $doc ){
-                $cls = new stdClass();
-                $ptn = "/ui_a/";
-                $id  = preg_replace($ptn, '', $doc);
-                $cls->id = $id;
-                $cls->id_externe = $this->currentObject->id;
-                $cls->type = strtolower($this->currentModel->name);
-                $data[] = $cls;
+        if( isset( $_POST ) ) {
+            //Update documents in database
+            if (!empty( $_POST['uiDocument'] )  ){
+                $data = array();
+                foreach( $_POST['uiDocument'] as $doc ){
+                    $cls = new stdClass();
+                    $cls->id = preg_replace("/ui_a/", '', $doc);
+                    $cls->id_externe = $this->currentObject->id;
+                    $cls->type = strtolower($this->currentModel->name);
+                    $data[] = $cls;
+                }
+                $this->documentDatabase->save($data);
+            } else {
+                if (!empty($this->currentObject)) {
+                    $data = new stdClass();
+                    $data->id_externe = $this->currentObject->id;
+                    $data->type = strtolower($this->currentModel->name);
+                    $this->documentDatabase->deleteAll($data);
+                }
             }
-            $this->database->save($data);
-        }else{
-            if( !empty( $this->currentObject ) ){
-                $data = new stdClass();
-                $data->id_externe = $this->currentObject->id;
-                $data->type = strtolower($this->currentModel->name);
-                $this->database->deleteAll($data);
+            $config = assocToKeyVal(Config::$data, 'model', 'controller');
+            if (!empty($this->currentModel) && in_array($config[$this->currentModel->name],Config::$contentWithMillesime)){
+                // Remove all millesime for current formation in database
+                $this->millesimeDatabase->deleteAll($this->currentObject->id);
+                if (!empty( $_POST['uiMillesime'] ) ){
+                    $data = array();
+                    foreach( $_POST['uiMillesime'] as $millesime ){
+                        $cls = new stdClass();
+                        $cls->year  = preg_replace("/ui_a/", '', $millesime);
+                        $cls->id_formation = $this->currentObject->id;
+                        $data[] = $cls;
+                    }
+                    $this->millesimeDatabase->save($data);
+                }
             }
         }
     }

@@ -201,7 +201,7 @@ add_action('add_meta_boxes','init_meta_boxes_category_post');
 function init_meta_boxes_category_post(){
     if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithMatiere)) {
         // init meta box depends on the current type of content
-        add_meta_box('id_meta_boxes_link_post', Config::$titleMetabox , 'init_select_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
+        add_meta_box('id_meta_boxes_link_post', Config::$titleMetaboxMatiere , 'init_select_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
     }
 }
 /**
@@ -656,11 +656,19 @@ add_action('add_meta_boxes','init_meta_boxes_ui_component');
 
 function init_meta_boxes_ui_component(){
     if( isset( $_GET['cridon_type'] ) ){
-        add_meta_box('id_ui_meta_boxes', Config::$titleMetaboxDocument , 'init_ui_meta_boxes', 'post', 'normal');       
+        add_meta_box('id_ui_meta_boxes_document', Config::$titleMetaboxDocument , 'init_ui_meta_boxes', 'post', 'normal', 'default', 'Document');
+        if(in_array($_GET['cridon_type'], Config::$contentWithMillesime)){
+            add_meta_box('id_ui_meta_boxes_millesime', Config::$titleMetaboxMillesime , 'init_ui_meta_boxes', 'post', 'normal', 'default', 'Millesime');
+        }
     }
 }
 
-function init_ui_meta_boxes( $post ){
+/**
+ * @param $post
+ * @param $args : model to display (document, millesime...)
+ * @throws Exception
+ */
+function init_ui_meta_boxes( $post, $args ){
     global $cri_container;
     $container = $cri_container->get('ui_container');
     $container->setTitle('');
@@ -679,7 +687,7 @@ function init_ui_meta_boxes( $post ){
             $container->setObject($cls);
         }
     }
-    $container->create();
+    $container->create($args['args']);
 }
 
 function after_save_post_for_ui( $post_ID ){ 
