@@ -308,4 +308,13 @@ class FormationsController extends BaseActuController
             $this->catalog('next');
         }
     }
+
+    public function publishnextyearcatalog(){
+        update_option('cridon_next_year_catalog_published',1);
+        $options = array(
+            'controller' => 'formations',
+            'action'     => 'catalognextyear'
+        );
+        wp_redirect( MvcRouter::public_url($options) );
+    }
 }

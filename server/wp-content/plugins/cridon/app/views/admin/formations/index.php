@@ -10,6 +10,14 @@ require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/search.php';
 
 </form>
 
+<?php if (get_option('cridon_next_year_catalog_published') == 0): ?>
+    <?php $nextYear = date('Y', strtotime('+1 year')) ?>
+    <br>
+    <form action="<?php echo mvc_public_url(array('controller' => 'formations', 'action' => 'publishnextyearcatalog')) ?>" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir publier le catalogue des formations <?php echo $nextYear ?> ?');">
+        <input class="button" type="submit" name="search_bt" value="Publier le catalogue des formations <?php echo $nextYear ?>">
+    </form>
+<?php endif; ?>
+
 <?php
 require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/nav.php';
 ?>
@@ -35,6 +43,5 @@ require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/nav.php';
 <?php
 require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/nav.php';
 ?>
-
 
 <br class="clear" />

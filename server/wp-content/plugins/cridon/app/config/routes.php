@@ -84,9 +84,10 @@ MvcRouter::public_connect('matieres', array('controller' => 'matieres', 'action'
 MvcRouter::public_connect('flashes/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'flashes', 'action' => 'show'));
 MvcRouter::public_connect('calendrier-des-formations/{:id:[0-9-]+}', array('controller' => 'formations', 'action' => 'calendar'));
 MvcRouter::public_connect('calendrier-des-formations', array('controller' => 'formations', 'action' => 'calendar'));
-MvcRouter::public_connect('catalogue', array('controller' => 'formations', 'action' => 'catalog'));
-MvcRouter::public_connect('prochain-catalogue', array('controller' => 'formations', 'action' => 'catalognextyear'));
 MvcRouter::public_connect('formations/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'formations', 'action' => 'show'));
+MvcRouter::public_connect('formations/catalogue', array('controller' => 'formations', 'action' => 'catalog'));
+MvcRouter::public_connect('formations/prochain-catalogue', array('controller' => 'formations', 'action' => 'catalognextyear'));
+MvcRouter::public_connect('formations/publishnextyearcatalog', array('controller' => 'formations', 'action' => 'publishnextyearcatalog'));
 MvcRouter::public_connect('veilles/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'veilles', 'action' => 'show'));
 MvcRouter::public_connect('cahier_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'cahier_cridons', 'action' => 'show'));
 MvcRouter::public_connect('vie_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'vie_cridons', 'action' => 'show'));
