@@ -7,8 +7,13 @@
 //
 //
 
-#content.page-formation-form {
+.page-formation-form {
+    .preinscription {
+        display: none !important;
+    }
+}
 
+#content.page-formation-form {
     .col2 {
         width: 310px;
         float: right;
