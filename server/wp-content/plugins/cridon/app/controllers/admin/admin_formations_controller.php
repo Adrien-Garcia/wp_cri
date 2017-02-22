@@ -57,6 +57,11 @@ class AdminFormationsController extends BaseAdminController
 
     public function index()
     {
+        if( isset( $this->params['flash'] ) ){
+            if( $this->params['flash'] == 'success' ){
+                $this->flash('notice', 'L\'article a été bien ajouté!');
+            }
+        }
         $this->init_default_columns();
         $this->process_params_for_search();
 
