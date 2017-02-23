@@ -31,7 +31,7 @@
 					<?php if (isset($formationsFutures)): ?>
 					<?php set_query_var( 'objects', $formationsFutures ); ?>
 					
-					<?php echo get_template_part("content","post-list"); ?>
+					<?php echo get_template_part("content","post-list-formations"); ?>
 
                     <div class="pagination">
                     	<?php echo $this->pagination(); ?>
@@ -43,7 +43,7 @@
 					<?php if (isset($formationsPassees)): ?>
 					<?php set_query_var( 'objects', $formationsPassees ); ?>
 
-					<?php echo get_template_part("content","post-list"); ?>
+					<?php echo get_template_part("content","post-list-formations"); ?>
 
 					<div class="pagination">
 						<?php echo $this->pagination(); ?>

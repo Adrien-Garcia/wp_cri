@@ -393,13 +393,29 @@
 							    margin-top: 10px;
 							}
 
-							.adresse{
-								
-								font-family: $helvetica-bold;
-								font-size: 12px;
-								color:$bleu;
-								margin: 10px 0 10px 0;
-								line-height: 14px;
+							.lieux-formation {
+								.organisme {
+									@include do-me;
+									font-size: 15px;
+									margin-bottom: 11px;
+								}
+								.matiere {
+									@include do-re;
+									margin-top: 16px;
+									font-size: 15px;
+									position: relative;
+
+									&::after {
+										content: '';
+									    width: 40px;
+									    height: 1px;
+									    background: #fff;
+									    position: absolute;
+									    top: -8px;
+									    left: 50%;
+									    margin-left: -20px;
+									}
+								}
 							}
 
 							.mots_cles{
