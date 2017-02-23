@@ -1,73 +1,44 @@
-#mes-collaborateurs{
+#mes-collaborateurs {
 
-	.bt-ajout{		
-		font-size: 18px;
-		padding: 0 20px;
-		height: 33px;
-		line-height: 33px;
-		
-		&:before{
-			@include svgicon('icon-angle-bottom', 10px, 10px, $vert);			
-			top: 50%;
-		    margin-top: -5px;
-		    right: -21px;
-		} 
+    .bt-ajout {
+        font-size: 18px;
+        padding: 0 20px;
+        height: 33px;
+        line-height: 33px;
 
-		&:hover{
-			
-			&:before{
-		      @include svgicon('icon-angle-bottom', 10px, 10px, $vj_03);
-		    }
-		}
-		
-	}
+        &::before {
+            @include svgicon('icon-angle-bottom', 10px, 10px, $vert);
+            top: 50%;
+            margin-top: -5px;
+            right: -21px;
+        }
 
-	ul.list-collab{
-		margin-top: 25px; 
-	
+        &:hover {
 
-		li{		
+            &::before {
+              @include svgicon('icon-angle-bottom', 10px, 10px, $vj_03);
+            }
+        }
+    }
 
-			span{}
+    ul.list-collab {
+        margin-top: 25px;
 
-			.trash{
+        li {
 
-				&:before{
+            .trash {
+                &::before {
+                    @include transition(all .3s);
+                }
 
-					@include transition(all 0.3s);
+                &:hover {
+                    &::before {
+                        color: #aaa;
+                    }
+                }
+            }
+        }
+    }
 
-				}
 
-				&:hover{
-					&:before{
-						color:#aaaaaa;
-					}
-				}
-
-				
-
-				form{
-
-					input{}
-				}
-			}
-
-			.block_01, .block_02, .block_03{
-				
-
-				.nom{
-					
-				}
-				.fonction{
-					
-				}
-
-				.tel{
-					
-				}
-			}
-		}
-	}
-
-	
 }

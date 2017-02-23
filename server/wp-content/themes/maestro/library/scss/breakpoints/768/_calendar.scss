@@ -1,0 +1,38 @@
+
+/*********************
+CALENDAR STYLES
+*********************/
+
+#calendar {
+    $calendar-line-height: 36px;
+    $calendar-sidebar-width: 164px;
+    $calendar-margin: 4px; // 4px to account for whitespaces differences on different browsers (iOS)
+
+    .calendar__day-side {
+        height: auto;
+        width: $calendar-sidebar-width;
+    }
+
+    .calendar__day-content {
+        width: calc(100% - #{$calendar-sidebar-width + $calendar-margin});
+    }
+
+    .calendar__day-event {
+        @include no-ellipsis;
+        display: block;
+        width: $calendar-sidebar-width;
+        line-height: 13px;
+        opacity: .6;
+        padding: 7px 15px;
+        height: auto;
+
+        &--mobile {
+            display: none;
+        }
+    }
+
+    .calendar__session-block {
+        width: 215px;
+        right: 25%;
+    }
+}

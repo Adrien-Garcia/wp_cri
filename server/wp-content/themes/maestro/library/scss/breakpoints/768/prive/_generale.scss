@@ -1,248 +1,223 @@
-#content.page-mon-compte{
+#content.page-mon-compte {
 
-	.breadcrumbs{ display: none;}
+    .breadcrumbs { display: none;}
 
-	.message-erreur{
-			font-size: 15px;
-			line-height: 18px;
+    .message-erreur {
+        font-size: 15px;
+        line-height: 18px;
+    }
 
-		}
+    #main {
+        padding-top: 0;
 
-	#main{
-		padding-top: 0;
+        .header-wrap {
+            height: 90px;
+            padding-top: 20px;
 
-		.header-wrap{
-			height: 90px;
-			padding-top: 20px;
+            h1 {
+                font-size: 25px;
 
-			h1{
-				font-size: 25px;
+                &::before {
+                    bottom: -20px;
+                }
 
-				&:before{
-					bottom:-20px;
-				}
-
-			}
-		}
-
-
-		#inner-content{
-
-			&.wrap{width:680px;}
-
-			h1{}
+            }
+        }
 
 
+        #inner-content {
 
+            &.wrap { width: 680px; }
 
-			#sidebar_prive{
+            #sidebar_prive {
 
-				width: 230px;
+                width: 230px;
 
-				nav{
-					ul{
+                nav {
+                    ul {
+                        >li {
+                            position: relative;
 
+                            >a {
+                                width: 230px;
 
-						>li{
-							position: relative;
+                                &::after {
 
+                                    left: 12px;
+                                    margin-left: 0;
+                                }
 
-							>a{
-								width: 230px;
+                                > span {
+                                    display: block;
+                                    height: 75px;
+                                    line-height: 75px;
+                                    text-transform: uppercase;
+                                    font-family: $dosis;
+                                    font-weight: 600;
+                                    font-size: 17px;
+                                    color: $bleu;
+                                    padding-left: 45px;
 
-								&:after{
-
-									left: 12px;
-									margin-left: 0px;
-								}
-
-								> span{
-									display: block;
-									height: 75px;
-									line-height: 75px;
-									text-transform: uppercase;
-									font-family: $dosis;
-    								font-weight: 600;
-									font-size: 17px;
-									color:$bleu;
-									padding-left: 45px;
-
-									>span{
-										@include do-el;
-									}
-								}
+                                    >span {
+                                        @include do-el;
+                                    }
+                                }
 
 
 
-							}
+                            }
+
+                            &.questions { // Questions
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('ico-questions', 27px, 27px, $bleu);
+                                        margin-left: 8px;
+                                    }
+                                }
+                            }
+
+                            &.profil { //* Profil */
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('icon-profil', 23px, 23px, $bleu);
+                                        margin-left: auto;
+                                        margin-top: -11px;
+                                    }
+                                }
+                            }
+
+                            &.facturation { //* Facturation */
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('ico-facturation', 31px, 31px, $bleu);
+                                        margin-top: -15px;
+                                    }
+                                }
+                            }
+
+                            &.cridonline { //* Cridonline */
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('ico-cridonline', 26px, 26px, $rouge);
+                                        margin-top: -15px;
+                                    }
+                                }
+                            }
+
+                            &.collaborateur { //* Collaborateurs */
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('ico-collaborateur', 20px, 20px, $bleu);
+                                        margin-left: auto;
+                                        margin-top: -10px;
+                                    }
+                                }
+                            }
+
+                            &.factures { //* factures */
+                                > a {
+                                    &::after {
+                                        @include svgiconafter('icon-mes-facture', 31px, 31px, $bleu);
+                                        margin-left: auto;
+                                    }
+                                }
+                            }
+
+                            &.mes-releves { //* mes releves de consomation */
+                                > a {
+                                    span {
+                                        line-height: 24px;
+                                        padding-top: 13px;
+                                    }
+
+                                    &::after {
+                                        @include svgiconafter('icon-releves-conso', 28px, 28px, $bleu);
+                                        margin-left: auto;
+                                    }
+                                }
+                            }
 
 
-							&.dashboard{ /* Dashboard*/
-								> a{
-									&:after{
-										//@include svgiconafter('ico-dashboard', 27px, 27px, $bleu);
-									}
-								}
-							}
-							&.questions{ /* Questions */
-								> a{
-									&:after{
-										@include svgiconafter('ico-questions', 27px, 27px, $bleu);
-										/*margin-left: -7px;*/
-										margin-left: 8px;
-									}
-								}
-							}
-							&.profil{ /* Profil */
-								> a{
-									&:after{
-										@include svgiconafter('icon-profil', 23px, 23px, $bleu);
-										/*margin-left: -15px;*/
-										margin-left: auto;
-										margin-top: -11px;
-									}
-								}
-							}
-							&.facturation{ /* Facturation */
-								> a{
-									&:after{
-										@include svgiconafter('ico-facturation', 31px, 31px, $bleu);
-										margin-top: -15px;
-									}
-								}
-							}
-							&.cridonline{ /* Cridonline */
-								> a{
-									&:after{
-										@include svgiconafter('ico-cridonline', 26px, 26px, $rouge);
-										margin-top: -15px;
+                            &:hover {
+                                > a {
+                                    background: $bleu;
 
-									}
-								}
-							}
-							&.collaborateur{ /* Collaborateurs */
-								> a{
-									&:after{
-										@include svgiconafter('ico-collaborateur', 20px, 20px, $bleu);
-										/*margin-left: -18px;*/
-										margin-left: auto;
-										margin-top: -10px;
-									}
-								}
-							}
-							&.factures{ /* factures */
-								> a{
-									&:after{
-										@include svgiconafter('icon-mes-facture', 31px, 31px, $bleu);
-										margin-left: auto;
-									}
-								}
-							}
-							&.mes-releves{ /* mes releves de consomation */
-								> a{
+                                    &::before {
+                                        @include svgicon('icon-angle-bottom', 15px, 15px, $bleu);
+                                        @include rotate(-90);
+                                        position: absolute;
+                                        top: 50%;
+                                        right: -31px;
+                                        margin: -6px 0 0;
+                                        display: block;
+                                        z-index: 222;
+                                    }
 
-									span{
-										line-height: 24px;
-										padding-top: 13px;
-									}
+                                    &::after {
+                                        color: #fff;
+                                    }
+                                }
 
-									&:after{
-										@include svgiconafter('icon-releves-conso', 28px, 28px, $bleu);
-										margin-left: auto;
-									}
-								}
-							}
+                                > a.cridonline {
+                                    background: $rouge;
+
+                                    &::before {
+                                        @include svgicon('icon-angle-bottom', 15px, 15px, $rouge);
+                                        @include rotate(-90);
+                                        position: absolute;
+                                        top: 50%;
+                                        right: -31px;
+                                        margin: -6px 0 0;
+                                        display: block;
+                                        z-index: 222;
+                                    }
+
+                                    &::after {
+                                        color: #fff;
+                                    }
+                                }
+                            }
 
 
-							&:hover
-							 {
+                            &.active,
+                            &:hover {
+                                >a {
+                                    &::after {
+                                        color: #fff;
+                                    }
 
-								> a {
-									background: $bleu;
+                                    span {
+                                        color: #fff;
+                                    }
+                                }
+                            }
 
-									&::before {
-										@include svgicon('icon-angle-bottom', 15px, 15px, $bleu);
-										position:absolute;
-										top:50%;
-										right:-31px;
-										margin: -6px 0 0 0;
-										display: block;
-										z-index: 222;
-										@include rotate(-90);
-									}
-
-									&::after{
-										color:#FFF;
-									}
-								}
-
-								> a.cridonline {
-
-									background: $rouge;
-
-									&::before{
-										@include svgicon('icon-angle-bottom', 15px, 15px, $rouge);
-										position:absolute;
-										top:50%;
-										right:-31px;
-										margin: -6px 0 0 0;
-										display: block;
-										z-index: 222;
-										@include rotate(-90);
-									}
-
-									&::after{
-										color:#FFF;
-									}
-								}
-							}
+                        }
+                    }
+                }
 
 
-							&.active, &:hover{
+            }
 
-								>a{
+            >.content {
 
-									&:before{}
+                width: 450px;
+                padding-left: 30px;
 
-									&:after{
-										color:#FFF;
-									}
+                h2 {
 
-									span{
-										color:#FFF;
-									}
-								}
-							}
+                    font-size: 25px;
 
-						}
-					}
-				}
+                    &.no-marge {
+                        margin-bottom: 0;
+                    }
+                }
 
-
-			}
-
-			>.content{
-
-				width: 450px;
-				padding-left: 30px;
-
-				h2{
-
-					font-size: 25px;
-
-					&.no-marge{
-						margin-bottom: 0px;
-					}
-				}
-
-				p{
-					font-size: 14px;
-					line-height: 19px;
-				}
-
-
-
-			}
-		}
-	}
+                p {
+                    font-size: 14px;
+                    line-height: 19px;
+                }
+            }
+        }
+    }
 }

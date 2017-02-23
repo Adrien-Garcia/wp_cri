@@ -40,7 +40,7 @@ body {}
 LAYOUT & GRID STYLES
 *********************/
 
-.wrap {
+.wrap, .wrap-desktop {
 	width: 1200px;
 	margin: 0 auto;
 
@@ -1625,13 +1625,10 @@ FOOTER STYLES
 					display: inline-block;
 				}
 
-
 			}
 			.logoJP {
 				float: right;
-
 				margin-top: 0px;
-
 				height: 50px;
     			line-height: 50px;
 				&:before{top:13px;}
@@ -1640,8 +1637,6 @@ FOOTER STYLES
 
 		}
 
-
 	}
 
 }
-

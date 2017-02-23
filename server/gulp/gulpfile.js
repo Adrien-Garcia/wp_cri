@@ -35,7 +35,7 @@ gulp.task('sass', function() {
 	    	.pipe(sourcemaps.write())
     	.pipe(plumber.stop())
     .pipe(gulp.dest(libPath+'/css'))
-    .pipe(browserSync.stream({match: "**/*.css"}));
+    .pipe(reload({stream: true}));
 	    
 });
 gulp.task('sass-build', function() {

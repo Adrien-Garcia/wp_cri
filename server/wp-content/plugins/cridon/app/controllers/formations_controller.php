@@ -32,6 +32,36 @@ class FormationsController extends BaseActuController
         $this->set_pagination($collection);
     }
 
+    public function show(){
+        parent::show();
+        $formation = $this->object;
+        if (!empty($formation->id)) {
+            $options = array(
+                'conditions' => array(
+                    'id_formation' => $formation->id,
+                    'date >= ' => date('Y-m-d')
+                ),
+                'order' => 'date asc'
+            );
+            $sessions = mvc_model('Session')->find($options);
+
+            // On récupère les organismes dont dépends l'étude
+            $organismesAssociatedToEtude = array();
+            if (!empty($notaire = CriNotaireData())){
+                $modelEtude = new Etude();
+                $organismesAssociatedToEtude = $modelEtude->getOrganismesAssociatedToEtude($notaire->crpcen);
+            }
+            foreach($sessions as $key => $session){
+                $data = $this->addContactAction($session,$organismesAssociatedToEtude, false);
+                $sessions[$key]->action = $data ['action'];
+                $sessions[$key]->action_label = $data ['action_label'];
+                $sessions[$key]->contact_organisme = $data ['contact_organisme'];
+            }
+            // Pass data to the single-formation view
+            $this->set('sessions', $sessions);
+        }
+    }
+
     public function past()
     {
         $this->process_params_for_search();
@@ -54,44 +84,71 @@ class FormationsController extends BaseActuController
     {
         $params = $this->params;
 
-        $month = !empty($params['month']) ? $params['month'] : date('m');
-        $year = !empty($params['year']) ? $params['year'] : date('Y');
+        $matches = array();
+        $month = date('m');
+        $year = date('Y');
+
+        if (preg_match('/^(\d{2})(-)(\d{4})$/', $params['id'], $matches) ) {
+            $month = !empty($params['id']) ? $matches[1] : date('m');
+            $year = !empty($params['id']) ? $matches[3] : date('Y');
+        } else if (preg_match('/^(\d{4})(-)(\d{2})$/', $params['id'], $matches)) {
+            $month = !empty($params['id']) ? $matches[3] : date('m');
+            $year = !empty($params['id']) ? $matches[1] : date('Y');
+        }
 
         $calendar = $this->_generate_calendar_array($month, $year);
 
         $calendar = $this->_fill_calendar_data($calendar);
 
-        $this->set('month', $month);
-        $this->set('year', $year);
-        $this->set('calendar', $calendar);
+        $prev_month = ($month-1) >= 1 ? $month-1 : 12;
+        $prev_month = ($prev_month < 10 ? '0'.strval($prev_month) : strval($prev_month));
+        $next_month = ($month+1) <= 12 ? $month+1 : 1;
+        $next_month = ($next_month < 10 ? '0'.strval($next_month) : strval($next_month));
+
+        $data = array(
+            'month' => $month,
+            'year' => $year,
+            'calendar' => $calendar,
+            'prev_month' => array(
+                'month' => $prev_month,
+                'year' => strval(($month-1) >= 1 ? $year : $year-1),
+            ),
+            'next_month' => array(
+                'month' => $next_month,
+                'year' => strval(($month+1) <= 12 ? $year : $year+1),
+            ),
+        );
+
+        $this->set('data', $data);
 
     }
 
     protected function _generate_calendar_array($month = null, $year = null) {
-        $month = (!empty($month) && intval($month) < 12 && intval($month) > 0 ) ? $month : date('m');
+        $month = (!empty($month) && intval($month) <= 12 && intval($month) > 0 ) ? $month : date('m');
         $year = (!empty($year) && intval($year) > 1970) ? $year : date('Y');
 
         $tmpmonth = DateTime::createFromFormat('!m', $month);
         $tmpmonth = $tmpmonth->format('F');
 
         $firstdayofmonth = new DateTime('first day of '. $tmpmonth . ' ' . $year);
-        $this->firstDayOfMonth = clone $firstdayofmonth;
         $daytostartofweek = intval($firstdayofmonth->format('N')) -1;
         $firstday = $firstdayofmonth->modify('-'. $daytostartofweek .' days');
+        $this->firstDayOfMonth = clone $firstday;
 
         $lastdayofmonth = new DateTime('last day of '. $tmpmonth . ' ' . $year);
-        $this->lastDayOfMonth = clone $lastdayofmonth;
         $daytoendofweek = 7 - intval($lastdayofmonth->format('N'));
         $lastday = $lastdayofmonth->modify('+'. $daytoendofweek .' days');
+        $this->lastDayOfMonth = clone $lastday;
 
         $calendar = array();
 
         $date = $firstday;
         $today = strtotime('today midnight');
-        while ($lastday->getTimestamp() > $date->getTimestamp()) {
+        while ($lastday->getTimestamp() >= $date->getTimestamp()) {
             $calendar[$date->format('Y-m-d')] = array(
                 'date' => clone $date,
                 'today' => $date->getTimestamp() == $today,
+                'in_month' => $date->format('m') == $month,
             );
             $date->modify('+1 day');
         }
@@ -128,13 +185,14 @@ class FormationsController extends BaseActuController
         $modelSession = new Session();
         $sessions = $modelSession->find(array(
             'conditions' => array(
-                'OR' => array(
+                'AND' => array(
                     'Session.date >= ' => $this->firstDayOfMonth->format('Y-m-d'),
                     'Session.date <= ' => $this->lastDayOfMonth->format('Y-m-d')
                 )
             ),
             'joins' => array(
                 'Formation',
+                'Organisme'
             ),
             'order' => 'Session.date ASC',
         ));
@@ -148,6 +206,13 @@ class FormationsController extends BaseActuController
         ));
         $formations = assocToKeyVal($formations, 'id');
 
+        // On récupère les organismes dont dépends l'étude
+        $organismesAssociatedToEtude = array();
+        if (!empty($notaire = CriNotaireData())){
+            $modelEtude = new Etude();
+            $organismesAssociatedToEtude = $modelEtude->getOrganismesAssociatedToEtude($notaire->crpcen);
+        }
+
         foreach ($sessions as $session) {
             $key = $session->date;
             if (!isset($calendar[$key])) {
@@ -155,18 +220,25 @@ class FormationsController extends BaseActuController
             }
             $formation = $formations[$session->id_formation];
             $urlOptions = array(
-                'controller' => 'documents',
-                'action'     => 'download',
+                'controller' => 'formations',
+                'action'     => 'show',
                 'id'         => $session->id_formation
             );
             $lineSession = array(
-                'name' => $formation->post->post_title,
+                'name'       => $formation->post->post_title,
                 'short_name' => $formation->short_name,
-                'matiere' => $formation->matiere,
-                'time' => $session->timetable,
-                'url' => MvcRouter::public_url($urlOptions)
+                'matiere'    => $formation->matiere,
+                'time'       => $session->timetable,
+                'url'        => MvcRouter::public_url($urlOptions),
+                'id'         => $session->id
             );
-            $this->addSessionAction($lineSession);
+            $before_today = DateTime::createFromFormat('Y-m-d', $session->date)->getTimestamp() < time();
+            $data = $this->addContactAction($session, $organismesAssociatedToEtude, $before_today);
+
+            $lineSession ['action']         = $data ['action'];
+            $lineSession ['action_label']   = $data ['action_label'];
+            $lineSession ['organisme']           = $data['organisme'];
+            $lineSession ['contact_organisme']   = $data['contact_organisme'];
             $calendar[$key]['sessions'][] = $lineSession;
         }
 
@@ -175,15 +247,188 @@ class FormationsController extends BaseActuController
 
     /**
      * Will provide session line in calendar with information concerning subscription or contact
-     * @param $lineSession array : a Session entry in calendar
+     * @param $session Session : the session with all data
+     * @param $organismesAssociatedToEtude : every organism associated to current etude
+     * @param $remove_actions boolean : If true remove the actions
+     * @return array
      */
-    protected function addSessionAction(& $lineSession)
+    protected function addContactAction($session, $organismesAssociatedToEtude, $remove_actions = true)
     {
-        /** @TODO */
+        $data ['action'] = $data ['action_label'] =  $data['details'] = '';
+        $data ['organisme'] = $session->organisme;
+        $data ['contact_organisme'] = false;
+        // Pour les différents cas ; se reporter à goo.gl/0fHVxB
+        if (CriIsNotaire() && in_array(CriNotaireData()->id_fonction, Config::$allowedNotaryFunction) ) { // Line 2 (logged in is notaire)
+            // L'étude dépend-t-elle d'un organisme ?
+            $etudeIsAssociatedToOrganisme = false;
+            foreach ($organismesAssociatedToEtude as $organisme) {
+                if ($session->id_organisme == $organisme->id) {
+                    $etudeIsAssociatedToOrganisme = true;
+                    break;
+                }
+            }
+
+            if ($session->organisme->is_cridon) { // Cell B2 (préinscription)
+                $data ['action'] = '/session-pre-inscription-cridon';
+                $data ['action_label'] = 'Se pré-inscrire';
+            } else if ($etudeIsAssociatedToOrganisme) { // Cell C2 (informations contact)
+                $data ['contact_organisme'] = true;
+            } else { // Cell D2 (contact Cridon)
+                $data ['action'] = '/session-contact-cridon';
+                $data ['action_label'] = 'Contacter le CRIDON LYON';
+            }
+
+        } else if (CriIsNotaire()) { // Line 3 (logged in not notaire (collab...))
+            // DO NOTHING
+        } else if (!is_user_logged_in()){ // Line 4 (not logged in)
+            $error_code = "PROTECTED_CONTENT";
+            $data ['action'] = "?openLogin=1&messageLogin=" . $error_code . "&requestUrl=" . urlencode($_SERVER['REQUEST_URI']);
+
+            $data ['action_label'] = 'Se former';
+        }
+
+        if ($remove_actions) {
+            $data ['action'] = false;
+            $data ['action_label'] = false;
+        }
+        return $data;
     }
+
+    public function preinscription()
+    {
+        $params = $this->params;
+        $session = false;
+        if (!empty($params['id'])) {
+            $sessionId = $params['id'];
+            $options = array(
+                'conditions' => array(
+                    'id' => $sessionId,
+                    'date > ' => date('Y-m-d'),
+                )
+            );
+            $session = mvc_model('Session')->find($options);
+            // get first element of response
+            $session = reset($session);
+        }
+
+        if (empty($session)) {
+            $params['id'] = null;
+            $url = MvcRouter::public_url(array(
+                    'controller'=> 'formations',
+                    'action' => 'demande',
+                    'id' => ''
+                )
+            );
+            wp_redirect($url);
+            return null;
+        }
+
+        if ($session->organisme->is_cridon) {
+            $preinscription = array(
+                'formation' => array(
+                    'title' => $session->formation->post->post_title,
+                    'content' => $session->formation->post->post_content,
+                    'url' => MvcRouter::public_url(array(
+                        'controller'=> 'formations',
+                        'action' => 'show',
+                        'id' => $session->formation->id,
+                    )).'?'.http_build_query(array('sessionid' => $session->id)),
+                    'organisme' => $session->organisme->name,
+                    'city' => $session->organisme->city,
+                    'time' => $session->timetable,
+                    '_formation' => $session->formation,
+                    '_session' => $session,
+                ),
+            );
+
+            $this->set('preinscription', $preinscription);
+
+            if (!empty($params['formationSubmit'])) {
+
+                if (!empty($params['formationParticipants']) && !empty($params['formationCommentaire'])) {
+                    $formationParticipants = $params['formationParticipants'];
+                    $formationCommentaire = $params['formationCommentaire'];
+
+
+                    $this->set('valid', ' Votre demande a bien été envoyée. ');
+                    return true;
+
+                } else {
+                    $this->set('error', 'Veuillez remplir les champs obligatoires.');
+                }
+            }
+        }
+        return false;
+    }
+
 
     public function demande()
     {
+        $params = $this->params;
+        $formation = false;
+        if (!empty($params['id'])) {
+            $formationId = $params['id'];
+            $formation = mvc_model('Formation')->find_by_id($formationId);
 
+            if (empty($formation)) {
+                $params['id'] = null;
+                $url = MvcRouter::public_url(array(
+                        'controller'=> 'formations',
+                        'action' => 'demande',
+                        'id' => ''
+                    )
+                );
+                wp_redirect($url);
+            }
+        }
+
+        if (!$formation) { // Demande Générique (pas d'id de formation)
+            $demandeGenerique = array('1');
+            $this->set('demandeGenerique', $demandeGenerique);
+            if (!empty($params['formationSubmit'])) {
+
+                if (!empty($params['formationCommentaire']) && !empty($params['formationTheme'])) {
+                    $formationTheme = $params['formationTheme'];
+                    $formationCommentaire = $params['formationCommentaire'];
+
+
+                    $this->set('valid', ' Votre demande a bien été envoyée. ');
+                    return true;
+
+                } else {
+                    $this->set('error', 'Veuillez remplir les champs obligatoires.');
+                }
+            }
+        } else {
+            $demandeFormation = array(
+                'formation' => array(
+                    'title' => $formation->post->post_title,
+                    'content' => $formation->post->post_content,
+                    'url' => MvcRouter::public_url(array(
+                        'controller'=> 'formations',
+                        'action' => 'show',
+                        'id' => $formation->id
+                    )),
+                    '_formation' => $formation,
+                ),
+            );
+            $this->set('demandeFormation', $demandeFormation);
+            if (!empty($params['formationSubmit'])) {
+
+                if (!empty($params['formationParticipants']) && !empty($params['formationCommentaire'])) {
+                    $formationParticipants = $params['formationParticipants'];
+                    $formationCommentaire = $params['formationCommentaire'];
+
+
+                    $this->set('valid', ' Votre demande a bien été envoyée. ');
+                    return true;
+
+                } else {
+                    $this->set('error', 'Veuillez remplir les champs obligatoires.');
+                }
+            }
+        }
+        return false;
     }
+
 }

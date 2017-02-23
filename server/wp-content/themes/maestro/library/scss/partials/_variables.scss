@@ -1,39 +1,36 @@
-/******************************************************************
-Site Name:
-Author:
+// Site Name:
+// Author:
 
-Stylesheet: Variables
+// Stylesheet: Variables
 
-Here is where we declare all our variables like colors, fonts,
-base values, and defaults. We want to make sure this file ONLY
-contains variables that way our files don't get all messy.
-No one likes a mess. 
+// Here is where we declare all our variables like colors, fonts,
+// base values, and defaults. We want to make sure this file ONLY
+// contains variables that way our files don't get all messy.
+// No one likes a mess.
 
-******************************************************************/
 
-/*********************
-COLORS
-Need help w/ choosing your colors? Try this site out:
-http://0to255.com/
-*********************/
+// COLORS
+// Need help w/ choosing your colors? Try this site out:
+// http://0to255.com/
 
-/* alerts */
+
+// /* alerts */
 $alert-yellow: #ebe16f;
 $alert-red: #fbe3e4;
 $alert-green: #e6efc2;
 $alert-blue:  #d5edf8;
 
-/* input */
+// /* input */
 $input-border:	#e1e1e1;
 
-/* tables */
+// /* tables */
 $table-border: #ccc;
-$table-th: #C2C2C2;
+$table-th: #c2c2c2;
 $table-row-odd: #fff;
 $table-row-even: #e1e1e1;
 $table-cell-border: #ccc;
 
-/* Charte */
+// /* Charte */
 $h1-color: #000;
 $h2-color: #e1e1e1;
 $h3-color: #666;
@@ -47,11 +44,11 @@ $text-color: #2e4867;
 $link-color: #2980b9;
 $link-hover: darken($link-color, 9%);
 
-$btn-1-background:  #666666;
+$btn-1-background:  #666;
 $btn-1-text:  		#000;
 
 
-$vert: #009999;
+$vert: #099;
 $bleu: #2e4867;
 $jaune: #ffba00;
 $rouge: #b9003f;
@@ -61,28 +58,30 @@ $gris-appli: #b7b8b8;
 $jaune-accueil: #ffba00;
 
 
-/* Veille juridique */
+// /* Veille juridique */
 
 $vj_01: #018383;
-$vj_02: #009999; /* = $vert */
+$vj_02: #099; //* = $vert */
 $vj_03:  #01c2c2;
 $vj_04:  #03eeee;
 $vj_05:  #02d8d8;
 
 
 
-/* Footer */
+// /* Footer */
 $bg-top-footer: #e6e6e6;
 $bg-cridon-footer: #15283f;
 $bg-bottom-footer: #0b1828;
 
-/* Transition */
-
-$duration: 0.3s;
-
+// /* Transition */
+$duration: .3s;
 
 
-/* CRIDONLINE */
+
+// /* CRIDONLINE */
 $bleu-cri: #36496b;
 $vert-cri: #199b9f;
-$jaune-cri: #fab719; 
+$jaune-cri: #fab719;
+$calendar-color1: rgba(255, 255, 255, .5);
+$calendar-color-hover: rgba(255, 255, 255, .4);
+$calendar-color2: rgba(0, 0, 0, .2);

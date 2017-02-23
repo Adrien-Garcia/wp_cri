@@ -124,8 +124,10 @@ the other stylesheets. Remember, keep it light: Speed is Important.
 @import "breakpoints/base/liste";
 
 /*SINGLE*/
-@import "breakpoints/base/single";   
+@import "breakpoints/base/single";
 
+/*CALENDAR*/
+@import "breakpoints/base/calendar";
 /*PAGE*/
 @import "breakpoints/base/page";
 
@@ -169,7 +171,9 @@ you can add resource intensive styles.
 	/*LISTE*/
 	@import "breakpoints/768/liste"; 
 	/*SINGLE*/
-	@import "breakpoints/768/single";   
+	@import "breakpoints/768/single";
+    /*CALENDAR*/
+    @import "breakpoints/768/calendar";
 	/*PAGE*/
 	@import "breakpoints/768/page";
 
@@ -201,7 +205,9 @@ you can add resource intensive styles.
 	/*LISTE*/
 	@import "breakpoints/1240/liste"; 
 	/*SINGLE*/
-	@import "breakpoints/1240/single";   
+	@import "breakpoints/1240/single";
+    /*CALENDAR*/
+    @import "breakpoints/1240/calendar";
 	/*PAGE*/
 	@import "breakpoints/1240/page";   
 
