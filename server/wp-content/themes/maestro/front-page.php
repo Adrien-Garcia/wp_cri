@@ -120,9 +120,9 @@
 							$formations = criFilterByDate('formation',3,1,'formation', 'Y-m-d');
 							// var_dump($formations);
 						 ?>
-						<?php foreach ($formations as $keyd => $date): ?>
+						<?php foreach ($formations as $formation): ?>
 						<?php
-                            $current_date = $date['date'];
+                            $current_date = $formation['date'];
 						?>
 						<?php // var_dump($_date) ?>
    						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-formation-panel">
@@ -133,10 +133,8 @@
 					      </div>
 					      <div class="content">
 							<ul>
-								<?php foreach ($date['formation'] as $keyv => $formation) : ?>
-									<?php
-										criWpPost($formation);
-
+								<?php
+									criWpPost($formation);
 										$_title = get_the_title();
 										$_chapo = get_the_excerpt();//$veille->excerpt;
 										$_link = get_permalink(); //$veille->link;
@@ -144,18 +142,18 @@
 									 ?>
 
 								<li class="js-home-block-link">
-									<img src="<?php echo $formation->matiere->picto ?>" alt="<?php echo $formation->matiere->label ?>" />
+									<img src="<?php echo $formation->picto ?>" alt="<?php echo $formation->label ?>" />
 									<h4><?php echo $_title; ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
 									<div class="adresse">
-                                        <?php echo nl2br($formation->formation->address) ?><br />
-                                        <?php echo $formation->formation->postal_code ?>
-                                        <?php echo $formation->formation->town ?>
+                                        <?php echo nl2br($formation->name) ?><br />
+										<?php echo $formation->address_1 . ' ' . $formation->address_2 . ' ' . $formation->address_3 ?>
+                                        <?php echo $formation->postal_code ?>
+                                        <?php echo $formation->city ?>
 									</div>
 									<a href="<?php echo $_link ?>" class="bt-lire"><?php _e('Lire'); ?></a>
-									<a href="#LIENVERSAGENDAJOURNEE" class="bt-all">Consulter toutes les formations du jour</a>
+									<a href="<?php echo mvc_public_url(array('controller' => 'formations', 'action' => 'calendar')) ?>" class="bt-all">Consulter toutes les formations du jour</a>
 								</li>
-								<?php endforeach; ?>
 
 							</ul>
 

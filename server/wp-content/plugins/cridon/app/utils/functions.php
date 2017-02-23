@@ -207,78 +207,80 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y
         return null;
     }
     global $cri_container;
-    //The formation date is used instead of the post date
     if ($model === 'formation'){
-        $date = 'CAST(f.custom_post_date AS DATE)';
-        $orderBy = 'f.custom_post_date';
+        global $wpdb;
+        return $wpdb->get_results(
+        'SELECT s.*,p.*,o.*,m.*,count(s.date) as nbrOfFormations FROM cri_session as s
+            INNER JOIN cri_organisme o ON s.id_organisme = o.id
+            INNER JOIN cri_formation f ON s.id_formation = f.id
+            INNER JOIN cri_posts p ON f.post_id = p.ID
+            INNER JOIN (
+              SELECT s.date FROM cri_session as s
+                  INNER JOIN cri_formation f ON f.id = s.id_formation
+                  INNER JOIN cri_posts p ON f.post_id = p.ID
+                  WHERE p.post_status = "publish"
+                    AND s.date > ' . date('Y-m-d') . '
+                  GROUP BY s.date ORDER BY s.date ASC LIMIT '. $nb_date .'
+                  ) AS nested ON CAST(s.date AS DATE) = nested.date
+            WHERE p.post_status = "publish"
+            GROUP BY s.date
+            ORDER BY CAST(s.date AS DATE) DESC');
     } else {
+        global $cri_container;
+        //The formation date is used instead of the post date
         $date = 'CAST(p.post_date AS DATE)';
         $orderBy = 'p.id';
-    }
-    $nestedOptions = array(
-        'synonym' => 'p',
-        'fields' => $date.' AS date',
-        'join'  => array(
-            $model => array(
-                'table' => $model.' '.$model[0],
-                'column' => $model[0].'.post_id = p.ID'
-            )
-        ),
-        'conditions' => 'p.post_status = "publish"',
-        'group' => 'date',
-        'limit' => $nb_date,
-        'order' => 'DESC'
-    );
-    $query_builder = $cri_container->get( 'query_builder' );
-    $nested = $query_builder->buildQuery( 'posts', $nestedOptions, $orderBy );// Nested query ( simple string )
-    $tools = $cri_container->get( 'tools' );
-    $options = array(
-        'fields' => $tools->getFieldPost().$date.' AS date,p.post_title,'.$model[0].'.id as join_id',
-        'join'  => array(
-            $model => array(
-                'table' => $model.' '.$model[0],
-                'column' => $model[0].'.post_id = p.ID'
+        $nestedOptions = array(
+            'synonym' => 'p',
+            'fields' => $date.' AS date',
+            'join'  => array(
+                $model => array(
+                    'table' => $model.' '.$model[0],
+                    'column' => $model[0].'.post_id = p.ID'
+                )
             ),
-            'nested' => array(
-                'table' => '('.$nested.') AS nested',
-                'column' => $date.' = nested.date',
-                'nested' => true
-            )
-        ),
-        'conditions' => 'p.post_status = "publish"',
-        'order' => 'DESC',
-    );
+            'conditions' => 'p.post_status = "publish"',
+            'group' => 'date',
+            'limit' => $nb_date,
+            'order' => 'DESC'
+        );
+        $query_builder = $cri_container->get( 'query_builder' );
+        $nested = $query_builder->buildQuery( 'posts', $nestedOptions, $orderBy );// Nested query ( simple string )
+        $tools = $cri_container->get( 'tools' );
+        $options = array(
+            'fields' => $tools->getFieldPost().$date.' AS date,p.post_title,'.$model[0].'.id as join_id',
+            'join'  => array(
+                $model => array(
+                    'table' => $model.' '.$model[0],
+                    'column' => $model[0].'.post_id = p.ID'
+                ),
+                'nested' => array(
+                    'table' => '('.$nested.') AS nested',
+                    'column' => $date.' = nested.date',
+                    'nested' => true
+                )
+            ),
+            'conditions' => 'p.post_status = "publish"',
+            'order' => 'DESC',
+        );
 
-    $fields = array('id','code','label','short_label','displayed','picto');
-    $mFields = '';// fields of model Matiere
-    foreach ( $fields as $v ){
-        $mFields .= ',m.'.$v;
-    }
+        $fields = array('id','code','label','short_label','displayed','picto');
+        $mFields = '';// fields of model Matiere
+        foreach ( $fields as $v ){
+            $mFields .= ',m.'.$v;
+        }
 
-    $options['fields'] = $options['fields'].$mFields;
-    $options['join']['matiere'] = array(
+        $options['fields'] = $options['fields'].$mFields;
+        $options['join']['matiere'] = array(
             'table' => 'matiere m',
             'column' => 'm.id = '.$model[0].'.id_matiere'
-    );
+        );
 
-    if ($model === 'formation'){
-        $addressFields = array('address','postal_code','town');
-        $fFields = '';
-        foreach ( $addressFields as $v ){
-            $fFields .= ',f.'.$v;
-        }
-        $options['fields'] = $options['fields'].$fFields;
+        $results = criQueryPosts( $options, $date );
+        //To have others attributes in array result. Default is object WP_Post
+        //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
+        return $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
     }
-
-    $results = criQueryPosts( $options, $date );
-    //To have others attributes in array result. Default is object WP_Post
-    //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
-    if ($model === 'formation'){
-        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere', 'formation'),array('matiere'=>$fields,'formation'=>$addressFields) );
-    } else {
-        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
-    }
-    return $res;
 }
 
 /**
