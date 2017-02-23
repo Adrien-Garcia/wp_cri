@@ -84,6 +84,12 @@ class FormationsController extends BaseActuController
     {
         $params = $this->params;
 
+        $matieres = mvc_model('Matiere')->find(array(
+            'conditions' => array(
+                'displayed' => 1,
+            )
+        ));
+
         $matches = array();
         $month = date('m');
         $year = date('Y');
@@ -117,6 +123,7 @@ class FormationsController extends BaseActuController
                 'month' => $next_month,
                 'year' => strval(($month+1) <= 12 ? $year : $year+1),
             ),
+            'matieres' => $matieres,
         );
 
         $this->set('data', $data);

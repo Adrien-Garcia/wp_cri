@@ -414,6 +414,7 @@ class Config {
         'value'         => 'Valeur',
         'date'          => 'Date',
         'timetable'     => 'Horaire',
+        'color'         => 'Couleur',
     );
     //End translation
 

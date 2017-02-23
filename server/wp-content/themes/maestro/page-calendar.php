@@ -137,6 +137,14 @@ $year = $data['year'];
                     </div>
                 </div>
 
+                <div class="legende">
+                    <ul>
+                        <?php foreach ($data['matieres'] as $index => $matiere) : ?>
+                            <li style="color: <?php echo $matiere->color ?>; background-color: <?php echo $matiere->color ?>;"><span><?php echo $matiere->label ?></span></li>
+                        <?php endforeach; ?>
+                    </ul>        
+                </div>
+
             </div>
 
         </div>
