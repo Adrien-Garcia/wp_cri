@@ -28,4 +28,7 @@ jQuery(document).ready(function ($) {
     if ($('.page-calendar').length > 0) {
         App.Calendar.init();
     }
+
+    App.Formation.init();
+
 });

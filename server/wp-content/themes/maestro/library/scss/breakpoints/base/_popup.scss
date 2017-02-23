@@ -876,30 +876,29 @@
 
 
 
+/* POPUP CRIDONLINE */
 #layer-cridonline,
 #layer-collaborateur-add,
 #layer-collaborateur-delete,
 #layer-update-etude,
 #layer-update-profil,
 .popup{
-
-/* POPUP CRIDONLINE */
-
-input[type="email"]{
-
-	max-width: 100%;	
-	color:$bleu !important;
-	text-transform: none;
-	font-family: $dosis;
-	font-weight: 600;
-
-	//border:solid 10px red !important; 
-} 
 	width: 100%;
 	height: auto;
 	background: #FFF;
 
-	.message-erreur{
+    input[type="email"]{
+
+        max-width: 100%;
+        color:$bleu !important;
+        text-transform: none;
+        font-family: $dosis;
+        font-weight: 600;
+
+        //border:solid 10px red !important;
+    }
+
+    .message-erreur{
 
 		>div{
 			font-family: $helvetica;

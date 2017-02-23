@@ -296,7 +296,12 @@ class FormationsController extends BaseActuController
 
     public function preinscription()
     {
+        if ( !CriIsNotaire() ) {
+            CriRefuseAccess();
+        }
+        $notaire = mvc_model('Notaire')->getUserConnectedData();
         $params = $this->params;
+        $ajax = true;
         $session = false;
         if (!empty($params['id'])) {
             $sessionId = $params['id'];
@@ -320,7 +325,6 @@ class FormationsController extends BaseActuController
                 )
             );
             wp_redirect($url);
-            return null;
         }
 
         if ($session->organisme->is_cridon) {
@@ -343,28 +347,40 @@ class FormationsController extends BaseActuController
 
             $this->set('preinscription', $preinscription);
 
-            if (!empty($params['formationSubmit'])) {
+
+            if (!empty($params['formationForm'])) {
 
                 if (!empty($params['formationParticipants']) && !empty($params['formationCommentaire'])) {
-                    $formationParticipants = $params['formationParticipants'];
-                    $formationCommentaire = $params['formationCommentaire'];
+                    $formationParticipants = sanitize_text_field($params['formationParticipants']);
+                    $formationCommentaire = wp_kses(nl2br($params['formationCommentaire']), Config::$allowedMailTags);
 
+                    mvc_model('formation')->sendEmailPreinscription($session, $formationParticipants, $formationCommentaire);
 
+                    $ajax = array('valid' => ' Votre demande a bien été envoyée. ');
                     $this->set('valid', ' Votre demande a bien été envoyée. ');
-                    return true;
-
                 } else {
+                    $ajax = array('error' => 'Veuillez remplir les champs obligatoires.');
                     $this->set('error', 'Veuillez remplir les champs obligatoires.');
                 }
             }
         }
-        return false;
+        if (!empty($params['formationSubmit']) && !empty($params['formationNotaire'])) {
+            $ajax = false;
+        }
+        if (!empty($ajax) && !empty($params['formationForm'])) {
+            echo json_encode($ajax);
+            die();
+        }
     }
 
 
     public function demande()
     {
+        if ( !CriIsNotaire() ) {
+            CriRefuseAccess();
+        }
         $params = $this->params;
+        $ajax = true;
         $formation = false;
         if (!empty($params['id'])) {
             $formationId = $params['id'];
@@ -385,16 +401,15 @@ class FormationsController extends BaseActuController
         if (!$formation) { // Demande Générique (pas d'id de formation)
             $demandeGenerique = array('1');
             $this->set('demandeGenerique', $demandeGenerique);
-            if (!empty($params['formationSubmit'])) {
 
+            if (!empty($params['formationForm'])) {
                 if (!empty($params['formationCommentaire']) && !empty($params['formationTheme'])) {
-                    $formationTheme = $params['formationTheme'];
-                    $formationCommentaire = $params['formationCommentaire'];
+                    $formationTheme = sanitize_text_field($params['formationTheme']);
+                    $formationCommentaire = wp_kses(nl2br($params['formationCommentaire']), Config::$allowedMailTags);
 
+                    mvc_model('formation')->sendEmailGenerique($formationTheme, $formationCommentaire);
 
                     $this->set('valid', ' Votre demande a bien été envoyée. ');
-                    return true;
-
                 } else {
                     $this->set('error', 'Veuillez remplir les champs obligatoires.');
                 }
@@ -413,22 +428,29 @@ class FormationsController extends BaseActuController
                 ),
             );
             $this->set('demandeFormation', $demandeFormation);
-            if (!empty($params['formationSubmit'])) {
 
+            if (!empty($params['formationForm'])) {
                 if (!empty($params['formationParticipants']) && !empty($params['formationCommentaire'])) {
-                    $formationParticipants = $params['formationParticipants'];
-                    $formationCommentaire = $params['formationCommentaire'];
+                    $formationParticipants = sanitize_text_field($params['formationParticipants']);
+                    $formationCommentaire = wp_kses(nl2br($params['formationCommentaire']), Config::$allowedMailTags);
 
+                    mvc_model('formation')->sendEmailDemande($formation, $formationParticipants, $formationCommentaire);
 
+                    $ajax = array('valid'=>' Votre demande a bien été envoyée. ');
                     $this->set('valid', ' Votre demande a bien été envoyée. ');
-                    return true;
-
                 } else {
+                    $ajax = array('error'=>'Veuillez remplir les champs obligatoires.');
                     $this->set('error', 'Veuillez remplir les champs obligatoires.');
                 }
             }
         }
-        return false;
+        if (!empty($params['formationSubmit']) && !empty($params['formationNotaire'])) {
+            $ajax = false;
+        }
+        if (!empty($ajax) && !empty($params['formationForm'])) {
+            echo json_encode($ajax);
+            die();
+        }
     }
 
 }

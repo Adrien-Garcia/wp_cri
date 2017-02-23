@@ -67,7 +67,7 @@
                 <?php
                 $home = home_url();
 
-                $modelFile = "banner-formation.jpg";
+                $modelFile = "banner-formations.jpg";
                 $alt = "Formation";
                 ?>
                 <img src="<?php echo plugins_url( "../public/images/mail/".$modelFile, dirname(__FILE__) ) ?>" alt="<?php echo $alt ; ?>" />
@@ -82,52 +82,69 @@
             <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
 
+            <?php if ($type == CONST_FORMATION_GENERIQUE) : ?>
             <!-- DEMANDE DE FORMATION SPONTANEE -->
             <h1>Demande de formation spontanée</h1>
             <br /><br />
 
-            <span class="s">CRPCEN, NOM Prénom email du notaire</span>
+            <span class="s">
+                <?php echo $notaire['crpcen']; ?>, <?php echo $notaire['lname']; ?> <?php echo $notaire['fname']; ?>
+                <a href="mailto:<?php echo $notaire['mail']; ?>"><?php echo $notaire['mail']; ?></a>
+            </span>
             <br /><br />
             <h3>La demande</h3>
-            Thématique : <span class="section">DROIT SOCIAL</span> <br />
-            Nombre de participant : 8<br />
+            Thématique : <span class="section"><?php echo $name ; ?></span> <br />
             <br />
             Commentaires : <br />
-            Fusce non elit in sapien laoreet convallis. In hac habitasse platea dictumst. Praesent non ipsum et lacus scelerisque condimentum at eget nulla. Quisque sit amet felis velit. Phasellus risus nisl, gravida lobortis tellus non, vestibulum sagittis dui. Phasellus in eleifend risus, maximus suscipit felis. Duis hendrerit velit justo, nec varius turpis mattis id. Donec pulvinar ligula a dignissim suscipit. Ut gravida vitae nunc vel congue. Nullam nibh elit, varius id orci et, accumsan ultricies nunc. Ut iaculis neque eget odio vulputate, in convallis mauris faucibus.
+            <p>
+                <?php echo $commentaire ; ?>
+            </p>
             <!-- Fin -->
+            <?php endif; ?>
 
-
-
-            <!-- DEMANDE DE CESSION DE FORMATION -->
-            <h1>Demande de cession de formation</h1>
+            <?php if ($type == CONST_FORMATION_DEMANDE) : ?>
+            <!-- DEMANDE DE SESSION DE FORMATION -->
+            <h1>Demande de session de formation</h1>
             <br /><br />
 
-            <span class="s">CRPCEN, NOM Prénom email du notaire</span>
+            <span class="s">
+                <?php echo $notaire['crpcen']; ?>, <?php echo $notaire['lname']; ?> <?php echo $notaire['fname']; ?>
+                <a href="mailto:<?php echo $notaire['mail']; ?>"><?php echo $notaire['mail']; ?></a>
+            </span>
             <br /><br />
             <h3>La demande</h3>
-            <u>Nom de la formation</u> : <span class="section">DROIT SOCIAL</span> <br />
-            <u>Nombre de participant</u> : 8<br />
+            <u>Nom de la formation</u> : <span class="section"><?php echo $name ; ?></span> <br />
+            <u>Nombre de participant</u> : <?php echo $participants ; ?><br />
             <br />
             <u>Commentaires</u> : <br />
-            Fusce non elit in sapien laoreet convallis. In hac habitasse platea dictumst. Praesent non ipsum et lacus scelerisque condimentum at eget nulla. Quisque sit amet felis velit. Phasellus risus nisl, gravida lobortis tellus non, vestibulum sagittis dui. Phasellus in eleifend risus, maximus suscipit felis. Duis hendrerit velit justo, nec varius turpis mattis id. Donec pulvinar ligula a dignissim suscipit. Ut gravida vitae nunc vel congue. Nullam nibh elit, varius id orci et, accumsan ultricies nunc. Ut iaculis neque eget odio vulputate, in convallis mauris faucibus.
+            <p>
+                <?php echo $commentaire ; ?>
+            </p>
             <!-- Fin -->
+            <?php endif; ?>
 
 
-
+            <?php if ($type == CONST_FORMATION_PREINSCRIPTION) : ?>
             <!-- DEMANDE DE PRE-INSCRIPTION -->
             <h1>Demande de Pré-inscription</h1>
             <br /><br />
 
-            <span class="s">CRPCEN, NOM Prénom email du notaire</span>
+            <span class="s">
+                <?php echo $notaire['crpcen']; ?>, <?php echo $notaire['lname']; ?> <?php echo $notaire['fname']; ?>
+                <a href="mailto:<?php echo $notaire['mail']; ?>"><?php echo $notaire['mail']; ?></a>
+            </span>
             <br /><br /><br />
-            <span class="newsletter_date">10 SEPT 2015</span><br/><br />
-            <span class="section">Nom de la formation</span> <br />
-            <span class="introduction">Lieu de la formation</span><br />
+            <span class="newsletter_date"><?php echo $date ; ?></span><br/><br />
+            <span class="section"><?php echo $name ; ?></span> <br />
+            <span class="introduction"><?php echo $organisme ; ?></span><br />
             <br />
-            <u>Nombre de participant</u> : 8<br />
+            <u>Nombre de participant</u> : <?php echo $participants ; ?><br />
             <u>Commentaires</u> : <br />
-            Fusce non elit in sapien laoreet convallis. In hac habitasse platea dictumst. Praesent non ipsum et lacus scelerisque condimentum at eget nulla. Quisque sit amet felis velit. Phasellus risus nisl, gravida lobortis tellus non, vestibulum sagittis dui. Phasellus in eleifend risus, maximus suscipit felis. Duis hendrerit velit justo, nec varius turpis mattis id. Donec pulvinar ligula a dignissim suscipit. Ut gravida vitae nunc vel congue. Nullam nibh elit, varius id orci et, accumsan ultricies nunc. Ut iaculis neque eget odio vulputate, in convallis mauris faucibus.
+            <p>
+                <?php echo $commentaire ; ?>
+            </p>
             <!-- Fin -->
+            <?php endif; ?>
 
             <td width="20" style="background-color:#fff;"></td>
         </tr>

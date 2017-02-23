@@ -79,7 +79,8 @@
 							<!-- Fin -->
                             <?php endif; ?>
 
-							<form action="" method="post">
+							<form action="" method="post" class="js-formation-formulaire">
+                                <input type="hidden" name="formationForm" value="send">
                                 <?php if (!empty($preinscription) || !empty($demandeFormation)) : ?>
                                 <div>
 									<label for="formationParticipants">Nombre de participants <span class="required">*</span></label>
@@ -93,7 +94,7 @@
 								</div>
                                 <?php endif; ?>
                                 <div>
-                                    <label for="formationCommentaire">Commentaires</label>
+                                    <label for="formationCommentaire">Commentaires <span class="required">*</span></label>
                                     <?php if (!empty($preinscription) || !empty($demandeFormation)) : ?>
                                     <!-- Pré inscription / Demande de cession de formation -->
 									<p class="label">
@@ -104,24 +105,18 @@
                                     </p>
 									<!-- Fin -->
                                     <?php endif; ?>
-                                    <textarea name="formationCommentaire" id="formationCommentaire" cols="30" rows="10" class="textarea" tabindex="2"></textarea>
+                                    <textarea name="formationCommentaire" id="formationCommentaire" cols="30" rows="10" class="textarea" tabindex="2" required="required" minlength="20"></textarea>
 								</div>
-								<div class="required-info">*Champs obligatoires</div>
+								<div class="required-info"><span class="required">*</span>Champs obligatoires</div>
 								<input
                                     type="submit" name="formationSubmit" id="formationSubmit" class="gform_button button"
                                     value="<?php if (!empty($preinscription)) : ?>Valider la pré-inscription<?php else : ?>Envoyer la demande<?php endif; ?>"
                                     tabindex="10" />
 							</form>
-                            <?php if (!empty($error)) : ?>
-							<div class="message error show">
-								<?php echo $error ; ?>
+							<div class="js-formation-error message error <?php if (!empty($error)) : ?>show<?php endif; ?>">
+								<?php echo !empty($error) ? $error : ''; ?>
 							</div>
-                            <?php endif; ?>
-                            <?php if (!empty($valid)) : ?>
-                            <div class="message valide show">
-                                <?php echo $valid ; ?>
-                            </div>
-                            <?php endif; ?>
+                            <?php include('content-formation-valide-popup.php'); ?>
                         </div>
 
 						
