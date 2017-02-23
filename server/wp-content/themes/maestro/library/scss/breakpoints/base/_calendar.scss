@@ -415,7 +415,7 @@ CALENDAR STYLES
                 padding: 0;
                 min-height: 22px;
                 display: inline-block;
-                width: 50%;
+                width: 90%;
                 float: left;
 
                 span {
@@ -448,6 +448,8 @@ CALENDAR STYLES
                     position: absolute;
                     left: -30px;
                     top: 0;
+                    //fix rendering pb on FF
+                    transform: rotateZ(-2deg);
                 }
             }
         }
