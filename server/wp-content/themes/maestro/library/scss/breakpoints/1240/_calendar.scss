@@ -11,6 +11,37 @@ CALENDAR STYLES
     width: 1200px;
     border: 1px solid #bcbcbc;
 
+
+    .calendar__button {
+
+        &--next {
+            left: 232px;
+        }
+        &--previous {
+            left: 63px;
+        }
+    }
+
+    .calendar__button--today {
+        top: 22px;
+        left: 112px;
+        height: auto;
+        line-height: 30px;
+        border:solid 1px $bleu;
+        font-size: 16px;
+        padding: 0 15px;
+        @include transition(opacity .3s);
+
+        &:hover {
+            opacity: .8;
+        }
+
+    }
+
+    .calendar__block--currentmonth {
+        font-size: 24px;
+    }
+
     .calendar__wrapper--header {
         height: auto;
         border-top: none;

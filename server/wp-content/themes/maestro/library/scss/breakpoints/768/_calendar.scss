@@ -8,6 +8,12 @@ CALENDAR STYLES
     $calendar-sidebar-width: 164px;
     $calendar-margin: 4px; // 4px to account for whitespaces differences on different browsers (iOS)
 
+    .calendar__block--currentmonth {
+        right: auto;
+        left: auto;
+        position: relative;
+    }
+
     .calendar__day-side {
         height: auto;
         width: $calendar-sidebar-width;

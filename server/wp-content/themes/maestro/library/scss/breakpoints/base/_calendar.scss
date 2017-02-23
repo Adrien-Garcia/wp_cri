@@ -45,16 +45,24 @@ CALENDAR STYLES
         width: 49px;
         text-decoration: none;
         -webkit-perspective: 500px;
+        text-align: center;
+        z-index: 10;
+
         &:before {
             vertical-align: middle;
             @include svgicon('icon-flech-arrow',18px, 18px, $bleu);
+            position: relative;
+            left: 3px;
         }
+
         &:hover:before {
             opacity: .7;
         }
+
         &--next {
-            right: 0;
+            left: 147px;
         }
+
         &--previous {
             left: 0;
             &:before {
@@ -63,13 +71,30 @@ CALENDAR STYLES
         }
     }
 
+    .calendar__button--today {
+        position: absolute;
+        top: 29px;
+        left: 49px;
+        text-decoration: none;
+        height: 18px;
+        line-height: 18px;
+        border:solid 1px $bleu;
+        font-size: 14px;
+        background: $bleu;
+        color: #FFF;
+        padding: 0 10px;
+        z-index: 10;
+
+    }
+
     .calendar__block--currentmonth {
         margin: 0 auto;
         position: absolute;
         top: 0;
         bottom: 0;
-        right: 49px;
-        left: 49px;
+        // right: 49px;
+        // left: 49px;
+        right: 20px;
     }
 
     .calendar__header--weekdays {

@@ -23,6 +23,12 @@ $year = $data['year'];
                             <a href="/calendrier-des-formations/<?php echo $data['prev_month']['month'] ?>-<?php echo $data['prev_month']['year'] ?>" class="calendar__button calendar__button--previous">
                                 &nbsp;
                             </a>
+
+                            <a href="/calendrier-des-formations/" class="calendar__button--today">Aujourd'hui</a>
+
+                            <a href="/calendrier-des-formations/<?php echo $data['next_month']['month'] ?>-<?php echo $data['next_month']['year'] ?>" class="calendar__button calendar__button--next">
+                                &nbsp;
+                            </a>
                             <div class="calendar__block--currentmonth">
                                 <?php
                                 setlocale(LC_TIME, 'fr_FR');
@@ -31,9 +37,7 @@ $year = $data['year'];
                                 echo $actual_month;
                                 ?>
                             </div>
-                            <a href="/calendrier-des-formations/<?php echo $data['next_month']['month'] ?>-<?php echo $data['next_month']['year'] ?>" class="calendar__button calendar__button--next">
-                                &nbsp;
-                            </a>
+                            
                         </div>
                         <ul class="calendar__header--weekdays"><!--
                             <?php for ($i=0;$i<7;$i++) : ?>
