@@ -1,23 +1,19 @@
 <?php $current_date = null; ?>
 <?php $last_date = null; ?>
 
-<?php
-foreach ($objects as $key => $object) :
+<?php if (empty ($sessions) || count($sessions) == 0): ?>
+	<p>Aucune formation n'est prévue actuellement</p>
+<?php endif; ?>
+
+<?php foreach ($sessions as $key => $session) :
+	$formation = $formations[$session->formation->id]
 ?>
 
-<?php criWpPost($object); ?>
+<?php criWpPost($session); ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
-
-	<!-- POUR LES FORMATIONS LA DATE CORRESPOND A CELLE DU JOUR DE LA FORMATION ET NON A CELLE DE LA CREATION DE LA FORMATION EN BDD -->
+<article id="post-<?php $formation->post->ID; ?>" <?php post_class( 'cf', $formation->post->ID ); ?> role="article">
 	<?php
-	    if ( !empty($object->__model_name) && $object->__model_name == 'Formation' && !empty($object->custom_post_date) ){
-            $current_date = $object->custom_post_date;
-        } else {
-            if ($current_date != get_the_date('Y-m-d')) {
-                $current_date = get_the_date('Y-m-d');
-            }
-        }
+		$current_date = $session->date;
 	 ?>
 	<?php if ($last_date != $current_date) : ?>
 	    <div class="date sel-object-date">
@@ -29,47 +25,41 @@ foreach ($objects as $key => $object) :
     <?php endif; ?>
     <?php $last_date = $current_date ?>
 
-    <?php if ( !empty($object->__model_name) && $object->__model_name == 'Veille' && !empty($object->level) ){
-    	$niveau = 'niveau'.$object->level;
-    }
-    ?>
+	<div class="details">
+		<?php if ( isset($formation->matiere) ): ?>
 
-	<div class="details <?php if(!empty($niveau)){echo $niveau;} ?>">
-		<?php if ( isset($object->matiere) ): ?>
-			
 		<div class="block_left">
 			<div class="img-cat">
-				<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+				<img class="sel-object-picto" src="<?php echo $formation->matiere->picto ?>" alt="<?php echo $formation->matiere->label ?>" />
 			</div>
 		</div>
 		<?php endif ?>
 		<div class="block_right sel-object-content js-home-block-link" >
-		<?php //var_dump($this) ?>
-			<?php if ( isset($object->matiere) ): ?>
-			<div class="matiere"><?php echo $object->matiere->label ?></div>
-			<?php endif ?>
-			<h2><?php the_title() ?></h2>
-		<?php if (!empty($post->post_excerpt)): ?>	
-			<div class="chapeau">
-				<?php echo get_the_excerpt() ?>
-			</div>
-		<?php endif; ?>
-			<div class="extrait">
-				<?php echo wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 35, "..." ) ?>
-			</div>
-			<div class="lieux-formation">
-				<p class="organisme">Chambre de commerce de Lyon</p>
-				<p class="horaire">Le matin</p>
-			</div>
-			<ul class="mots_cles">
-			<?php 
-				$tags = get_the_tags();
-				if( $tags ) : foreach ($tags as $tag) :
-			 ?>
-				<li><?php echo $tag->name; ?></li>
-			<?php endforeach; endif; ?>
-			</ul>
-			<a href="<?php the_permalink(); ?>" title="<?php the_title() ?>">Lire</a>
+            <?php if ( isset($formation->matiere) ): ?>
+                <div class="matiere"><?php echo $formation->matiere->label ?></div>
+            <?php endif ?>
+            <h2><?php $formation->post->post_title ?></h2>
+            <?php if (!empty($formation->post_excerpt)): ?>
+                <div class="chapeau">
+                    <?php echo $formation->post->post_excerpt ?>
+                </div>
+            <?php endif; ?>
+            <div class="extrait">
+                <?php echo wp_trim_words( wp_strip_all_tags( $formation->post->post_content, true ), 35, "..." ) ?>
+            </div>
+            <div class="lieux-formation">
+                <p class="organisme"><?php echo $session->organisme->name ?></p>
+                <p class="horaire"><?php echo $session->timetable ?></p>
+            </div>
+            <ul class="mots_cles">
+                <?php
+                    $tags = get_the_tags($formation->post->ID);
+                    if( $tags ) : foreach ($tags as $tag) :
+                 ?>
+                    <li><?php echo $tag->name; ?></li>
+                <?php endforeach; endif; ?>
+            </ul>
+            <a href="<?php echo get_permalink($formation->post->ID); ?>" title="<?php $formation->post->post_title ?>">Lire</a>
 		</div>
 	</div>	
 </article>

@@ -13,23 +13,63 @@ class FormationsController extends BaseActuController
     protected $lastDayOfMonth;
 
     /**
-     * Action Archive
+     * Action Formations futures ( >= date du jour)
      */
     public function index()
     {
+        // Sessions futures : triées de la plus proche à la plus lointaine
+        $this->set('sessionsFutures', $this->getSessions($order = 'ASC', $which = 'future'));
+        $this->set('formations', $this->getAllFormations());
+    }
+
+    /**
+     * Action Formations passées ( < date du jour)
+     */
+    public function past()
+    {
+        // Sessions passées : triées de la plus récente à la plus ancienne
+        $this->set('sessionsPassees', $this->getSessions($order = 'DESC', $which = 'past' ));
+        $this->set('formations', $this->getAllFormations());
+    }
+
+    /**
+     * Retrieve all sessions
+     *
+     * @param $order : sort order
+     * @param $which : future or past sessions ?
+     * @return $sessions object
+     */
+    public function getSessions($order, $which = null) {
         $this->process_params_for_search();
-
-        // params
         $params = $this->params;
-        // Formations a venir : triées de la plus proche à la plus éloignée
-        $params['order']      = 'custom_post_date ASC';
-        $params['conditions'] = array('custom_post_date >= ' => date('Y-m-d'));
-        $collection = $this->model->paginate($params);
-        $formationsFutures = $collection['objects'];
+        $params['order']      = 'date '.$order;
 
-        // set object to template
-        $this->set('formationsFutures', $formationsFutures);
+        if(!empty($which)){
+            $sign = ($which == 'future' ? ' >= ' : ' < ');
+            $params['conditions'] = array('date'.$sign => date('Y-m-d'));
+        }
+
+        $modelSession = new Session();
+        $collection = $modelSession->paginate($params);
+        $sessions = $collection['objects'];
+
         $this->set_pagination($collection);
+        return $sessions;
+    }
+
+    /**
+     * Retrieve all formations as an array :
+     * (key) id_formation => (value) Formation
+     *
+     * @return array $allFormations
+     */
+    public function getAllFormations() {
+        $formations = $this->model->find();
+        $allFormations = array();
+        foreach($formations as $formation){
+            $allFormations [$formation->id] = $formation;
+        }
+        return $allFormations;
     }
 
     public function show(){
@@ -61,24 +101,6 @@ class FormationsController extends BaseActuController
             $this->set('sessions', $sessions);
         }
     }
-
-    public function past()
-    {
-        $this->process_params_for_search();
-
-        // params
-        $params = $this->params;
-        // Formations passées : triées de la plus récente à la plus ancienne
-        $params['order']      = 'custom_post_date DESC';
-        $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
-        // get collection
-        $collection = $this->model->paginate($params);
-        $formationsPassees = $collection['objects'];
-
-        $this->set('formationsPassees', $formationsPassees);
-        $this->set_pagination($collection);
-    }
-
 
     public function calendar()
     {
