@@ -16,6 +16,8 @@ readme.txt
 
 /.externalToolBuilders/
 
+/test/node_modules/
+
 ############
 ## Gulp
 ############

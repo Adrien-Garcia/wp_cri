@@ -1,17 +1,16 @@
 "use strict";
 
-// Utility
-const util = require('util'),
-    fs = require('fs');
+// Utility libraries
+const util = require('util');
+const fs = require('fs');
 
-// Selenium WebDriver
-const webdriver = require('selenium-webdriver'),
-    test = require('selenium-webdriver/testing'),
-    // Promise = webdriver.Promise,
-    By = webdriver.By,
-    until = webdriver.until;
-const firefox = require('selenium-webdriver/firefox'),
-    chrome = require('selenium-webdriver/chrome');
+// Selenium WebDriver libraries
+const webdriver = require('selenium-webdriver');
+const By = webdriver.By;
+const until = webdriver.until;
+const test = require('selenium-webdriver/testing');
+const firefox = require('selenium-webdriver/firefox');
+const chrome = require('selenium-webdriver/chrome');
 
 // Page Objects pattern
 const User = require('./src/page_context').User;
@@ -20,48 +19,17 @@ const page_index = require('./src/page_context').page_index;
 // Global scope variables
 var builder, driver, myUser;
 const debug = 0;
-const WINDOW_MIN_WIDTH=800,
-    WINDOW_MIN_HEIGHT=500;
+const WINDOW_MIN_WIDTH=1000;
+const WINDOW_MIN_HEIGHT = 500;
 const DISPLAY_TRANSITION_WIDTH=763; // limit between desktop and tablet display
 console.log('Base host URL: '+util.inspect(process.env.BASE_HOST_URL, true, 1, true));
 
 // Browser config (generated through 'jetdocker test')
-const browserName = process.env.SEL_BROWSER_NAME,
-    browserVersion = process.env.SEL_BROWSER_VERSION,
-    browserPlatform = process.env.SEL_BROWSER_PLATFORM,
-    browser = process.env.SELENIUM_BROWSER,
-    remoteUrl = process.env.SELENIUM_REMOTE_URL;
-if(debug){
-    console.log('browser: ' + browserName);
-    console.log('version: ' + browserVersion);
-    console.log('platform: ' + browserPlatform);
-    console.log('Selenium hub: ' + (remoteUrl ? remoteUrl : 'none'));
-}
-
-// NOTE Move to User API ?
-// Classic use : setupBrowser(myUser.driver,  myUser, done)
-const setupBrowser = function(driver, user, callback) {
-    driver
-    .manage()
-    .deleteAllCookies() // Cleans up temporary files
-    .then(function() {
-        return user.init(); // Refreshes landing page in browser and prepare data
-    }).then(function() {
-        callback();
-    }).catch(function(err) {
-        return callback(err);
-    });
-};
-
-const shutDownBrowser = function(driver, callback) {
-    driver
-    .quit()
-    .then(function() {
-        callback();
-    }).catch(function(err) {
-        return callback(err);
-    });
-};
+const browserName = process.env.SEL_BROWSER_NAME;
+const browserVersion = process.env.SEL_BROWSER_VERSION;
+const browserPlatform = process.env.SEL_BROWSER_PLATFORM;
+const browser = process.env.SELENIUM_BROWSER;
+const remoteUrl = process.env.SELENIUM_REMOTE_URL;
 
 /******************************************************************************/
 /********************************* TESTS **************************************/
@@ -83,22 +51,22 @@ test.describe('MOCHA - Tests Suite', function() {
             // profile.addExtension('./lib/adblock_plus-2.8.2-an+fx+sm+tb.xpi');
 
             let options = new firefox.Options()
-            .setProfile(profile);
+                .setProfile(profile);
 
             var wd = new webdriver.Builder()
-            .forBrowser(browserName, browserVersion, browserPlatform)
-            .setFirefoxOptions(options)
-            .build();
+                .forBrowser(browserName, browserVersion, browserPlatform)
+                .setFirefoxOptions(options)
+                .build();
 
             // Loading a page times out after driver.get(...) has been called
             wd.manage()
-            .timeouts()
-            .pageLoadTimeout(10000); // ~ 2000-15000
+                .timeouts()
+                .pageLoadTimeout(10000); // ~ 2000-15000
 
             // When a click() requests for a new page to get loaded
             wd.manage()
-            .timeouts()
-            .implicitlyWait(6000); // ~ 4000-8000
+                .timeouts()
+                .implicitlyWait(6000); // ~ 4000-8000
 
         } else { // browser != Firefox
             var wd = new webdriver.Builder()
@@ -119,6 +87,9 @@ test.describe('MOCHA - Tests Suite', function() {
         }).then(function(user) {
             return user.init()
             .then(function(user) {
+                // console.log('<TRACE>');
+                // console.log(util.inspect(user,  true, 4, true));
+                // console.log('</TRACE>');
                 return user;
             });
         }).then(function(user) {
@@ -143,23 +114,106 @@ test.describe('MOCHA - Tests Suite', function() {
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = process.env.SEL_DEFAULT_NODE_TLS_REJECT_UNAUTHORIZED;
         process.env.SEL_DEFAULT_NODE_TLS_REJECT_UNAUTHORIZED = undefined;
 
-        shutDownBrowser(driver, done);
+        myUser.shutDownBrowser(done);
     });
 
     // SUBSUITES
     test.describe('Given user is not authenticated', function() {
-        beforeEach(function(done) {
-            setupBrowser(driver, myUser, done);
+        before(function(done) {
+            myUser.setupBrowser(done);
         });
 
 
-        test.describe('Login panel', function() {
-            test.it('should open when clicking dashboard button', function(done) {
-                done();
+        test.describe('Homepage', function() {
+            test.it('should display header', function() {
+                return myUser.isElementVisibleByCss('.sel-header')
+                    .then(function(visible) {
+                        return visible;
+                    }).catch(function(err) {
+                        done(err);
+                    })
+                    .should.eventually.be.true;
             });
 
-        }); // End of suite 'Guest user'
+            test.it('should display footer', function() {
+                return myUser.isElementVisibleByCss('.sel-footer')
+                    .then(function(visible) {
+                        return visible;
+                    }).catch(function(err) {
+                        done(err);
+                    })
+                    .should.eventually.be.true;
+            });
 
+            test.it('contains link to "Vie du Cridon"', function() {
+                return myUser.isElementVisibleByCss('.sel-vie_cridon_link')
+                    .then(function(visible) {
+                        return visible;
+                    }).catch(function(err) {
+                        done(err);
+                    })
+                    .should.eventually.be.true;
+            });
+
+            test.it('contains link to "Veille juridique"', function() {
+                return myUser.isElementVisibleByCss('.sel-veille_cridon_link')
+                    .then(function(visible) {
+                        return visible;
+                    }).catch(function(err) {
+                        done(err);
+                    })
+                    .should.eventually.be.true;
+            });
+
+            test.it('contains link to "Cahiers du Cridon"', function() {
+                return myUser.isElementVisibleByCss('.cahier.js-home-block-link')
+                    .then(function(visible) {
+                        return visible;
+                    }).catch(function(err) {
+                        done(err);
+                    })
+                    .should.eventually.be.true;
+            });
+
+        }); // End of suite 'Homepage'
+
+        test.describe('Calendar', function() {
+            test.it('should ', function() {
+                return myUser.isElementVisibleByCss('.sel-header')
+                    .then(function(visible) {
+                        return visible;
+                    }).catch(function(err) {
+                        done(err);
+                    })
+                    .should.eventually.be.true;
+            });
+
+            test.it('should display footer', function() {
+                return myUser.isElementVisibleByCss('.sel-footer')
+                    .then(function(visible) {
+                        return visible;
+                    }).catch(function(err) {
+                        done(err);
+                    })
+                    .should.eventually.be.true;
+            });
+
+        }); // End of suite 'Calendar'
+
+        test.describe('Basic functionalities', function() {
+            test.it.only('Login from homepage', function(done) {
+
+                Promise.resolve()
+                    .then(function() {
+                        return myUser.logUser('69002', 'PQTR');
+                    }).then(function() {
+                        done();
+                    }).catch(function(err) {
+                        throw err;
+                });
+
+            });
+        })
     });
 
 });

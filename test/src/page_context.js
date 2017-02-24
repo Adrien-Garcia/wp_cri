@@ -84,17 +84,49 @@ User.prototype.init = function() {
     return this.driver
     .get(page_index.HomePage.url)
     .then(function() {
-        return new HomePage(that.driver, false).init();
+        return new HomePage(that.driver, false).init()
+            .then(function(page) {
+                return page;
+            });
     }).then(function(webpage) {
         that.page = webpage;
         return that;
     }, function(err) {
-        console.log(err);
-        return Promise.resolve(err);
+        console.log('problem within page creation');
+        throw err;
     }).catch(function(err) {
         throw err;
     });
 };
+User.prototype.setupBrowser = function(callback) {
+    let that = this;
+
+    this.driver
+        .manage()
+        .deleteAllCookies() // Cleans up temporary files
+        .then(function() {
+            return that.driver
+                .manage()
+                .window()
+                .maximize();
+        }).then(function() {
+        return that.init(); // Refreshes landing page in browser and prepare data
+    }).then(function() {
+            callback();
+        }).catch(function(err) {
+            return callback(err);
+        });
+};
+User.prototype.shutDownBrowser = function(callback) {
+    this.driver
+        .quit()
+        .then(function() {
+            callback();
+        }).catch(function(err) {
+            return callback(err);
+        });
+};
+
 /************************* Assertion methods **********************************/
 User.prototype.onAuthenticatedPage = function() {
     // assert(this.isAuthenticated == true, 'AuthenticationException: The user is currently not authenticated, while expected to be.');
@@ -501,6 +533,16 @@ User.prototype.checkHttpCode = function(url, code, callback) {
         callback(err);
     });
 };
+User.prototype.isElementVisibleByCss = function(css) {
+    return this.driver.findElement(By.css(css))
+        .then(function() {
+            return true;
+        }, function() {
+            return false;
+        }).catch(function(err) {
+            throw err;
+        })
+};
 User.prototype.isAuthenticated = function() {
     return this.page.isAuthenticatedPage()
     .should
@@ -627,6 +669,13 @@ User.prototype.throwCustomException = function(errType, message) {
     throw new errType(message);
 }
 /********************************</TESTS>**************************************/
+/******************************************************************************/
+/*******************************<CRIDON>***************************************/
+User.prototype.logUser = function(username, password) {
+    console.log(util.inspect(this.page, true, 2, true));
+    return this.page.header.logUser(username, password);
+};
+/******************************</CRIDON>***************************************/
 /******************************************************************************/
 /*******************************<EXPORT />*************************************/
 module.exports.User = User;

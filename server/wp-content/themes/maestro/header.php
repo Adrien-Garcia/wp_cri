@@ -163,7 +163,7 @@ echo get_template_part("content","ga");
 						</p>
 					<?php endif; ?>
 
-					<nav id="menu" role="navigation">
+					<nav id="menu" class="sel sel-nav-header" role="navigation">
 						<?php // nav_principal(); ?>
 
 						<?php echo get_template_part("content","menu"); ?>
@@ -174,7 +174,7 @@ echo get_template_part("content","ga");
 
 					<a id="bt-nav-mobile" href="#menu_mobile"></a>
 					<?php if (!is_user_logged_in() || (is_user_logged_in() && !CriIsNotaire() ) ) : ?>
-						<div id="bt-account" class="js-panel-connexion-open sel-open-onglet-connexion"></div>
+						<div id="bt-account" class="js-panel-connexion-open"></div>
 					<?php else: ?>
 						<a id="bt-account" class="sel-open-onglet-connexion" href="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')); ?>" ></a>
 					<?php endif; ?>
@@ -193,7 +193,7 @@ echo get_template_part("content","ga");
 							<form action="header_submit" method="" accept-charset="utf-8" id="loginFormId">
 								<input type="text" class="js-panel-connexion-reset-error js-login-login-field" name="loginFieldId" value="" id="loginFieldId" placeholder="Votre CRPCEN">
 								<input type="password" class="js-panel-connexion-reset-error js-login-password-field" name="passwordFieldId" value="" id="passwordFieldId" placeholder="Votre mot de passe">
-								<input type="submit" name="submit" value="Connectez-vous">
+								<input type="submit" class="sel sel-submit_button-login" name="submit" value="Connectez-vous">
 							</form>
 							<a href="#" id="mdp_oublie" class="js-panel-connexion-to-mdp">> Mot de passe oublié ? <</a>
 							<div id="errorMsgId" class="js-login-error-message-block">

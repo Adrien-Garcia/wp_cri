@@ -7,10 +7,11 @@ const util = require('util');
 
 const debug = 0;
 
-function WebPage (webdriver) {
+function WebPage (webdriver, data) {
     if (!(this instanceof WebPage))
         throw new SyntaxError(this.constructor.name + " constructor needs to be called with the 'new' keyword.");
     this.driver = webdriver;
+    Object.assign(this, JSON.parse(JSON.stringify(data)));
 }
 
 // Prototype linkage
@@ -55,7 +56,7 @@ WebPage.prototype.init = function() {
                 console.log('Ended DOM elements initiation successfully, final object is :');
                 that.print();
             }
-            return Promise.resolve(that);
+            return that;
         });
 };
 /**Initializes the current WebPage with its attributes
@@ -75,12 +76,16 @@ WebPage.prototype.initComponents = function() {
                 throw new Error('Could not detect authentication status (returned ' + authStatus +')');
             }
         }).then(function() {
-            console.log(that.constructor.name+'__: '+util.inspect(that, true, 2, true));
-            console.dir(that.components);
+            // console.log(that.constructor.name+'__: '+util.inspect(that, true, 2, true));
+            // console.dir(that.components);
 
-            Object.keys(that.components).forEach(function(componentType) {
-                Object.keys(that.components[componentType]).forEach(function(component) {
-                    that[component] = new (require('../components/'+componentType))(that.driver, that.components[componentType][component]);
+            Object.keys(that.components).forEach(function(componentClass) {
+                Object.keys(that.components[componentClass]).forEach(function(component) {
+                    let comp = new (require('../components/'+componentClass))(that.driver, that.components[componentClass][component]);
+                    return comp.init()
+                        .then(function() {
+                            return that[component] = comp;
+                        });
                 });
             });
             return that;
@@ -89,7 +94,7 @@ WebPage.prototype.initComponents = function() {
 
 WebPage.prototype.checkAuthenticationStatus = function() {
     let that = this;
-    var loginButton = this.driver.findElement(By.css(".sel-open-onglet-connexion"));
+    let loginButton = this.driver.findElement(By.css(".sel-open-onglet-connexion"));
 
     return this.driver.actions()
         .mouseMove(loginButton)
