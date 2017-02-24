@@ -41,9 +41,8 @@ const debug = 0;
  * @param webdriver {WebDriver} The Selenium webdriver currently running.
  * @param isAuthenticated {boolean} True if user has authenticated himself.
  */
-function HomePage (webdriver, selector) {
-	WebPage.call(this, webdriver);
-	Object.assign(this, JSON.parse(JSON.stringify(pageData)));
+function HomePage (webdriver) {
+	WebPage.call(this, webdriver, pageData);
 } // <== End of HomePage constructor
 
 // Prototype linkage
