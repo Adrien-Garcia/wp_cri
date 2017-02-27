@@ -220,17 +220,19 @@ function getPushFormations ($nb_date) {
         'group' => 's.date'
     );
     $futureDateCount = mvc_model('QueryBuilder')->countItems('session', $options, 's.id');
+    //Si moins de $nb_date => On récupère les formations en partant de la dernière
     if ($futureDateCount < $nb_date) {
         //condition : date < max(date)
         $date = '';
         $order = 'DESC';
     } else {
+    //Si plus de $nb_date => On récupère les prochaines formations en partant de J+1
         //condition : date > date du jour
         $date = 'AND s.date > "' . date('Y-m-d') . '"';
         $order = 'ASC';
     }
 
-    // On récupère toutes les sessions des dates souhaitées
+    // On récupère toutes les sessions des dates souhaitées trié par date puis id descendant
     $sessions = $wpdb->get_results(
         'SELECT s.id as session_id, s.date as session_date, s.timetable as session_timetable,p.*,o.*,m.* FROM cri_session as s
         INNER JOIN cri_organisme o ON s.id_organisme = o.id
@@ -250,6 +252,7 @@ function getPushFormations ($nb_date) {
         WHERE p.post_status = "publish"
         ORDER BY CAST(s.date AS DATE) DESC, s.id DESC');
 
+    // Si plus d'une session dans la journée, on set 'isOneOfMany' à 1
     $lastDate = '';
     $finalSessions = array();
     foreach ($sessions as $session) {
