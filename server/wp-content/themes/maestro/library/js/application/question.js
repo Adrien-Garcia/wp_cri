@@ -147,6 +147,16 @@ App.Question = {
             this.openTabQuestionExpertise(false);
         }
 
+        if(App.Utils.device.mobile === 0 && App.Utils.device.tablet === false ){
+
+            jQuery('#question_message').textareafullscreen({
+                overlay: true, // Overlay
+                maxWidth: '1200px', // Max width
+                maxHeight: '820px'// Max height
+            });
+
+        }
+
 
         this.debug('Question : init end');
     },

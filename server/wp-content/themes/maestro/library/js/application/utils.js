@@ -40,6 +40,10 @@ App.Utils = {
 
         this.device.ios = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
 
+        this.device.mobile = /IEMobile|Windows Phone|Lumia/i.test(navigator.userAgent) ? 'w' : /iPhone|iP[oa]d/.test(navigator.userAgent) ? 'i' : /Android/.test(navigator.userAgent) ? 'a' : /BlackBerry|PlayBook|BB10/.test(navigator.userAgent) ? 'b' : /Mobile Safari/.test(navigator.userAgent) ? 's' : /webOS|Mobile|Tablet|Opera Mini|\bCrMo\/|Opera Mobi/i.test(navigator.userAgent) ? 1 : 0;
+
+        this.device.tablet = /Tablet|iPad/i.test(navigator.userAgent);
+
         if (location.hash) {
             App.Utils.scrollTop(700, location.hash);
         }
