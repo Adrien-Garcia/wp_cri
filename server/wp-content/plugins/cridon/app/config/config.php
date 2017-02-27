@@ -393,7 +393,7 @@ class Config {
             'edit'   => 'Modifier les informations d\'une session de formation'
         ),
         'evenement' => array(
-            'add'    => 'Ajout d\'un nouvel évènment',
+            'add'    => 'Ajout d\'un nouvel évènement',
             'edit'   => 'Modifier les informations d\'un évènement'
         )
     );
