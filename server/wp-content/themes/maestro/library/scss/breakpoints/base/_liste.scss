@@ -395,13 +395,14 @@
 
 							.lieux-formation {
 								.organisme {
-									@include do-me;
+									@include do-bo;
 									font-size: 15px;
-									margin-bottom: 11px;
+									margin-bottom: 7px;
 								}
-								.matiere {
+
+								.horaire {
 									@include do-re;
-									margin-top: 16px;
+									margin-top: 10px;
 									font-size: 15px;
 									position: relative;
 
@@ -409,11 +410,10 @@
 										content: '';
 									    width: 40px;
 									    height: 1px;
-									    background: #fff;
+									    background: $bleu;
 									    position: absolute;
-									    top: -8px;
-									    left: 50%;
-									    margin-left: -20px;
+									    top: -5px;
+									    left: 0;
 									}
 								}
 							}
