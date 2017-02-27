@@ -18,7 +18,7 @@ class FormationsController extends BaseActuController
     public function index()
     {
         // Sessions futures : triées de la plus proche à la plus lointaine
-        $this->set('sessionsFutures', $this->getSessions($order = 'ASC', $which = 'future'));
+        $this->set('sessionsFutures', $this->getSessions('ASC', true));
         $this->set('formations', $this->getAllFormations());
     }
 
@@ -28,7 +28,7 @@ class FormationsController extends BaseActuController
     public function past()
     {
         // Sessions passées : triées de la plus récente à la plus ancienne
-        $this->set('sessionsPassees', $this->getSessions($order = 'DESC', $which = 'past' ));
+        $this->set('sessionsPassees', $this->getSessions('DESC', false ));
         $this->set('formations', $this->getAllFormations());
     }
 
@@ -36,18 +36,16 @@ class FormationsController extends BaseActuController
      * Retrieve all sessions
      *
      * @param $order : sort order
-     * @param $which : future or past sessions ?
+     * @param $future : future or past sessions ?
      * @return $sessions object
      */
-    public function getSessions($order, $which = null) {
+    public function getSessions($order, $future = true) {
         $this->process_params_for_search();
         $params = $this->params;
         $params['order']      = 'date '.$order;
 
-        if(!empty($which)){
-            $sign = ($which == 'future' ? ' >= ' : ' < ');
-            $params['conditions'] = array('date'.$sign => date('Y-m-d'));
-        }
+        $sign = ($future ? ' >= ' : ' < ');
+        $params['conditions'] = array('date'.$sign => date('Y-m-d'));
 
         $modelSession = new Session();
         $collection = $modelSession->paginate($params);
