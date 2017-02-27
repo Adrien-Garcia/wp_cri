@@ -304,14 +304,228 @@ class FormationsController extends BaseActuController
         return $data;
     }
 
+    protected function _validateFormulaire ($params, $type)
+    {
+        $element = false;
+        $error = false;
+        $model_session = mvc_model('Session');
+        $model_formation = mvc_model('Formation');
+        /**
+         * @var $model Formation
+         */
+        switch ($type) {
+            case CONST_FORMATION_PREINSCRIPTION :
+                $model = $model_session;
+                break;
+            case CONST_FORMATION_DEMANDE :
+                $model = $model_formation;
+                break;
+            default :
+            case CONST_FORMATION_GENERIQUE :
+                $model = false;
+                break;
+        }
+
+        if ($model) {
+            if (empty($params['id'])) {
+                $error = array('error' => 'Element non précisé', 'errorCode' => 'noid');
+            } else {
+                $id = $params['id'];
+                $element = $model->find_by_id($id);
+                if (empty($element)) {
+                    $error = array('error' => 'Id d\'élément inexistant', 'errorCode' => 'noelement');
+                }
+            }
+        } else {
+            $element = [1];
+        }
+
+        if (empty($params['formationCommentaire'])) {
+            $error =  array('error'=>'Veuillez remplir les champs obligatoires.', 'errorCode' => 'nocommentaire');
+        }
+
+        if ($type == CONST_FORMATION_PREINSCRIPTION || $type == CONST_FORMATION_DEMANDE) {
+            if (empty($params['formationParticipants'])) {
+                $error =  array('error'=>'Veuillez remplir les champs obligatoires.', 'errorCode' => 'noparticipant');
+            }
+        } else {
+            if (empty($params['formationTheme'])) {
+                $error =  array('error'=>'Veuillez remplir les champs obligatoires.', 'errorCode' => 'notheme');
+            }
+        }
+
+        if ($error) {
+            return $error;
+        }
+        return $element;
+    }
+
+    protected function _processFormulaire ($params, $type) {
+        $element = $this->_validateFormulaire($params, $type);
+        if (is_array($element) && !empty($element['error'])) {
+            return $element;
+        }
+        $model_formation = mvc_model('Formation');
+
+        $formationCommentaire = wp_kses(nl2br($params['formationCommentaire']), Config::$allowedMailTags);
+
+        if ($type == CONST_FORMATION_PREINSCRIPTION || $type == CONST_FORMATION_DEMANDE) {
+            $formationParticipants = sanitize_text_field($params['formationParticipants']);
+        } else {
+            $formationTheme = sanitize_text_field($params['formationTheme']);
+        }
+
+        switch ($type) {
+            case CONST_FORMATION_PREINSCRIPTION :
+                $model_formation->sendEmailPreinscription($element, $formationParticipants, $formationCommentaire);
+                break;
+            case CONST_FORMATION_DEMANDE :
+                $model_formation->sendEmailDemande($element, $formationParticipants, $formationCommentaire);
+                break;
+            case CONST_FORMATION_GENERIQUE :
+                $model_formation->sendEmailGenerique($formationTheme, $formationCommentaire);
+                break;
+        }
+        return array('valid'=>' Votre demande a bien été envoyée. ');
+
+    }
+
+
+
+    /**
+     * Content Block (AJAX Friendly)
+     *
+     * @return void
+     */
+    public function contentdemande()
+    {
+        if ( !CriIsNotaire() ) {
+            CriRefuseAccess();
+        }
+        $params = $this->params;
+
+        $return = $this->_processFormulaire($params, CONST_FORMATION_DEMANDE);
+
+        echo json_encode($return);
+        die();
+    }
+
+    /**
+     * Content Block (AJAX Friendly)
+     *
+     * @return void
+     */
+    public function contentdemandegenerique()
+    {
+        if ( !CriIsNotaire() ) {
+            CriRefuseAccess();
+        }
+        $params = $this->params;
+
+        $return = $this->_processFormulaire($params, CONST_FORMATION_GENERIQUE);
+
+        echo json_encode($return);
+        die();
+    }
+
+    /**
+     * Content Block (AJAX Friendly)
+     *
+     * @return void
+     */
+    public function contentpreinscription()
+    {
+        if ( !CriIsNotaire() ) {
+            CriRefuseAccess();
+        }
+        $params = $this->params;
+
+        $return = $this->_processFormulaire($params, CONST_FORMATION_PREINSCRIPTION);
+
+        echo json_encode($return);
+        die();
+    }
+
+    public function demandegenerique() {
+        if ( !CriIsNotaire() ) {
+            CriRefuseAccess();
+        }
+        $params = $this->params;
+
+        $demandeGenerique = array(
+            'ajax-action' => MvcRouter::public_url(array(
+                'controller'=> 'formations',
+                'action' => 'contentdemandegenerique',
+            )).(!empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '')
+        );
+        $this->set('demandeGenerique', $demandeGenerique);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $return = $this->_processFormulaire($params, CONST_FORMATION_GENERIQUE);
+
+            foreach ($return as $key => $item) {
+                $this->set($key, $item);
+            }
+        }
+    }
+
+    public function demande()
+    {
+        if ( !CriIsNotaire() ) {
+            CriRefuseAccess();
+        }
+        $params = $this->params;
+        $formation = false;
+        if (!empty($params['id'])) {
+            $formationId = $params['id'];
+            $formation = mvc_model('Formation')->find_by_id($formationId);
+
+            if (empty($formation)) {
+                $params['id'] = null;
+                $url = MvcRouter::public_url(array(
+                        'controller'=> 'formations',
+                        'action' => 'demandegenerique',
+                    )
+                );
+                wp_redirect($url);
+            }
+        }
+
+        $demandeFormation = array(
+            'formation' => array(
+                'title' => $formation->post->post_title,
+                'content' => $formation->post->post_content,
+                'url' => MvcRouter::public_url(array(
+                    'controller'=> 'formations',
+                    'action' => 'show',
+                    'id' => $formation->id
+                )),
+            ),
+            'ajax-action' => MvcRouter::public_url(array(
+                'controller'=> 'formations',
+                'action' => 'contentdemande',
+                'id' => $formation->id,
+            )).(!empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '')
+            ,
+        );
+        $this->set('demandeFormation', $demandeFormation);
+
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $return = $this->_processFormulaire($params, CONST_FORMATION_DEMANDE);
+
+            foreach ($return as $key => $item) {
+                $this->set($key, $item);
+            }
+        }
+    }
+
     public function preinscription()
     {
         if ( !CriIsNotaire() ) {
             CriRefuseAccess();
         }
-        $notaire = mvc_model('Notaire')->getUserConnectedData();
         $params = $this->params;
-        $ajax = true;
         $session = false;
         if (!empty($params['id'])) {
             $sessionId = $params['id'];
@@ -326,141 +540,44 @@ class FormationsController extends BaseActuController
             $session = reset($session);
         }
 
-        if (empty($session)) {
+        if (empty($session) || !$session->organisme->is_cridon) {
             $params['id'] = null;
             $url = MvcRouter::public_url(array(
                     'controller'=> 'formations',
-                    'action' => 'demande',
-                    'id' => ''
+                    'action' => 'demandegenerique',
                 )
             );
             wp_redirect($url);
         }
 
-        if ($session->organisme->is_cridon) {
-            $preinscription = array(
-                'formation' => array(
-                    'title' => $session->formation->post->post_title,
-                    'content' => $session->formation->post->post_content,
-                    'url' => MvcRouter::public_url(array(
+        $preinscription = array(
+            'formation' => array(
+                'title' => $session->formation->post->post_title,
+                'content' => $session->formation->post->post_content,
+                'url' => MvcRouter::public_url(array(
                         'controller'=> 'formations',
                         'action' => 'show',
                         'id' => $session->formation->id,
                     )).'?'.http_build_query(array('sessionid' => $session->id)),
-                    'organisme' => $session->organisme->name,
-                    'city' => $session->organisme->city,
-                    'time' => $session->timetable,
-                    '_formation' => $session->formation,
-                    '_session' => $session,
-                ),
-            );
+                'organisme' => $session->organisme->name,
+                'city' => $session->organisme->city,
+                'time' => $session->timetable
+            ),
+            'ajax-action' => MvcRouter::public_url(array(
+                'controller'=> 'formations',
+                'action' => 'contentpreinscription',
+                'id' => $session->id,
+            )).(!empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '')
+        );
 
-            $this->set('preinscription', $preinscription);
+        $this->set('preinscription', $preinscription);
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $return = $this->_processFormulaire($params, CONST_FORMATION_PREINSCRIPTION);
 
-            if (!empty($params['formationForm'])) {
-
-                if (!empty($params['formationParticipants']) && !empty($params['formationCommentaire'])) {
-                    $formationParticipants = sanitize_text_field($params['formationParticipants']);
-                    $formationCommentaire = wp_kses(nl2br($params['formationCommentaire']), Config::$allowedMailTags);
-
-                    mvc_model('formation')->sendEmailPreinscription($session, $formationParticipants, $formationCommentaire);
-
-                    $ajax = array('valid' => ' Votre demande a bien été envoyée. ');
-                    $this->set('valid', ' Votre demande a bien été envoyée. ');
-                } else {
-                    $ajax = array('error' => 'Veuillez remplir les champs obligatoires.');
-                    $this->set('error', 'Veuillez remplir les champs obligatoires.');
-                }
+            foreach ($return as $key => $item) {
+                $this->set($key, $item);
             }
-        }
-        if (!empty($params['formationSubmit']) && !empty($params['formationNotaire'])) {
-            $ajax = false;
-        }
-        if (!empty($ajax) && !empty($params['formationForm'])) {
-            echo json_encode($ajax);
-            die();
-        }
-    }
-
-
-    public function demande()
-    {
-        if ( !CriIsNotaire() ) {
-            CriRefuseAccess();
-        }
-        $params = $this->params;
-        $ajax = true;
-        $formation = false;
-        if (!empty($params['id'])) {
-            $formationId = $params['id'];
-            $formation = mvc_model('Formation')->find_by_id($formationId);
-
-            if (empty($formation)) {
-                $params['id'] = null;
-                $url = MvcRouter::public_url(array(
-                        'controller'=> 'formations',
-                        'action' => 'demande',
-                        'id' => ''
-                    )
-                );
-                wp_redirect($url);
-            }
-        }
-
-        if (!$formation) { // Demande Générique (pas d'id de formation)
-            $demandeGenerique = array('1');
-            $this->set('demandeGenerique', $demandeGenerique);
-
-            if (!empty($params['formationForm'])) {
-                if (!empty($params['formationCommentaire']) && !empty($params['formationTheme'])) {
-                    $formationTheme = sanitize_text_field($params['formationTheme']);
-                    $formationCommentaire = wp_kses(nl2br($params['formationCommentaire']), Config::$allowedMailTags);
-
-                    mvc_model('formation')->sendEmailGenerique($formationTheme, $formationCommentaire);
-                    $ajax = array('valid'=>' Votre demande a bien été envoyée. ');
-                    $this->set('valid', ' Votre demande a bien été envoyée. ');
-                } else {
-                    $ajax = array('error'=>'Veuillez remplir les champs obligatoires.');
-                    $this->set('error', 'Veuillez remplir les champs obligatoires.');
-                }
-            }
-        } else {
-            $demandeFormation = array(
-                'formation' => array(
-                    'title' => $formation->post->post_title,
-                    'content' => $formation->post->post_content,
-                    'url' => MvcRouter::public_url(array(
-                        'controller'=> 'formations',
-                        'action' => 'show',
-                        'id' => $formation->id
-                    )),
-                    '_formation' => $formation,
-                ),
-            );
-            $this->set('demandeFormation', $demandeFormation);
-
-            if (!empty($params['formationForm'])) {
-                if (!empty($params['formationParticipants']) && !empty($params['formationCommentaire'])) {
-                    $formationParticipants = sanitize_text_field($params['formationParticipants']);
-                    $formationCommentaire = wp_kses(nl2br($params['formationCommentaire']), Config::$allowedMailTags);
-
-                    mvc_model('formation')->sendEmailDemande($formation, $formationParticipants, $formationCommentaire);
-
-                    $ajax = array('valid'=>' Votre demande a bien été envoyée. ');
-                    $this->set('valid', ' Votre demande a bien été envoyée. ');
-                } else {
-                    $ajax = array('error'=>'Veuillez remplir les champs obligatoires.');
-                    $this->set('error', 'Veuillez remplir les champs obligatoires.');
-                }
-            }
-        }
-        if (!empty($params['formationSubmit']) && !empty($params['formationNotaire'])) {
-            $ajax = false;
-        }
-        if (!empty($ajax) && !empty($params['formationForm'])) {
-            echo json_encode($ajax);
-            die();
         }
     }
 

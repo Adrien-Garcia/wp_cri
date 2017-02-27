@@ -53,8 +53,8 @@ App.Formation = {
         var self = this;
         this.debug(self.$form.serialize());
         $.ajax({
-            url: self.$form[0].action,
-            data: self.$form.serialize(),
+            url: self.$form.first().data('ajax'),
+            data: self.$form.first().serialize(),
             success: function (_data) {
                 var data = JSON.parse(_data);
                 if (data.valid) {

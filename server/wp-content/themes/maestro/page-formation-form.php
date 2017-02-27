@@ -79,7 +79,7 @@
 							<!-- Fin -->
                             <?php endif; ?>
 
-							<form action="" method="post" class="js-formation-formulaire">
+							<form action="" data-ajax="<?php echo $demande['ajax-action'] ; ?>" method="post" class="js-formation-formulaire">
                                 <input type="hidden" name="formationForm" value="send">
                                 <?php if (!empty($preinscription) || !empty($demandeFormation)) : ?>
                                 <div>
