@@ -16,6 +16,8 @@ App.Calendar = {
     $sessionBlock: null,
     $sessionCloseBlock: null,
 
+    ellipsisInterval: false,
+
     init: function () {
         var self = this;
         this.debug('init start');
@@ -26,9 +28,8 @@ App.Calendar = {
         this.$sessionCloseBlock = $(this.sessionBlockCloseSelector);
 
         enquire.register('screen and (min-width: 1240px)', function () {
-            self.$ellipsis.each(function () {
-                App.Utils.multilineEllipsis(this);
-            });
+            self.sessionNameEllipsis();
+
             $('.calendar__day-sessions--scrollable').each(function () {
                 var scrollable = this;
                 var rapport = $(scrollable).innerHeight() / scrollable.scrollHeight;
@@ -39,6 +40,9 @@ App.Calendar = {
             self.$ellipsis.each(function () {
                 App.Utils.unEllipsis(this);
             });
+            if (self.ellipsisInterval !== false) {
+                window.clearInterval(self.ellipsisInterval);
+            }
         });
 
         this.addListeners();
@@ -129,6 +133,13 @@ App.Calendar = {
         this.$sessionBlock
             .find('calendar__session-block-content').html('');
         $(document).off('click.calendar.hideSession');
+    },
+
+    sessionNameEllipsis: function () {
+        var self = this;
+        self.$ellipsis.each(function () {
+            App.Utils.multilineEllipsis(this);
+        });
     },
 
     debug: function (t) {

@@ -128,9 +128,15 @@ App.Utils = {
     },
 
     multilineEllipsis: function (el) {
-        var wordArray = el.innerHTML.split(' ');
+        var wordArray = [];
+        if (typeof el.dataset.innerHTML !== 'undefined') {
+            el.innerHTML = el.dataset.innerHTML;
+        }
         el.dataset.innerHTML = el.innerHTML;
-        while (el.scrollHeight > el.offsetHeight && wordArray.length > 0) {
+
+        wordArray = el.innerHTML.split(' ');
+
+        while (el.scrollHeight > (el.offsetHeight + 1) && wordArray.length > 1) {
             wordArray.pop();
             el.innerHTML = wordArray.join(' ') + '&hellip;';
         }
