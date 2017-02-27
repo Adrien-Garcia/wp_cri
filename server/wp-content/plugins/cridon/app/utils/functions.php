@@ -888,13 +888,36 @@ function CriBreadcrumb()
                                                             'controller' => $mvc_params['controller']
                                                         ));
                 $vars['breadcrumbs'][] = $archive;
-            } else if ($mvc_params['controller'] == 'formations' && $mvc_params['action'] == 'calendar') {
+            } else if ($mvc_params['controller'] == 'formations' ) {
                 $archive               = new stdClass();
-                $archive->title        = 'Calendrier des formations';
-                $archive->url          = mvc_public_url(array(
-                    'controller' => $mvc_params['controller'],
-                    'action' => $mvc_params['action'],
-                ));
+                if ($mvc_params['action'] == 'calendar') {
+                    $archive->title        = 'Calendrier des formations';
+                    $archive->url          = mvc_public_url(array(
+                        'controller' => $mvc_params['controller'],
+                        'action' => $mvc_params['action'],
+                    ));
+                } else if ($mvc_params['action'] == 'demande') {
+                    $archive->title        = 'Demande de formation';
+                    $archive->url          = mvc_public_url(array(
+                        'controller' => $mvc_params['controller'],
+                        'action' => $mvc_params['action'],
+                        'id' => ''
+                    ));
+                    if (!empty($mvc_params['id'])) {
+                        $archive->url          = mvc_public_url(array(
+                            'controller' => $mvc_params['controller'],
+                            'action' => $mvc_params['action'],
+                            'id' => $mvc_params['id']
+                        ));
+                    }
+                } else if ($mvc_params['action'] == 'preinscription') {
+                    $archive->title        = 'Demande de préinscription';
+                    $archive->url          = mvc_public_url(array(
+                        'controller' => $mvc_params['controller'],
+                        'action' => $mvc_params['action'],
+                        'id' => $mvc_params['id']
+                    ));
+                }
                 $vars['breadcrumbs'][] = $archive;
 
             } else {

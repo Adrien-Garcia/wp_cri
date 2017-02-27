@@ -269,12 +269,22 @@ class FormationsController extends BaseActuController
             }
 
             if ($session->organisme->is_cridon) { // Cell B2 (préinscription)
-                $data ['action'] = '/session-pre-inscription-cridon';
+                $urlOptions = array(
+                    'controller' => 'formations',
+                    'action'     => 'preinscription',
+                    'id'         => $session->id
+                );
+                $data ['action'] = MvcRouter::public_url($urlOptions);
                 $data ['action_label'] = 'Se pré-inscrire';
             } else if ($etudeIsAssociatedToOrganisme) { // Cell C2 (informations contact)
                 $data ['contact_organisme'] = true;
             } else { // Cell D2 (contact Cridon)
-                $data ['action'] = '/session-contact-cridon';
+                $urlOptions = array(
+                    'controller' => 'formations',
+                    'action'     => 'demande',
+                    'id'         => $session->id_formation
+                );
+                $data ['action'] = MvcRouter::public_url($urlOptions);
                 $data ['action_label'] = 'Contacter le CRIDON LYON';
             }
 
