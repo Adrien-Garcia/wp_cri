@@ -2,15 +2,7 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
 	<?php
     if (!empty($sessions)){
-        foreach ($sessions as $session) {
-            if ($session->selected) {
-                $nextSession = $session;
-                break;
-            }
-        }
-        if (empty($nextSession)) {
-            $nextSession = reset($sessions);
-        }
+        $nextSession = !empty($highlight) ? $highlight : reset($sessions);
 
     ?>
     	<div class="date sel-object-date">

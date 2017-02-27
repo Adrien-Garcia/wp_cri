@@ -36,6 +36,7 @@ class FormationsController extends BaseActuController
         $params = $this->params;
         parent::show();
         $formation = $this->object;
+        $highlight = false;
         if (!empty($formation->id)) {
             $options = array(
                 'conditions' => array(
@@ -52,18 +53,18 @@ class FormationsController extends BaseActuController
                 $modelEtude = new Etude();
                 $organismesAssociatedToEtude = $modelEtude->getOrganismesAssociatedToEtude($notaire->crpcen);
             }
+            $highlight = reset($sessions);
             foreach($sessions as $key => $session){
                 $data = $this->addContactAction($session,$organismesAssociatedToEtude, false);
                 $sessions[$key]->action = $data ['action'];
                 $sessions[$key]->action_label = $data ['action_label'];
                 $sessions[$key]->contact_organisme = $data ['contact_organisme'];
                 if (!empty($params['sessionid']) && $sessions[$key]->id === $params['sessionid']) {
-                    $sessions[$key]->selected = true;
-                } else {
-                    $sessions[$key]->selected = false;
+                    $highlight = $sessions[$key];
                 }
             }
             // Pass data to the single-formation view
+            $this->set('highlight', $highlight);
             $this->set('sessions', $sessions);
         }
     }
