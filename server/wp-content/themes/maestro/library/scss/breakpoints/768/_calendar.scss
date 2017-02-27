@@ -24,7 +24,7 @@ CALENDAR STYLES
     }
 
     .calendar__day-event {
-        @include no-ellipsis;
+        //@include no-ellipsis;
         display: block;
         width: $calendar-sidebar-width;
         line-height: 13px;
