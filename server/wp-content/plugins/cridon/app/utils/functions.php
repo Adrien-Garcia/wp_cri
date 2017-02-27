@@ -215,7 +215,7 @@ function getPushFormations ($nb_date) {
         ),
         'conditions' => array(
             'p.post_status' => 'publish',
-            's.date >= ' => date('Y-m-d')
+            's.date > ' => date('Y-m-d')
         ),
         'group' => 's.date'
     );
