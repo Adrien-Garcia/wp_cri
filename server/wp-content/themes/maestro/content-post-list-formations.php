@@ -51,14 +51,6 @@
                 <p class="organisme"><?php echo $session->organisme->name ?></p>
                 <p class="horaire"><?php echo $session->timetable ?></p>
             </div>
-            <ul class="mots_cles">
-                <?php
-                    $tags = get_the_tags($formation->post->ID);
-                    if( $tags ) : foreach ($tags as $tag) :
-                 ?>
-                    <li><?php echo $tag->name; ?></li>
-                <?php endforeach; endif; ?>
-            </ul>
             <a href="<?php echo get_permalink($formation->post->ID); ?>" title="<?php $formation->post->post_title ?>">Lire</a>
 		</div>
 	</div>	
