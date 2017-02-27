@@ -33,7 +33,7 @@ class AdminEvenementsController extends BaseAdminController
             'label' => 'Évènement',
         ),
         'date' => array(
-            'label' => 'Date de la session',
+            'label' => 'Jour de l\'évènement',
         ),
     );
 
