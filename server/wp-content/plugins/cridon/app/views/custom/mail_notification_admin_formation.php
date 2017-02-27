@@ -89,7 +89,7 @@
 
             <span class="s">
                 <?php echo $notaire['crpcen']; ?>, <?php echo $notaire['lname']; ?> <?php echo $notaire['fname']; ?>
-                <a href="mailto:<?php echo $notaire['mail']; ?>"><?php echo $notaire['mail']; ?></a>
+                <a href="mailto:<?php echo $notaire['mail']; ?>" style="color: #2e4867;"><?php echo $notaire['mail']; ?></a>
             </span>
             <br /><br />
             <h3>La demande</h3>
@@ -134,12 +134,13 @@
                 <a href="mailto:<?php echo $notaire['mail']; ?>"><?php echo $notaire['mail']; ?></a>
             </span>
             <br /><br /><br />
-            <span class="newsletter_date"><?php echo $date ; ?></span><br/><br />
-            <span class="section"><?php echo $name ; ?></span> <br />
-            <span class="introduction"><?php echo $organisme ; ?></span><br />
+            Formation : <span class="section"><?php echo $name ; ?></span> <br /><br />
+            <span class="newsletter_date">le <?php echo $date ; ?></span><br/>
+            <span class="introduction">au <?php echo $organisme ; ?></span><br />
             <br />
             <u>Nombre de participant</u> : <?php echo $participants ; ?><br />
-            <u>Commentaires</u> : <br />
+            <br />
+            <u>Commentaires</u> :
             <p>
                 <?php echo $commentaire ; ?>
             </p>

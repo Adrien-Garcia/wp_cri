@@ -418,9 +418,10 @@ class FormationsController extends BaseActuController
                     $formationCommentaire = wp_kses(nl2br($params['formationCommentaire']), Config::$allowedMailTags);
 
                     mvc_model('formation')->sendEmailGenerique($formationTheme, $formationCommentaire);
-
+                    $ajax = array('valid'=>' Votre demande a bien été envoyée. ');
                     $this->set('valid', ' Votre demande a bien été envoyée. ');
                 } else {
+                    $ajax = array('error'=>'Veuillez remplir les champs obligatoires.');
                     $this->set('error', 'Veuillez remplir les champs obligatoires.');
                 }
             }

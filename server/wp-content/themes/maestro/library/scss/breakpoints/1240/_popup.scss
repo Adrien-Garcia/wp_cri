@@ -1,7 +1,7 @@
 
 
 #layer-posez-question{
-	
+
 	width: 1200px;
 	max-width: 1200px;
 	margin:0 auto;
@@ -19,12 +19,12 @@
 			margin-bottom: 40px;
 
 
-			.close_layer{				
+			.close_layer{
 				right: 27px;
 				cursor: pointer;
 
 				&:before{
-					@include svgicon('icon-close-layer-question', 36px, 36px, #FFF);					
+					@include svgicon('icon-close-layer-question', 36px, 36px, #FFF);
 					top: 3px;
 					left: 3px;
 				}
@@ -36,24 +36,24 @@
 					}
 				}
 
-				
+
 
 			}
 
-			.texte{	
+			.texte{
 				height: 80px;
-				line-height: 80px;		
-				font-size: 50px;	
+				line-height: 80px;
+				font-size: 50px;
 				padding-left: 70px;
 
 				&:before{
-					@include svgicon('icon-consulter', 45px, 45px, #FFFFFF); 
+					@include svgicon('icon-consulter', 45px, 45px, #FFFFFF);
 					margin-top: -23px;
 				}
 
 			}
 
-			.expertise{				
+			.expertise{
 				top: 18px;
 				left: 619px;
 				font-size: 40px;
@@ -92,27 +92,27 @@
 					}
 				}
 			}
-			
+
 		}
 
 		.onglets{
-			
+
 			width: 1098px;
 			margin: 0 auto;
 
 			.h2{
-				width: 366px;				
+				width: 366px;
 				font-size: 30px;
-				height: 90px; 
+				height: 90px;
 				line-height: 60px;
 				padding: 0 36px;
 			}
 
-			.h2.open{				
+			.h2.open{
 				width: 366px;
 			}
 
-			
+
 		}
 
 		.niveau-expertise{ /* 1er owl carousel */
@@ -130,24 +130,24 @@
 						}
 
 						&:first-child{
-								
+
 							.item{
 								//border:solid 1px red;
 								margin-left: 0;
 							}
 						}
-					}	
+					}
 
 				}
 			}
 
 		.details{
-			
+
 			width: 1100px;
 			padding-bottom: 50px;
 
 			.consultation, .niveau-expertise{
-				
+
 
 				#owl-support, #owl-niveau-expertise{
 
@@ -156,33 +156,33 @@
 						-moz-transform-style: preserve-3d;
 						transform-style: preserve-3d;
 
-					
+
 					.owl-item{
 						cursor: pointer;
 						@include transition(top 0.3s);
-						
+
 						-webkit-perspective: 1000px;
 						-webkit-transform-style: preserve-3d;
 						-moz-transform-style: preserve-3d;
 						transform-style: preserve-3d;
-						
+
 
 						.item{
-							
+
 							width: 330px;
 
-							&:before{								
+							&:before{
 								@include transition(all 0.5s);
 							}
 
 							&:last-child{
-								margin-right: 0; 
+								margin-right: 0;
 							}
 
 						}
 
 						a{
-							
+
 							font-size: 20px;
 							@include transition(all 0.3s);
 							margin-top: 30px;
@@ -198,13 +198,13 @@
 								left: 50%;
 								margin-left: -24px;
 								bottom:-15px;
-								
+
 								@include transition(all 0.3s); */
 							}
 
 						}
 
-						.description{							
+						.description{
 							text-align: justify;
 							width: 330px;
 							height: 54px;
@@ -220,12 +220,12 @@
 						&:nth-child(3){
 							.item{
 								float: right;
-							}							
+							}
 						}
 
 					}
 
-				}				
+				}
 
 			}
 
@@ -245,7 +245,7 @@
 						background: url(../images/img-layer-posez-question.jpg) center center no-repeat;
 						background-size: cover;
 						width: 350px;
-						height: 204px; 
+						height: 204px;
 					}
 
 					.titre{
@@ -261,12 +261,12 @@
 
 					>p{
 						font-family: $garamond;
-						font-size: 20px; 
+						font-size: 20px;
 						color:$rouge;
 						line-height: 24px;
 						margin: 0;
 					}
-					
+
 				}
 
 				.block_droit{
@@ -285,13 +285,13 @@
 						margin-top: 0px;
 						//margin-bottom: 40px;
 
-						input[type="text"], textarea{							
+						input[type="text"], textarea{
 							margin-bottom: 15px;
 
 
 						}
 
-						select{							
+						select{
 							margin-bottom: 15px;
 						}
 
@@ -309,17 +309,17 @@
 						}
 
 						input[type="file"]{
-							
+
 						}
 
 						.fileUpload {
-						 
+
 
 						}
-						.fileUpload input.upload {						  
+						.fileUpload input.upload {
 						}
 
-						.sep{							
+						.sep{
 
 						}
 
@@ -327,10 +327,10 @@
 
 
 						.fileUpload {
-						    
+
 
                             .btn-reset {
-                                
+
 							    float: right;
 							    font-size: 50px;
 							    height: 35px;
@@ -362,34 +362,34 @@
 						}
 
 						.fileUpload input.upload {
-						    width: 185px; 
+						    width: 185px;
 						    right: 33px;
 						    z-index: 100;
 						}
 
 						.sep{
-							
+
 
 
 
 						}
 
-						
+
 					}
 				}
 
-			}		
-			
-			
+			}
+
+
 		}
 
-		
+
 
 	}
 
 	.block_bottom{
 		padding: 60px 50px 20px 50px;
-		height: 450px;	
+		height: 450px;
 
 
 		.block_03{
@@ -405,7 +405,7 @@
 				height: 340px;
 				margin-right: 50px;
 
-				&:nth-child(3){ margin-right: 0;} 
+				&:nth-child(3){ margin-right: 0;}
 
 
 				&:hover {
@@ -439,7 +439,7 @@
 					}
 
 					&:before{
-						
+
 						@include border-radius(0 20px 0 0);
 						left: 0;
 					}
@@ -452,8 +452,8 @@
 
 					}
 
-										
-					.h2{ 
+
+					.h2{
 						font-size: 50px;
 						line-height: 45px;
 						margin-top: 30px;
@@ -472,18 +472,18 @@
 					}
 				}
 
-				
+
 			}
 
-			
-			
+
+
 		}
 
-		
+
 
 	}
 
-	
+
 }
 
 
@@ -492,90 +492,46 @@
 #layer-collaborateur-delete,
 #layer-update-etude,
 #layer-update-profil,
-.popup{
-	
+.popup {
 	width: 1200px;
 	max-width: 1200px;
 	margin:0 auto;
 	padding: 20px;
 
-	.message-erreur{
-
-		>div{
+	.message-erreur {
+		> div {
 			font-size: 16px;
 			line-height: 20px;
-			}
-			
-		}
-
-
-	>.titre{
-		
-		height: 100px;
-
-		&:before{
-			
-		}
-
-		.close_layer{
-			
-			
-			&:before{
-				
-			}
-
-			
-
-		}
-
-		.texte{  
-			
-
-			font-size: 50px;
-			margin-top: -20px;
-			/*line-height: 40px;
-			padding-left: 60px;
-			margin-top: -40px;*/
-
-			
-			> span{ display: inline;}	
-
-			&:before{
-
-				/*font-weight: normal;
-				top: 50%;
-				margin-top: -20px;
-				position: absolute;
-				left: 0;
-				display: block;*/
-
-			}	
-
 		}
 	}
 
-	.block{ 		
+
+	> .titre {
+		height: 100px;
+
+		.texte{
+			font-size: 50px;
+			margin-top: -20px;
+
+			> span{
+				display: inline;
+			}
+		}
+	}
+
+	.block {
 		min-height: auto;
 
 		p{
-			/*width: 420px;
-			display: block;
-			margin: 0 auto;
-			line-height: 32px;*/
-
 			width: 100%;
 		}
 
-		a, form{
-			/*margin-top: 60px;
-			position: relative;
-			display: inline-block;
-			padding: 0 3px;
-			width: auto;*/
+		a,
+		form {
 			margin-bottom: 30px;
 			margin-top: 20px;
 
-			&:after{
+			&::after{
 				width: 1100px;
 				height: 5px;
 				background: $bg-top-footer;
@@ -585,20 +541,24 @@
 				margin-left: -550px;
 				content:'';
 			}
+
+			&:hover {
+				opacity: 0.8;
+			}
 		}
 	}
 
 
-	>form{
+	>form {
 		overflow: hidden;
 
-		>div{
+		>div {
 			width: 530px;
 			float: left;
 			margin-right: 30px;
 			margin-bottom: 20px;
 
-			&:nth-of-type(2n){
+			&:nth-of-type(2n) {
 				margin-right: 0;
 			}
 
@@ -606,57 +566,35 @@
 
 
 
-		input[type="text"], select{
+		input[type="text"],
+		select {
 				max-width: 100%;
 				margin-bottom: 14px;
 			}
 
-		div.submit{
+		div.submit {
 			width: 100%;
 			clear: both;
 		}
 
-		p.chps_obli{
+		p.chps_obli {
 			clear: both;
 		}
 
 
-		.droit-collaborateur{
+		.droit-collaborateur {
 			margin-bottom: 60px;
-
 			clear: both;
 
-			
-
 			label{
-				
-				
 
-				span{
-				}
-
-				input{ opacity: 0;
-
-					
-
-				}
-
-				&:before{
-					
-				}
-
-				&.select{
-					&:before{
-						
-					}
-
-				}
+				input{ opacity: 0;}
 			}
 		}
 
-		div.email-personnelle{
-			
-			>div{
+		div.email-personnelle {
+
+			> div {
 				font-size: 16px;
 			    line-height: 20px;
 			}
@@ -703,7 +641,7 @@
 
 #layer-update-profil{
 
-	
+
 
 }
 
@@ -724,7 +662,7 @@
 			&.adresse, &.email, &.cp, &.ville, &.tel, &.fax{
 				padding-right: 30px;
 			}
-			
+
 
 			&.nom{
 				width: 100%;

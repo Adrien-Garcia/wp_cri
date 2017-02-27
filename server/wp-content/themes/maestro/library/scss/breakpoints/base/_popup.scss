@@ -1,23 +1,20 @@
 /* POPUP POSEZ UNE QUESTION */
 
-.noscroll{
+.noscroll {
 	position:fixed;
     overflow:hidden;
     width: 100%;
 }
 
-#layer-posez-question{
+#layer-posez-question {
 	width:100%;
 	height: auto;
-	//padding: 10px 10px 0 10px;
 	background: #FFF;
 
-
-
-	.block_top{
+	.block_top {
 		padding-bottom: 30px;
 
-		> .titre{
+		> .titre {
 			width: 100%;
 			height: 83px;
 			background: $vert;
@@ -25,7 +22,7 @@
 			font-weight: normal;
 			margin-bottom: 55px;
 
-			&:before{
+			&::before {
 				@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
 				position: absolute;
 				left: 50%;
@@ -33,7 +30,7 @@
 				bottom:-15px;
 			}
 
-			.close_layer{
+			.close_layer {
 				position: absolute;
 				right: 20px;
 				top: 50%;
@@ -41,19 +38,16 @@
 				display: block;
 				width: 36px;
 				height: 36px;
-				
-				&:before{
+
+				&::before {
 					@include svgicon('icon-close-layer-question', 36px, 36px, #FFF);
 					@include rotate(-45);
 					position: absolute;
 					top: 0px;
 				}
-
-				
-
 			}
 
-			.texte{
+			.texte {
 				@include do-sm;
 				font-size: 25px;
 				color:#FFF;
@@ -64,19 +58,13 @@
 				margin-left: 20px;
 				position: absolute;
 
-				&:before{
-					/* @include svgicon('icon-consulter', 20px, 20px, #FFFFFF);
-					font-weight: normal;
-					top: 50%;
-					margin-top: -10px;
-					position: absolute;
-					left: 0; */
+				&::before{
 					display: none;
 				}
 
 			}
 
-			.expertise{
+			.expertise {
 				position: absolute;
 				top: 55px;
 				left: 20px;
@@ -85,16 +73,18 @@
 				line-height: 22px;
 				height: 22px;
 				padding-left: 25px;
-				
-				&.initiale, &.medium, &.expert{
 
-					&:before{
+				&.initiale,
+				&.medium,
+				&.expert {
+
+					&::before {
 						position: absolute;
 						left: 0;
 						z-index:1;
 					}
 
-					&:after{
+					&::after {
 						content:'';
 						width: 14px;
 						height: 14px;
@@ -127,18 +117,17 @@
 					display: none;
 				}
 			}
-			
+
 
 		}
 
-		.onglets{
-
+		.onglets {
 			width: 280px;
-			margin: 0 auto 10px auto;			
+			margin: 0 auto 10px auto;
 			border-bottom:solid 4px $vert;
 			overflow: hidden;
 
-			.h2{
+			.h2 {
 				font-family: $dosis;
     			font-weight: 800;
 				text-transform: uppercase;
@@ -146,82 +135,66 @@
 				font-size: 20px;
 				line-height: 24px;
 				vertical-align: middle;
-				//text-decoration: underline;
-
 				border-bottom:solid 16px #FFF;
-
 				width: 33.33%;
 				height: 45px;
 				overflow: hidden;
 				float: left;
 				text-align: center;
-
 				margin: 0;
 				padding: 0;
 				transition: border $duration ease, color $duration ease;
-
 				cursor: pointer;
 
-				span{
+				span {
 					border-bottom:solid 1px $bleu;
 					display: none;
 				}
 
-				/*&:hover{
-					text-decoration: none;
-					border-bottom:solid 16px $vert;
-
-					span{
-						border-bottom:solid 1px #FFF;
-					}
-				}*/
-
 			}
 
-			.h2.open{
+			.h2.open {
 				color:$vert;
-				//text-decoration: none;
 				border-bottom:solid 16px $vert;
 				width: 33.33%;
-				
-				span{
+
+				span {
 					border-bottom:solid 1px #FFF;
 				}
 			}
 		}
 
-		.details{
+		.details {
 			clear: both;
 			width: 280px;
 			margin: 0 auto;
-			
 
-			.consultation, .niveau-expertise{
-				
-				#owl-support, #owl-niveau-expertise{
+
+			.consultation,
+			.niveau-expertise {
+
+				#owl-support,
+				#owl-niveau-expertise {
 					width: 100%;
 					overflow: hidden;
 
-					.owl-stage-outer{
+					.owl-stage-outer {
 						z-index: 1; /**/
 					}
-					.owl-controls{
+					.owl-controls {
 						z-index: 0; /**/
 					}
 
-					.owl-item{
+					.owl-item {
 						height: 400px;
-						//padding-top: 190px;
-
 						cursor: pointer;
 
-						.item{
+						.item {
 							position: relative;
 							margin-top: 180px;
 							padding-top: 30px;
 
-							&:before{
-								
+							&::before {
 								position: absolute;
 								top: -160px;
 								left: 50%;
@@ -235,7 +208,7 @@
 							height: 100%;
 						}
 
-						.label{
+						.label {
 							font-family: $dosis;
     						font-weight: 600;
 							font-size: 18px;
@@ -249,11 +222,10 @@
 							position: relative;
 							margin-bottom: 30px;
 							text-decoration: none;
-
 							height: 42px;
 							line-height: 42px;
 
-							&:before{
+							&:before {
 								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
 								position: absolute;
 								left: 50%;
@@ -264,7 +236,7 @@
 
 						}
 
-						.description{
+						.description {
 							margin: 0;
 							padding: 0;
 							font-size: 15px;
@@ -292,48 +264,35 @@
 
 						}
 
-						
+						&:hover,
+						&.selected {
 
-						
-
-						&:hover, &.selected{
-
-                            .label{
+                            .label {
                                 background: $vert;
                                 cursor: pointer;
 
-                                &:before{
+                                &::before {
                                   @include svgicon('icon-angle-bottom', 15px, 15px, $vert);
                                 }
                             }
 
-                            .item{                            	
-
-                                &:before{
-                                    //top: -150px;
+                            .item {
+                                &::before {
                                     animation: bump 0.5s ease-out 0s infinite alternate;
                                 }
-                                //background: #e6e6e6;
                             }
+                        }
 
-                            &:last-child{
-                                .item:before{
-                                    //top: -140px;
-                                }
-
-                            }
-                        }	
-						
 					}
 
-					.owl-nav{
+					.owl-nav {
 						position: absolute;
 						top: 80px;
 						text-align:left;
 						width: 100%;
 						height: 18px;
 
-						> div{
+						> div {
 							background: transparent;
 							height: 18px;
 							width: 17px;
@@ -342,22 +301,22 @@
 							margin: 0;
 							position: relative;
 
-							&:before{
-								@include svgicon('icon-flech-arrow', 18px, 18px, $vert);	
+							&:before {
+								@include svgicon('icon-flech-arrow', 18px, 18px, $vert);
 								position: absolute;
 								left: 0;
 								top: 0;
 							}
 						}
 
-						.owl-prev{
+						.owl-prev {
 							left: 0px;
 							@include rotate(-180);
 							z-index: 999;
 
 						}
 
-						.owl-next{
+						.owl-next {
 							left: inherit;
 							float: right;
 							right: 0px;
@@ -370,75 +329,54 @@
 
 				}
 
-							
-
 			}
 
 
 
-			.consultation{
-
-
-
-				#owl-support{
-
-					.owl-item{
-
-
-
-						.label{ 
-							&:before{
-								//bottom:-14px;
-							}
-						}
-
-						.description{
-							//height: 72px;
-						}
-
-
-
+			.consultation {
+				#owl-support {
+					.owl-item {
 
 						// INITIALE 2 JOURS
-						.svg-initiale-jours{ 							
-							&:before{
+						.svg-initiale-jours {
+							&::before {
 								@include svgicon('ico-support-fusee', 110px, 110px, $vj_03);
 								top: -152px;
-								margin-left: -55px;								
+								margin-left: -55px;
 							}
 						}
 						// INITIALE 3 à 4 SEMAINES
-						.svg-initiale-semaines{
-							&:before{
+						.svg-initiale-semaines {
+							&::before {
 								@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);
 								top: -130px;
-								margin-left: -53px;									
+								margin-left: -53px;
 							}
 						}
 
 						// MEDIUM 5 JOURS
-						.svg-medium-jours{
-							&:before{
+						.svg-medium-jours {
+							&:before {
 								@include svgicon('ico-avion-crayon-crayon', 100px, 100px, $vj_03);
 								top: -142px;
-								margin-left: -73px;								
+								margin-left: -73px;
 							}
 						}
 						// MEDIUM RDV TELEPHONIQUE
-						.svg-medium-rdv-tel{
-							&:before{
-								@include svgicon('ico-avion-crayon-tel', 100px, 100px, $vj_03);	
+						.svg-medium-rdv-tel {
+							&:before {
+								@include svgicon('ico-avion-crayon-tel', 100px, 100px, $vj_03);
 								top: -142px;
-								margin-left: -73px;							
+								margin-left: -73px;
 							}
 						}
 
 						// EXPERT 3 à 4 SEMAINES
-						.svg-expert-semaines{
-							&:before{
+						.svg-expert-semaines {
+							&:before {
 								@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);
 								top: -130px;
-								margin-left: -53px;									
+								margin-left: -53px;
 							}
 						}
 						// EXPERT DOSSIER
@@ -446,38 +384,9 @@
 							&:before{
 								@include svgicon('ico-camion', 100px, 100px, $vj_03);
 								top: -142px;
-								margin-left: -56px;								
+								margin-left: -56px;
 							}
 						}
-
-
-						/* &:first-child{
-							.item{
-								&:before{
-									@include svgicon('ico-support-fusee', 118px, 118px, $vj_03);								
-								}
-						
-							}
-						}
-						&:nth-child(2){
-							.item{
-								&:before{
-									@include svgicon('ico-support-avion', 118px, 118px, $vj_03);	
-																
-								}
-						
-							}
-						}
-						&:nth-child(3){
-							.item{
-								&:before{
-									@include svgicon('ico-support-voiture', 80px, 80px, $vj_03);	
-									top: -100px;
-									margin-left: -53px						
-								}
-						
-							}
-						} */
 					}
 
 				}
@@ -485,46 +394,44 @@
 			}
 
 
-			.niveau-expertise{
-
-				.owl-carousel{
-
-					.owl-item{
+			.niveau-expertise {
+				.owl-carousel {
+					.owl-item {
 						height: 356px;
 
-						.label{
+						.label {
 							&:before{
 								top:-14px;
 							}
 						}
 
-						.item{
+						.item {
 							margin-top: 180px;
 
-							&:before{
+							&:before {
 								top:-160px;
 							}
 
-							.label{
+							.label {
 
 								height: 42px;
 								line-height: 42px;
 								font-size: 18px;
 
-								&:before{
+								&:before {
 									//@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
 									@include rotate(180);
 									//bottom:41px;
 								}
-								
+
 							}
 						}
 
 						&:first-child{
 							.item{
 								&:before{
-									@include svgicon('ico-expertise-initial', 120px, 120px, $jaune); 
-									margin-left: -60px;								
+									@include svgicon('ico-expertise-initial', 120px, 120px, $jaune);
+									margin-left: -60px;
 								}
 
 							}
@@ -533,7 +440,7 @@
 							.item{
 								&:before{
 									@include svgicon('ico-expertise-medium', 120px, 120px, $vert);
-									margin-left: -60px;	
+									margin-left: -60px;
 								}
 
 							}
@@ -541,18 +448,18 @@
 						&:last-child{
 							.item{
 								&:before{
-									@include svgicon('ico-expertise-expert', 120px, 120px, $bleu);	
-									margin-left: -60px;	
-									//top: -130px;		 				
+									@include svgicon('ico-expertise-expert', 120px, 120px, $bleu);
+									margin-left: -60px;
+									//top: -130px;
 								}
 
 							}
 						}
-						
+
 
 					}
 
-					
+
 				}
 
 			}
@@ -583,7 +490,6 @@
 							font-family: $dosis;
     						font-weight: 600;
 							border-radius: 0;
-
 							max-width: 100%;
 
 
@@ -594,22 +500,18 @@
 							border:solid 3px #e6e6e6;
 							line-height: 35px;
 							padding-left: 8px;
-							
 							text-transform: none;
 							width: 100%;
 							border-radius: 0;
-
 							font-family: $dosis;
     						font-weight: 600;
 							color:$bleu;
 							font-size: 15px;
-
 							max-width: 100%;
 
 						}
 
 						input[type="submit"]{
-
 							width: 157px;
 							height: 30px;
 							background: $vert;
@@ -621,7 +523,6 @@
 							display: block;
 							text-transform: uppercase;
 							border-radius: 0;
-
                             margin: 50px auto 10px calc(100% - 157px);
 
                         }
@@ -629,11 +530,7 @@
 						input[type="file"]{
 							border:none;
 							margin-bottom: 20px;
-							color:#FFF; 
-
-							//display: none;
-
-
+							color:#FFF;
 						}
 
 						#msgBlockQuestionId{
@@ -658,7 +555,6 @@
 						    text-transform: uppercase;
 						    line-height: 30px;
 						    text-align: left;
-						    //margin-left: calc(100% - 85px); 
 						    margin-bottom: 20px;
 
                             .btn-reset {
@@ -730,7 +626,7 @@
 								left: 50%;
 								margin-left: -26px;
 
-								
+
 							}
 
 
@@ -767,12 +663,12 @@
 					display: block;
 				}
 			}
-			
 
-			
+
+
 		}
 
-		
+
 
 	}
 
@@ -803,23 +699,23 @@
 				background: $vj_02;
 
 				&:last-child{margin-bottom: 0px;}
-					
-			
+
+
 
 				&:after {
-					
 
-					@include svgiconafter('icon-angle-bottom', 15px, 15px, #FFF);					
+
+					@include svgiconafter('icon-angle-bottom', 15px, 15px, #FFF);
 					position:absolute;
 					top: -1px;
 					left: 50%;
 					margin-left: -24px;
 					display: block;
-					z-index: 2000;					
+					z-index: 2000;
 
 				}
 
-				.h2{ 
+				.h2{
 					position: relative;
 					z-index: 2000;
 					font-family: $dosis;
@@ -850,7 +746,7 @@
 				}
 
 				> a{
-					display: block; 
+					display: block;
 					color:#FFF;
 					position: relative;
 					z-index: 2000;
@@ -868,7 +764,7 @@
 
 	}
 
-	
+
 }
 .popup_visible #posez-questions {
   transform: scale(1);
@@ -894,8 +790,6 @@
         text-transform: none;
         font-family: $dosis;
         font-weight: 600;
-
-        //border:solid 10px red !important;
     }
 
     .message-erreur{
@@ -925,10 +819,10 @@
 				margin: 5px 0;
 			}
 		}
-		
+
 	}
- 
-	
+
+
 
 	>.titre{
 		width: 100%;
@@ -943,7 +837,7 @@
 			position: absolute;
 			left: 50%;
 			margin-left: -24px;
-			bottom:-13px; 
+			bottom:-13px;
 		}
 
 		.close_layer{
@@ -954,7 +848,7 @@
 			display: block;
 			width: 47px;
 			height: 47px;
-			
+
 			&:before{
 				@include svgicon('icon-close-layer-question', 40px, 40px, #FFF);
 				@include rotate(-45);
@@ -963,23 +857,23 @@
 				left: 0px;
 			}
 
-			
+
 
 		}
 
-		.texte{  
+		.texte{
 			font-family: $dosis;
     		font-weight: 600;
 			font-size: 25px;
 			color:#FFF;
-			text-transform: uppercase; 
+			text-transform: uppercase;
 			display: inline-block;
 			height: auto;
 			line-height: 28px;
-			position: absolute;	
+			position: absolute;
 			top:50%;
 			margin-top: -28px;
-			
+
 			> span{
 				display: block;
 			}
@@ -987,7 +881,7 @@
 			&:before{
 				@include svgicon('ico-crayon', 40px, 40px, #FFFFFF);
 				display: none;
-			}		
+			}
 
 		}
 	}
@@ -1007,7 +901,7 @@
 		}
 
 		a{
-			width: 183px;
+			width: auto;
 			height: 30px;
 			background: $bleu;
 			color:#FFF;
@@ -1015,7 +909,7 @@
 			font-size: 14px;
 			text-transform: uppercase;
 			line-height: 30px;
-			display: block; 
+			display: block;
 			text-decoration: none;
 			margin:0 auto;
 		}
@@ -1073,7 +967,7 @@
 			  @include do-sm;
 		}
 
-		
+
 
 		div.submit{
 			text-align: center;
@@ -1100,7 +994,7 @@
 				display: block;
 				margin-bottom: 10px;
 				position: relative;
-				
+
 
 				span{/*Message*/
 					//display: inline-block;
@@ -1137,7 +1031,7 @@
 		}
 
 		div.email-personnelle{
-			
+
 			>div{
 				font-size: 12px;
 			    font-style: italic;
@@ -1150,8 +1044,8 @@
 
 		}
 	}
-			
-		
+
+
 
 }
 
