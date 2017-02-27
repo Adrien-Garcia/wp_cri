@@ -137,6 +137,16 @@ class AdminFormationsController extends BaseAdminController
     }
 
     /**
+     * Method to publish next year catalog - admin ajax
+     * Redirects to new catalog
+     */
+    public function publishnextyearcatalog(){
+        update_option('cridon_next_year_catalog_published',1);
+        echo "<br><br>Le calendrier " . date('Y',strtotime('+1 Year')) . " a été correctement publié";
+        die();
+    }
+
+    /**
      * Load script
      */
     protected function loadScripts()

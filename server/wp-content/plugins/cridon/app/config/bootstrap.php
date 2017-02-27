@@ -338,6 +338,9 @@ function setAdminbarTranslation( $controllers ){
         if (in_array($ctrl,Config::$contentWithSpecificEmail)){
             $actions['email_sender'] = array('label' => 'Envoi Email');
         }
+        if (in_array($ctrl,Config::$contentWithMillesime)){
+            $actions['publishnextyearcatalog'] = array('in_menu' => false);
+        }
         MvcConfiguration::append(array(
                 'AdminPages' => array(
                     $ctrl => $actions,

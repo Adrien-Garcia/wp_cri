@@ -87,7 +87,6 @@ MvcRouter::public_connect('calendrier-des-formations', array('controller' => 'fo
 MvcRouter::public_connect('formations/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'formations', 'action' => 'show'));
 MvcRouter::public_connect('formations/catalogue', array('controller' => 'formations', 'action' => 'catalog'));
 MvcRouter::public_connect('formations/prochain-catalogue', array('controller' => 'formations', 'action' => 'catalognextyear'));
-MvcRouter::public_connect('formations/publishnextyearcatalog', array('controller' => 'formations', 'action' => 'publishnextyearcatalog'));
 MvcRouter::public_connect('veilles/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'veilles', 'action' => 'show'));
 MvcRouter::public_connect('cahier_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'cahier_cridons', 'action' => 'show'));
 MvcRouter::public_connect('vie_cridons/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'vie_cridons', 'action' => 'show'));
@@ -98,4 +97,5 @@ MvcRouter::public_connect('formations-passees', array('controller' => 'formation
 
 //Ajax admin
 MvcRouter::admin_ajax_connect(array('controller' => 'admin_documents', 'action' => 'search'));
+MvcRouter::admin_ajax_connect(array('controller' => 'admin_formations', 'action' => 'publishnextyearcatalog'));
 
