@@ -903,13 +903,12 @@ function CriBreadcrumb()
                         'action' => $mvc_params['action'],
                         'id' => ''
                     ));
-                    if (!empty($mvc_params['id'])) {
-                        $archive->url          = mvc_public_url(array(
-                            'controller' => $mvc_params['controller'],
-                            'action' => $mvc_params['action'],
-                            'id' => $mvc_params['id']
-                        ));
-                    }
+                } else if ($mvc_params['action'] == 'demandegenerique') {
+                    $archive->title        = 'Demande de formation';
+                    $archive->url          = mvc_public_url(array(
+                        'controller' => $mvc_params['controller'],
+                        'action' => $mvc_params['action'],
+                    ));
                 } else if ($mvc_params['action'] == 'preinscription') {
                     $archive->title        = 'Demande de préinscription';
                     $archive->url          = mvc_public_url(array(

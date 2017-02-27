@@ -82,70 +82,24 @@
             <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
 
-            <?php if ($type == CONST_FORMATION_GENERIQUE) : ?>
-            <!-- DEMANDE DE FORMATION SPONTANEE -->
-            <h1>Demande de formation spontanée</h1>
-            <br /><br />
-
-            <span class="s">
-                <?php echo $notaire['crpcen']; ?>, <?php echo $notaire['lname']; ?> <?php echo $notaire['fname']; ?>
-                <a href="mailto:<?php echo $notaire['mail']; ?>" style="color: #2e4867;"><?php echo $notaire['mail']; ?></a>
-            </span>
-            <br /><br />
-            <h3>La demande</h3>
-            Thématique : <span class="section"><?php echo $name ; ?></span> <br />
-            <br />
-            Commentaires : <br />
-            <p>
-                <?php echo $commentaire ; ?>
-            </p>
-            <!-- Fin -->
-            <?php endif; ?>
-
-            <?php if ($type == CONST_FORMATION_DEMANDE) : ?>
-            <!-- DEMANDE DE SESSION DE FORMATION -->
-            <h1>Demande de session de formation</h1>
-            <br /><br />
-
-            <span class="s">
-                <?php echo $notaire['crpcen']; ?>, <?php echo $notaire['lname']; ?> <?php echo $notaire['fname']; ?>
-                <a href="mailto:<?php echo $notaire['mail']; ?>"><?php echo $notaire['mail']; ?></a>
-            </span>
-            <br /><br />
-            <h3>La demande</h3>
-            <u>Nom de la formation</u> : <span class="section"><?php echo $name ; ?></span> <br />
-            <u>Nombre de participant</u> : <?php echo $participants ; ?><br />
-            <br />
-            <u>Commentaires</u> : <br />
-            <p>
-                <?php echo $commentaire ; ?>
-            </p>
-            <!-- Fin -->
-            <?php endif; ?>
-
-
-            <?php if ($type == CONST_FORMATION_PREINSCRIPTION) : ?>
-            <!-- DEMANDE DE PRE-INSCRIPTION -->
-            <h1>Demande de Pré-inscription</h1>
-            <br /><br />
-
-            <span class="s">
-                <?php echo $notaire['crpcen']; ?>, <?php echo $notaire['lname']; ?> <?php echo $notaire['fname']; ?>
-                <a href="mailto:<?php echo $notaire['mail']; ?>"><?php echo $notaire['mail']; ?></a>
-            </span>
-            <br /><br /><br />
-            Formation : <span class="section"><?php echo $name ; ?></span> <br /><br />
-            <span class="newsletter_date">le <?php echo $date ; ?></span><br/>
-            <span class="introduction">au <?php echo $organisme ; ?></span><br />
-            <br />
-            <u>Nombre de participant</u> : <?php echo $participants ; ?><br />
+                <?php
+                switch ($type) {
+                    case CONST_FORMATION_GENERIQUE :
+                        include('mail_notification/admin_formation_generique.php');
+                        break;
+                    case CONST_FORMATION_DEMANDE :
+                        include('mail_notification/admin_formation_demande.php');
+                        break;
+                    case CONST_FORMATION_PREINSCRIPTION :
+                        include('mail_notification/admin_formation_preinscription.php');
+                        break;
+                }
+                ?>
             <br />
             <u>Commentaires</u> :
             <p>
                 <?php echo $commentaire ; ?>
             </p>
-            <!-- Fin -->
-            <?php endif; ?>
 
             <td width="20" style="background-color:#fff;"></td>
         </tr>

@@ -81,58 +81,19 @@
         <tr>
             <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
-
-            <?php if ($type == CONST_FORMATION_GENERIQUE) : ?>
-            <!-- DEMANDE DE FORMATION SPONTANEE -->
-            <h1>Votre demande de formation a bien été transmise au CRIDON LYON</h1>
-
-            <span class="introduction">Vous serez prochainement recontacté par le CRIDON LYON pour définir plus précisement votre besoin.</span>
-            <br /><br />
-
-            <h3>Votre demande concerne</h3>
-            <u>Thématique</u> : <span class="section"><?php echo $name ; ?></span> <br />
-            <br />
-            <u>Commentaires</u> : <br />
-                <p>
-                    <?php echo $commentaire ; ?>
-                </p>
-            <br /><br />
-            A bientôt,<br />
-            <span class="s">Le CRIDON LYON</span>
-            <!-- Fin -->
-            <?php endif; ?>
-
-
-            <?php if ($type == CONST_FORMATION_DEMANDE) : ?>
-            <!-- DEMANDE DE SESSION DE FORMATION -->
-            <h1>Votre demande de formation a bien été transmise au CRIDON LYON</h1>
-            <span class="introduction">Vous serez prochainement recontacté par le CRIDON LYON pour définir plus précisement votre besoin.</span>
-            <br /><br />
-
-            <h3>Votre demande concerne</h3>
-            <u>Nom de la formation</u> : <span class="section"><?php echo $name ; ?></span> <br />
-            <u>Nombre de participant</u> : <?php echo $participants ; ?><br />
-            <br />
-            <u>Commentaires</u> : <br />
-                <p>
-                    <?php echo $commentaire ; ?>
-                </p>            <br /><br />
-            A bientôt,<br />
-            <span class="s">Le CRIDON LYON</span>
-            <!-- Fin -->
-            <?php endif; ?>
-
-
-            <?php if ($type == CONST_FORMATION_PREINSCRIPTION) : ?>
-            <!-- DEMANDE DE PRE-INSCRIPTION -->
-            <h1>Votre demande de pré-inscription a bien été transmise au CRIDON LYON</h1>
-            <span class="introduction">Vous serez prochainement recontacté par le CRIDON LYON pour finaliser votre inscription à la session choisie ci-dessous :</span>
-            <br /><br /><br />
-            Formation : <span class="section"><?php echo $name ; ?></span> <br /><br />
-            <span class="newsletter_date">le <?php echo $date ; ?></span><br/>
-            <span class="introduction">au <?php echo $organisme ; ?></span><br />
-            <br />
-            <u>Nombre de participant</u> : <?php echo $participants ; ?><br />
+                <?php
+                switch ($type) {
+                    case CONST_FORMATION_GENERIQUE :
+                        include('mail_notification/formation_generique.php');
+                        break;
+                    case CONST_FORMATION_DEMANDE :
+                        include('mail_notification/formation_demande.php');
+                        break;
+                    case CONST_FORMATION_PREINSCRIPTION :
+                        include('mail_notification/formation_preinscription.php');
+                        break;
+                }
+                ?>
             <br />
             <u>Commentaires</u> : 
                 <p>
@@ -140,8 +101,6 @@
                 </p>            <br /><br />
             A bientôt,<br />
             <span class="s">Le CRIDON LYON</span>
-            <!-- Fin -->
-            <?php endif; ?>
 
             <td width="20" style="background-color:#fff;"></td>
         </tr>
