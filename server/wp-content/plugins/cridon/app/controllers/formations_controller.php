@@ -167,7 +167,7 @@ class FormationsController extends BaseActuController
      *   'yyyymmdd' => array(
      *     'date' => Datetime
      *     'today' => bool
-     *     'event' => (optional) Name for the event of the day @TODO
+     *     'event' => (optional) Name for the event of the day
      *     'sessions' => array(
      *       array(
      *         'name' => string
@@ -189,6 +189,7 @@ class FormationsController extends BaseActuController
      */
     protected function _fill_calendar_data($calendar) {
 
+        //Ajout des sessions de formations au calendrier
         $modelSession = new Session();
         $sessions = $modelSession->find(array(
             'conditions' => array(
@@ -247,6 +248,28 @@ class FormationsController extends BaseActuController
             $lineSession ['organisme']           = $data['organisme'];
             $lineSession ['contact_organisme']   = $data['contact_organisme'];
             $calendar[$key]['sessions'][] = $lineSession;
+        }
+
+        //Ajout des évènements au calendrier
+        $modelEvenement = new Evenement();
+        $evenements = $modelEvenement->find(array(
+            'conditions' => array(
+                'AND' => array(
+                    'Evenement.date >= ' => $this->firstDayOfMonth->format('Y-m-d'),
+                    'Evenement.date <= ' => $this->lastDayOfMonth->format('Y-m-d')
+                )
+            ),
+            'order' => 'Evenement.date ASC',
+        ));
+
+        foreach($evenements as $evenement){
+            $key = $evenement->date;
+            if (!isset($calendar[$key])) {
+                throw new OutOfBoundsException(sprintf('Key %s not found for current calendar', $key));
+            }
+            if (!empty($evenement->name)){
+                $calendar[$key]['event'] = $evenement->name;
+            }
         }
 
         return $calendar;
