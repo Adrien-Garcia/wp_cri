@@ -18,8 +18,9 @@ class FormationsController extends BaseActuController
     public function index()
     {
         // Sessions futures : triées de la plus proche à la plus lointaine
-        $this->set('sessionsFutures', $this->getSessions('ASC', true));
-        $this->set('formations', $this->getAllFormations());
+        $sessions = $this->getSessions('ASC', true);
+        $this->set('sessionsFutures', $sessions);
+        $this->set('formations', $this->getFormations($sessions));
     }
 
     /**
@@ -28,8 +29,9 @@ class FormationsController extends BaseActuController
     public function past()
     {
         // Sessions passées : triées de la plus récente à la plus ancienne
-        $this->set('sessionsPassees', $this->getSessions('DESC', false ));
-        $this->set('formations', $this->getAllFormations());
+        $sessions = $this->getSessions('DESC', false );
+        $this->set('sessionsPassees', $sessions);
+        $this->set('formations', $this->getFormations($sessions));
     }
 
     /**
@@ -56,13 +58,18 @@ class FormationsController extends BaseActuController
     }
 
     /**
-     * Retrieve all formations as an array :
+     * Retrieve formations bound to $sessions as an array :
      * (key) id_formation => (value) Formation
      *
+     * @param object $sessions
      * @return array $allFormations
      */
-    public function getAllFormations() {
-        $formations = $this->model->find();
+    public function getFormations($sessions) {
+        $ids = array();
+        foreach($sessions as $session){
+            $ids [] = $session->id_formation;
+        }
+        $formations = $this->model->find(array('conditions' => array('f.id' => $ids)));
         $allFormations = array();
         foreach($formations as $formation){
             $allFormations [$formation->id] = $formation;
