@@ -1,25 +1,30 @@
 <?php get_header(); ?>
-    <div id="content" class="page">
+    <div id="content" class="page page-catalogue-formation">
 
         <div class="breadcrumbs">
-            <div id="inner-content" class="wrap cf">
-                <?php // if (function_exists('custom_breadcrumbs')) custom_breadcrumbs(); ?>
-                <a href="#" title="">Accueil</a> + <span>Catalogue <?php echo date('Y') ?></span>
+            <div class="wrap cf">
+                <?php // if (function_exists('CriBreadcrumb')) CriBreadcrumb(); ?>
+                <a href="#" title="">Accueil</a> + <span>Catalogue des formations <?php echo date('Y') ?></span>
             </div>
         </div>
 
+        <div id="inner-content" class="wrap cf">
+            <div id="main" class="cf" role="main">
+                <article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
+                    <header class="article-header">
+                        <h1 class="page-title h1" itemprop="headline"><?php _e('Catalogue'); ?></h1>
+                    </header> <?php // end article header ?>
 
-        <div id="main" class="cf" role="main">
+                    <?php if ($catalogPublished): ?>
+                        <a href="<?php echo mvc_public_url(array('controller' => 'formations', 'action' => 'catalognextyear')); ?>">Prochain catalogue</a>
+                    <?php endif; ?>
 
-            <div id="inner-content" class="wrap cf">
-                <?php if ($catalogPublished): ?>
-                    <a href="<?php echo mvc_public_url(array('controller' => 'formations', 'action' => 'catalognextyear')); ?>">Prochain catalogue</a>
-                <?php endif; ?>
+                    <?php set_query_var( 'sortedFormations', $sortedFormations ); ?>
+                    <?php echo get_template_part("page","catalog-detail"); ?>
+                </article>
             </div>
-
             <?php /*get_sidebar();*/ ?>
-
         </div>
-
     </div>
+
 <?php get_footer(); ?>
