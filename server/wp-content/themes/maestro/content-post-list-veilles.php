@@ -8,17 +8,7 @@ foreach ($objects as $key => $object) :
 <?php criWpPost($object); ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
-
-	<!-- POUR LES FORMATIONS LA DATE CORRESPOND A CELLE DU JOUR DE LA FORMATION ET NON A CELLE DE LA CREATION DE LA FORMATION EN BDD -->
-	<?php
-	    if ( !empty($object->__model_name) && $object->__model_name == 'Formation' && !empty($object->custom_post_date) ){
-            $current_date = $object->custom_post_date;
-        } else {
-            if ($current_date != get_the_date('Y-m-d')) {
-                $current_date = get_the_date('Y-m-d');
-            }
-        }
-	 ?>
+	<?php $current_date = get_the_date('Y-m-d') ?>
 	<?php if ($last_date != $current_date) : ?>
 	    <div class="date sel-object-date">
 	        <div class="sep"></div>
@@ -29,7 +19,7 @@ foreach ($objects as $key => $object) :
     <?php endif; ?>
     <?php $last_date = $current_date ?>
 
-    <?php if ( !empty($object->__model_name) && $object->__model_name == 'Veille' && !empty($object->level) ){
+    <?php if ( !empty($object->__model_name) && !empty($object->level) ){
     	$niveau = 'niveau'.$object->level;
     }
     ?>

@@ -15,11 +15,11 @@
 
 				<div id="filtres_formations">
 	   				<a href="<?= MvcRouter::public_url(array('controller' => 'formations')) ?>"
-					   class="futures js-tab-formations-futures-open<?= isset($formationsFutures) ? ' open' : '' ?>">
+					   class="futures js-tab-formations-futures-open<?= isset($sessionsFutures) ? ' open' : '' ?>">
 						<span>à venir</span>
 					</a>
 	   				<a href="<?= MvcRouter::public_url(array('controller' => 'formations', 'action' => 'past')) ?>"
-					   class="passees js-tab-formations-passees-open<?= isset($formationsPassees) ? ' open' : '' ?>">
+					   class="passees js-tab-formations-passees-open<?= isset($sessionsPassees) ? ' open' : '' ?>">
 						<span>passées</span>
 					</a>
 				</div>
@@ -27,11 +27,12 @@
 					
 				</div>
 
-				<div class="listing formations tab js-tab-formations-futures<?= isset($formationsFutures) ? ' open' : '' ?>">
-					<?php if (isset($formationsFutures)): ?>
-					<?php set_query_var( 'objects', $formationsFutures ); ?>
+				<div class="listing formations tab js-tab-formations-futures<?= isset($sessionsFutures) ? ' open' : '' ?>">
+					<?php if (isset($sessionsFutures) && isset($formations)): ?>
+						<?php set_query_var( 'sessions', $sessionsFutures ); ?>
+						<?php set_query_var( 'formations', $formations ); ?>
 					
-					<?php echo get_template_part("content","post-list"); ?>
+					<?php echo get_template_part("content","post-list-formations"); ?>
 
                     <div class="pagination">
                     	<?php echo $this->pagination(); ?>
@@ -39,11 +40,12 @@
                     <?php endif; ?>
                 </div>
 
-				<div class="listing formations tab js-tab-formations-passees<?= isset($formationsPassees) ? ' open' : '' ?>">
-					<?php if (isset($formationsPassees)): ?>
-					<?php set_query_var( 'objects', $formationsPassees ); ?>
+				<div class="listing formations tab js-tab-formations-passees<?= isset($sessionsPassees) ? ' open' : '' ?>">
+					<?php if (isset($sessionsPassees)  && isset($formations)): ?>
+						<?php set_query_var( 'sessions', $sessionsPassees ); ?>
+						<?php set_query_var( 'formations', $formations ); ?>
 
-					<?php echo get_template_part("content","post-list"); ?>
+					<?php echo get_template_part("content","post-list-formations"); ?>
 
 					<div class="pagination">
 						<?php echo $this->pagination(); ?>
