@@ -45,7 +45,7 @@
 				<div class="listing veille" id="sel-veilles">
 					<?php set_query_var( 'objects', $objects ); ?>						
 					
-					<?php echo get_template_part("content","post-list"); ?>
+					<?php echo get_template_part("content","post-list-veilles"); ?>
 
                     <div class="pagination">
                     	<?php echo $this->pagination(); ?>

@@ -201,7 +201,7 @@ add_action('add_meta_boxes','init_meta_boxes_category_post');
 function init_meta_boxes_category_post(){
     if( isset( $_GET['cridon_type'] ) && in_array($_GET['cridon_type'], Config::$contentWithMatiere)) {
         // init meta box depends on the current type of content
-        add_meta_box('id_meta_boxes_link_post', Config::$titleMetabox , 'init_select_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
+        add_meta_box('id_meta_boxes_link_post', Config::$titleMetaboxMatiere , 'init_select_meta_boxes', 'post', 'side', 'high', $_GET['cridon_type']);
     }
 }
 /**
@@ -337,6 +337,9 @@ function setAdminbarTranslation( $controllers ){
         }
         if (in_array($ctrl,Config::$contentWithSpecificEmail)){
             $actions['email_sender'] = array('label' => 'Envoi Email');
+        }
+        if (in_array($ctrl,Config::$contentWithMillesime)){
+            $actions['publishnextyearcatalog'] = array('in_menu' => false);
         }
         MvcConfiguration::append(array(
                 'AdminPages' => array(
@@ -656,13 +659,21 @@ add_action('add_meta_boxes','init_meta_boxes_ui_component');
 
 function init_meta_boxes_ui_component(){
     if( isset( $_GET['cridon_type'] ) ){
-        add_meta_box('id_ui_meta_boxes', Config::$titleMetaboxDocument , 'init_ui_meta_boxes', 'post', 'normal');       
+        add_meta_box('id_ui_meta_boxes_document', Config::$titleMetaboxDocument , 'init_ui_meta_boxes', 'post', 'normal', 'default', 'Document');
+        if(in_array($_GET['cridon_type'], Config::$contentWithMillesime)){
+            add_meta_box('id_ui_meta_boxes_millesime', Config::$titleMetaboxMillesime , 'init_ui_meta_boxes', 'post', 'normal', 'default', 'Millesime');
+        }
     }
 }
 
-function init_ui_meta_boxes( $post ){
+/**
+ * @param $post
+ * @param $args : model to display (document, millesime...)
+ * @throws Exception
+ */
+function init_ui_meta_boxes( $post, $args ){
     global $cri_container;
-    $container = $cri_container->get('ui_container');
+    $container = $cri_container->get('ui_' . strtolower($args['args']) . '_container');
     $container->setTitle('');
     $current = null;
     foreach ( Config::$data as $v ){
@@ -679,7 +690,7 @@ function init_ui_meta_boxes( $post ){
             $container->setObject($cls);
         }
     }
-    $container->create();
+    $container->create($args['args']);
 }
 
 function after_save_post_for_ui( $post_ID ){ 
@@ -694,7 +705,7 @@ function after_save_post_for_ui( $post_ID ){
                     }else{
                         $cls = new stdClass();
                         $cls->id = $obj->id;
-                        saveDocumentsFromUI(Config::$data[ $http[ 1 ] ][ 'model' ], $cls);
+                        saveFromUI(Config::$data[ $http[ 1 ] ][ 'model' ], $cls);
                     }
                 }
             }
@@ -703,12 +714,20 @@ function after_save_post_for_ui( $post_ID ){
     return $post_ID;
 }
 add_action('save_post','after_save_post_for_ui');
-function saveDocumentsFromUI( $model,$obj ){
+function saveFromUI( $model,$obj ){
     global $cri_container;
-    $ui_container = $cri_container->get('ui_container');
-    $ui_container->setModel($model);
-    $ui_container->setObject($obj);
-    $ui_container->save();
+    $ui_document_container = $cri_container->get('ui_document_container');
+    $ui_document_container->setModel($model);
+    $ui_document_container->setObject($obj);
+    $ui_document_container->save();
+
+    $config = assocToKeyVal(Config::$data, 'model', 'controller');
+    if (!empty($model) && in_array($config[$model],Config::$contentWithMillesime)) {
+        $ui_millesime_container = $cri_container->get('ui_millesime_container');
+        $ui_millesime_container->setModel($model);
+        $ui_millesime_container->setObject($obj);
+        $ui_millesime_container->save();
+    }
 }
 
 function afterInsertModel( $table,$lastID ){
@@ -716,7 +735,7 @@ function afterInsertModel( $table,$lastID ){
         if( $v['name'] == $table ){
             $cls = new stdClass();
             $cls->id = $lastID;
-            saveDocumentsFromUI($v['model'], $cls);
+            saveFromUI($v['model'], $cls);
             break;
         }
     }
@@ -1009,8 +1028,3 @@ function CridonlineAutologinLink()
     }
     return array($access, $url);
 }
-
-// On ajoute 'lieu' aux irréguliers dans les variables du module wp_mvc car celui-ci pluralize 'lieu' en 'lieus'
-MvcInflector::rules('singular',array('irregular' => array('lieux' => 'lieu')));
-MvcInflector::rules('plural',array('irregular' => array('lieu' => 'lieux')));
-

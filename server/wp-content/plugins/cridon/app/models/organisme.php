@@ -1,8 +1,8 @@
 <?php
 
-class Lieu extends \App\Override\Model\CridonMvcModel
+class Organisme extends \App\Override\Model\CridonMvcModel
 {
-    var $table = "{prefix}lieu";
+    var $table = "{prefix}organisme";
     var $includes = array('Session');
     var $has_many = array(
         'Session' => array('foreign_key' => 'id')

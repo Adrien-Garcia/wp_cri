@@ -51,8 +51,6 @@ class Config {
     // list of cridon_type using default post form
     public static $mvcWithPostForm = array('vie_cridons','cahier_cridons','flashes','formations','veilles');
 
-    public static $titleMetabox = 'Matière';// Titre du metabox de catégorie veille en admin
-
     // Supported file in model Matiere ( picto )
     public static $supported_types = array('image/jpeg','image/bmp','image/x-windows-bmp','image/x-icon','image/jpeg','image/pjpeg','image/png');
 
@@ -75,6 +73,11 @@ class Config {
         'flashes',
         'cahier_cridons',
         'formations'
+    );
+
+    //Content qualified by a "Millésime"
+    public static $contentWithMillesime = array(
+        'formations',
     );
 
     //Content with parent
@@ -207,7 +210,9 @@ class Config {
         CONST_NOTAIRE_ADMIN,
     );
 
+    public static $titleMetaboxMatiere = 'Matière';// Titre du metabox de catégorie matière en admin
     public static $titleMetaboxDocument = 'Associer des documents';// Titre du metabox pour l'ajout de document
+    public static $titleMetaboxMillesime = 'Millésimes';// Titre du metabox pour l'ajout de millésime
 
     // list of accepted question supports
     public static $acceptedSupports = array(
@@ -338,7 +343,8 @@ class Config {
     );
     public static $listOfControllersWpMvcOnSidebar = array(
         'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
-        'questions','soldes','supports','user_cridons','veilles','vie_cridons','lieux', 'sessions'
+        'questions','soldes','supports','user_cridons','veilles','vie_cridons','organismes', 'sessions',
+        'evenements'
     );
     public static $listOfControllersWithNoActionAdd = array(
         'notaires',
@@ -383,13 +389,17 @@ class Config {
             'add'    => 'Ajout d\'une question',
             'edit'   => 'Modification d\'une question'
         ),
-        'lieu' => array(
-            'add'    => 'Ajout d\'un lieu',
-            'edit'   => 'Modification d\'un lieu'
+        'organisme' => array(
+            'add'    => 'Ajout d\'un organisme',
+            'edit'   => 'Modification d\'un organisme'
         ),
         'session' => array(
             'add'    => 'Ajout d\'une nouvelle session de formation',
             'edit'   => 'Modifier les informations d\'une session de formation'
+        ),
+        'evenement' => array(
+            'add'    => 'Ajout d\'un nouvel évènement',
+            'edit'   => 'Modifier les informations d\'un évènement'
         )
     );
     public static $titleFieldAdminForm = array(
@@ -401,6 +411,7 @@ class Config {
         'description'   => 'Description',
         'displayed'     => 'Affiché sur le site ?',
         'email'         => 'Email',
+        'evenement'     => 'Nom de l\'évènement',
         'is_cridon'     => 'Est le cridon ?',
         'label'         => 'Libellé',
         'label_front'   => 'Libellé en front',
@@ -414,6 +425,7 @@ class Config {
         'value'         => 'Valeur',
         'date'          => 'Date',
         'timetable'     => 'Horaire',
+        'color'         => 'Couleur',
     );
     //End translation
 
@@ -434,7 +446,7 @@ class Config {
 
     // Content qualified by a "Custom Date"
     public static $contentWithCustomDate = array(
-        'sessions',
+        'sessions','evenements',
     );
     public static $dateTitleMetabox = 'Date de session';// Titre du metabox date de formation
 

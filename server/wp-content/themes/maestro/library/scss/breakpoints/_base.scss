@@ -18,7 +18,7 @@ body {
   	box-sizing: border-box;
   	background: #FFF;
 
-  	-webkit-font-smoothing: antialiased;
+  	-webkit-font-smoothing: antialiased; 
     -moz-osx-font-smoothing: grayscale;
 }
 
@@ -766,49 +766,43 @@ body.page-template-front-page{
 				}
 			}
 
-			.details{
+			.details {
 				width: 100%;
 				clear: both;
 				float: none;
 
 
-				.accordion{
+				.accordion {
 					text-align: center;
 					opacity: 0;
 					z-index: 0;
 					display: none;
-					.panel{
 
-						//height: 60px;
-						//overflow: hidden;
+					.panel {
 
-						.date{
+						.date {
 							height: 60px;
 							font-size: 25px;
 							@include do-re;
 							text-transform: uppercase;
 							text-align: center;
-							//background: $vert;
 							line-height: 60px;
 							color:#FFF;
 							position: relative;
 							display: block;
 
-							&:before{
-								content:'';
+							&::before {
 								@include sprite($angle-before-date-accordion-mobile);
+								content: '';
 								position: absolute;
 								top: 0px;
 								left: 50%;
 								margin-left: -23px;
-
-
 							}
 
-							&:after{
+							&:after {
 								content:'';
 								font-weight: normal;
-
 								position: absolute;
 								bottom: -15px;
 								left: 50%;
@@ -816,9 +810,9 @@ body.page-template-front-page{
 								z-index: 2000;
 							}
 
-							span.jour{
+							span.jour {
 
-								&:before{
+								&::before {
 									content:'';
 									@include do-el;
 									font-size: 40px;
@@ -940,18 +934,30 @@ body.page-template-front-page{
 										line-height: 14px;
 									}
 
-									>a {
+									a.bt-lire {
 										@include bt-crayon($vert, #FFFFFF);
-										margin:10px auto 30px auto;
-
+										margin:10px auto 10px auto;
 									}
 
-									&:hover > a{
+									
+									a.bt-all {
+										@include lien-souligne($rouge);
+										margin: 20px 0;
+										color: $gris-appli;
+
+										&::after {
+											left: 50%;
+											margin-left: -8px;
+											top: 13px;
+										}
+									}
+
+									&:hover a.bt-lire {
 										  background: transparent;
 									      color:$vert;
-									      &:after{
-									      border-color: transparent transparent transparent transparent;
 
+									      &::after {
+									      	border-color: transparent transparent transparent transparent;
 									      }
 									}
 								}
@@ -2816,14 +2822,4 @@ a.logoJP:hover{opacity: 1;
 		-moz-border-radius: 0 !important;
 	}
 
-
-
-
-
-
-
-
-
 }
-
-

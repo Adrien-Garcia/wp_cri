@@ -100,42 +100,45 @@ class QueryConstructorModel {
         if( !empty($this->options) && isset($this->options['joins']) ){
             //browse
             foreach ($this->options['joins'] as $join) {
-                if(is_string($join)){
-                    if($this->hasAndBelongToMany()){
-                        return true;
-                    }
-                    //Get model from registry
-                    $joinModel = \MvcModelRegistry::get_model($join);
-                    
-                    if( !$joinModel || !isset($this->model->associations[$joinModel->name]) ){
-                        throw new \RuntimeException('Model "'.$join.'" not found.');
-                    }
-                    $alias = substr(strtolower($joinModel->name),0,1 );
-                    if( in_array($alias,$this->aAlias['alias']) ){
-                        $alias = $this->incrementAlias(strtolower($joinModel->name));
-                    }
-                    if( isset($joinModel->belongs_to) && !empty($joinModel->belongs_to) && array_key_exists($this->model->name,$joinModel->belongs_to) ){
-                        $primary = $joinModel->belongs_to[$this->model->name]['foreign_key'];
-                        
+                if (!empty($join)) {
+
+                    if(is_string($join)){
+                        if($this->hasAndBelongToMany()){
+                            return true;
+                        }
+                        //Get model from registry
+                        $joinModel = \MvcModelRegistry::get_model($join);
+
+                        if( !$joinModel || !isset($this->model->associations[$joinModel->name]) ){
+                            throw new \RuntimeException('Model "'.$join.'" not found.');
+                        }
+                        $alias = substr(strtolower($joinModel->name),0,1 );
+                        if( in_array($alias,$this->aAlias['alias']) ){
+                            $alias = $this->incrementAlias(strtolower($joinModel->name));
+                        }
+                        if( isset($joinModel->belongs_to) && !empty($joinModel->belongs_to) && array_key_exists($this->model->name,$joinModel->belongs_to) ){
+                            $primary = $joinModel->belongs_to[$this->model->name]['foreign_key'];
+
+                        }else{
+
+                            $primary = $joinModel->primary_key;
+                        }
+                        //append in clauses
+                        $clauses[] = ' LEFT JOIN '.$joinModel->name.' '.$alias. ' ON '.$this->alias.'.'.$this->model->associations[$joinModel->name]['foreign_key'].' = '.$alias.'.'.$primary;
                     }else{
-                       
-                        $primary = $joinModel->primary_key;
-                    } 
-                    //append in clauses
-                    $clauses[] = ' LEFT JOIN '.$joinModel->name.' '.$alias. ' ON '.$this->alias.'.'.$this->model->associations[$joinModel->name]['foreign_key'].' = '.$alias.'.'.$primary;
-                }else{
-                    $type = empty($join['type']) ? 'JOIN' : $join['type'];
-                    $joinModel = $this->getModelInRegistry($join['model']);
-                    $alias = ($join['alias']) ? $join['alias'] : strtolower($joinModel->name);
-                    if( in_array($alias,$this->aAlias['alias']) ){
-                        $alias = $this->incrementAlias($alias);
+                        $type = empty($join['type']) ? 'JOIN' : $join['type'];
+                        $joinModel = $this->getModelInRegistry($join['model']);
+                        $alias = ($join['alias']) ? $join['alias'] : strtolower($joinModel->name);
+                        if( in_array($alias,$this->aAlias['alias']) ){
+                            $alias = $this->incrementAlias($alias);
+                        }
+                        $clauses[] = $type.' '.$joinModel->name.' '.$alias. ' ON '.$join['on'];
                     }
-                    $clauses[] = $type.' '.$joinModel->name.' '.$alias. ' ON '.$join['on'];                    
+                    //registry all
+                    $this->aModels[] = $joinModel;
+                    $this->aAlias['alias'][] = $alias;
+                    $this->aAlias['model_name'][] = $joinModel->name;
                 }
-                //registry all
-                $this->aModels[] = $joinModel;
-                $this->aAlias['alias'][] = $alias;
-                $this->aAlias['model_name'][] = $joinModel->name;
             }
         }else if( empty($this->options) || !empty($this->model->associations) ){
             //Put associations in query

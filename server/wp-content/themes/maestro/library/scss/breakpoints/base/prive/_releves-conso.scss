@@ -6,27 +6,27 @@ div#releves-conso {
     }
 
     .titre {
+        @extend .do-re;
         width: 100%;
         background: $bg-top-footer;
         height: 50px;
         text-align: center;
         line-height: 50px;
-        @extend .do-re;
         font-size: 20px;
-        color:$bleu;
+        color: $bleu;
         position: relative;
 
         &::before {
             @include svgicon('icon-angle-bottom', 14px, 14px, #e6e6e6);
             position: absolute;
             bottom: -13px;
-            left: 50%; 
+            left: 50%;
             margin-left: -22px;
         }
 
     }
-    
-    ul { 
+
+    ul {
         margin: 0;
         padding: 0;
 
@@ -38,8 +38,7 @@ div#releves-conso {
             border-bottom: solid 4px $bg-top-footer;
 
             a {
-
-                @include transition (all 0.3s);
+                @include transition (all .3s);
             }
 
             a.mois {
@@ -47,18 +46,18 @@ div#releves-conso {
                 font-family: $helvetica;
                 display: inline-block;
                 width: auto;
-                color:$bleu;
+                color: $bleu;
 
-                &:hover{
+                &:hover {
                     text-decoration: none;
                 }
             }
 
-            a.pdf { 
+            a.pdf {
                 display: inline-block;
                 width: auto;
 
-                &::before{
+                &::before {
                     @include svgicon('icon-pdf', 19px, 19px, $rouge);
                     position: absolute;
                     right: 0;
@@ -67,11 +66,11 @@ div#releves-conso {
                 }
 
                 &:hover {
-                    &::before{
-                        opacity: 0.6;
+                    &::before {
+                        opacity: .6;
                     }
                 }
-                
+
             }
 
         }

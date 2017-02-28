@@ -8,6 +8,7 @@
     <?php echo $this->custom_form->input('short_label',array('label' => Config::$titleFieldAdminForm['short_label'])); ?>
     <?php echo $this->custom_form->checkbox_input('displayed', array('label' => Config::$titleFieldAdminForm['displayed'])); ?>
     <?php echo $this->custom_form->checkbox_input('question', array('label' => Config::$titleFieldAdminForm['question'])); ?>
+    <?php echo $this->custom_form->input('color',array('label' => Config::$titleFieldAdminForm['color'])); ?>
     <?php echo $this->custom_form->textarea_input('meta_title',array('label' => 'Méta title')); ?>
     <?php echo $this->custom_form->textarea_input('meta_description',array('label' => 'Méta description')); ?>
     <?php echo $this->custom_form->file_input('picto',array('label' => 'Picto ( Dimension max : '.Config::$maxWidthHeight['width'].'x'.Config::$maxWidthHeight['height'].' )','type'=>'file')); ?>

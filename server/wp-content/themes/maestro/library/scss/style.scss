@@ -94,6 +94,9 @@ you hate oysters, then the world is your peanut butter & jelly sandwich.
 // Mmenu
 @import "modules/jquery.mmenu.all";
 
+// Textarea Full Screan
+@import "modules/textareafullscreen"; 
+
 
 
 /*********************
@@ -124,7 +127,10 @@ the other stylesheets. Remember, keep it light: Speed is Important.
 @import "breakpoints/base/liste";
 
 /*SINGLE*/
-@import "breakpoints/base/single";   
+@import "breakpoints/base/single";
+
+/*CALENDAR*/
+@import "breakpoints/base/calendar";
 
 /*********************
 LARGER MOBILE DEVICES
@@ -166,7 +172,9 @@ you can add resource intensive styles.
 	/*LISTE*/
 	@import "breakpoints/768/liste"; 
 	/*SINGLE*/
-	@import "breakpoints/768/single";   
+	@import "breakpoints/768/single";
+    /*CALENDAR*/
+    @import "breakpoints/768/calendar";
 
 } // end of media query
 
@@ -196,7 +204,9 @@ you can add resource intensive styles.
 	/*LISTE*/
 	@import "breakpoints/1240/liste"; 
 	/*SINGLE*/
-	@import "breakpoints/1240/single";   
+	@import "breakpoints/1240/single";
+    /*CALENDAR*/
+    @import "breakpoints/1240/calendar";
 
 } // end of media query
 

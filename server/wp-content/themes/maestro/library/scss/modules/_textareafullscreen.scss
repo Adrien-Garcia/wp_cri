@@ -1,0 +1,105 @@
+.tx-editor-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 120px;
+  margin-bottom: 15px;
+}
+.tx-editor-wrapper .tx-editor.expanded {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90%;
+  height: 90%;
+  z-index: 500;
+}
+.tx-editor-wrapper .tx-editor {
+    height: 70px;
+}
+.tx-editor-wrapper .tx-editor .tx-icon {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 18px;
+  height: 16px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAYAAAAbBi9cAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABV0RVh0Q3JlYXRpb24gVGltZQA4LzE2LzEzspl6ugAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAB7SURBVDiN7ZOxCsAgDESvxXyhi5P/Fif/0i6NGJH2KIUufVOUJB45s6lqw0DOGQylFHfeqSqCYEGMESJCF6aUAAC1Vt9IRPolixtDG1DVxjLnhtVL8yAvlZy8Nuy/0T1L19g1cY3Mavupd9bPWL5T9ERJV2SBrcfn238A3whjoYEPESwAAAAASUVORK5CYII=');
+  cursor: pointer;
+  z-index: 3;
+}
+.tx-editor-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 2;
+  opacity: 0;
+}
+
+@media only screen and (max-width: 759px) {
+    .tx-editor.expanded {
+        top: 0px !important;
+        height: 100% !important;
+        width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 760px) {
+  .tx-editor.expanded {
+    top: 250px !important;
+    height: 400px !important;
+    width: 660px !important;
+  }
+}
+
+@media only screen and (min-width: 1281px) {
+    .tx-icon {
+        top: 10px !important;
+        right: 29px !important;
+        @include transition (opacity .3s);
+
+        &::before {
+            @include do-re;
+            color: $bg-bottom-footer;
+            content: 'Agrandir';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            margin-left: -22px;
+            font-size: 12px;
+        }
+
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+
+    #question_message {
+        padding: 10px 60px 0 10px !important;
+    }
+
+
+    .tx-editor.expanded {
+        top: 247px !important;
+        height: 510px !important;
+        width: 1120px !important;
+
+        .tx-icon {
+            top: 15px !important;
+            right: 31px !important;
+
+            &::before {
+                @include do-re;
+                color: $bg-bottom-footer;
+                content: 'Réduire';
+                position: absolute;
+                top: 20px;
+                left: 50%;
+                margin-left: -17px;
+                font-size: 12px; 
+            }
+        }
+
+    }
+
+}

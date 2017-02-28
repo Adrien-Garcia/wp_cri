@@ -1,697 +1,647 @@
-/*
- QUESTIONS
-  */
+//QUESTIONS
 
-div#mes-questions{
+div#mes-questions {
+    @include do-re;
+    font-size: 12px;
+    color: $bleu;
 
-	font-size: 12px;
-	color:$bleu;
-	@include do-re;
-
-	h2 span{
-		display: block;
-		line-height: 20px;
-	}
+    h2 span {
+        display: block;
+        line-height: 20px;
+    }
 
 
 
-	a.pdf{
-	 	display: block;
-	 	width: 16px;
-	 	height: 16px;
-	 	position: relative;
-	 	float: right;
-	 	text-decoration: none;
+    a.pdf {
+        display: block;
+        width: 16px;
+        height: 16px;
+        position: relative;
+        float: right;
+        text-decoration: none;
 
-	 	&:before{
-	 		@include svgicon('icon-pdf', 16px, 16px, $rouge);
-	 		position: absolute;
-	 		top: 0;
-	 		left: 0;
-	 		text-decoration: none;
-	 	}
-	 }
+        &::before {
+            @include svgicon('icon-pdf', 16px, 16px, $rouge);
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-decoration: none;
+        }
+     }
 
-	ul{
-		padding: 0;
-		margin: 0;
+    ul {
+        padding: 0;
+        margin: 0;
 
-		li{
-			padding: 0;
-			margin: 0;
+        li {
+            padding: 0;
+            margin: 0;
 
-			p{
-				margin: 0;
-				padding: 0;
-				font-size: 14px !important;
-				line-height: 16px !important;
-				font-family: $dosis !important;
-				font-weight: 600;
-				//@include do-sm;
-				color:$bleu;
-				height: 32px;
-				overflow: hidden;
-			}
+            p {
+                margin: 0;
+                padding: 0;
+                font-size: 14px !important;
+                line-height: 16px !important;
+                font-family: $dosis !important;
+                font-weight: 600;
+                color: $bleu;
+                height: 32px;
+                overflow: hidden;
+            }
 
-			span{
-				font-size: 14px;
-				line-height: 18px;
-				@include do-sm;
-				color:$bleu;
-			}
+            span {
+                @include do-sm;
+                font-size: 14px;
+                line-height: 18px;
+                color: $bleu;
+            }
 
-			.date{
-				/*position: absolute;
-				top: 0;
-				left: 40px;*/
-				font-family: $helvetica;
-				font-weight: 100;
-				color:$bleu;
-				font-size: 15px;
-				text-transform: uppercase;
-			}
+            .date {
+                font-family: $helvetica;
+                font-weight: 100;
+                color: $bleu;
+                font-size: 15px;
+                text-transform: uppercase;
+            }
 
-			.reponse{
-				position: absolute;
-				top: 20px;
-				left: 40px;
-				font-family: $helvetica;
-				font-weight: 100;
-				color:$bleu;
-				font-size: 14px;
-				text-transform: uppercase;
+            .reponse {
+                position: absolute;
+                top: 20px;
+                left: 40px;
+                font-family: $helvetica;
+                font-weight: 100;
+                color: $bleu;
+                font-size: 14px;
+                text-transform: uppercase;
 
-			}
+            }
 
-			.matiere{
-				@include do-sm;
-				color: #FFF;
-			    text-transform: uppercase;
-			    font-size: 13px;
-			    background: #009999;
-			    display: inline-block;
-			    padding: 0 2px;
-			    margin-bottom: 5px;
-			    height: 13px;
-			    line-height: 13px;
-			}
+            .matiere {
+                @include do-sm;
+                color: #fff;
+                text-transform: uppercase;
+                font-size: 13px;
+                background: #099;
+                display: inline-block;
+                padding: 0 2px;
+                margin-bottom: 5px;
+                height: 13px;
+                line-height: 13px;
+            }
 
-			.id-question{
-				font-family: $helvetica;
-				font-weight: 100;
-				text-transform: uppercase;
-			}
+            .id-question {
+                font-family: $helvetica;
+                font-weight: 100;
+                text-transform: uppercase;
+            }
 
-			.answer{
-				color:$vert;
-				position: relative;
-				padding-left: 20px;
-				margin-bottom: 10px;
-				&:before{
-					@include svgicon('icon-status-repondu', 16px, 16px, $vert);
-					font-weight: normal;
-					position: absolute;
-					left:0px;
-					top: 50%;
-					margin-top: -8px;
-				}
-			}
+            .answer {
+                color: $vert;
+                position: relative;
+                padding-left: 20px;
+                margin-bottom: 10px;
 
-			.status{
-				//@include svgicon('icon-clock', 18px, 18px, $bleu);	
-				
-				position: relative;
-				padding-left: 20px;
+                &::before {
+                    @include svgicon('icon-status-repondu', 16px, 16px, $vert);
+                    font-weight: normal;
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    margin-top: -8px;
+                }
+            }
 
-				&:before{
-					@include svgicon('icon-clock', 16px, 16px, $bleu);
-					font-weight: normal;
-					position: absolute;
-					left:0px;
-					top: 50%;
-					margin-top: -8px;
+            .status {
+                position: relative;
+                padding-left: 20px;
 
-				}
-
-			}
-
-			.person{
-				//padding-left: 20px;
-			}
-
-			&:before{display: none;}
-
-
-
-		}
-
-		li.pdf{ 
-
-			display: none;
-
-			 
-		}
-
-		li.plusdedetails{
-			margin-bottom: 0;
-			
-			> span{
-				@include do-sm;
-				color:$rouge;
-				font-size: 14px;
-				position: relative;
-				display: inline-block;
-				margin-left: 40px;
-				padding-bottom: 15px;
-				border-bottom:solid 8px #e6e6e6;
-				cursor: pointer;
-				padding-right: 20px;
-				//text-decoration: underline;
-
-				> span{
-					border-bottom:solid 1px $rouge;
-					color:$rouge;
-				}
-
-				&:after{
-					content:'>';
-					font-weight: normal;
-					position: absolute;
-					right:0px;
-					top:0px;
-					color:$rouge;
-					font-size: 30px;
-					@include rotate(90);
-					@include do-el;
-				}
-
-				&:before{
-					content:'';
-				}
-				
-				&.close{
-
-					&:before{
-						content:'+';
-						font-weight: normal;
-						position: absolute;
-						right:0px;
-						top:-3px;
-						color:$rouge;
-						font-size: 34px;
-						@include rotate(45);
-						@include do-el;
-					}
-
-					&:after{
-						content:'';
-					}
-
-				}
-			}
-
-			.details{
-				width: 100%;
-				background: #e6e6e6;
-				padding: 0 20px 0 40px;
-
-				//display: none;
-				overflow: hidden;
-				//opacity: 0;
-				@include transition (height 0.3s);
-
-				&:not(.open) {
-                    height: 0px !important;
-
+                &::before {
+                    @include svgicon('icon-clock', 16px, 16px, $bleu);
+                    font-weight: normal;
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    margin-top: -8px;
                 }
 
-				> ul{
-					padding: 10px 0;
-					margin: 0;
+            }
 
-					>li{
-						padding: 0;
-						margin: 0;
-					
-						&:first-child{
+            &::before { display: none; }
 
-							span{
-								display: block;
-								margin-bottom: 5px;
-								@include do-re;
-							}
 
-							>ul{
+
+        }
+
+        li.pdf {
+            display: none;
+        }
+
+        li.plusdedetails {
+            margin-bottom: 0;
+
+            > span {
+                @include do-sm;
+                color: $rouge;
+                font-size: 14px;
+                position: relative;
+                display: inline-block;
+                margin-left: 40px;
+                padding-bottom: 15px;
+                border-bottom: solid 8px #e6e6e6;
+                cursor: pointer;
+                padding-right: 20px;
+
+                > span {
+                    border-bottom: solid 1px $rouge;
+                    color: $rouge;
+                }
+
+                &::after {
+                    @include rotate(90);
+                    @include do-el;
+                    content: '>';
+                    font-weight: normal;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    color: $rouge;
+                    font-size: 30px;
+                }
+
+                &::before {
+                    content: '';
+                }
+
+                &.close {
+
+                    &::before {
+                        @include rotate(45);
+                        @include do-el;
+                        content: '+';
+                        font-weight: normal;
+                        position: absolute;
+                        right: 0;
+                        top: -3px;
+                        color: $rouge;
+                        font-size: 34px;
+                    }
+
+                    &::after {
+                        content: '';
+                    }
+
+                }
+            }
+
+            .details {
+                @include transition (height .3s);
+                width: 100%;
+                background: #e6e6e6;
+                padding: 0 20px 0 40px;
+                overflow: hidden;
+
+                &:not(.open) {
+                    height: 0 !important;
+                }
+
+                > ul {
+                    padding: 10px 0;
+                    margin: 0;
+
+                    >li {
+                        padding: 0;
+                        margin: 0;
+
+                        &:first-child {
+
+                            span {
+                                @include do-re;
+                                display: block;
+                                margin-bottom: 5px;
+                            }
+
+                            >ul {
                                 padding: 0;
                                 margin: 10px 0 0;
 
                                 >li {
-									margin: 0;
-									padding: 0;
+                                    margin: 0;
+                                    padding: 0;
 
-									a{
-										@include do-el;
-										font-size: 14px;
-										color:$bleu;
-										padding: 5px 0;
-										display: block;
-										text-decoration: none;
-									}
-								}
-							}
+                                    a {
+                                        @include do-el;
+                                        font-size: 14px;
+                                        color: $bleu;
+                                        padding: 5px 0;
+                                        display: block;
+                                        text-decoration: none;
+                                    }
+                                }
+                            }
 
-						}
+                        }
 
-						&:last-child{
-							margin-top: 30px;
+                        &:last-child {
+                            margin-top: 30px;
+                            font-size: 12px;
 
-							font-size: 12px;
+                            >span {
+                                display: block;
+                                margin-bottom: 5px;
+                            }
+                        }
+                    }
 
-							>span{
-								display: block;
-								margin-bottom: 5px;
-							}
-						}
-					}
+                }
+            }
 
+        }
 
-					
-				}
-			}
+    }
 
-		}
+    #questions-attentes,
+    #historique-questions {
 
-	}
+        clear: both;
+        float: none;
+        width: 100%;
 
-	#questions-attentes, #historique-questions{		
+        >ul {
+            float: left;
+            width: 100%;
 
-	
-	clear: both;
-	float: none;
-	width: 100%;					
+            > li {
 
-		>ul{
-			float: left;
-			width: 100%;
-
-			> li{
-
-				padding-top: 10px;
-				border-top:solid 2px $bleu;				
-				position: relative;
-				width: 100%;
-				float: left;
-				line-height: 18px;
-				margin-bottom: 20px;
-
-				//padding-bottom: 10px;
-				border-bottom:solid 2px #e6e6e6;
+                padding-top: 10px;
+                border-top: solid 2px $bleu;
+                position: relative;
+                width: 100%;
+                float: left;
+                line-height: 18px;
+                margin-bottom: 20px;
+                border-bottom: solid 2px #e6e6e6;
 
 
-				/* CODE COULEUR ETAT QUESTION */
+                // CODE COULEUR ETAT QUESTION
 
-				&:before{
-					content:'';
-					width: 120px;
-					height: 7px;
-					background: $bleu;
-					position: absolute;
-					top: -7px;
-					left: 0;
-					display: block;
-				}
+                &::before {
+                    content: '';
+                    width: 120px;
+                    height: 7px;
+                    background: $bleu;
+                    position: absolute;
+                    top: -7px;
+                    left: 0;
+                    display: block;
+                }
 
-				&.traitement{
-					border-top:solid 2px $jaune;
-					&:before{
-						background: $jaune;
-					}
-				}
+                &.traitement {
+                    border-top: solid 2px $jaune;
 
-				&.repondue{
-					border-top:solid 2px $vert;
-					&:before{
-						background: $vert;
-					}
-				}
+                    &::before {
+                        background: $jaune;
+                    }
+                }
 
-				&.suspendue{
-					border-top:solid 2px #818181;
-					&:before{
-						background: #818181;
-					}
-				}
+                &.repondue {
+                    border-top: solid 2px $vert;
+
+                    &::before {
+                        background: $vert;
+                    }
+                }
+
+                &.suspendue {
+                    border-top: solid 2px #818181;
+
+                    &::before {
+                        background: #818181;
+                    }
+                }
 
 
-				/* FIN */
+                // /* FIN */
 
-				&:last-child{
-					margin-bottom: 40px;
-				}
-
-				
-
-				>ul{
-					width: 100%;
-					float: left;
-					margin-top: 7px;
-
-					li{margin-bottom: 10px;}
-
-					>li:first-child{
-						width: 30px;
-						height: 30px;
-						float: left;
-						margin-right: 10px;
-
-						>img{ width: 30px; height: 30px;}
-					}
-
-					> li:nth-child(2), > li:nth-child(3), > li:nth-child(6){
-						float: right;
-						width: calc(100% - 40px);
-					}
-
-					
-
-					> li:nth-child(4), > li:nth-child(5){
-						float: left;
-						width: 95px;
-					}
-
-					> li:nth-child(2){
-						//padding-top: 20px;
-					}
-
-					> li:nth-child(3){
-						span{
-							display:block;
-						}
-					}
-
-					> li:nth-child(4){
-						margin-left: 40px;
-					}
-
-					> li:nth-child(5){
-						text-align: right;
-					}
-
-					> li:nth-child(8){
-						
-						width: 100%;
-						clear: both;
-						margin-bottom: 0px;
-
-						li{margin-bottom: 5px;}
-					}
-				}
-
-			}
-
-			
-		}
-	}
-
-	#questions-attentes{
-		margin-bottom: 40px;
-
-		
-
-		> ul{
-			> li{
-
-				> ul {
-					
-					> li:nth-child(2){
-						//padding-top: 40px;
-					}
-
-				}
-			}
-		}
-	}
-
-	#historique-questions{
-
-		.filtres{
-
-			border-bottom:solid 5px $bg-top-footer;
-			margin-bottom: 40px;
-			padding-bottom: 10px;
-			position: relative;
-
-			//display: none; /* FILTRE DISPLAY NON*/
+                &:last-child {
+                    margin-bottom: 40px;
+                }
 
 
 
-			&:before{
+                >ul {
+                    width: 100%;
+                    float: left;
+                    margin-top: 7px;
 
-				@include svgicon('ico-sep', 20px, 20px, #e6e6e6);
-				position: absolute;
-				bottom: -19px;
-				background: #FFF;
-				left: 50%;
-				margin-left: -30px;
+                    li {
+                        margin-bottom: 10px;
+                        }
 
-				
-			}
+                    >li:first-child {
+                        width: 30px;
+                        height: 30px;
+                        float: left;
+                        margin-right: 10px;
 
-			> ul{
-				margin: 0;
-				padding: 0;
-				
+                        >img {
+                            width: 30px;
+                            height: 30px;
+                        }
+                    }
 
-				li{
-					padding: 0;
-                    margin: 0 0 15px;
+                    > li:nth-child(2),
+                    > li:nth-child(3),
+                    > li:nth-child(6) {
+                        float: right;
+                        width: calc(100% - 40px);
+                    }
 
+
+
+                    > li:nth-child(4),
+                    > li:nth-child(5) {
+                        float: left;
+                        width: 95px;
+                    }
+
+                    > li:nth-child(3) {
+                        span {
+                            display: block;
+                        }
+                    }
+
+                    > li:nth-child(4) {
+                        margin-left: 40px;
+                    }
+
+                    > li:nth-child(5) {
+                        text-align: right;
+                    }
+
+                    > li:nth-child(8) {
+
+                        width: 100%;
+                        clear: both;
+                        margin-bottom: 0;
+
+                        li {
+                            margin-bottom: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #historique-questions {
+
+        .filtres {
+
+            border-bottom: solid 5px $bg-top-footer;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            position: relative;
+
+            //display: none; /* FILTRE DISPLAY NON*/
+
+
+
+            &::before {
+                @include svgicon('ico-sep', 20px, 20px, #e6e6e6);
+                position: absolute;
+                bottom: -19px;
+                background: #fff;
+                left: 50%;
+                margin-left: -30px;
+            }
+
+            > ul {
+                margin: 0;
+                padding: 0;
+
+                li {
                     @include do-sm;
-					font-size: 14px;
-					color:$bleu;
-					line-height: 20px;
+                    padding: 0;
+                    margin: 0 0 15px;
+                    font-size: 14px;
+                    color: $bleu;
+                    line-height: 20px;
 
-					.titre{
-						@include do-re;
-						font-size: 15px;
-						color:$bleu;
-						font-weight: normal;
-						display: inline-block;
-						margin-top: 10px;
-						margin-bottom: 5px;
-						//margin: 20px 0;
+                    .titre {
+                        @include do-re;
+                        font-size: 15px;
+                        color: $bleu;
+                        font-weight: normal;
+                        display: inline-block;
+                        margin-top: 10px;
+                        margin-bottom: 5px;
+                    }
 
-					}
+                    > a {
+                        font-family: $garamond;
+                        font-size: 16px;
+                        color: $rouge;
+                        font-weight: normal;
+                        border-bottom: solid 1px $rouge;
+                        text-decoration: none;
 
-					> a{
+                    }
 
-						font-family: $garamond;
-						font-size: 16px;
-						color:$rouge;
-						font-weight: normal;
-						border-bottom:solid 1px $rouge;
-						text-decoration: none;
+                    >div {
+                        width: 100%;
+                        overflow: hidden;
 
-					}
+                        label {
+                            display: block;
+                            float: left;
+                            line-height: 35px;
+                        }
 
-					>div{
-						width: 100%;
-						overflow: hidden;
-						
-						label{
-							display: block;
-							float: left;
-							line-height: 35px;
-						}
-						input{
-							float: left;
-							width: 209px;
-						}
-					}
+                        input {
+                            float: left;
+                            width: 209px;
+                        }
+                    }
 
-					
-
-					input{
-						width: 100px;
-						display: inline;
-						height: 35px;
-						line-height: 30px;
-						border:solid 3px #e6e6e6;
-						@include border-radius(0);
-                        padding:0;
+                    input {
+                        @include border-radius(0);
+                        width: 100px;
+                        display: inline;
+                        height: 35px;
+                        line-height: 30px;
+                        border: solid 3px #e6e6e6;
+                        padding: 0;
                         margin: 0 0 0 10px;
                         vertical-align: middle;
                     }
 
-					select{
-						display: inline-block;
-						width: 235px;
-						border:solid 3px #e6e6e6;
-						@include border-radius(0);
-					}
+                    select {
+                        @include border-radius(0);
+                        display: inline-block;
+                        width: 235px;
+                        border: solid 3px #e6e6e6;
+                    }
+                }
 
+                > li:first-child {
+                    margin-bottom: 10px;
+                }
 
-				}
+                >li:nth-child(2) {
+                    .titre {
+                        margin-right: 16px;
+                    }
 
-				> li:first-child{
-					margin-bottom: 10px;
-				}
+                    #dateto {
+                        margin-top: 6px;
+                    }
+                }
 
-				>li:nth-child(2){
-					
-					.titre{
-						margin-right: 16px;
-					}
+                >li:last-child {
+                    .titre {
+                        margin-right: 18px;
+                    }
+                }
+            }
+        }
 
-					#dateto{margin-top: 6px;}
-				}
-				>li:last-child{
-					.titre{
-						margin-right: 18px;
-					}
-				}
-			}
-		}
+        >ul > li:last-child { 
+            margin-bottom: 0;
+            border-bottom: 0;
+        }
 
-		>ul >li:last-child{ margin-bottom: 0; border-bottom:none;}
+        > ul {
+            > li {
+                padding-bottom: 20px;
+                margin-bottom: 20px;
 
-		> ul{
-			> li{
+                > ul {
+                    li:nth-child(6) {
+                        width: 126px;
+                        float: left;
+                        margin-left: 40px;
+                    }
 
-				padding-bottom: 20px;
-				margin-bottom: 20px;
+                    li.pdf {
+                        display: inline-block;
+                        float: left;
+                        width: 68px;
+                    }
+                }
 
-				> ul{
+                > ul.suite-complement {
+                    width: 100%;
+                    clear: both;
+                    margin-top: 20px;
 
-					li:nth-child(6){
-						width: 126px;
-						float: left;
-						margin-left: 40px;
-					}
+                    > li {
+                        width: 100%;
+                        text-align: right;
+                        padding: 0;
+                        margin-bottom: 10px;
+                        margin-right: 20px;
+                        float: right;
+                        color: $bleu;
 
-					li.pdf{
-						display: inline-block;
-						float: left;
-						width: 68px;
-					}
+                        >a {
+                            @include do-sm;
+                            margin-left: 15px;
+                            font-size: 14px;
+                            width: auto;
+                            color: $bleu;
+                            text-decoration: none;
 
-				}
+                            &::before {
+                                left: inherit;
+                                right: -20px;
+                                font-weight: normal;
+                            }
 
-				> ul.suite-complement{
-					width: 100%;
-					clear: both;
-					margin-top: 20px;
+                            b {
+                                font-family: $helvetica;
+                                font-weight: normal;
+                            }
 
-					> li{
-						width: 100%;
-						text-align: right;
-						padding: 0;
-						margin-bottom: 10px;
-						margin-right: 20px;
-						float: right;
-						color:$bleu; 
+                        }
+                    }
 
-						>a{
-							margin-left: 15px;
-							@include do-sm;
-							font-size: 14px;
-							width: auto;
-							color:$bleu; 
-							text-decoration: none;
+                }
+            }
+        }
 
-							&:before{
-								left:inherit;
-								right: -20px;
-								font-weight: normal;
-							}
+    }
 
-							b{
-								font-family: $helvetica;
-								font-weight: normal;
-							}
+    .legende {
 
-						}	
-					}
+        ul {
+            margin: 0;
+            padding: 0;
 
-				}
-			}
-		}
+            li {
+                @include do-re;
+                margin: 0;
+                padding: 0;
+                position: relative;
+                line-height: 22px;
+                padding-left: 30px;
+                margin-bottom: 10px;
+                font-size: 12px;
+                text-transform: uppercase;
+                color: #818181;
 
+                &::before {
+                    @include svgicon('icon-angle-right', 18px, 18px, $bleu);
+                    position: absolute;
+                    left: 22px;
+                    top: 50%;
+                    margin-top: -9px;
+                    display: block;
+                }
 
+                &::after {
+                    content: '';
+                    width: 22px;
+                    height: 22px;
+                    background: $bleu;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                }
 
-		
-	}
+                &.traitement {
 
-	.legende{
+                    &::before {
+                        @include svgicon('icon-angle-right', 18px, 18px, $jaune);
+                    }
 
-		ul{
-			margin: 0;
-			padding: 0;
+                    &::after {
+                        background: $jaune;
+                    }
+                }
 
-			li{
-				margin: 0;
-				padding: 0;	
-				position: relative;
-				line-height: 22px;
-				padding-left: 30px;
-				margin-bottom: 10px;
-				@include do-re;
-				font-size: 12px;
-				text-transform: uppercase;
-				color:#818181;
+                &.repondue {
+                    &::before {
+                        @include svgicon('icon-angle-right', 18px, 18px, $vert);
+                    }
 
-				&:before{
-					@include svgicon('icon-angle-right', 18px, 18px, $bleu);
-					position: absolute;
-					left: 22px;
-					top: 50%;
-					margin-top: -9px;
-					display: block;
-				}
+                    &::after {
+                        background: $vert;
+                    }
+                }
 
-				&:after{
-					content:'';
-					width: 22px;
-					height: 22px;
-					background: $bleu;
-					position: absolute;
-					left: 0;
-					top: 0;
-				}
+                &.suspendue {
+                    margin-bottom: 0;
 
-				&.traitement{
+                    &::before {
+                        @include svgicon('icon-angle-right', 18px, 18px, #818181);
+                    }
 
-					&:before{
-						@include svgicon('icon-angle-right', 18px, 18px, $jaune);
-					}
-					&:after{
-						background: $jaune;
-					}
-				}
+                    &::after {
+                        background: #818181;
+                    }
 
-				&.repondue{
-					&:before{
-						@include svgicon('icon-angle-right', 18px, 18px, $vert);
-					}
-					&:after{
-						background: $vert;
-					}
-				}
-
-				&.suspendue{
-					margin-bottom: 0;
-					&:before{
-						@include svgicon('icon-angle-right', 18px, 18px, #818181);
-					}
-					&:after{
-						background: #818181;
-					}
-
-				}
-			}
-		}
-	}
-
-
-
+                }
+            }
+        }
+    }
 }

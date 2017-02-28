@@ -1,0 +1,272 @@
+
+/*********************
+CALENDAR STYLES
+*********************/
+
+#calendar {
+    $calendar-line-height: 114px;
+    $calendar-sidebar-width: 164px;
+    $calendar-margin: 3px;
+    $calendar-day-height: 170px;
+    $calendar-day-head-height: 32px;
+
+    width: 1200px;
+    border: 1px solid #bcbcbc;
+
+
+    .calendar__button {
+
+        &--next {
+            left: 232px;
+        }
+        &--previous {
+            left: 63px;
+        }
+    }
+
+    .calendar__button--today {
+        top: 22px;
+        left: 112px;
+        height: auto;
+        line-height: 30px;
+        border:solid 1px $bleu;
+        font-size: 16px;
+        padding: 0 15px;
+        @include transition(opacity .3s);
+
+        &:hover {
+            opacity: .8;
+        }
+
+    }
+
+    .calendar__block--currentmonth {
+        font-size: 24px;
+    }
+
+    .calendar__wrapper--header {
+        height: auto;
+        border-top: none;
+    }
+
+    .calendar__header--navigation {
+        height: 75px;
+        border-bottom: 1px solid #bcbcbc;
+    }
+
+    .calendar__header--weekdays {
+        display: block;
+        background: #eee;
+        margin: 0;
+        height: 55px;
+    }
+
+    .calendar__weekdays {
+        display: inline-block;
+        float: none;
+        padding: 13px 0;
+        text-transform: capitalize;
+        height: 100%;
+        border-right: 1px solid #bcbcbc;
+        width: 171px;
+        text-align: center;
+        vertical-align: middle;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    .calendar__body {
+        line-height: 0;
+    }
+
+    .calendar__day {
+        line-height: 16px;
+        display: inline-block;
+        width: 171px;
+        border-right: 1px solid #bcbcbc;
+        height: $calendar-day-height;
+        max-height: $calendar-day-height;
+        padding: 0 $calendar-margin;
+
+        &:nth-child(7n) { //dimanche
+            border-right: none;
+        }
+
+        &:nth-last-child(-n+7) { //last line
+            border-bottom: none;
+        }
+    }
+
+    .calendar__day-side {
+        height: $calendar-day-head-height;
+
+    }
+
+    .calendar__day-name {
+        display: none;
+    }
+
+    .calendar__day-content {
+        width: 100%;
+        overflow:hidden;
+    }
+
+    .calendar__day-number {
+        float: right;
+        width: 32px;
+        height: $calendar-day-head-height;
+        font-size: 16px;
+        line-height: $calendar-day-head-height;
+        margin: 0 2px 0 2px;
+    }
+
+    .calendar__day-event {
+        @include no-ellipsis;
+        display: block;
+        line-height: 13px;
+        opacity: .6;
+        padding: 5px 0 0 4px;
+        width: calc(100% - 36px);
+        max-height: $calendar-day-head-height;
+        height: $calendar-day-head-height;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+
+        &--mobile {
+            display: none;
+        }
+        &--tablet {
+            display: inline-block;
+        }
+    }
+
+    .calendar__day-sessions {
+        position: relative;
+        height: $calendar-day-height - $calendar-day-head-height - $calendar-margin;
+
+        &.calendar__day-sessions--scrollable {
+            height: $calendar-day-height - $calendar-day-head-height - $calendar-margin;
+            overflow: auto;
+            margin: 0 -316px 0 0;
+            padding-right: 300px;
+        }
+    }
+
+    .calendar__day:hover .calendar__day-sessions-scrollbar {
+        opacity: 1;
+        background: transparentize(#eee, .2);
+    }
+
+    .calendar__day-sessions-scrollbar {
+        display: block;
+        position: absolute;
+        top: 32px;
+        right: 0;
+        width: 10px;
+        height: calc(100% - #{$calendar-day-head-height});
+        padding: 2px ;
+        background: transparentize(#eee, .9);
+        opacity: 1;
+        transition: opacity .2s, background-color .2s;
+        z-index: 1;
+
+        &--bar {
+            position: absolute;
+            display: block;
+            top: 0;
+            left: 2px;
+            width: 6px;
+            height: 50%;
+            background: #333;
+            opacity: .7;
+            border-radius: 3px;
+        }
+    }
+
+    .calendar__session {
+        padding: 5px 0;
+        box-shadow: -5px 0 0 0 $calendar-color1, inset 0 0 0px 0px $calendar-color-hover;
+
+        &.calendar__session--open,
+        &.calendar__session--open:hover {
+            box-shadow: -5px 0 50px 100px $calendar-color1, inset 0 0 2px 2px $calendar-color-hover;
+        }
+        &:hover {
+            box-shadow: -5px 0 0 0 $calendar-color1, inset 0 0 2px 2px $calendar-color-hover;
+        }
+    }
+
+    .calendar__session-name {
+        font-size: 14px;
+        display: inline-block;
+        padding: 3px 0 0 0;
+        &--name {
+            max-height: 90px;
+            overflow: hidden;
+        }
+    }
+
+
+    .calendar__session-block {
+        top: -50%;
+        bottom: auto;
+        right: -230px;
+        left: auto;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: calc(50% - 30px);
+            left: -15px;
+            width: 15px;
+            @include svgicon('icon-angle-left', 60px, 60px, #eee);
+
+        }
+
+    }
+
+    .calendar__day {
+        &:nth-child(7n-1), //samedi et dimanche
+        &:nth-child(7n) {
+            .calendar__session-block {
+                left: -230px;
+                right: auto;
+
+                &:before {
+                    content: '';
+                    position: absolute;
+                    right: -14px;
+                    left: auto;
+                    width: 15px;
+                    @include svgicon('icon-angle-right', 60px, 60px, #eee);
+
+                }
+            }
+        }
+    }
+
+    .calendar__session-block-button--close::before {
+        line-height: 26px;
+    }
+}
+
+//
+// LEGENDE CALENDRIER
+//
+
+.page-calendar {
+    .legende {
+        ul {
+            li {
+                width: 15%;
+
+                span {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

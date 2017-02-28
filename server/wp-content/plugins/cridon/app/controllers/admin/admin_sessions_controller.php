@@ -41,15 +41,16 @@ class AdminSessionsController extends BaseAdminController
             'label' => 'Formation',
             'value_method' => 'formationLink'
         ),
-        'lieu' => array(
-            'label' => 'Lieu',
-            'value_method' => 'lieuLink'
+        'organisme' => array(
+            'label' => 'Organisme',
+            'value_method' => 'organismeLink'
         )
     );
 
     public function index() {
         $this->init_default_columns();
         $this->process_params_for_search();
+        $this->params['order'] = 'date DESC';
         $collection = $this->model->paginate($this->params);
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
@@ -59,7 +60,7 @@ class AdminSessionsController extends BaseAdminController
 
     public function add(){
         $this->setFormations();
-        $this->setLieux();
+        $this->setOrganismes();
         $this->prepareInputDate();
         $this->create_or_save();
         $this->load_helper('CustomForm');
@@ -67,7 +68,7 @@ class AdminSessionsController extends BaseAdminController
 
     public function edit() {
         $this->setFormations();
-        $this->setLieux();
+        $this->setOrganismes();
         $this->prepareInputDate();
         $this->verify_id_param();
         $this->create_or_save();
@@ -81,8 +82,10 @@ class AdminSessionsController extends BaseAdminController
         wp_enqueue_script('jquery-ui-datepicker');
 
         wp_enqueue_script('jquery-ui-i18n-fr', plugins_url('cridon/app/public/js/jquery.ui.datepicker-fr.js'), array('jquery-ui-datepicker'));
-        wp_register_script( 'formation-js', plugins_url('cridon/app/public/js/bo/formation.js'), array('jquery') );
+        wp_register_script('formation-js', plugins_url('cridon/app/public/js/bo/formation.js'), array('jquery') );
         wp_enqueue_script('formation-js');
+        wp_register_script('datepicker-js', plugins_url('cridon/app/public/js/bo/datepicker.js'), array('jquery') );
+        wp_enqueue_script('datepicker-js');
         wp_enqueue_style('jquery-ui-css', plugins_url('cridon/app/public/css/jquery-ui.css'));
     }
 
@@ -90,9 +93,9 @@ class AdminSessionsController extends BaseAdminController
     {
         $this->load_model('Formation');
         $formations = $this->Formation->find(array(
-            'selects' => array('id', 'Post.post_title'),
-            'joins' => array('Post'),
-            'order' => 'Post.post_date DESC'
+            'selects' => array('id', 'Post.post_title', 'Matiere.code', 'Matiere.label'),
+            'joins' => array('Post', 'Matiere'),
+            'order' => 'Matiere.code DESC'
         ));
 
         $options = array();
@@ -101,29 +104,33 @@ class AdminSessionsController extends BaseAdminController
                 if (!isset($formation->post) || empty($formation->post->post_title)) {
                     continue;
                 }
-                $options[$formation->id] =  $formation->post->post_title;
+                $option = new StdClass();
+                $option->__id = $formation->id;
+                $option->__name = $formation->post->post_title;
+                $option->__group = $formation->matiere->label;
+                $options[$formation->id] =  $option;
             }
         }
 
         $this->set('formations', $options);
     }
 
-    private function setLieux()
+    private function setOrganismes()
     {
-        $this->load_model('Lieu');
-        $lieux = $this->Lieu->find(array(
+        $this->load_model('Organisme');
+        $organismes = $this->Organisme->find(array(
             'selects' => array('id', 'name'),
             'order' => 'name'
         ));
 
         $options = array();
-        if (is_array($lieux) && count($lieux) > 0) {
-            foreach ($lieux as $lieu) {
-                $options[$lieu->id] =  $lieu->name;
+        if (is_array($organismes) && count($organismes) > 0) {
+            foreach ($organismes as $organisme) {
+                $options[$organisme->id] =  $organisme->name;
             }
         }
 
-        $this->set('lieux', $options);
+        $this->set('organismes', $options);
     }
 
     public function formationLink($object){
@@ -132,21 +139,19 @@ class AdminSessionsController extends BaseAdminController
             $object->formation = $this->Formation->find_one_by_id($object->id_formation);
         }
 
-        return empty($object->formation) ? null : HtmlHelper::admin_object_link($object->formation, array(
-            'action' => 'edit',
-            'text' => $object->formation->post->post_title,
-        ));
+        $controllerFormations = new AdminFormationsController();
+        return empty($object->formation) ? null : $controllerFormations->post_edit_link($object->formation);
     }
 
-    public function lieuLink($object){
-        if (empty($object->lieu)) {
-            $this->load_model('Lieu');
-            $object->lieu = $this->Lieu->find_one_by_id($object->id_lieu);
+    public function organismeLink($object){
+        if (empty($object->organisme)) {
+            $this->load_model('Organisme');
+            $object->organisme = $this->Organisme->find_one_by_id($object->id_organisme);
         }
 
-        return empty($object->lieu) ? null : HtmlHelper::admin_object_link($object->lieu, array(
+        return empty($object->organisme) ? null : HtmlHelper::admin_object_link($object->organisme, array(
             'action' => 'edit',
-            'text' => $object->lieu->name,
+            'text' => $object->organisme->name,
         ));
     }
 }

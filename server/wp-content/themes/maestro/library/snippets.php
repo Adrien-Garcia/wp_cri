@@ -218,8 +218,8 @@ function add_menu_icons_styles(){
 	content: "\f237";
 }
 
-/***Lieux*/
-#adminmenu .toplevel_page_mvc_lieux div.wp-menu-image:before {
+/***Organismes*/
+#adminmenu .toplevel_page_mvc_organismes div.wp-menu-image:before {
 	content: "\f319";
 }
 

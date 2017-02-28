@@ -7194,99 +7194,99 @@ msgctxt "Number/count of items"
 msgid "Count"
 msgstr "Compte"
 
-#: wp-admin/includes/class-wp-press-this.php:1506
+#: wp-admin/includes/class-wp-press-this.php:1544
 msgid "Standard Editor"
 msgstr "Éditeur standard"
 
-#: wp-admin/includes/class-wp-press-this.php:1501
+#: wp-admin/includes/class-wp-press-this.php:1539
 msgid "More actions"
 msgstr "Plus d&rsquo;actions"
 
-#: wp-admin/includes/class-wp-press-this.php:1497
+#: wp-admin/includes/class-wp-press-this.php:1535
 #: wp-admin/includes/meta-boxes.php:262 wp-admin/includes/meta-boxes.php:263
 msgid "Submit for Review"
 msgstr "Soumettre à relecture"
 
-#: wp-admin/includes/class-wp-press-this.php:1459
-#: wp-admin/includes/class-wp-press-this.php:1469
-#: wp-admin/includes/class-wp-press-this.php:1478
+#: wp-admin/includes/class-wp-press-this.php:1493
+#: wp-admin/includes/class-wp-press-this.php:1504
+#: wp-admin/includes/class-wp-press-this.php:1515
 msgid "Back to post options"
 msgstr "Retour aux options de l’article"
 
-#: wp-admin/includes/class-wp-press-this.php:1396
+#: wp-admin/includes/class-wp-press-this.php:1426
 msgid "Suggested media"
 msgstr "Fichier média suggéré"
 
-#: wp-admin/includes/class-wp-press-this.php:1391
-#: wp-admin/includes/class-wp-press-this.php:1392
+#: wp-admin/includes/class-wp-press-this.php:1421
+#: wp-admin/includes/class-wp-press-this.php:1422
 msgid "Post title"
 msgstr "Titre de l’article"
 
-#: wp-admin/includes/class-wp-press-this.php:1382
+#: wp-admin/includes/class-wp-press-this.php:1412
 msgid "You should upgrade <a href=\"%s\" target=\"_blank\">your bookmarklet</a> to the latest version!"
 msgstr "Vous devriez passer <a href=\"%s\" target=\"_blank\">votre bookmarklet</a> à la dernière version&nbsp;!"
 
-#: wp-admin/includes/class-wp-press-this.php:1356
+#: wp-admin/includes/class-wp-press-this.php:1386
 msgid "Scan"
 msgstr "Parcourir"
 
-#: wp-admin/includes/class-wp-press-this.php:1355
+#: wp-admin/includes/class-wp-press-this.php:1385
 msgid "Enter a URL to scan"
 msgstr "Saisissez une adresse web à parcourir"
 
-#: wp-admin/includes/class-wp-press-this.php:1354
+#: wp-admin/includes/class-wp-press-this.php:1384
 msgid "Scan site for content"
 msgstr "Parcourir un site en quête de contenu"
 
-#: wp-admin/includes/class-wp-press-this.php:1348
+#: wp-admin/includes/class-wp-press-this.php:1378
 msgid "Hide post options"
 msgstr "Masquer les options de l’article"
 
-#: wp-admin/includes/class-wp-press-this.php:1346
+#: wp-admin/includes/class-wp-press-this.php:1376
 msgid "Show post options"
 msgstr "Afficher les options de l’article"
 
-#: wp-admin/includes/class-wp-press-this.php:1259
+#: wp-admin/includes/class-wp-press-this.php:1283
 msgid "Press This!"
 msgstr "Press This!"
 
-#: wp-admin/includes/class-wp-press-this.php:1159
+#: wp-admin/includes/class-wp-press-this.php:1183
 msgctxt "Used in Press This to indicate where the content comes from."
 msgid "Source:"
 msgstr "Source&nbsp;:"
 
-#: wp-admin/includes/class-wp-press-this.php:907
+#: wp-admin/includes/class-wp-press-this.php:931
 msgid "Search categories"
 msgstr "Chercher dans les catégories"
 
-#: wp-admin/includes/class-wp-press-this.php:905
+#: wp-admin/includes/class-wp-press-this.php:929
 msgid "Search categories by name"
 msgstr "Chercher dans les catégories par nom"
 
-#: wp-admin/includes/class-wp-press-this.php:898
-#: wp-admin/includes/class-wp-press-this.php:947
+#: wp-admin/includes/class-wp-press-this.php:922
+#: wp-admin/includes/class-wp-press-this.php:971
 #: wp-admin/includes/meta-boxes.php:430 wp-admin/includes/meta-boxes.php:889
 msgid "Add"
 msgstr "Ajouter"
 
-#: wp-admin/includes/class-wp-press-this.php:880
+#: wp-admin/includes/class-wp-press-this.php:904
 msgid "Toggle add category"
 msgstr "Ajouter ou non la catégorie"
 
-#: wp-admin/includes/class-wp-press-this.php:844
+#: wp-admin/includes/class-wp-press-this.php:862
 #: wp-admin/includes/meta-boxes.php:377 wp-admin/includes/theme.php:241
 msgid "Post Formats"
 msgstr "Format d&rsquo;article"
 
-#: wp-admin/includes/class-wp-press-this.php:237
+#: wp-admin/includes/class-wp-press-this.php:255
 msgid "Error while adding the category. Please try again later."
 msgstr "Erreur lors de l’ajout de la catégorie. Veuillez réessayer plus tard."
 
-#: wp-admin/includes/class-wp-press-this.php:230
+#: wp-admin/includes/class-wp-press-this.php:248
 msgid "This category cannot be added. Please change the name and try again."
 msgstr "Cette catégorie ne peut pas être ajoutée. Veuillez changer son nom et réessayer."
 
-#: wp-admin/includes/class-wp-press-this.php:212
+#: wp-admin/includes/class-wp-press-this.php:230
 msgid "This category already exists."
 msgstr "Cette catégorie existe déjà."
 
@@ -10232,74 +10232,74 @@ msgstr "Merci de faire de <a href=\"%s\">WordPress</a> votre outil de création.
 
 #. translators: 1: WordPress version number, 2: plural number of bugs. Singular
 #. security issue.
-#: wp-admin/about.php:132 wp-admin/about.php:233
+#: wp-admin/about.php:136 wp-admin/about.php:237
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] "La <strong>version %1$s</strong> corrige un problème de sécurité et %2$s bug."
 msgstr[1] "La <strong>version %1$s</strong> corrige un problème de sécurité et %2$s bugs."
 
 #. translators: 1: WordPress version number, 2: plural number of bugs.
-#: wp-admin/about.php:229
+#: wp-admin/about.php:233
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] "La <strong>version %1$s</strong> corrige %2$s bug."
 msgstr[1] "La <strong>version %1$s</strong> corrige %2$s bugs."
 
 #. translators: 1: WordPress version number.
-#: wp-admin/about.php:112 wp-admin/about.php:120 wp-admin/about.php:124
-#: wp-admin/about.php:128 wp-admin/about.php:225
+#: wp-admin/about.php:112 wp-admin/about.php:116 wp-admin/about.php:124
+#: wp-admin/about.php:128 wp-admin/about.php:132 wp-admin/about.php:229
 msgid "<strong>Version %1$s</strong> addressed a security issue."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues."
 msgstr[0] "La <strong>version %1$s</strong> corrige un problème de sécurité."
 msgstr[1] "La <strong>version %1$s</strong> corrige plusieurs problèmes de sécurité."
 
-#: wp-admin/about.php:221
+#: wp-admin/about.php:225
 msgid "Security Release"
 msgid_plural "Security Releases"
 msgstr[0] "Mise à jour de sécurité"
 msgstr[1] "Mises à jour de sécurité"
 
-#: wp-admin/about.php:220
+#: wp-admin/about.php:224
 msgid "Maintenance Release"
 msgid_plural "Maintenance Releases"
 msgstr[0] "Mise à jour de maintenance"
 msgstr[1] "Mises à jour de maintenance"
 
-#: wp-admin/about.php:208
+#: wp-admin/about.php:212
 msgid "Go to Dashboard"
 msgstr "Aller sur le tableau de bord"
 
-#: wp-admin/about.php:208
+#: wp-admin/about.php:212
 msgid "Go to Dashboard &rarr; Home"
 msgstr "Aller sur l&rsquo;accueil"
 
-#: wp-admin/about.php:205
+#: wp-admin/about.php:209
 msgid "Return to Dashboard &rarr; Updates"
 msgstr "Retourner aux mises à jour"
 
-#: wp-admin/about.php:205
+#: wp-admin/about.php:209
 msgid "Return to Updates"
 msgstr "Retourner aux mises à jour"
 
-#: wp-admin/about.php:191
+#: wp-admin/about.php:195
 msgid "Under the Hood"
 msgstr "Sous le capot"
 
 #: wp-admin/about.php:114 wp-admin/about.php:118 wp-admin/about.php:122
 #: wp-admin/about.php:126 wp-admin/about.php:130 wp-admin/about.php:134
-#: wp-admin/about.php:138 wp-admin/about.php:240
+#: wp-admin/about.php:138 wp-admin/about.php:142 wp-admin/about.php:244
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr "Pour plus d&rsquo;informations, consultez les <a href=\"%s\">notes de publication</a>."
 
 #. translators: 1: WordPress version number, 2: plural number of bugs. More
 #. than one security issue.
-#: wp-admin/about.php:116 wp-admin/about.php:136 wp-admin/about.php:237
+#: wp-admin/about.php:120 wp-admin/about.php:140 wp-admin/about.php:241
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] "La <strong>version %1$s</strong> corrige quelques problèmes de sécurité et %2$s bug."
 msgstr[1] "La <strong>version %1$s</strong> corrige quelques problèmes de sécurité et %2$s bugs."
 
-#: wp-admin/about.php:111 wp-admin/about.php:222
+#: wp-admin/about.php:111 wp-admin/about.php:226
 msgid "Maintenance and Security Release"
 msgid_plural "Maintenance and Security Releases"
 msgstr[0] "Mise à jour de maintenance et de sécurité"

@@ -1,81 +1,72 @@
-div#mes-factures{
+div#mes-factures {
 
-	p {
-		font-size: 20px !important;
-		display: inline;
-		float: left;
-		line-height: 34px !important;
-		margin: 0 !important;
-	}
+    p {
+        font-size: 20px !important;
+        display: inline;
+        float: left;
+        line-height: 34px !important;
+        margin: 0 !important;
+    }
 
-	select {
-		float: right;
-		font-size: 14px; 
-		width: 50%;
-	}
+    select {
+        float: right;
+        font-size: 14px; 
+        width: 50%;
+    }
 
-	.liste-factures {
+    .liste-factures {
+        clear: both;
 
-		clear: both;
-
-		&:before{
-
-			@include svgicon('ico-sep', 19px, 19px, #e6e6e6);
-			position: absolute;
-			top: -5px;
-			background: #FFF;
-			left: 50%;
-			margin-left: -30px;
-		}
+        &::before {
+            @include svgicon('ico-sep', 19px, 19px, #e6e6e6);
+            position: absolute;
+            top: -5px;
+            background: #fff;
+            left: 50%;
+            margin-left: -30px;
+        }
 
 
-		> li {
-			padding: 0;
-			width: 100%;
-			float: left;
+        > li {
+            padding: 0;
+            width: 100%;
+            float: left;
 
 
-			ul{
-				width: 100%;
-				padding: 40px 0 20px 0;
+            ul {
+                width: 100%;
+                padding: 40px 0 20px;
 
 
-				li{
+                li {
+                    font-size: 18px;
+                    width: 31%;
+                    display: inline-table;
 
-					font-size: 18px;
-					width: 31%;
-					display: inline-table;
+                    &::before {
+                        content: none;
+                    }
 
-					&::before{
-						content:none;
-					}
+                    a.pdf {
+                        width: 23px;
+                        height: 25px;
 
-					a.num{
+                        &::before {
+                            @include svgicon('icon-pdf', 25px, 25px, $rouge);
+                            position: absolute;
+                            right: 0;
+                        }
 
-					}
+                    }
 
-					a.pdf {
-						width: 23px;
-						height: 25px;
-						
-						&::before{
-							@include svgicon('icon-pdf', 25px, 25px, $rouge);
-							position: absolute;
-							right: 0;
-						}
-
-					}
-
-					&:last-child {
-						position: relative;
-						top: auto;
-						right: auto;
-						width: 5%;
-					}
-				}
-			}
-		}
-
-	}
-
+                    &:last-child {
+                        position: relative;
+                        top: auto;
+                        right: auto;
+                        width: 5%;
+                    }
+                }
+            }
+        }
+    }
 }

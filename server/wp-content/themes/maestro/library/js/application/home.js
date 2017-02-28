@@ -3,30 +3,29 @@
 
 App.Home = {
 
-    flashBlockSelector              : '.js-flash-info',
-    tabVeilleSelector               : '.js-tab-veille',
-    tabFormationSelector            : '.js-tab-formation',
-    accordionContentSelector        : '.js-accordion-content',
-    linkBlockSelector               : '.js-home-block-link',
+    flashBlockSelector: '.js-flash-info',
+    tabVeilleSelector: '.js-tab-veille',
+    tabFormationSelector: '.js-tab-formation',
+    accordionContentSelector: '.js-accordion-content',
+    linkBlockSelector: '.js-home-block-link',
 
-    eventFlashOpenSelector          : '.js-flash-open',
-    eventFlashCloseSelector         : '.js-flash-close',
-    eventTabVeilleOpenSelector      : '.js-tab-veille-open',
-    eventTabFormationOpenSelector   : '.js-tab-formation-open',
-    eventAccordionOpenSelector      : '.js-accordion-button',
+    eventFlashOpenSelector: '.js-flash-open',
+    eventFlashCloseSelector: '.js-flash-close',
+    eventTabVeilleOpenSelector: '.js-tab-veille-open',
+    eventTabFormationOpenSelector: '.js-tab-formation-open',
+    eventAccordionOpenSelector: '.js-accordion-button',
 
-    $flashBlock                     : null,
-    $flashToggle                    : null,
-    $tabVeille                      : null,
-    $tabVeilleButton                : null,
-    $tabFormation                   : null,
-    $tabFormationButton             : null,
-    $accordionContent               : null,
-    $linkBlock                      : null,
+    $flashBlock: null,
+    $flashToggle: null,
+    $tabVeille: null,
+    $tabVeilleButton: null,
+    $tabFormation: null,
+    $tabFormationButton: null,
+    $accordionContent: null,
+    $linkBlock: null,
 
-    init: function() {
-
-        this.debug("Home : init start");
+    init: function () {
+        this.debug('Home : init start');
 
         this.$flashBlock            = $(this.flashBlockSelector);
         this.$flashToggle           = $(this.eventFlashOpenSelector).add(this.eventFlashCloseSelector);
@@ -43,55 +42,54 @@ App.Home = {
 
         this.addListeners();
 
-        this.debug("Home : init end");
-
+        this.debug('Home : init end');
     },
 
     /*
      * Listeners for the Home page events
      */
 
-    addListeners: function() {
+    addListeners: function () {
         var self = this;
 
-        this.debug("Home : addListeners start");
+        this.debug('Home : addListeners start');
 
-        this.$flashToggle.on("click", function() {
-           self.eventFlashToggle($(this));
+        this.$flashToggle.on('click', function () {
+            self.eventFlashToggle($(this));
         });
 
-        this.$tabVeilleButton.on("click", function() {
+        this.$tabVeilleButton.on('click', function () {
             self.eventTabVeilleOpen($(this));
         });
 
-        this.$tabFormationButton.on("click", function() {
+        this.$tabFormationButton.on('click', function () {
             self.eventTabFormationOpen($(this));
         });
 
-        this.$accordionButton.on("click", function() {
+        this.$accordionButton.on('click', function () {
             self.eventAccordionOpen($(this));
         });
 
-        this.$linkBlock.on("click", function() {
+        this.$linkBlock.on('click', function () {
             self.eventLinkBlockClick($(this));
         });
 
-        this.debug("Home : addListeners end");
+        this.debug('Home : addListeners end');
     },
 
     /*
      * Event for toggling on and off the flash
      */
 
-    eventFlashToggle: function() {
-        this.$flashBlock.toggleClass("closed");
+    eventFlashToggle: function () {
+        this.$flashBlock.toggleClass('closed');
     },
 
     /*
      * Event for changing the tab on Home page to veille
      */
 
-    eventTabVeilleOpen: function() {
+    eventTabVeilleOpen: function () {
         this.$tabVeille.addClass('open');
         this.$tabVeilleButton.addClass('open');
         this.$tabFormation.removeClass('open');
@@ -103,7 +101,7 @@ App.Home = {
      * Event for changing the tab on Home page to formation
      */
 
-    eventTabFormationOpen: function() {
+    eventTabFormationOpen: function () {
         this.$tabFormation.addClass('open');
         this.$tabFormationButton.addClass('open');
         this.$tabVeille.removeClass('open');
@@ -115,7 +113,7 @@ App.Home = {
      * Event for switching the date displayed
      */
 
-    eventAccordionOpen: function(src) {
+    eventAccordionOpen: function (src) {
         this.$accordionContent.addClass('closed');
         src.parent(this.accordionContentSelector).removeClass('closed');
     },
@@ -124,25 +122,23 @@ App.Home = {
      * Event for opening the correct link on click on one of the blocks
      */
 
-    eventLinkBlockClick: function(element) {
+    eventLinkBlockClick: function (element) {
         document.location.href = element.find('a').attr('href') !== undefined ? element.find('a').attr('href') : '#';
     },
 
-    accordionOpenFirst: function(parent) {
+    accordionOpenFirst: function (parent) {
         if (parent === undefined) {
             parent = $(document);
         }
-        if ( !(parent instanceof jQuery) ) {
+        if (!(parent instanceof jQuery)) {
             parent = $(parent);
         }
         this.$accordionContent.addClass('closed');
         parent.find(this.accordionContentSelector).first().removeClass('closed');
-
-
     },
 
 
-    debug: function(t) {
+    debug: function (t) {
         App.debug(t);
-    }
+    },
 };
