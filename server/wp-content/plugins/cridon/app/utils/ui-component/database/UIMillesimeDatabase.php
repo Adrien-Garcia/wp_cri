@@ -9,20 +9,10 @@
  *
  */
 
-class UIMillesimeDatabase {
-    private $model;
+class UIMillesimeDatabase extends UIDatabase {
     
     public function __construct(){
         $this->model = mvc_model('Millesime');
-    }
-    
-    /**
-     * Find millesime
-     * @param array $options
-     * @return mixed
-     */
-    public function find( $options = array() ){
-        return $this->model->find( $options );
     }
     
     /**
