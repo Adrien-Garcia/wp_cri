@@ -191,6 +191,83 @@ if (!function_exists('criSetLostPwdOptions')) {
 }
 
 /**
+ * But : Afficher en front les sessions des x prochaines dates de formations.
+ * Si plusieurs sessions par date : afficher celle ayant l'id le plus élevé
+ * S'il n'y a pas x prochaines dates de formations, on affiche les x dernières dates de formation (donc au moins 1 date dans le passé)
+ *
+ * @param integer $nb_date How many date must contain array of result?
+ * @return null or array of objects
+ */
+function getPushFormations ($nb_date) {
+    global $wpdb;
+    // Tout d'abord : On calcule le nombre de date de formation dans le futur
+    $options = array(
+        'synonym' => 's',
+        'join' => array(
+            array(
+                'table' => 'formation f',
+                'column' => ' f.id = s.id_formation'
+            ),
+            array(
+                'table' => 'posts p',
+                'column' => ' p.ID = f.post_id'
+            )
+        ),
+        'conditions' => array(
+            'p.post_status' => 'publish',
+            's.date > ' => date('Y-m-d')
+        ),
+        'group' => 's.date'
+    );
+    $futureDateCount = mvc_model('QueryBuilder')->countItems('session', $options, 's.id');
+    //Si moins de $nb_date => On récupère les formations en partant de la dernière
+    if ($futureDateCount < $nb_date) {
+        //condition : date < max(date)
+        $date = '';
+        $order = 'DESC';
+    } else {
+    //Si plus de $nb_date => On récupère les prochaines formations en partant de J+1
+        //condition : date > date du jour
+        $date = 'AND s.date > "' . date('Y-m-d') . '"';
+        $order = 'ASC';
+    }
+
+    // On récupère toutes les sessions des dates souhaitées trié par date puis id descendant
+    $sessions = $wpdb->get_results(
+        'SELECT s.id as session_id, s.date as session_date, s.timetable as session_timetable,p.*,o.*,m.* FROM cri_session as s
+        INNER JOIN cri_organisme o ON s.id_organisme = o.id
+        INNER JOIN cri_formation f ON s.id_formation = f.id
+        INNER JOIN cri_matiere m   ON f.id_matiere   = m.id
+        INNER JOIN cri_posts p ON f.post_id = p.ID
+        INNER JOIN (
+          SELECT s.date FROM cri_session as s
+              INNER JOIN cri_formation f ON f.id = s.id_formation
+              INNER JOIN cri_posts p ON f.post_id = p.ID
+              WHERE p.post_status = "publish"
+                ' . $date . '
+              GROUP BY s.date
+              ORDER BY s.date ' . $order . '
+              LIMIT ' . $nb_date . '
+              ) AS nested ON CAST(s.date AS DATE) = nested.date
+        WHERE p.post_status = "publish"
+        ORDER BY CAST(s.date AS DATE) DESC, s.id DESC');
+
+    // Si plus d'une session dans la journée, on set 'isOneOfMany' à 1
+    $lastDate = '';
+    $finalSessions = array();
+    foreach ($sessions as $session) {
+        $currentDate = $session->session_date;
+        if ($currentDate == $lastDate){
+            end($finalSessions)->isOneOfMany = 1;
+        } else {
+            $finalSessions [] = $session;
+            $lastDate = $currentDate;
+        }
+    }
+    return $finalSessions;
+}
+
+/**
  * Filter post per date by model
  * 
  * 
@@ -203,18 +280,10 @@ if (!function_exists('criSetLostPwdOptions')) {
  * @return null or array of objects
  */
 function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y-m-d' ){
-    if( !is_string( $model ) || empty( $model ) ){
-        return null;
-    }
     global $cri_container;
     //The formation date is used instead of the post date
-    if ($model === 'formation'){
-        $date = 'CAST(f.custom_post_date AS DATE)';
-        $orderBy = 'f.custom_post_date';
-    } else {
-        $date = 'CAST(p.post_date AS DATE)';
-        $orderBy = 'p.id';
-    }
+    $date = 'CAST(p.post_date AS DATE)';
+    $orderBy = 'p.id';
     $nestedOptions = array(
         'synonym' => 'p',
         'fields' => $date.' AS date',
@@ -257,28 +326,14 @@ function criFilterByDate( $model,$nb_date,$nb_per_date,$index, $format_date = 'Y
 
     $options['fields'] = $options['fields'].$mFields;
     $options['join']['matiere'] = array(
-            'table' => 'matiere m',
-            'column' => 'm.id = '.$model[0].'.id_matiere'
+        'table' => 'matiere m',
+        'column' => 'm.id = '.$model[0].'.id_matiere'
     );
-
-    if ($model === 'formation'){
-        $addressFields = array('address','postal_code','town');
-        $fFields = '';
-        foreach ( $addressFields as $v ){
-            $fFields .= ',f.'.$v;
-        }
-        $options['fields'] = $options['fields'].$fFields;
-    }
 
     $results = criQueryPosts( $options, $date );
     //To have others attributes in array result. Default is object WP_Post
     //$res = $tools->buildSubArray( $model,$results, 'date',$nb_per_date,$index,$format_date, array('post_title','post_date','post_excerpt','post_content','join_id'), array('title','datetime','excerpt','content','join_id') );
-    if ($model === 'formation'){
-        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere', 'formation'),array('matiere'=>$fields,'formation'=>$addressFields) );
-    } else {
-        $res = $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
-    }
-    return $res;
+    return $tools->buildSubArray( $model,$results, 'date', $nb_per_date,$index,$format_date,array('matiere'),array('matiere'=>$fields) );
 }
 
 /**

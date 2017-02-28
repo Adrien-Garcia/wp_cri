@@ -392,7 +392,11 @@ class QueryBuilder{
                         if (!is_numeric($v)) {
                             $v = '"' . $this->mysqli->real_escape_string($v) . '"'; //clean
                         }
-                        $cond[] = "$k = $v";
+                        if (preg_match('#[<>]#',$k,$matches)){
+                            $cond[] = "$k" . "$v";
+                        } else {
+                            $cond[] = "$k = $v";
+                        }
                     }
                 }
                 $sql .= implode( ' AND ',$cond );

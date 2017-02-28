@@ -10,7 +10,7 @@
 
    		<div class="row_01" id="sel-front-page">
    			<div id="inner-content" class="wrap cf">
-				
+
 				<div class="falsh-info js-flash-info">
 					<div class="titre">
 						<?php _e('Flash info'); ?>
@@ -18,12 +18,12 @@
 						<span class="close js-flash-close">+</span>
 						<span class="open js-flash-open">></span>
 					</div>
-					<?php 
+					<?php
 						$flash = criGetLatestPost('flash');
 						criWpPost($flash);
 					 ?>
 					<?php if ($flash != null): ?>
-						<?php 
+						<?php
 							$_flash_title = get_the_title();
 							$_flash_excerpt = get_the_excerpt();
 							$_flash_url = get_permalink();
@@ -34,13 +34,13 @@
 							<?php echo truncate($_flash_title,110, '...'); ?>
 							<a id="sel-flash-link-present" href="<?php echo $_flash_url; ?>"><?php _e('Lire'); ?></a>
 						</div>
-						
+
 					</div>
 					<?php endif; ?>
 					<?php wp_reset_query(); ?>
 				</div>
 
-				
+
 
 				<?php get_template_part("content","3-block-home"); ?>
 				<div class="partenaires">
@@ -54,7 +54,7 @@
 						</li>
 					</ul>
 				</div>
-				
+
    			</div>
    		</div>
 
@@ -64,7 +64,7 @@
    			<div id="inner-content" class="wrap cf">
 
    				<div id="onglets">
-   					<h3 class="juridique open js-tab-veille-open"><span><?php _e('Veille juridique'); ?></span></h3>   				
+   					<h3 class="juridique open js-tab-veille-open"><span><?php _e('Veille juridique'); ?></span></h3>
    					<h3 class="formations js-tab-formation-open"><span><?php _e('Formations'); ?></span></h3>
    				</div>
    				<div class="details">
@@ -74,7 +74,7 @@
 							// var_dump($veilles);
 						 ?>
 						<?php foreach ($veilles as $keyd => $date): ?>
-						<?php 
+						<?php
                             $current_date = $date['date'];
 						?>
 						<?php // var_dump($_date) ?>
@@ -87,7 +87,7 @@
 					      <div class="content">
 							<ul>
 								<?php foreach ($date['veille'] as $keyv => $veille) : ?>
-									<?php 
+									<?php
 										criWpPost($veille);
 										$_chapo = get_the_excerpt();//$veille->excerpt;
 										$_link = get_permalink(); //$veille->link;
@@ -97,12 +97,12 @@
 									<img src="<?php echo $veille->matiere->picto ?>" alt="<?php echo $veille->matiere->label ?>" />
 									<h4><?php echo $veille->matiere->label ?></h4>
 									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
-									<a href="<?php echo $_link; ?>"><?php _e('Lire'); ?></a>
+									<a href="<?php echo $_link; ?>" class="bt-lire"><?php _e('Lire'); ?></a>
 								</li>
 								<?php endforeach; ?>
 
 							</ul>
-					       
+
 					      </div>
 					    </div>
 					    <?php endforeach; ?>
@@ -110,21 +110,19 @@
 					    <div class="blockEnd"></div>
 
 					    <a href="<?php echo MvcRouter::public_url(array('controller' => 'veilles', 'action'     => 'index')) ?>" id="sel-hp-veilles-link" title=""><span><?php _e('Toute la veille juridique'); ?></span></a>
-   						
+
    					</div>
 
 
    					<div id="accordion-formations" class="accordion js-tab-formation">
 
-   						<?php 
-							$formations = criFilterByDate('formation',3,1,'formation', 'Y-m-d');
-							// var_dump($formations);
+   						<?php
+							$formations = getPushFormations(3);
 						 ?>
-						<?php foreach ($formations as $keyd => $date): ?>
-						<?php 
-                            $current_date = $date['date'];
+						<?php foreach ($formations as $keyd => $formation): ?>
+						<?php
+                            $current_date = $formation->session_date;
 						?>
-						<?php // var_dump($_date) ?>
    						<div class="panel js-accordion-content <?php if($keyd > 0): ?> closed <?php endif; ?> sel-formation-panel">
 					      <div class="date js-accordion-button">
                               <span class="jour"><?php echo strftime('%d',strtotime($current_date)) ?></span>
@@ -133,31 +131,24 @@
 					      </div>
 					      <div class="content">
 							<ul>
-								<?php foreach ($date['formation'] as $keyv => $formation) : ?>
-									<?php 
-										criWpPost($formation);
-
-										$_title = get_the_title();
-										$_chapo = get_the_excerpt();//$veille->excerpt;
-										$_link = get_permalink(); //$veille->link;
-										// var_dump($formation)
-									 ?>
-
 								<li class="js-home-block-link">
-									<img src="<?php echo $formation->matiere->picto ?>" alt="<?php echo $formation->matiere->label ?>" />
-									<h4><?php echo $_title; ?></h4>
-									<div class="chapeau-categorie"><?php echo $_chapo ?></div>
+									<img src="<?php echo $formation->picto ?>" alt="<?php echo $formation->label ?>" />
+									<h4><?php echo get_the_title($formation->ID); ?></h4>
+									<div class="chapeau-categorie"><?php echo get_the_excerpt($formation->ID) ?></div>
 									<div class="adresse">
-                                        <?php echo nl2br($formation->formation->address) ?><br />
-                                        <?php echo $formation->formation->postal_code ?>
-                                        <?php echo $formation->formation->town ?>
+                                        <?php echo nl2br($formation->name) ?><br />
+										<?php echo $formation->address_1 . ' ' . $formation->address_2 . ' ' . $formation->address_3 ?>
+                                        <?php echo $formation->postal_code ?>
+                                        <?php echo $formation->city ?>
 									</div>
-									<a href="<?php echo $_link ?>"><?php _e('Lire'); ?></a>
+									<a href="<?php echo get_permalink($formation->ID) ?>" class="bt-lire"><?php _e('Lire'); ?></a>
+									<?php if(!empty($formation->isOneOfMany) && $formation->isOneOfMany): ?>
+									    <a href="<?php echo mvc_public_url(array('controller' => 'formations', 'action' => 'calendar')) ?>" class="bt-all">Consulter toutes les formations du jour</a>
+									<?php endif; ?>
 								</li>
-								<?php endforeach; ?>
 
 							</ul>
-					       
+
 					      </div>
 					    </div>
 					    <?php endforeach ?>
@@ -166,7 +157,7 @@
 					    <div class="blockEnd"></div>
 
 					    <a href="<?php echo MvcRouter::public_url(array('controller' => 'formations', 'action'     => 'index')) ?>" title=""><span><?php _e('Toutes les formations'); ?></span></a>
-   						
+
    					</div>
    				</div>
    			</div>
@@ -235,43 +226,43 @@
 						<h2><?php _e('Info flash en exclusivité'); ?> </h2>
 						<a href="<?php echo MvcRouter::public_url(array('controller' => 'flashes', 'action'     => 'index')) ?>" >
 							<span><?php _e('Consulter les flash infos'); ?></span>
-						</a>						
+						</a>
 					</div>
 				</div>
 				<div class="cridon-app js-home-block-link">
-					<div class="content">						
+					<div class="content">
 						<h2><?php _e('Le cridon Lyon dans ma poche'); ?> </h2>
 						<a href="/le-cridon-dans-ma-poche/" title=""><span><?php _e('Découvrir notre application !'); ?></span></a>
 						<div class="img-main"></div>
 						<div class="img-appli" ></div>
-						
+
 					</div>
 				</div>
-			
+
 			</div>
 
 		</div>
 
 		<div class="row_04">
 			<div id="inner-content" class="wrap cf">
-				
+
 				<h2>
 					<?php _e('La vie'); ?>
 					<span><?php _e('du CRIDON LYON'); ?> </span>
 				</h2>
-				<?php 
+				<?php
 				$vie = criGetLatestPost('vie_cridon');
 				//var_dump($vie);
 			 ?>
 
-			 <?php // $vars = get_defined_vars(); 
+			 <?php // $vars = get_defined_vars();
 //$nomvar = array_keys($vars);
-			 
 
-			 	
+
+
 			  ?>
 
-			<?php if( $vie != null):?> 
+			<?php if( $vie != null):?>
 				<?php criWpPost($vie); //var_dump($post); ?>
                 <?php /** @var WP_Post $post */
                 $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
@@ -283,7 +274,7 @@
 					<div class="date">
 						<span class="jour"><?php echo get_the_date( 'd') ?></span>
 						<span class="mois"><?php echo substr(get_the_date( 'F'),0,4) ?></span>
-						<span class="annee"><?php echo get_the_date( 'Y') ?></span> 
+						<span class="annee"><?php echo get_the_date( 'Y') ?></span>
 					</div>
 
 					<div class="content">
