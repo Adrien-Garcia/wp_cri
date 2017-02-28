@@ -673,7 +673,7 @@ function init_meta_boxes_ui_component(){
  */
 function init_ui_meta_boxes( $post, $args ){
     global $cri_container;
-    $container = $cri_container->get('ui_container');
+    $container = $cri_container->get('ui_' . strtolower($args['args']) . '_container');
     $container->setTitle('');
     $current = null;
     foreach ( Config::$data as $v ){
@@ -705,7 +705,7 @@ function after_save_post_for_ui( $post_ID ){
                     }else{
                         $cls = new stdClass();
                         $cls->id = $obj->id;
-                        saveDocumentsFromUI(Config::$data[ $http[ 1 ] ][ 'model' ], $cls);
+                        saveFromUI(Config::$data[ $http[ 1 ] ][ 'model' ], $cls);
                     }
                 }
             }
@@ -714,12 +714,20 @@ function after_save_post_for_ui( $post_ID ){
     return $post_ID;
 }
 add_action('save_post','after_save_post_for_ui');
-function saveDocumentsFromUI( $model,$obj ){
+function saveFromUI( $model,$obj ){
     global $cri_container;
-    $ui_container = $cri_container->get('ui_container');
-    $ui_container->setModel($model);
-    $ui_container->setObject($obj);
-    $ui_container->save();
+    $ui_document_container = $cri_container->get('ui_document_container');
+    $ui_document_container->setModel($model);
+    $ui_document_container->setObject($obj);
+    $ui_document_container->save();
+
+    $config = assocToKeyVal(Config::$data, 'model', 'controller');
+    if (!empty($model) && in_array($config[$model],Config::$contentWithMillesime)) {
+        $ui_millesime_container = $cri_container->get('ui_millesime_container');
+        $ui_millesime_container->setModel($model);
+        $ui_millesime_container->setObject($obj);
+        $ui_millesime_container->save();
+    }
 }
 
 function afterInsertModel( $table,$lastID ){

@@ -14,7 +14,9 @@
 require_once 'UIDocumentDatabase.php';
 require_once 'UIMillesimeDatabase.php';
 require_once 'UIFields.php';
-require_once 'UIContainer.php';
+require_once 'container/UIContainer.php';
+require_once 'container/UIDocumentContainer.php';
+require_once 'container/UIMillesimeContainer.php';
 require_once 'fields/UISpan.php';
 require_once 'fields/UILink.php';
 require_once 'fields/UIHidden.php';
@@ -22,7 +24,9 @@ require_once 'fields/UIListChild.php';
 require_once 'fields/UIText.php';
 require_once 'fields/UIList.php';
 
-$cri_container->set('ui_container', function(){
-        return new UIContainer();
-    }
-);
+$cri_container->set('ui_millesime_container', function(){
+    return new UIMillesimeContainer();
+});
+$cri_container->set('ui_document_container', function(){
+    return new UIDocumentContainer();
+});
