@@ -16,4 +16,14 @@ class Formation extends \App\Override\Model\CridonMvcModel
         )
     );
     var $display_field = 'name';
+
+    /**
+     * On 1st of january, updates option so next year catalog isn't published
+     *
+     * @return bool
+     */
+    public function resetCatalogNextYear(){
+        update_option('cridon_next_year_catalog_published',0);
+        return true;
+    }
 }

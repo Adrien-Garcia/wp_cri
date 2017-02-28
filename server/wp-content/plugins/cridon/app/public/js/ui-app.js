@@ -22,7 +22,7 @@
 
         $('.cri_relationship ul li a').live('click',function( e ){
             e.preventDefault();
-        }); 
+        });
         $('.cri_relationship .relationship_left ul li a').live('click',function( e ){
             $(this).parent().addClass('hide');
             appendLi( $(this) );            
@@ -44,18 +44,18 @@
     //Restore unselected
     function restore( c ){
         var id = $(c).attr('id');
-        $(c).parent().remove();
         if( !$('.cri_relationship .relationship_left ul li #'+id ).length  ){
             html  = '<li>';
             html += '<a id="ui_a'+ id +'" href="#">';
             html += '<span class="relationship-item-info">document</span>';
             html += '<span class="cri-button-add"></span>';
-            html += $(c).contents().eq(2).text()+'</a>';//only text in <a>
+            html += $(c).contents().eq(3).text()+'</a>';//only text in <a>
             html += '</li>';
-            $('.cri_relationship .relationship_left ul' ).append( html );
+            c.closest('.cri_relationship').find('.relationship_left ul').append( html );
         }else{
             $('.cri_relationship .relationship_left ul li #'+id ).parent().removeClass('hide');            
         }
+        $(c).parent().remove();
     }
     //Move selected in right column
     function appendLi( c ){
@@ -63,12 +63,12 @@
         if( $('.cri_relationship .relationship_right ul li #'+id ).length ){
             return;
         }
-        var input = '<input type="hidden" name="uiDocument[]" value="'+id+'" />';
+        var input = '<input type="hidden" name="ui'+$(c).contents().eq(0).text()+'[]" value="'+id+'" />';
         var span = '<span class="cri-button-remove"></span>';
         var clone = c.clone();
         clone.append( input ).append( span );
         var html = '<li><a id="'+id+'" href="#">'+clone.html()+'</a></li>';
-        $('.cri_relationship .relationship_right ul').append(html);
+        c.closest('.cri_relationship').find('.relationship_right ul').append(html);
     }
     //Search document
     function search( search ){

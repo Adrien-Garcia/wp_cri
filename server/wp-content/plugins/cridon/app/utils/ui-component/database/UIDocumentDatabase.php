@@ -4,28 +4,15 @@
  *
  * This file is part of project 
  *
- * File name : UIDatabase.php
+ * File name : UIDocumentDatabase.php
  * Project   : wp_cridon
- *
- * @author Etech
- * @contributor Fabrice MILA
  *
  */
 
-class UIDatabase {
-    private $model;
+class UIDocumentDatabase extends UIDatabase {
     
     public function __construct(){
         $this->model = mvc_model('Document');
-    }
-    
-    /**
-     * Find document
-     * @param array $options
-     * @return mixed
-     */
-    public function find( $options = array() ){
-        return $this->model->find( $options );
     }
     
     /**
@@ -46,15 +33,6 @@ class UIDatabase {
             //update
             $this->model->save( $options );
         }
-    }
-    
-    /**
-     * Delete document
-     * 
-     * @param integer $id
-     */
-    public function delete( $id ){
-        $this->model->delete( $id );
     }
     
     /**
@@ -91,6 +69,7 @@ class UIDatabase {
             }
         }
     }
+
     /**
      * Delete all document for current object
      * 

@@ -51,8 +51,6 @@ class Config {
     // list of cridon_type using default post form
     public static $mvcWithPostForm = array('vie_cridons','cahier_cridons','flashes','formations','veilles');
 
-    public static $titleMetabox = 'Matière';// Titre du metabox de catégorie veille en admin
-
     // Supported file in model Matiere ( picto )
     public static $supported_types = array('image/jpeg','image/bmp','image/x-windows-bmp','image/x-icon','image/jpeg','image/pjpeg','image/png');
 
@@ -75,6 +73,11 @@ class Config {
         'flashes',
         'cahier_cridons',
         'formations'
+    );
+
+    //Content qualified by a "Millésime"
+    public static $contentWithMillesime = array(
+        'formations',
     );
 
     //Content with parent
@@ -207,7 +210,9 @@ class Config {
         CONST_NOTAIRE_ADMIN,
     );
 
+    public static $titleMetaboxMatiere = 'Matière';// Titre du metabox de catégorie matière en admin
     public static $titleMetaboxDocument = 'Associer des documents';// Titre du metabox pour l'ajout de document
+    public static $titleMetaboxMillesime = 'Millésimes';// Titre du metabox pour l'ajout de millésime
 
     // list of accepted question supports
     public static $acceptedSupports = array(
