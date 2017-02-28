@@ -735,7 +735,7 @@ function afterInsertModel( $table,$lastID ){
         if( $v['name'] == $table ){
             $cls = new stdClass();
             $cls->id = $lastID;
-            saveDocumentsFromUI($v['model'], $cls);
+            saveFromUI($v['model'], $cls);
             break;
         }
     }

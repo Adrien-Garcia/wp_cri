@@ -14,25 +14,55 @@
 
 abstract class UIContainer extends UIFields{
 
+    protected $content;
+    protected $title;
+    protected $currentObject;
+    protected $currentModel;
+    protected $type;
+
     public function __construct(){
         //Defaults
         $this->setClass('inside');
         $this->init();
     }
-    
+
     /**
      * Set model name
      *
      * @param string $modelName
      */
-    abstract protected function setModel( $modelName );
-    
+    public function setModel( $modelName ){
+        $model = mvc_model($modelName);
+        $this->type = $modelName;
+        $this->currentModel = $model;
+    }
+
     /**
      * Set current object
-     * 
+     *
      * @param object $object
      */
-    abstract protected function setObject( $object );
+    public function setObject( $object ){
+        $this->currentObject = $object;
+    }
+
+    /**
+     * Define content
+     *
+     * @param mixed $content
+     */
+    public function setContent( $content ){
+        $this->content = $content;
+    }
+
+    /**
+     * Set title of container to be displayed
+     *
+     * @param string $title
+     */
+    public function setTitle( $title ){
+        $this->title = $title;
+    }
     
     /**
      * Load custom JS and CSS
@@ -45,20 +75,6 @@ abstract class UIContainer extends UIFields{
     }
     
     /**
-     * Define content
-     * 
-     * @param mixed $content
-     */
-    abstract protected function setContent( $content );
-    
-    /**
-     * Set title of container to be displayed
-     * 
-     * @param string $title
-     */
-    abstract protected function setTitle( $title );
-    
-    /**
      * Load Sortable Jquery library in model view
      */
     public function loadLibraryJsOnModel(){
@@ -69,21 +85,100 @@ abstract class UIContainer extends UIFields{
      * Construct view
      * @param $model string - model to display
      */
-    abstract protected function create($model);
+    public function create($model){
+        $input = new UIText();
+        $input->setPlaceholder('Rechercher');
+        $input->setClass('relationship_search');
+        $input->setId('uiSearch');
+        $html = ' <div class="field relationship_search">';
+        $html .= '<p class="label">'
+            . '<label for="acf-field-document_sur_les_contenus">'.$this->title.'</label></p>';
+        $html .= '<input type="hidden" id="ui-document-type" value="'.$this->type.'" />';
+        $html .= '<div class="cri_relationship has-search">';
+        $html .= '<div class="relationship_left">';
+        $html .= '<table class="widefat"><thead><tr><th>';
+        $html .= $input->create();
+        $html .= '</th></tr></thead></table>';
+        $html .= $this->createLeft($model);
+        $html .= '</div>';
+        $html .= '<div class="relationship_right">';
+        $html .= $this->createRight($model);
+        $html .= '</div>';
+        $html .= '</div>';
+        $html .= '</div>';
+        echo $html;
+    }
+
+    abstract protected function prepareLeftData();
 
     /**
      * Create left view
-     * @param $modelName string - model to display
      *
      * @return string
      */
-    abstract protected function createLeft($modelName);
+    protected function createLeft(){
+        $data = $this->prepareLeftData();
+        $ul = new UIList();
+        $ul->setClass('bl relationship_list ui-sortable');
+        if( empty( $data ) ){
+            return $ul->create();
+        }
+
+        $lists = array();
+        foreach( $data as $left ){
+            $li = new UIListChild();
+            $a = new UILink();
+            $a->setText( $left->name );
+            $a->setId( 'ui_a'.$left->id );
+            $span1 = new UISpan();
+            $span1->setClass('relationship-item-info');
+            $span1->setText($this->modelName);
+            $span2 = new UISpan();
+            $span2->setClass('cri-button-add');
+            $a->setContent(array($span1,$span2));
+            $li->setContent($a);
+            $lists[] = $li;
+        }
+        $ul->setContent( $lists );
+        return $ul->create();
+    }
+
+    abstract protected function prepareRightData();
 
     /**
      * Create right view
      *
-     * @param $modelName string - model to display
      * @return string
      */
-    abstract protected function createRight($modelName);
+    protected function createRight(){
+        $data = $this->prepareRightData();
+        $ul = new UIList();
+        $ul->setClass('bl relationship_list');
+        if( empty( $data ) ){
+            return $ul->create();
+        }
+        $lists = array();
+        foreach( $data as $right ){
+            $li = new UIListChild();
+            $a = new UILink();
+            $a->setText( $right->name );
+            $a->setId( 'ui_a'.$right->id );
+            $span1 = new UISpan();
+            $span1->setClass('relationship-item-info');
+            $span1->setText($this->modelName);
+            $span2 = new UISpan();
+            $span2->setClass('cri-button-remove');
+            $hidden = new UIHidden();
+            $hidden->setName('ui'.$this->modelName.'[]');
+            $hidden->setValue('ui_a'.$right->id);
+            $a->setContent(array($span1,$span2,$hidden));
+            $li->setContent($a);
+            $lists[] = $li;
+        }
+        $ul->setContent( $lists );
+        return $ul->create();
+    }
+
+    abstract protected function save();
+
 }
