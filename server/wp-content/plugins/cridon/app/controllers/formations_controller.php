@@ -361,10 +361,57 @@ class FormationsController extends BaseActuController
         return $data;
     }
 
-    public function catalog($year = 'current')
+    /**
+     * Retrieve all formations for current or next year millesime and return an array (by matiere by id asc) of array (formations)
+     * @param $current boolean : If true : current year else : next year
+     * @return array of array
+     */
+    public function catalog($current = true)
     {
         $option = get_option('cridon_next_year_catalog_published');
         $this->set('catalogPublished', $option);
+
+        $year = ($current ? date('Y') : Date ('Y', strtotime('+1 year')));
+        $options = array(
+            'selects' => array(
+                'f.id','p.post_title', 'd.download_url','ma.label'
+            ),
+            'conditions' => array(
+                'm.year' => $year,
+                'p.post_status' => 'publish'
+            ),
+            'synonym' => 'f',
+            'joins' => array(
+                array(
+                    'model'  => 'Post',
+                    'alias'  => 'p',
+                    'on'     => ' p.ID = f.post_id'
+                ),
+                array(
+                    'model'  => 'Matiere',
+                    'alias'  => 'ma',
+                    'on'     => ' ma.id = f.id_matiere'
+                ),
+                array(
+                    'model'  => 'Millesime',
+                    'alias'  => 'm',
+                    'on'     => ' m.id_formation = f.id'
+                ),
+                array(
+                    'model'  => 'Document',
+                    'alias'  => 'd',
+                    'on'     => ' d.id_externe = f.id'
+                ),
+            )
+        );
+        $formations = $this->model->find($options);
+
+        $sortedFormations = array();
+        foreach($formations as $formation){
+            $sortedFormations[$formation->matiere->id][] = $formation;
+        }
+        ksort($sortedFormations);
+        $this->set('sortedFormations', $sortedFormations);
     }
 
     public function catalognextyear()
@@ -372,7 +419,7 @@ class FormationsController extends BaseActuController
         $option = get_option('cridon_next_year_catalog_published');
         $this->set('catalogPublished', $option);
         if ($option){
-            $this->catalog('next');
+            $this->catalog(false);
         }
     }
 }

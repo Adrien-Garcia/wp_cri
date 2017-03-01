@@ -52,7 +52,7 @@
 					</div>
 					<?php endif; ?>
 				</div>
-
+				<a href="<?php echo mvc_public_url(array('controller' => 'formations', 'action' => 'catalog')) ?>" class="bt-formation">Consulter la liste complète des formations</a>
 			</div>					
 
 		</div>
