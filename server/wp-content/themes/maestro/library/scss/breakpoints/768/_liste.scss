@@ -400,3 +400,14 @@
 	}
 
 }
+
+a.bt-formation {
+	width: 280px;
+	margin-left: auto;
+	margin-right: auto;
+
+	&:hover {
+		text-decoration: none;
+		background: #eee;
+	}
+}

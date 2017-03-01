@@ -2,11 +2,12 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
 	<?php
     if (!empty($sessions)){
-        $nextSession = reset($sessions);
+        $nextSession = !empty($highlight) ? $highlight : reset($sessions);
+
     ?>
     	<div class="date sel-object-date">
     		<span class="jour"><?php echo strftime('%d',strtotime($nextSession->date)) ?></span>
-    		<span class="mois"><?php echo mb_substr(strftime('%b',strtotime($nextSession->date)),0,4) ?></span>
+    		<span class="mois"><?php echo strftime('%b',strtotime($nextSession->date)) ?></span>
     		<span class="annee"><?php echo strftime('%Y',strtotime($nextSession->date)) ?></span>
     	</div>
 

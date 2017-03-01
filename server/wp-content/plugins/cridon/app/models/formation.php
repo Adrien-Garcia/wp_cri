@@ -123,4 +123,14 @@ class Formation extends \App\Override\Model\CridonMvcModel
         $messageAdmin = CriRenderView('mail_notification_admin_formation', $vars, 'custom', false);
         wp_mail($dest, $subject, $messageAdmin, $headers);
     }
+
+    /**
+     * On 1st of january, updates option so next year catalog isn't published
+     *
+     * @return bool
+     */
+    public function resetCatalogNextYear(){
+        update_option('cridon_next_year_catalog_published',0);
+        return true;
+    }
 }

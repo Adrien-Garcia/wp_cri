@@ -842,17 +842,17 @@ body.page-template-front-page{
 
 
 								> li{
-									float: none;
-									clear: both;
+									float: left;
+									width: 100%;
+									margin-bottom: 15px;
+									position: relative;
 
-									&:first-child{padding-bottom: 4px};
-									&:nth-child(2){padding:2px 0};
-									&:last-child{padding-top: 4px};
+									&:last-child {margin-bottom: 0px};
 
 									>img{
 
                                         float: left;
-                                        margin: 0 10px 43px 0;
+                                        margin: 0 10px 0 0;
                                     }
 
 									h4{
@@ -860,33 +860,31 @@ body.page-template-front-page{
 										text-align: left;
 										float: left;
 										width: calc(100% - 40px);
-										//line-height: 24px;
 										margin-bottom: 5px;
+										max-height: 72px;
+										overflow: hidden;
 									}
 
 									.chapeau-categorie{
 
 										text-align: left;
 										float: left;
-										width: calc(100% - 40px);
-										height: 36px;
+										width: calc(100% - 80px);
 										overflow: hidden;
-
+										height: 36px;
 									}
 
 									.adresse{
-										width: calc(100% - 40px);
+										width: calc(100% - 80px);
 										text-align:left;
 										margin-left: 40px;
-										margin-top: 20px;
+										margin-top: 0px;
 										float: left;
 									}
 
-									> a {
-
+									a.bt-lire {
 										float: right;
 										margin: 0;
-
 										font-size: 10px;
 										width: 37px;
 										height: 14px;
@@ -898,7 +896,21 @@ body.page-template-front-page{
 											right:-9px;
 
 										}
+									}
 
+									a.bt-all {
+										position: absolute;
+										bottom: 0;
+										left: 0;
+										margin: 0 0 0 40px;
+										font-size: 16px;
+
+										&::after {
+											right: -25px;
+											top: -6px;
+											left: auto;
+											margin-left: 0;
+										}
 									}
 								}
 							}
@@ -923,22 +935,23 @@ body.page-template-front-page{
 
 				}
 
-				#accordion-formations{ /* specifique accordion formations*/
-					.panel .content > ul > li .chapeau-categorie{
-						max-height: 56px;
-						height: auto;
+				#accordion-formations{ // specifique accordion formations
+					.panel .content > ul > li {
+						height: 225px;
+
+						.chapeau-categorie{
+							max-height: 92px;
+							height: auto;
+							margin-left: 40px;
+						}
 					}
 				}
 
 
-				div.panel.closed{
-
-
-					/*height: 60px;*/
+				div.panel.closed {
 					max-height: 225px;
-					// max-width: 100px;
 
-					.content{
+					.content {
 						max-width: 0px;
 						padding: 0;
 						transition: max-width $duration ease, opacity $duration/2 ease $duration/2, padding $duration ease;
@@ -1584,6 +1597,92 @@ body.single #content{
 			}
 		}
 	}
+
+}
+
+
+ //   __                            _   _                                 _        _
+ //  / _| ___  _ __ _ __ ___   __ _| |_(_) ___  _ __             ___ __ _| |_ __ _| | ___   __ _ _   _  ___
+ // | |_ / _ \| '__| '_ ` _ \ / _` | __| |/ _ \| '_ \   _____   / __/ _` | __/ _` | |/ _ \ / _` | | | |/ _ \
+ // |  _| (_) | |  | | | | | | (_| | |_| | (_) | | | | |_____| | (_| (_| | || (_| | | (_) | (_| | |_| |  __/
+ // |_|  \___/|_|  |_| |_| |_|\__,_|\__|_|\___/|_| |_|          \___\__,_|\__\__,_|_|\___/ \__, |\__,_|\___|
+ //                                                                                        |___/
+ //
+
+#content.page-catalogue-formation {
+
+	#inner-content {
+		padding: 0 30px;
+	}
+
+	#main article {
+
+		.top {
+			overflow: hidden;
+
+			.wrapper-img {
+				width: 228px;
+				float: left;
+			}
+
+			.wrapper-text {
+				width: calc(100% - 258px);
+				float: right;
+				margin-top: 0;
+
+				a.bt-agenda {
+					width: 274px;
+
+					&:hover {
+						background: #eee;
+						
+						&::after {
+							opacity: 0;
+						}
+					}
+				}
+			}
+		}
+
+		
+
+		
+
+		.wrapper-catalogue {
+			margin: 40px 0 50px 0;
+			 width: calc(100%);
+
+			ul{
+
+				> li{
+					// Matiere
+					.nom-matiere {
+						cursor: pointer;
+					}
+
+					
+
+					> ul.formations {
+						display: none;
+
+						li{
+							> .nom-formation {
+								font-size: 18px;
+								line-height: 22px;
+								width: 600px;
+								padding-right: 0;
+							}
+
+							> a:hover{
+								opacity: 0.8;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 
 }
 

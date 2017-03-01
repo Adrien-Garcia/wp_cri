@@ -2,8 +2,8 @@
 /* global App, jsvar, enquire */
 
 App.Calendar = {
-    offsetMobileBlock: 50,
-    offsetDesktopBlock: 45,
+    offsetMobileBlock: 15,
+    offsetDesktopBlock: 42,
 
     ellispisSelector: '.js-calendar-ellipsis',
     sessionSelector: '.js-calendar__session',
@@ -16,6 +16,8 @@ App.Calendar = {
     $sessionBlock: null,
     $sessionCloseBlock: null,
 
+    ellipsisInterval: false,
+
     init: function () {
         var self = this;
         this.debug('init start');
@@ -26,9 +28,8 @@ App.Calendar = {
         this.$sessionCloseBlock = $(this.sessionBlockCloseSelector);
 
         enquire.register('screen and (min-width: 1240px)', function () {
-            self.$ellipsis.each(function () {
-                App.Utils.multilineEllipsis(this);
-            });
+            self.sessionNameEllipsis();
+
             $('.calendar__day-sessions--scrollable').each(function () {
                 var scrollable = this;
                 var rapport = $(scrollable).innerHeight() / scrollable.scrollHeight;
@@ -39,6 +40,9 @@ App.Calendar = {
             self.$ellipsis.each(function () {
                 App.Utils.unEllipsis(this);
             });
+            if (self.ellipsisInterval !== false) {
+                window.clearInterval(self.ellipsisInterval);
+            }
         });
 
         this.addListeners();
@@ -76,7 +80,6 @@ App.Calendar = {
         var $block = $('#' + $session.data('block'));
         var content = $session.find('.calendar__session-content').html();
         var off = self.offsetDesktopBlock;
-        var mobile = false;
 
         this.sessionBlockClose();
         $block.find('.calendar__session-block-content').html(content);
@@ -84,17 +87,16 @@ App.Calendar = {
         $session.addClass('calendar__session--open');
 
         if ($(window).width() < 1240) {
-            off = $session[0].offsetTop + self.offsetMobileBlock;
-            mobile = true;
-        } else {
-            off = $session[0].offsetTop + self.offsetDesktopBlock;
-            off -= $block.outerHeight() / 2;
-        }
-        $block.css('top', off + 'px');
-        if (mobile) {
+            off = $session[0].offsetTop + self.offsetMobileBlock + $($session[0]).height();
+            $block.css('top', off + 'px');
             window.setTimeout(function () {
-                App.Utils.scrollTop(700, '#' + $block[0].id, -self.offsetMobileBlock);
+                App.Utils.scrollTop(700, '#' + $block[0].id, -($($session[0]).height() + self.offsetMobileBlock));
             }, 350);
+        } else {
+            App.Utils.scrollTop(300, void 0, $session[0].offsetTop, $session.parent()[0]);
+            off = self.offsetDesktopBlock + ($($session[0]).height() / 2);
+            off -= $block.outerHeight() / 2;
+            $block.css('top', off + 'px');
         }
 
         /**
@@ -114,14 +116,14 @@ App.Calendar = {
                 self.sessionBlockClose();
             }
         });
-
     },
 
     sessionsScrollEvent: function (scrollable) {
         var scrollbar = scrollable.calendarScrollbar;
         var scrollbarH = $(scrollbar).height();
-        var rapport = scrollable.scrollTop / scrollable.scrollHeight;
-        var top = scrollbarH * rapport;
+        var rapport = (scrollable.scrollTop) / (scrollable.scrollHeight - scrollbarH);
+        var top = $(scrollable).height() * rapport;
+
         $(scrollbar).css('top', top + 'px');
     },
 
@@ -131,6 +133,13 @@ App.Calendar = {
         this.$sessionBlock
             .find('calendar__session-block-content').html('');
         $(document).off('click.calendar.hideSession');
+    },
+
+    sessionNameEllipsis: function () {
+        var self = this;
+        self.$ellipsis.each(function () {
+            App.Utils.multilineEllipsis(this);
+        });
     },
 
     debug: function (t) {

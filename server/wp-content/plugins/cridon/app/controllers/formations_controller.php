@@ -13,28 +13,75 @@ class FormationsController extends BaseActuController
     protected $lastDayOfMonth;
 
     /**
-     * Action Archive
+     * Action Formations futures ( >= date du jour)
      */
     public function index()
     {
+        // Sessions futures : triées de la plus proche à la plus lointaine
+        $sessions = $this->getSessions('ASC', true);
+        $this->set('sessionsFutures', $sessions);
+        $this->set('formations', $this->getFormations($sessions));
+    }
+
+    /**
+     * Action Formations passées ( < date du jour)
+     */
+    public function past()
+    {
+        // Sessions passées : triées de la plus récente à la plus ancienne
+        $sessions = $this->getSessions('DESC', false );
+        $this->set('sessionsPassees', $sessions);
+        $this->set('formations', $this->getFormations($sessions));
+    }
+
+    /**
+     * Retrieve all sessions
+     *
+     * @param $order : sort order
+     * @param $future : future or past sessions ?
+     * @return $sessions object
+     */
+    public function getSessions($order, $future = true) {
         $this->process_params_for_search();
-
-        // params
         $params = $this->params;
-        // Formations a venir : triées de la plus proche à la plus éloignée
-        $params['order']      = 'custom_post_date ASC';
-        $params['conditions'] = array('custom_post_date >= ' => date('Y-m-d'));
-        $collection = $this->model->paginate($params);
-        $formationsFutures = $collection['objects'];
+        $params['order']      = 'date '.$order;
 
-        // set object to template
-        $this->set('formationsFutures', $formationsFutures);
+        $sign = ($future ? ' >= ' : ' < ');
+        $params['conditions'] = array('date'.$sign => date('Y-m-d'));
+
+        $modelSession = new Session();
+        $collection = $modelSession->paginate($params);
+        $sessions = $collection['objects'];
+
         $this->set_pagination($collection);
+        return $sessions;
+    }
+
+    /**
+     * Retrieve formations bound to $sessions as an array :
+     * (key) id_formation => (value) Formation
+     *
+     * @param object $sessions
+     * @return array $allFormations
+     */
+    public function getFormations($sessions) {
+        $ids = array();
+        foreach($sessions as $session){
+            $ids [] = $session->id_formation;
+        }
+        $formations = $this->model->find(array('conditions' => array('f.id' => $ids)));
+        $allFormations = array();
+        foreach($formations as $formation){
+            $allFormations [$formation->id] = $formation;
+        }
+        return $allFormations;
     }
 
     public function show(){
+        $params = $this->params;
         parent::show();
         $formation = $this->object;
+        $highlight = false;
         if (!empty($formation->id)) {
             $options = array(
                 'conditions' => array(
@@ -51,38 +98,31 @@ class FormationsController extends BaseActuController
                 $modelEtude = new Etude();
                 $organismesAssociatedToEtude = $modelEtude->getOrganismesAssociatedToEtude($notaire->crpcen);
             }
+            $highlight = reset($sessions);
             foreach($sessions as $key => $session){
                 $data = $this->addContactAction($session,$organismesAssociatedToEtude, false);
                 $sessions[$key]->action = $data ['action'];
                 $sessions[$key]->action_label = $data ['action_label'];
                 $sessions[$key]->contact_organisme = $data ['contact_organisme'];
+                if (!empty($params['sessionid']) && $sessions[$key]->id === $params['sessionid']) {
+                    $highlight = $sessions[$key];
+                }
             }
             // Pass data to the single-formation view
+            $this->set('highlight', $highlight);
             $this->set('sessions', $sessions);
         }
     }
 
-    public function past()
-    {
-        $this->process_params_for_search();
-
-        // params
-        $params = $this->params;
-        // Formations passées : triées de la plus récente à la plus ancienne
-        $params['order']      = 'custom_post_date DESC';
-        $params['conditions'] = array('custom_post_date < ' => date('Y-m-d'));
-        // get collection
-        $collection = $this->model->paginate($params);
-        $formationsPassees = $collection['objects'];
-
-        $this->set('formationsPassees', $formationsPassees);
-        $this->set_pagination($collection);
-    }
-
-
     public function calendar()
     {
         $params = $this->params;
+
+        $matieres = mvc_model('Matiere')->find(array(
+            'conditions' => array(
+                'displayed' => 1,
+            )
+        ));
 
         $matches = array();
         $month = date('m');
@@ -117,6 +157,7 @@ class FormationsController extends BaseActuController
                 'month' => $next_month,
                 'year' => strval(($month+1) <= 12 ? $year : $year+1),
             ),
+            'matieres' => $matieres,
         );
 
         $this->set('data', $data);
@@ -160,7 +201,7 @@ class FormationsController extends BaseActuController
      *   'yyyymmdd' => array(
      *     'date' => Datetime
      *     'today' => bool
-     *     'event' => (optional) Name for the event of the day @TODO
+     *     'event' => (optional) Name for the event of the day
      *     'sessions' => array(
      *       array(
      *         'name' => string
@@ -182,6 +223,7 @@ class FormationsController extends BaseActuController
      */
     protected function _fill_calendar_data($calendar) {
 
+        //Ajout des sessions de formations au calendrier
         $modelSession = new Session();
         $sessions = $modelSession->find(array(
             'conditions' => array(
@@ -219,6 +261,7 @@ class FormationsController extends BaseActuController
                 throw new OutOfBoundsException(sprintf('Key %s not found for current calendar', $key));
             }
             $formation = $formations[$session->id_formation];
+            $before_today = DateTime::createFromFormat('Y-m-d', $session->date)->getTimestamp() < time();
             $urlOptions = array(
                 'controller' => 'formations',
                 'action'     => 'show',
@@ -232,7 +275,9 @@ class FormationsController extends BaseActuController
                 'url'        => MvcRouter::public_url($urlOptions),
                 'id'         => $session->id
             );
-            $before_today = DateTime::createFromFormat('Y-m-d', $session->date)->getTimestamp() < time();
+            if (!$before_today) {
+                $lineSession['url'] .= '?'.http_build_query(array('sessionid' => $session->id));
+            }
             $data = $this->addContactAction($session, $organismesAssociatedToEtude, $before_today);
 
             $lineSession ['action']         = $data ['action'];
@@ -240,6 +285,28 @@ class FormationsController extends BaseActuController
             $lineSession ['organisme']           = $data['organisme'];
             $lineSession ['contact_organisme']   = $data['contact_organisme'];
             $calendar[$key]['sessions'][] = $lineSession;
+        }
+
+        //Ajout des évènements au calendrier
+        $modelEvenement = new Evenement();
+        $evenements = $modelEvenement->find(array(
+            'conditions' => array(
+                'AND' => array(
+                    'Evenement.date >= ' => $this->firstDayOfMonth->format('Y-m-d'),
+                    'Evenement.date <= ' => $this->lastDayOfMonth->format('Y-m-d')
+                )
+            ),
+            'order' => 'Evenement.date ASC',
+        ));
+
+        foreach($evenements as $evenement){
+            $key = $evenement->date;
+            if (!isset($calendar[$key])) {
+                throw new OutOfBoundsException(sprintf('Key %s not found for current calendar', $key));
+            }
+            if (!empty($evenement->name)){
+                $calendar[$key]['event'] = $evenement->name;
+            }
         }
 
         return $calendar;
@@ -581,4 +648,66 @@ class FormationsController extends BaseActuController
         }
     }
 
+
+    /**
+     * Retrieve all formations for current or next year millesime and return an array (by matiere by id asc) of array (formations)
+     * @param $current boolean : If true : current year else : next year
+     * @return array of array
+     */
+    public function catalog($current = true)
+    {
+        $option = get_option('cridon_next_year_catalog_published');
+        $this->set('catalogPublished', $option);
+
+        $year = ($current ? date('Y') : Date ('Y', strtotime('+1 year')));
+        $options = array(
+            'selects' => array(
+                'f.id','p.post_title', 'd.download_url','ma.label'
+            ),
+            'conditions' => array(
+                'm.year' => $year,
+                'p.post_status' => 'publish'
+            ),
+            'synonym' => 'f',
+            'joins' => array(
+                array(
+                    'model'  => 'Post',
+                    'alias'  => 'p',
+                    'on'     => ' p.ID = f.post_id'
+                ),
+                array(
+                    'model'  => 'Matiere',
+                    'alias'  => 'ma',
+                    'on'     => ' ma.id = f.id_matiere'
+                ),
+                array(
+                    'model'  => 'Millesime',
+                    'alias'  => 'm',
+                    'on'     => ' m.id_formation = f.id'
+                ),
+                array(
+                    'model'  => 'Document',
+                    'alias'  => 'd',
+                    'on'     => ' d.id_externe = f.id'
+                ),
+            )
+        );
+        $formations = $this->model->find($options);
+
+        $sortedFormations = array();
+        foreach($formations as $formation){
+            $sortedFormations[$formation->matiere->id][] = $formation;
+        }
+        ksort($sortedFormations);
+        $this->set('sortedFormations', $sortedFormations);
+    }
+
+    public function catalognextyear()
+    {
+        $option = get_option('cridon_next_year_catalog_published');
+        $this->set('catalogPublished', $option);
+        if ($option){
+            $this->catalog(false);
+        }
+    }
 }

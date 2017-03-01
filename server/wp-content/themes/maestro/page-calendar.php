@@ -23,6 +23,12 @@ $year = $data['year'];
                             <a href="/calendrier-des-formations/<?php echo $data['prev_month']['month'] ?>-<?php echo $data['prev_month']['year'] ?>" class="calendar__button calendar__button--previous">
                                 &nbsp;
                             </a>
+
+                            <a href="/calendrier-des-formations/" class="calendar__button--today">Aujourd'hui</a>
+
+                            <a href="/calendrier-des-formations/<?php echo $data['next_month']['month'] ?>-<?php echo $data['next_month']['year'] ?>" class="calendar__button calendar__button--next">
+                                &nbsp;
+                            </a>
                             <div class="calendar__block--currentmonth">
                                 <?php
                                 setlocale(LC_TIME, 'fr_FR');
@@ -31,9 +37,7 @@ $year = $data['year'];
                                 echo $actual_month;
                                 ?>
                             </div>
-                            <a href="/calendrier-des-formations/<?php echo $data['next_month']['month'] ?>-<?php echo $data['next_month']['year'] ?>" class="calendar__button calendar__button--next">
-                                &nbsp;
-                            </a>
+                            
                         </div>
                         <ul class="calendar__header--weekdays"><!--
                             <?php for ($i=0;$i<7;$i++) : ?>
@@ -63,12 +67,28 @@ $year = $data['year'];
                                         <?php if (!empty($day['event'])) : ?>
                                             <div class="calendar__day-event calendar__day-event--mobile" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
                                         <?php endif; ?>
-                                        <?php if ((count($day['sessions']) > 4)) : ?>
+                                        <?php
+                                        $is_scrollable = false;
+                                        if (count($day['sessions']) > 1) {
+                                            $is_scrollable = true;
+                                        }
+                                        /* Si on ne tronque pas en CSS/JS on remet cette condition
+                                         * else if (count($day['sessions']) == 1 ) {
+                                            $first = array_values($day['sessions'])[0];
+                                            $text = $first['name'];
+                                            $nblines = strlen($text) / 26;
+                                            $nblines += ($first['organisme']) ? (strlen($first['organisme']->name) / 26) : 0;
+                                            if ($nblines > 7) {
+                                                $is_scrollable = true;
+                                            }
+                                        }*/
+                                        ?>
+                                        <?php if ($is_scrollable) : ?>
                                             <div class="calendar__day-sessions-scrollbar">
                                                 <div class="calendar__day-sessions-scrollbar--bar"></div>
                                             </div>
                                         <?php endif; ?>
-                                        <ul class="calendar__day-sessions <?php echo (count($day['sessions']) > 4 ? 'calendar__day-sessions--scrollable' : '') ; ?>">
+                                        <ul class="calendar__day-sessions <?php echo $is_scrollable ? 'calendar__day-sessions--scrollable' : '' ; ?>">
                                             <?php if (is_array($day['sessions'])): ?>
                                             <?php foreach ($day['sessions'] as $index => $session) : ?>
                                                 <li 
@@ -77,8 +97,11 @@ $year = $data['year'];
                                                     data-block="calendar__session-block-<?php echo $date ; ?>"
                                                     style="background-color: <?php echo !empty($session['matiere']->color) ? $session['matiere']->color : '#000' ?>;"
                                                 >
-                                                    <div class="calendar__session-name"><?php echo $session['name'] ; ?></div>
-                                                    <div class="calendar__session-content">
+                                                    <div class="calendar__session-name calendar__session-name--name js-calendar-ellipsis" title="<?php echo $session['name'] ; ?>"><?php echo $session['name'] ; ?></div><!--
+                                                    <?php if ($session['organisme']) : ?>
+                                                        --><div class="calendar__session-name calendar__session-name--organisme"><?php echo $session['organisme']->is_cridon ? strtoupper($session['organisme']->name) : $session['organisme']->name; ?></div>
+                                                    <?php endif; ?><!--
+                                                    --><div class="calendar__session-content">
                                                         <div class="calendar__session-content--header">
                                                             <img class="calendar__session-matiere--icon" src="<?php echo $session['matiere']->picto; ?>" alt="<?php echo $session['matiere']->label ; ?>" width="30" height="30">
                                                             <span class="calendar__session-content--name"><?php echo $session['name'] ; ?></span>
@@ -131,6 +154,14 @@ $year = $data['year'];
                             <?php endforeach; ?>
                          --></ul>
                     </div>
+                </div>
+
+                <div class="legende">
+                    <ul>
+                        <?php foreach ($data['matieres'] as $index => $matiere) : ?>
+                            <li style="color: <?php echo $matiere->color ?>; background-color: <?php echo $matiere->color ?>;"><span><?php echo $matiere->label ?></span></li>
+                        <?php endforeach; ?>
+                    </ul>        
                 </div>
 
             </div>

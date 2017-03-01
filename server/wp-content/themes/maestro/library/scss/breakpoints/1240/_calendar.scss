@@ -4,12 +4,45 @@ CALENDAR STYLES
 *********************/
 
 #calendar {
-    $calendar-line-height: 36px;
+    $calendar-line-height: 114px;
     $calendar-sidebar-width: 164px;
     $calendar-margin: 3px;
+    $calendar-day-height: 170px;
+    $calendar-day-head-height: 32px;
 
     width: 1200px;
     border: 1px solid #bcbcbc;
+
+
+    .calendar__button {
+
+        &--next {
+            left: 232px;
+        }
+        &--previous {
+            left: 63px;
+        }
+    }
+
+    .calendar__button--today {
+        top: 22px;
+        left: 112px;
+        height: auto;
+        line-height: 30px;
+        border:solid 1px $bleu;
+        font-size: 16px;
+        padding: 0 15px;
+        @include transition(opacity .3s);
+
+        &:hover {
+            opacity: .8;
+        }
+
+    }
+
+    .calendar__block--currentmonth {
+        font-size: 24px;
+    }
 
     .calendar__wrapper--header {
         height: auto;
@@ -53,13 +86,12 @@ CALENDAR STYLES
         display: inline-block;
         width: 171px;
         border-right: 1px solid #bcbcbc;
-        height: 170px;
-        max-height: 170px;
-        padding: 0 3px;
+        height: $calendar-day-height;
+        max-height: $calendar-day-height;
+        padding: 0 $calendar-margin;
 
         &:nth-child(7n) { //dimanche
             border-right: none;
-            width: 172px;
         }
 
         &:nth-last-child(-n+7) { //last line
@@ -68,7 +100,7 @@ CALENDAR STYLES
     }
 
     .calendar__day-side {
-        height: 32px;
+        height: $calendar-day-head-height;
 
     }
 
@@ -84,9 +116,9 @@ CALENDAR STYLES
     .calendar__day-number {
         float: right;
         width: 32px;
-        height: 32px;
+        height: $calendar-day-head-height;
         font-size: 16px;
-        line-height: 32px;
+        line-height: $calendar-day-head-height;
         margin: 0 2px 0 2px;
     }
 
@@ -97,8 +129,8 @@ CALENDAR STYLES
         opacity: .6;
         padding: 5px 0 0 4px;
         width: calc(100% - 36px);
-        max-height: 32px;
-        height: 32px;
+        max-height: $calendar-day-head-height;
+        height: $calendar-day-head-height;
         hyphens: auto;
         -webkit-hyphens: auto;
         -ms-hyphens: auto;
@@ -113,10 +145,10 @@ CALENDAR STYLES
 
     .calendar__day-sessions {
         position: relative;
-        height: 135px;
+        height: $calendar-day-height - $calendar-day-head-height - $calendar-margin;
 
         &.calendar__day-sessions--scrollable {
-            height: 135px;
+            height: $calendar-day-height - $calendar-day-head-height - $calendar-margin;
             overflow: auto;
             margin: 0 -316px 0 0;
             padding-right: 300px;
@@ -134,7 +166,7 @@ CALENDAR STYLES
         top: 32px;
         right: 0;
         width: 10px;
-        height: calc(100% - 32px);
+        height: calc(100% - #{$calendar-day-head-height});
         padding: 2px ;
         background: transparentize(#eee, .9);
         opacity: 1;
@@ -155,6 +187,7 @@ CALENDAR STYLES
     }
 
     .calendar__session {
+        padding: 5px 0;
         box-shadow: -5px 0 0 0 $calendar-color1, inset 0 0 0px 0px $calendar-color-hover;
 
         &.calendar__session--open,
@@ -163,6 +196,16 @@ CALENDAR STYLES
         }
         &:hover {
             box-shadow: -5px 0 0 0 $calendar-color1, inset 0 0 2px 2px $calendar-color-hover;
+        }
+    }
+
+    .calendar__session-name {
+        font-size: 14px;
+        display: inline-block;
+        padding: 3px 0 0 0;
+        &--name {
+            max-height: 90px;
+            overflow: hidden;
         }
     }
 
@@ -207,5 +250,23 @@ CALENDAR STYLES
 
     .calendar__session-block-button--close::before {
         line-height: 26px;
+    }
+}
+
+//
+// LEGENDE CALENDRIER
+//
+
+.page-calendar {
+    .legende {
+        ul {
+            li {
+                width: 15%;
+
+                span {
+                    font-size: 14px;
+                }
+            }
+        }
     }
 }

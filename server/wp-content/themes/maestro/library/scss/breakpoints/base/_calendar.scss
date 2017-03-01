@@ -12,7 +12,7 @@ CALENDAR STYLES
     @include do-sm;
     font-size: 16px;
 
-    margin-bottom: 70px;
+    margin-bottom: 30px;
 
     /*********************
     CALENDAR HEADER
@@ -45,16 +45,24 @@ CALENDAR STYLES
         width: 49px;
         text-decoration: none;
         -webkit-perspective: 500px;
+        text-align: center;
+        z-index: 10;
+
         &:before {
             vertical-align: middle;
             @include svgicon('icon-flech-arrow',18px, 18px, $bleu);
+            position: relative;
+            left: 3px;
         }
+
         &:hover:before {
             opacity: .7;
         }
+
         &--next {
-            right: 0;
+            left: 147px;
         }
+
         &--previous {
             left: 0;
             &:before {
@@ -63,13 +71,30 @@ CALENDAR STYLES
         }
     }
 
+    .calendar__button--today {
+        position: absolute;
+        top: 29px;
+        left: 49px;
+        text-decoration: none;
+        height: 18px;
+        line-height: 18px;
+        border:solid 1px $bleu;
+        font-size: 14px;
+        background: $bleu;
+        color: #FFF;
+        padding: 0 10px;
+        z-index: 10;
+
+    }
+
     .calendar__block--currentmonth {
         margin: 0 auto;
         position: absolute;
         top: 0;
         bottom: 0;
-        right: 49px;
-        left: 49px;
+        // right: 49px;
+        // left: 49px;
+        right: 20px;
     }
 
     .calendar__header--weekdays {
@@ -187,7 +212,7 @@ CALENDAR STYLES
         margin: 0 0 $calendar-margin;
         padding: 0;
         z-index: 0;
-        height: 30px;
+        min-height: 30px;
         width: 100%;
         line-height: 30px;
         box-shadow: 0 0 0 0 $calendar-color-hover;
@@ -210,10 +235,26 @@ CALENDAR STYLES
     }
 
     .calendar__session-name {
-        @include ellipsis;
         color: #FFF;
-        padding-left: 5px;
-        font-size: 15px;
+        font-size: 14px;
+        line-height: 18px;
+        padding: 5px 0;
+        margin: 0 6px;
+        width: calc(100% - 12px);
+
+        &--name {
+            vertical-align: top;
+            font-weight: 700;
+        }
+        &--organisme {
+            vertical-align: bottom;
+            display: inline-block;
+            word-break: normal;
+            padding-top: 4px;
+            margin-top: 5px;
+            border-top: 1px solid rgba(255,255,255,.4);
+            font-weight: 400;
+        }
     }
 
     .calendar__session-block {
@@ -382,6 +423,8 @@ CALENDAR STYLES
         }
     }
 
+    
+
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
@@ -391,3 +434,66 @@ CALENDAR STYLES
         box-shadow: 0 0 10px rgba(0,0,0,.4);
     }
 }
+
+
+//
+// LEGENDE CALENDRIER
+//
+
+.page-calendar {
+    .legende {
+        padding: 0 20px;
+        margin-bottom: 50px;
+        ul {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+
+            li {
+                vertical-align: middle;
+                position: relative;
+                margin: 0 10px 10px 30px;
+                padding: 0;
+                min-height: 22px;
+                display: inline-block;
+                width: 90%;
+                float: left;
+
+                span {
+                    @include do-re;
+                    position: relative;
+                    line-height: 22px;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    color: #818181;
+                    display: block;
+                    background-color: #FFF;
+                }
+
+                &::before {
+                    @include svgicon('icon-angle-right', 18px, 18px, inherit);
+                    position: absolute;
+                    left: -8px;
+                    top: 10px;
+                    margin-top: -9px;
+                    display: block;
+                    //fix rendering pb on FF
+                    transform: rotateZ(-2deg);
+                }
+
+                &::after {
+                    content: '';
+                    width: 22px;
+                    height: 22px;
+                    background-color: inherit;
+                    position: absolute;
+                    left: -30px;
+                    top: 0;
+                    //fix rendering pb on FF
+                    transform: rotateZ(-2deg);
+                }
+            }
+        }
+    }
+}
+

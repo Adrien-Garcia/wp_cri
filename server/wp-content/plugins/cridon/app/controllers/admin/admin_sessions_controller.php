@@ -82,8 +82,10 @@ class AdminSessionsController extends BaseAdminController
         wp_enqueue_script('jquery-ui-datepicker');
 
         wp_enqueue_script('jquery-ui-i18n-fr', plugins_url('cridon/app/public/js/jquery.ui.datepicker-fr.js'), array('jquery-ui-datepicker'));
-        wp_register_script( 'formation-js', plugins_url('cridon/app/public/js/bo/formation.js'), array('jquery') );
+        wp_register_script('formation-js', plugins_url('cridon/app/public/js/bo/formation.js'), array('jquery') );
         wp_enqueue_script('formation-js');
+        wp_register_script('datepicker-js', plugins_url('cridon/app/public/js/bo/datepicker.js'), array('jquery') );
+        wp_enqueue_script('datepicker-js');
         wp_enqueue_style('jquery-ui-css', plugins_url('cridon/app/public/css/jquery-ui.css'));
     }
 

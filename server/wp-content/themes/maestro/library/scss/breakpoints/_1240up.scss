@@ -55,36 +55,7 @@ HEADER STYLES
 
 	.header-sup{
 
-
 		height: 60px;
-		/*background: $vj_01;
-		display: block;*/
-
-
-
-
-		/* .logo-partenaires{
-			display: block; // Masquer les logos des éditeurs pour le lot 1
-			width: 259px;
-			height: 28px;
-			position: absolute;
-			left: 0;
-			top: 15px;
-
-			//@include sprite($partenaire-header);
-
-			a{
-				display: inline-block;
-				@include transition(all 0.3s);
-
-				&:hover{
-					opacity: 0.8;
-				}
-			}
-
-
-
-		} */
 
 		a.contacter{display: none;}
 
@@ -552,68 +523,40 @@ body.page-template-front-page{
 		}
 
 
-		.row_02{
+		.row_02 {
 			padding-top: 25px;
 
-			&:before{
-			}
-
-			#onglets{
-				/*margin-bottom: 40px;	*/
-
+			#onglets {
 
 				h3{
 					font-size: 30px;
 					line-height: 70px;
-
 				}
 			}
 
-			.details{
-
-				.accordion{
-
-
-					.panel{
-
-						.date{
-
+			.details {
+				.accordion {
+					.panel {
+						.date {
 							width: 180px;
 
-							span.jour{
+							span.jour {
 
-								&:before{
+								&::before{
 									left: 170px;
 								}
 							}
 						}
 
-
-
-						.content{
-
+						.content {
 							width: 640px;
 							max-width: 640px;
-							padding: 0 30px 0 30px;
+							padding: 0 30px;
 
-							> ul{
-
-
-								> li{
-									float: none;
-									clear: both;
-									height: 80px;
-
-									&:first-child{padding-bottom:0;}
-									&:nth-child(2){padding:0;}
-									&:last-child{padding-top: 0; height: 59px;}
-
-									>img{
-
-										/*margin:0 0 43px 0;
-										float: left;
-										margin-right: 10px;*/
-									}
+							> ul {
+								> li {
+									height: 60px;
+									margin-bottom: 20px;
 
 									h4{
 										font-size: 30px;
@@ -630,22 +573,23 @@ body.page-template-front-page{
 									.adresse{
 										font-size: 12px;
 										line-height: 14px;
+										margin-top: 1px;
+										margin-bottom: 0;
 									}
 
-									> a {
+									a.bt-lire {
+										position: absolute;
+										right: 0;
+										bottom: 0px;
+									}
 
-									position: absolute;
-									right: 0;
-									top: 45px;
-
+									a.bt-all {
+										font-size: 20px;
+										bottom: 3px;
 									}
 								}
 							}
 						}
-
-					}
-
-					.blockEnd{
 
 					}
 
@@ -660,11 +604,17 @@ body.page-template-front-page{
 
 						h4{
 							line-height: 30px;
+							max-height: 90px;
 						}
 
 						.chapeau-categorie{
-							max-height: 56px;
+							max-height: 74px;
 							height: auto;
+						}
+
+						a.bt-lire {
+							bottom: auto;
+							top: 109px;
 						}
 
 
@@ -1077,125 +1027,6 @@ body.single #content
 }
 
 
-
-
-
-
-/*
-
-  ____                                                                      _
- |  _ \ __ _  __ _  ___   _ __ ___   ___  _ __     ___ ___  _ __ ___  _ __ | |_ ___
- | |_) / _` |/ _` |/ _ \ | '_ ` _ \ / _ \| '_ \   / __/ _ \| '_ ` _ \| '_ \| __/ _ \
- |  __/ (_| | (_| |  __/ | | | | | | (_) | | | | | (_| (_) | | | | | | |_) | ||  __/
- |_|   \__,_|\__, |\___| |_| |_| |_|\___/|_| |_|  \___\___/|_| |_| |_| .__/ \__\___|
-             |___/                                                   |_|
-
-*/
-
-
-
-/* #content.page-mon-compte{
-
-	#main{
-
-        #inner-content{
-            overflow: hidden;
-
-			h1{ float: left;}
-
-			a.logout{
-				font-size: 22px;
-			    line-height: 28px;
-			    margin-top: 5px;
-			    margin-left: 20px;
-			}
-
-
-
-			> ul{
-				clear: both;
-
-
-				>li{
-
-					width: 25%;
-					float: left;
-					margin-right: 0px;
-
-					padding-right: 30px;
-
-					&:last-child{
-						margin-right: 0;
-						padding-right: 0;
-					}
-
-					.bt{
-
-						height: 50px;
-						font-size: 24px;
-						padding: 0;
-						line-height: 20px;
-						width: 300px;
-
-
-
-
-						&:before{}
-
-					}
-
-					div.pannel{
-						display: none;
-						padding: 90px 0 30px 0;
-
-						h2{
-							font-size: 30px;
-							line-height: 20px;
-							margin-bottom: 35px;
-
-						}
-					}
-
-
-					&.active{
-
-
-						div.pannel{
-								width: 1200px !important;
-
-							}
-
-						div#mon-profil.pannel{
-							left: -600px;
-
-						}
-
-						div#tableau-de-bord.pannel{
-							left:0px;
-
-						}
-
-						div#mes-questions.pannel{
-							left:-300px;
-						}
-
-						div#regles-facturation.pannel{
-							left: -900px;
-						}
-
-					}
-
-				}
-
-			}
-
-		}
-	}
-
-
-
-} */
-
 /*
 
   ____                                    _             _
@@ -1309,6 +1140,61 @@ body.single #content
 	footer.article-footer{
 		padding: 100px 0 0 0;
 	}
+
+}
+
+//   __                            _   _                                 _        _
+ //  / _| ___  _ __ _ __ ___   __ _| |_(_) ___  _ __             ___ __ _| |_ __ _| | ___   __ _ _   _  ___
+ // | |_ / _ \| '__| '_ ` _ \ / _` | __| |/ _ \| '_ \   _____   / __/ _` | __/ _` | |/ _ \ / _` | | | |/ _ \
+ // |  _| (_) | |  | | | | | | (_| | |_| | (_) | | | | |_____| | (_| (_| | || (_| | | (_) | (_| | |_| |  __/
+ // |_|  \___/|_|  |_| |_| |_|\__,_|\__|_|\___/|_| |_|          \___\__,_|\__\__,_|_|\___/ \__, |\__,_|\___|
+ //                                                                                        |___/
+ //
+
+#content.page-catalogue-formation {
+
+	#inner-content {
+		width: 1200px;
+		margin: 0 auto;
+		padding: 0;
+	}
+
+	#main article {
+
+		.top {
+			overflow: hidden;
+
+			.wrapper-text {
+				width: calc(100% - 328px);
+			}
+		}
+
+		.wrapper-catalogue {
+			margin: 40px 0 50px 0;
+			 width: calc(100%);
+
+			ul{
+
+				> li{
+					// Matiere
+					.nom-matiere {
+						cursor: pointer;
+					}
+
+					> ul.formations {
+						display: none;
+
+						li{
+							> .nom-formation {
+								width: 1100px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 
 }
 
@@ -1590,7 +1476,7 @@ FOOTER STYLES
 		}
 
 	}
-	
+
 	.footer-bottom {
 		height: inherit;
 		padding: 0;

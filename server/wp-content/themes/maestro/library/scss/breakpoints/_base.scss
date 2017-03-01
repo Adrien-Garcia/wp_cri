@@ -766,49 +766,43 @@ body.page-template-front-page{
 				}
 			}
 
-			.details{
+			.details {
 				width: 100%;
 				clear: both;
 				float: none;
 
 
-				.accordion{
+				.accordion {
 					text-align: center;
 					opacity: 0;
 					z-index: 0;
 					display: none;
-					.panel{
 
-						//height: 60px;
-						//overflow: hidden;
+					.panel {
 
-						.date{
+						.date {
 							height: 60px;
 							font-size: 25px;
 							@include do-re;
 							text-transform: uppercase;
 							text-align: center;
-							//background: $vert;
 							line-height: 60px;
 							color:#FFF;
 							position: relative;
 							display: block;
 
-							&:before{
-								content:'';
+							&::before {
 								@include sprite($angle-before-date-accordion-mobile);
+								content: '';
 								position: absolute;
 								top: 0px;
 								left: 50%;
 								margin-left: -23px;
-
-
 							}
 
-							&:after{
+							&:after {
 								content:'';
 								font-weight: normal;
-
 								position: absolute;
 								bottom: -15px;
 								left: 50%;
@@ -816,9 +810,9 @@ body.page-template-front-page{
 								z-index: 2000;
 							}
 
-							span.jour{
+							span.jour {
 
-								&:before{
+								&::before {
 									content:'';
 									@include do-el;
 									font-size: 40px;
@@ -940,18 +934,30 @@ body.page-template-front-page{
 										line-height: 14px;
 									}
 
-									>a {
+									a.bt-lire {
 										@include bt-crayon($vert, #FFFFFF);
-										margin:10px auto 30px auto;
-
+										margin:10px auto 10px auto;
 									}
 
-									&:hover > a{
+									
+									a.bt-all {
+										@include lien-souligne($rouge);
+										margin: 20px 0;
+										color: $gris-appli;
+
+										&::after {
+											left: 50%;
+											margin-left: -8px;
+											top: 13px;
+										}
+									}
+
+									&:hover a.bt-lire {
 										  background: transparent;
 									      color:$vert;
-									      &:after{
-									      border-color: transparent transparent transparent transparent;
 
+									      &::after {
+									      	border-color: transparent transparent transparent transparent;
 									      }
 									}
 								}
@@ -1998,6 +2004,199 @@ body.single #content {
 			}
 		}
 	}
+
+}
+
+ //   __                            _   _                                 _        _
+ //  / _| ___  _ __ _ __ ___   __ _| |_(_) ___  _ __             ___ __ _| |_ __ _| | ___   __ _ _   _  ___
+ // | |_ / _ \| '__| '_ ` _ \ / _` | __| |/ _ \| '_ \   _____   / __/ _` | __/ _` | |/ _ \ / _` | | | |/ _ \
+ // |  _| (_) | |  | | | | | | (_| | |_| | (_) | | | | |_____| | (_| (_| | || (_| | | (_) | (_| | |_| |  __/
+ // |_|  \___/|_|  |_| |_| |_|\__,_|\__|_|\___/|_| |_|          \___\__,_|\__\__,_|_|\___/ \__, |\__,_|\___|
+ //                                                                                        |___/
+ //
+
+#content.page-catalogue-formation {
+
+	#inner-content {
+		width: 100%;
+		padding: 0 20px;
+	}
+
+	#main article {
+
+		.wrapper-img {
+			width: 172px;
+			background: #eee;
+
+			img{
+				border: solid 5px #eee;
+				margin-bottom: 0;
+			}
+
+			span {
+				text-align: center;
+				display: inline-block;
+				font-size: 15px;
+				line-height: 18px;
+				color: $bleu;
+				padding: 0 0 10px 0;
+			}
+		}
+
+		.wrapper-text {
+			margin-top: 20px;
+
+			a.bt-agenda {
+				@include do-re;
+				font-size: 16px;
+				height: 70px;
+				display: block;
+				background: #e6e6e6;
+				color: $bleu !important;
+				line-height: 70px;
+				padding-left: 55px;
+				position: relative;
+				@include transition(all 0.5s);
+
+				&::after {
+					content: '';
+				    width: 200px;
+				    height: 1px;
+				    background: $bleu;
+				    position: absolute;
+				    top: 42px;
+				    left: 56px;
+				    @include transition(opacity 0.3s);
+				}
+
+				&::before {
+					@include svgicon('icon-calendar', 24px, 24px,$bleu);
+					left: 20px;
+					top: 0;
+					position: absolute;
+					top: 50%;
+					margin-top: -12px;
+				}
+
+			}
+		}
+
+		
+
+		.wrapper-catalogue {
+			margin: 40px 0 50px -20px;
+			border-bottom: solid 1px #bcbcbc;
+			width: calc(100% + 40px);
+
+			ul{
+				margin: 0;
+				padding: 0;
+
+				
+				> li{
+					margin: 0;
+					padding: 0;
+
+					&::before{
+						display: none;
+					}
+
+					// Matiere
+					.nom-matiere {
+						display: table;
+						padding: 0 40px 0 20px;
+						background: #eee;
+						width: 100%;
+						border-top: solid 1px #bcbcbc;
+
+						span{
+							@include do-sm;
+							font-size: 20px;
+							line-height: 22px;
+							text-transform: uppercase;
+							color: $bleu;
+							height: 70px;
+							display: table-cell;
+							vertical-align: middle;
+							position: relative;
+
+							&::before{
+								@include svgicon('icon-flech-arrow', 18px, 18px,$bleu);
+								@include rotate(90);
+								@include transition(all 0.3s);
+								top: 50%;
+								margin-top: -9px;
+								right: -18px;
+								position: absolute;
+							}
+						}
+
+						&.open {
+							span::before{
+								@include rotate(-90);
+							}
+						}
+					}
+
+					> ul.formations {
+						display: none;
+
+						li{
+							display: table;
+							border-bottom: solid 1px #bcbcbc;
+							width: 100%;
+							padding-left: 20px;
+
+							&:last-child {
+								border-bottom: none;
+							}
+
+							> div,
+							> a {
+								height: 70px;
+								display: table-cell;
+								vertical-align: middle;
+							}
+
+							> .nom-formation {
+								font-family: $helvetica;
+								font-size: 15px;
+								color: $bleu;
+								line-height: 18px;
+								width: 215px;
+								padding-right: 20px;
+								text-decoration: underline;
+							}
+
+							> a.demande {
+								width: 30px;
+
+								&::before{
+									@include svgicon('icon-inscription2', 25px, 25px,$bleu);
+									top: 0;
+									right: 0;
+									@include transition(opacity 0.3s)
+								}
+							}
+
+							> a.pdf {
+								width: 30px;
+
+								&::before{
+									@include svgicon('icon-pdf', 25px, 25px,$rouge);
+									top: 0;
+									right: 0;
+									@include transition(opacity 0.3s)
+								}
+								
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 
 }
 

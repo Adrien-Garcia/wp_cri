@@ -57,6 +57,11 @@ class AdminFormationsController extends BaseAdminController
 
     public function index()
     {
+        if( isset( $this->params['flash'] ) ){
+            if( $this->params['flash'] == 'success' ){
+                $this->flash('notice', 'L\'article a été bien ajouté!');
+            }
+        }
         $this->init_default_columns();
         $this->process_params_for_search();
 
@@ -129,6 +134,16 @@ class AdminFormationsController extends BaseAdminController
         );
         $this->prepareData($aOptionList, $object->matiere);
         return empty($object->matiere) ? Config::$defaultMatiere['name'] : HtmlHelper::admin_object_link($object->matiere, array('action' => 'edit'));
+    }
+
+    /**
+     * Method to publish next year catalog - admin ajax
+     * Redirects to new catalog
+     */
+    public function publishnextyearcatalog(){
+        update_option('cridon_next_year_catalog_published',1);
+        echo "<br><br>Le calendrier " . date('Y',strtotime('+1 Year')) . " a été correctement publié";
+        die();
     }
 
     /**

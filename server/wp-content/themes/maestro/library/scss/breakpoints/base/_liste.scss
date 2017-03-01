@@ -393,13 +393,29 @@
 							    margin-top: 10px;
 							}
 
-							.adresse{
-								
-								font-family: $helvetica-bold;
-								font-size: 12px;
-								color:$bleu;
-								margin: 10px 0 10px 0;
-								line-height: 14px;
+							.lieux-formation {
+								.organisme {
+									@include do-bo;
+									font-size: 15px;
+									margin-bottom: 7px;
+								}
+
+								.horaire {
+									@include do-re;
+									margin-top: 10px;
+									font-size: 15px;
+									position: relative;
+
+									&::after {
+										content: '';
+									    width: 40px;
+									    height: 1px;
+									    background: $bleu;
+									    position: absolute;
+									    top: -5px;
+									    left: 0;
+									}
+								}
 							}
 
 							.mots_cles{
@@ -611,6 +627,32 @@
 	}
 
 
+}
+
+a.bt-formation {
+	@include do-re;
+	font-size: 16px;
+	height: 70px;
+	display: block;
+	background: #e6e6e6;
+	color: $bleu !important;
+	line-height: 20px;
+	padding-left: 55px;
+	position: relative;
+	@include transition(all 0.5s);
+	margin: 20px 0 40px 0;
+	padding-top: 15px;
+
+	&::before {
+		@include svgicon('icon-list-formation', 24px, 24px,$bleu);
+		left: 20px;
+		top: 0;
+		position: absolute;
+		top: 50%;
+		margin-top: -12px;
+	}
+
+	
 }
 
 .pagination{

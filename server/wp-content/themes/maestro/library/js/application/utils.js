@@ -40,6 +40,10 @@ App.Utils = {
 
         this.device.ios = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
 
+        this.device.mobile = /IEMobile|Windows Phone|Lumia/i.test(navigator.userAgent) ? 'w' : /iPhone|iP[oa]d/.test(navigator.userAgent) ? 'i' : /Android/.test(navigator.userAgent) ? 'a' : /BlackBerry|PlayBook|BB10/.test(navigator.userAgent) ? 'b' : /Mobile Safari/.test(navigator.userAgent) ? 's' : /webOS|Mobile|Tablet|Opera Mini|\bCrMo\/|Opera Mobi/i.test(navigator.userAgent) ? 1 : 0;
+
+        this.device.tablet = /Tablet|iPad/i.test(navigator.userAgent);
+
         if (location.hash) {
             App.Utils.scrollTop(700, location.hash);
         }
@@ -106,12 +110,13 @@ App.Utils = {
         return $('body')[0].className.split(/\s+/);
     },
 
-    scrollTop: function (_duration, _hash, _offset) {
+    scrollTop: function (_duration, _hash, _offset, _element) {
         var top = (typeof _hash !== 'undefined') ? $(_hash).offset().top - ($('header.header').height() + 30) : 0;
         var duration = (typeof _duration !== 'undefined') ? _duration : 700;
         var offset = (typeof _offset !== 'undefined') ? _offset : 0;
+        var element = (typeof _element !== 'undefined') ? _element : 'html, body';
         // hash = (hash !== undefined) ? hash : "";
-        $('html, body').animate({
+        $(element).animate({
             scrollTop: top + offset,
         }, duration, function () {
             // window.location.hash = hash;
@@ -127,11 +132,17 @@ App.Utils = {
     },
 
     multilineEllipsis: function (el) {
-        var wordArray = el.innerHTML.split(' ');
+        var wordArray = [];
+        if (typeof el.dataset.innerHTML !== 'undefined') {
+            el.innerHTML = el.dataset.innerHTML;
+        }
         el.dataset.innerHTML = el.innerHTML;
-        while (el.scrollHeight > el.offsetHeight && wordArray.length > 0) {
+
+        wordArray = el.innerHTML.split(' ');
+
+        while (el.scrollHeight > (el.offsetHeight + 1) && wordArray.length > 1) {
             wordArray.pop();
-            el.innerHTML = wordArray.join(' ') + '...';
+            el.innerHTML = wordArray.join(' ') + '&hellip;';
         }
     },
 

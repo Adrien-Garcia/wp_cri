@@ -23,6 +23,7 @@ class AdminMatieresController extends BaseAdminController
         'label', 
         'code', 
         'short_label',
+        'color' => array( 'value_method' => 'show_color'),
         'picto' => array( 'value_method' => 'show_picto')
     );
     
@@ -50,5 +51,9 @@ class AdminMatieresController extends BaseAdminController
     
     public function show_picto( $object ){
         return ( empty( $object->picto ) ) ? null : '<img src="'.$object->picto.'" width="50" height="50" />';
+    }
+
+    public function show_color( $object ){
+        return ( empty( $object->color ) ) ? 'Pas de couleur' : '<span style="background: '.$object->color.'; padding: 0 .5em;">&nbsp;</span><span>'.$object->color.'</span>';
     }
 }

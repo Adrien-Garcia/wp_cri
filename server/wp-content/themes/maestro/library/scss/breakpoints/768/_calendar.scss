@@ -8,6 +8,12 @@ CALENDAR STYLES
     $calendar-sidebar-width: 164px;
     $calendar-margin: 4px; // 4px to account for whitespaces differences on different browsers (iOS)
 
+    .calendar__block--currentmonth {
+        right: auto;
+        left: auto;
+        position: relative;
+    }
+
     .calendar__day-side {
         height: auto;
         width: $calendar-sidebar-width;
@@ -18,7 +24,7 @@ CALENDAR STYLES
     }
 
     .calendar__day-event {
-        @include no-ellipsis;
+        //@include no-ellipsis;
         display: block;
         width: $calendar-sidebar-width;
         line-height: 13px;
@@ -34,5 +40,21 @@ CALENDAR STYLES
     .calendar__session-block {
         width: 215px;
         right: 25%;
+    }
+}
+
+//
+// LEGENDE CALENDRIER
+//
+
+.page-calendar {
+    .legende {
+        padding: 0 0 0 100px;
+        margin: 40px 0 60px 0;
+        ul {
+            li {
+                width: 25%;
+            }
+        }
     }
 }

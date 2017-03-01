@@ -23,7 +23,7 @@ services:
             - db
             - mailhog
             #- blackfire
-            - gulp
+            #- gulp
     db:
         container_name: ${COMPOSE_PROJECT_NAME}-db
         image: mariadb:10.0

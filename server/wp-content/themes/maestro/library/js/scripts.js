@@ -248,5 +248,12 @@ jQuery(document).ready(function($) {
 
     });
 
+    /* CATALOGUE DES FORMATIONS */
+
+    $('.js-bt-matiere').click(function () {
+        $(this).parent().find('ul.formations').slideToggle();
+        $(this).toggleClass("open");
+    });
+
 
 }); /* end of as page load scripts */

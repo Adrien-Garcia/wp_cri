@@ -36,6 +36,10 @@ class BaseActuController extends MvcPublicController
                         'id' => $object->post->post_name
                     );
                     $url = MvcRouter::public_url($options);
+                    if (!empty($_GET)) {
+                        $url .= '?'.http_build_query($_GET);
+                    }
+
                     //redirect to url with virtual-name
                     wp_redirect($url, 301);
                     exit;

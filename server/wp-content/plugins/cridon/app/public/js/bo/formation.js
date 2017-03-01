@@ -21,12 +21,6 @@
                 window.location.href = $('#baseUrl').val() + '&option=' + $(this).val();
             });
         }
-
-        if ($('.datepicker').length > 0) {
-            $('.datepicker').datepicker({
-                dateFormat: 'yy-mm-dd'
-            });
-        }
     }
 
 })(jQuery);
