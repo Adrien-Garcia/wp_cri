@@ -287,7 +287,7 @@ class Config {
 
     public static $mailSubjectCahierCridon = 'Nouveau cahier cridon lyon';
 
-    public static $notificationAddressDev = "renaud.amsellem@jetpulp.fr";
+    public static $notificationAddressDev = "clement.horgues@jetpulp.fr";
 
     public static $notificationAddressPreprod = "s.raby@cridon-lyon.fr";
 
@@ -997,5 +997,43 @@ class Config {
         CONST_TYPEFACTURE_TRADUC        => 'Traduction',
         CONST_TYPEFACTURE_OUVRAGE       => 'Ouvrage',
         CONST_TYPEFACTURE_DIVERS        => 'Divers'
+    );
+
+    public static $mailSubjectFormationPreinscription = 'Demande de pré-inscription à la formation';
+    public static $mailSubjectAdminFormationPreinscription = 'Nouvelle demande de pré-inscription à la formation';
+    public static $mailSubjectFormationGenerique = 'Demande de formation';
+    public static $mailSubjectFormationDemande = 'Demande de formation';
+
+    public static $notificationAddressFormulaireFormation = 'n.prunaret@cridon-lyon.fr';
+    
+    public static $allowedMailTags = array(
+        'a' => array(
+            'href' => true,
+            'title' => true,
+        ),
+        'abbr' => array(
+            'title' => true,
+        ),
+        'acronym' => array(
+            'title' => true,
+        ),
+        'b' => array(),
+        'br' => array(),
+        'blockquote' => array(
+            'cite' => true,
+        ),
+        'cite' => array(),
+        'code' => array(),
+        'del' => array(
+            'datetime' => true,
+        ),
+        'em' => array(),
+        'i' => array(),
+        'q' => array(
+            'cite' => true,
+        ),
+        's' => array(),
+        'strike' => array(),
+        'strong' => array(),
     );
 }

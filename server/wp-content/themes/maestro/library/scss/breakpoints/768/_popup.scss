@@ -1,18 +1,18 @@
-/****
+// /****
 
-  _        _ __   _______ ____    ____   ___  ____  _____ _____  _   _ _   _ _____    ___  _   _ _____ ____ _____ ___ ___  _   _ 
- | |      / \\ \ / / ____|  _ \  |  _ \ / _ \/ ___|| ____|__  / | | | | \ | | ____|  / _ \| | | | ____/ ___|_   _|_ _/ _ \| \ | |
- | |     / _ \\ V /|  _| | |_) | | |_) | | | \___ \|  _|   / /  | | | |  \| |  _|   | | | | | | |  _| \___ \ | |  | | | | |  \| |
- | |___ / ___ \| | | |___|  _ <  |  __/| |_| |___) | |___ / /_  | |_| | |\  | |___  | |_| | |_| | |___ ___) || |  | | |_| | |\  |
- |_____/_/   \_\_| |_____|_| \_\ |_|    \___/|____/|_____/____|  \___/|_| \_|_____|  \__\_\\___/|_____|____/ |_| |___\___/|_| \_|
-                                                                                                                                 
+//   _        _ __   _______ ____    ____   ___  ____  _____ _____  _   _ _   _ _____    ___  _   _ _____ ____ _____ ___ ___  _   _
+//  | |      / \\ \ / / ____|  _ \  |  _ \ / _ \/ ___|| ____|__  / | | | | \ | | ____|  / _ \| | | | ____/ ___|_   _|_ _/ _ \| \ | |
+//  | |     / _ \\ V /|  _| | |_) | | |_) | | | \___ \|  _|   / /  | | | |  \| |  _|   | | | | | | |  _| \___ \ | |  | | | | |  \| |
+//  | |___ / ___ \| | | |___|  _ <  |  __/| |_| |___) | |___ / /_  | |_| | |\  | |___  | |_| | |_| | |___ ___) || |  | | |_| | |\  |
+//  |_____/_/   \_\_| |_____|_| \_\ |_|    \___/|____/|_____/____|  \___/|_| \_|_____|  \__\_\\___/|_____|____/ |_| |___\___/|_| \_|
 
-*/
+
+// */
 
 
 
 #layer-posez-question{
-	
+
 	width: 709px;
 	max-width: 709px;
 	margin:0 auto;
@@ -22,11 +22,9 @@
 
 
 	.block_top{
-
 		background: #FFF;
 
 		> .titre{
-
 			height: 90px;
 			padding:0 30px;
 
@@ -39,7 +37,7 @@
 				width: 38px;
 				height: 38px;
 				cursor: pointer;
-				
+
 				&:before{
 					@include svgicon('icon-close-layer-question', 38px, 38px, #FFF);
 					@include rotate(-45);
@@ -52,12 +50,11 @@
 					opacity: 0.8;
 				}
 
-				
+
 
 			}
 
-			.texte{			
-
+			.texte{
 				font-size: 35px;
 				line-height: 90px;
 				height: 90px;
@@ -70,29 +67,27 @@
 					top: 50%;
 					margin-top: -20px;
 					position: absolute;
-					left: 0; 
+					left: 0;
 					display: block;
 				}
 
 			}
 
-			.expertise{				
+			.expertise{
 				top: 38px;
 				left: 420px;
 				font-size: 25px;
 			}
-			
+
 		}
 
 		.onglets{
-
-			
 			width: 648px;
 			margin:0 auto;
 
 
 			.h2{
-				width: 33.33%;	
+				width: 33.33%;
 				font-size: 20px;
 				padding: 0 5px;
 				text-align: left;
@@ -100,66 +95,52 @@
 				span{
 					display: inline;
 					@include do-sm
-
-				}			
-
-				&:hover{
-					
 				}
 
 			}
 
-			.h2.open{				
+			.h2.open{
 				width: 216px;
 			}
 		}
 
 		.details{
-			
+
 			width: 648px;
-			margin:0 auto; 
-			
+			margin:0 auto;
 
-			.consultation, .niveau-expertise{
-				
+			.consultation,
+			.niveau-expertise {
 
-				#owl-support, #owl-niveau-expertise{
-					
 
-					.owl-item{
-
+				#owl-support,
+				#owl-niveau-expertise {
+					.owl-item {
 						height: 384px;
-						
 
-						.item{	
-
+						.item{
 							width: 196px;
 							margin: 180px 0 0 0;
 							padding-top: 15px;
 
-							&:before{								
-								
-							}
-
-							&:last-child{
+							&:last-child {
 								margin-right: 0;
 							}
 
 						}
 
-						.description{
-							width: 100%; 
+						.description {
+							width: 100%;
 						}
 
-						a{
+						a {
 							font-size: 15px;
 						}
 
-						.label{
-							
+						.label {
 							font-size: 20px;
 
-							&:before{
+							&:before {
 								@include svgicon('icon-angle-bottom', 15px, 15px, $vj_03);
 								position: absolute;
 								left: 50%;
@@ -169,18 +150,18 @@
 
 						}
 
-						.description{							
+						.description {
 							text-align: center;
 							text-align: justify;
 							height: 72px;
 						}
 
-						&:nth-child(2){
+						&:nth-child(2) {
 							.item{
 								margin-left: 10px;
 							}
 						}
-						&:last-child{
+						&:last-child {
 							.item{
 								margin-left: 18px;
 							}
@@ -188,77 +169,46 @@
 
 					}
 
-					.owl-nav{
+					.owl-nav {
 						display: none;
 					}
 
-				}				
+				}
 
 			}
 
-			
-
-			
 
 
 
-			.question{
 
-				.block_gauche{
-					
-				}
 
-				.block_droit{
+
+			.question {
+
+				.block_droit {
 					width: 100%;
 					clear: both;
 					border:solid 1px transparent;
 
-					.form{
+					.form {
 						width: 100%;
 						padding-bottom: 20px;
 						margin-top: 15px;
 
-						input[type="text"], textarea{							
-							margin-bottom: 15px;
-
-
-						}
-
-						select{							
+						input[type="text"], textarea{
 							margin-bottom: 15px;
 						}
 
-						input[type="submit"]{
+						select{
+							margin-bottom: 15px;
 						}
-
-						input[type="file"]{
-							
-						}
-
-						.fileUpload {
-						 
-
-						}
-						.fileUpload input.upload {						  
-						}
-
-						.sep{							
-
-						}
-
-						
 					}
 				}
-
 			}
-			
 		}
-
-		
-
 	}
 
-	.block_bottom{
+	.block_bottom {
 		clear: both;
 		float: none;
 		height: 260px;
@@ -266,35 +216,29 @@
 		width: 100%;
 
 
-		.block_03{
+		.block_03 {
 			display: block;
 			padding: 10px 0 40px 0;
 			float: left;
 			width: 640px;
 			margin-top: 20px;
-
 			margin-left: 30px;
 
 			.block {
-				
 				margin-bottom: 10px;
 				background-color: #FFF;
 				position: relative;
 				cursor: pointer;
-
 				width: 206px;
 				height: 210px;
 				float: left;
-				margin-right: 10px; 
+				margin-right: 10px;
 
-				
-
-				&:nth-child(3){ margin-right: 0;} 
+				&:nth-child(3){ margin-right: 0;}
 
 
-				.content{
+				.content {
 					height: 100px;
-					//background-color: $vert;
 					position: absolute;
 					bottom: 0;
 					left: 0;
@@ -302,7 +246,8 @@
 					width: 100%;
 					transition: height $duration ease;
 
-					&:before, &:after{
+					&:before,
+					&:after {
 						content: '';
 						width: calc(100% / 2);
 						position: absolute;
@@ -312,29 +257,23 @@
 						transition: height $duration ease, background $duration ease;
 						border:none;
 						box-sizing: border-box;
-
 						background: $vert;
 						@include gradient-opacity(transparentize($vert, 0.4),opacify($vert, 1));
 						background-size: 100% 200%;
-
 					}
 
-					&:before{
-						
+					&:before {
 						@include border-radius(0 20px 0 0);
 						left: 0;
 					}
 
 					&:after{
-
 						@include border-radius(20px 0 0 0);
 						right: 0;
-
-
 					}
 
-										
-					.h2{ 
+
+					.h2 {
 						position: relative;
 						z-index: 2000;
 						font-family: $dosis;
@@ -348,7 +287,7 @@
 						padding: 0;
 						font-weight: normal;
 
-						span{
+						span {
 							display: block;
 							font-size: 17px;
 							line-height: 18px;
@@ -356,16 +295,11 @@
 							color:#FFF;
 							text-transform: none;
 							font-weight: normal;
-
-						}
-
-						&:before{
-							/*font-weight:normal;*/
 						}
 					}
 
-					> a{
-						display: block; 
+					> a {
+						display: block;
 						color:#FFF;
 						position: relative;
 						z-index: 2000;
@@ -378,7 +312,7 @@
 						margin: 0;
 					}
 
-					&:hover{
+					&:hover {
 
 						> a{
 							@include do-bo;
@@ -386,34 +320,34 @@
 					}
 				}
 
-				
+
 			}
 
-			.poser{
+			.poser {
 				background: url(../images/origin/bg-poser-une-question-tel.png);
 				background-size: cover;
 			}
 
-			.demander{
+			.demander {
 				background: url(../images/origin/bg-consulter-mobile.png);
 				background-size: cover;
 
 			}
 
-			.prendre{
+			.prendre {
 				background: url(../images/origin/bg-prendre-rdv.png);
 				background-size: cover;
 			}
-			
+
 		}
 
-		.block_3_mobile{
-			display: none;			
+		.block_3_mobile {
+			display: none;
 		}
 
 	}
 
-	
+
 }
 
 
@@ -423,59 +357,40 @@
 #layer-update-etude,
 #layer-update-profil,
 .popup{
- 
+
 	width: 660px;
 	max-width: 660px;
 	margin:0 auto;
 	padding: 0;
 
 	input[type="email"]{
-
-	font-size: 18px;
-
-
-}
+		font-size: 18px;
+	}
 
 
 	.message-erreur{
 
 		> div{
 			font-size: 15px;
-			line-height: 18px;			
+			line-height: 18px;
 		}
-		
+
 	}
 
-	>.titre{
-		
-
+	> .titre {
 		height: 115px;
-
-		&:before{
-			
-		}
 
 		.close_layer{
 			cursor: pointer;
-			
-			&:before{
-			
-			}
-
-			
-
 		}
 
-		.texte{
+		.texte {
 			font-size: 35px;
 			line-height: 40px;
 			padding-left: 60px;
 			margin-top: -40px;
-			
-			> span{
-			}	
 
-			&:before{
+			&::before {
 
 				font-weight: normal;
 				top: 50%;
@@ -483,24 +398,21 @@
 				position: absolute;
 				left: 0;
 				display: block;
-
-			}	
-
+			}
 		}
 	}
 
-	.block{ 
+	.block {
 
-		p{
-			
-
+		p {
 			width: 420px;
 			display: block;
 			margin: 0 auto;
 			line-height: 32px;
 		}
 
-		a, form{
+		a,
+		form {
 			margin-top: 60px;
 			position: relative;
 			display: inline-block;
@@ -508,7 +420,7 @@
 			width: auto;
 			margin-bottom: 50px;
 
-			&:after{
+			&::after{
 				width: 600px;
 				height: 5px;
 				background: $bg-top-footer;
@@ -517,62 +429,34 @@
 				left: 50%;
 				margin-left: -300px;
 				content:'';
-
 			}
 		}
 
-		
+
 	}
 
-	>form{
+	> form {
 		margin: 45px 35px 60px 35px;
 		padding:0 0 25px 0;
 		border-bottom:solid 4px $bg-top-footer;
 
 
 
-	input[type="text"], select{
+		input[type="text"], select{
 			max-width: 100%;
 			margin-bottom: 14px;
 		}
 
-		div.submit{
-			//text-align: center;
-		}
-
-
 		.droit-collaborateur{
 			margin-bottom: 60px;
 
-			
-
 			label{
-				
-				
 
-				span{
-				}
-
-				input{ opacity: 0;
-
-					
-
-				}
-
-				&:before{
-					
-				}
-
-				&.select{
-					&:before{
-						
-					}
-
+				input{
+					opacity: 0;
 				}
 			}
 		}
 	}
-			
-		
 
 }

@@ -9,4 +9,5 @@ class Session extends \App\Override\Model\CridonMvcModel
         'Organisme' => array('foreign_key' => 'id_organisme')
     );
     var $display_field = 'date';
+    
 }

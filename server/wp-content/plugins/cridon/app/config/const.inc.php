@@ -1269,3 +1269,13 @@ if ( !defined( 'CRIDONLINE_AUTOLOGIN_URL' ) ) {
     }
     define( 'CRIDONLINE_AUTOLOGIN_URL', $url);
 }
+
+if ( !defined( 'CONST_FORMATION_PREINSCRIPTION' ) ) {
+    define( 'CONST_FORMATION_PREINSCRIPTION', 1 );
+}
+if ( !defined( 'CONST_FORMATION_DEMANDE' ) ) {
+    define( 'CONST_FORMATION_DEMANDE', 2 );
+}
+if ( !defined( 'CONST_FORMATION_GENERIQUE' ) ) {
+    define( 'CONST_FORMATION_GENERIQUE', 3 );
+}

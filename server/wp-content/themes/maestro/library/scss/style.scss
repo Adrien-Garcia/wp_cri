@@ -131,6 +131,8 @@ the other stylesheets. Remember, keep it light: Speed is Important.
 
 /*CALENDAR*/
 @import "breakpoints/base/calendar";
+/*PAGE*/
+@import "breakpoints/base/page";
 
 /*********************
 LARGER MOBILE DEVICES
@@ -175,6 +177,8 @@ you can add resource intensive styles.
 	@import "breakpoints/768/single";
     /*CALENDAR*/
     @import "breakpoints/768/calendar";
+	/*PAGE*/
+	@import "breakpoints/768/page";
 
 } // end of media query
 
@@ -207,6 +211,8 @@ you can add resource intensive styles.
 	@import "breakpoints/1240/single";
     /*CALENDAR*/
     @import "breakpoints/1240/calendar";
+	/*PAGE*/
+	@import "breakpoints/1240/page";   
 
 } // end of media query
 
