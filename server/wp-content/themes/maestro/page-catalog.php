@@ -12,13 +12,11 @@
             <div id="main" class="cf" role="main">
                 <article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
                     <header class="article-header">
-                        <h1 class="page-title h1" itemprop="headline"><?php _e('Catalogue'); ?></h1>
+                        <h1 class="page-title h1" itemprop="headline"><?php _e('Catalogue des formations '. date('Y')); ?></h1>
                     </header> <?php // end article header ?>
 
-                    <?php if ($catalogPublished): ?>
-                        <a href="<?php echo mvc_public_url(array('controller' => 'formations', 'action' => 'catalognextyear')); ?>">Prochain catalogue</a>
-                    <?php endif; ?>
-
+                    <?php set_query_var( 'currentCatalog', true ); ?>
+                    <?php set_query_var( 'catalogPublished', $catalogPublished ); ?>
                     <?php set_query_var( 'sortedFormations', $sortedFormations ); ?>
                     <?php echo get_template_part("page","catalog-detail"); ?>
                 </article>
