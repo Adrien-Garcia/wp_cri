@@ -214,8 +214,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
                 default :
                     $this->importEntites();
-                    $this->importLinksEntitesOrganismes();
-                    $this->importNotaires($force);
+//                    $this->importLinksEntitesOrganismes();
+//                    $this->importNotaires($force);
                     break;
             }
 
@@ -329,7 +329,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             }
                         }
                         try {
-                            mvc_model('entite')->update($entite->id, $aData);
+                            mvc_model('entite')->update($entite->crpcen, $aData);
                         } catch (\Exception $e) {
                             // write into logfile
                             writeLog($e, 'entite.log');
