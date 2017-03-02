@@ -1123,7 +1123,7 @@ class Question extends \App\Override\Model\CridonMvcModel
                                 'Notaire.code_interlocuteur' => $sreccn
                             ),
                             'joins' => array(
-                                'Etude'
+                                'Entite'
                             )
                         ));
                     }
@@ -1159,12 +1159,12 @@ class Question extends \App\Override\Model\CridonMvcModel
                     } else {
                         if (!empty($notaire->email_adress)) {
                             $destinataire = $notaire->email_adress;
-                        } elseif (!empty($notaire->etude->office_email_adress_1)){
-                            $destinataire = $notaire->etude->office_email_adress_1;
-                        } elseif (!empty($notaire->etude->office_email_adress_2)){
-                            $destinataire = $notaire->etude->etude->office_email_adress_2;
-                        } elseif (!empty($notaire->etude->office_email_adress_3)){
-                            $destinataire = $notaire->etude->office_email_adress_3;
+                        } elseif (!empty($notaire->entite->office_email_adress_1)){
+                            $destinataire = $notaire->entite->office_email_adress_1;
+                        } elseif (!empty($notaire->entite->office_email_adress_2)){
+                            $destinataire = $notaire->entite->entite->office_email_adress_2;
+                        } elseif (!empty($notaire->entite->office_email_adress_3)){
+                            $destinataire = $notaire->entite->office_email_adress_3;
                         }
                         if (!empty($destinataire)) {
                             wp_mail($destinataire, $subject, $message, $headers);

@@ -1,19 +1,22 @@
 <?php
 
 /**
- * Class Etude
+ * Class Entite
  */
-class Etude extends \App\Override\Model\CridonMvcModel {
-    public $primary_key = 'crpcen';
+class Entite extends \App\Override\Model\CridonMvcModel {
+    public $primary_key = 'crpcen'; // not PK in DB, but used for most of the relations
     public $display_field = 'office_name';
-    public $table = '{prefix}etude';
+    public $table = '{prefix}entite';
     public $has_many       = array(
         'Notaire' => array(
             'foreign_key' => 'crpcen'
+        ),
+        'Session' => array(
+            'foreign_key' => 'id'
         )
     );
     public $has_and_belongs_to_many = array(
-        'Organisme' => array(
+        'Entite' => array(
             'foreign_key' => 'crpcen',
             'association_foreign_key' => 'id_organisme',
             'join_table' => '{prefix}organisme_etude',
@@ -32,12 +35,12 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      */
     public $listDocs = array();
 
-    public function getRelatedPrices($etude) {
+    public function getRelatedPrices($entite) {
 
         // get number of active members of the office
         $options = array(
             'conditions' => array(
-                'n.crpcen' => $etude->crpcen,
+                'n.crpcen' => $entite->crpcen,
                 'n.id_fonction' => Config::$functionsPricesCridonline,
                 'u.user_status' => CONST_STATUS_ENABLED
             ),
@@ -49,14 +52,14 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 ),
             )
         );
-        $nbCollaboratorEtude = mvc_model('QueryBuilder')->countItems('notaire', $options, 'n.id');
+        $nbCollaboratorEntite = mvc_model('QueryBuilder')->countItems('notaire', $options, 'n.id');
 
         $subscriptionInfos = array();
         foreach (Config::$pricesLevelsVeilles as $level => $prices) {
             // Tri du tableau de prix par clé descendante
             krsort($prices);
             foreach ($prices as $nbCollaborator => $price) {
-                if ($nbCollaboratorEtude >= $nbCollaborator) {
+                if ($nbCollaboratorEntite >= $nbCollaborator) {
                     $subscriptionInfos[$level] = $price;
                     break;
                 }
@@ -66,9 +69,9 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         return $subscriptionInfos;
     }
 
-    public function getSubscriptionPrice($etude, $isNextLevel = false){
-        $level = ($isNextLevel && !empty($etude->next_subscription_level)) ? $etude->next_subscription_level : $etude->subscription_level;
-        $prices = $this->getRelatedPrices($etude);
+    public function getSubscriptionPrice($entite, $isNextLevel = false){
+        $level = ($isNextLevel && !empty($entite->next_subscription_level)) ? $entite->next_subscription_level : $entite->subscription_level;
+        $prices = $this->getRelatedPrices($entite);
         return $prices[$level];
     }
 
@@ -308,7 +311,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         // en-tete email
         $headers = array('Content-Type: text/html; charset=UTF-8');
 
-        // list des notaires à notifier par etude
+        // list des notaires à notifier par entite
         $notary = $this->listNotaryToBeNotified($crpcen);
 
         $dest        = array();
@@ -322,11 +325,11 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                 } elseif (filter_var($item->office_email_adress_1, FILTER_VALIDATE_EMAIL)) {
                     $office_dest[] = $item->office_email_adress_1;
                 } elseif (filter_var($item->office_email_adress_2, FILTER_VALIDATE_EMAIL)) {
-                    $office_dest[] = $item->etude->office_email_adress_2;
+                    $office_dest[] = $item->entite->office_email_adress_2;
                 } elseif (filter_var($item->office_email_adress_3, FILTER_VALIDATE_EMAIL)) {
                     $office_dest[] = $item->office_email_adress_3;
                 }
-                // nom de l'etude concernée
+                // nom de l'entite concernée
                 $office_name = $item->office_name;
             }
         }
@@ -395,7 +398,7 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                       ON
                         `cfc`.`id` = `cn`.`id_fonction_collaborateur`
                     LEFT JOIN
-                      {$wpdb->prefix}etude ce
+                      {$wpdb->prefix}entite ce
                       ON
                         ce.crpcen = `cn`.`crpcen`
                     INNER JOIN
@@ -417,10 +420,10 @@ class Etude extends \App\Override\Model\CridonMvcModel {
 
     /**
      * Récupère tous les organismes dont dépend l'étude du crpcen passé en entré
-     * @param string $crpcen of the etude
+     * @param string $crpcen of the entite
      * @return object[] organisms
      */
-    public function getOrganismesAssociatedToEtude ($crpcen) {
+    public function getOrganismesAssociatedToEntite ($crpcen) {
         global $wpdb;
         if (empty($crpcen)){
             return array();

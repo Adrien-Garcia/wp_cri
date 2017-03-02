@@ -1,0 +1,9 @@
+ALTER TABLE `cri_etude`
+ADD COLUMN `id` INT(11) NOT NULL AUTO_INCREMENT FIRST,
+ADD COLUMN `is_cridon` TINYINT(1) NULL DEFAULT '0' AFTER `crpcen`,
+ADD COLUMN `is_organisme` TINYINT(1) NULL DEFAULT '0' AFTER `is_cridon`,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `cri_etude`
+RENAME TO `cri_entite`;

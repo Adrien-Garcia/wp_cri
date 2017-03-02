@@ -86,7 +86,7 @@
         <tr>
             <td width="20" style="background-color:#fff;"><?php //var_dump($post) ?></td>
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
-                <p><strong>Étude : <?php echo $etude->office_name ?></strong> - CRPCEN : <?php echo $etude->crpcen ?> - <?php echo $notary->last_name.' '.$notary->first_name ?></p>
+                <p><strong>Étude : <?php echo $entite->office_name ?></strong> - CRPCEN : <?php echo $entite->crpcen ?> - <?php echo $notary->last_name.' '.$notary->first_name ?></p>
 
                 <?php
                 $telPassword = trim($telPassword);

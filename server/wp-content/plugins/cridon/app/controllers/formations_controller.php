@@ -93,14 +93,14 @@ class FormationsController extends BaseActuController
             $sessions = mvc_model('Session')->find($options);
 
             // On récupère les organismes dont dépends l'étude
-            $organismesAssociatedToEtude = array();
+            $organismesAssociatedToEntite = array();
             if (!empty($notaire = CriNotaireData())){
-                $modelEtude = new Etude();
-                $organismesAssociatedToEtude = $modelEtude->getOrganismesAssociatedToEtude($notaire->crpcen);
+                $modelEntite = new Entite();
+                $organismesAssociatedToEntite = $modelEntite->getOrganismesAssociatedToEntite($notaire->crpcen);
             }
             $highlight = reset($sessions);
             foreach($sessions as $key => $session){
-                $data = $this->addContactAction($session,$organismesAssociatedToEtude, false);
+                $data = $this->addContactAction($session,$organismesAssociatedToEntite, false);
                 $sessions[$key]->action = $data ['action'];
                 $sessions[$key]->action_label = $data ['action_label'];
                 $sessions[$key]->contact_organisme = $data ['contact_organisme'];
@@ -234,7 +234,7 @@ class FormationsController extends BaseActuController
             ),
             'joins' => array(
                 'Formation',
-                'Organisme'
+                'Entite'
             ),
             'order' => 'Session.date ASC',
         ));
@@ -249,10 +249,10 @@ class FormationsController extends BaseActuController
         $formations = assocToKeyVal($formations, 'id');
 
         // On récupère les organismes dont dépends l'étude
-        $organismesAssociatedToEtude = array();
+        $organismesAssociatedToEntite = array();
         if (!empty($notaire = CriNotaireData())){
-            $modelEtude = new Etude();
-            $organismesAssociatedToEtude = $modelEtude->getOrganismesAssociatedToEtude($notaire->crpcen);
+            $modelEntite = new Entite();
+            $organismesAssociatedToEntite = $modelEntite->getOrganismesAssociatedToEntite($notaire->crpcen);
         }
 
         foreach ($sessions as $session) {
@@ -278,7 +278,7 @@ class FormationsController extends BaseActuController
             if (!$before_today) {
                 $lineSession['url'] .= '?'.http_build_query(array('sessionid' => $session->id));
             }
-            $data = $this->addContactAction($session, $organismesAssociatedToEtude, $before_today);
+            $data = $this->addContactAction($session, $organismesAssociatedToEntite, $before_today);
 
             $lineSession ['action']         = $data ['action'];
             $lineSession ['action_label']   = $data ['action_label'];
@@ -315,27 +315,27 @@ class FormationsController extends BaseActuController
     /**
      * Will provide session line in calendar with information concerning subscription or contact
      * @param $session Session : the session with all data
-     * @param $organismesAssociatedToEtude : every organism associated to current etude
+     * @param $organismesAssociatedToEntite : every organism associated to current entite
      * @param $remove_actions boolean : If true remove the actions
      * @return array
      */
-    protected function addContactAction($session, $organismesAssociatedToEtude, $remove_actions = true)
+    protected function addContactAction($session, $organismesAssociatedToEntite, $remove_actions = true)
     {
         $data ['action'] = $data ['action_label'] =  $data['details'] = '';
-        $data ['organisme'] = $session->organisme;
+        $data ['organisme'] = $session->entite;
         $data ['contact_organisme'] = false;
         // Pour les différents cas ; se reporter à goo.gl/0fHVxB
         if (CriIsNotaire() && in_array(CriNotaireData()->id_fonction, Config::$allowedNotaryFunction) ) { // Line 2 (logged in is notaire)
             // L'étude dépend-t-elle d'un organisme ?
-            $etudeIsAssociatedToOrganisme = false;
-            foreach ($organismesAssociatedToEtude as $organisme) {
+            $entiteIsAssociatedToOrganisme = false;
+            foreach ($organismesAssociatedToEntite as $organisme) {
                 if ($session->id_organisme == $organisme->id) {
-                    $etudeIsAssociatedToOrganisme = true;
+                    $entiteIsAssociatedToOrganisme = true;
                     break;
                 }
             }
 
-            if ($session->organisme->is_cridon) { // Cell B2 (préinscription)
+            if ($session->entite->is_cridon) { // Cell B2 (préinscription)
                 $urlOptions = array(
                     'controller' => 'formations',
                     'action'     => 'preinscription',
@@ -343,7 +343,7 @@ class FormationsController extends BaseActuController
                 );
                 $data ['action'] = MvcRouter::public_url($urlOptions);
                 $data ['action_label'] = 'Se pré-inscrire';
-            } else if ($etudeIsAssociatedToOrganisme) { // Cell C2 (informations contact)
+            } else if ($entiteIsAssociatedToOrganisme) { // Cell C2 (informations contact)
                 $data ['contact_organisme'] = true;
             } else { // Cell D2 (contact Cridon)
                 $urlOptions = array(

@@ -9,5 +9,5 @@
 
 ?>
 <?php
-    include TEMPLATEPATH.'/content-update-etude-popup.php';
+    include TEMPLATEPATH.'/content-update-entite-popup.php';
 ?>

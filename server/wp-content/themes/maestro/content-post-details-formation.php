@@ -12,9 +12,9 @@
     	</div>
 
         <div class="session">
-            <p class="organisme"><?php echo $nextSession->organisme->name ?></p><?php if ($nextSession->contact_organisme): ?>
-                <p class="telephone"><a href="tel:<?php echo $nextSession->organisme->phone_number ?>"><?php echo $nextSession->organisme->phone_number ?></a></p>
-                <p class="email"><a href="mailto:<?php echo $nextSession->organisme->email ?>"><?php echo $nextSession->organisme->email ?></a></p>
+            <p class="organisme"><?php echo $nextSession->entite->office_name ?></p><?php if ($nextSession->contact_organisme): ?>
+                <p class="telephone"><a href="tel:<?php echo $nextSession->entite->tel ?>"><?php echo $nextSession->organisme->tel ?></a></p>
+                <p class="email"><a href="mailto:<?php echo $nextSession->entite->office_email_adress_1 ?>"><?php echo $nextSession->organisme->office_email_adress_1 ?></a></p>
             <?php endif; ?>
             <p class="horaire"><?php echo $nextSession->timetable ?></p>
             
@@ -102,14 +102,14 @@
                     <li>
                         <div class="session-item">
                             <p class="session-date"><?php echo strftime('%d %b %G',strtotime($session->date)) ?></p>
-                            <p class="session-organisme"><?php echo $session->organisme->name ?></p>
+                            <p class="session-organisme"><?php echo $session->entite->office_name ?></p>
                             <p class="session-horaire"><?php echo $session->timetable ?></p>
                         </div>
                         <?php if ($session->contact_organisme): ?>
                             <div class="wrapper-session-contact">
                             Contact
-                                <p class="session-telephone">Tél. : <a href="tel:<?php echo $session->organisme->phone_number ?>"><?php echo $session->organisme->phone_number ?></a></p>
-                                <p class="session-mail">Email : <a href="mailto:<?php echo $session->organisme->email ?>"><?php echo $session->organisme->email ?></a></p>
+                                <p class="session-telephone">Tél. : <a href="tel:<?php echo $session->entite->tel ?>"><?php echo $session->entite->tel ?></a></p>
+                                <p class="session-mail">Email : <a href="mailto:<?php echo $session->entite->office_email_adress_1 ?>"><?php echo $session->entite->office_email_adress_1 ?></a></p>
                             </div>
                         <?php endif; ?>
                         <?php if (!empty($session->action) && !empty($session->action_label)): ?>

@@ -69,7 +69,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      *
      * @var array
      */
-    var $includes   = array('Etude','Civilite','Fonction','Matiere');
+    var $includes   = array('Entite','Civilite','Fonction','Matiere');
     /**
      * @var array
      */
@@ -78,7 +78,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             'class'       => 'MvcUser',
             'foreign_key' => 'id_wp_user'
         ),
-        'Etude' => array(
+        'Entite' => array(
             'foreign_key' => 'crpcen'
         ),
         'Civilite' => array(
@@ -126,19 +126,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     protected $erpNotaireData = array();
 
     /**
-     * @var array : list of existing etude on Site
+     * @var array : list of entite in ERP
      */
-    protected $siteEtudeList = array();
+    protected $erpEntiteList = array();
 
     /**
-     * @var array : list of etude in ERP
+     * @var array : list of entite data from ERP
      */
-    protected $erpEtudeList = array();
-
-    /**
-     * @var array : list of etude data from ERP
-     */
-    protected $erpEtudeData = array();
+    protected $erpEntiteData = array();
 
     /**
      * @var CridonSoldeParser
@@ -218,7 +213,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     //if case above did not match, set OCI
                     $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
                 default :
-                    $this->importEtudes();
+                    $this->importEntites();
+                    $this->importLinksEntitesOrganismes();
                     $this->importNotaires($force);
                     break;
             }
@@ -253,20 +249,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      *
      * @return void
      */
-    protected function importEtudes()
+    protected function importEntites()
     {
-        // get list of existing etude
-        $etudes = mvc_model('etude')->find(array(
+        // get list of existing entite
+        $entites = mvc_model('entite')->find(array(
             'joins' => array() //dummy condition to avoid join
         ));
-        $this->siteEtudeList = assocToKeyVal($etudes, 'crpcen');
-
-        $organismes = mvc_model('organisme')->find();
-        $organismes = assocToKeyVal($organismes, 'client_number', 'id');
+        $siteEntiteList = assocToKeyVal($entites, 'crpcen');
+        unset($entites);
 
         $adapter = $this->adapter;
-        $etudesInfos = array(
-            $adapter::NOTAIRE_CRPCEN,
+        $entitesInfos = array(
+            $adapter::ENTITY_ID,
+            $adapter::ENTITY_TYPE,
             $adapter::NOTAIRE_SIGLE,
             $adapter::NOTAIRE_OFFICENAME,
             $adapter::NOTAIRE_ADRESS1,
@@ -282,16 +277,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $adapter::NOTAIRE_YNIVEAU_0,
             $adapter::NOTAIRE_YVALDEB_0,
             $adapter::NOTAIRE_YVALFIN_0,
-            $adapter::NOTAIRE_YDATECH_0,
-            $adapter::NOTAIRE_ORGANISME_1,
-            $adapter::NOTAIRE_ORGANISME_2,
-            $adapter::NOTAIRE_ORGANISME_3,
-            $adapter::NOTAIRE_ORGANISME_4
+            $adapter::NOTAIRE_YDATECH_0
         );
-        $etudesInfos = implode(', ', $etudesInfos);
+        $entitesInfos = implode(', ', $entitesInfos);
 
-        $sql = 'SELECT ' . $etudesInfos . ' FROM ' . CONST_DB_TABLE_NOTAIRE . ' GROUP BY ' . $etudesInfos
-        ;
+        $sql = 'SELECT ' . $entitesInfos . ' FROM ' . CONST_DB_TABLE_NOTAIRE . ' GROUP BY ' . $entitesInfos;
 
         $errors = array();
         // exec query
@@ -300,13 +290,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         // while there can be a lot of persons, studies are limited in numbers (around 1500)
         // A query per study is affordable
         while ($data = $adapter->fetchData()) {
-            if (isset( $data[$adapter::NOTAIRE_CRPCEN] )) {
-                $data[$adapter::NOTAIRE_CRPCEN] = trim($data[$adapter::NOTAIRE_CRPCEN]);
-                if (!empty($data[$adapter::NOTAIRE_CRPCEN])
-                    && (mb_strlen($data[$adapter::NOTAIRE_CRPCEN]) !== 6) // HACK to avoid Organismes @TODO
-                ) {
+            if (isset( $data[$adapter::ENTITY_ID] )) {
+                $data[$adapter::ENTITY_ID] = trim($data[$adapter::ENTITY_ID]);
+                if (!empty($data[$adapter::ENTITY_ID])) {
                     $aData = array(
-                        'crpcen' => $data[$adapter::NOTAIRE_CRPCEN],
+                        'crpcen' => $data[$adapter::ENTITY_ID],
+                        'is_organisme' => $data[$adapter::ENTITY_TYPE] == 2 ? 1 : 0,
                         'id_sigle' => $data[$adapter::NOTAIRE_SIGLE],
                         'office_name' => $data[$adapter::NOTAIRE_OFFICENAME],
                         'adress_1' => $data[$adapter::NOTAIRE_ADRESS1],
@@ -321,11 +310,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         'fax' => $data[$adapter::NOTAIRE_FAX],
 
                     );
-                    if (isset($this->siteEtudeList[$aData['crpcen']]))
+                    if (isset($siteEntiteList[$aData['crpcen']]))
                     {
-                        $etude = $this->siteEtudeList[$aData['crpcen']];
-                        if (isset($data[$adapter::NOTAIRE_YNIVEAU_0]) && $data[$adapter::NOTAIRE_YNIVEAU_0] < $etude->subscription_level){
-                            if (isset($data[$adapter::NOTAIRE_YVALDEB_0]) && date('Y-m-d',strtotime($data[$adapter::NOTAIRE_YVALDEB_0])) >= $etude->start_subscription_date){
+                        $entite = $siteEntiteList[$aData['crpcen']];
+                        if (isset($data[$adapter::NOTAIRE_YNIVEAU_0]) && $data[$adapter::NOTAIRE_YNIVEAU_0] < $entite->subscription_level){
+                            if (isset($data[$adapter::NOTAIRE_YVALDEB_0]) && date('Y-m-d',strtotime($data[$adapter::NOTAIRE_YVALDEB_0])) >= $entite->start_subscription_date){
                                 if (!empty($data[$adapter::NOTAIRE_YMOTIF_0])){
                                     if (in_array($data[$adapter::NOTAIRE_YMOTIF_0],Config::$motiveImmediateUpdate)
                                         && isset($data[$adapter::NOTAIRE_YVALFIN_0]) && isset($data[$adapter::NOTAIRE_YDATECH_0])){
@@ -340,42 +329,20 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             }
                         }
                         try {
-                            mvc_model('etude')->update($etude->crpcen, $aData);
+                            mvc_model('entite')->update($entite->id, $aData);
                         } catch (\Exception $e) {
                             // write into logfile
-                            writeLog($e, 'etude.log');
+                            writeLog($e, 'entite.log');
                             $errors[] = $e->getMessage();
                         }
                     } else {
                         try {
-                            mvc_model('etude')->insert($aData);
+                            mvc_model('entite')->insert($aData);
                         } catch (\Exception $e) {
                             // write into logfile
-                            writeLog($e, 'etude.log');
+                            writeLog($e, 'entite.log');
                             $errors[] = $e->getMessage();
                             continue; // if entity may have not been created, should no handle links with Organisms
-                        }
-                    }
-                    // Handle links between studies and organisms
-                    $content = array();
-                    // Cannot use variable to access const without using reflection, which seems to be heavy for only 4 lines !
-                    if (!empty(trim($data[$adapter::NOTAIRE_ORGANISME_1])) && isset($organismes[$data[$adapter::NOTAIRE_ORGANISME_1]])) {
-                        $content[] = '(' . $aData['crpcen'] . ', ' . $organismes[$data[$adapter::NOTAIRE_ORGANISME_1]] . ')';
-                    }
-                    if (!empty(trim($data[$adapter::NOTAIRE_ORGANISME_2])) && isset($organismes[$data[$adapter::NOTAIRE_ORGANISME_2]])) {
-                        $content[] = '(' . $aData['crpcen'] . ', ' . $organismes[$data[$adapter::NOTAIRE_ORGANISME_2]] . ')';
-                    }
-                    if (!empty(trim($data[$adapter::NOTAIRE_ORGANISME_3])) && isset($organismes[$data[$adapter::NOTAIRE_ORGANISME_3]])) {
-                        $content[] = '(' . $aData['crpcen'] . ', ' . $organismes[$data[$adapter::NOTAIRE_ORGANISME_3]] . ')';
-                    }
-                    if (!empty(trim($data[$adapter::NOTAIRE_ORGANISME_4])) && isset($organismes[$data[$adapter::NOTAIRE_ORGANISME_4]])) {
-                        $content[] = '(' . $aData['crpcen'] . ', ' . $organismes[$data[$adapter::NOTAIRE_ORGANISME_4]] . ')';
-                    }
-                    if (!empty($content)) {
-                        try {
-                            $this->wpdb->query('INSERT INTO ' . $this->wpdb->prefix . 'organisme_etude (crpcen, id_organisme) VALUES ' . implode(', ', $content));
-                        } catch (Exception $e) {
-                            $errors[] = $e->getMessage();
                         }
                     }
                 }
@@ -384,6 +351,84 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         if (!empty($errors)) {
             // send email
             reportError(CONST_EMAIL_ERROR_CATCH_EXCEPTION, implode('     \n', $errors), 'Cridon - Données étude - Erreur mise à jour');
+        }
+    }
+
+    protected function importLinksEntitesOrganismes()
+    {
+        $adapter = $this->adapter;
+
+        // Already imported
+        $existing = $this->wpdb->get_results('SELECT CONCAT_WS("\',", crpcen, id_organisme) FROM ' . $this->wpdb->prefix . 'organisme_etude', ARRAY_N);
+
+        $existing = array_map(function($value) {
+            return "'" . array_pop($value);
+        }, $existing);
+        $entites = mvc_model('entite')->find(array(
+            'joins' => array() //dummy condition to avoid join
+        ));
+
+        $entites = assocToKeyVal($entites, 'crpcen', 'id');
+
+        $entitesInfos = array(
+            $adapter::ENTITY_ID,
+            $adapter::NOTAIRE_ORGANISME_1,
+            $adapter::NOTAIRE_ORGANISME_2,
+            $adapter::NOTAIRE_ORGANISME_3,
+            $adapter::NOTAIRE_ORGANISME_4,
+        );
+        $entitesInfos = implode(', ', $entitesInfos);
+
+        $sql = 'SELECT ' . $entitesInfos . ' FROM ' . CONST_DB_TABLE_NOTAIRE . ' GROUP BY ' . $entitesInfos;
+
+        $adapter->execute($sql);
+
+        $content = array();
+        while ($data = $adapter->fetchData()) {
+            if (isset($data[$adapter::ENTITY_ID])) {
+                $data[$adapter::ENTITY_ID] = trim($data[$adapter::ENTITY_ID],  " \t\n\r\x0B");//trim but keep leading 0
+                if (!empty($data[$adapter::ENTITY_ID]) && isset($entites[$data[$adapter::ENTITY_ID]])) {
+                    $columns = array(
+                        $adapter::NOTAIRE_ORGANISME_1,
+                        $adapter::NOTAIRE_ORGANISME_2,
+                        $adapter::NOTAIRE_ORGANISME_3,
+                        $adapter::NOTAIRE_ORGANISME_4,
+                    );
+                    foreach ($columns as $column) {
+                        if (!empty(trim($data[$column])) && isset($entites[$data[$column]])) {
+                            $key = array_search('\'' . $data[$adapter::ENTITY_ID] . '\',' . $entites[$data[$column]], $existing);
+                            if (false === $key) {
+                                // unexisting
+                                $queryPart = '(\'' . $data[$adapter::ENTITY_ID] . '\', ' . $entites[$data[$column]] . ')';
+                                if (!in_array($queryPart, $content)) {
+                                    // Avoid inserting the same link multiple times
+                                    $content[] = $queryPart;
+                                }
+                            } else {
+                                // Already insert
+                                unset($existing[$key]);
+                            }
+                        }
+                    }
+                } else {
+                    $errors[] = 'Missing entity in DB referenced by : ' . $entites[$data[$adapter::ENTITY_ID]];
+                }
+            }
+        }
+
+        if (!empty($content)) {
+            try {
+                $this->wpdb->query('INSERT INTO ' . $this->wpdb->prefix . 'organisme_etude (crpcen, id_organisme) VALUES ' . implode(', ', $content));
+            } catch (Exception $e) {
+                $errors[] = $e->getMessage();
+            }
+        }
+        if (!empty($existing)) {
+            try {
+                $this->wpdb->query('DELETE FROM ' . $this->wpdb->prefix . 'organisme_etude WHERE (crpcen, id_organisme) IN ((' . implode('),(', $existing) . '))');
+            } catch (Exception $e) {
+                $errors[] = $e->getMessage();
+            }
         }
     }
 
@@ -407,11 +452,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
             // prepare data
             while ($data = $adapter->fetchData()) {
-                if (isset( $data[$adapter::NOTAIRE_CRPCEN] )) {
-                    $data[$adapter::NOTAIRE_CRPCEN] = trim($data[$adapter::NOTAIRE_CRPCEN]);
-                    if (!empty($data[$adapter::NOTAIRE_CRPCEN])) {
+                if (isset( $data[$adapter::ENTITY_ID] )) {
+                    $data[$adapter::ENTITY_ID] = trim($data[$adapter::ENTITY_ID]);
+                    if (!empty($data[$adapter::ENTITY_ID])) {
                         // the only unique key available is the "crpcen + web_password"
-                        $uniqueKey = $data[$adapter::NOTAIRE_CRPCEN] . $data[$adapter::NOTAIRE_PWDWEB];
+                        $uniqueKey = $data[$adapter::ENTITY_ID] . $data[$adapter::NOTAIRE_PWDWEB];
                         array_push($this->erpNotaireList, $uniqueKey);
 
                         // notaire data filter
@@ -477,7 +522,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
 
         // fill list of existing notaire on site with unique key (crpcen + passwd)
         foreach ($notaires as $notaire) {
-            $this->siteNotaireList[] = $notaire->crpcen . $notaire->web_password;
+            $this->siteNotaireList[$notaire->crpcen . $notaire->web_password] = $notaire;
             $this->roleUpdate[$notaire->crpcen . $notaire->web_password] = $notaire->id_fonction;
         }
     }
@@ -489,7 +534,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     protected function getNewNotaireList()
     {
-        return array_diff($this->erpNotaireList, $this->siteNotaireList);
+        return array_diff($this->erpNotaireList, array_keys($this->siteNotaireList));
     }
 
     /**
@@ -500,7 +545,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     protected function getNotaireToBeUpdated()
     {
         // common values between Site and ERP
-        $items = array_intersect($this->siteNotaireList, $this->erpNotaireList);
+        $items = array_intersect(array_keys($this->siteNotaireList), $this->erpNotaireList);
 
         // return filtered items with associated data from ERP
         return array_intersect_key($this->erpNotaireData, array_flip($items));
@@ -540,9 +585,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $queryEnd   = ' END ';
 
                 // only update if erpData.date_modified > cri_notaire.date_modified
-                foreach($this->find() as $currentData) {
-                    // the only unique key available is the "crpcen + web_password"
-                    $key = $currentData->crpcen . $currentData->web_password;
+                foreach($this->siteNotaireList as $key => $currentData) {
 
                     // start optimisation
                     if (array_key_exists($key, $updateNotaireList)) {
@@ -736,7 +779,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_NUMCLIENT]) : '') . "', ";
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_FNAME]) : '') . "', ";
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_LNAME]) : '') . "', ";
-                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_CRPCEN]) : '') . "', ";
+                        $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::ENTITY_ID]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::ENTITY_ID]) : '') . "', ";
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDWEB]) : '') . "', ";
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_PWDTEL]) : '') . "', ";
                         $value .= "'" . (isset($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE]) ? esc_sql($this->erpNotaireData[$notaire][$adapter::NOTAIRE_INTERCODE]) : '') . "', ";
@@ -793,8 +836,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         $newTelPassword = trim($newTelPassword);
         $user = new WP_User($notaire->id_wp_user);
         if ($oldTelPassword !== $newTelPassword && $this->userHasRole($user, CONST_QUESTIONTELEPHONIQUES_ROLE)){
-            $etude = mvc_model('Etude')->find_one_by_crpcen($notaire->crpcen);
-            $notaire->etude = $etude;
+            $entite = mvc_model('Entite')->find_one_by_crpcen($notaire->crpcen);
+            $notaire->entite = $entite;
             $this->sendEmailForPwdChanged($notaire,'',$newTelPassword, true);
         }
     }
@@ -1030,12 +1073,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         try {
             $options= array(
                 'conditions' => array(
-                    'Etude.a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
+                    'Entite.a_transmettre' => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                 ),
-                'group' => 'Etude.crpcen'
+                'group' => 'Entite.crpcen'
             );
-            $etudes   = mvc_model('Etude')->find($options);
-            if (count($etudes)>0){
+            $entites   = mvc_model('Entite')->find($options);
+            if (count($entites)>0){
                 // set adapter
                 switch (strtolower(CONST_IMPORT_OPTION)) {
                     case self::IMPORT_ODBC_OPTION:
@@ -1083,22 +1126,22 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         SELECT * FROM dual;
                          */
                         $updateTimestamp = time();
-                        foreach ($etudes as $etude) {
+                        foreach ($entites as $entite) {
                             // remplit la liste des études
-                            $eList[] = $etude->crpcen;
+                            $eList[] = $entite->crpcen;
 
                             $value  = $queryStart;
                             $value .= "(";
 
-                            $value .= "'" . $etude->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
-                            $value .= "'" . $etude->crpcen. "', "; // YABONNE_YCRPCEN_0
-                            $value .= "'" . $etude->subscription_level. "', "; // YABONNE_YNIVEAU_0
+                            $value .= "'" . $entite->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
+                            $value .= "'" . $entite->crpcen. "', "; // YABONNE_YCRPCEN_0
+                            $value .= "'" . $entite->subscription_level. "', "; // YABONNE_YNIVEAU_0
                             $value .= "TO_DATE('" . date('d/m/Y') . "', 'dd/mm/yyyy'), "; // YABONNE_YDATE_0
                             $value .= "'1',"; // YABONNE_YSTATUT_0
-                            $value .= "'" . $etude->subscription_price . "', "; // YABONNE_YTARIF_0
-                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALDEB_0
-                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->end_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALFIN_0
-                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($etude->echeance_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATECH_0
+                            $value .= "'" . $entite->subscription_price . "', "; // YABONNE_YTARIF_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($entite->start_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALDEB_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($entite->end_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YVALFIN_0
+                            $value .= "TO_DATE('" . date('d/m/Y', strtotime($entite->echeance_subscription_date)) . "', 'dd/mm/yyyy'), "; // YABONNE_YDATECH_0
                             $value .= "'0',"; // YABONNE_YTRAITEE_0
                             $value .= "'0',"; // YABONNE_YERR_0
                             $value .= "' '"; // YABONNE_YMESSERR_0
@@ -1119,8 +1162,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // execution requete
             if (!empty($query)) {
                 if ($result = $this->adapter->execute($query) && !empty($eList)) {
-                    // update cri_etude.a_transmettre
-                    $sql = " UPDATE ". mvc_model('Etude')->table." SET a_transmettre = 0 WHERE crpcen IN (" . implode(', ', $eList) . ")";
+                    // update cri_entite.a_transmettre
+                    $sql = " UPDATE ". mvc_model('Entite')->table." SET a_transmettre = 0 WHERE crpcen IN (" . implode(', ', $eList) . ")";
                     $this->wpdb->query($sql);
                 } else {
                     // log erreur
@@ -1146,13 +1189,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         try {
             $options= array(
                 'conditions' => array(
-                    'Etude.transmis_echeance' => CONST_CRIDONLINE_ECHEANCE_A_TRANSMETTRE_ERP,
-                    'Etude.echeance_subscription_date <=' => date('Y-m-d')
+                    'Entite.transmis_echeance' => CONST_CRIDONLINE_ECHEANCE_A_TRANSMETTRE_ERP,
+                    'Entite.echeance_subscription_date <=' => date('Y-m-d')
                 ),
-                'group' => 'Etude.crpcen'
+                'group' => 'Entite.crpcen'
             );
-            $etudes   = mvc_model('Etude')->find($options);
-            if (count($etudes)>0){
+            $entites   = mvc_model('Entite')->find($options);
+            if (count($entites)>0){
                 // set adapter
                 switch (strtolower(CONST_IMPORT_OPTION)) {
                     case self::IMPORT_ODBC_OPTION:
@@ -1200,27 +1243,27 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         SELECT * FROM dual;
                          */
                         $updateTimestamp = time();
-                        foreach ($etudes as $etude) {
+                        foreach ($entites as $entite) {
                             // remplit la liste des études
-                            $eList[] = $etude->crpcen;
+                            $eList[] = $entite->crpcen;
 
                             // Récupération niveau suivant + calcul tarif suivant le cas échéant
-                            if (!empty($etude->next_subscription_level)){
-                                $next_subscription_level = $etude->next_subscription_level;
+                            if (!empty($entite->next_subscription_level)){
+                                $next_subscription_level = $entite->next_subscription_level;
                             } else {
-                                $next_subscription_level = $etude->subscription_level;
+                                $next_subscription_level = $entite->subscription_level;
                             }
-                            $next_subscription_price = mvc_model('Etude')->getSubscriptionPrice($etude, true);
+                            $next_subscription_price = mvc_model('Entite')->getSubscriptionPrice($entite, true);
 
-                            $start_subscription_date = date('Y-m-d', strtotime($etude->end_subscription_date));
+                            $start_subscription_date = date('Y-m-d', strtotime($entite->end_subscription_date));
                             $end_subscription_date = date('Y-m-d', strtotime($start_subscription_date.'+'. CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
                             $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
 
                             $value  = $queryStart;
                             $value .= "(";
 
-                            $value .= "'" . $etude->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
-                            $value .= "'" . $etude->crpcen. "', "; // YABONNE_YCRPCEN_0
+                            $value .= "'" . $entite->crpcen.' '.$updateTimestamp. "', "; // YABONNE_YIDABONNE_0
+                            $value .= "'" . $entite->crpcen. "', "; // YABONNE_YCRPCEN_0
                             $value .= "'" . $next_subscription_level. "', "; // YABONNE_YNIVEAU_0
                             $value .= "TO_DATE('" . date('d/m/Y') . "', 'dd/mm/yyyy'), "; // YABONNE_YDATE_0
                             $value .= "'1',"; // YABONNE_YSTATUT_0
@@ -1248,8 +1291,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // execution requete
             if (!empty($query)) {
                 if ($result = $this->adapter->execute($query) && !empty($eList)) {
-                    // update cri_etude.transmis_echeance
-                    $sql = " UPDATE ". mvc_model('Etude')->table." SET transmis_echeance = 1 WHERE crpcen IN (" . implode(', ', $eList) . ")";
+                    // update cri_entite.transmis_echeance
+                    $sql = " UPDATE ". mvc_model('Entite')->table." SET transmis_echeance = 1 WHERE crpcen IN (" . implode(', ', $eList) . ")";
                     $this->wpdb->query($sql);
                 } else {
                     // log erreur
@@ -1276,74 +1319,74 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // Update offices
             $options= array(
                 'conditions' => array(
-                    'Etude.end_subscription_date <=' => date('Y-m-d'),
+                    'Entite.end_subscription_date <=' => date('Y-m-d'),
                     'OR'=>array(
-                        'Etude.subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE,
-                        'Etude.next_subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE
+                        'Entite.subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE,
+                        'Entite.next_subscription_level >=' => CONST_LOWEST_PAID_LEVEL_CRIDONLINE
                     )
                 ),
-            'group' => 'Etude.crpcen'
+            'group' => 'Entite.crpcen'
             );
-            $etudes   = mvc_model('Etude')->find($options);
+            $entites   = mvc_model('Entite')->find($options);
 
-            if (count($etudes)>0){
+            if (count($entites)>0){
                 $updateLevelValues = $updatePriceValues = $updateStartDateValues = $updateEndDateValues = $updateEcheanceDateValues = $updateNextLevelValues = array();
                 $updateTransmisEcheanceValues = array();
-                $queryStart = " UPDATE `".mvc_model('Etude')->table."` SET ";
+                $queryStart = " UPDATE `".mvc_model('Entite')->table."` SET ";
                 $queryEnd   = ' END ';
-                foreach ($etudes as $etude) {
+                foreach ($entites as $entite) {
 
-                    $start_subscription_date    = date('Y-m-d', strtotime($etude->end_subscription_date));
+                    $start_subscription_date    = date('Y-m-d', strtotime($entite->end_subscription_date));
                     $end_subscription_date      = date('Y-m-d', strtotime($start_subscription_date . '+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
                     $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date . '-' . CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
 
-                    if (!empty($etude->offre_promo)){
-                        $updateOffrePromoValues[] = " '{$etude->crpcen}'' THEN NULL ";
+                    if (!empty($entite->offre_promo)){
+                        $updateOffrePromoValues[] = " '{$entite->crpcen}'' THEN NULL ";
                     }
 
-                    if ($etude->offre_promo != CONST_PROMO_PRIVILEGE){
-                        $updateStartDateValues[]        = " {$etude->crpcen} THEN '" . $start_subscription_date . "' ";
+                    if ($entite->offre_promo != CONST_PROMO_PRIVILEGE){
+                        $updateStartDateValues[]        = " {$entite->crpcen} THEN '" . $start_subscription_date . "' ";
                     }
 
-                    if (!empty($etude->next_subscription_level)) {
-                        $updateLevelValues[] = " '{$etude->crpcen}' THEN '" . $etude->next_subscription_level . "' ";
+                    if (!empty($entite->next_subscription_level)) {
+                        $updateLevelValues[] = " '{$entite->crpcen}' THEN '" . $entite->next_subscription_level . "' ";
                     }
-                    $nextSubscriptionPrice          = mvc_model('Etude')->getSubscriptionPrice($etude, true);
-                    $updatePriceValues[]            = " '{$etude->crpcen}' THEN '" . $nextSubscriptionPrice . "' ";
-                    $updateEndDateValues[]          = " '{$etude->crpcen}' THEN '" . $end_subscription_date . "' ";
-                    $updateEcheanceDateValues[]     = " '{$etude->crpcen}' THEN '" . $echeance_subscription_date . "' ";
-                    $updateTransmisEcheanceValues[] = " '{$etude->crpcen}' THEN '0' ";
+                    $nextSubscriptionPrice          = mvc_model('Entite')->getSubscriptionPrice($entite, true);
+                    $updatePriceValues[]            = " '{$entite->crpcen}' THEN '" . $nextSubscriptionPrice . "' ";
+                    $updateEndDateValues[]          = " '{$entite->crpcen}' THEN '" . $end_subscription_date . "' ";
+                    $updateEcheanceDateValues[]     = " '{$entite->crpcen}' THEN '" . $echeance_subscription_date . "' ";
+                    $updateTransmisEcheanceValues[] = " '{$entite->crpcen}' THEN '0' ";
                 }
 
-                $etudeQuery = array();
+                $entiteQuery = array();
                 if (count($updateLevelValues)>0) {
                     // subscription level
-                    $etudeQuery[] = ' `subscription_level` = CASE crpcen WHEN ' . implode(' WHEN ', $updateLevelValues) . ' ELSE `subscription_level` ';
+                    $entiteQuery[] = ' `subscription_level` = CASE crpcen WHEN ' . implode(' WHEN ', $updateLevelValues) . ' ELSE `subscription_level` ';
 
                     // subscription price
-                    $etudeQuery[] = ' `subscription_price` = CASE crpcen WHEN ' . implode(' WHEN ', $updatePriceValues) . ' ELSE `subscription_price` ';
+                    $entiteQuery[] = ' `subscription_price` = CASE crpcen WHEN ' . implode(' WHEN ', $updatePriceValues) . ' ELSE `subscription_price` ';
 
                     // subscription start date
                     if (!empty($updateStartDateValues)){
-                        $etudeQuery[] = ' `start_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateStartDateValues) . ' ELSE `start_subscription_date` ';
+                        $entiteQuery[] = ' `start_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateStartDateValues) . ' ELSE `start_subscription_date` ';
                     }
 
                     // subscription end date
-                    $etudeQuery[] = ' `end_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEndDateValues) . ' ELSE `end_subscription_date` ';
+                    $entiteQuery[] = ' `end_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEndDateValues) . ' ELSE `end_subscription_date` ';
 
                     // subscription echeance date
-                    $etudeQuery[] = ' `echeance_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEcheanceDateValues) . ' ELSE `echeance_subscription_date` ';
+                    $entiteQuery[] = ' `echeance_subscription_date` = CASE crpcen WHEN ' . implode(' WHEN ', $updateEcheanceDateValues) . ' ELSE `echeance_subscription_date` ';
 
                     // subscription transmis echeance
-                    $etudeQuery[] = ' `transmis_echeance` = CASE crpcen WHEN ' . implode(' WHEN ', $updateTransmisEcheanceValues) . ' ELSE `transmis_echeance` ';
+                    $entiteQuery[] = ' `transmis_echeance` = CASE crpcen WHEN ' . implode(' WHEN ', $updateTransmisEcheanceValues) . ' ELSE `transmis_echeance` ';
 
                     // subscription offre promo
                     if (!empty($updateOffrePromoValues)) {
-                        $etudeQuery[] = ' `offre_promo` = CASE crpcen WHEN ' . implode(' WHEN ', $updateOffrePromoValues) . ' ELSE `offre_promo` ';
+                        $entiteQuery[] = ' `offre_promo` = CASE crpcen WHEN ' . implode(' WHEN ', $updateOffrePromoValues) . ' ELSE `offre_promo` ';
                     }
 
                     // exec query block
-                    $this->wpdb->query($queryStart . implode(' END, ', $etudeQuery) . $queryEnd);
+                    $this->wpdb->query($queryStart . implode(' END, ', $entiteQuery) . $queryEnd);
                 }
             }
             // status code
@@ -1462,7 +1505,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     'Notaire.id_wp_user' => $current_user->ID,
                 ),
                 'joins' => array(
-                    'Etude'
+                    'Entite'
                 ),
             );
             // exec query and return result as object
@@ -1984,19 +2027,19 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             SELECT n,e
             FROM (SELECT N.*
                 FROM Notaire N
-                JOIN Etude AS E ON E.crpcen = N.crpcen
+                JOIN Entite AS E ON E.crpcen = N.crpcen
                  '.$where.'
                 ORDER BY N.id ASC
                 '.$limit.'
                  ) [Notaire] n
-            JOIN Etude e ON e.crpcen = n.crpcen
+            JOIN Entite e ON e.crpcen = n.crpcen
                 ';
 
             //Total query for pagination
             $query_count ='
                 SELECT COUNT(*) AS count
                 FROM '.$wpdb->prefix.'notaire AS N
-                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
+                JOIN '.$wpdb->prefix.'entite AS E ON E.crpcen = N.crpcen
                 '.$where.'
                 ORDER BY N.id DESC
                 ';
@@ -2090,7 +2133,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             FROM (SELECT Q.*
                     FROM Question AS Q
                     JOIN Notaire AS N ON Q.client_number = N.client_number
-                    JOIN Etude AS E ON E.crpcen = N.crpcen
+                    JOIN Entite AS E ON E.crpcen = N.crpcen
                     LEFT JOIN Competence AS C ON Q.id_competence_1 = C.id
                     LEFT JOIN Matiere AS M ON M.code = C.code_matiere
                     WHERE '.$condAffectation.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
@@ -2120,7 +2163,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 SELECT COUNT(DISTINCT (Q.id)) AS count
                 FROM '.$wpdb->prefix.'question AS Q
                 JOIN '.$wpdb->prefix.'notaire AS N ON Q.client_number = N.client_number
-                JOIN '.$wpdb->prefix.'etude AS E ON E.crpcen = N.crpcen
+                JOIN '.$wpdb->prefix.'entite AS E ON E.crpcen = N.crpcen
                 LEFT JOIN '.$wpdb->prefix.'competence AS C ON C.id = Q.id_competence_1
                 LEFT JOIN '.$wpdb->prefix.'matiere AS M ON M.code = C.code_matiere
                 WHERE '.$condAffectation.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
@@ -2339,8 +2382,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $office['tel'] = isset($data['office_phone']) ? $data['office_phone'] : '';
             $office['fax'] = isset($data['office_fax']) ? $data['office_fax'] : '';
 
-            $etude = array('Etude' => $office);
-            if (mvc_model('Etude')->save($etude)){
+            $entite = array('Entite' => $office);
+            if (mvc_model('Entite')->save($entite)){
                 $notary = $this->getUserConnectedData();
                 $this->updateFlagERP($notary->id);
                 return true;
@@ -2480,7 +2523,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 FROM
                     `{$this->table}` cn
                 LEFT JOIN
-                    `{$this->wpdb->prefix}etude` ce
+                    `{$this->wpdb->prefix}entite` ce
                 ON
                     `ce`.`crpcen` = `cn`.`crpcen`
                 LEFT JOIN
@@ -2931,7 +2974,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 FROM
                     `{$this->table}` cn
                 LEFT JOIN
-                    `{$this->wpdb->prefix}etude` ce
+                    `{$this->wpdb->prefix}entite` ce
                 ON
                     `ce`.`crpcen` = `cn`.`crpcen`
                 LEFT JOIN
@@ -3235,11 +3278,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     protected function sendEmailForPwdChanged($notaire, $newWebPwd, $newTelPwd, $firstTimeTelPassword = false)
     {
-        if (is_object($notaire) && is_object($notaire->etude)) {
+        if (is_object($notaire) && is_object($notaire->entite)) {
             // email headers
             $headers = array('Content-Type: text/html; charset=UTF-8');
 
-            $etude = $notaire->etude;
+            $entite = $notaire->entite;
             // check environnement
             $env = getenv('ENV');
             if (empty($env)|| ($env !== 'PROD')) {
@@ -3252,12 +3295,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $dest = $notaire->email_adress;
                 if (!$dest) { // notary email is empty
                     // send email to the office
-                    if (is_object($etude) && $etude->office_email_adress_1) {
-                        $dest = $etude->office_email_adress_1;
-                    } elseif (is_object($etude) && $etude->office_email_adress_2) {
-                        $dest = $etude->office_email_adress_2;
-                    } elseif (is_object($etude) && $etude->office_email_adress_3) {
-                        $dest = $etude->office_email_adress_3;
+                    if (is_object($entite) && $entite->office_email_adress_1) {
+                        $dest = $entite->office_email_adress_1;
+                    } elseif (is_object($entite) && $entite->office_email_adress_2) {
+                        $dest = $entite->office_email_adress_2;
+                    } elseif (is_object($entite) && $entite->office_email_adress_3) {
+                        $dest = $entite->office_email_adress_3;
                     }
                 }
             }
@@ -3277,7 +3320,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     'webPassword' => $newWebPwd,
                     'telPassword' => $newTelPwd,
                     'notary'      => $notaire,
-                    'etude'       => $etude,
+                    'entite'       => $entite,
                     'new'         => $new
                 );
                 $message = CriRenderView('mail_notification_password', $vars, 'custom', false);
@@ -3295,14 +3338,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         unset($notaire);
     }
 
-    public function sendCridonlineConfirmationMail($notaire, $etude,$subscription_info,$B2B_B2C) {
+    public function sendCridonlineConfirmationMail($notaire, $entite,$subscription_info,$B2B_B2C) {
         if ($subscription_info['subscription_level'] == 2){
             $level_label = CONST_CRIDONLINE_LABEL_LEVEL_2;
         } else {
             $level_label = CONST_CRIDONLINE_LABEL_LEVEL_3;
         }
         $vars = array (
-            'etude'                  => $etude,
+            'entite'                  => $entite,
             'level_label'            => $level_label,
             'price'                  => $subscription_info['subscription_price'],
             'start_subscription_date'=> $subscription_info['start_subscription_date'],
@@ -3335,9 +3378,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             writeLog("not Prod: " . $email . "\n", "mailog.txt");
         } else {
             // On récupère une adresse de l'étude
-            $office_email1 = trim($etude->office_email_adress_1);
-            $office_email2 = trim($etude->office_email_adress_2);
-            $office_email3 = trim($etude->office_email_adress_3);
+            $office_email1 = trim($entite->office_email_adress_1);
+            $office_email2 = trim($entite->office_email_adress_2);
+            $office_email3 = trim($entite->office_email_adress_3);
 
             if (!empty($office_email1)){
                 $office_email = $office_email1;

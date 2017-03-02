@@ -16,6 +16,11 @@ interface DBConnect
     const NOTAIRE_CATEG      = 'BCGCOD_0';
 
     /**
+     * @var string entity type : is this an organism ? TODO change this for the adapted value when known
+     */
+    const ENTITY_TYPE        = 'ZORG_0';
+
+    /**
      * @var string : client_number field in Output data
      */
     const NOTAIRE_NUMCLIENT  = 'BPCNUM_0';
@@ -23,7 +28,7 @@ interface DBConnect
     /**
      * @var string : crpcen field in Output data
      */
-    const NOTAIRE_CRPCEN     = 'YCRPCEN_0';
+    const ENTITY_ID     = 'YCRPCEN_0';
 
     /**
      * @var string : Web Code field in Output data

@@ -1,7 +1,7 @@
-<?php if ($notaire->etude->subscription_level < 2 && $subscription ):?>
-    <?php $isSubcribable = ($notaire->etude->subscription_level < 3 && $subscription) ?>
+<?php if ($notaire->entite->subscription_level < 2 && $subscription ):?>
+    <?php $isSubcribable = ($notaire->entite->subscription_level < 3 && $subscription) ?>
 <?php endif; ?>
-<div class="bloc-cridonline niveau-1 <?php echo $notaire->etude->subscription_level == 1 ? ' on' : ''; ?> <?php echo $isSubcribable ? " large" : "" ?>">
+<div class="bloc-cridonline niveau-1 <?php echo $notaire->entite->subscription_level == 1 ? ' on' : ''; ?> <?php echo $isSubcribable ? " large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
         <div class="titre">
@@ -18,16 +18,16 @@
     </div>
 </div>
 
-<div class="bloc-cridonline niveau-2 <?php echo $notaire->etude->subscription_level == 1 ? ' non-actif' : ''; ?><?php echo $notaire->etude->subscription_level == 2 ? ' on' : ''; ?> <?php echo $notaire->etude->subscription_level == 3 ? ' normal' : ''; ?><?php echo $isSubcribable ? " large" : "" ?>">
+<div class="bloc-cridonline niveau-2 <?php echo $notaire->entite->subscription_level == 1 ? ' non-actif' : ''; ?><?php echo $notaire->entite->subscription_level == 2 ? ' on' : ''; ?> <?php echo $notaire->entite->subscription_level == 3 ? ' normal' : ''; ?><?php echo $isSubcribable ? " large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
-        <?php if ($notaire->etude->subscription_level < 2 ):?>
+        <?php if ($notaire->entite->subscription_level < 2 ):?>
             <div class="prix">
                <?php echo $priceVeilleLevel2 ?><span>€ HT</span>
             </div>
-        <?php elseif ($notaire->etude->subscription_level == 2 ) :?>
+        <?php elseif ($notaire->entite->subscription_level == 2 ) :?>
             <div class="titre">
-                Mon abonnement en cours du <?php echo date("d/m/Y", strtotime($notaire->etude->start_subscription_date)) ?> au <?php echo date("d/m/Y", strtotime($notaire->etude->end_subscription_date)) ?>
+                Mon abonnement en cours du <?php echo date("d/m/Y", strtotime($notaire->entite->start_subscription_date)) ?> au <?php echo date("d/m/Y", strtotime($notaire->entite->end_subscription_date)) ?>
             </div>
         <?php else : ?>
             <div class="titre">
@@ -42,7 +42,7 @@
         </ul>
 
         <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_PREMIUM_PROMO ?>" target="_blank" title="plus de detail"><?php _e("Plus de détail"); ?></a>
-        <?php if ($notaire->etude->subscription_level == 1 && $subscription ):?>
+        <?php if ($notaire->entite->subscription_level == 1 && $subscription ):?>
             <form method="get" accept-charset="utf-8" class="form-sublevel js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2promo'));?>">
                 <input type="hidden" name="level" value="<?php echo CONST_CRIDONLINE_LEVEL_2; ?>" class="js-account-cridonline-level">
                 <input type="hidden" name="price" value="<?php echo $priceVeilleLevel2 ?>" class="js-account-cridonline-price">
@@ -52,16 +52,16 @@
         <?php endif;?>
     </div>
 </div>
-<div class="bloc-cridonline niveau-3 <?php echo $notaire->etude->subscription_level == 3 ? ' on' : ''; ?><?php echo $notaire->etude->subscription_level == 1 ? '' : ' non-actif'; ?><?php echo $notaire->etude->subscription_level == 2 ? '' : ' non-actif'; ?><?php echo $isSubcribable ? " large" : "" ?>">
+<div class="bloc-cridonline niveau-3 <?php echo $notaire->entite->subscription_level == 3 ? ' on' : ''; ?><?php echo $notaire->entite->subscription_level == 1 ? '' : ' non-actif'; ?><?php echo $notaire->entite->subscription_level == 2 ? '' : ' non-actif'; ?><?php echo $isSubcribable ? " large" : "" ?>">
     <div class="en-tete"></div>
     <div class="content">
-        <?php if ($notaire->etude->subscription_level < 3 ):?>
+        <?php if ($notaire->entite->subscription_level < 3 ):?>
             <div class="prix">
                 <?php echo $priceVeilleLevel3 ?><span>€ HT</span>
             </div>
         <?php else : ?>
             <div class="titre">
-                Mon abonnement en cours du <?php echo date("d/m/Y", strtotime($notaire->etude->start_subscription_date)) ?> au <?php echo $notaire->etude->offre_promo == CONST_PROMO_PRIVILEGE ? date("d/m/Y", strtotime($notaire->etude->end_subscription_date .'+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days')) : date("d/m/Y", strtotime($notaire->etude->end_subscription_date)) ?>
+                Mon abonnement en cours du <?php echo date("d/m/Y", strtotime($notaire->entite->start_subscription_date)) ?> au <?php echo $notaire->entite->offre_promo == CONST_PROMO_PRIVILEGE ? date("d/m/Y", strtotime($notaire->entite->end_subscription_date .'+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days')) : date("d/m/Y", strtotime($notaire->entite->end_subscription_date)) ?>
             </div>
         <?php endif; ?>
         <ul>
@@ -76,7 +76,7 @@
         </ul>
 
         <a href="<?php echo CONST_CRIDONLINE_DOCUMENT_EXCELLENCE_PROMO ?>" target="_blank" title="plus de detail"><?php _e("Plus de détail"); ?></a>
-       <?php if ($notaire->etude->subscription_level == 1 && $subscription ):?>
+       <?php if ($notaire->entite->subscription_level == 1 && $subscription ):?>
 
 
        <form method="post" accept-charset="utf-8" class="js-account-cridonline-form" data-js-ajax-validation-url="<?php echo mvc_public_url(array('controller' => 'notaires','action' =>'contentcridonlineetape2promo'));?>">

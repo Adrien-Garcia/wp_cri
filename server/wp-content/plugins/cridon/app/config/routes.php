@@ -56,7 +56,7 @@ MvcRouter::public_connect('notaires/contentfacturation', array('controller' => '
 MvcRouter::public_connect('notaires/contentcollaborateur', array('controller' => 'notaires', 'action' => 'contentcollaborateur'));
 MvcRouter::public_connect('notaires/contentmesfactures', array('controller' => 'notaires', 'action' => 'contentmesfactures'));
 MvcRouter::public_connect('notaires/contentmesreleves', array('controller' => 'notaires', 'action' => 'contentmesreleves'));
-MvcRouter::public_connect('notaires/contentprofil/gestion', array('controller' => 'notaires', 'action' => 'gestionetude'));
+MvcRouter::public_connect('notaires/contentprofil/gestion', array('controller' => 'notaires', 'action' => 'gestionentite'));
 MvcRouter::public_connect('notaires/contentprofil/motdepasse', array('controller' => 'notaires', 'action' => 'gestionpassword'));
 MvcRouter::public_connect('notaires/contentcollaborateur/gestion', array('controller' => 'notaires', 'action' => 'gestioncollaborateur'));
 MvcRouter::public_connect('notaires/contentcridonline', array('controller' => 'notaires', 'action' => 'contentcridonline'));

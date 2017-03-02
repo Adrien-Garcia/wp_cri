@@ -17,6 +17,7 @@ $force = isset($argv[1]) && $argv[1];
 /**
  * @var $model Notaire
  */
+ini_set("memory_limit","256M");
 $model = mvc_model('notaire');
 // call import action
 $code = $model->importIntoWpUsers($force);

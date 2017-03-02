@@ -171,7 +171,7 @@ class AdminCahierCridonsController extends BaseAdminController {
                                         'column' => ' n.id_wp_user = u.id'
                                     ),
                                     array(
-                                        'table' => 'etude e',
+                                        'table' => 'entite e',
                                         'column' => ' n.crpcen = e.crpcen'
                                     ),
                                 ),

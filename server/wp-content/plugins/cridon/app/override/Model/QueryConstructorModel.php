@@ -119,7 +119,10 @@ class QueryConstructorModel {
                         if( isset($joinModel->belongs_to) && !empty($joinModel->belongs_to) && array_key_exists($this->model->name,$joinModel->belongs_to) ){
                             $primary = $joinModel->belongs_to[$this->model->name]['foreign_key'];
 
-                        }else{
+                        } elseif (isset($this->model->associations[$joinModel->name]['referenced_key'])) {
+                            // Hack used when primary key is not used for join.
+                            $primary = $this->model->associations[$joinModel->name]['referenced_key'];
+                        } else {
 
                             $primary = $joinModel->primary_key;
                         }

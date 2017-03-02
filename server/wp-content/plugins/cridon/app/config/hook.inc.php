@@ -146,7 +146,7 @@ function append_js_files()
                 'capability_connaissances'     => CONST_CONNAISANCE_ROLE,
                 'capability_modifyoffice'      => CONST_MODIFYOFFICE_ROLE,
                 'capability_cridonlinesubscription' => CONST_CRIDONLINESUBSCRIPTION_ROLE,
-                // maj etude
+                // maj entite
                 'office_crud_nonce'            => wp_create_nonce("process_office_crud_nonce"),
                 'profil_office_modify_error'   => CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG,
                 //maj mdp
