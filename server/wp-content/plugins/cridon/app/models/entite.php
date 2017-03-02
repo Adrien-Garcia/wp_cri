@@ -430,7 +430,7 @@ class Entite extends \App\Override\Model\CridonMvcModel {
         }
         $query = '
             SELECT *
-                FROM '.$wpdb->prefix.'organisme as O
+                FROM '.$wpdb->prefix.'entite as O
                 JOIN '.$wpdb->prefix.'organisme_etude as OE ON O.id = OE.id_organisme
                 AND OE.crpcen = '.$crpcen.'
                 ';
