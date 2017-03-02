@@ -16,8 +16,11 @@
                     </header> <?php // end article header ?>
 
                     <?php if (!$catalogPublished): ?>
-                        <p>Votre catalogue pour l'année <?php echo date('Y', strtotime('+1 year')) ?> n'est pas encore disponible</p>
-                        <a href="<?php echo mvc_public_url(array('controller' => 'formations', 'action' => 'catalog')); ?>">Catalogue actuel</a>
+                        <div class="wrapper-text">
+                            <p>Votre catalogue pour l'année <?php echo date('Y', strtotime('+1 year')) ?> n'est pas encore disponible</p>
+                            <a class="bt-agenda catalogue" href="<?php echo mvc_public_url(array('controller' => 'formations', 'action' => 'catalog')); ?>" >Revenir sur le catalogue actuel</a>
+                            <br /><br />
+                        </div>
                     <?php else: ?>
                         <?php set_query_var( 'currentCatalog', false ); ?>
                         <?php set_query_var( 'catalogPublished', $catalogPublished ); ?>

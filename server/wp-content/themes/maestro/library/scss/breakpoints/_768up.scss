@@ -1611,6 +1611,20 @@ body.single #content{
 
 #content.page-catalogue-formation {
 
+	a.bt-agenda {
+		width: 274px;
+		text-decoration: underline;
+
+		&:hover {
+			background: #eee;
+			text-decoration: none;
+
+			&::after {
+				opacity: 0;
+			}
+		}
+	}
+
 	#inner-content {
 		padding: 0 30px;
 	}
@@ -1629,24 +1643,12 @@ body.single #content{
 				width: calc(100% - 258px);
 				float: right;
 				margin-top: 0;
-
-				a.bt-agenda {
-					width: 274px;
-
-					&:hover {
-						background: #eee;
-						
-						&::after {
-							opacity: 0;
-						}
-					}
-				}
 			}
 		}
 
-		
 
-		
+
+
 
 		.wrapper-catalogue {
 			margin: 40px 0 50px 0;
@@ -1660,17 +1662,23 @@ body.single #content{
 						cursor: pointer;
 					}
 
-					
+
 
 					> ul.formations {
 						display: none;
 
 						li{
 							> .nom-formation {
-								font-size: 18px;
-								line-height: 22px;
-								width: 600px;
-								padding-right: 0;
+								a {
+									font-size: 18px;
+									line-height: 22px;
+									width: 600px;
+									padding-right: 0;
+
+									&:hover {
+										text-decoration: none;
+									}
+								}
 							}
 
 							> a:hover{

@@ -460,9 +460,12 @@ body.single,
 			}
 		}
 
+		.details {
+			margin-bottom: 35px;
+		}
+
 		.liste-sessions {
 			border-top: solid 4px $bg-top-footer;
-			margin-top: 35px;
 			padding-top: 30px;
 			overflow: hidden;
 

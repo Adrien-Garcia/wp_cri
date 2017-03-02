@@ -94,11 +94,9 @@
                         break;
                 }
                 ?>
-            <br />
-            <u>Commentaires</u> : 
-                <p>
-                    <?php echo $commentaire ; ?>
-                </p>            <br /><br />
+            <i>Commentaires</i> : 
+            <?php echo $commentaire ; ?>
+            <br /><br />
             A bientôt,<br />
             <span class="s">Le CRIDON LYON</span>
 

@@ -60,12 +60,16 @@ $year = $data['year'];
                                             <?php echo strftime('%a', $day['date']->getTimestamp()); ?>
                                         </div>
                                         <?php if (!empty($day['event'])) : ?>
-                                            <div class="calendar__day-event calendar__day-event--tablet js-calendar-ellipsis" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
+                                            <div class="calendar__day-event calendar__day-event--tablet js-calendar-ellipsis" title="<?php echo $day['event'] ; ?>">
+                                            <?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?>
+                                            </div>
                                         <?php endif; ?>
                                     </div>
                                     <div class="calendar__day-content">
                                         <?php if (!empty($day['event'])) : ?>
-                                            <div class="calendar__day-event calendar__day-event--mobile" title="<?php echo $day['event'] ; ?>"><?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?></div>
+                                            <div class="calendar__day-event calendar__day-event--mobile" title="<?php echo $day['event'] ; ?>">
+                                            <?php echo $day['event']//truncate($day['event'], 43, ' ...') ; ?>
+                                            </div>
                                         <?php endif; ?>
                                         <?php
                                         $is_scrollable = false;

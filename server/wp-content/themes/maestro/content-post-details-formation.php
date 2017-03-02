@@ -12,12 +12,29 @@
     	</div>
 
         <div class="session">
-            <p class="organisme"><?php echo $nextSession->entite->office_name ?></p><?php if ($nextSession->contact_organisme): ?>
-                <p class="telephone"><a href="tel:<?php echo $nextSession->entite->tel ?>"><?php echo $nextSession->organisme->tel ?></a></p>
-                <p class="email"><a href="mailto:<?php echo $nextSession->entite->office_email_adress_1 ?>"><?php echo $nextSession->organisme->office_email_adress_1 ?></a></p>
-            <?php endif; ?>
+
+        <?php if (!empty($sessions)): ?>
+
+            <p class="organisme">
+                <?php echo $nextSession->entite->office_name ?>
+            </p>
+
+                <?php if ($nextSession->contact_organisme): ?>
+                    <p class="telephone">
+                        <a href="tel:<?php echo $nextSession->entite->tel ?>"><?php echo $nextSession->organisme->tel ?></a>
+                    </p>
+                    <p class="email">
+                        <a href="mailto:<?php echo $nextSession->entite->office_email_adress_1 ?>"><?php echo $nextSession->organisme->office_email_adress_1 ?></a>
+                    </p>
+                <?php endif; ?>
+
             <p class="horaire"><?php echo $nextSession->timetable ?></p>
-            
+
+        <?php endif; ?>
+        <?php if (empty($sessions)): ?>
+        <p class="horaire">Pas de session de programmée</p>
+        <?php endif; ?>
+
         </div>
 
         <?php if (!empty($nextSession->action) && !empty($nextSession->action_label)): ?>
