@@ -457,24 +457,21 @@ function custom_save_extra_profile_fields( $user_id, $old_user_data ) {
     }
 }
 function custom_after_login( $user_login, $user ) {
-    if ( ( $user instanceof WP_User ) && isset( $user->roles ) && is_array( $user->roles ) ) {
-        // check not notaire
-        if ( !in_array( CONST_NOTAIRE_ROLE, $user->roles ) ) {
-            $model = mvc_model( 'UserCridon' );
-            //Check if UserCridon exist
-            $userCridon = $model->find_one_by_id_wp_user($user->ID);
-            //Update last_connection
-            if( !empty( $userCridon ) ){
-                $dt = new DateTime('now');
-                $data = array(
-                    'UserCridon' => array(
-                        'id' => $userCridon->id,
-                        'last_connection' => $dt->format('Y-m-d H:i:s'),
-                    )
-                );
-                //Update DB
-                $model->save( $data );
-            }
+    if ( ( $user instanceof WP_User )) {
+        $model = mvc_model( 'UserCridon' );
+        //Check if UserCridon exist
+        $userCridon = $model->find_one_by_id_wp_user($user->ID);
+        //Update last_connection
+        if( !empty( $userCridon ) ){
+            $dt = new DateTime('now');
+            $data = array(
+                'UserCridon' => array(
+                    'id' => $userCridon->id,
+                    'last_connection' => $dt->format('Y-m-d H:i:s'),
+                )
+            );
+            //Update DB
+            $model->save( $data );
         }
     }
 }
@@ -1009,11 +1006,12 @@ function init_select_level_meta_boxes( $post, $args ){
  */
 function CridonlineAutologinLink()
 {
+    $oNotaire = CriNotaireData();
     // default URL when accessing to Cridonline.
-    $url = mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE';
+    $dashboardAccess = CriIsNotaire() && CriCanAccessSensitiveInfo(CONST_DASHBOARD_ROLE);
+    $url = mvc_public_url(array('controller' => 'notaires', 'action' => $dashboardAccess ? 'profil' : '')) . '?error=FONCTION_NON_AUTORISE';
     $access = 0;
-    if (CriIsNotaire() && CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)) {
-        $oNotaire = CriNotaireData();
+    if (CriIsNotaire() && CriCanAccessSensitiveInfo(CONST_CRIDONLINE_ROLE)) {
         $lvl = Config::$authCridonOnline[(int) $oNotaire->entite->subscription_level];
         $url = esc_url_raw(CRIDONLINE_AUTOLOGIN_URL . '?'.
             'auth='.$lvl.

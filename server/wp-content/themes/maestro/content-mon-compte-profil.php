@@ -1,5 +1,5 @@
-<?php if (!empty($message)) : ?>
-	<div class="message-erreur"><?php echo $message ?></div>
+<?php if (!empty($messageError)) : ?>
+	<div class="message-erreur"><?php echo $messageError ?></div>
 <?php endif; ?>
 <div class="mes-informations" id="sel-compte-profil">
 

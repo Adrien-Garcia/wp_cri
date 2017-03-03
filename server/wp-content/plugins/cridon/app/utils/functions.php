@@ -1169,47 +1169,12 @@ function CriListRoles() {
 }
 
 /**
- * Get list of roles by collaborator
- * @param mixed $collaborator
- * @return array
- */
-function CriGetCollaboratorRoles($collaborator) {
-    // get collaborator associated user
-    if (is_object($collaborator) && $collaborator->id_wp_user) {
-        $user = new WP_User($collaborator->id_wp_user);
-
-        // check if user is a WP_user vs WP_error
-        if ($user instanceof WP_User && is_array($user->roles)) {
-            return $user->roles;
-        }
-    }
-    return array();
-}
-
-/**
  * Check if notaire can reset password
  *
  * @return bool
  */
 function CriCanResetPwd() {
     return mvc_model('notaire')->userCanResetPwd();
-}
-
-/**
- * Get list of all existing roles by function
- *
- * @param string $type : notaries|collaborators
- * @param int $idFonction
- * @return array
- */
-function CriListRolesByFunction($type, $idFonction) {
-    $roles = array();
-    if (!empty(Config::$notaryRolesByFunction[$type][$idFonction])) {
-        foreach (Config::$notaryRolesByFunction[$type][$idFonction] as $role) {
-            $roles[$role] = Config::getRoleLabel($role);
-        }
-    }
-    return $roles;
 }
 
 function isPromoActive(){

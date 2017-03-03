@@ -841,33 +841,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             $this->sendEmailForPwdChanged($notaire,'',$newTelPassword, true);
         }
     }
-    /**
-     * Set role for all notary
-     *
-     * @return void
-     */
-    public function setNotaireRole()
-    {
-        foreach ($this->find() as $notary) {
-            // get user by id
-            $user = new WP_User($notary->id_wp_user);
-            // user must be an instance of WP_User vs WP_Error
-            if ($user instanceof WP_User) {
-                // default role
-                $user->add_role(CONST_NOTAIRE_ROLE);
-                /**
-                 * finance role
-                 * to be matched in list of authorized user by function
-                 *
-                 * @see \Config::$canAccessFinance
-                 */
-                if (in_array($notary->id_fonction, Config::$canAccessFinance)) {
-                    $user->add_role(CONST_FINANCE_ROLE);
-                    $user->add_role(CONST_COLLABORATEUR_TAB_ROLE);
-                }
-            }
-        }
-    }
 
     /**
      * Action for importing data from cri_notaire into wp_users
@@ -975,7 +948,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         // maj notary role
                         if ($this->roleUpdate[$uniqueKey] === true) {
                             // if update has changed the value
-                            $this->majNotaireRole($notaire);
+                            RoleManager::majNotaireRole($notaire);
                         }
                     }
                 }
@@ -1861,7 +1834,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     public function userCanAccessSensitiveInfo($role)
     {
         global $current_user;
-        return $this->userHasRole($current_user,$role);
+        return empty($role) || $this->userHasRole($current_user,$role);
     }
 
     /**
@@ -1909,17 +1882,6 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             return false;
         }
         return $notaire;
-    }
-
-    /**
-     * Compare two values
-     *
-     * @param mixed $v1
-     * @param mixed $v2
-     * @return boolean
-     */
-    private function compare( $v1,$v2 ){
-        return ( $v1 == $v2);
     }
 
     /**
@@ -1980,7 +1942,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     //Get encrypted value with the Notaire
                     $encryption = $this->encryption( $notaire->crpcen, $notaire->web_password );
                     //Check encrypted value given 
-                    if( $this->compare($encryption, $matches[2][0] ) ){
+                    if( $encryption == $matches[2][0] ){
                         //Check timestamp if duration exceeded
                         if( $this->compareDate($matches[3][0]) ){
                             return $notaire;
@@ -2252,13 +2214,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             // manage roles
             $user = $this->getAssociatedUserByNotaryId($collaboratorId);
             // add posted roles from data
-            foreach (Config::$notaryRoles as $role => $label) {
-                if (isset($data[$role])) {
+            foreach (RoleManager::getRoleLabel() as $role => $label) {
+                if (isset($data['droits'][$role]) && $data['droits'][$role]) {
                     $user->add_role($role);
                 }
             }
-            // add default role (Acs : accès aux bases de connaissance (par défaut par tout le monde))
-            $user->add_role(CONST_NOTAIRE_ROLE);
             return true;
         }
     }
@@ -2283,11 +2243,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // manage roles
                 $user = $this->getAssociatedUserByNotaryId($collaborator['id']);
                 // reset all roles
-                $this->resetUserRoles($user);
+                RoleManager::resetUserRoles($user);
 
                 // add new posted roles in data
-                foreach (Config::$notaryRoles as $role => $label) {
-                    if (isset($data[$role]) && $data[$role]) {
+                foreach (RoleManager::getRoleLabel() as $role => $label) {
+                    if (isset($data['droits'][$role]) && $data['droits'][$role]) {
                         $user->add_role($role);
                     }
                 }
@@ -2320,6 +2280,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     }
 
     /**
+     *
+     * @deprecated
      * Get associated user by notary id
      *
      * @param int $id
@@ -2328,39 +2290,22 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function getAssociatedUserByNotaryId($id)
     {
-        // get notary data
-        $notary = mvc_model('QueryBuilder')->findOne('notaire',
-            array(
-                'fields' => 'id, id_wp_user, crpcen',
-                'conditions' => 'id = ' . $id,
-            )
-        );
-        // get notary associated user
-        if (is_object($notary) && $notary->id_wp_user) {
-            $user = new WP_User($notary->id_wp_user);
-
-            // check if user is a WP_user vs WP_error
-            if ($user instanceof WP_User && is_array($user->roles)) {
-                return $user;
-            }
-        }
-        return;
+        return RoleManager::getAssociatedUserByNotaryId($id);
     }
 
     /**
-     * Rest all user roles defined in \Config::$notaryRoles
+     * Rest all manageable user roles
      *
      * @param mixed $user
      * @return void
      */
     protected function resetUserRoles($user)
     {
-        foreach (Config::$notaryRoles as $role => $label) {
-            $user->remove_role($role);
-        }
+        RoleManager::resetUserRoles($user);
     }
 
     /**
+     * @deprecated
      * Update notary and office data
      *
      * @param array $data
@@ -2800,6 +2745,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
         );
     }
 
+    public static function isCollaborateur($notaire)
+    {
+        return isset($notaire->id_fonction) && isset($notaire->id_fonction_collaborateur)
+            && (CONST_NOTAIRE_COLLABORATEUR == $notaire->id_fonction)
+            && (0 != $notaire->id_fonction_collaborateur);
+    }
 
     /**
      * Set role for every new user
@@ -2810,11 +2761,14 @@ class Notaire extends \App\Override\Model\CridonMvcModel
     public function setNewNotaireRole($notaries)
     {
         foreach ($notaries as $notary) {
-            $this->majNotaireRole($notary);
+            RoleManager::majNotaireRole($notary);
         }
     }
 
+
     /**
+     *
+     * @deprecated use RoleManager::majNotaireRole instead
      * update roles for a user
      *
      * @param mixed $notary
@@ -2822,39 +2776,11 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function majNotaireRole($notary)
     {
-        if (!$notary->id_wp_user) {
-            // get user by notary_id
-            $user = $this->getAssociatedUserByNotaryId($notary->id);
-        } else {
-            // get user by id
-            $user = new WP_User($notary->id_wp_user);
-        }
-
-        // user must be an instance of WP_User vs WP_Error
-        if ($user instanceof WP_User) {
-            // default role
-            if (!in_array($notary->category, Config::$notaryNoDefaultOffice)) { // Categ OFF
-                $user->add_role(CONST_NOTAIRE_ROLE);
-            } else {
-                if ($notary->category == CONST_CLIENTDIVERS_CATEG) { // Categ DIV
-                    $user->add_role(CONST_NOTAIRE_DIV_ROLE);
-                } elseif ($notary->category == CONST_ORGANISMES_CATEG) { // Categ ORG
-                    $user->add_role(CONST_NOTAIRE_ORG_ROLE);
-                }
-            }
-            $rolesNotaire = Config::$notaryRolesByFunction['notaries'];
-            if (!empty($rolesNotaire[$notary->id_fonction])){
-                foreach ($rolesNotaire[$notary->id_fonction] as $role){
-                    $user->add_role($role);
-                }
-            }
-
-            // disable admin bar
-            $this->disableAdminBar($notary);
-        }
+        RoleManager::majNotaireRole($notary);
     }
 
     /**
+     * @deprecated use RoleManager::disableUserAdminBar instead
      * Disable admin bar for notaries
      *
      * @param mixed $notaries
@@ -2862,13 +2788,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     public function disableNotariesAdminBar($notaries)
     {
-        if (is_array($notaries) && count($notaries) > 0) {
-            foreach ($notaries as $notary) {
-                $this->disableAdminBar($notary);
-            }
-        } elseif(is_object($notaries)) {
-            $this->disableAdminBar($notaries);
-        }
+        RoleManager::disableUserAdminBar($notaries);
     }
 
     /**

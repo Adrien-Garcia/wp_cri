@@ -19,7 +19,7 @@ class FlashesController extends BaseActuController {
    public function show() {
        if ( !CriIsNotaire() ) {
            CriRefuseAccess();
-       } elseif (!CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)) {
+       } elseif (!CriCanAccessSensitiveInfo(CONST_FLASH_ROLE)) {
            $options = array(
                'controller' => 'notaires',
                'action'     => 'cridonline'

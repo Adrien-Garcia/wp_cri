@@ -19,24 +19,17 @@ class NotairesController extends BasePublicController
      *
      * @return void
      */
-    protected function secureAccess($role = array())
+    protected function secureAccess($role = '')
     {
         global $mvc_params;
 
         // check if user is logged in
         if (!is_user_logged_in()) { // need to be redirected to the right page after login
             CriRefuseAccess();
-        } elseif (!in_array(CONST_NOTAIRE_ROLE, (array) $this->current_user->roles)) { // user is not allowed to access the content
-            // logout current user
-            wp_logout();
-            // redirect user to home page
-            $this->redirect(home_url());
-        } elseif (isset($mvc_params['action'])
-                  && (in_array($mvc_params['action'],Config::$protected_pages))
-                  && !$this->model->userCanAccessSensitiveInfo($role)
-        ) { // check if is page sensitive information && notary can access
+        } elseif (!$this->model->userCanAccessSensitiveInfo($role)) { // check if is page sensitive information && notary can access
             // redirect to profil page
-            $url = mvc_public_url(array('controller' => 'notaires', 'action' => 'show'));
+            $dashboardAccess = $this->model->userCanAccessSensitiveInfo(CONST_DASHBOARD_ROLE);
+            $url = mvc_public_url(array('controller' => 'notaires', 'action' => $dashboardAccess ? 'show' : 'profil'));
             $url.='?error=FONCTION_NON_AUTORISE';
             $this->redirect($url);
         }
@@ -114,6 +107,14 @@ class NotairesController extends BasePublicController
         $this->set('questions', $questions);
         $notaire = CriNotaireData();
         $this->set('notaire', $notaire);
+        $this->setErrorMessage();
+
+        // tab rank
+        $this->set('onglet', CONST_ONGLET_DASHBOARD);
+    }
+
+    private function setErrorMessage()
+    {
         $this->set('messageError', '');
         if (isset($_REQUEST['error'])){
             if ($_REQUEST['error'] == 'FONCTION_NON_AUTORISE'){
@@ -121,9 +122,6 @@ class NotairesController extends BasePublicController
             }
             unset ($_REQUEST['error']);
         }
-
-        // tab rank
-        $this->set('onglet', CONST_ONGLET_DASHBOARD);
     }
 
     /**
@@ -194,6 +192,7 @@ class NotairesController extends BasePublicController
     {
         $this->prepareProfil();
         $this->cridonlineData();
+        $this->setErrorMessage();
         $message = '';
         if (isset($_REQUEST['message'])){
             if ($_REQUEST['message'] == 'modifyprofil'){
@@ -205,7 +204,8 @@ class NotairesController extends BasePublicController
             }
             unset ($_REQUEST['message']);
         }
-        $this->set('message', $message);
+        // Style CSS Iso entre messages d'erreurs et messages d'information, d'où la clé commune...
+        $this->set('messageError', $message);
         $this->set('matieres', getMatieresByNotaire());
         // tab rank
         $this->set('onglet', CONST_ONGLET_PROFIL);
@@ -232,7 +232,7 @@ class NotairesController extends BasePublicController
      */
     public function facturation()
     {
-        $this->prepareSecureAccess(CONST_FINANCE_ROLE);
+        $this->prepareSecureAccess(CONST_REGLES_ROLE);
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
         $content = get_post(CONST_FACTURATION_PAGE_ID)->post_content;
@@ -458,7 +458,7 @@ class NotairesController extends BasePublicController
             return false;
         }
         //Validate role
-        if (!in_array(CONST_CRIDONLINESUBSCRIPTION_ROLE,CriGetCollaboratorRoles($notaire))){
+        if (!in_array(CONST_CRIDONLINESUBSCRIPTION_ROLE,RoleManager::getUserRoles($notaire))){
             return false;
         }
         //Validate CGV
@@ -553,7 +553,7 @@ class NotairesController extends BasePublicController
 
     protected function prepareDashboard()
     {
-        $this->prepareSecureAccess();
+        $this->prepareSecureAccess(CONST_DASHBOARD_ROLE);
 
         // set template vars
         $vars = $this->get_object();
@@ -709,7 +709,7 @@ class NotairesController extends BasePublicController
                 );
                 $collab   = mvc_model('Notaire')->find_one($options);
                 if (!empty($collab)){
-                    $collaborator['capabilities'] = CriGetCollaboratorRoles($collab);
+                    $collaborator['capabilities'] = RoleManager::getUserRoles($collab);
                     $collaborator['lastname'] = empty($collab->last_name) ? '' : $collab->last_name ;
                     $collaborator['firstname'] = empty($collab->first_name) ? '' : $collab->first_name ;
                     $collaborator['phone'] = empty($collab->tel) ? '' : trim($collab->tel) ;
@@ -718,7 +718,14 @@ class NotairesController extends BasePublicController
                     $collaborator['notairefunction'] = empty($collab->id_fonction) ? '' : $collab->id_fonction;
                     $collaborator['collaboratorfunction'] = empty($collab->id_fonction_collaborateur) ? '' : $collab->id_fonction_collaborateur;
                     $collaborator['fax'] = empty($collab->fax) ? '' : trim($collab->fax) ;
+                    $collaborator['type'] = empty($collab->category) ? 'OFF' : trim($collab->category) ;
+                } else {
+                    // TODO Handle Error redirection
                 }
+            } else {
+                // get current notary data
+                $currentNotaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
+                $collaborator['type'] = isset($currentNotaire->category) ? $currentNotaire->category : 'OFF';
             }
 
             if (in_array($_GET['action'],Config::$collaborateurActions)){
@@ -754,27 +761,6 @@ class NotairesController extends BasePublicController
             if (isset($_REQUEST['token']) && wp_verify_nonce($_REQUEST['token'], 'process_crud_nonce')) {
                 // Clean $_POST before
                 $data = $this->tools->clean($_POST);
-                // capabilities
-                if ($_POST['action'] == CONST_CREATE_USER || $_POST['action'] == CONST_MODIFY_USER) {
-                    if (isset($data['collaborator_cap_finance']) && $data['collaborator_cap_finance'] == 'true') {
-                        $data[CONST_FINANCE_ROLE] = true;
-                    }
-                    if (isset($data['collaborator_cap_questionsecrites']) && $data['collaborator_cap_questionsecrites'] == 'true') {
-                        $data[CONST_QUESTIONECRITES_ROLE] = true;
-                    }
-                    if (isset($data['collaborator_cap_questionstel']) && $data['collaborator_cap_questionstel'] == 'true') {
-                        $data[CONST_QUESTIONTELEPHONIQUES_ROLE] = true;
-                    }
-                    if (isset($data['collaborator_cap_connaissances']) && $data['collaborator_cap_connaissances'] == 'true') {
-                        $data[CONST_CONNAISANCE_ROLE] = true;
-                    }
-                    if (isset($data['collaborator_cap_modifyoffice']) && $data['collaborator_cap_modifyoffice'] == 'true') {
-                        $data[CONST_MODIFYOFFICE_ROLE] = true;
-                    }
-                    if (isset($data['collaborator_cap_cridonlinesubscription']) && $data['collaborator_cap_cridonlinesubscription'] == 'true') {
-                        $data[CONST_CRIDONLINESUBSCRIPTION_ROLE] = true;
-                    }
-                }
                 //get current notaire
                 $this->current_notaire = $this->model->find_one_by_id_wp_user($this->current_user->ID);
                 $action = 'collaborateur';
@@ -971,7 +957,7 @@ class NotairesController extends BasePublicController
      */
     public function mesfactures()
     {
-        $this->prepareSecureAccess(CONST_FINANCE_ROLE);
+        $this->prepareSecureAccess(CONST_FACTURES_ROLE);
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
         $factures = $this->model->getFactures($notaire, CONST_DOC_TYPE_FACTURE);
@@ -1027,7 +1013,7 @@ class NotairesController extends BasePublicController
      */
     public function mesreleves()
     {
-        $this->prepareSecureAccess(CONST_FINANCE_ROLE);
+        $this->prepareSecureAccess(CONST_CONSO_ROLE);
         $notaire = CriNotaireData();
         $this->set('notaire',$notaire);
         $releves = $this->model->getFactures($notaire, CONST_DOC_TYPE_RELEVECONSO);

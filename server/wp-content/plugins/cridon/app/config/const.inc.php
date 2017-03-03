@@ -15,19 +15,38 @@ define('LOCAL', 'LOCAL');
 define('PROD', 'PROD');
 define('PREPROD', 'PREPROD');
 
-// notaire role
-if ( !defined( 'CONST_NOTAIRE_ROLE' ) ) {
-    define( 'CONST_NOTAIRE_ROLE', 'notaire' );
+if ( !defined( 'CONST_VEILLES_ROLE' ) ) {
+    define( 'CONST_VEILLES_ROLE', 'acces_veilles' );
 }
-if ( !defined( 'CONST_CONNAISANCE_ROLE' ) ) {
-    define( 'CONST_CONNAISANCE_ROLE', 'accesconnaissance' );
+if ( !defined( 'CONST_FLASH_ROLE' ) ) {
+    define( 'CONST_FLASH_ROLE', 'acces_flash' );
+}
+if ( !defined( 'CONST_CAHIERS_ROLE' ) ) {
+    define( 'CONST_CAHIERS_ROLE', 'acces_cahiers' );
+}
+if ( !defined( 'CONST_SINEQUA_ROLE' ) ) {
+    define( 'CONST_SINEQUA_ROLE', 'acces_sinequa' );
+}
+if ( !defined( 'CONST_CRIDONLINE_ROLE' ) ) {
+    define( 'CONST_CRIDONLINE_ROLE', 'acces_cridonline' );
 }
 if ( !defined( 'CONST_COLLABORATEUR_TAB_ROLE' ) ) {
     define( 'CONST_COLLABORATEUR_TAB_ROLE', 'accesongletcollaborateur' );
 }
-if ( !defined( 'CONST_FINANCE_ROLE' ) ) {
-    define( 'CONST_FINANCE_ROLE', 'accesfinances' );
+if ( !defined( 'CONST_DROITS_COLLABORATEUR_ROLE' ) ) {
+    define( 'CONST_DROITS_COLLABORATEUR_ROLE', 'gestion_droits_collaborateur' );
 }
+
+if ( !defined( 'CONST_FACTURES_ROLE' ) ) {
+    define( 'CONST_FACTURES_ROLE', 'acces_details_factures' );
+}
+if ( !defined( 'CONST_REGLES_ROLE' ) ) {
+    define( 'CONST_REGLES_ROLE', 'acces_regles_facturation' );
+}
+if ( !defined( 'CONST_CONSO_ROLE' ) ) {
+    define( 'CONST_CONSO_ROLE', 'acces_releves_conso' );
+}
+
 if ( !defined( 'CONST_QUESTIONECRITES_ROLE' ) ) {
     define( 'CONST_QUESTIONECRITES_ROLE', 'accesquestecrites' );
 }
@@ -40,12 +59,15 @@ if ( !defined( 'CONST_MODIFYOFFICE_ROLE' ) ) {
 if ( !defined( 'CONST_CRIDONLINESUBSCRIPTION_ROLE' ) ) {
     define( 'CONST_CRIDONLINESUBSCRIPTION_ROLE', 'cridonlinesubscription' );
 }
-if ( !defined( 'CONST_NOTAIRE_DIV_ROLE' ) ) {
-    define( 'CONST_NOTAIRE_DIV_ROLE', 'notaire_div' );
+
+if ( !defined( 'CONST_DASHBOARD_ROLE' ) ) {
+    define( 'CONST_DASHBOARD_ROLE', 'acces_dashboard' );
 }
-if ( !defined( 'CONST_NOTAIRE_ORG_ROLE' ) ) {
-    define( 'CONST_NOTAIRE_ORG_ROLE', 'notaire_org' );
+
+if ( !defined( 'CONST_PRIVATEPAGES_ROLE' ) ) {
+    define( 'CONST_PRIVATEPAGES_ROLE', 'acces_pages_securisees' );
 }
+
 // administrator role
 if ( !defined( 'CONST_ADMIN_ROLE' ) ) {
     define( 'CONST_ADMIN_ROLE', 'administrator' );
@@ -378,6 +400,10 @@ if ( !defined( 'CONST_SUPPORT_5_DAYS_MEDIUM_HORS_DELAI_ID' ) ) {
 }
 
 // Notaire fonctions id (used for filtering capability)
+if ( !defined( 'CONST_NOTAIRE_DEFAULT' ) ) {
+    define( 'CONST_NOTAIRE_DEFAULT', 0 );
+}
+
 if ( !defined( 'CONST_NOTAIRE_FONCTION' ) ) {
     define( 'CONST_NOTAIRE_FONCTION', 1 );
 }
@@ -462,6 +488,9 @@ if ( !defined( 'CONST_NOTAIRE_COLLABORATEUR' ) ) {
 }
 if ( !defined( 'CONST_NOTAIRE_GEOMETRE' ) ) {
     define( 'CONST_NOTAIRE_GEOMETRE', 28 );
+}
+if ( !defined( 'CONST_NOTAIRE_UNIVERSITAIRE' ) ) {
+    define( 'CONST_NOTAIRE_UNIVERSITAIRE', 30 );
 }
 
 // Notary Collaborator functions id

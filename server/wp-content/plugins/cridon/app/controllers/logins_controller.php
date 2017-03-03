@@ -13,6 +13,7 @@ class LoginsController extends MvcPublicController
      */
     public function connect()
     {
+        global $current_user;
         // Check if our nonce is set.
         if (!isset($_REQUEST['token'])) {
             return;
@@ -43,11 +44,12 @@ class LoginsController extends MvcPublicController
             }
 
             // user signon action
-            $user = wp_signon($creds, false);
+            $current_user = wp_signon($creds, false);
 
             // user data exist
-            if ($user->data->ID) {
-                $ret = mvc_public_url(array('controller' => 'notaires', 'action' => 'show', 'id' => $notaires->id));
+            if ($current_user->data->ID) {
+                $dashboardAccess = $model->userCanAccessSensitiveInfo(CONST_DASHBOARD_ROLE);
+                $ret = mvc_public_url(array('controller' => 'notaires', 'action' => $dashboardAccess ? 'show' : 'profil', 'id' => $notaires->id));
             }
         }
 
@@ -125,7 +127,7 @@ class LoginsController extends MvcPublicController
 
             if (!empty($notaire)) {
                 //Validate role
-                if (!in_array(CONST_QUESTIONECRITES_ROLE,CriGetCollaboratorRoles($notaire))){
+                if (!in_array(CONST_QUESTIONECRITES_ROLE,RoleManager::getUserRoles($notaire))){
                     $message = CONST_WS_LOGIN_ROLE_ERROR_MSG;
                 } else {
                     $token = $this->generateToken($model, $notaire);
