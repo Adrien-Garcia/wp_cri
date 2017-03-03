@@ -129,12 +129,12 @@ $year = $data['year'];
                                                             <hr/>
                                                             <div class="calendar__session-content-chambre">
                                                                 <div class="calendar__session-content-chambre--name"><?php echo $session['organisme']->office_name ; ?></div>
-                                                                <?php if ($session['organisme']->tel) : ?>
-                                                                <div class="calendar__session-content-chambre--telephone"><span>Tel. :</span>
+                                                                <?php if (!empty(trim($session['organisme']->tel))) : ?>
+                                                                <div class="calendar__session-content-chambre--telephone"><span>Tél. :</span>
                                                                     <a href="tel:<?php echo $session['organisme']->tel ; ?>" ><?php echo $session['organisme']->tel ; ?></a>
                                                                 </div>
                                                                 <?php endif; ?>
-                                                                <?php if ($session['organisme']->office_email_adress_1) : ?>
+                                                                <?php if (!empty(trim($session['organisme']->office_email_adress_1))) : ?>
                                                                 <div class="calendar__session-content-chambre--email"><span>Email :</span>
                                                                     <a href="mailto:<?php echo $session['organisme']->office_email_adress_1 ; ?>" ><?php echo $session['organisme']->office_email_adress_1 ; ?></a>
                                                                 </div>
