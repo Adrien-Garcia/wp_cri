@@ -1225,3 +1225,7 @@ function isFaxAccepted(){
     }
     return false;
 }
+
+function rel_canonical_catalog(){
+    echo "<link rel='canonical' href='" . esc_url( mvc_public_url(array('controller' => 'formations', 'action' => 'catalog')) ) . "' />\n";
+}
