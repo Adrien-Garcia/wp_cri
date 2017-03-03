@@ -1,7 +1,15 @@
 <?php criWpPost($object); ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
-	<?php
-    if (!empty($sessions)){
+	<?php if (empty($sessions)): ?>
+    <div class="date sel-object-date"></div>
+    <div class="session">
+        <p class="horaire">Pas de session de programmée</p>
+    </div>
+    <a href="<?php echo MvcRouter::public_url(array('controller'=> 'formations','action' => 'demande','id' => $object->id))?>" class="bt inscription-session"><?php _e('Contacter le Cridon Lyon') ?></a>
+    <?php endif; ?>
+
+
+    <?php if (!empty($sessions)){
         $nextSession = !empty($highlight) ? $highlight : reset($sessions);
 
     ?>
@@ -12,8 +20,6 @@
     	</div>
 
         <div class="session">
-
-        <?php if (!empty($sessions)): ?>
 
             <p class="organisme">
                 <?php echo $nextSession->entite->office_name ?>
@@ -29,11 +35,6 @@
                 <?php endif; ?>
 
             <p class="horaire"><?php echo $nextSession->timetable ?></p>
-
-        <?php endif; ?>
-        <?php if (empty($sessions)): ?>
-        <p class="horaire">Pas de session de programmée</p>
-        <?php endif; ?>
 
         </div>
 

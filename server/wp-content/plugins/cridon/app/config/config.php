@@ -472,6 +472,10 @@ class Config {
         'matieres'          => 'Matiere',
     );
 
+    public static $customBreadcrumbActions = array(
+        'calendar','demande','demandegenerique','preinscription'
+    );
+
     //RSS
     public static $rss = array(
         'title'         => 'CRIDON LYON - Veilles juridiques',//all
