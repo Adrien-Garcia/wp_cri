@@ -25,10 +25,10 @@
 
                 <?php if ($nextSession->contact_organisme): ?>
                     <p class="telephone">
-                        <a href="tel:<?php echo $nextSession->entite->tel ?>"><?php echo $nextSession->organisme->tel ?></a>
+                        <a href="tel:<?php echo $nextSession->entite->tel ?>"><?php echo $nextSession->entite->tel ?></a>
                     </p>
                     <p class="email">
-                        <a href="mailto:<?php echo $nextSession->entite->office_email_adress_1 ?>"><?php echo $nextSession->organisme->office_email_adress_1 ?></a>
+                        <a href="mailto:<?php echo $nextSession->entite->office_email_adress_1 ?>"><?php echo $nextSession->entite->office_email_adress_1 ?></a>
                     </p>
                 <?php endif; ?>
 
