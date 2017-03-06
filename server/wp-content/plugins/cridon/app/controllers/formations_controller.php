@@ -648,6 +648,14 @@ class FormationsController extends BaseActuController
         }
     }
 
+    /**
+     * Add canonical on old route : /catalogue to new route : /formations/catalogue
+     */
+    public function oldcatalog(){
+
+        add_action('wp_head','rel_canonical_catalog');
+        $this->catalog();
+    }
 
     /**
      * Retrieve all formations for current or next year millesime and return an array (by matiere by id asc) of array (formations)

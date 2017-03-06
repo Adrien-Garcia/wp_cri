@@ -42,7 +42,7 @@ class Formation extends \App\Override\Model\CridonMvcModel
 
         // destinataire non vide
         if (count($data['dest']) > 0) {
-            array_unique($data['dest']);
+            array_unique( $data['dest']);
             $vars    = array(
                 'type'                  => CONST_FORMATION_GENERIQUE,
                 'name'                  => $formationThematique,
@@ -92,11 +92,11 @@ class Formation extends \App\Override\Model\CridonMvcModel
         $env = getenv('ENV');
         if (empty($env) || ($env !== PROD)) {
             if ($env === 'PREPROD') {
-                $dest = Config::$notificationAddressPreprod;
-                $adminDest = Config::$notificationAddressPreprod;
+                $dest = array(Config::$notificationAddressPreprod);
+                $adminDest = array(Config::$notificationAddressPreprod);
             } else {
-                $dest = Config::$notificationAddressDev;
-                $adminDest = Config::$notificationAddressDev;
+                $dest = array(Config::$notificationAddressDev);
+                $adminDest = array(Config::$notificationAddressDev);
             }
         }
 

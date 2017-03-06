@@ -943,7 +943,7 @@ function CriBreadcrumb()
                                                             'controller' => $mvc_params['controller']
                                                         ));
                 $vars['breadcrumbs'][] = $archive;
-            } else if ($mvc_params['controller'] == 'formations' ) {
+            } else if ($mvc_params['controller'] == 'formations' && in_array($mvc_params['action'],Config::$customBreadcrumbActions) ) {
                 $archive               = new stdClass();
                 if ($mvc_params['action'] == 'calendar') {
                     $archive->title        = 'Calendrier des formations';
@@ -1224,4 +1224,8 @@ function isFaxAccepted(){
         return true;
     }
     return false;
+}
+
+function rel_canonical_catalog(){
+    echo "<link rel='canonical' href='" . esc_url( mvc_public_url(array('controller' => 'formations', 'action' => 'catalog')) ) . "' />\n";
 }

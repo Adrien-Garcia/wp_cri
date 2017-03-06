@@ -95,11 +95,8 @@
                         break;
                 }
                 ?>
-            <br />
-            <u>Commentaires</u> :
-            <p>
-                <?php echo $commentaire ; ?>
-            </p>
+            <i>Commentaires</i> :
+            <?php echo $commentaire ; ?>
 
             <td width="20" style="background-color:#fff;"></td>
         </tr>

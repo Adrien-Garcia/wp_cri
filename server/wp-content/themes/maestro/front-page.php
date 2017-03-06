@@ -136,10 +136,10 @@
 									<h4><?php echo get_the_title($formation->ID); ?></h4>
 									<div class="chapeau-categorie"><?php echo get_the_excerpt($formation->ID) ?></div>
 									<div class="adresse">
-                                        <?php echo nl2br($formation->name) ?><br />
-										<?php echo $formation->address_1 . ' ' . $formation->address_2 . ' ' . $formation->address_3 ?>
-                                        <?php echo $formation->postal_code ?>
-                                        <?php echo $formation->city ?>
+                                        <?php echo nl2br($formation->office_name) ?><br />
+										<?php echo $formation->adress_1 . ' ' . $formation->adress_2 . ' ' . $formation->adress_3 ?>
+										<br>
+                                        <?php echo $formation->cp . ', ' . $formation->city ?>
 									</div>
 									<a href="<?php echo get_permalink($formation->ID) ?>" class="bt-lire"><?php _e('Lire'); ?></a>
 									<?php if(!empty($formation->isOneOfMany) && $formation->isOneOfMany): ?>

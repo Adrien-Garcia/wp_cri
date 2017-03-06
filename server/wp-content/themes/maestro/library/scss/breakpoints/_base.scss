@@ -943,7 +943,7 @@ body.page-template-front-page{
 									a.bt-all {
 										@include lien-souligne($rouge);
 										margin: 20px 0;
-										color: $gris-appli;
+										color: $vj_01;
 
 										&::after {
 											left: 50%;
@@ -2016,6 +2016,34 @@ body.single #content {
  //
 
 #content.page-catalogue-formation {
+	a.bt-agenda {
+		@include do-re;
+		font-size: 16px;
+		height: 70px;
+		display: block;
+		background: #e6e6e6;
+		color: $bleu !important;
+		line-height: 70px;
+		padding-left: 55px;
+		position: relative;
+		@include transition(all 0.5s);
+
+		&::before {
+			@include svgicon('icon-calendar', 24px, 24px,$bleu);
+			left: 20px;
+			top: 0;
+			position: absolute;
+			top: 50%;
+			margin-top: -12px;
+		}
+
+	}
+
+	a.bt-agenda.catalogue{
+		&::before {
+			@include svgicon('icon-catalog', 24px, 24px,$bleu);
+		}
+	}
 
 	#inner-content {
 		width: 100%;
@@ -2046,39 +2074,6 @@ body.single #content {
 		.wrapper-text {
 			margin-top: 20px;
 
-			a.bt-agenda {
-				@include do-re;
-				font-size: 16px;
-				height: 70px;
-				display: block;
-				background: #e6e6e6;
-				color: $bleu !important;
-				line-height: 70px;
-				padding-left: 55px;
-				position: relative;
-				@include transition(all 0.5s);
-
-				&::after {
-					content: '';
-				    width: 200px;
-				    height: 1px;
-				    background: $bleu;
-				    position: absolute;
-				    top: 42px;
-				    left: 56px;
-				    @include transition(opacity 0.3s);
-				}
-
-				&::before {
-					@include svgicon('icon-calendar', 24px, 24px,$bleu);
-					left: 20px;
-					top: 0;
-					position: absolute;
-					top: 50%;
-					margin-top: -12px;
-				}
-
-			}
 		}
 
 		
@@ -2159,13 +2154,15 @@ body.single #content {
 							}
 
 							> .nom-formation {
-								font-family: $helvetica;
-								font-size: 15px;
-								color: $bleu;
-								line-height: 18px;
-								width: 215px;
-								padding-right: 20px;
-								text-decoration: underline;
+								a {
+									font-family: $helvetica;
+									font-size: 15px;
+									color: $bleu;
+									line-height: 18px;
+									width: 215px;
+									padding-right: 20px;
+									text-decoration: underline;
+								}
 							}
 
 							> a.demande {

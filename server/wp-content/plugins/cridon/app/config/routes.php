@@ -91,6 +91,7 @@ MvcRouter::public_connect('demande-formations/{:id:[a-zA-Z0-9=+~_-]+}', array('c
 MvcRouter::public_connect('ajax-demande-formations/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'formations', 'action' => 'contentdemande'));
 MvcRouter::public_connect('preinscription/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'formations', 'action' => 'preinscription'));
 MvcRouter::public_connect('ajax-preinscription/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'formations', 'action' => 'contentpreinscription'));
+MvcRouter::public_connect('catalogue', array('controller' => 'formations', 'action' => 'oldcatalog'));
 MvcRouter::public_connect('formations/catalogue', array('controller' => 'formations', 'action' => 'catalog'));
 MvcRouter::public_connect('formations/prochain-catalogue', array('controller' => 'formations', 'action' => 'catalognextyear'));
 MvcRouter::public_connect('veilles/{:id:[a-zA-Z0-9=+~_-]+}', array('controller' => 'veilles', 'action' => 'show'));

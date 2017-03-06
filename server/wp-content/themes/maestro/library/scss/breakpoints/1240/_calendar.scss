@@ -125,7 +125,7 @@ CALENDAR STYLES
     .calendar__day-event {
         @include no-ellipsis;
         display: block;
-        line-height: 13px;
+        line-height: 12px;
         opacity: .6;
         padding: 5px 0 0 4px;
         width: calc(100% - 36px);
@@ -206,6 +206,10 @@ CALENDAR STYLES
         &--name {
             max-height: 90px;
             overflow: hidden;
+        }
+
+        &--organisme {
+           padding-right: 2px;
         }
     }
 

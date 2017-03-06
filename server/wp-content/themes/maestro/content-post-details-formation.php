@@ -1,9 +1,15 @@
 <?php criWpPost($object); ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
-	<?php
-    if (!empty($sessions)){
+    <!-- gestion de l'affichage sans session -->
+	<?php if (empty($sessions)): ?>
+        <div class="date sel-object-date"></div>
+        <div class="session">
+            <p class="horaire">Pas de session de programmée</p>
+        </div>
+        <a href="<?php echo MvcRouter::public_url(array('controller'=> 'formations','action' => 'demande','id' => $object->id))?>" class="bt inscription-session"><?php _e('Contacter le Cridon Lyon') ?></a>
+        <!-- gestion de l'affichage avec session(s) -->
+    <?php else :
         $nextSession = !empty($highlight) ? $highlight : reset($sessions);
-
     ?>
     	<div class="date sel-object-date">
     		<span class="jour"><?php echo strftime('%d',strtotime($nextSession->date)) ?></span>
@@ -12,18 +18,28 @@
     	</div>
 
         <div class="session">
-            <p class="organisme"><?php echo $nextSession->entite->office_name ?></p><?php if ($nextSession->contact_organisme): ?>
-                <p class="telephone"><a href="tel:<?php echo $nextSession->entite->tel ?>"><?php echo $nextSession->organisme->tel ?></a></p>
-                <p class="email"><a href="mailto:<?php echo $nextSession->entite->office_email_adress_1 ?>"><?php echo $nextSession->organisme->office_email_adress_1 ?></a></p>
-            <?php endif; ?>
+
+            <p class="organisme">
+                <?php echo $nextSession->entite->office_name ?>
+            </p>
+
+                <?php if ($nextSession->contact_organisme): ?>
+                    <p class="telephone">
+                        <a href="tel:<?php echo $nextSession->entite->tel ?>"><?php echo $nextSession->organisme->tel ?></a>
+                    </p>
+                    <p class="email">
+                        <a href="mailto:<?php echo $nextSession->entite->office_email_adress_1 ?>"><?php echo $nextSession->organisme->office_email_adress_1 ?></a>
+                    </p>
+                <?php endif; ?>
+
             <p class="horaire"><?php echo $nextSession->timetable ?></p>
-            
+
         </div>
 
         <?php if (!empty($nextSession->action) && !empty($nextSession->action_label)): ?>
             <a href="<?php echo $nextSession->action ?>" class="bt inscription-session"><?php _e($nextSession->action_label) ?></a>
         <?php endif; ?>
-    <?php } ?>
+    <?php endif; ?>
 
 	<div class="details <?php if(!empty($niveau)){echo $niveau;} ?>">
 		<?php if (isset($object->matiere)) : ?>
@@ -120,10 +136,4 @@
             </ul>
         </div>
     <?php endif; ?>
-
-
-
-
-
-
 </article>

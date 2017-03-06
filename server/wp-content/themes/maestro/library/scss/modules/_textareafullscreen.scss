@@ -26,14 +26,7 @@
   z-index: 3;
 }
 .tx-editor-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.7);
-  z-index: 2;
-  opacity: 0;
+  display: none;
 }
 
 @media only screen and (max-width: 759px) {
