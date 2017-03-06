@@ -607,7 +607,7 @@ class FormationsController extends BaseActuController
             $session = reset($session);
         }
 
-        if (empty($session) || !$session->organisme->is_cridon) {
+        if (empty($session) || !$session->entite->is_cridon) {
             $params['id'] = null;
             $url = MvcRouter::public_url(array(
                     'controller'=> 'formations',
@@ -626,8 +626,8 @@ class FormationsController extends BaseActuController
                         'action' => 'show',
                         'id' => $session->formation->id,
                     )).'?'.http_build_query(array('sessionid' => $session->id)),
-                'organisme' => $session->organisme->name,
-                'city' => $session->organisme->city,
+                'organisme' => $session->entite->name,
+                'city' => $session->entite->city,
                 'time' => $session->timetable
             ),
             'ajax-action' => MvcRouter::public_url(array(
