@@ -626,7 +626,7 @@ class FormationsController extends BaseActuController
                         'action' => 'show',
                         'id' => $session->formation->id,
                     )).'?'.http_build_query(array('sessionid' => $session->id)),
-                'organisme' => $session->entite->name,
+                'organisme' => $session->entite->office_name,
                 'city' => $session->entite->city,
                 'time' => $session->timetable
             ),
