@@ -1,17 +1,15 @@
 <?php criWpPost($object); ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
+    <!-- gestion de l'affichage sans session -->
 	<?php if (empty($sessions)): ?>
-    <div class="date sel-object-date"></div>
-    <div class="session">
-        <p class="horaire">Pas de session de programmée</p>
-    </div>
-    <a href="<?php echo MvcRouter::public_url(array('controller'=> 'formations','action' => 'demande','id' => $object->id))?>" class="bt inscription-session"><?php _e('Contacter le Cridon Lyon') ?></a>
-    <?php endif; ?>
-
-
-    <?php if (!empty($sessions)){
+        <div class="date sel-object-date"></div>
+        <div class="session">
+            <p class="horaire">Pas de session de programmée</p>
+        </div>
+        <a href="<?php echo MvcRouter::public_url(array('controller'=> 'formations','action' => 'demande','id' => $object->id))?>" class="bt inscription-session"><?php _e('Contacter le Cridon Lyon') ?></a>
+        <!-- gestion de l'affichage avec session(s) -->
+    <?php else :
         $nextSession = !empty($highlight) ? $highlight : reset($sessions);
-
     ?>
     	<div class="date sel-object-date">
     		<span class="jour"><?php echo strftime('%d',strtotime($nextSession->date)) ?></span>
@@ -41,7 +39,7 @@
         <?php if (!empty($nextSession->action) && !empty($nextSession->action_label)): ?>
             <a href="<?php echo $nextSession->action ?>" class="bt inscription-session"><?php _e($nextSession->action_label) ?></a>
         <?php endif; ?>
-    <?php } ?>
+    <?php endif; ?>
 
 	<div class="details <?php if(!empty($niveau)){echo $niveau;} ?>">
 		<?php if (isset($object->matiere)) : ?>
@@ -138,10 +136,4 @@
             </ul>
         </div>
     <?php endif; ?>
-
-
-
-
-
-
 </article>

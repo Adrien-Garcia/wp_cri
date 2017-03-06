@@ -654,7 +654,6 @@ class FormationsController extends BaseActuController
     public function oldcatalog(){
 
         add_action('wp_head','rel_canonical_catalog');
-        if( function_exists( 'rel_canonical' ) )
         $this->catalog();
     }
 
