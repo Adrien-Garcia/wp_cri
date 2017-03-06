@@ -27,7 +27,7 @@ class Formation extends \App\Override\Model\CridonMvcModel
                 'type'                  => CONST_FORMATION_PREINSCRIPTION,
                 'date'                  => strftime('%d %b %Y',strtotime($session->date)),
                 'name'                  => $session->formation->post->post_title,
-                'organisme'             => strtoupper($session->organisme->name. ' ' . $session->organisme->city),
+                'organisme'             => strtoupper($session->entity->name. ' ' . $session->entity->city),
                 'participants'          => $formationParticipants,
                 'commentaire'           => $formationCommentaire,
                 'notaire'               => $data['notaire'],
