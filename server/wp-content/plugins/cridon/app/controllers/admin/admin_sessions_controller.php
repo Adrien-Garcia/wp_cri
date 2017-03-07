@@ -33,6 +33,7 @@ class AdminSessionsController extends BaseAdminController
         'id',
         'date' => array(
             'label' => 'Date de la session',
+            'value_method' => 'sessionDate'
         ),
         'timetable' => array(
             'label'=>'Informations horaires'
@@ -145,6 +146,10 @@ class AdminSessionsController extends BaseAdminController
 
         $controllerFormations = new AdminFormationsController();
         return empty($object->formation) ? null : $controllerFormations->post_edit_link($object->formation);
+    }
+
+    public function sessionDate($object){
+        return strftime('%d %B %G',strtotime($object->date));
     }
 
     public function organismeLabel($object){

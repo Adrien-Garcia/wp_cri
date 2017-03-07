@@ -39,7 +39,7 @@
                         <li>
                             <div class="nom-formation"><a href="<?php echo get_permalink($formation->post->ID); ?>"><?php echo $formation->post->post_title ?></a></div>
                             <a href="<?php echo MvcRouter::public_url(array('controller'=> 'formations','action' => 'demande','id' => $formation->id)) ?>" class="demande"></a>
-                            <a href="<?php echo $formation->document->download_url ?>" class="pdf"></a>
+                            <a href="<?php echo $formation->document->download_url ?>" target="_blank" class="pdf"></a>
                         </li>
                         <?php endforeach; ?>
                     </ul>

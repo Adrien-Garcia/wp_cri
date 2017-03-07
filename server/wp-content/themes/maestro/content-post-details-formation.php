@@ -24,12 +24,16 @@
             </p>
 
                 <?php if ($nextSession->contact_organisme): ?>
+                    <?php if (!empty(trim($nextSession->entite->tel))): ?>
                     <p class="telephone">
-                        <a href="tel:<?php echo $nextSession->entite->tel ?>"><?php echo $nextSession->entite->tel ?></a>
+                        <a href="tél:<?php echo $nextSession->entite->tel ?>"><?php echo $nextSession->entite->tel ?></a>
                     </p>
+                    <?php endif; ?>
+                    <?php if (!empty(trim($nextSession->entite->office_email_adress_1))): ?>
                     <p class="email">
                         <a href="mailto:<?php echo $nextSession->entite->office_email_adress_1 ?>"><?php echo $nextSession->entite->office_email_adress_1 ?></a>
                     </p>
+                    <?php endif; ?>
                 <?php endif; ?>
 
             <p class="horaire"><?php echo $nextSession->timetable ?></p>
@@ -122,10 +126,16 @@
                             <p class="session-horaire"><?php echo $session->timetable ?></p>
                         </div>
                         <?php if ($session->contact_organisme): ?>
+                            <?php if (!empty(trim($nextSession->entite->tel)) || !empty(trim($nextSession->entite->office_email_adress_1))): ?>
                             <div class="wrapper-session-contact">
                             Contact
-                                <p class="session-telephone">Tél. : <a href="tel:<?php echo $session->entite->tel ?>"><?php echo $session->entite->tel ?></a></p>
-                                <p class="session-mail">Email : <a href="mailto:<?php echo $session->entite->office_email_adress_1 ?>"><?php echo $session->entite->office_email_adress_1 ?></a></p>
+                                <?php if (!empty(trim($nextSession->entite->tel))): ?>
+                                    <p class="session-telephone">Tél. : <a href="tel:<?php echo $session->entite->tel ?>"><?php echo $session->entite->tel ?></a></p>
+                                <?php endif; ?>
+                                <?php if (!empty(trim($nextSession->entite->office_email_adress_1))): ?>
+                                    <p class="session-mail">Email : <a href="mailto:<?php echo $session->entite->office_email_adress_1 ?>"><?php echo $session->entite->office_email_adress_1 ?></a></p>
+                                <?php endif; ?>
+                            <?php endif; ?>
                             </div>
                         <?php endif; ?>
                         <?php if (!empty($session->action) && !empty($session->action_label)): ?>
