@@ -6,7 +6,12 @@
         </span>
     </div>
 
-    <form class="js-account-collaborateur-add-form" data-js-disabled="false" data-js-ajax-add-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>">
+    <form
+        class="js-account-collaborateur-add-form"
+        data-js-disabled="false"
+        data-js-ajax-add-url="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'gestioncollaborateur')); ?>"
+        data-js-user-type="<?php echo $collaborator['type'] ?>"
+    >
         <input type="hidden" name="collaborator_id" class="js-account-collaborateur-modify-id" value="<?php echo empty($collaborator['id']) ? '' : $collaborator['id'] ?>">
         <input type="hidden" name="action" class="js-account-collaborateur-action" value="<?php echo empty($collaborator['action']) ? '' : $collaborator['action'] ?>">
         <div>
@@ -63,38 +68,20 @@
                 A défaut de renseigner <strong>une adresse email personnelle</strong>, le collaborateur ne pourra accéder à tous les services personnalisés du CRIDON LYON (fonctions avancées du moteur de recherche, inscription à la newsletter, notifications email des questions posées, sélection de ses centres d'intérêts…) 
             </div>
         </div>
+        <?php if (CriCanAccessSensitiveInfo(CONST_DROITS_COLLABORATEUR_ROLE)): ?>
         <div class="droit-collaborateur">
             <p>Droits du collaborateur</p>
-            <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_FINANCE_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
-                <input type="checkbox" name="compta" class="js-account-collaborateur-cap js-account-collaborateur-cap-finance" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_FINANCE_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
-                <span><?php _e("Accès aux pages «compta» (finance,factures, relevée de consommation)"); ?></span>
-            </label>
-
-            <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONECRITES_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
-                <input type="checkbox" name="question_ecrite" class="js-account-collaborateur-cap js-account-collaborateur-cap-questionsecrites" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONECRITES_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
-                <span><?php _e("Poser des questions écrites"); ?></span>
-            </label>
-
-            <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONTELEPHONIQUES_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
-                <input type="checkbox" name="question_tel" class="js-account-collaborateur-cap js-account-collaborateur-cap-questionstel" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_QUESTIONTELEPHONIQUES_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
-                <span><?php _e("Poser des questions téléphoniques"); ?></span>
-            </label>
-
-            <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_CONNAISANCE_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
-                <input type="checkbox" name="connaissance" class="js-account-collaborateur-cap js-account-collaborateur-cap-connaissances" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_CONNAISANCE_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
-                <span><?php _e("Accès aux bases de connaissance"); ?></span>
-            </label>
-
-            <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_MODIFYOFFICE_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
-                <input type="checkbox" name="modify_office" class="js-account-collaborateur-cap js-account-collaborateur-cap-modifyoffice" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_MODIFYOFFICE_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
-                <span><?php _e("Modifier les informations de l'étude"); ?></span>
-            </label>
-
-            <label class="js-account-collaborateur-checkbox <?php echo !empty($collaborator['capabilities']) && in_array(CONST_CRIDONLINESUBSCRIPTION_ROLE,$collaborator['capabilities']) ? 'select' : 'unselect' ?>">
-                <input type="checkbox" name="cridonline_subscription" class="js-account-collaborateur-cap js-account-collaborateur-cap-cridonlinesubscription" value="value" <?php echo !empty($collaborator['capabilities']) && in_array(CONST_CRIDONLINESUBSCRIPTION_ROLE,$collaborator['capabilities']) ? 'checked' : '' ?>>
-                <span><?php _e("Souscription à l'offre CRID'ONLINE"); ?></span>
-            </label>
+            <?php
+            foreach (RoleManager::getRoleLabel() as $role => $label) :
+                $actif = !empty($collaborator['capabilities']) && in_array($role,$collaborator['capabilities']);
+                ?>
+                <label class="js-account-collaborateur-checkbox <?php echo $actif ? 'select' : 'unselect' ?>">
+                    <input type="checkbox" name="droits[<?php echo $role ?>]" class="js-account-collaborateur-cap js-account-collaborateur-cap-<?php echo $role ?>" value="value" <?php echo $actif ? 'checked' : '' ?>>
+                    <span><?php _e($label); ?></span>
+                </label>
+                <?php endforeach; ?>
         </div>
+        <?php endif; ?>
         <div class="message-erreur js-account-collaborateur-add-message"></div>
         <div class="submit">
             <input type="submit" value="Enregistrer">

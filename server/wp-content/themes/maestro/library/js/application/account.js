@@ -55,12 +55,6 @@ App.Account = {
     accountPostalcodeSelector: '-postalcode',
     accountCitySelector: '-city',
     accountCapabilitiesSelector: '-cap',
-    accountFinanceSelector: '-finance',
-    accountQuestionsecritesSelector: '-questionsecrites',
-    accountQuestionstelSelector: '-questionstel',
-    accountConnaissancesSelector: '-connaissances',
-    accountModifyofficeSelector: '-modifyoffice',
-    accountCridonlinesubscriptionSelector: '-cridonlinesubscription',
     accountPasswordSelector: '-password',
 
     ajaxSelector: '-ajax',
@@ -92,6 +86,9 @@ App.Account = {
     accountPopupProfilPassword: '#layer-update-mdp',
 
     eventAccountButtonSelector: '-button',
+
+    defaultNotaireFonction : 0,
+    defaultCollaborateurFonction : 27,
 
 
     $accountBlocks: null,
@@ -154,13 +151,12 @@ App.Account = {
 
 
     init: function () {
-        this.debug('Account : init start');
-
         var self = this;
 
         var d = this.defaultSelector;
         var b = this.eventAccountButtonSelector;
         var a = this.ajaxSelector;
+        this.debug('Account : init start');
 
         this.$accountBlocks              = $(d + this.accountBlocksSelector);
         this.$accountContentBlocks       = $(d + this.accountContentBlocksSelector);
@@ -193,8 +189,9 @@ App.Account = {
         this.$accountMesRelevesAjax     = this.$accountMesReleves.find(d + a);
 
         this.$accountBlocks.each(function (i, e) {
+            var block;
             if ($(e).hasClass('active')) {
-                var block = $(e).data('js-name');
+                block = $(e).data('js-name');
                 self['init' + block]();
             }
         });
@@ -205,23 +202,23 @@ App.Account = {
     },
 
     initDashboard: function () {
+        var $circlePath = $('#solde-circle-path');
         this.debug('Account : Init Dashboard');
         this.$accountSoldeSVG           = $(this.accountSoldeSVGSelector);
         this.$accountSoldeData          = $(this.accountSoldeDataSelector);
         if (App.Utils.device.ie9 || App.Utils.device.ie10 || App.Utils.device.ie11) {
-            $('#solde-circle-path').attr('d', $('#solde-circle-path').attr('die'));
+            $circlePath.attr('d', $circlePath.attr('die'));
         }
         this.reloadSolde();
         this.addListenersDashboard();
     },
 
     initQuestions: function () {
-        this.debug('Account : Init Questions');
-
         var d = this.defaultSelector;
         var a = this.ajaxSelector;
         var b = this.eventAccountButtonSelector;
         var f = this.accountFilterSelector;
+        this.debug('Account : Init Questions');
 
         this.$accountQuestionPagination = $(d + a + this.ajaxPaginationSelector).find(this.paginationSelector);
 
@@ -233,7 +230,8 @@ App.Account = {
         this.$selectQuestionFilterMatiere = $(d + this.accountFilterSelectMatiereSelector + f);
 
         this.$accountQuestionMoreButton.each((function (i, el) {
-            var h = $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).find('ul').first().outerHeight();
+            var h = $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).find('ul').first()
+                .outerHeight();
             $(el).siblings(d + this.accountQuestionSelector + this.accountQuestionMoreSelector).css('height', h);
         }).bind(this));
 
@@ -250,15 +248,18 @@ App.Account = {
     },
 
     initProfil: function () {
+        var d,
+            newsletterNonce,
+            passwordNonce;
         this.debug('Account : Init Profil');
 
-        var newsletterNonce   = document.createElement('input');
+        newsletterNonce   = document.createElement('input');
         newsletterNonce.type  = 'hidden';
         newsletterNonce.name  = 'tokennewsletter';
         newsletterNonce.id    = 'tokennewsletter';
         newsletterNonce.value = jsvar.newsletter_nonce;
 
-        var d = this.defaultSelector;
+        d = this.defaultSelector;
 
         this.$accountProfilNewsletterForm          = $(d + this.accountProfilSelector + this.accountProfilNewsletterSelector + this.accountFormSelector);
         this.$accountProfilNewsletterForm.append(newsletterNonce);
@@ -297,7 +298,7 @@ App.Account = {
 
         this.$popupProfilOfficeModify              = $(this.accountPopupProfilOfficeModify);
 
-        var passwordNonce   = document.createElement('input');
+        passwordNonce   = document.createElement('input');
         passwordNonce.type  = 'hidden';
         passwordNonce.name  = 'tokenpassword';
         passwordNonce.id    = 'tokenpassword';
@@ -360,13 +361,15 @@ App.Account = {
     },
 
     initCollaborateur: function () {
+        var d,
+            nonce;
         this.debug('Account : Init Collaborateur');
 
-        var d = this.defaultSelector;
+        d = this.defaultSelector;
 
         this.$accountCollaborateurPagination             = $(d + this.ajaxSelector + this.ajaxPaginationSelector).find(this.paginationSelector);
 
-        var nonce   = document.createElement('input');
+        nonce   = document.createElement('input');
         nonce.type  = 'hidden';
         nonce.name  = 'tokencrud';
         nonce.id    = 'tokencrud';
@@ -397,12 +400,6 @@ App.Account = {
         this.$accountCollaborateurModify                       = $(d + this.accountCollaborateurSelector + this.accountModifySelector);
         this.$accountCollaborateurModifyId                     = $(d + this.accountCollaborateurSelector + this.accountModifySelector + this.accountIdSelector);
         this.$accountCollaborateurCap                          = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector);
-        this.$accountCollaborateurCapFinance                   = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountFinanceSelector);
-        this.$accountCollaborateurCapQuestionsecrites          = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountQuestionsecritesSelector);
-        this.$accountCollaborateurCapQuestionstel              = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountQuestionstelSelector);
-        this.$accountCollaborateurCapConnaissances             = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountConnaissancesSelector);
-        this.$accountCollaborateurCapModifyoffice              = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountModifyofficeSelector);
-        this.$accountCollaborateurCapCridonlinesubscription    = $(d + this.accountCollaborateurSelector + this.accountCapabilitiesSelector + this.accountCridonlinesubscriptionSelector);
 
         this.popupCollaborateurDeleteInit();
         this.popupCollaborateurAddInit();
@@ -439,9 +436,10 @@ App.Account = {
     },
 
     initCridonline: function () {
+        var d;
         this.debug('Account : Init Cridonline');
 
-        var d = this.defaultSelector;
+        d = this.defaultSelector;
 
         this.$accountCridonlineForm    = $(d + this.accountCridonlineSelector + this.accountFormSelector);
 
@@ -457,11 +455,13 @@ App.Account = {
     },
 
     initCridonlineValidation: function () {
+        var d,
+            nonce;
         this.debug('Account : Init Cridonline Validation');
 
-        var d = this.defaultSelector;
+        d = this.defaultSelector;
 
-        var nonce   = document.createElement('input');
+        nonce   = document.createElement('input');
         nonce.type  = 'hidden';
         nonce.name  = 'tokencridonline';
         nonce.id    = 'tokencridonline';
@@ -502,9 +502,10 @@ App.Account = {
     },
 
     initMesFactures: function () {
+        var d;
         this.debug('Account : Init Mes Factures');
 
-        var d = this.defaultSelector;
+        d = this.defaultSelector;
         this.$accountFilterSelectFacturesByYear  = $(d + this.accountFilterSelectFacturesByYear);
         this.accountFilterFacture                = d + this.accountFilter;
 
@@ -596,14 +597,14 @@ App.Account = {
             self.eventAccountQuestionPagination($(this));
         });
 
-        this.$accountQuestionMoreButton.on('click', function (e) {
+        this.$accountQuestionMoreButton.on('click', function () {
             self.eventAccountQuestionMoreToggle($(this));
         });
 
         this.$selectQuestionFilterMatiere
             .add(this.$dateQuestionFilterAu)
             .add(this.$dateQuestionFilterDu)
-            .on('change', function (e) {
+            .on('change', function () {
                 self.eventQuestionFilter($(this));
             });
     },
@@ -617,21 +618,21 @@ App.Account = {
 
         this.debug('Account : addListenersProfil');
 
-        this.$accountProfilSubscription.on('change', function (e) {
+        this.$accountProfilSubscription.on('change', function () {
             self.eventAccountProfilSubscriptionToggle($(this));
         });
 
-        this.$accountProfilNewsletterForm.on('submit', function (e) {
+        this.$accountProfilNewsletterForm.on('submit', function () {
             self.eventAccountProfilNewsletterSubmit($(this));
             return false;
         });
 
-        this.$accountProfilModify.on('click', function (e) {
+        this.$accountProfilModify.on('click', function () {
             self.eventAccountProfilModifyPopup($(this));
             return false;
         });
 
-        this.$accountProfilOfficeModify.on('click', function (e) {
+        this.$accountProfilOfficeModify.on('click', function () {
             self.eventAccountProfilOfficeModifyPopup($(this));
             return false;
         });
@@ -642,7 +643,7 @@ App.Account = {
             self.eventAccountProfilModifySubmit($(this));
         });
 
-        $(document).on('change', this.$accountProfilModifyEmail.selector, function (e) {
+        $(document).on('change', this.$accountProfilModifyEmail.selector, function () {
             $(this).addClass('css-change-email-red-border');
             $(self.$accountProfilModifyMessageEmail.selector).removeClass('hidden');
         });
@@ -653,7 +654,7 @@ App.Account = {
             self.eventAccountProfilOfficeModifySubmit($(this));
         });
 
-        this.$accountProfilPassword.on('click', function (e) {
+        this.$accountProfilPassword.on('click', function () {
             self.$popupProfilPassword.popup('show');
             return false;
         });
@@ -684,7 +685,7 @@ App.Account = {
 
         this.debug('Account : addListenersCridonline');
 
-        this.$accountCridonlineForm.on('submit', function (e) {
+        this.$accountCridonlineForm.on('submit', function () {
             self.eventAccountCridonlineSubmit($(this));
             return false;
         });
@@ -699,25 +700,25 @@ App.Account = {
 
         this.debug('Account : addListenersCridonlineValidation');
 
-        this.$accountCridonlineValidationCGV.on('change', function (e) {
+        this.$accountCridonlineValidationCGV.on('change', function () {
             var label = $(this).parents(this.defaultSelector + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCheckboxSelector).first();
-            self.eventAccountCheckboxToggle(label);
+            self.eventAccountCheckboxToggle(label, $(this));
         });
 
-        this.$accountCridonlineValidationB2B.on('change', function (e) {
+        this.$accountCridonlineValidationB2B.on('change', function () {
             self.eventAccountRadioToggle($(this));
         });
 
-        this.$accountCridonlineValidationB2C.on('change', function (e) {
+        this.$accountCridonlineValidationB2C.on('change', function () {
             self.eventAccountRadioToggle($(this));
         });
 
-        this.$accountCridonlineValidationForm.on('submit', function (e) {
+        this.$accountCridonlineValidationForm.on('submit', function () {
             self.eventAccountCridonlineValidationSubmit($(this));
             return false;
         });
 
-        $(document).on('click', this.$accountCridonlineValidationToggle.selector, function (e) {
+        $(document).on('click', this.$accountCridonlineValidationToggle.selector, function () {
             $(self.$accountCridonlineValidationStep1.selector).toggle();
             $(self.$accountCridonlineValidationStep2.selector).toggle();
         });
@@ -752,32 +753,32 @@ App.Account = {
         });
 
         this.$accountCollaborateurAddButton.off('click');
-        this.$accountCollaborateurAddButton.on('click', function (e) {
+        this.$accountCollaborateurAddButton.on('click', function () {
             self.eventAccountCollaborateurAddPopup($(this));
             return false;
         });
 
         this.$accountCollaborateurModify.on('click');
-        this.$accountCollaborateurModify.on('click', function (e) {
+        this.$accountCollaborateurModify.on('click', function () {
             self.eventAccountCollaborateurModifyPopup($(this));
             return false;
         });
 
         $(document).off('change', this.$accountCollaborateurAddFunction.selector);
-        $(document).on('change', this.$accountCollaborateurAddFunction.selector, function (e) {
+        $(document).on('change', this.$accountCollaborateurAddFunction.selector, function () {
             self.eventAccountCollaborateurChangeFunction($(this));
         });
 
         $(document).off('change', this.$accountCollaborateurAddFunctioncollaborateur.selector);
-        $(document).on('change', this.$accountCollaborateurAddFunctioncollaborateur.selector, function (e) {
+        $(document).on('change', this.$accountCollaborateurAddFunctioncollaborateur.selector, function () {
             self.eventAccountCollaborateurChangeFunctionCollaborateur($(this));
         });
 
         $(document).off('submit', this.$accountCollaborateurAddForm.selector);
         $(document).on('submit', this.$accountCollaborateurAddForm.selector, function (e) {
+            var disabled = $(this).data('js-disabled');
             e.returnValue = false;
             e.preventDefault();
-            var disabled = $(this).data('js-disabled');
             if (disabled === false) {
                 $(this).data('js-disabled', true);
                 self.eventAccountCollaborateurAddSubmit($(this));
@@ -799,7 +800,7 @@ App.Account = {
     addListenersMesFactures: function () {
         var self = this;
 
-        this.$accountFilterSelectFacturesByYear.on('change', function (e) {
+        this.$accountFilterSelectFacturesByYear.on('change', function () {
             self.eventFilterFacturesByYear($(this));
         });
 
@@ -827,8 +828,7 @@ App.Account = {
         this.$accountDashboard.addClass('active');
         $.ajax({
             url: link.data('js-ajax-src'),
-            success: function (data)
-            {
+            success: function (data) {
                 $('#' + targetid).html(data);
                 // $('#'+targetid).html(data);
                 self.debug('Account Dashboard Loaded');
@@ -849,8 +849,7 @@ App.Account = {
         this.$accountQuestion.addClass('active');
         $.ajax({
             url: link.data('js-ajax-src'),
-            success: function (data)
-            {
+            success: function (data) {
                 $('#' + targetid).html(data);
                 // self.$accountQuestionAjax.html(data);
                 self.debug('Account Question Loaded');
@@ -871,8 +870,7 @@ App.Account = {
         this.$accountProfil.addClass('active');
         $.ajax({
             url: link.data('js-ajax-src'),
-            success: function (data)
-            {
+            success: function (data) {
                 $('#' + targetid).html(data);
                 // self.$accountProfilAjax.html(data);
                 self.debug('Account Profil Loaded');
@@ -893,8 +891,7 @@ App.Account = {
         this.$accountFacturation.addClass('active');
         $.ajax({
             url: link.data('js-ajax-src'),
-            success: function (data)
-            {
+            success: function (data) {
                 $('#' + targetid).html(data);
                 // self.$accountFacturationAjax.html(data);
                 self.debug('Account Facturation Loaded');
@@ -915,9 +912,8 @@ App.Account = {
         this.$accountCollaborateur.addClass('active');
         $.ajax({
             url: link.data('js-ajax-src'),
-            success: function (data)
-            {
-                data = JSON.parse(data);
+            success: function (_data) {
+                var data = JSON.parse(_data);
                 $('#' + targetid).html(data.view);
                 // self.$accountCollaborateurAjax.html(data);
                 self.debug('Account Collaborateur Loaded');
@@ -938,8 +934,7 @@ App.Account = {
         this.$accountCridonline.addClass('active');
         $.ajax({
             url: link.data('js-ajax-src'),
-            success: function (data)
-            {
+            success: function (data) {
                 $('#' + targetid).html(data);
                 // self.$accountCridonlineAjax.html(data);
                 self.debug('Account Cridonline Loaded');
@@ -960,8 +955,7 @@ App.Account = {
         this.$accountMesFactures.addClass('active');
         $.ajax({
             url: link.data('js-ajax-src'),
-            success: function (data)
-            {
+            success: function (data) {
                 $('#' + targetid).html(data);
                 self.debug('Account Mes Factures Loaded');
                 self.initMesFactures();
@@ -981,8 +975,7 @@ App.Account = {
         this.$accountMesReleves.addClass('active');
         $.ajax({
             url: link.data('js-ajax-src'),
-            success: function (data)
-            {
+            success: function (data) {
                 $('#' + targetid).html(data);
                 self.debug('Account Mes Releves Loaded');
                 self.initMesReleves();
@@ -1002,12 +995,11 @@ App.Account = {
         this.$accountQuestion.addClass('active');
         $.ajax({
             url: url,
-            success: function (data)
-            {
+            success: function (data) {
                 self.$questions.html(data);
                 self.debug('Account Question Pagination Loaded');
                 self.initQuestions();
-                App.Utils.scrollTop(undefined, '#historique-questions');
+                App.Utils.scrollTop(void 0, '#historique-questions');
             },
         });
     },
@@ -1031,20 +1023,19 @@ App.Account = {
         } else if (label.hasClass('unselect')) {
             label.removeClass('unselect');
             label.addClass('select');
+        } else if (input[0].checked) {
+            label.removeClass('unselect');
+            label.addClass('select');
         } else {
-            if (input[0].checked) {
-                label.removeClass('unselect');
-                label.addClass('select');
-            } else {
-                label.removeClass('select');
-                label.addClass('unselect');
-            }
+            label.removeClass('select');
+            label.addClass('unselect');
         }
     },
 
     eventAccountProfilNewsletterSubmit: function (form) {
+        var email;
         this.$accountProfilNewsletterMessage.html('');
-        var email = this.$accountProfilNewsletterEmail.val();
+        email = this.$accountProfilNewsletterEmail.val();
         if (email !== '') {
             jQuery.ajax({
                 type: 'POST',
@@ -1076,9 +1067,8 @@ App.Account = {
         return false;
     },
 
-    successProfilModifyPopup: function (data) {
-        data = JSON.parse(data);
-
+    successProfilModifyPopup: function (_data) {
+        var data = JSON.parse(_data);
         var nonce   = document.createElement('input');
         nonce.type  = 'hidden';
         nonce.name  = 'tokencrud';
@@ -1108,12 +1098,14 @@ App.Account = {
         return false;
     },
 
-    successProfilModify: function (data) {
-        data = JSON.parse(data);
+    successProfilModify: function (_data) {
+        var data = JSON.parse(_data);
+        var message,
+            content;
         // create message block
-        if (data !== undefined && data.error !== undefined) {
-            var message = data.error;
-            var content = $(document.createElement('div')).text(message);
+        if (typeof data !== 'undefined' && typeof data.error !== 'undefined') {
+            message = data.error;
+            content = $(document.createElement('div')).text(message);
             this.$accountProfilModifyMessage.html('').append(content);
         } else {
             window.location.href = data.view;
@@ -1130,9 +1122,8 @@ App.Account = {
         return false;
     },
 
-    successProfilOfficeModifyPopup: function (data) {
-        data = JSON.parse(data);
-
+    successProfilOfficeModifyPopup: function (_data) {
+        var data = JSON.parse(_data);
         var nonce   = document.createElement('input');
         nonce.type  = 'hidden';
         nonce.name  = 'tokenofficecrud';
@@ -1164,12 +1155,14 @@ App.Account = {
         return false;
     },
 
-    successProfilOfficeModify: function (data) {
-        data = JSON.parse(data);
+    successProfilOfficeModify: function (_data) {
+        var data = JSON.parse(_data);
+        var message,
+            content;
         // create message block
-        if (data !== undefined && data.error !== undefined) {
-            var message = data.error;
-            var content = $(document.createElement('div')).text(message);
+        if (typeof data !== 'undefined' && typeof data.error !== 'undefined') {
+            message = data.error;
+            content = $(document.createElement('div')).text(message);
             this.$accountProfilModifyMessage.html('').append(content);
         } else {
             window.location.href = data.view;
@@ -1191,12 +1184,14 @@ App.Account = {
         return false;
     },
 
-    successProfilPassword: function (data) {
-        data = JSON.parse(data);
+    successProfilPassword: function (_data) {
+        var data = JSON.parse(_data);
+        var message,
+            content;
         // create message block
-        if (data !== undefined && data.error !== undefined) {
-            var message = data.error;
-            var content = $(document.createElement('div')).text(message);
+        if (typeof data !== 'undefined' && typeof data.error !== 'undefined') {
+            message = data.error;
+            content = $(document.createElement('div')).text(message);
             this.$accountProfilPasswordMessage.html('').append(content);
         } else {
             window.location.href = data.view;
@@ -1221,7 +1216,7 @@ App.Account = {
     successCridonline: function (html) {
         this.$cridonline.html(html);
         this.initCridonlineValidation();
-        App.Utils.scrollTop(undefined, this.$cridonline);
+        App.Utils.scrollTop(void 0, this.$cridonline);
     },
 
     eventAccountCollaborateurPagination: function (link) {
@@ -1233,13 +1228,12 @@ App.Account = {
         this.$accountCollaborateur.addClass('active');
         $.ajax({
             url: url,
-            success: function (data)
-            {
-                data = JSON.parse(data);
+            success: function (_data) {
+                var data = JSON.parse(_data);
                 self.$collaborateur.html(data.view);
                 self.debug('Account Question Pagination Loaded');
                 self.initCollaborateur();
-                App.Utils.scrollTop(undefined, self.$collaborateur);
+                App.Utils.scrollTop(void 0, self.$collaborateur);
             },
         });
     },
@@ -1264,12 +1258,14 @@ App.Account = {
         return false;
     },
 
-    successCollaborateurDelete: function (data) {
-        data = JSON.parse(data);
+    successCollaborateurDelete: function (_data) {
+        var data = JSON.parse(_data);
+        var message,
+            content;
         // create message block
-        if (data !== undefined && data.error !== undefined) {
-            var message = data.error;
-            var content = $(document.createElement('div')).text(message);
+        if (typeof data !== 'undefined' && typeof data.error !== 'undefined') {
+            message = data.error;
+            content = $(document.createElement('div')).text(message);
             this.$accountCollaborateurDeleteValidationMessage.html('').append(content);
         } else {
             window.location.href = data.view;
@@ -1303,151 +1299,110 @@ App.Account = {
         return false;
     },
 
-    successCollaborateurAddPopup: function (data) {
-        data = JSON.parse(data);
+    successCollaborateurAddPopup: function (_data) {
+        var data = JSON.parse(_data);
         this.$popupCollaborateurAdd.html(data.view).popup('show');
     },
 
-    eventAccountCollaborateurChangeFunction: function (data) {
-        var fonction = data.find(':selected').val();
+    eventAccountCollaborateurChangeFunction: function ($data) {
+        var self = this;
+        var fonction = $data.find(':selected').val();
+        var type = $data.closest('form').data('js-user-type');
+        var capabilities;
         if (fonction === jsvar.collaborateur_id_function) {
             $(this.$accountCollaborateurAddFunctioncollaborateur.selector).removeClass('hidden');
-            $(this.$accountCollaborateurCapFinance.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-            $(this.$accountCollaborateurCapQuestionsecrites.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-            $(this.$accountCollaborateurCapQuestionstel.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-            $(this.$accountCollaborateurCapConnaissances.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-            $(this.$accountCollaborateurCapModifyoffice.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-            $(this.$accountCollaborateurCapCridonlinesubscription.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
+            $(jsvar.managable_roles).each(function () {
+                var sel = self.$accountCollaborateurCap.selector;
+                var c = this;
+                $(sel + c).prop('checked', false);
+                $(sel + c).parent(sel).removeClass('select');
+                $(sel + c).parent(sel).addClass('unselect');
+            });
         } else {
             $(this.$accountCollaborateurAddFunctioncollaborateur.selector).addClass('hidden');
-            var capabilities = jsvar.collaborateur_capabilities.notaries[fonction];
+            if (typeof jsvar.default_notaire_roles[type][fonction] === 'undefined') {
+                fonction = self.defaultNotaireFonction;
+            }
+            capabilities = jsvar.default_notaire_roles[type][fonction];
             this.manageCheckboxes(capabilities);
         }
     },
 
-    eventAccountCollaborateurChangeFunctionCollaborateur: function (data) {
-        var fonction = data.find(':selected').val();
-        var capabilities = jsvar.collaborateur_capabilities.collaborators[fonction];
+    eventAccountCollaborateurChangeFunctionCollaborateur: function ($data) {
+        var self = this;
+        var fonction = $data.find(':selected').val();
+        var type = $data.closest('form').data('js-user-type');
+        var capabilities;
+        if (typeof jsvar.default_collaborateur_roles[type][fonction] === 'undefined') {
+            capabilities = jsvar.default_notaire_roles[type][self.defaultCollaborateurFonction];
+        } else {
+            capabilities = jsvar.default_collaborateur_roles[type][fonction];
+        }
         this.manageCheckboxes(capabilities);
     },
 
     manageCheckboxes: function (capabilities) {
-        // Finance
-        if ($.inArray(jsvar.capability_finance, capabilities) > -1) {
-            $(this.$accountCollaborateurCapFinance.selector).prop('checked', true);
-            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
-            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).addClass('select');
-        } else {
-            $(this.$accountCollaborateurCapFinance.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapFinance.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-        }
-        // questions écrites
-        if ($.inArray(jsvar.capability_questionsecrites, capabilities) > -1) {
-            $(this.$accountCollaborateurCapQuestionsecrites.selector).prop('checked', true);
-            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
-            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).addClass('select');
-        } else {
-            $(this.$accountCollaborateurCapQuestionsecrites.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapQuestionsecrites.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-        }
-        // questions téléphoniques
-        if ($.inArray(jsvar.capability_questionstel, capabilities) > -1) {
-            $(this.$accountCollaborateurCapQuestionstel.selector).prop('checked', true);
-            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
-            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).addClass('select');
-        } else {
-            $(this.$accountCollaborateurCapQuestionstel.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapQuestionstel.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-        }
-        // connaissances
-        if ($.inArray(jsvar.capability_connaissances, capabilities) > -1) {
-            $(this.$accountCollaborateurCapConnaissances.selector).prop('checked', true);
-            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
-            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('select');
-        } else {
-            $(this.$accountCollaborateurCapConnaissances.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapConnaissances.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-        }
-        // modify office
-        if ($.inArray(jsvar.capability_modifyoffice, capabilities) > -1) {
-            $(this.$accountCollaborateurCapModifyoffice.selector).prop('checked', true);
-            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
-            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).addClass('select');
-        } else {
-            $(this.$accountCollaborateurCapModifyoffice.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapModifyoffice.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-        }
-        // cridonline subscription
-        if ($.inArray(jsvar.capability_cridonlinesubscription, capabilities) > -1) {
-            $(this.$accountCollaborateurCapCridonlinesubscription.selector).prop('checked', true);
-            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).removeClass('unselect');
-            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).addClass('select');
-        } else {
-            $(this.$accountCollaborateurCapCridonlinesubscription.selector).prop('checked', false);
-            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).removeClass('select');
-            $(this.$accountCollaborateurCapCridonlinesubscription.selector).parent(this.$accountCollaborateurCap).addClass('unselect');
-        }
+        var self = this;
+        $(jsvar.managable_roles).each(function () {
+            var sel = self.$accountCollaborateurCap.selector;
+            var c = this;
+            if (capabilities.indexOf(c) !== -1) {
+                $(sel + '-' + c).prop('checked', true);
+                $(sel + '-' + c).parent().removeClass('unselect');
+                $(sel + '-' + c).parent().addClass('select');
+            } else {
+                $(sel + '-' + c).prop('checked', false);
+                $(sel + '-' + c).parent().removeClass('select');
+                $(sel + '-' + c).parent().addClass('unselect');
+            }
+        });
     },
 
-    eventAccountCollaborateurAddSubmit: function (form) {
-        var id_function_notaire      = form.find(this.$accountCollaborateurAddFunction.selector).val();
-        var id_function_collaborator = form.find(this.$accountCollaborateurAddFunctioncollaborateur.selector).val();
-        if (id_function_notaire === jsvar.collaborateur_id_function && !$.isNumeric(id_function_collaborator)) {
-            var message = jsvar.collaborateur_function_error;
-            var content = $(document.createElement('div')).text(message);
+    eventAccountCollaborateurAddSubmit: function ($form) {
+        var idFunctionNotaire      = $form.find(this.$accountCollaborateurAddFunction.selector).val();
+        var idFunctionCollaborator = $form.find(this.$accountCollaborateurAddFunctioncollaborateur.selector).val();
+        var message,
+            content,
+            data;
+        if (idFunctionNotaire === jsvar.collaborateur_id_function && !$.isNumeric(idFunctionCollaborator)) {
+            message = jsvar.collaborateur_function_error;
+            content = $(document.createElement('div')).text(message);
             $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
-            form.data('js-disabled', false);
+            $form.data('js-disabled', false);
         } else {
+            data = {
+                token: $('#tokencrud').val(),
+                action: $form.find(this.$accountCollaborateurAction.selector).val(),
+                collaborator_id: $form.find(this.$accountCollaborateurModifyId.selector).val(),
+                collaborator_first_name: $form.find(this.$accountCollaborateurAddFirstname.selector).val(),
+                collaborator_last_name: $form.find(this.$accountCollaborateurAddLastname.selector).val(),
+                collaborator_tel: $form.find(this.$accountCollaborateurAddPhone.selector).val(),
+                collaborator_tel_portable: $form.find(this.$accountCollaborateurAddMobilephone.selector).val(),
+                collaborator_email: $form.find(this.$accountCollaborateurAddEmail.selector).val(),
+                collaborator_id_function_notaire: idFunctionNotaire,
+                collaborator_id_function_collaborator: idFunctionCollaborator,
+            };
+            $form.find(this.$accountCollaborateurCap.selector + ':checked').each(function () {
+                data[$(this).attr('name')] = 1;
+            });
             jQuery.ajax({
                 type: 'POST',
-                url: form.data('js-ajax-add-url'),
-                data: {
-                    token: $('#tokencrud').val(),
-                    action: form.find(this.$accountCollaborateurAction.selector).val(),
-                    collaborator_id: form.find(this.$accountCollaborateurModifyId.selector).val(),
-                    collaborator_first_name: form.find(this.$accountCollaborateurAddFirstname.selector).val(),
-                    collaborator_last_name: form.find(this.$accountCollaborateurAddLastname.selector).val(),
-                    collaborator_tel: form.find(this.$accountCollaborateurAddPhone.selector).val(),
-                    collaborator_tel_portable: form.find(this.$accountCollaborateurAddMobilephone.selector).val(),
-                    collaborator_email: form.find(this.$accountCollaborateurAddEmail.selector).val(),
-                    collaborator_cap_finance: form.find(this.$accountCollaborateurCapFinance.selector)[0].checked,
-                    collaborator_cap_questionsecrites: form.find(this.$accountCollaborateurCapQuestionsecrites.selector)[0].checked,
-                    collaborator_cap_questionstel: form.find(this.$accountCollaborateurCapQuestionstel.selector)[0].checked,
-                    collaborator_cap_connaissances: form.find(this.$accountCollaborateurCapConnaissances.selector)[0].checked,
-                    collaborator_cap_modifyoffice: form.find(this.$accountCollaborateurCapModifyoffice.selector)[0].checked,
-                    collaborator_cap_cridonlinesubscription: form.find(this.$accountCollaborateurCapCridonlinesubscription.selector)[0].checked,
-                    collaborator_id_function_notaire: id_function_notaire,
-                    collaborator_id_function_collaborator: id_function_collaborator,
-                },
+                url: $form.data('js-ajax-add-url'),
+                data: data,
                 success: this.successCollaborateurAdd.bind(this),
             });
         }
         return false;
     },
 
-    successCollaborateurAdd: function (data) {
-        data = JSON.parse(data);
+    successCollaborateurAdd: function (_data) {
+        var data = JSON.parse(_data);
+        var message,
+            content;
         // create message block
-        if (data !== undefined && data.error !== undefined) {
-            var message = data.error;
-            var content = $(document.createElement('div')).text(message);
+        if (typeof data !== 'undefined' && typeof data.error !== 'undefined') {
+            message = data.error;
+            content = $(document.createElement('div')).text(message);
             $(this.$accountCollaborateurAddMessage.selector).html('').append(content);
             $(this.$accountCollaborateurAddForm.selector).data('js-disabled', false);
         } else {
@@ -1468,14 +1423,12 @@ App.Account = {
         } else if (label.hasClass('unselect')) {
             label.removeClass('unselect');
             label.addClass('select');
+        } else if (input[0].checked) {
+            label.removeClass('unselect');
+            label.addClass('select');
         } else {
-            if (input[0].checked) {
-                label.removeClass('unselect');
-                label.addClass('select');
-            } else {
-                label.removeClass('select');
-                label.addClass('unselect');
-            }
+            label.removeClass('select');
+            label.addClass('unselect');
         }
     },
 
@@ -1498,12 +1451,14 @@ App.Account = {
         return false;
     },
 
-    successCridonlineValidation: function (data) {
-        data = JSON.parse(data);
+    successCridonlineValidation: function (_data) {
+        var message,
+            content;
+        var data = JSON.parse(_data);
         // create message block
-        if (data !== undefined && data.error !== undefined) {
-            var message = data.error;
-            var content = $(document.createElement('div')).text(message);
+        if (typeof data !== 'undefined' && typeof data.error !== 'undefined') {
+            message = data.error;
+            content = $(document.createElement('div')).text(message);
             this.$accountCridonlineValidationMessage.html('').append(content);
         } else {
             this.$popupCridonline.html(data.view).popup('show');
@@ -1511,55 +1466,34 @@ App.Account = {
         return false;
     },
 
-    eventAccountCheckboxToggle: function (label) {
+    eventAccountCheckboxToggle: function (label, input) {
         if (label.hasClass('select')) {
             label.removeClass('select');
             label.addClass('unselect');
         } else if (label.hasClass('unselect')) {
             label.removeClass('unselect');
             label.addClass('select');
+        } else if (input[0].checked) {
+            label.removeClass('unselect');
+            label.addClass('select');
         } else {
-            if (input[0].checked) {
-                label.removeClass('unselect');
-                label.addClass('select');
-            } else {
-                label.removeClass('select');
-                label.addClass('unselect');
-            }
+            label.removeClass('select');
+            label.addClass('unselect');
         }
     },
 
     eventAccountRadioToggle: function (input) {
         var radioButtons = $(this.defaultSelector + this.accountCridonlineSelector + this.accountValidationSelector + this.accountRadioSelector);
+        var label = input.parents(radioButtons).first();
         radioButtons.removeClass('select');
         radioButtons.addClass('unselect');
-        var label = input.parents(radioButtons).first();
         label.removeClass('unselect');
         label.addClass('select');
     },
 
     eventQuestionFilter: function () {
-        var formdata = new FormData();
         this.$formQuestionFilter.submit();
-        /* formdata.append("action", this.$formQuestionFilter[0].action);
-        formdata.append("m", this.$selectQuestionFilterMatiere.first().val() );
-        formdata.append("d1", this.$dateQuestionFilterDu.first().val() );
-        formdata.append("d2", this.$dateQuestionFilterAu.first().val() );
-
-        jQuery.ajax({
-            type: 'POST',
-            url: this.$formQuestionFilter[0].action,
-            data: formdata,
-            processData: false,
-            contentType: false,
-            success: this.successQuestionFilter.bind(this)
-        });*/
     },
-
-    successQuestionFilter: function (data) {
-
-    },
-
 
     eventFilterFacturesByYear: function (data) {
         this.$allFactures.addClass('hidden');
@@ -1568,30 +1502,28 @@ App.Account = {
         return false;
     },
 
-
-    successNewsletterToggle: function (data) {
+    successNewsletterToggle: function (_data) {
         var self = this;
-        data = JSON.parse(data);
-        if (data.returnValue === 'success')
-        {
+        var data = JSON.parse(_data);
+        if (data.returnValue === 'success') {
             $(this.accountProfil).html(data.view);
             self.initProfil();
-        }
-        else
-        {
+        } else {
             this.$accountProfilNewsletterMessage.html(jsvar.newsletter_email_error);
         }
         return false;
     },
 
     reloadSolde: function () {
+        var totalLength,
+            newLength;
         this.$accountSoldeData          = $(this.accountSoldeDataSelector);
         this.$accountSoldeSVG           = $(this.accountSoldeSVGSelector);
         this.solde                      = this.$accountSoldeData.data('solde');
         this.soldeMax                   = this.$accountSoldeData.data('solde-max');
 
-        var totalLength = this.$accountSoldeSVG.get(0).getTotalLength();
-        var newLength = totalLength - ((totalLength / this.soldeMax) * this.solde);
+        totalLength = this.$accountSoldeSVG.get(0).getTotalLength();
+        newLength = totalLength - ((totalLength / this.soldeMax) * this.solde);
         this.$accountSoldeSVG.css({ 'stroke-dashoffset': newLength, 'stroke-dasharray': totalLength });
     },
 

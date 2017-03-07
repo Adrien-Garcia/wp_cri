@@ -53,6 +53,7 @@
  * Ne rien mettre avant
  */
 echo get_template_part("content","ga");
+$redirect = CriCanAccessSensitiveInfo(CONST_DASHBOARD_ROLE) ? 'show' : 'profil';
 ?>
 
 
@@ -80,7 +81,7 @@ echo get_template_part("content","ga");
 									<a href="<?php echo $url ?>"
 									   class="js-cridonline-link"
 									   data-js-cridonline-access="<?php echo $access ?>"
-									   data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE'; ?>"
+									   data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => $redirect)) . '?error=FONCTION_NON_AUTORISE'; ?>"
 									>
 										<?php _e('Bases CRID’'); ?><span><?php _e('ONLINE'); ?></span>
 									</a>
@@ -111,12 +112,9 @@ echo get_template_part("content","ga");
 							</ul>
 						</li>
 					</ul>
-					<!-- <a class="contacter" href="#">
-						<?php // _e('Contacter'); ?>
-					</a> -->
 					<a
 						class="poser-question layer-posez-question_open js-question-open analytics_Poser_question"
-						data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE'; ?>"
+						data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => $redirect)) . '?error=FONCTION_NON_AUTORISE'; ?>"
 						href="#"
 					>
 

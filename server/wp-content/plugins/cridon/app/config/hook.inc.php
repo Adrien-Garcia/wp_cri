@@ -71,6 +71,26 @@ function append_js_files()
     if (!is_admin()) {
 
         $criFileUploader = new CriFileUploader();
+        $collaborateurs_roles = array();
+        foreach(RoleManager::getAllRoles(true) as $type => $fonctions) {
+            foreach ($fonctions as $fonction => $roles) {
+                foreach ($roles as $role => $enable) {
+                    if ($enable) {
+                        $collaborateurs_roles[$type][$fonction][] = $role;
+                    }
+                }
+            }
+        }
+        $user_roles = array();
+        foreach(RoleManager::getAllRoles() as $type => $fonctions) {
+            foreach ($fonctions as $fonction => $roles) {
+                foreach ($roles as $role => $enable) {
+                    if ($enable) {
+                        $user_roles[$type][$fonction][] = $role;
+                    }
+                }
+            }
+        }
 
         wp_enqueue_script('cridon', plugins_url('cridon/app/public/js/cridon.js'), array('jquery'));
         wp_localize_script(
@@ -131,7 +151,9 @@ function append_js_files()
                 'collaborateur_delete_error'   => CONST_COLLABORATEUR_DELETE_ERROR_MSG,
                 'collaborateur_add_error'      => CONST_COLLABORATEUR_ADD_ERROR_MSG,
                 'collaborateur_function_error' => CONST_COLLABORATEUR_FUNCTION_ERROR_MSG,
-                'collaborateur_capabilities'   => Config::$notaryRolesByFunction,
+                'default_collaborateur_roles'  => $collaborateurs_roles,
+                'default_notaire_roles'        => $user_roles,
+                'managable_roles'              => array_keys(RoleManager::getRoleLabel()),
 
                 'collaborateur_create_user'    => CONST_CREATE_USER,
                 'collaborateur_modify_user'    => CONST_MODIFY_USER,
@@ -140,12 +162,6 @@ function append_js_files()
                 'profil_modify_user'           => CONST_PROFIL_MODIFY_USER,
                 'profil_modify_email'          => CONST_ALERT_EMAIL_CHANGED,
 
-                'capability_finance'           => CONST_FINANCE_ROLE,
-                'capability_questionsecrites'  => CONST_QUESTIONECRITES_ROLE,
-                'capability_questionstel'      => CONST_QUESTIONTELEPHONIQUES_ROLE,
-                'capability_connaissances'     => CONST_CONNAISANCE_ROLE,
-                'capability_modifyoffice'      => CONST_MODIFYOFFICE_ROLE,
-                'capability_cridonlinesubscription' => CONST_CRIDONLINESUBSCRIPTION_ROLE,
                 // maj entite
                 'office_crud_nonce'            => wp_create_nonce("process_office_crud_nonce"),
                 'profil_office_modify_error'   => CONST_PROFIL_OFFICE_MODIFY_ERROR_MSG,
@@ -552,7 +568,7 @@ function iframe_no_role_redirect() {
     if (!empty($_SERVER['REQUEST_URI'])
         && $_SERVER['REQUEST_URI'] == CONST_URL_SINEQUA
         && CriIsNotaire()
-        && !CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)
+        && !CriCanAccessSensitiveInfo(CONST_SINEQUA_ROLE)
     ){
         $options = array(
             'controller' => 'notaires',

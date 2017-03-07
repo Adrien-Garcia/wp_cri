@@ -145,7 +145,7 @@ class VeillesController extends BaseActuController {
                     $redirect = 'cridonline';
                     $error = 'NIVEAU_VEILLE_INSUFFISANT';
                 } else {
-                    $redirect = 'show';
+                    $redirect = CriCanAccessSensitiveInfo(CONST_DASHBOARD_ROLE) ? 'show' : 'profil';
                     $error = 'FONCTION_NON_AUTORISE';
                 }
                 // redirect to information page

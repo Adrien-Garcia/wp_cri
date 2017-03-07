@@ -33,11 +33,12 @@
             </p>
             <?php
             list($access, $url) = CridonlineAutologinLink();
+            $redirect = CriCanAccessSensitiveInfo(CONST_DASHBOARD_ROLE) ? 'show' : 'profil';
             ?>
             <a href="<?php echo $url ?>"
                class="js-cridonline-link"
                data-js-cridonline-access="<?php echo $access ?>"
-               data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => 'show')) . '?error=FONCTION_NON_AUTORISE'; ?>"
+               data-js-redirect="<?php echo mvc_public_url(array('controller' => 'notaires', 'action' => $redirect)) . '?error=FONCTION_NON_AUTORISE'; ?>"
             >
                 Découvrir l'offre CRID'ONLINE
             </a>

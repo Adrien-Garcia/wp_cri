@@ -20,7 +20,7 @@ class CahierCridonsController extends MvcPublicController {
     public function index() {
         if ( !CriIsNotaire() ) {
             CriRefuseAccess();
-        } elseif( !CriCanAccessSensitiveInfo(CONST_CONNAISANCE_ROLE)) {
+        } elseif( !CriCanAccessSensitiveInfo(CONST_CAHIERS_ROLE)) {
             $options = array(
                 'controller' => 'notaires',
                 'action'     => 'cridonline'

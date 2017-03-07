@@ -20,6 +20,7 @@
 				<div id="sidebar_prive">
 					<nav>
 						<ul id="sel-compte">
+							<?php if (CriCanAccessSensitiveInfo(CONST_DASHBOARD_ROLE)): ?>
 							<li
 								class="dashboard js-account-dashboard js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_DASHBOARD) ? " active " : "" ?>"
 								data-js-name="Dashboard"
@@ -33,6 +34,7 @@
 									<span>Tableaux de bord</span>
 								</a>
 							</li>
+							<?php endif; ?>
 							<li
 								class="questions js-account-questions js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_QUESTION) ? " active " : "" ?>"
 								data-js-name="Questions"
@@ -59,7 +61,7 @@
 									<span>Mon profil</span>
 								</a>
 							</li>
-							<?php if (CriCanAccessSensitiveInfo(CONST_FINANCE_ROLE)): ?>
+							<?php if (CriCanAccessSensitiveInfo(CONST_REGLES_ROLE)): ?>
 							<li
 								class="facturation js-account-facturation js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_FACTURATION) ? " active " : "" ?>"
 								data-js-name="Facturation"
@@ -122,7 +124,7 @@
 								</a>
 							</li>
 							<?php endif; ?>
-							<?php if (CriCanAccessSensitiveInfo(CONST_FINANCE_ROLE)): ?>
+							<?php if (CriCanAccessSensitiveInfo(CONST_FACTURES_ROLE)): ?>
 								<li
 									class="factures js-account-mes-factures js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_MES_FACTURES) ? " active " : "" ?>"
 									data-js-name="MesFactures"
@@ -136,6 +138,8 @@
 										<span>Mes factures</span>
 									</a>
 								</li>
+							<?php endif; ?>
+							<?php if (CriCanAccessSensitiveInfo(CONST_CONSO_ROLE)): ?>
 								<li
 									class="mes-releves js-account-mes-releves js-account-blocs <?php echo (!isset($onglet) || $onglet == CONST_ONGLET_MES_RELEVES) ? " active " : "" ?>"
 									data-js-name="MesReleves"
