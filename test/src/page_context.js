@@ -56,13 +56,17 @@ module.exports.page_index = page_index;
 //TODO Try to programatically import modules
 const CataloguePage = require(pathToPages+'CataloguePage').class;
 const DashboardPage = require(pathToPages+'DashboardPage').class;
-const FormationPage = require(pathToPages+'TrainingPage').class;
 const HomePage = require(pathToPages+'HomePage').class;
 const LoggedOutPage = require(pathToPages+'LogoutPage').class;
 const SiteMappingPage = require(pathToPages+'SiteMappingPage').class;
 const UseConditionsPage = require(pathToPages+'UseConditionsPage').class;
-/**********/
+
+// Other constants
 const debug = 0;
+
+const pageLoadTimeout = 20000; // ms
+const StaleElementReferenceError = webdriver.error.StaleElementReferenceError;
+
 /******************************************************************************/
 /****************************** USER CLASS ************************************/
 /******************************************************************************/
@@ -83,19 +87,26 @@ User.prototype.init = function() {
     let that = this;
     return this.driver
     .get(page_index.HomePage.url)
-    .then(function() {
-        return new HomePage(that.driver, false).init()
-            .then(function(page) {
-                return page;
+        .then(function() {
+            return that.driver.wait(function() {
+                return that.driver.executeScript('return document.readyState;')
+                    .then(function(status) {
+                        return status === 'complete';
+                    });
             });
-    }).then(function(webpage) {
-        that.page = webpage;
-        return that;
-    }, function(err) {
-        console.log('problem within page creation');
-        throw err;
-    }).catch(function(err) {
-        throw err;
+        }).then(function() {
+            return new HomePage(that.driver, false).init()
+                .then(function(page) {
+                    return page;
+                });
+        }).then(function(webpage) {
+            that.page = webpage;
+            return that;
+        }, function(err) {
+            console.log('problem within page creation');
+            throw err;
+        }).catch(function(err) {
+            throw err;
     });
 };
 User.prototype.setupBrowser = function(callback) {
@@ -112,9 +123,13 @@ User.prototype.setupBrowser = function(callback) {
         }).then(function() {
         return that.init(); // Refreshes landing page in browser and prepare data
     }).then(function() {
-            callback();
+            if(callback)
+                callback();
+            return Promise.resolve();
         }).catch(function(err) {
-            return callback(err);
+            if(callback)
+                callback(err);
+            return Promise.reject(err);
         });
 };
 User.prototype.shutDownBrowser = function(callback) {
@@ -494,7 +509,7 @@ User.prototype.titleEndsWith = function(titleEnd) {
     .true;
 };
 User.prototype.urlEquals = function(expectedUrl) {
-    this.page.getUrl()
+    this.driver.getCurrentUrl()
     .should
     .eventually
     .equal(expectedUrl);
@@ -672,9 +687,93 @@ User.prototype.throwCustomException = function(errType, message) {
 /******************************************************************************/
 /*******************************<CRIDON>***************************************/
 User.prototype.logUser = function(username, password) {
-    console.log(util.inspect(this.page, true, 2, true));
-    return this.page.header.logUser(username, password);
+    let that = this;
+
+    // console.log(util.inspect(this.page, true, 2, true));
+    let staleElement = this.page.header.self;
+
+    // console.log(util.inspect(that.page.header, true, 2, true));
+
+    return this.page.header.logUser(username, password)
+        .then(function() {
+            return that.waitLoginResult(staleElement);
+        }).then(function() {
+            return that.driver.getCurrentUrl()
+                .then(function(url) {
+                    if(url === page_index.DashboardPage.url)
+                        return true;
+                    else if(url === page_index.HomePage.url+'#') // /!\ Not necessarly HomePage, just initial one
+                        return false;
+                    else
+                        return Promise.reject('Unexpected result after login attempt (url: "'+url+'")');
+                });
+        }).catch(function(err) {
+            return Promise.reject(err);
+        });
 };
+User.prototype.waitLoginResult = function(staleElement) {
+    let that = this;
+
+    return this.driver.wait(function () {
+        return staleElement.getTagName()
+            .then(function () {
+                return that.driver.wait(function() {
+                    return that.driver.findElement(By.css('#errorMsgId'))
+                        .then(function(logErrMsg) {
+                            return logErrMsg.getText();
+                        }).then(function(text) {
+                            return (text.length != 0);
+                        }).catch(function(err) {
+                            return Promise.reject(err);
+                        });
+                    }).then(function() {
+                        return true; // login failure
+                    }, function() {
+                        return false;
+                });
+            }, function (err) {
+                return err instanceof StaleElementReferenceError;
+            });
+    }, pageLoadTimeout, 'Error while waiting for page load')
+        .then(function () {
+            if(debug)
+                console.log('yup');
+        }).catch(function (err) {
+            throw err;
+        });
+};
+User.prototype.waitStalenessOf = function(element) {
+    return this.driver.wait(function () {
+        return element.getTagName()
+            .then(function () {
+                if(debug)
+                    console.log('nope');
+                return false;
+            }).catch(function (err) {
+                return err instanceof StaleElementReferenceError;
+            })
+    }, pageLoadTimeout, 'Error while waiting for page load')
+        .then(function () {
+            if(debug)
+                console.log('yup');
+            return;
+        }).catch(function (err) {
+            throw err;
+        });
+};
+User.prototype.waitVisibilityOf = function(element) {
+    this.driver.wait(elementIsVisible(element), 10000)
+        .then(function() {
+            return true;
+        }, function() {
+            return false;
+    });
+};
+
+User.prototype.updateEtude = function(newData) {
+    return this.isUserAuth()
+};
+
 /******************************</CRIDON>***************************************/
 /******************************************************************************/
 /*******************************<EXPORT />*************************************/

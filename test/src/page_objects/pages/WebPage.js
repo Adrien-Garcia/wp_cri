@@ -31,7 +31,22 @@ WebPage.prototype.init = function() {
                 if(debug)
                     console.log('Element ' + prop + ' is being added to page object...');
                 elemNames.push(prop);
-                elemPromises.push(that.driver.findElements(By.css(that.locators[prop])));
+                elemPromises.push(
+                    that.driver.wait(function() {
+                        return that.driver.findElements(By.css(that.locators[prop]))
+                            .then(function(elements) {
+                                return elements;
+                            }, function(err) {
+                                console.log('have not found element ' + prop + ' yet');
+                                return false;
+                            })
+                    }, 6000, "Timeout exception in DOM initialization")
+                        .then(function(elements) {
+                            if(debug)
+                                console.log(util.inspect(elements[0], true, 0, true));
+                            return elements;
+                        })
+                );
             }
             // Resolve all WebElementPromises
             return Promise.all(elemPromises)
@@ -45,7 +60,7 @@ WebPage.prototype.init = function() {
         }).then(function([names, elements]) {
             for(let index in elements) {
                 switch(elements[index].length) {
-                    case 1: that[names[index]] = elements[index][0];
+                    case 1: that[names[index]] = (elements[index][0]);
                         break;
                     case 0:
                         throw new WebElementNotFoundException({CSS2: that.locators[names[index]]});
@@ -111,5 +126,4 @@ WebPage.prototype.checkAuthenticationStatus = function() {
 
 };
 
-// /** @module ~/src/page_objects/pages/WebPage */
 module.exports = WebPage;
