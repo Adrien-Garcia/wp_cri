@@ -124,7 +124,9 @@ User.prototype.setupBrowser = function(callback) {
         return that.init(); // Refreshes landing page in browser and prepare data
     }).then(function() {
             if(callback)
-                callback();
+                setTimeout(function() {
+                    callback();
+                }, 300); // transition duration for login panel to be fully opened
             return Promise.resolve();
         }).catch(function(err) {
             if(callback)
@@ -694,8 +696,10 @@ User.prototype.logUser = function(username, password) {
 
     // console.log(util.inspect(that.page.header, true, 2, true));
 
-    return this.page.header.logUser(username, password)
-        .then(function() {
+    return this.page.header.clearCredentials()
+        .then(function () {
+            return that.page.header.logUser(username, password)
+        }).then(function() {
             return that.waitLoginResult(staleElement);
         }).then(function() {
             return that.driver.getCurrentUrl()
@@ -738,6 +742,7 @@ User.prototype.waitLoginResult = function(staleElement) {
         .then(function () {
             if(debug)
                 console.log('yup');
+            return;
         }).catch(function (err) {
             throw err;
         });
@@ -761,19 +766,54 @@ User.prototype.waitStalenessOf = function(element) {
             throw err;
         });
 };
-User.prototype.waitVisibilityOf = function(element) {
-    this.driver.wait(elementIsVisible(element), 10000)
+User.prototype.seeMessage = function(selector, options) {
+    if(options === undefined)
+        options = {};
+
+    return this.driver.findElement(By.css(selector))
+        .then(function(element) {
+            if(debug)
+                console.log('element found');
+            return element;
+        }, function(err) {
+            if(debug)
+                console.log('Cannot see the specified message container (located by CSS "'+ selector +'"');
+            return Promise.reject(err);
+        }).then(function(element) {
+            return element.getText();
+        }).then(function(text) {
+            let conditions = [
+                Promise.resolve(text).should.eventually.be.ok
+            ];
+            if(debug)
+                console.log('Text read into message div: "' + text + '"');
+            if(options.message) {
+                if (debug)
+                    console.log('checking text equals "' + options.message + '"');
+                conditions.push(Promise.resolve(text).should.eventually.equal(options.message));
+            } else if(options.length) {
+                if (debug)
+                    console.log('checking text length equals ' + options.length);
+                conditions.push(Promise.resolve(text.length).should.eventually.equal(options.length));
+            }
+            return Promise.all(conditions);
+        }).catch(function(err) {
+            return Promise.reject(err);
+        });
+};
+User.prototype.waitVisibilityOf = function(element, timeout) {
+    if(!timeout)
+        timeout = 5000;
+    return this.driver.wait(elementIsVisible(element), timeout)
         .then(function() {
             return true;
         }, function() {
             return false;
     });
 };
-
-User.prototype.updateEtude = function(newData) {
-    return this.isUserAuth()
+User.prototype.clearLoginCredentials = function() {
+    return this.page.header.clearCredentials();
 };
-
 /******************************</CRIDON>***************************************/
 /******************************************************************************/
 /*******************************<EXPORT />*************************************/
