@@ -27,7 +27,7 @@ role :web, %w{cridon_dev_jetpulp_hosting_2605@37.71.47.25}, other_property: :oth
 
 set :deploy_to, '/srv/www/vhosts/cridon.dev.jetpulp.hosting'
 
-set :branch, 'integration/lot3'
+set :branch, 'feature/capistrano'
 
 # Custom SSH Options
 # ==================
