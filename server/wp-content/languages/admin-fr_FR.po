@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GlotPress/2.3.0-alpha\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: fr\n"
 "Project-Id-Version: WordPress - 4.3.x - Administration\n"
 
@@ -1662,133 +1662,133 @@ msgstr "Vous ne pouvez pas modifier ce contenu, car il est dans la Corbeille. So
 msgid "Unable to submit this form, please refresh and try again."
 msgstr "Impossible d&rsquo;envoyer ce formulaire&nbsp;; veuillez recharger la page et réessayer."
 
-#: wp-admin/plugins.php:476
+#: wp-admin/plugins.php:484
 msgid "Search Installed Plugins"
 msgstr "Chercher parmi les extensions installées"
 
-#: wp-admin/plugins.php:445
+#: wp-admin/plugins.php:453
 msgid "No out of date plugins were selected."
 msgstr "Aucune extension périmée n&rsquo;a été sélectionnée."
 
-#: wp-admin/plugins.php:443
+#: wp-admin/plugins.php:451
 msgid "Selected plugins <strong>deactivated</strong>."
 msgstr "Les extensions sélectionnées ont été <strong>désactivées</strong>."
 
-#: wp-admin/plugins.php:441
+#: wp-admin/plugins.php:449
 msgid "Plugin <strong>deactivated</strong>."
 msgstr "Extension <strong>désactivée</strong>"
 
-#: wp-admin/plugins.php:439
+#: wp-admin/plugins.php:447
 msgid "Selected plugins <strong>activated</strong>."
 msgstr "Les extensions sélectionnées ont été <strong>activées</strong>."
 
-#: wp-admin/plugins.php:437
+#: wp-admin/plugins.php:445
 msgid "Plugin <strong>activated</strong>."
 msgstr "Extension <strong>activée</strong>"
 
-#: wp-admin/plugins.php:434
+#: wp-admin/plugins.php:442
 msgid "The selected plugins have been <strong>deleted</strong>."
 msgstr "Les extensions sélectionnées ont été <strong>supprimées</strong>."
 
-#: wp-admin/plugins.php:432
+#: wp-admin/plugins.php:440
 msgid "Plugin could not be deleted due to an error: %s"
 msgstr "L&rsquo;extension n&rsquo;a pu être supprimée suite à une erreur fatale&nbsp;: %s"
 
-#: wp-admin/plugins.php:416
+#: wp-admin/plugins.php:424
 msgid "Plugin could not be activated because it triggered a <strong>fatal error</strong>."
 msgstr "L&rsquo;extension n&rsquo;a pu être activée, car elle a déclenché une <strong>erreur fatale</strong>."
 
-#: wp-admin/plugins.php:414
+#: wp-admin/plugins.php:422
 msgid "The plugin generated %d characters of <strong>unexpected output</strong> during activation. If you notice &#8220;headers already sent&#8221; messages, problems with syndication feeds or other issues, try deactivating or removing this plugin."
 msgstr "L&rsquo;extension a généré %d caractères d&rsquo;<strong>affichage inattendu</strong> lors de l&rsquo;activation. Si vous voyez un message &laquo;&nbsp;<i>headers already sent</i>&nbsp;&raquo; (Les en-têtes ont déjà été envoyés), des problèmes avec les flux de syndication ou d&rsquo;autres erreurs, essayez de désactiver ou enlever cette extension."
 
-#: wp-admin/plugins.php:412
+#: wp-admin/plugins.php:420
 msgid "You cannot delete a plugin while it is active on the main site."
 msgstr "Vous ne pouvez pas effacer une extension tant qu&rsquo;elle est activée sur le site principal."
 
-#: wp-admin/plugins.php:406
+#: wp-admin/plugins.php:414
 msgid "The plugin <code>%s</code> has been <strong>deactivated</strong> due to an error: %s"
 msgstr "L&rsquo;extension <code>%s</code> a été <strong>désactivée</strong> suite à l&rsquo;erreur&nbsp;: %s"
 
-#: wp-admin/plugins.php:394
+#: wp-admin/plugins.php:402
 msgid "<a href=\"https://codex.wordpress.org/Managing_Plugins#Plugin_Management\" target=\"_blank\">Documentation on Managing Plugins</a>"
 msgstr "<a href=\"https://codex.wordpress.org/Managing_Plugins#Plugin_Management\" target=\"_blank\">Documentation sur la gestion des extensions (en)</a>"
 
-#: wp-admin/plugins.php:389
+#: wp-admin/plugins.php:397
 msgid "If something goes wrong with a plugin and you can&#8217;t use WordPress, delete or rename that file in the <code>%s</code> directory and it will be automatically deactivated."
 msgstr "Si une extension ne fonctionne pas correctement et que vous ne pouvez plus utiliser WordPress, supprimez ou renommez son fichier dans le répertoire <code>%s</code> et elle sera automatiquement désactivée."
 
-#: wp-admin/plugins.php:388
+#: wp-admin/plugins.php:396
 msgid "Most of the time, plugins play nicely with the core of WordPress and with other plugins. Sometimes, though, a plugin&#8217;s code will get in the way of another plugin, causing compatibility issues. If your site starts doing strange things, this may be the problem. Try deactivating all your plugins and re-activating them in various combinations until you isolate which one(s) caused the issue."
 msgstr "La plupart du temps, les extensions fonctionnent comme il le faut, tant avec WordPress qu&rsquo;entre elles. Mais parfois, les ajouts d&rsquo;une extension peuvent empiéter sur celles d&rsquo;une autre, ce qui provoque une incompatibilité. Si votre site réagit bizarrement, le problème vient peut-être de là. Essayez de désactiver toutes les extensions, puis de les réactiver une à une pour trouver celle(s) en cause."
 
-#: wp-admin/plugins.php:386
+#: wp-admin/plugins.php:394
 msgid "Troubleshooting"
 msgstr "Diagnostic"
 
-#: wp-admin/plugins.php:382
+#: wp-admin/plugins.php:390
 msgid "You can find additional plugins for your site by using the <a href=\"%1$s\">Plugin Browser/Installer</a> functionality or by browsing the <a href=\"%2$s\" target=\"_blank\">WordPress Plugin Directory</a> directly and installing new plugins manually. To manually install a plugin you generally just need to upload the plugin file into your <code>/wp-content/plugins</code> directory. Once a plugin has been installed, you can activate it here."
 msgstr "Vous pouvez trouver d&rsquo;autres extensions pour votre site au moyen de la <a href=\"%1$s\">fonctionnalité de découverte/installation d&rsquo;extensions</a>, ou en vous rendant sur le <a href=\"%2$s\" target=\"_blank\">répertoire des extensions WordPress</a> et en les installant manuellement. Pour installer une extension <em>manuellement</em>, il vous suffit généralement de mettre ses fichiers en ligne dans le dossier <code>/wp-content/plugins</code>. Ceci fait, vous pourrez activer cette extension depuis la présente page."
 
-#: wp-admin/plugins.php:381
+#: wp-admin/plugins.php:389
 msgid "Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here."
 msgstr "Les extensions étendent les fonctionnalités de WordPress. Une fois une extension installée, vous pouvez l&rsquo;activer ou la désactiver ici."
 
-#: wp-admin/plugins.php:342
+#: wp-admin/plugins.php:350
 msgid "Click to view entire list of files which will be deleted"
 msgstr "Cliquez pour voir la liste des fichiers qui seront supprimés"
 
-#: wp-admin/plugins.php:339
+#: wp-admin/plugins.php:347
 msgid "No, return me to the plugin list"
 msgstr "Non, retourner à la liste des extensions"
 
-#: wp-admin/plugins.php:333
+#: wp-admin/plugins.php:341
 msgid "Yes, delete these files"
 msgstr "Oui, supprimer ces fichiers"
 
-#: wp-admin/plugins.php:333
+#: wp-admin/plugins.php:341
 msgid "Yes, delete these files and data"
 msgstr "Oui, supprimer ces fichiers et données"
 
-#: wp-admin/plugins.php:322
+#: wp-admin/plugins.php:330
 msgid "Are you sure you wish to delete these files?"
 msgstr "Voulez-vous vraiment supprimer ces fichiers&nbsp;?"
 
-#: wp-admin/plugins.php:320
+#: wp-admin/plugins.php:328
 msgid "Are you sure you wish to delete these files and data?"
 msgstr "Vouslez-vous vraiment supprimer ces fichiers et données&nbsp;?"
 
 #. translators: 1: plugin name, 2: plugin author
-#: wp-admin/plugins.php:313
+#: wp-admin/plugins.php:321
 msgid "<strong>%1$s</strong> by <em>%2$s</em>"
 msgstr "<strong>%1$s</strong> par <em>%2$s</em>"
 
 #. translators: 1: plugin name, 2: plugin author
-#: wp-admin/plugins.php:309
+#: wp-admin/plugins.php:317
 msgid "<strong>%1$s</strong> by <em>%2$s</em> (will also <strong>delete its data</strong>)"
 msgstr "<strong>%1$s</strong> par <em>%2$s</em> (attention&nbsp;: <strong>supprimera également les données liées</strong>)"
 
-#: wp-admin/plugins.php:301
+#: wp-admin/plugins.php:309
 msgid "You are about to remove the following plugins:"
 msgstr "Vous êtes sur le point de supprimer les extensions suivantes&nbsp;:"
 
-#: wp-admin/plugins.php:299
+#: wp-admin/plugins.php:307
 msgid "These plugins may be active on other sites in the network."
 msgstr "Ces extensions peuvent être actives sur d&rsquo;autres sites du réseau."
 
-#: wp-admin/plugins.php:297
+#: wp-admin/plugins.php:305
 msgid "Delete Plugins"
 msgstr "Supprimer les extensions"
 
-#: wp-admin/plugins.php:295
+#: wp-admin/plugins.php:303
 msgid "You are about to remove the following plugin:"
 msgstr "Vous êtes sur le point de supprimer l&rsquo;extension suivante&nbsp;:"
 
-#: wp-admin/plugins.php:293
+#: wp-admin/plugins.php:301
 msgid "This plugin may be active on other sites in the network."
 msgstr "Cette extension peut uniquement être activée sur l&rsquo;ensemble des sites du réseau."
 
-#: wp-admin/plugins.php:291
+#: wp-admin/plugins.php:299
 msgid "Delete Plugin"
 msgstr "Supprimer l&rsquo;extension"
 
@@ -3127,7 +3127,7 @@ msgid "Editor"
 msgstr "Éditeur"
 
 #. translators: add new plugin
-#: wp-admin/menu.php:197 wp-admin/plugins.php:451
+#: wp-admin/menu.php:197 wp-admin/plugins.php:459
 msgctxt "plugin"
 msgid "Add New"
 msgstr "Ajouter"
@@ -7194,86 +7194,86 @@ msgctxt "Number/count of items"
 msgid "Count"
 msgstr "Compte"
 
-#: wp-admin/includes/class-wp-press-this.php:1544
+#: wp-admin/includes/class-wp-press-this.php:1549
 msgid "Standard Editor"
 msgstr "Éditeur standard"
 
-#: wp-admin/includes/class-wp-press-this.php:1539
+#: wp-admin/includes/class-wp-press-this.php:1544
 msgid "More actions"
 msgstr "Plus d&rsquo;actions"
 
-#: wp-admin/includes/class-wp-press-this.php:1535
+#: wp-admin/includes/class-wp-press-this.php:1540
 #: wp-admin/includes/meta-boxes.php:262 wp-admin/includes/meta-boxes.php:263
 msgid "Submit for Review"
 msgstr "Soumettre à relecture"
 
-#: wp-admin/includes/class-wp-press-this.php:1493
-#: wp-admin/includes/class-wp-press-this.php:1504
-#: wp-admin/includes/class-wp-press-this.php:1515
+#: wp-admin/includes/class-wp-press-this.php:1498
+#: wp-admin/includes/class-wp-press-this.php:1509
+#: wp-admin/includes/class-wp-press-this.php:1520
 msgid "Back to post options"
 msgstr "Retour aux options de l’article"
 
-#: wp-admin/includes/class-wp-press-this.php:1426
+#: wp-admin/includes/class-wp-press-this.php:1431
 msgid "Suggested media"
 msgstr "Fichier média suggéré"
 
-#: wp-admin/includes/class-wp-press-this.php:1421
-#: wp-admin/includes/class-wp-press-this.php:1422
+#: wp-admin/includes/class-wp-press-this.php:1426
+#: wp-admin/includes/class-wp-press-this.php:1427
 msgid "Post title"
 msgstr "Titre de l’article"
 
-#: wp-admin/includes/class-wp-press-this.php:1412
+#: wp-admin/includes/class-wp-press-this.php:1417
 msgid "You should upgrade <a href=\"%s\" target=\"_blank\">your bookmarklet</a> to the latest version!"
 msgstr "Vous devriez passer <a href=\"%s\" target=\"_blank\">votre bookmarklet</a> à la dernière version&nbsp;!"
 
-#: wp-admin/includes/class-wp-press-this.php:1386
+#: wp-admin/includes/class-wp-press-this.php:1390
 msgid "Scan"
 msgstr "Parcourir"
 
-#: wp-admin/includes/class-wp-press-this.php:1385
+#: wp-admin/includes/class-wp-press-this.php:1389
 msgid "Enter a URL to scan"
 msgstr "Saisissez une adresse web à parcourir"
 
-#: wp-admin/includes/class-wp-press-this.php:1384
+#: wp-admin/includes/class-wp-press-this.php:1388
 msgid "Scan site for content"
 msgstr "Parcourir un site en quête de contenu"
 
-#: wp-admin/includes/class-wp-press-this.php:1378
+#: wp-admin/includes/class-wp-press-this.php:1382
 msgid "Hide post options"
 msgstr "Masquer les options de l’article"
 
-#: wp-admin/includes/class-wp-press-this.php:1376
+#: wp-admin/includes/class-wp-press-this.php:1380
 msgid "Show post options"
 msgstr "Afficher les options de l’article"
 
-#: wp-admin/includes/class-wp-press-this.php:1283
+#: wp-admin/includes/class-wp-press-this.php:1287
 msgid "Press This!"
 msgstr "Press This!"
 
-#: wp-admin/includes/class-wp-press-this.php:1183
+#: wp-admin/includes/class-wp-press-this.php:1187
 msgctxt "Used in Press This to indicate where the content comes from."
 msgid "Source:"
 msgstr "Source&nbsp;:"
 
-#: wp-admin/includes/class-wp-press-this.php:931
+#: wp-admin/includes/class-wp-press-this.php:935
 msgid "Search categories"
 msgstr "Chercher dans les catégories"
 
-#: wp-admin/includes/class-wp-press-this.php:929
+#: wp-admin/includes/class-wp-press-this.php:933
 msgid "Search categories by name"
 msgstr "Chercher dans les catégories par nom"
 
-#: wp-admin/includes/class-wp-press-this.php:922
-#: wp-admin/includes/class-wp-press-this.php:971
+#: wp-admin/includes/class-wp-press-this.php:926
+#: wp-admin/includes/class-wp-press-this.php:975
 #: wp-admin/includes/meta-boxes.php:430 wp-admin/includes/meta-boxes.php:889
 msgid "Add"
 msgstr "Ajouter"
 
-#: wp-admin/includes/class-wp-press-this.php:904
+#: wp-admin/includes/class-wp-press-this.php:908
 msgid "Toggle add category"
 msgstr "Ajouter ou non la catégorie"
 
-#: wp-admin/includes/class-wp-press-this.php:862
+#: wp-admin/includes/class-wp-press-this.php:866
 #: wp-admin/includes/meta-boxes.php:377 wp-admin/includes/theme.php:241
 msgid "Post Formats"
 msgstr "Format d&rsquo;article"
@@ -8474,7 +8474,7 @@ msgstr "Enregistrement automatique désactivé&nbsp;: %s modifie actuellement ce
 msgid "Someone"
 msgstr "Quelqu&rsquo;un"
 
-#: wp-admin/includes/ajax-actions.php:1543 wp-admin/includes/media.php:3071
+#: wp-admin/includes/ajax-actions.php:1543 wp-admin/includes/media.php:3075
 #: wp-admin/includes/post.php:215 wp-admin/includes/post.php:1694
 #: wp-admin/includes/post.php:1698
 msgid "You are not allowed to edit this post."
@@ -9540,7 +9540,7 @@ msgstr[0] "%s commentaire approuvé"
 msgstr[1] "%s commentaires approuvés"
 
 #: wp-admin/edit-comments.php:155 wp-admin/edit-tags.php:317
-#: wp-admin/edit.php:291 wp-admin/link-manager.php:74 wp-admin/plugins.php:454
+#: wp-admin/edit.php:291 wp-admin/link-manager.php:74 wp-admin/plugins.php:462
 #: wp-admin/upload.php:216 wp-admin/users.php:462
 msgid "Search results for &#8220;%s&#8221;"
 msgstr "Résultats de recherche pour &laquo;&nbsp;%s&nbsp;&raquo;"
@@ -10031,7 +10031,7 @@ msgstr "En réponse à <a href=\"%1$s\">%2$s</a>."
 msgid "In Response To"
 msgstr "En réponse à"
 
-#: wp-admin/comment.php:160 wp-admin/plugins.php:293 wp-admin/plugins.php:299
+#: wp-admin/comment.php:160 wp-admin/plugins.php:301 wp-admin/plugins.php:307
 #: wp-admin/theme-editor.php:215
 msgid "Caution:"
 msgstr "Attention&nbsp;:"
@@ -10114,7 +10114,7 @@ msgstr "Retour"
 #: wp-admin/options-media.php:35 wp-admin/options-permalink.php:46
 #: wp-admin/options-reading.php:70 wp-admin/options-writing.php:46
 #: wp-admin/plugin-editor.php:142 wp-admin/plugin-install.php:88
-#: wp-admin/plugins.php:395 wp-admin/revision.php:120
+#: wp-admin/plugins.php:403 wp-admin/revision.php:120
 #: wp-admin/theme-editor.php:43 wp-admin/theme-install.php:100
 #: wp-admin/themes.php:92 wp-admin/tools.php:29 wp-admin/update-core.php:536
 #: wp-admin/upload.php:65 wp-admin/upload.php:202 wp-admin/user-edit.php:55
@@ -10138,7 +10138,7 @@ msgstr "<a href=\"https://codex.wordpress.org/Administration_Screens#Comments\" 
 #: wp-admin/options-media.php:33 wp-admin/options-permalink.php:43
 #: wp-admin/options-reading.php:68 wp-admin/options-writing.php:44
 #: wp-admin/plugin-editor.php:139 wp-admin/plugin-install.php:86
-#: wp-admin/plugins.php:393 wp-admin/revision.php:118
+#: wp-admin/plugins.php:401 wp-admin/revision.php:118
 #: wp-admin/theme-editor.php:38 wp-admin/theme-install.php:98
 #: wp-admin/themes.php:90 wp-admin/tools.php:27 wp-admin/update-core.php:534
 #: wp-admin/upload.php:63 wp-admin/upload.php:200 wp-admin/user-edit.php:53
@@ -10166,7 +10166,7 @@ msgstr "Au besoin, vous pouvez modifier les informations laissées dans un comme
 #: wp-admin/options-general.php:98 wp-admin/options-media.php:28
 #: wp-admin/options-permalink.php:20 wp-admin/options-reading.php:53
 #: wp-admin/options-writing.php:20 wp-admin/plugin-editor.php:128
-#: wp-admin/plugin-install.php:71 wp-admin/plugins.php:379
+#: wp-admin/plugin-install.php:71 wp-admin/plugins.php:387
 #: wp-admin/revision.php:114 wp-admin/theme-editor.php:25
 #: wp-admin/theme-install.php:83 wp-admin/themes.php:55
 #: wp-admin/update-core.php:516 wp-admin/upload.php:46 wp-admin/upload.php:180
@@ -10232,74 +10232,76 @@ msgstr "Merci de faire de <a href=\"%s\">WordPress</a> votre outil de création.
 
 #. translators: 1: WordPress version number, 2: plural number of bugs. Singular
 #. security issue.
-#: wp-admin/about.php:136 wp-admin/about.php:237
+#: wp-admin/about.php:140 wp-admin/about.php:241
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] "La <strong>version %1$s</strong> corrige un problème de sécurité et %2$s bug."
 msgstr[1] "La <strong>version %1$s</strong> corrige un problème de sécurité et %2$s bugs."
 
 #. translators: 1: WordPress version number, 2: plural number of bugs.
-#: wp-admin/about.php:233
+#: wp-admin/about.php:237
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] "La <strong>version %1$s</strong> corrige %2$s bug."
 msgstr[1] "La <strong>version %1$s</strong> corrige %2$s bugs."
 
 #. translators: 1: WordPress version number.
-#: wp-admin/about.php:112 wp-admin/about.php:116 wp-admin/about.php:124
-#: wp-admin/about.php:128 wp-admin/about.php:132 wp-admin/about.php:229
+#: wp-admin/about.php:112 wp-admin/about.php:116 wp-admin/about.php:120
+#: wp-admin/about.php:128 wp-admin/about.php:132 wp-admin/about.php:136
+#: wp-admin/about.php:233
 msgid "<strong>Version %1$s</strong> addressed a security issue."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues."
 msgstr[0] "La <strong>version %1$s</strong> corrige un problème de sécurité."
 msgstr[1] "La <strong>version %1$s</strong> corrige plusieurs problèmes de sécurité."
 
-#: wp-admin/about.php:225
+#: wp-admin/about.php:229
 msgid "Security Release"
 msgid_plural "Security Releases"
 msgstr[0] "Mise à jour de sécurité"
 msgstr[1] "Mises à jour de sécurité"
 
-#: wp-admin/about.php:224
+#: wp-admin/about.php:228
 msgid "Maintenance Release"
 msgid_plural "Maintenance Releases"
 msgstr[0] "Mise à jour de maintenance"
 msgstr[1] "Mises à jour de maintenance"
 
-#: wp-admin/about.php:212
+#: wp-admin/about.php:216
 msgid "Go to Dashboard"
 msgstr "Aller sur le tableau de bord"
 
-#: wp-admin/about.php:212
+#: wp-admin/about.php:216
 msgid "Go to Dashboard &rarr; Home"
 msgstr "Aller sur l&rsquo;accueil"
 
-#: wp-admin/about.php:209
+#: wp-admin/about.php:213
 msgid "Return to Dashboard &rarr; Updates"
 msgstr "Retourner aux mises à jour"
 
-#: wp-admin/about.php:209
+#: wp-admin/about.php:213
 msgid "Return to Updates"
 msgstr "Retourner aux mises à jour"
 
-#: wp-admin/about.php:195
+#: wp-admin/about.php:199
 msgid "Under the Hood"
 msgstr "Sous le capot"
 
 #: wp-admin/about.php:114 wp-admin/about.php:118 wp-admin/about.php:122
 #: wp-admin/about.php:126 wp-admin/about.php:130 wp-admin/about.php:134
-#: wp-admin/about.php:138 wp-admin/about.php:142 wp-admin/about.php:244
+#: wp-admin/about.php:138 wp-admin/about.php:142 wp-admin/about.php:146
+#: wp-admin/about.php:248
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr "Pour plus d&rsquo;informations, consultez les <a href=\"%s\">notes de publication</a>."
 
 #. translators: 1: WordPress version number, 2: plural number of bugs. More
 #. than one security issue.
-#: wp-admin/about.php:120 wp-admin/about.php:140 wp-admin/about.php:241
+#: wp-admin/about.php:124 wp-admin/about.php:144 wp-admin/about.php:245
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] "La <strong>version %1$s</strong> corrige quelques problèmes de sécurité et %2$s bug."
 msgstr[1] "La <strong>version %1$s</strong> corrige quelques problèmes de sécurité et %2$s bugs."
 
-#: wp-admin/about.php:111 wp-admin/about.php:226
+#: wp-admin/about.php:111 wp-admin/about.php:230
 msgid "Maintenance and Security Release"
 msgid_plural "Maintenance and Security Releases"
 msgstr[0] "Mise à jour de maintenance et de sécurité"
