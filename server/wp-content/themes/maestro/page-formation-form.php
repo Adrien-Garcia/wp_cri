@@ -59,6 +59,7 @@
 							<div>
 								<div class="h3"><?php echo $demande['formation']['title']; ?></div>
 								<div class="organisme"><?php echo strtoupper($demande['formation']['organisme']) ; ?> - <?php echo $demande['formation']['city'] ; ?></div>
+								<div class="date"><?php echo $demande['formation']['date'] ; ?></div>
 								<div class="horaire"><?php echo $demande['formation']['time'] ; ?></div>
 								<a href="<?php echo $demande['formation']['url'] ; ?>">En savoir plus</a>
 							</div>

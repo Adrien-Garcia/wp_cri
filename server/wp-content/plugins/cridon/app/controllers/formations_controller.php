@@ -628,6 +628,7 @@ class FormationsController extends BaseActuController
                     )).'?'.http_build_query(array('sessionid' => $session->id)),
                 'organisme' => $session->entite->office_name,
                 'city' => $session->entite->city,
+                'date' => \DateTime::createFromFormat('Y-d-m', $session->date)->format('d/m/Y'),
                 'time' => $session->timetable
             ),
             'ajax-action' => MvcRouter::public_url(array(
