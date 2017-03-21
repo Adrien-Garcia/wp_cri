@@ -771,6 +771,79 @@ interface DBConnect
     const YMESSERR = 'YMESSERR_0';
     /****************** /Table YNOTAIRE Structure *******************/
 
+    /****************** Table ZFORMV Structure *******************/
+
+    /**
+     * @var string : id de la formation
+     */
+    const ZIDFORM = 'Z_IDFORM_0';
+
+    /**
+     * @var string : titre de la formation
+     */
+    const ZTITRE = 'Z_TITRE_0';
+
+    /**
+     * @var string : Code matiere de la formation
+     */
+    const ZMATIERE1 = 'ZMATIERE_0';
+
+    /**
+     * @var string : Code matiere de la formation
+     */
+    const ZMATIERE2 = 'ZMATIERE2_0';
+
+    /**
+     * @var string : Code matiere de la formation
+     */
+    const ZMATIERE3 = 'ZMATIERE3_0';
+
+    /**
+     * @var string : Code matiere de la formation
+     */
+    const ZMATIERE4 = 'ZMATIERE4_0';
+
+    /**
+     * @var string : Année du catalogue de la formation
+     */
+    const ZANNEE = 'Z_ANNEE_0';
+
+    /**
+     * @var string : Code du Juriste formateur 1 de la formation
+     */
+    const ZJURISTE1 = 'Z_JURISTE_0';
+
+    /**
+     * @var string : Code du Juriste formateur 2 de la formation
+     */
+    const ZJURISTE2 = 'Z_JURISTE2_0';
+
+    /**
+     * @var string : Code du Juriste formateur 3 de la formation
+     */
+    const ZJURISTE3 = 'Z_JURISTE3_0';
+
+    /**
+     * @var string : Code du Juriste formateur 4 de la formation
+     */
+    const ZJURISTE4 = 'Z_JURISTE4_0';
+
+    /**
+     * @var string : Numéro CSN de la formation
+     */
+    const ZNUMERO = 'Z_NUMERO_0';
+
+    /**
+     * @var string : Date de modification de la formation
+     */
+    const UPDATE = 'UPDDAT_0';
+
+    /**
+     * @var string : Contenu de la formation
+     */
+    const ZOBJECTIF = 'Z_OBJECTIF_0';
+
+    /****************** /Table ZFORMV Structure *******************/
 
     /**
      * Get instance

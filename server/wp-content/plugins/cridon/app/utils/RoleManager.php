@@ -398,6 +398,8 @@ class RoleManager
         CONST_CRIDONLINE_ROLE => 'Accéder aux bases de connaissances Crid\'Online',
         CONST_MODIFYOFFICE_ROLE => "Modifier les informations de l'étude",
         CONST_CRIDONLINESUBSCRIPTION_ROLE => "Souscription à l'offre CRID'ONLINE",
+        CONST_COLLABORATEUR_TAB_ROLE => "Accès à la gestion des collaborateurs",
+        CONST_DROITS_COLLABORATEUR_ROLE => "Modification des droits des collaborateurs",
     );
 
 
