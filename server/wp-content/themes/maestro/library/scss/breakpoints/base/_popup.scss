@@ -12,7 +12,29 @@
 	//padding: 10px 10px 0 10px;
 	background: #FFF;
 
+    .question_readability:not(.hidden) {
+        position: relative;
+        margin: 0 20px 5px;
+        border: 1px solid #CCC;
+        padding: 5px 10px;
+        border-radius: 20px;
+        text-align: center;
+        font-size: 12px;
 
+        &:after {
+            content: '';
+            border-left: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            transform: rotateZ(-45deg);
+            position: absolute;
+            display: block;
+            height: 12px;
+            width: 12px;
+            background: #fff;
+            left: 20px;
+            bottom: -7px;
+        }
+    }
 
 	.block_top{
 		padding-bottom: 30px;
