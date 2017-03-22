@@ -11,5 +11,5 @@ Formation : <span class="section"><?php echo $name ; ?></span> <br /><br />
 <span class="introduction">au <?php echo $organisme ; ?></span><br />
 <?php endif; ?>
 <br />
-<i>Nombre de participant</i> : <?php echo $participants ; ?><br />
+<i>Nombre de participant(s)</i> : <?php echo $participants ; ?><br />
 <!-- Fin -->
