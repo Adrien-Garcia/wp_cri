@@ -2,7 +2,6 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
     <!-- gestion de l'affichage sans session -->
 	<?php if (empty($sessions)): ?>
-        <div class="date sel-object-date"></div>
         <div class="session">
             <p class="horaire">Pas de session de programmée</p>
         </div>
