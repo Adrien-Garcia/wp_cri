@@ -20,7 +20,7 @@
 
 					<header class="article-header">
                         <?php if (!empty($demandeFormation) || !empty($demandeGenerique)) : ?>
-                        <!-- Demande de cession de formation / Demande de formation Glabale -->
+                        <!-- Demande de session de formation / Demande de formation Glabale -->
 						<h1 class="page-title h1 cessionFormation" itemprop="headline"><?php _e('Demande de formation'); ?></h1>
 						<!-- Fin -->
                         <?php endif; ?>
@@ -37,12 +37,15 @@
 
 						<div class="col2 content-wrapper">
                             <?php if (!empty($demandeFormation)) : ?>
-                            <!-- Demande de cession de formation -->
+                            <!-- Demande de session de formation -->
 							<div>
 								<div class="h3"><?php echo $demande['formation']['title']; ?></div>
-                                <?php echo apply_filters('the_content', $demande['formation']['content']); ?>
-                                <a href="<?php echo $demande['formation']['url'] ; ?>" class="bt-plus">En savoir plus</a>
-
+								<p>
+                                    <?php echo apply_filters('the_content', $demande['formation']['content']); ?>
+                                </p>
+                                <p>
+                                   <a href="<?php echo $demande['formation']['url'] ; ?>" class="bt-plus">En savoir plus</a>
+                                </p>
                                 <div class="important">
 									<div class="titre">Important</div>
 									Pour organiser une formation, la participation de sept personnes à minima est requise.
@@ -74,6 +77,10 @@
                             <?php if (!empty($demandeFormation) || !empty($demandeGenerique)) : ?>
                             <!-- Demande de cession de formation -->
 							<div class="h3">Afin de nous communiquer plus de renseignements, veuillez remplir le formulaire suivant :</div>
+                            <div class="important">
+                                <div class="titre">Important</div>
+                                Pour organiser une formation, la participation de sept personnes à minima est requise.
+                            </div>
 							<!-- Fin -->
                             <?php endif; ?>
 
