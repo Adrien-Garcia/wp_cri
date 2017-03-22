@@ -778,8 +778,8 @@ class Config {
     );
 
     public static $labelWorflowFormation = array(
-        CONST_FORMATION_PREINSCRIPTION => 'Pré-inscription sur un session dispensée au Cridon',
-        CONST_FORMATION_DEMANDE => 'Demande de création de session pour une formation existante',
-        CONST_FORMATION_GENERIQUE => 'Demande de nouvelle formation',
+        CONST_FORMATION_PREINSCRIPTION => 'Pré-inscription',
+        CONST_FORMATION_DEMANDE => 'Nouvelle session',
+        CONST_FORMATION_GENERIQUE => 'Nouvelle formation',
     );
 }

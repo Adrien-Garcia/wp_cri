@@ -31,13 +31,13 @@ class AdminDemarchesController extends BaseAdminController
      */
     var $default_columns = array(
         'id',
-        'date' => array(
-            'label' => 'Date',
-            'value_method' => 'demarcheDate'
+        'type' => array(
+            'label' => 'Type de démarche',
+            'value_method' => 'workflowDisplay'
         ),
-        'formation' => array(
-            'label' => 'Formation',
-            'value_method' => 'formationLink'
+        'date' => array(
+            'label' => 'Date de la démarche',
+            'value_method' => 'demarcheDate'
         ),
         'email' => array(
             'label' => 'Adresse e-mail du demandeur',
@@ -51,11 +51,24 @@ class AdminDemarchesController extends BaseAdminController
             'label'=>'CPRCEN',
             'value_method' => 'crpcenDispay'
         ),
+        'formation' => array(
+            'label' => 'Formation',
+            'value_method' => 'formationLink'
+        ),
+        'organisme' => array(
+            'label' => 'Organisme',
+            'value_method' => 'organismeDisplay'
+        ),
+        'date_session' => array(
+            'label' => 'Date de la session',
+            'value_method' => 'sessionDisplay'
+        ),
     );
 
     public function index() {
         $this->init_default_columns();
         $this->process_params_for_search();
+        $this->params['order'] = 'ID DESC';
         $collection = $this->model->paginate($this->params);
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
@@ -70,22 +83,30 @@ class AdminDemarchesController extends BaseAdminController
         $this->load_helper('CustomForm');
     }
 
-    public function demarcheDate($object){
+    public function workflowDisplay($object) {
+        return Config::$labelWorflowFormation[$object->type];
+    }
+
+    public function demarcheDate($object) {
         return strftime('%d %B %G',strtotime($object->date));
     }
 
-    private function loadNotaire(&$object) {
+    private function loadNotaire(& $object) {
         if (empty($object->notaire)) {
             $this->load_model('Notaire');
             $object->notaire = $this->Notaire->find_one_by_id($object->notaire_id);
         }
     }
 
-    public function formationLink($object){
+    private function loadSession(& $object) {
         if (empty($object->session)) {
             $this->load_model('Session');
             $object->session = $this->Session->find_one_by_id($object->session_id);
         }
+    }
+
+    private function loadFormation(& $object) {
+        $this->loadSession($object);
         if (empty($object->formation)) {
             if (!empty($object->session->formation)) {
                 $object->formation = $object->session->formation;
@@ -94,9 +115,30 @@ class AdminDemarchesController extends BaseAdminController
                 $object->formation = !empty($object->id_formation) ? $this->Formation->find_one_by_id($object->id_formation) : $this->Formation->find_one_by_id($object->session->id_formation);
             }
         }
+    }
 
+    private function loadOrganisme(& $object) {
+        $this->loadSession($object);
+        if (empty($object->session->entite)) {
+            $this->load_model('Entite');
+            $object->session->entite = $this->Entite->find_one_by_id($object->session->id_organisme);
+        }
+    }
+
+    public function formationLink($object){
+        $this->loadFormation($object);
         $controllerFormations = new AdminFormationsController();
         return empty($object->formation) ? null : $controllerFormations->post_edit_link($object->formation);
+    }
+
+    public function organismeDisplay($object) {
+        $this->loadOrganisme($object);
+        return empty($object->session->entite) ? null : $object->session->entite->office_name ;
+    }
+
+    public function sessionDisplay($object) {
+        $this->loadSession($object);
+        return empty($object->session) ? null : $object->session->date;
     }
 
     public function sendMailLink($object){
