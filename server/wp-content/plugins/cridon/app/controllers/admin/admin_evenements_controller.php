@@ -34,6 +34,7 @@ class AdminEvenementsController extends BaseAdminController
         ),
         'date' => array(
             'label' => 'Jour de l\'évènement',
+            'value_method' => 'eventDate',
         ),
     );
 
@@ -71,5 +72,18 @@ class AdminEvenementsController extends BaseAdminController
         wp_enqueue_script('datepicker-js');
         wp_enqueue_script('jquery-ui-i18n-fr', plugins_url('cridon/app/public/js/jquery.ui.datepicker-fr.js'), array('jquery-ui-datepicker'));
         wp_enqueue_style('jquery-ui-css', plugins_url('cridon/app/public/css/jquery-ui.css'));
+    }
+
+    public function eventDate($object) {
+        return strftime('%d %B %G',strtotime($object->date));
+    }
+
+    public function create_or_save()
+    {
+        if (!empty($this->params['data'])) {
+            $this->load_helper('AdminCustom');
+            $this->params['data']['Evenement']['date'] = $this->admin_custom->dateToDbFormat($this->params['data']['Evenement']['date']);
+        }
+        parent::create_or_save();
     }
 }

@@ -12,7 +12,7 @@
     function datepicker() {
         if ($('.datepicker').length > 0) {
             $('.datepicker').datepicker({
-                dateFormat: 'yy-mm-dd'
+                dateFormat: 'dd-mm-yy'
             });
         }
     }

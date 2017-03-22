@@ -164,4 +164,15 @@ class AdminSessionsController extends BaseAdminController
 
         return empty($object->organisme) ? null : $object->organisme->office_name;
     }
+
+    public function create_or_save()
+    {
+        if (!empty($this->params['data'])) {
+            $this->load_helper('AdminCustom');
+            $this->params['data']['Session']['date'] = $this->admin_custom->dateToDbFormat($this->params['data']['Session']['date']);
+        }
+        parent::create_or_save();
+    }
+
+
 }
