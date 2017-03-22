@@ -153,8 +153,5 @@ class AdminFormationsController extends BaseAdminController
     {
         wp_register_style('ui-component-css', plugins_url('cridon/app/public/css/style.css'), false);
         wp_enqueue_style('ui-component-css');
-
-        wp_register_script('formation-js', plugins_url('cridon/app/public/js/bo/formation.js'), array('jquery'));
-        wp_enqueue_script('formation-js');
     }
 }

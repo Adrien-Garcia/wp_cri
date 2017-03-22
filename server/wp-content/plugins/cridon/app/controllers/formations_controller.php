@@ -449,7 +449,7 @@ class FormationsController extends BaseActuController
         $model_demarche->createFromFormulaire($type, $currentUser, $content, $formationCommentaire, $element);
 
         switch ($type) {
-            case CONST_FORMATION_PREINSCRIPTION :;
+            case CONST_FORMATION_PREINSCRIPTION :
                 $model_formation->sendEmailPreinscription($element, $content, $formationCommentaire);
                 break;
             case CONST_FORMATION_DEMANDE :

@@ -16,9 +16,9 @@
      * @author eTech - Joelio
      */
     function formationOptionfilter() {
-        if ($('#formationFilter').length > 0) {
-            $('#formationFilter').change(function() {
-                window.location.href = $('#baseUrl').val() + '&option=' + $(this).val();
+        if ($('#jsContentFilter').length > 0) {
+            $('#jsContentFilter').change(function() {
+                $(this).closest('form').submit();
             });
         }
     }

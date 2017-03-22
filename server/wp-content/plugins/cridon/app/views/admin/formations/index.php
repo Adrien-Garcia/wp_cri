@@ -1,9 +1,6 @@
 <h2><?php echo MvcInflector::pluralize_titleize($model->name); ?></h2>
 
 <form id="posts-filter" action="<?php echo MvcRouter::admin_url(); ?>" method="get">
-
-    <input type="hidden" id="baseUrl" name="baseUrl" value="<?php echo mvc_admin_url(array('controller' => 'formations')); ?>" />
-
 <?php
 require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/search.php';
 ?>

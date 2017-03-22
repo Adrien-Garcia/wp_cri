@@ -68,12 +68,17 @@ class AdminDemarchesController extends BaseAdminController
     public function index() {
         $this->init_default_columns();
         $this->process_params_for_search();
+        if (!empty($_GET['option'])) {
+            $this->params['conditions'][] = array('type ' => $_GET['option']);
+        }
         $this->params['order'] = 'ID DESC';
         $collection = $this->model->paginate($this->params);
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
         //Load custom helper
         $this->load_helper('AdminView');
+        // load scripts
+        $this->loadScripts();
     }
 
     public function edit() {
@@ -154,5 +159,17 @@ class AdminDemarchesController extends BaseAdminController
     public function crpcenDispay($object){
         $this->loadNotaire($object);
         return empty($object->notaire) ? null : $object->notaire->crpcen;
+    }
+
+    /**
+     * Load script
+     */
+    protected function loadScripts()
+    {
+        wp_register_style('ui-component-css', plugins_url('cridon/app/public/css/style.css'), false);
+        wp_enqueue_style('ui-component-css');
+
+        wp_register_script('formation-js', plugins_url('cridon/app/public/js/bo/filter.js'), array('jquery'));
+        wp_enqueue_script('formation-js');
     }
 }
