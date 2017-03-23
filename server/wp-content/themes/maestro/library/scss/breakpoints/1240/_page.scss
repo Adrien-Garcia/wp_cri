@@ -27,13 +27,28 @@
         line-height: 30px;
     }
 
-    .organisme {
-        font-size: 18px;
+    a.bt-plus {
+        font-size: 15px;
     }
 
-    .horaire {
-        font-size: 18px;
+    .session {
+        .organisme {
+            font-size: 15px;
+            line-height: 18px;
+        }
+
+        .horaire {
+            font-size: 15px;
+            line-height: 18px;
+        }
+
+        .date {
+            font-size: 18px;
+            line-height: 18px;
+        }
     }
+
+    
 
     .textarea {
         margin-bottom: 10px;
