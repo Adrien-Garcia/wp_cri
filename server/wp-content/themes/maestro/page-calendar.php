@@ -2,6 +2,7 @@
 $calendar = $data['calendar'];
 $month = $data['month'];
 $year = $data['year'];
+$currentMonth = date('m-Y') == ($month . '-' . $year);
 ?>
 <?php get_header(); ?>
     <div id="content" class="page page-calendar">
@@ -17,9 +18,10 @@ $year = $data['year'];
             <div id="main" class="cf" role="main">
                  <h1 class="h1">Calendrier des formations</h1>
 
+
                 <div id="calendar">
                     <div class="calendar__wrapper--header">
-                        <div class="calendar__header--navigation">
+                        <div class="calendar__header--navigation <?php if ($currentMonth): ?> is-month <?php endif ?>">
                             <a href="/calendrier-des-formations/<?php echo $data['prev_month']['month'] ?>-<?php echo $data['prev_month']['year'] ?>" class="calendar__button calendar__button--previous">
                                 &nbsp;
                             </a>
