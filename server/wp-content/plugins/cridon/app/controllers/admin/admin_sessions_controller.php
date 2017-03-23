@@ -149,7 +149,11 @@ class AdminSessionsController extends BaseAdminController
     }
 
     public function sessionDate($object){
-        return strftime('%d %B %G',strtotime($object->date));
+        $return = strftime('%d %B %G',strtotime($object->date));
+        if ($object->is_full) {
+            $return = '<span style="color: red;">Complet - ' . $return . '</span>';
+        }
+        return $return;
     }
 
     public function organismeLabel($object){
