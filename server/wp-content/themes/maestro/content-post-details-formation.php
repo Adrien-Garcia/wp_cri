@@ -35,13 +35,17 @@
                     </p>
                     <?php endif; ?>
                 <?php endif; ?>
-
-            <p class="horaire"><?php echo $nextSession->timetable ?></p>
+            <p class="horaire <?php echo $nextSession->is_full ? ' complet ' :'' ; ?> "><?php echo $nextSession->is_full ? 'Complet' : $nextSession->timetable ?></p>
 
         </div>
 
         <?php if (!empty($nextSession->action) && !empty($nextSession->action_label)): ?>
-            <a href="<?php echo $nextSession->action ?>" class="bt inscription-session"><?php _e($nextSession->action_label) ?></a>
+            <a
+            <?php if (!$nextSession->is_full) : ?>
+                href="<?php echo $nextSession->action ?>" class="bt inscription-session"
+            <?php else: ?>
+                class="bt bt-disabled inscription-session"
+            <?php endif; ?>><?php _e($nextSession->action_label) ?></a>
         <?php endif; ?>
     <?php endif; ?>
 
@@ -119,27 +123,31 @@
             <p class="titre"><?php _e('Sessions suivantes :'); ?></p>
             <ul>
                 <?php foreach ($sessions as $session): ?>
-                    <li>
+                    <li class="<?php echo $session->is_full ? ' session-complet ' : '' ; ?>">
                         <div class="session-item">
                             <p class="session-date"><?php echo strftime('%d %b %G',strtotime($session->date)) ?></p>
                             <p class="session-organisme"><?php echo $session->entite->office_name ?></p>
-                            <p class="session-horaire"><?php echo $session->timetable ?></p>
+                            <p class="session-horaire <?php echo $session->is_full ? ' complet ' :'' ; ?> "><?php echo $session->is_full ? 'Complet' : $session->timetable ?></p>
                         </div>
                         <?php if ($session->contact_organisme): ?>
-                            <?php if (!empty(trim($nextSession->entite->tel)) || !empty(trim($nextSession->entite->office_email_adress_1))): ?>
+                            <?php if (!empty(trim($session->entite->tel)) || !empty(trim($session->entite->office_email_adress_1))): ?>
                             <div class="wrapper-session-contact">
                             Contact
-                                <?php if (!empty(trim($nextSession->entite->tel))): ?>
+                                <?php if (!empty(trim($session->entite->tel))): ?>
                                     <p class="session-telephone">Tél. : <a href="tel:<?php echo $session->entite->tel ?>"><?php echo $session->entite->tel ?></a></p>
                                 <?php endif; ?>
-                                <?php if (!empty(trim($nextSession->entite->office_email_adress_1))): ?>
+                                <?php if (!empty(trim($session->entite->office_email_adress_1))): ?>
                                     <p class="session-mail">Email : <a href="mailto:<?php echo $session->entite->office_email_adress_1 ?>"><?php echo $session->entite->office_email_adress_1 ?></a></p>
                                 <?php endif; ?>
                             <?php endif; ?>
                             </div>
                         <?php endif; ?>
                         <?php if (!empty($session->action) && !empty($session->action_label)): ?>
-                            <a href="<?php echo $session->action ?>" class="bt preinscrire<?php echo (strlen($session->action_label) > 16) ? " large" : "" ?>"><?php _e($session->action_label) ?></a>
+                            <a
+                            <?php if (!$session->is_full) : ?>
+                                href="<?php echo $session->action ?>"
+                            <?php endif; ?>
+                                class="bt preinscrire <?php echo $session->is_full ? ' bt-disabled ' : '' ?><?php echo (strlen($session->action_label) > 16) ? " large" : "" ?>"><?php _e($session->action_label) ?></a>
                         <?php endif; ?>
                     </li>
                 <?php endforeach; ?>

@@ -367,6 +367,10 @@ CALENDAR STYLES
         padding: 10px 0;
     }
 
+    .calendar__session-content--time--full {
+        color: $rouge;
+    }
+
     .calendar__session-content--place {
         position: relative;
 
@@ -407,6 +411,17 @@ CALENDAR STYLES
     .calendar__session-content-button {
         @include bt-rectangle($vert, #FFF);
         margin-top: 9px;
+
+        &--disabled,
+        &--disabled:hover {
+            background: #ccc;
+            opacity: .8;
+            cursor: default;
+
+            &:before {
+                color: #ccc;
+            }
+        }
     }
 
     .calendar__session-content-chambre {

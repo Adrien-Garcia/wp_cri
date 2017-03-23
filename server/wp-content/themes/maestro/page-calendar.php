@@ -116,14 +116,20 @@ $year = $data['year'];
                                                                     <?php echo $session['organisme']->is_cridon ? strtoupper($session['organisme']->office_name) : $session['organisme']->office_name; ?>
                                                                 </div>
                                                             <?php endif; ?>
-                                                            <?php if ($session['time']) : ?>
-                                                                <div class="calendar__session-content--time"><?php echo $session['time'] ; ?></div>
+                                                            <?php if ($session['time'] || $session['is_full']) : ?>
+                                                                <div class="calendar__session-content--time <?php if ($session['is_full']): ?> calendar__session-content--time--full <?php endif; ?>">
+                                                                    <?php echo $session['is_full'] ? 'Complet' : $session['time'] ; ?>
+                                                                </div>
                                                             <?php endif; ?>
                                                             <?php if ($session['url']) : ?>
                                                                 <a href="<?php echo $session['url'] ; ?>" class="calendar__session-content--more">En savoir plus</a>
                                                             <?php endif; ?>
                                                             <?php if ($session['action'] && $session['action_label']) : ?>
-                                                            <a href="<?php echo $session['action'] ; ?>" class="calendar__session-content-button"><?php echo $session['action_label'] ; ?></a>
+                                                            <a
+                                                                <?php if (!$session['is_full']) : ?> href="<?php echo $session['action'] ; ?>" <?php endif; ?>
+                                                                class="calendar__session-content-button <?php if ($session['is_full']): ?> calendar__session-content-button--disabled <?php endif; ?>">
+                                                                <?php echo $session['action_label'] ; ?>
+                                                            </a>
                                                             <?php endif; ?>
                                                             <?php if ($session['contact_organisme']) : ?>
                                                             <hr/>

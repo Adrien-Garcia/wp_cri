@@ -302,20 +302,6 @@
 						width: 115px;
 						margin-bottom: 0;
 
-						&::before {
-							@include transition(color 0.2s);
-						}
-
-						&:hover {
-					    	background: $vert;
-					    	color: $white;
-
-					    	&::before {
-								color: $vert;
-							}
-					    }
-
-					    
 					}
 				}
 			}
