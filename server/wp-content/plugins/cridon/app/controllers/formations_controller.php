@@ -274,7 +274,7 @@ class FormationsController extends BaseActuController
                 'time'       => $session->timetable,
                 'url'        => MvcRouter::public_url($urlOptions),
                 'id'         => $session->id,
-                'is_full'    => $session->is_full > 0 ? true : false
+                'is_full'    => $session->is_full > 0
             );
             if (!$before_today) {
                 $lineSession['url'] .= '?'.http_build_query(array('sessionid' => $session->id));

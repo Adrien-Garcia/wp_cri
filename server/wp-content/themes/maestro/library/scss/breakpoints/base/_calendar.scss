@@ -92,9 +92,9 @@ CALENDAR STYLES
         position: absolute;
         top: 0;
         bottom: 0;
-        // right: 49px;
-        // left: 49px;
-        right: 20px;
+        right: 0;
+        text-align: center;
+        width: 53%;
     }
 
     .calendar__header--weekdays {
@@ -369,6 +369,7 @@ CALENDAR STYLES
 
     .calendar__session-content--time--full {
         color: $rouge;
+        text-transform: uppercase;
     }
 
     .calendar__session-content--place {
@@ -494,7 +495,7 @@ CALENDAR STYLES
                     margin-top: -9px;
                     display: block;
                     //fix rendering pb on FF
-                    transform: rotateZ(-2deg);
+                    //transform: rotateZ(-2deg);
                 }
 
                 &::after {
@@ -506,7 +507,7 @@ CALENDAR STYLES
                     left: -30px;
                     top: 0;
                     //fix rendering pb on FF
-                    transform: rotateZ(-2deg);
+                    //transform: rotateZ(-2deg);
                 }
             }
         }

@@ -247,6 +247,13 @@
 				    &.email {
 				    	margin-bottom: 15px;
 				    }
+
+				    &.horaire {
+				    	&.complet {
+							width: 180px;
+							margin-left: -10px;
+				    	}
+				    }
 			    }
 			}
 
