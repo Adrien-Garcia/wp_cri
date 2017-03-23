@@ -14,17 +14,33 @@
 
     .question_readability:not(.hidden) {
         position: relative;
-        margin: 0 20px 5px;
-        border: 1px solid #CCC;
-        padding: 5px 10px;
-        border-radius: 20px;
-        text-align: center;
+        margin: 0 0 3px 0;
+        border: 1px solid $rouge;
+        padding: 0;
+        text-align: left;
         font-size: 12px;
+
+        .attention {
+        	background-color: $rouge;
+    	    width: 100%;
+		    line-height: 25px;
+		    text-align: left;
+		    display: block;
+		    padding: 0 10px;
+		    text-transform: uppercase;
+		    color: #fff;
+        }
+
+        .message {
+        	display: block;
+        	padding: 10px;
+        	line-height: 18px;
+        }
 
         &:after {
             content: '';
-            border-left: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
+            border-left: 1px solid $rouge;
+            border-bottom: 1px solid $rouge;
             transform: rotateZ(-45deg);
             position: absolute;
             display: block;
