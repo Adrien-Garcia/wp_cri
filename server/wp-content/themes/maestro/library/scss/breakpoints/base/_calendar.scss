@@ -84,8 +84,19 @@ CALENDAR STYLES
         color: #FFF;
         padding: 0 10px;
         z-index: 10;
-
     }
+
+    .is-month {
+
+        .calendar__button--today {
+            display: none;
+        }
+
+        .calendar__button--next {
+            left: 37px;
+        }
+
+    } 
 
     .calendar__block--currentmonth {
         margin: 0 auto;

@@ -40,6 +40,14 @@ CALENDAR STYLES
 
     }
 
+    .is-month {
+
+        .calendar__button--next {
+            left: 117px;
+        }
+
+    }
+
     .calendar__block--currentmonth {
         font-size: 24px;
     }
