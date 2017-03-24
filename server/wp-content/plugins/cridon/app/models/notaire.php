@@ -214,8 +214,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
                 default :
                     $this->importEntites();
-//                    $this->importLinksEntitesOrganismes();
-//                    $this->importNotaires($force);
+                    $this->importLinksEntitesOrganismes();
+                    $this->importNotaires($force);
                     break;
             }
 
