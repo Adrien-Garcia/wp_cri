@@ -704,7 +704,8 @@ class FormationsController extends BaseActuController
                 array(
                     'model'  => 'Document',
                     'alias'  => 'd',
-                    'on'     => ' d.id_externe = f.id'
+                    'on'     => ' d.id_externe = f.id and d.type=\'formation\'',
+                    'type'   => 'LEFT JOIN',
                 ),
             )
         );
