@@ -6,8 +6,9 @@
     <?php echo $this->custom_form->input('label',array('label' => Config::$titleFieldAdminForm['label'])); ?>
     <?php echo $this->custom_form->input('code',array('label' => Config::$titleFieldAdminForm['code'])); ?>
     <?php echo $this->custom_form->input('short_label',array('label' => Config::$titleFieldAdminForm['short_label'])); ?>
-    <?php echo $this->custom_form->checkbox_input('displayed', array('label' => Config::$titleFieldAdminForm['displayed'])); ?>
-    <?php echo $this->custom_form->checkbox_input('question', array('label' => Config::$titleFieldAdminForm['question'])); ?>
+    <?php echo $this->custom_form->checkbox_input('displayed', array('label' => 'Concerne les veilles et flashs (apparaît dans les choix de notifications)')); ?>
+    <?php echo $this->custom_form->checkbox_input('question', array('label' => 'Concerne les questions')); ?>
+    <?php echo $this->custom_form->checkbox_input('formation', array('label' => 'Concerne les formations')); ?>
     <div style="position: relative;">
         <?php echo $this->custom_form->input('color',array('label' => Config::$titleFieldAdminForm['color'])); ?>
         <?php if( $object->color ): ?>
