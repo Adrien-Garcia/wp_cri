@@ -249,7 +249,7 @@ function getPushFormations ($nb_date) {
               LIMIT ' . $nb_date . '
               ) AS nested ON CAST(s.date AS DATE) = nested.date
         WHERE p.post_status = "publish"
-        ORDER BY CAST(s.date AS DATE) DESC, s.id DESC';
+        ORDER BY CAST(s.date AS DATE) ' . $order . ', s.id DESC';
         $sessions = $wpdb->get_results($selectQuery);
     // Si plus d'une session dans la journée, on set 'isOneOfMany' à 1
     $lastDate = '';
