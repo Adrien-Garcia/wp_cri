@@ -55,7 +55,7 @@ class Entite extends \App\Override\Model\CridonMvcModel {
         $nbCollaboratorEntite = mvc_model('QueryBuilder')->countItems('notaire', $options, 'n.id');
 
         $subscriptionInfos = array();
-        foreach (Config::$pricesLevelsVeilles as $level => $prices) {
+        foreach (get_option('cridonline_prices_year_N') as $level => $prices) {
             // Tri du tableau de prix par clé descendante
             krsort($prices);
             foreach ($prices as $nbCollaborator => $price) {
@@ -73,6 +73,13 @@ class Entite extends \App\Override\Model\CridonMvcModel {
         $level = ($isNextLevel && !empty($entite->next_subscription_level)) ? $entite->next_subscription_level : $entite->subscription_level;
         $prices = $this->getRelatedPrices($entite);
         return $prices[$level];
+    }
+
+    public function getAllCridonlinePrices() {
+        return array(
+            'year_N' => get_option('cridonline_prices_year_N'),
+            'year_N_plus_1' => get_option('cridonline_prices_year_N_plus_1')
+        );
     }
 
     /**

@@ -344,12 +344,13 @@ class Config {
     public static $listOfControllersWpMvcOnSidebar = array(
         'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
         'questions','soldes','supports','user_cridons','veilles','vie_cridons', 'sessions',
-        'evenements', 'demarches'
+        'evenements','demarches','cridonline_prices'
     );
     public static $listOfControllersWithNoActionAdd = array(
         'notaires',
         'questions',
-        'demarches'
+        'demarches',
+        'cridonline_prices',
     );
     
     //Admin wp_mvc action translation
@@ -534,24 +535,6 @@ class Config {
 
     public static $modelWithIdDocImplemented = array(
         'Veille'
-    );
-
-    public static $pricesLevelsVeilles = array(
-        '1' => array(
-            '5' => 0,
-            '2' => 0,
-            '1' => 0,
-        ),
-        '2' => array(
-            '5' => 7900,
-            '2' => 4800,
-            '1' => 2500,
-        ),
-        '3' => array (
-            '5' => 9900,
-            '2' => 5900,
-            '1' => 3500,
-        )
     );
 
     // Motifs de changement de niveau :

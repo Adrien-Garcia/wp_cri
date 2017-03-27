@@ -230,4 +230,16 @@ function hide_email($email) {
     return '<span id="'.$id.'">[javascript protected email address]</span>'.$script;
 }
 
+/**************** CRIDONLINE PRICES SUBMENU ADMIN ***********************/
+add_action('admin_menu', 'admin_menu_cridonline_prices');
+
+function admin_menu_cridonline_prices() {
+    add_menu_page('Prix Cridonline','Prix Cridonline','manage_options','cridonline_prices','cridonline_prices_form','',25);
+}
+
+function cridonline_prices_form() {
+    $prices = mvc_model('Entite')->getAllCridonlinePrices();
+    CriRenderView('admin_cridonline_prices', $prices);
+}
+
 ?>
