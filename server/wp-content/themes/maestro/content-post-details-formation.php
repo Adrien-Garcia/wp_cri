@@ -57,6 +57,9 @@
                     <img class="sel-object-picto" src="<?php echo $matiere->picto ?>" alt="<?php echo $matiere->label ?>" />
                 <?php endforeach; ?>
 			</div>
+            <div class="millesime">
+                Catalogue <span>2017</span>
+            </div>
 		</div>
 		<?php endif; ?>
 
@@ -114,11 +117,17 @@
 				</ul>
 			</div>
                 <?php endif; ?>
-
-
             <?php endif; ?>
 
 		</div>
+
+        <div class="block_certification">
+            <img src="/wp-content/themes/maestro/library/images/logo-CSN_2017.jpg" alt="">
+            <div class="num">
+                Certification CSN
+                <span>123 48 654 478</span>
+            </div>
+        </div>
 
 
 	</div>

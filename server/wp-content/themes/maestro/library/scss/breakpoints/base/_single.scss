@@ -412,24 +412,6 @@ body.single,
 						left: 50%;
 						margin-left: -20px;
 					}
-
-                    &.complet {
-                        background-color: $rouge;
-                        width: 100%;
-					    margin-bottom: -10px;
-					    padding: 5px 0;
-					    font-weight: 700;
-					    text-transform: uppercase;
-
-					    &::after {
-					    	content: '';
-					    	width: 100%;
-					    	height: 2px;
-					    	background: #FFF;
-					    	left: 20px;
-					    	top: -2px;
-					    }
-                    }
 				}
 
 				&.telephone {
@@ -518,10 +500,57 @@ body.single,
 			}
 		}
 
-		.liste-sessions {
-			border-top: solid 4px $bg-top-footer;
-			padding-top: 30px;
-			overflow: hidden;
+        .block_left {
+            position: relative;
+
+            .millesime {
+                @include do-re;
+                @include rotate(-90);
+                font-size: 17px;
+                color: $jaune;
+                width: 120px;
+                position: absolute;
+                line-height: 18px;
+                left: -39px;
+                top: 80px;
+
+                span {
+                    @include do-me;
+                }
+
+
+            }
+        }
+
+        .block_certification {
+            overflow: hidden;
+            margin-top: 30px;
+
+            > img {
+                width: 36px;
+                height: 36px;
+                float: left;
+            }
+
+            .num {
+                @include do-re;
+                float: right;
+                width: calc(100% - 60px);
+                margin-right: 10px;
+                font-size: 15px;
+                line-height: 18px;
+
+                span {
+                    @include do-me;
+                    display: block;
+                }
+            }
+        }
+
+        .liste-sessions {
+            border-top: solid 4px $bg-top-footer;
+            padding-top: 30px;
+            overflow: hidden;
 
 			p.titre {
 				font-family: $garamond;
