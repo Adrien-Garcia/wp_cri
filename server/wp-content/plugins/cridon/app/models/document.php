@@ -257,11 +257,10 @@ class Document extends \App\Override\Model\CridonMvcModel {
                             );
                             $this->save($docData);
 
-                            // archivage PDF
-                            rename($fileToImport,
-                                   $archivePath . $contents[Config::$GEDtxtIndexes['INDEX_NOMFICHIER']]);
-                            // archivage source des metadonnees
-                            rename($document, $archivePath . $fileInfo['basename']);
+                            // suppression PDF
+                            unlink($fileToImport);
+                            // suppression source des metadonnees
+                            unlink($document);
                             // Mise de la date réelle de réponse de la question
                             $this->updateQuestion($question, $contents);
                             $documentstoArchive = $this->getDocumentsToArchive($question);
