@@ -11,7 +11,7 @@
     <input type="hidden" name="cridonline_prices_year_N_plus_1[1][2]" value="0">
     <input type="hidden" name="cridonline_prices_year_N_plus_1[1][5]" value="0">
 
-    <table>
+    <table border="1" cellpadding="0" cellspacing="0" >
         <col>
         <colgroup span="2"></colgroup>
         <colgroup span="2"></colgroup>
