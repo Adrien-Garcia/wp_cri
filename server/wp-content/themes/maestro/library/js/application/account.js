@@ -33,6 +33,7 @@ App.Account = {
     accountLevelSelector: '-level',
     accountPriceSelector: '-price',
     accountPromoSelector: '-promo',
+    accountCodepromoSelector: '-code-promo',
     accountCheckboxSelector: '-checkbox',
     accountRadioSelector: '-radio',
     accountStep1Selector: '-step1',
@@ -470,7 +471,11 @@ App.Account = {
         this.$accountCridonlineValidationForm    = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountFormSelector);
         this.$accountCridonlineValidationForm.append(nonce);
 
+        this.$accountCridonlineValidationFormPromo    = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountFormSelector + this.accountPromoSelector);
+        this.$accountCridonlineValidationFormPromo.append(nonce);
+
         this.$accountCridonlineValidationMessage = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountMessageSelector);
+        this.$accountCridonlineValidationMessagePromo = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountMessageSelector + this.accountPromoSelector);
         this.$accountCridonlineValidationCGV     = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCGVSelector);
         this.$accountCridonlineValidationB2B     = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountB2BSelector);
         this.$accountCridonlineValidationB2C     = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountB2CSelector);
@@ -478,6 +483,7 @@ App.Account = {
         this.$accountCridonlineValidationLevel   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountLevelSelector);
         this.$accountCridonlineValidationPrice   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPriceSelector);
         this.$accountCridonlineValidationPromo   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountPromoSelector);
+        this.$accountCridonlineValidationCodepromo   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountCodepromoSelector);
         this.$accountCridonlineValidationStep1   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep1Selector);
         this.$accountCridonlineValidationStep2   = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountStep2Selector);
         this.$accountCridonlineValidationToggle  = $(d + this.accountCridonlineSelector + this.accountValidationSelector + this.accountToggleSelector);
@@ -715,6 +721,11 @@ App.Account = {
 
         this.$accountCridonlineValidationForm.on('submit', function () {
             self.eventAccountCridonlineValidationSubmit($(this));
+            return false;
+        });
+
+        this.$accountCridonlineValidationFormPromo.on('submit', function () {
+            self.eventAccountCridonlineValidationPromoSubmit($(this));
             return false;
         });
 
@@ -1213,8 +1224,9 @@ App.Account = {
         return false;
     },
 
-    successCridonline: function (html) {
-        this.$cridonline.html(html);
+    successCridonline: function (_data) {
+        var data = JSON.parse(_data);
+        this.$cridonline.html(data.view);
         this.initCridonlineValidation();
         App.Utils.scrollTop(void 0, this.$cridonline);
     },
@@ -1432,6 +1444,20 @@ App.Account = {
         }
     },
 
+    eventAccountCridonlineValidationPromoSubmit: function(form){
+        this.$accountCridonlineValidationMessage.html('');
+        jQuery.ajax({
+            type: 'POST',
+            url: form.data('js-ajax-souscription-url'),
+            data: {
+                level: form.find(this.$accountCridonlineValidationLevel).val(),
+                code_promo: form.find(this.$accountCridonlineValidationCodepromo).val()
+            },
+            success: this.successCridonlineValidationPromo.bind(this),
+        });
+        return false;
+    },
+
     eventAccountCridonlineValidationSubmit: function (form) {
         this.$accountCridonlineValidationMessage.html('');
         jQuery.ajax({
@@ -1448,6 +1474,21 @@ App.Account = {
             },
             success: this.successCridonlineValidation.bind(this),
         });
+        return false;
+    },
+
+    successCridonlineValidationPromo: function(_data){
+        var message,
+            content;
+        var data = JSON.parse(_data);
+        // create message block
+        if (typeof data !== 'undefined' && typeof data.error_promo !== 'undefined') {
+            message = data.error_promo;
+            content = $(document.createElement('div')).text(message);
+            this.$accountCridonlineValidationMessagePromo.html('').append(content);
+        } else {
+            this.successCridonline(_data);
+        }
         return false;
     },
 

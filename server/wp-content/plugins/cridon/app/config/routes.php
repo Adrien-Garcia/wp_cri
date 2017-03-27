@@ -64,6 +64,7 @@ MvcRouter::public_connect('notaires/contentcridonlinepromo', array('controller' 
 MvcRouter::public_connect('notaires/contentcridonlineetape2', array('controller' => 'notaires', 'action' => 'contentcridonlineetape2'));
 MvcRouter::public_connect('notaires/contentcridonlineetape2promo', array('controller' => 'notaires', 'action' => 'contentcridonlineetape2promo'));
 MvcRouter::public_connect('notaires/souscriptionveille', array('controller' => 'notaires', 'action' => 'ajaxveillesubscription'));
+MvcRouter::public_connect('notaires/setpromo', array('controller' => 'notaires', 'action' => 'ajaxsetpromo'));
 MvcRouter::public_connect('notaires/souscriptionveillepromo', array('controller' => 'notaires', 'action' => 'ajaxveillesubscriptionpromo'));//promo
 MvcRouter::public_connect('notaires/souscriptionnewsletter', array('controller' => 'notaires', 'action' => 'ajaxnewslettersubscription'));
 MvcRouter::public_connect('notaires', array('controller' => 'notaires', 'action' => 'show'));

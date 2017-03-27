@@ -1,0 +1,2 @@
+ALTER TABLE `cri_entite` ADD COLUMN IF NOT EXISTS `code_promo_offre_choc` VARCHAR(32) NULL AFTER `offre_promo`;
+ALTER TABLE `cri_entite` ADD COLUMN IF NOT EXISTS `code_promo_offre_privilege` VARCHAR(32) NULL AFTER `code_promo_offre_choc`;
