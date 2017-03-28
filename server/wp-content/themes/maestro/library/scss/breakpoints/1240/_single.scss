@@ -19,23 +19,23 @@
 		.titre {
 			height: auto;
 
-			span{
+			span {
 				margin-top: 34px;
 			}
 		}
 
-		.sep{
+		.sep {
 			margin-top: 38px;
 		}
 
 
-		article{
+		article {
 
 			padding-top: 20px;
 			padding-bottom: 30px;
 
 
-			.date{
+			.date {
 
 				height: 220px;
 				width: 180px;
@@ -215,6 +215,53 @@
 
 		}
 
+	}
+
+	&.single-veilles,
+	&.single-flash {
+
+		#inner-content article .details {
+			.block_left {
+				height: auto;
+				min-height: auto;
+				.img-cat {
+					width: 100%;
+					height: auto;
+					float: left;
+					margin-bottom: 20px;
+
+					img {
+						width: 47px;
+						height: 47px;
+						float: right;
+						margin-bottom: 6px;
+						&:nth-child(2n-1) {
+							margin-left: 6px;
+						}
+					}
+				}
+			}
+			.block_right {
+				.matiere {
+					line-height: 22px;
+					span {
+						padding: 0 5px;
+					}
+				}
+			}
+
+			.block_full{
+				width: inherit;
+			}
+		}
+	}
+
+	&.single-veilles {
+		#inner-content article .details {
+			.block_left {
+				margin-bottom: 114px;
+			}
+		}
 	}
 
 	&.single-formations {

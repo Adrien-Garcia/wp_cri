@@ -21,20 +21,28 @@
     ?>
 
 	<div class="details <?php if(!empty($niveau)){echo $niveau;} ?>">
-		<?php if (isset($object->matiere)) : ?>						
-		
+		<?php if (isset($object->matiere)) : ?>
+
 		<div class="block_left">
 			<div class="img-cat">
 				<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+                <img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+                <img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+                <img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
 			</div>
 		</div>
 		<?php endif; ?>
 
-		
+
 
 		<div class="block_right sel-object-content">
-		<?php if (isset($object->matiere)) : ?>						
-			<div class="matiere"><?php echo $object->matiere->label ?></div>
+		<?php if (isset($object->matiere)) : ?>
+			<div class="matiere">
+                <span><?php echo $object->matiere->label ?></span>
+                <span><?php echo $object->matiere->label ?></span>
+                <span><?php echo $object->matiere->label ?></span>
+                <span><?php echo $object->matiere->label ?></span>
+            </div>
 		<?php endif; ?>
 			<h1 class="entry-title single-title"><?php the_title() ?></h1>
 		<?php if (!empty($post->post_excerpt)): ?>
@@ -44,8 +52,8 @@
 		<?php endif; ?>
 		</div>
 		<div class="block_full">
-			
-			<div class="content">		
+
+			<div class="content">
 				<?php the_content(); ?>
 			</div>
 			<?php if (!empty($object->address)) : ?>
@@ -56,7 +64,7 @@
                  </div>
 			<?php endif; ?>
 			<ul class="mots_cles">
-			<?php 
+			<?php
 				$tags = get_the_tags();
 				if( $tags ) : foreach ($tags as $tag) :
 			 ?>
@@ -99,15 +107,15 @@
 
 
             <?php endif; ?>
-			
+
 		</div>
 
-		
+
 	</div>
 
- 	
 
-    	
-  	
+
+
+
 
 </article>

@@ -58,6 +58,10 @@ class VeillesController extends BaseActuController {
             $this->set('h1', Config::$listingVeille['h1']);
         }
         add_action('wp_head', array($this,'rssVeilles'));
+        $this->params['joins'] = array(
+                'Post',
+                'Matiere'
+            );
         $collection = $this->model->getList($this->params);
         //selected matiere
         $this->set('matieres', $this->matieres);

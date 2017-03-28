@@ -1,21 +1,21 @@
-/*   
+/*
 
-                   _     _             _ _     _                              
-    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___ 
+                   _     _             _ _     _
+    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___
    / _ \ | '__/ __| '_ \| \ \ / / _ \ | | / __| __/ _ \
   / ___ \| | | (__| | | | |\ V /  __/ | | \__ \ ||  __/
- /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___| 
-                                                                                   
+ /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___|
 
-*/ 
+
+*/
 
 #content.archive{
-	padding-top: 130px; 
+	padding-top: 130px;
 
 	.breadcrumbs{
 		/*width: 100%;
 		background: $bg-top-footer;
-		height: 70px; */ 
+		height: 70px; */
 		display: block;
 		padding-top: 30px;
 
@@ -36,12 +36,12 @@
 			font-size: 15px;
 			line-height: 24px;
 		}
-	
+
 
 	}
 
 	#main{
-		
+
 		padding-top: 60px;
 
 		&:before{}
@@ -50,7 +50,7 @@
 
 
 			h1{
-				
+
 				font-size: 50px;
 				line-height: 40px;
 				margin-top: 0;
@@ -75,7 +75,7 @@
 
 				}
 
-				.panel{					
+				.panel{
 
 					>a {}
 
@@ -89,7 +89,7 @@
 							float: left;
 							margin: 3px 0;
 
-							>label{								
+							>label{
 
 								&:before{}
 
@@ -121,7 +121,7 @@
 
 				}
 
-				
+
 
 				#bt_valider{
 					margin:0 0 20px 10px;
@@ -131,16 +131,12 @@
 
 			.listing{
 
-			margin-top: 80px;  
+			margin-top: 80px;
 
 				article{
 
 					margin-bottom: 60px;
 					min-height: 220px;
-
-
-					
-
 
 					.date{
 						height: 220px;
@@ -156,7 +152,7 @@
 						}
 
 						&:after{
-							@include svgiconafter('icon-angle-right', 45px, 45px, $vert);					
+							@include svgiconafter('icon-angle-right', 45px, 45px, $vert);
 							position:absolute;
 							bottom: 50%;
 							margin-bottom: -23px;
@@ -209,19 +205,19 @@
 								margin-left: -30px;
 								border:none;
 
-								 
+
 							}
 						}
 
-						
+
 					}
 
 
-					
+
 
 					.details{
 						float: right;
-						width: 460px; 
+						width: 460px;
 
 						.block_left{
 							width: 50px;
@@ -229,29 +225,28 @@
 
 							.img-cat{
 
-								height: 50px;	
-								width: 50px;			
+								height: 50px;
+								width: 50px;
 								margin-right: 10px;
-								
+
 								img{
 									width: 50px;
 									height: 50px;
 								}
-								
+
 							}
 
 						}
 
 						// NIVEAU DES VEILLES
 						&.niveau1{
-							.img-cat{								
+							.img-cat{
 								&:after{
 									content:url(../images/reference-tablette.svg);
 									width: 50px;
-									height: 50px;									
-									top: 60px;
+									height: 50px;
+									bottom: -60px;
 									left: 0;
-									//background-size: 50px 50px;
 									@include rotate(0);
 								}
 							}
@@ -261,8 +256,8 @@
 								&:after{
 									content:url(../images/premium-tablette.svg);
 									width: 50px;
-									height: 50px;									
-									top: 60px;
+									height: 50px;
+									bottom: -60px;
 									left: 0;
 									@include rotate(0);
 								}
@@ -273,8 +268,8 @@
 								&:after{
 									content:url(../images/excellence-tablette.svg);
 									width: 50px;
-									height: 50px;									
-									top: 60px;
+									height: 50px;
+									bottom: -60px;
 									left: 0;
 									@include rotate(0);
 								}
@@ -289,9 +284,9 @@
 							.matiere{
 								line-height: 20px;
 								position: relative;
-								top: -3px; 
+								top: -3px;
 								padding: 0 5px;
-							} 
+							}
 
 							h2{
 
@@ -307,15 +302,15 @@
 
 							.mots_cles{
 
-								
+
 								padding: 0;
 								height: 18px;
 
-								>li{								
-									
+								>li{
+
 
 									&:before{
-										
+
 
 									}
 
@@ -326,7 +321,7 @@
 							}
 
 							> a{
-								
+
 								margin:10px 0 0 0;
 								height: 14px;
 							    width: 37px;
@@ -335,7 +330,7 @@
 							    clear: both;
 
 							    &:after{
-							    	border-width: 7px 0 7px 9px; 
+							    	border-width: 7px 0 7px 9px;
 							    }
 
 							}
@@ -343,16 +338,32 @@
 						}
 					}
 
-					
+
 				}
 
-			} 
+				&.veille,
+				&.flash {
+					article {
+						.details {
+							.block_left {
+								height: auto;
+
+								.img-cat {
+									height: auto;
+									margin-bottom: 60px;
+								}
+							}
+						}
+					}
+				}
+
+			}
 
 		}
 
 	}
 
-	
+
 }
 
 #content.archive-cahier{
@@ -366,11 +377,11 @@
 				width: 460px;
 				cursor: inherit;
 
-				>h2{ 
+				>h2{
 					margin-bottom: 0px;
 				}
 
-				> a{					
+				> a{
 					font-size: 16px;
 					width: auto;
 					margin-top: 5px;
@@ -378,19 +389,19 @@
 					height: auto;
 					@include transition(all 0.3s);
 
-					
+
 
 				}
 
-				> ul{					
-					padding: 0 0 0 20px;	
+				> ul{
+					padding: 0 0 0 20px;
 
 
 				}
 			}
 		}
 
-	}  
+	}
 }
 
 #content.archive-formations{

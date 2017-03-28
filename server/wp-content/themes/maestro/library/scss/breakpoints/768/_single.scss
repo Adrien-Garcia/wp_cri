@@ -113,9 +113,8 @@
 							content:url(../images/reference-tablette.svg);
 							width: 50px;
 							height: 50px;
-							top: 60px;
+							bottom: -60px;
 							left: 0;
-							//background-size: 50px 50px;
 							@include rotate(0);
 						}
 					}
@@ -126,7 +125,7 @@
 							content:url(../images/premium-tablette.svg);
 							width: 50px;
 							height: 50px;
-							top: 60px;
+							bottom: -60px;
 							left: 0;
 							@include rotate(0);
 						}
@@ -138,7 +137,7 @@
 							content:url(../images/excellence-tablette.svg);
 							width: 50px;
 							height: 50px;
-							top: 60px;
+							bottom: 60px;
 							left: 0;
 							@include rotate(0);
 						}
@@ -162,8 +161,6 @@
 				}
 
 				.block_full{
-
-
 					clear: none;
 					float: right;
 					width: 460px;
@@ -193,6 +190,28 @@
 		}
 
 
+	}
+
+	&.single-veilles,
+	&.single-flash {
+		#inner-content article {
+			.details {
+				.block_left {
+					height: auto;
+
+					.img-cat {
+						height: auto;
+						margin-bottom: 60px;
+					}
+				}
+
+				.block_full{
+					padding-left: 0;
+					width: 400px;
+					clear: none;
+				}
+			}
+		}
 	}
 
 	&.single-formations {

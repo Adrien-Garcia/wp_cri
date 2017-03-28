@@ -1,26 +1,26 @@
-/*   
+/*
 
-                   _     _             _ _     _                              
-    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___ 
+                   _     _             _ _     _
+    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___
    / _ \ | '__/ __| '_ \| \ \ / / _ \ | | / __| __/ _ \
   / ___ \| | | (__| | | | |\ V /  __/ | | \__ \ ||  __/
- /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___| 
-                                                                                   
+ /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___|
 
-*/ 
+
+*/
 
 #content.archive{
 	padding-top: 60px;
 
-	#main{		
+	#main{
 
-		#inner-content{			
+		#inner-content{
 
 			#filtres_veilles{
 
 				width: 100%;
 				border-bottom:solid 5px $bg-top-footer;
-				height: auto; 
+				height: auto;
 				cursor: pointer;
 				//margin-bottom: 20px;
 
@@ -39,7 +39,7 @@
 					    vertical-align: middle;
 					}
 
-					span.open{						
+					span.open{
 					    color: #2e4867;
 					    display:block;
 					    transform: rotate(90deg);
@@ -48,7 +48,7 @@
 					    right: 0;
 					    top: 0;
 					}
-					span.close{						
+					span.close{
 					    color: #2e4867;
 					    display:block;
 					    transform: rotate(45deg) !important;
@@ -139,13 +139,13 @@
 
 				}
 
-				
+
 
 				#bt_valider{
 					margin:0 0 20px 10px;
 				}
 
-				
+
 
 			}
 
@@ -213,9 +213,9 @@
 
 				article{
 
-					margin-bottom: 20px;  
+					margin-bottom: 20px;
 					//overflow: hidden;
-					
+
 
 
 					.date{
@@ -232,7 +232,7 @@
 						margin-bottom: 20px;
 
 						&:before{
-							@include svgicon('icon-angle-bottom', 15px, 15px, $vert);					
+							@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
 							position:absolute;
 							bottom: -15px;
 							left: 50%;
@@ -249,26 +249,26 @@
 
 							display: none;
 						}
-						
+
 					}
 
-					
+
 
 					.details{
 
 						float: left;
 
 
-						
+
 
 						.block_left{
 							width: 30px;
 							height: 100px;
 							float: left;
-							
+
 							/**/
 							margin-right: 20px;
-							
+
 							.img-cat{
 								width: 30px;
 								height: 30px;
@@ -286,35 +286,29 @@
 						// NIVEAU DES VEILLES
 						&.niveau1{
 							.img-cat{
+								margin-bottom: 60px;
 								position: relative;
 								&:after{
 									position: absolute;
 									content:url(../images/reference.svg);
-									top: 60px;
+									bottom: -40px;
 									left: -9px;
 									height: 12px;
     								width: 50px;
 								    display: block;
 								    line-height: 12px;
-									/*background-image: url(../images/icon-cridonline-reference.png);
-									background-size: 30px 30px;
-									top: 35px;
-									left: 0;*/
 									@include rotate(-90);
 								}
 							}
 						}
 						&.niveau2{
 							.img-cat{
+								margin-bottom: 50px;
 								position: relative;
 								&:after{
 									position: absolute;
 									content:url(../images/premium.svg);
-									/*width: 30px;
-									height: 30px;
-									background-image: url(../images/icon-cridonline-premium.png);
-									background-size: 30px 30px;*/
-									top: 60px;
+									bottom: -45px;
 									left: -9px;
 									@include rotate(-90);
 								}
@@ -322,6 +316,7 @@
 						}
 						&.niveau3{
 							.img-cat{
+								margin-bottom: 70px;
 								position: relative;
 								&:after{
 									position: absolute;
@@ -331,19 +326,13 @@
     								width: 60px;
 								    display: block;
 								    line-height: 12px;
-								    top: 76px;
+								    bottom: -45px;
     								left: -17px;
-									/*width: 30px;
-									height: 30px;
-									background-image: url(../images/icon-cridonline-excellence.png);
-									background-size: 30px 30px;
-									top: 35px;
-									left: 0;*/
 								}
 							}
 						}
 
-						
+
 						.block_right{
 							float: right;
 							width: 250px;
@@ -379,7 +368,7 @@
 							    width: 250px;
 							    overflow: hidden;
 							    line-height: 18px;
-							    
+
 
 							    >a{ display: none;}
 							}
@@ -461,20 +450,52 @@
 						}
 
 						}
-						
+
 					}
 
-					
+
+				}
+
+				&.veille,
+				&.flash {
+					article {
+						.details {
+							.block_left {
+								min-height: 100px;
+								height: auto;
+
+								.img-cat {
+									height: auto;
+
+									img {
+										display: block;
+										margin-bottom: 5px;
+									}
+								}
+							}
+							.block_right {
+								.matiere {
+									background: none;
+									line-height: 18px;
+									padding: 0 !important;
+									span {
+										background: $vert;
+										padding: 0 2px;
+									}
+								}
+							}
+						}
+					}
 				}
 
 
-			} 
+			}
 
 		}
 
 	}
 
-	
+
 }
 
 #content.archive-vie-cridon{
@@ -605,8 +626,9 @@
 			}
 		}
 
-	}  
+	}
 }
+
 
 #content.archive-formations{
 	#main #inner-content .listing{
@@ -652,11 +674,11 @@ a.bt-formation {
 		margin-top: -12px;
 	}
 
-	
+
 }
 
 .pagination{
-					
+
 	border-top:solid 4px #e6e6e6;
 	padding: 40px 0;
 	margin: 0;
@@ -707,7 +729,7 @@ a.bt-formation {
 			background: $vert;
 			color:#FFF;
 		}
-		
+
 
 	}
 

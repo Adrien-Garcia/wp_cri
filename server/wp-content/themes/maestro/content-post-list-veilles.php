@@ -24,20 +24,29 @@ foreach ($objects as $key => $object) :
     }
     ?>
 
-	<div class="details <?php if(!empty($niveau)){echo $niveau;} ?>">
-		<?php if ( isset($object->matiere) ): ?>
-			
-		<div class="block_left">
-			<div class="img-cat">
-				<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+	<div class="details">
+
+		<?php  if ( isset($object->matiere) ): ?>
+			<div class="block_left">
+				<div class="img-cat">
+					<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+					<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+					<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+					<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+				</div>
 			</div>
-		</div>
-		<?php endif ?>
+		<?php endif; ?>
+
 		<div class="block_right sel-object-content js-home-block-link" >
-		<?php //var_dump($this) ?>
 			<?php if ( isset($object->matiere) ): ?>
-			<div class="matiere"><?php echo $object->matiere->label ?></div>
+				<div class="matiere">
+					<span><?php echo $object->matiere->label ?></span>
+					<span><?php echo $object->matiere->label ?></span>
+					<span><?php echo $object->matiere->label ?></span>
+					<span><?php echo $object->matiere->label ?></span>
+				</div>
 			<?php endif ?>
+
 			<h2><?php the_title() ?></h2>
 		<?php if (!empty($post->post_excerpt)): ?>	
 			<div class="chapeau">
@@ -47,12 +56,6 @@ foreach ($objects as $key => $object) :
 			<div class="extrait">
 				<?php echo wp_trim_words( wp_strip_all_tags( get_the_content(), true ), 35, "..." ) ?>
 			</div>
-			<!-- <div class="adresse">
-				La Joliette<br />
-				20A Boulevard du Plomb<br />
-				13581 Marseille Cedex 20<br />
-				France
-			</div> -->
 			<ul class="mots_cles">
 			<?php 
 				$tags = get_the_tags();

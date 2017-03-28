@@ -39,7 +39,8 @@ class FlashesController extends BaseActuController {
             $this->params['per_page'] = !empty($this->params['per_page']) ? $this->params['per_page'] : DEFAULT_POST_PER_PAGE;
             //Set explicit join
             $this->params['joins'] = array(
-                'Post'
+                'Post',
+                'Matiere'
             );
             //Set conditions
             $this->params['conditions'] = array(

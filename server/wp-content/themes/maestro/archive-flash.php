@@ -15,15 +15,15 @@
 
 				<div class="listing flash" id="sel-flash">
 					<?php set_query_var( 'objects', $objects ); ?>
-					
-					<?php echo get_template_part("content","post-list"); ?>
+
+					<?php echo get_template_part("content","post-list-veilles"); ?>
 
 					<div class="pagination">
 						<?php echo $this->pagination(); ?>
 					</div>
                 </div>
 
-			</div>					
+			</div>
 
 		</div>
 
@@ -31,13 +31,13 @@
 
 		<?php // wp_pagenavi(); ?>
 
-		
 
-			
+
+
 
 		<?php /*get_sidebar();*/ ?>
 
-		
+
 	</div>
 
 <?php get_footer(); ?>
