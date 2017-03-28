@@ -162,9 +162,7 @@
 				}
 
 				.block_full{
-
-
-					clear: none;
+					//clear: none;
 					float: right;
 					width: 460px;
 					padding-left: 60px;
@@ -282,15 +280,18 @@
 			}
 
 			.block_left {
-	            .millesime {
-	                width: 120px;
-	                left: -22px;
-	                top: 100px;
-	            }
+				.millesime-wrapper {
+					.millesime {
+		                width: 120px;
+		                left: -22px;
+		                top: 50px;
+		            }
+				}
 	        }
 
 	        .block_certification {
 	        	float: left;
+	        	margin-left: 60px;
 
 	            > img {
 	                width: 50px;

@@ -57,8 +57,10 @@
                     <img class="sel-object-picto" src="<?php echo $matiere->picto ?>" alt="<?php echo $matiere->label ?>" />
                 <?php endforeach; ?>
 			</div>
-            <div class="millesime">
-                Catalogue <span>2017</span>
+            <div class="millesime-wrapper">
+                <div class="millesime">
+                    Catalogue <span>2017</span>
+                </div>
             </div>
 		</div>
 		<?php endif; ?>

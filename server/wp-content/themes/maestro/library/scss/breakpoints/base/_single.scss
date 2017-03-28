@@ -15,440 +15,440 @@ body.single,
 #content.single {
 
 
-	#inner-content{
+    #inner-content{
 
-		.titre {
-			min-height: 43px;
+        .titre {
+            min-height: 43px;
 
-			span{
-				margin: 20px 0 30px 0;
-			}
-		}
+            span{
+                margin: 20px 0 30px 0;
+            }
+        }
 
-		.sep{
-			height: 4px;
-			background: #e6e6e6;
-			margin: 20px 0;
-			width: 100%;
-			clear: both;
-			position: relative;
+        .sep{
+            height: 4px;
+            background: #e6e6e6;
+            margin: 20px 0;
+            width: 100%;
+            clear: both;
+            position: relative;
 
-			&:before{
+            &:before{
 
-				@include svgicon('ico-sep', 17px, 17px, #e6e6e6);
-				position: absolute;
-				top: 0;
-				background: #FFF;
-				left: 50%;
-				margin-left: -30px;
-
-
-
-			}
+                @include svgicon('ico-sep', 17px, 17px, #e6e6e6);
+                position: absolute;
+                top: 0;
+                background: #FFF;
+                left: 50%;
+                margin-left: -30px;
 
 
-		}
+
+            }
 
 
-		article{
-
-			padding-top: 10px;
-			padding-bottom: 20px;
-
-			border-bottom:solid 4px #e6e6e6;
-
-			.date{
-				height: 60px;
-				font-size: 25px;
-				@include do-re;
-				text-transform: uppercase;
-				text-align: center;
-				background: $vert;
-				line-height: 60px;
-				color:#FFF;
-				position: relative;
-				display: block;
-				margin-bottom: 20px;
-
-				&:before{
-					@include svgicon('icon-angle-bottom', 15px, 15px, $vert);
-					position:absolute;
-					bottom: -15px;
-					left: 50%;
-					margin-left: -24px;
-					display: block;
-
-				}
-
-				&:after{
-					display: none;
-				}
-			}
+        }
 
 
-			.details{
-				overflow: hidden;
+        article{
 
-				.block_left{
-					width: 30px;
-					height: 30px;
-					float: left;
+            padding-top: 10px;
+            padding-bottom: 20px;
 
-					.img-cat{
-						width: 30px;
-						height: 30px;
-						margin-right: 20px;
+            border-bottom:solid 4px #e6e6e6;
 
-						img{
-							width: 30px;
-							height: 30px;
-						}
+            .date{
+                height: 60px;
+                font-size: 25px;
+                @include do-re;
+                text-transform: uppercase;
+                text-align: center;
+                background: $vert;
+                line-height: 60px;
+                color:#FFF;
+                position: relative;
+                display: block;
+                margin-bottom: 20px;
 
-					}
-				}
+                &:before{
+                    @include svgicon('icon-angle-bottom', 15px, 15px, $vert);
+                    position:absolute;
+                    bottom: -15px;
+                    left: 50%;
+                    margin-left: -24px;
+                    display: block;
 
-				// NIVEAU DES VEILLES
-				&.niveau1{
-					.img-cat{
-						position: relative;
-						&:after{
-							position: absolute;
-							content:url(../images/reference.svg);
-							top: 60px;
-							left: -9px;
-							height: 12px;
-							width: 50px;
-						    display: block;
-						    line-height: 12px;
-							/*background-image: url(../images/icon-cridonline-reference.png);
-							background-size: 30px 30px;
-							top: 35px;
-							left: 0;*/
-							@include rotate(-90);
-						}
-					}
-				}
-				&.niveau2{
-					.img-cat{
-						position: relative;
-						&:after{
-							position: absolute;
-							content:url(../images/premium.svg);
-							/*width: 30px;
-							height: 30px;
-							background-image: url(../images/icon-cridonline-premium.png);
-							background-size: 30px 30px;*/
-							top: 60px;
-							left: -9px;
-							@include rotate(-90);
-						}
-					}
-				}
-				&.niveau3{
-					.img-cat{
-						position: relative;
-						&:after{
-							position: absolute;
-							content:url(../images/excellence.svg);
-							@include rotate(-90);
-							height: 10px;
-							width: 60px;
-						    display: block;
-						    line-height: 12px;
-						    top: 76px;
-							left: -17px;
-						}
-					}
-				}
+                }
+
+                &:after{
+                    display: none;
+                }
+            }
 
 
-				.block_right{
-					float: right;
-					width: calc(100% - 50px);
-					min-height: 70px;
+            .details{
+                overflow: hidden;
 
-					.matiere{
-						@include do-bo;
-						color:#FFF;
-						text-transform: uppercase;
-						font-size: 12px;
-						background: $vert;
-						display: inline-block;
-						padding: 0 2px;
-						top: -3px;
-						position: relative;
-						//margin-bottom: 5px;
-					}
+                .block_left{
+                    width: 30px;
+                    height: 30px;
+                    float: left;
 
-					h1{
-						@include do-me;
-						font-size: 20px;
-						line-height: 20px;
-						text-transform: uppercase;
-						color:$vert;
-						display: block;
-						margin: 0;
-						padding: 0;
-						text-align:left;
+                    .img-cat{
+                        width: 30px;
+                        height: 30px;
+                        margin-right: 20px;
 
-						&:before{
-							display: none;
-						}
+                        img{
+                            width: 30px;
+                            height: 30px;
+                        }
 
-					}
+                    }
+                }
 
-					.chapeau{
-					    font-size: 15px;
-					    color: $rouge;
-					    font-family: $garamond;
-					    width: 100%;
-					    line-height: 18px;
-					    margin-bottom: 10px;
-					}
-				}
-
-				.block_full{
-
-					clear: both;
-					width: 100%;
-					padding-left: 50px;
-
-					.content{
-						font-family: $helvetica;
-					    font-size: 13px;
-					    line-height: 18px;
-					    color:$bleu;
-					}
-
-					.adresse{
-						font-family: $helvetica-bold;
-						font-size: 12px;
-						color:$bleu;
-						margin: 10px 0 10px 0;
-						line-height: 14px;
-					}
-
-					.mots_cles{
-
-						margin:20px 0 10px 0;
-						padding: 0;
-						height: 18px;
-
-						>li{
-							float: left;
-							padding: 0;
-							margin: 0 20px 0 0;
-							font-family: $helvetica-bold;
-							color:$bleu;
-							font-size: 10px;
-							position: relative;
-							height: 18px;
-							line-height: 18px;
-
-							&:before{
-								content:'';
-								position: absolute;
-								top: 0;
-								right: -10px;
-								width: 1px;
-								height: 18px;
-								background: $bleu;
-
-							}
-
-							&:last-child{
-								&:before{ display: none;}
-							}
-						}
-					}
-
-					.documents-liees{
-						width: 100%;
-						margin-top: 20px;
-						background: #e6e6e6;
-
-						> ul {
-							margin: 0;
-							padding: 20px 0;
-
-							> li {
-								margin: 0;
-								padding: 0;
-								position: relative;
-								padding-left: 60px;
-								padding-right: 20px;
-
-								&:before {
-									@include svgicon('icon-pdf', 25px, 25px, $rouge);
-									position: absolute;
-									left: 20px;
-									top: 50%;
-									margin-top: -13px;
-								}
-
-								> a {
-									@include do-re;
-									font-size: 16px;
-									color: $bleu;
-									text-decoration: none;
-									text-decoration: underline;
-									display: block;
-									line-height: 18px;
-								}
-							}
-						}
-
-					}
-
-				}
+                // NIVEAU DES VEILLES
+                &.niveau1{
+                    .img-cat{
+                        position: relative;
+                        &:after{
+                            position: absolute;
+                            content:url(../images/reference.svg);
+                            top: 60px;
+                            left: -9px;
+                            height: 12px;
+                            width: 50px;
+                            display: block;
+                            line-height: 12px;
+                            /*background-image: url(../images/icon-cridonline-reference.png);
+                            background-size: 30px 30px;
+                            top: 35px;
+                            left: 0;*/
+                            @include rotate(-90);
+                        }
+                    }
+                }
+                &.niveau2{
+                    .img-cat{
+                        position: relative;
+                        &:after{
+                            position: absolute;
+                            content:url(../images/premium.svg);
+                            /*width: 30px;
+                            height: 30px;
+                            background-image: url(../images/icon-cridonline-premium.png);
+                            background-size: 30px 30px;*/
+                            top: 60px;
+                            left: -9px;
+                            @include rotate(-90);
+                        }
+                    }
+                }
+                &.niveau3{
+                    .img-cat{
+                        position: relative;
+                        &:after{
+                            position: absolute;
+                            content:url(../images/excellence.svg);
+                            @include rotate(-90);
+                            height: 10px;
+                            width: 60px;
+                            display: block;
+                            line-height: 12px;
+                            top: 76px;
+                            left: -17px;
+                        }
+                    }
+                }
 
 
-			}
+                .block_right{
+                    float: right;
+                    width: calc(100% - 50px);
+                    min-height: 70px;
 
-		}
+                    .matiere{
+                        @include do-bo;
+                        color:#FFF;
+                        text-transform: uppercase;
+                        font-size: 12px;
+                        background: $vert;
+                        display: inline-block;
+                        padding: 0 2px;
+                        top: -3px;
+                        position: relative;
+                        //margin-bottom: 5px;
+                    }
 
-		> a{
+                    h1{
+                        @include do-me;
+                        font-size: 20px;
+                        line-height: 20px;
+                        text-transform: uppercase;
+                        color:$vert;
+                        display: block;
+                        margin: 0;
+                        padding: 0;
+                        text-align:left;
 
-			@include bt-rectangle($vert, #FFF);
-			@include transition(background 0.3s);
-			width: 70px;
-			height: 30px;
-			line-height: 30px;
-			text-align: center;
-			padding: 0;
+                        &:before{
+                            display: none;
+                        }
+
+                    }
+
+                    .chapeau{
+                        font-size: 15px;
+                        color: $rouge;
+                        font-family: $garamond;
+                        width: 100%;
+                        line-height: 18px;
+                        margin-bottom: 10px;
+                    }
+                }
+
+                .block_full{
+
+                    //clear: both;
+                    width: 100%;
+                    padding-left: 50px;
+
+                    .content{
+                        font-family: $helvetica;
+                        font-size: 13px;
+                        line-height: 18px;
+                        color:$bleu;
+                    }
+
+                    .adresse{
+                        font-family: $helvetica-bold;
+                        font-size: 12px;
+                        color:$bleu;
+                        margin: 10px 0 10px 0;
+                        line-height: 14px;
+                    }
+
+                    .mots_cles{
+
+                        margin:20px 0 10px 0;
+                        padding: 0;
+                        height: 18px;
+
+                        >li{
+                            float: left;
+                            padding: 0;
+                            margin: 0 20px 0 0;
+                            font-family: $helvetica-bold;
+                            color:$bleu;
+                            font-size: 10px;
+                            position: relative;
+                            height: 18px;
+                            line-height: 18px;
+
+                            &:before{
+                                content:'';
+                                position: absolute;
+                                top: 0;
+                                right: -10px;
+                                width: 1px;
+                                height: 18px;
+                                background: $bleu;
+
+                            }
+
+                            &:last-child{
+                                &:before{ display: none;}
+                            }
+                        }
+                    }
+
+                    .documents-liees{
+                        width: 100%;
+                        margin-top: 20px;
+                        background: #e6e6e6;
+
+                        > ul {
+                            margin: 0;
+                            padding: 20px 0;
+
+                            > li {
+                                margin: 0;
+                                padding: 0;
+                                position: relative;
+                                padding-left: 60px;
+                                padding-right: 20px;
+
+                                &:before {
+                                    @include svgicon('icon-pdf', 25px, 25px, $rouge);
+                                    position: absolute;
+                                    left: 20px;
+                                    top: 50%;
+                                    margin-top: -13px;
+                                }
+
+                                > a {
+                                    @include do-re;
+                                    font-size: 16px;
+                                    color: $bleu;
+                                    text-decoration: none;
+                                    text-decoration: underline;
+                                    display: block;
+                                    line-height: 18px;
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+
+            }
+
+        }
+
+        > a{
+
+            @include bt-rectangle($vert, #FFF);
+            @include transition(background 0.3s);
+            width: 70px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            padding: 0;
             margin: 20px auto 40px calc(50% - 35px);
 
             &:before{
-    			@include svgicon('icon-angle-right', 15px, 15px, $vert);
-    			@include rotate(180);
-    			@include transition(color 0.3s);
-    			right: inherit;
-    			left: -5px;
-    		}
+                @include svgicon('icon-angle-right', 15px, 15px, $vert);
+                @include rotate(180);
+                @include transition(color 0.3s);
+                right: inherit;
+                left: -5px;
+            }
 
-    		&:hover {
-    			&:before {
-    				@include svgicon('icon-angle-right', 15px, 15px, $vert);
-	    			@include rotate(180);
-	    			right: inherit;
-	    			left: -5px;
-    			}
-    		}
-		}
+            &:hover {
+                &:before {
+                    @include svgicon('icon-angle-right', 15px, 15px, $vert);
+                    @include rotate(180);
+                    right: inherit;
+                    left: -5px;
+                }
+            }
+        }
 
 
-	}
+    }
 
-	&.single-formations {
+    &.single-formations {
 
-		article {
-			padding-bottom: 0 !important;
-			margin-bottom: 36px;
-		}
-		
-		#inner-content article .date {
-			margin-bottom: 3px;
+        article {
+            padding-bottom: 0 !important;
+            margin-bottom: 36px;
+        }
+        
+        #inner-content article .date {
+            margin-bottom: 3px;
 
-			&::before {
-				display: none;
-			}
-		}
+            &::before {
+                display: none;
+            }
+        }
 
-		#inner-content > a{
-			width: auto;
-			margin: auto;
-			display: inline-block;
-			margin-bottom: 10px;
-			display: block;
+        #inner-content > a{
+            width: auto;
+            margin: auto;
+            display: inline-block;
+            margin-bottom: 10px;
+            display: block;
 
-			&.liste {
-				width: 230px;
-			}
+            &.liste {
+                width: 230px;
+            }
 
-			&.agenda {
-				width: 250px;
-				margin-bottom: 50px;
+            &.agenda {
+                width: 250px;
+                margin-bottom: 50px;
 
-				&:before{
-					display: none;
+                &:before{
+                    display: none;
+                }
+            }
+
+        }
+
+        .session {
+            //height: 90px;
+            background: $bleu;
+            @include do-re;
+            font-size: 15px;
+            color: $white;
+            text-align: center;
+            padding: 10px 0;
+            margin-bottom: 20px;
+
+            p {
+                margin: 0;
+                padding: 0;
+                line-height: 18px;
+
+                &.organisme {
+                    //padding: 0 80px;
+                    margin-bottom: 11px;
+                    @include do-bo;
+                }
+
+                &.horaire {
+                    position: relative;
+                    margin-top: 16px;
+                    font-size: 15px;
+
+                    &::after {
+                        content:'';
+                        width: 40px;
+                        height: 1px;
+                        background: $white;
+                        position: absolute;
+                        top: -8px;
+                        left: 50%;
+                        margin-left: -20px;
+                    }
+                }
+
+                &.telephone {
+                    a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
+                }
+
+                &.email {
+                    margin-bottom: 11px;
+                    a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
+
 				}
 			}
 
-		}
-
-		.session {
-			//height: 90px;
-			background: $bleu;
-			@include do-re;
-			font-size: 15px;
-			color: $white;
-			text-align: center;
-			padding: 10px 0;
-			margin-bottom: 20px;
-
-			p {
-				margin: 0;
-				padding: 0;
-				line-height: 18px;
-
-				&.organisme {
-					//padding: 0 80px;
-					margin-bottom: 11px;
-					@include do-bo;
-				}
-
-				&.horaire {
-					position: relative;
-					margin-top: 16px;
-					font-size: 15px;
-
-					&::after {
-						content:'';
-						width: 40px;
-						height: 1px;
-						background: $white;
-						position: absolute;
-						top: -8px;
-						left: 50%;
-						margin-left: -20px;
-					}
-				}
-
-				&.telephone {
-					a {
-						color: #fff;
-						text-decoration: none;
-					}
-				}
-
-				&.email {
-					margin-bottom: 11px;
-					a {
-						color: #fff;
-						text-decoration: none;
-					}
-
-				}
-			}
-
 
 		}
 
-		a.bt {
-			height: 30px;
-			background: $vert;
-			color: $white;
-			text-transform: uppercase;
-			@include do-re;
-			font-size: 15px;
-			text-align: center;
-			display: block;
-			text-decoration: none;
-			line-height: 30px;
-			margin-top: 10px;
-			position: relative;
-			margin-right: 5px;
-			margin-bottom: 20px;
+        a.bt {
+            height: 30px;
+            background: $vert;
+            color: $white;
+            text-transform: uppercase;
+            @include do-re;
+            font-size: 15px;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+            line-height: 30px;
+            margin-top: 10px;
+            position: relative;
+            margin-right: 5px;
+            margin-bottom: 20px;
 
 			&::before {
 				@include svgicon('icon-angle-bottom', 5px, 5px, $vert);
@@ -468,7 +468,7 @@ body.single,
                     color: #ccc;
                 }
             }
-		}
+        }
 
 		#inner-content article .details {
 			margin-bottom: 35px;
@@ -501,22 +501,25 @@ body.single,
 		}
 
         .block_left {
-            position: relative;
+            .millesime-wrapper {
+                position: relative;
+                width: 100%;
+                height: 120px;
 
-            .millesime {
-                @include do-re;
-                @include rotate(-90);
-                font-size: 17px;
-                color: $jaune;
-                width: 120px;
-                position: absolute;
-                line-height: 18px;
-                left: -39px;
-                top: 80px;
+                .millesime {
+                    @include do-re;
+                    @include rotate(-90);
+                    font-size: 17px;
+                    color: $jaune;
+                    width: 120px;
+                    position: absolute;
+                    line-height: 18px;
+                    left: -39px;
+                    top: 50px;
 
-                span {
-                    @include do-me;
-                }
+                    span {
+                        @include do-me;
+                    }
 
 
             }
@@ -524,7 +527,10 @@ body.single,
 
         .block_certification {
             overflow: hidden;
-            margin-top: 30px;
+            margin-top: 20px;
+            margin-left: 50px;
+            float: left;
+            width: 100%;
 
             > img {
                 width: 36px;
@@ -552,40 +558,40 @@ body.single,
             padding-top: 30px;
             overflow: hidden;
 
-			p.titre {
-				font-family: $garamond;
-				font-size: 20px;
-				line-height: 24px;
-				color: $rouge;
-				display: inline-block;
-				height: auto !important;
-				margin: 0;
+            p.titre {
+                font-family: $garamond;
+                font-size: 20px;
+                line-height: 24px;
+                color: $rouge;
+                display: inline-block;
+                height: auto !important;
+                margin: 0;
 
-				&::after {
-					content:'';
-					width: 100%;
-					position: relative;
-					height: 1px;
-					background: $rouge;
-					display: block;
+                &::after {
+                    content:'';
+                    width: 100%;
+                    position: relative;
+                    height: 1px;
+                    background: $rouge;
+                    display: block;
 
-				}
-			}
+                }
+            }
 
-			ul {
-				margin: 30px 0 0 0;
-				padding: 0;
+            ul {
+                margin: 30px 0 0 0;
+                padding: 0;
 
-				li{
-					margin: 0 0 10px 0;
-					padding: 0 0 10px 0;
-					border-bottom: solid 1px $bg-top-footer;
-					float: left;
-					width: 100%;
+                li{
+                    margin: 0 0 10px 0;
+                    padding: 0 0 10px 0;
+                    border-bottom: solid 1px $bg-top-footer;
+                    float: left;
+                    width: 100%;
 
-					&:last-child {
-						border-bottom: none;
-					}
+                    &:last-child {
+                        border-bottom: none;
+                    }
 
                     &.session-complet {
                         opacity: .6;
@@ -596,32 +602,32 @@ body.single,
 						float: left;
 						overflow: hidden;
 
-						p {
-							margin: 0;
-							line-height: 18px;
-							@include do-re;
-							padding-right: 10px;
+                        p {
+                            margin: 0;
+                            line-height: 18px;
+                            @include do-re;
+                            padding-right: 10px;
 
-							&.session {
+                            &.session {
 
-								&-date {
-									font-size: 18px;
-									text-transform: uppercase;
-									color: $bleu;
-								}
+                                &-date {
+                                    font-size: 18px;
+                                    text-transform: uppercase;
+                                    color: $bleu;
+                                }
 
-								&-organisme {
-									@include do-re;
-									font-size: 15px;
-									margin-bottom: 10px;
-									font-size: 15px;
-									line-height: 18px;
-								}
+                                &-organisme {
+                                    @include do-re;
+                                    font-size: 15px;
+                                    margin-bottom: 10px;
+                                    font-size: 15px;
+                                    line-height: 18px;
+                                }
 
-								&-horaire {
-									position: relative;
-									margin-top: 18px;
-									font-size: 15px;
+                                &-horaire {
+                                    position: relative;
+                                    margin-top: 18px;
+                                    font-size: 15px;
 
 									&::before {
 										content:'';
@@ -638,44 +644,44 @@ body.single,
                                         font-weight: bold;
                                         font-size: 15px;
                                     }
-								}
+                                }
 
-							}
-						}
+                            }
+                        }
 
-					}
+                    }
 
-					.wrapper-session-contact {
-						float: left;
-						width: auto;
-						padding: 2px 0;
-						display: inline-block;
-						@include do-re;
+                    .wrapper-session-contact {
+                        float: left;
+                        width: auto;
+                        padding: 2px 0;
+                        display: inline-block;
+                        @include do-re;
 
-						p {
-							line-height: 18px;
-							@include do-re;
-							text-transform: none;
-							margin: 3px 0;
+                        p {
+                            line-height: 18px;
+                            @include do-re;
+                            text-transform: none;
+                            margin: 3px 0;
 
-							a {
-								color: $bleu;
-								text-decoration: none;
+                            a {
+                                color: $bleu;
+                                text-decoration: none;
 
-								&:hover {
-									//text-decoration: none;
-								}
-							}
-						}
-					}
+                                &:hover {
+                                    //text-decoration: none;
+                                }
+                            }
+                        }
+                    }
 
-					a.preinscrire {
-						float: right;
-						width: 110px;
-						background: $bg-top-footer;
-						color: #818181;
-						text-overflow: ellipsis;
-						height: auto;
+                    a.preinscrire {
+                        float: right;
+                        width: 110px;
+                        background: $bg-top-footer;
+                        color: #818181;
+                        text-overflow: ellipsis;
+                        height: auto;
 
 						&::before {
 							color: $bg-top-footer;
@@ -704,12 +710,12 @@ body.single,
                         }
 					}
 
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 
-	
+    
 
 }
 
@@ -717,9 +723,9 @@ body.single,
 
 #content.single-vie-cridon {
 
-	#inner-content article .details .block_full,
-	#inner-content article .details .block_right {
-		width: 100%;
-	}
+    #inner-content article .details .block_full,
+    #inner-content article .details .block_right {
+        width: 100%;
+    }
 
 }
