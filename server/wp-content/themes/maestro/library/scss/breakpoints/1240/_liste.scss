@@ -1,24 +1,24 @@
-/*   
+/*
 
-                   _     _             _ _     _                              
-    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___ 
+                   _     _             _ _     _
+    / \   _ __ ___| |__ (_)_   _____  | (_)___| |_ ___
    / _ \ | '__/ __| '_ \| \ \ / / _ \ | | / __| __/ _ \
   / ___ \| | | (__| | | | |\ V /  __/ | | \__ \ ||  __/
- /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___| 
-                                                                                   
+ /_/   \_\_|  \___|_| |_|_| \_/ \___| |_|_|___/\__\___|
 
-*/ 
+
+*/
 
 #content.archive{
 	padding-top: 180px;
 
 	.breadcrumbs{
-		
+
 
 	}
 
 	#main{
-		
+
 		//padding-top: 50px;
 
 		&:before{
@@ -28,24 +28,24 @@
 			position: absolute;
 			top: 0;
 			left: 50%;
-			margin-left: -43px;*/ 
+			margin-left: -43px;*/
 
 		}
 
 		#inner-content{
 
 
-			h1{	
-				margin: 0 0 70px 0; 
+			h1{
+				margin: 0 0 70px 0;
 			}
 
 			#filtres_veilles{
 
-				
-				border-bottom: none;
-				height: 220px;				
 
-				#tri_matiere{					
+				border-bottom: none;
+				height: 220px;
+
+				#tri_matiere{
 
 					display: none;
 
@@ -71,23 +71,23 @@
 						float: left;
 					}
 
-					ul{						
+					ul{
 						width: 970px;
 						float: right;
 						margin: 0;
 
 						>li{
-							
-							>label{	
+
+							>label{
 
 								>input{
 									margin-right: 10px;
-								} 
-								
+								}
+
 							}
 						}
 					}
-					#bt_valider{						
+					#bt_valider{
 						margin-bottom: 0;
 						margin-top: 20px;
     					margin-left: 0;
@@ -97,7 +97,7 @@
 
 				}
 
-				
+
 
 				#bt_valider{
 					margin:0 0 20px 10px;
@@ -109,7 +109,7 @@
 
 				>a{
 					line-height: 70px;
-					font-size: 30px;					
+					font-size: 30px;
 
 					span{}
 
@@ -149,31 +149,31 @@
 							top: -37px;
 							width: 1200px;
 
-							&:before{								
+							&:before{
 								//top: -1px;
-								
+
 							}
 						}
 
 
-						
+
 					}
 
 					.details{
 						float: right;
-						width: 770px; 
+						width: 770px;
 						margin-right: 220px;
 
 						.block_left{
 							width: 100px;
 							min-height: 100px;
-							margin-right: 10px;	
+							margin-right: 10px;
 
 							.img-cat{
 
-								width: 100px;	
+								width: 100px;
 								height: 100px;
-										
+
 								img{
 									width: 100px;
 									height: 100px;
@@ -184,11 +184,11 @@
 
 						// NIVEAU DES VEILLES
 						&.niveau1{
-							.img-cat{								
+							.img-cat{
 								&:after{
 									content:url(../images/reference-desktop.svg);
 									width: 100px;
-									height: 100px;									
+									height: 100px;
 									top: 120px;
 								}
 							}
@@ -198,7 +198,7 @@
 								&:after{
 									content:url(../images/premium-desktop.svg);
 									width: 100px;
-									height: 100px;									
+									height: 100px;
 									top: 120px;
 								}
 							}
@@ -208,7 +208,7 @@
 								&:after{
 									content:url(../images/excellence-desktop.svg);
 									width: 100px;
-									height: 100px;									
+									height: 100px;
 									top: 120px;
 								}
 							}
@@ -222,12 +222,12 @@
 							.matiere{
 								font-size: 15px;
 								margin-bottom: 5px;
-								top: 0; 
-								
-							} 
+								top: 0;
+
+							}
 
 							h2{
-								
+
 								font-size: 30px;
 								line-height: 30px;
 
@@ -242,27 +242,27 @@
 
 							.extrait{
 								font-size: 15px;
-								 
-								
+
+
 							}
 
 							.adresse{
-								
-								
+
+
 							}
 
 							.mots_cles{
 
-								margin:20px 0 0 0; 
+								margin:20px 0 0 0;
 								padding: 0;
 								height: 18px;
 
-								>li{		
-								font-size: 13px;						
-									
+								>li{
+								font-size: 13px;
+
 
 									&:before{
-										
+
 
 									}
 
@@ -277,22 +277,57 @@
 								right: -57px;
 								bottom: 0;
 								line-height: 14px;
-								
+
 							}
 
 						}
 					}
 
-					
+
 				}
 
-			} 
+				&.formations {
+					article {
+						.block_left {
+							height: auto;
+							min-height: auto;
+
+							.img-cat {
+								width: 100%;
+								height: auto;
+								overflow: hidden;
+
+								img {
+									width: 47px;
+									height: 47px;
+									float: right;
+									margin-bottom: 6px;
+
+									&:nth-child(2n-1) {
+										margin-left: 6px;
+									}
+								}
+							}
+						}
+
+						.block_right {
+							.matiere {
+								line-height: 22px;
+								span {
+									padding: 0 5px;
+								}
+							}
+						}
+					}
+				}
+
+			}
 
 		}
 
 	}
 
-	
+
 }
 
 #content.archive-cahier{
@@ -318,15 +353,15 @@
 					width: auto;
 				}
 
-				>h2{ 
+				>h2{
 					margin-bottom: 0px;
 					padding-left: 20px;
 				}
 
-				
 
-				> ul{					
-					padding: 0 0 0 20px;	
+
+				> ul{
+					padding: 0 0 0 20px;
 
 					>li{
 
@@ -336,11 +371,11 @@
 						div.img-cat{
 							width: 90px;
 							height: 90px;
-							float: left; 
+							float: left;
 
 							img{
 								width: 90px;
-								height: 90px; 
+								height: 90px;
 							}
 						}
 
@@ -358,7 +393,7 @@
 
 						 	&:before{
 						 		@include svgicon('icon-pdf', 24px, 24px, $rouge);
-						 		top: 0px; 
+						 		top: 0px;
 						 	}
 
 						 	&:hover{
@@ -367,12 +402,12 @@
 							 	}
 						 	}
 						 }
-					}				
+					}
 				}
 			}
 		}
 
-	}  
+	}
 }
 
 #content.archive-formations{

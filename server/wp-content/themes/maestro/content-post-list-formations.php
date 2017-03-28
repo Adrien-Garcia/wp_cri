@@ -31,12 +31,16 @@
 		<div class="block_left">
 			<div class="img-cat">
 				<img class="sel-object-picto" src="<?php echo $formation->matiere->picto ?>" alt="<?php echo $formation->matiere->label ?>" />
+                <img class="sel-object-picto" src="<?php echo $formation->matiere->picto ?>" alt="<?php echo $formation->matiere->label ?>" />
 			</div>
 		</div>
 		<?php endif ?>
 		<div class="block_right sel-object-content js-home-block-link" >
             <?php if ( isset($formation->matiere) ): ?>
-                <div class="matiere"><?php echo $formation->matiere->label ?></div>
+                <div class="matiere">
+                    <span><?php echo $formation->matiere->label ?></span>
+                    <!-- <span><?php //echo $formation->matiere->label ?></span> -->
+                </div>
             <?php endif ?>
             <h2><?php $formation->post->post_title ?></h2>
             <?php if (!empty($formation->post_excerpt)): ?>

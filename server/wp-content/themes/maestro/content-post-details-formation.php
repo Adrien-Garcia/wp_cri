@@ -51,6 +51,9 @@
 		<div class="block_left">
 			<div class="img-cat">
 				<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+                <img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+                <img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+                <img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
 			</div>
 		</div>
 		<?php endif; ?>
@@ -59,7 +62,12 @@
 
 		<div class="block_right sel-object-content">
 		<?php if (isset($object->matiere)) : ?>
-			<div class="matiere"><?php echo $object->matiere->label ?></div>
+			<div class="matiere">
+                <span><?php echo $object->matiere->label ?></span>
+                <span><?php echo $object->matiere->label ?></span>
+                <span><?php echo $object->matiere->label ?></span>
+                <span><?php echo $object->matiere->label ?></span>
+            </div>
 		<?php endif; ?>
 			<h1 class="entry-title single-title"><?php the_title() ?></h1>
 		<?php if (!empty($post->post_excerpt)): ?>
