@@ -1117,16 +1117,20 @@ function CriSendPostQuestConfirmation($question) {
                 $dest = Config::$notificationAddressDev;
             }
         } else {
-            $dest = $notary->email_adress;
-            if (!$dest) { // notary email is empty
-                // send email to the office
-                $offices = mvc_model('Entite')->find_one_by_crpcen($notary->crpcen);
-                if (is_object($offices) && $offices->office_email_adress_1) {
-                    $dest = $offices->office_email_adress_1;
-                } elseif (is_object($offices) && $offices->office_email_adress_2) {
-                    $dest = $offices->office_email_adress_2;
-                } elseif (is_object($offices) && $offices->office_email_adress_3) {
-                    $dest = $offices->office_email_adress_3;
+            if ($question['confidential'] && !empty($question['confidential_email'])){
+                $dest = $question['confidential_email'];
+            } else {
+                $dest = $notary->email_adress;
+                if (!$dest) { // notary email is empty
+                    // send email to the office
+                    $offices = mvc_model('Entite')->find_one_by_crpcen($notary->crpcen);
+                    if (is_object($offices) && $offices->office_email_adress_1) {
+                        $dest = $offices->office_email_adress_1;
+                    } elseif (is_object($offices) && $offices->office_email_adress_2) {
+                        $dest = $offices->office_email_adress_2;
+                    } elseif (is_object($offices) && $offices->office_email_adress_3) {
+                        $dest = $offices->office_email_adress_3;
+                    }
                 }
             }
         }
