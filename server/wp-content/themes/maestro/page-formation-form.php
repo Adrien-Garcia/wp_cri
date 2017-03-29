@@ -40,12 +40,9 @@
                             <!-- Demande de cession de formation -->
 							<div>
 								<div class="h3"><?php echo $demande['formation']['title']; ?></div>
-								<p>
-                                    <?php echo apply_filters('the_content', $demande['formation']['content']); ?>
-                                </p>
-                                <p>
-                                   <a href="<?php echo $demande['formation']['url'] ; ?>">En savoir plus</a>
-                                </p>
+                                <?php echo apply_filters('the_content', $demande['formation']['content']); ?>
+                                <a href="<?php echo $demande['formation']['url'] ; ?>" class="bt-plus">En savoir plus</a>
+
                                 <div class="important">
 									<div class="titre">Important</div>
 									Pour organiser une formation, la participation de sept personnes à minima est requise.
@@ -58,9 +55,15 @@
 							<!-- Demande de Pré inscription -->
 							<div>
 								<div class="h3"><?php echo $demande['formation']['title']; ?></div>
-								<div class="organisme"><?php echo strtoupper($demande['formation']['organisme']) ; ?> - <?php echo $demande['formation']['city'] ; ?></div>
-								<div class="horaire"><?php echo $demande['formation']['time'] ; ?></div>
-								<a href="<?php echo $demande['formation']['url'] ; ?>">En savoir plus</a>
+                                <?php echo apply_filters('the_content', $demande['formation']['content']); ?>
+                                <a href="<?php echo $demande['formation']['url'] ; ?>" class="bt-plus">En savoir plus</a>
+
+                                <div class="session">
+                                    <div class="date">le <?php echo strftime('%d %b %G',strtotime($demande['formation']['date'])) ?>
+                                    </div>
+    								<div class="organisme"><?php echo strtoupper($demande['formation']['organisme']) ; ?></div>
+    								<div class="horaire"><?php echo $demande['formation']['time'] ; ?></div>
+                                </div>
 							</div>
 							<!-- Fin -->
                             <?php endif; ?>
@@ -73,6 +76,7 @@
 							<div class="h3">Afin de nous communiquer plus de renseignements, veuillez remplir le formulaire suivant :</div>
 							<!-- Fin -->
                             <?php endif; ?>
+
                             <?php if (!empty($preinscription)) : ?>
                             <!-- Pré inscription -->
 							<div class="h3">Afin de finaliser votre pré-inscription, veuillez remplir le formulaire suivant :</div>
