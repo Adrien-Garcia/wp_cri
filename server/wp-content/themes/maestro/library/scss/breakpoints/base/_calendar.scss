@@ -103,9 +103,9 @@ CALENDAR STYLES
         position: absolute;
         top: 0;
         bottom: 0;
-        // right: 49px;
-        // left: 49px;
-        right: 20px;
+        right: 0;
+        text-align: center;
+        width: 53%;
     }
 
     .calendar__header--weekdays {
@@ -378,6 +378,11 @@ CALENDAR STYLES
         padding: 10px 0;
     }
 
+    .calendar__session-content--time--full {
+        color: $rouge;
+        text-transform: uppercase;
+    }
+
     .calendar__session-content--place {
         position: relative;
 
@@ -418,6 +423,17 @@ CALENDAR STYLES
     .calendar__session-content-button {
         @include bt-rectangle($vert, #FFF);
         margin-top: 9px;
+
+        &--disabled,
+        &--disabled:hover {
+            background: #ccc;
+            opacity: .8;
+            cursor: default;
+
+            &:before {
+                color: #ccc;
+            }
+        }
     }
 
     .calendar__session-content-chambre {
@@ -490,7 +506,7 @@ CALENDAR STYLES
                     margin-top: -9px;
                     display: block;
                     //fix rendering pb on FF
-                    transform: rotateZ(-2deg);
+                    //transform: rotateZ(-2deg);
                 }
 
                 &::after {
@@ -502,7 +518,7 @@ CALENDAR STYLES
                     left: -30px;
                     top: 0;
                     //fix rendering pb on FF
-                    transform: rotateZ(-2deg);
+                    //transform: rotateZ(-2deg);
                 }
             }
         }

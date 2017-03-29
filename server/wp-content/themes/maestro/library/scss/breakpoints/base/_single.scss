@@ -412,6 +412,24 @@ body.single,
 						left: 50%;
 						margin-left: -20px;
 					}
+
+                    &.complet {
+                        background-color: $rouge;
+                        width: 100%;
+					    margin-bottom: -10px;
+					    padding: 5px 0;
+					    font-weight: 700;
+					    text-transform: uppercase;
+
+					    &::after {
+					    	content: '';
+					    	width: 100%;
+					    	height: 2px;
+					    	background: #FFF;
+					    	left: 20px;
+					    	top: -2px;
+					    }
+                    }
 				}
 
 				&.telephone {
@@ -458,6 +476,16 @@ body.single,
 				margin-top: -3px;
 				@include rotate(-90);
 			}
+
+            &.bt-disabled,
+            &.bt-disabled:hover {
+                background: #ccc;
+                opacity: .8;
+                cursor: default;
+                &::before {
+                    color: #ccc;
+                }
+            }
 		}
 
 		.details {
@@ -504,6 +532,10 @@ body.single,
 						border-bottom: none;
 					}
 
+                    &.session-complet {
+                        opacity: .6;
+                    }
+
 					.session-item {
 						width: 140px;
 						float: left;
@@ -545,6 +577,12 @@ body.single,
 										left: 0;
 										position: absolute;
 									}
+
+                                    &.complet {
+                                        color: $rouge;
+                                        font-weight: bold;
+                                        font-size: 15px;
+                                    }
 								}
 
 							}
@@ -586,12 +624,29 @@ body.single,
 
 						&::before {
 							color: $bg-top-footer;
-						}
+                            @include transition(color 0.2s);
+                        }
 
 						&.large {
 					    	line-height: 20px;
 					    	padding: 5px 0;
 					    }
+
+                        &:hover {
+                            background: $vert;
+                            color: $white;
+
+                            &::before {
+                                color: $vert;
+                            }
+                        }
+                        &.bt-disabled:hover {
+                            background: $bg-top-footer;
+                            color: #818181;
+                            &::before {
+                                color: $bg-top-footer;
+                            }
+                        }
 					}
 
 				}

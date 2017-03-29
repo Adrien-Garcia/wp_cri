@@ -6,3 +6,4 @@
 )); ?>
 <?php echo $this->custom_form->belongs_to_dropdown('Formation', $formations, array('label' => 'Formation','style' => 'width: 200px;', 'empty' => false)); ?>
 <?php echo $this->custom_form->belongs_to_dropdown('Entite', $organismes, array('label' => 'Organisme','style' => 'width: 200px;', 'empty' => false)); ?>
+<?php echo $this->custom_form->checkbox_input('is_full', array('label' => 'Complet', 'empty' => false)); ?>
