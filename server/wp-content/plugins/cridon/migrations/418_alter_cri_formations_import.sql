@@ -1,3 +1,8 @@
+TRUNCATE TABLE `cri_formation`;
+
+ALTER TABLE `cri_formation` DROP COLUMN IF EXISTS `id_matiere`;
+ALTER TABLE `cri_formation` DROP COLUMN IF EXISTS `short_name`;
+
 ALTER TABLE `cri_formation` ADD COLUMN IF NOT EXISTS `id_form` VARCHAR(256) NOT NULL COMMENT 'Formation ID in ERP';
 
 ALTER TABLE `cri_formation` ADD COLUMN IF NOT EXISTS `csn` VARCHAR(256) NULL COMMENT 'Numero CSN';

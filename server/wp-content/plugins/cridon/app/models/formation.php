@@ -199,7 +199,7 @@ class Formation extends \App\Override\Model\CridonMvcModel
     }
 
     /**
-     * Action for importing notaire data into wp_users
+     * Action for importing Formations data 
      *
      * @return mixed
      */
@@ -297,6 +297,7 @@ class Formation extends \App\Override\Model\CridonMvcModel
                     $pData = array(
                         'post_title' => mb_convert_encoding($data[$adapter::ZTITRE], 'UTF-8'),
                         'post_content' => $content,
+                        'post_status' => 'publish',
                     );
                     if (isset($existing[$aData['id_form']])
                         && isset($existing[$aData['id_form']]->post)
@@ -318,6 +319,7 @@ class Formation extends \App\Override\Model\CridonMvcModel
                                 }
                                 $this->_update_matieres($data, $existing[$aData['id_form']]->id, $matieres);
                                 $this->_update_juristes($data, $existing[$aData['id_form']]->id, $juristes);
+                                $this->_update_millesime($data[$adapter::ZANNEE], $existing[$aData['id_form']]->id);
                             }
                         }
 
@@ -336,6 +338,7 @@ class Formation extends \App\Override\Model\CridonMvcModel
                             if (!empty($formation_id)) {
                                 $this->_update_matieres($data, $formation_id, $matieres);
                                 $this->_update_juristes($data, $formation_id, $juristes);
+                                $this->_update_millesime($data[$adapter::ZANNEE], $formation_id);
                             }
                         }
                     }
@@ -393,6 +396,25 @@ class Formation extends \App\Override\Model\CridonMvcModel
         } catch (\Exception $e) {
             writeLog('Error while updating '.$type.'s link to formation '.$id , 'formation.log');
             writeLog($e, 'formation.log');
+        }
+    }
+
+    private function _update_millesime($yearString, $id) {
+        $millesime = mvc_model('Millesime');
+
+        $options = array(
+            'conditions' => array(
+                'id_formation' => $id
+            )
+        );
+        $millesime->delete_all( $options );
+        $years = explode('/', trim($yearString));
+        foreach ($years as $year) {
+            $options = array(
+                'id_formation' => $id,
+                'year' => intval(trim($year))
+            );
+            $millesime->save( $options );
         }
     }
 }

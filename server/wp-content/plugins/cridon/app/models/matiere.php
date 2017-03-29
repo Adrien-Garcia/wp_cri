@@ -18,6 +18,11 @@ class Matiere extends \App\Override\Model\CridonMvcModel
             'foreign_key' => 'id'
         )
     );
+
+    public static $defaultMatiere = null;
+
+    const DEFAULT_MATIERE_ID = 14;
+
     public function create($data) {
         $path = $this->upload();
         if( $path ){
@@ -146,5 +151,21 @@ class Matiere extends \App\Override\Model\CridonMvcModel
             }
         }
         return $matieres;
+    }
+
+    public static function getOneMatiere($matieres) {
+        if (empty(self::$defaultMatiere)) {
+            self::$defaultMatiere = mvc_model('matiere')->find_by_id(self::DEFAULT_MATIERE_ID);
+        }
+        $defaultMatiere = self::$defaultMatiere;
+
+        if (is_array($matieres)) {
+            if (count($matieres) === 1 && reset($matieres) instanceof self) {
+                return reset($matieres);
+            }
+        } else if ($matieres instanceof self) {
+            return $matieres;
+        }
+        return $defaultMatiere;
     }
 }
