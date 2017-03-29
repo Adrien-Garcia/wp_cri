@@ -19,6 +19,8 @@ App.Question = {
     fileQuestionSelector: '.js-question-file',
     fileQuestionResetSelector: '.js-file-reset',
     fileQuestionNameSelector: '.js-file-name',
+    confidentialQuestionSelector: '.js-question-confidential',
+    emailQuestionSelector: '.js-question-email',
     objectQuestionFieldSelector: '.js-question-object',
     messageQuestionFieldSelector: '.js-question-message',
 
@@ -63,6 +65,8 @@ App.Question = {
     $fileQuestionName: null,
     $objectQuestionField: null,
     $messageQuestionField: null,
+    $confidentialQuestion: null,
+    $emailQuestion: null,
 
     $tabQuestionExpertise: null,
     $tabQuestionConsultation: null,
@@ -117,6 +121,8 @@ App.Question = {
         this.$fileQuestion                          = $(this.fileQuestionSelector);
         this.$fileQuestionReset                     = $(this.fileQuestionResetSelector);
         this.$fileQuestionName                      = $(this.fileQuestionNameSelector);
+        this.$confidentialQuestion                  = $(this.confidentialQuestionSelector);
+        this.$emailQuestion                         = $(this.emailQuestionSelector);
 
         this.$buttonQuestionDocumentation           = $(this.buttonQuestionDocumentationSelector);
         this.$buttonQuestionSupportShortcut         = $(this.buttonQuestionSupportSelector);
@@ -129,7 +135,7 @@ App.Question = {
         this.$textQuestionExpertise                 = $(this.textQuestionExpertiseSelector);
 
         this.$owlCarousel                           = $(this.owlCarouselSelector);
-        this.$owlCarousel2                           = $(this.owlCarouselSelector2);
+        this.$owlCarousel2                          = $(this.owlCarouselSelector2);
         this.$popupOverlay                          = $(this.popupOverlaySelector);
 
         this.$submitQuestion                        = $(this.submitQuestionSelector);
@@ -179,6 +185,7 @@ App.Question = {
             }),
             onclose: (function () {
                 self.$owlCarousel.owlCarousel('destroy');
+                self.$emailQuestion.hide().val('');
                 self.$owlCarousel2.owlCarousel('destroy');
                 $('body').removeClass('noscroll');
                 self.formInitialized = false;
@@ -285,6 +292,10 @@ App.Question = {
 
         this.$selectQuestionMatiere.on('change', function () {
             self.eventSelectQuestionMatiereChange($(this));
+        });
+
+        this.$confidentialQuestion.on('change', function () {
+            self.confidentialQuestionChange($(this));
         });
 
         this.$buttonQuestionExpertise.on('click', function () {
@@ -460,6 +471,10 @@ App.Question = {
         this.$selectQuestionCompetenceArray[matiere].attr('name', this.$selectQuestionCompetenceArray[matiere].data('name'));
     },
 
+    confidentialQuestionChange: function (){
+        this.$emailQuestion.toggle().val('');
+    },
+
     eventZoneQuestionSupportClick: function (zone) {
         var radio;
         this.$zoneQuestionSupport.removeClass(this.selectedClass);
@@ -605,7 +620,9 @@ App.Question = {
             matiereFieldId = jsvar.question_matiere,
             competenceFieldId = jsvar.question_competence,
             objectFieldId = jsvar.question_objet,
-            messageFieldId = jsvar.question_message;
+            messageFieldId = jsvar.question_message,
+            confidential = jsvar.question_confidential,
+            email = jsvar.question_email;
         var d;
 
         var formdata = new FormData();
@@ -627,6 +644,8 @@ App.Question = {
             competence: $('*[name="' + competenceFieldId + '"]').first().val(),
             object: this.$objectQuestionField.first().val(),
             message: this.$messageQuestionField.first().val(),
+            confidential: this.$confidentialQuestion.prop('checked'),
+            email: this.$emailQuestion.first().val(),
         };
 
         if (!d.support) {
@@ -654,6 +673,8 @@ App.Question = {
         formdata.append(competenceFieldId, d.competence);
         formdata.append(objectFieldId, d.object);
         formdata.append(messageFieldId, d.message);
+        formdata.append(confidential, d.confidential);
+        formdata.append(email, d.email);
         this.$messageQuestionField.html('');
 
         if (parseInt(nbFiles, 10) > parseInt(jsvar.question_nb_file, 10)) {

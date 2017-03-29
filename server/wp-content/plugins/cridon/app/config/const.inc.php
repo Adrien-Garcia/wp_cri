@@ -557,6 +557,12 @@ if ( !defined( 'CONST_QUESTION_OBJECT_FIELD' ) ) {
 if ( !defined( 'CONST_QUESTION_MESSAGE_FIELD' ) ) {
     define( 'CONST_QUESTION_MESSAGE_FIELD', 'question_message' );
 }
+if ( !defined( 'CONST_QUESTION_CONFIDENTIAL_FIELD' ) ) {
+    define( 'CONST_QUESTION_CONFIDENTIAL_FIELD', 'question_confidential' );
+}
+if ( !defined( 'CONST_QUESTION_EMAIL_FIELD' ) ) {
+    define( 'CONST_QUESTION_EMAIL_FIELD', 'question_email' );
+}
 if ( !defined( 'CONST_QUESTION_ATTACHEMENT_FIELD' ) ) {
     define( 'CONST_QUESTION_ATTACHEMENT_FIELD', 'question_fichier' );
 }
@@ -617,6 +623,9 @@ if ( !defined( 'CONST_QUEST_TRANSMIS_ERP' ) ) {
 }
 if ( !defined( 'CONST_QUEST_ANSWERED' ) ) {
     define( 'CONST_QUEST_ANSWERED', 4 );
+}
+if ( !defined( 'CONST_QUEST_CONFIDENTIAL' ) ) {
+    define( 'CONST_QUEST_CONFIDENTIAL', 1 );
 }
 //Flag question en erreur
 if ( !defined( 'CONST_QUEST_SANS_ERREUR' ) ) {

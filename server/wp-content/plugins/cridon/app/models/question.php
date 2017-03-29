@@ -434,7 +434,10 @@ class Question extends \App\Override\Model\CridonMvcModel
                         'creation_date' => $creationDate,
                         'id_support' => $post[CONST_QUESTION_SUPPORT_FIELD],// Support
                         'id_competence_1' => $post[CONST_QUESTION_COMPETENCE_FIELD],// Competence
-                        'content' => stripslashes(htmlentities($post[CONST_QUESTION_MESSAGE_FIELD]))// Message
+                        'content' => stripslashes(htmlentities($post[CONST_QUESTION_MESSAGE_FIELD])),// Message
+                        'confidential' => ($post[CONST_QUESTION_CONFIDENTIAL_FIELD] == "true") ? 1 : 0,// Confidential
+                        'confidential_email' => $post[CONST_QUESTION_EMAIL_FIELD],// Confidential
+                        'confidential_user_id' => ($post[CONST_QUESTION_CONFIDENTIAL_FIELD] == "true") ? $notaire->id : ''// Confidential
                     )
                 );
                 // insert question
@@ -539,7 +542,9 @@ class Question extends \App\Override\Model\CridonMvcModel
             'matiere'        => '', // Matiere
             'competence'     => '', // Competence
             'support'        => '', // Support
-            'dateSoumission' => strftime('%d', strtotime($post['creation_date'])) .' '.strftime('%B', strtotime($post['creation_date'])).' '.strftime('%Y', strtotime($post['creation_date'])) // DateSoumission
+            'dateSoumission' => strftime('%d', strtotime($post['creation_date'])) .' '.strftime('%B', strtotime($post['creation_date'])).' '.strftime('%Y', strtotime($post['creation_date'])), // DateSoumission
+            'confidential'   => ($post[CONST_QUESTION_CONFIDENTIAL_FIELD] == "true"),
+            'confidential_email' => $post[CONST_QUESTION_EMAIL_FIELD]
         );
         // matiere
         $options  = array(

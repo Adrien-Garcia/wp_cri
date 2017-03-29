@@ -2099,6 +2099,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     LEFT JOIN Competence AS C ON Q.id_competence_1 = C.id
                     LEFT JOIN Matiere AS M ON M.code = C.code_matiere
                     WHERE '.$condAffectation.' AND E.crpcen = "'.$user->crpcen.'" '.$where.'
+                    AND ( Q.confidential <> ' . CONST_QUEST_CONFIDENTIAL . '
+                        OR ( Q.confidential = ' . CONST_QUEST_CONFIDENTIAL . ' AND Q.confidential_user_id =  ' . $user->id . ')
+                        )
                     GROUP BY Q.id
                     ORDER BY Q.creation_date DESC
                     '.$limit.'

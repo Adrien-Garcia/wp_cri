@@ -166,7 +166,8 @@
 						    <span class="fileButtonFront">Attacher une pièce jointe</span>
                         </div>
                         <?php endfor; ?>
-
+						<input type="checkbox" class="js-question-confidential"> Question confidentielle
+						<input type="email" class="js-question-email" placeholder="Email de suivi de la question" style="display:none">
 						<div class="sep"></div>
 						<div id="msgBlockQuestionId" class="js-question-error"></div>
 						<input class="js-question-submit analytics_Envoyer_question" type="submit" name="Envoyer ma question" value="Envoyer ma question">

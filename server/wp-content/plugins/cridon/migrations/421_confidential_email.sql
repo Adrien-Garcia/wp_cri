@@ -1,0 +1,2 @@
+ALTER TABLE `cri_question` ADD COLUMN IF NOT EXISTS `confidential_email` VARCHAR(100) NULL AFTER `confidential`;
+ALTER TABLE `cri_question` ADD COLUMN IF NOT EXISTS `confidential_user_id` INT(10) UNSIGNED NOT NULL NULL AFTER `confidential_email`;

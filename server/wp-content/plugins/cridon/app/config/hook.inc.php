@@ -123,6 +123,8 @@ function append_js_files()
                 'question_competence'      => CONST_QUESTION_COMPETENCE_FIELD,
                 'question_objet'           => CONST_QUESTION_OBJECT_FIELD,
                 'question_message'         => CONST_QUESTION_MESSAGE_FIELD,
+                'question_confidential'    => CONST_QUESTION_CONFIDENTIAL_FIELD,
+                'question_email'           => CONST_QUESTION_EMAIL_FIELD,
                 'question_fichier'         => CONST_QUESTION_ATTACHEMENT_FIELD,
                 'question_msgblock'        => CONST_QUESTION_SUCCESS_MSG_FIELD,
                 'question_content'         => CONST_QUESTION_ACTION_SUCCESSFUL,
