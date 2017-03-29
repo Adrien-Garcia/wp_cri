@@ -9,7 +9,6 @@ class Formation extends \App\Override\Model\CridonMvcModel
     public $includes = array('Post','Matiere', 'Session');
     public $belongs_to = array(
         'Post' => array('foreign_key' => 'post_id'),
-//        'Matiere' => array('foreign_key' => 'id_matiere')
     );
     public $has_many = array(
         'Session' => array(
@@ -58,24 +57,28 @@ class Formation extends \App\Override\Model\CridonMvcModel
         $select  = "SELECT fm.formation_id ,fm.matiere_id";
         $query = $select."
             FROM cri_formation f
-            LEFT JOIN cri_formation_matiere fm ON f.id = fm.id_formation ";
+            LEFT JOIN cri_formation_matiere fm ON f.id = fm.formation_id ";
         if (!empty($formation)) {
             $query .= "WHERE f.id = ".$formation;
         }
         $query .= ";";
         $results = $wpdb->get_results($query);
         $r = array();
-        if (!empty($formation)) {
+        if (empty($formation)) {
             foreach ($results as $v) {
-                $r[$v->formation_id][] = $matieres[$v->matiere_id];
+                if (!empty($matieres[$v->matiere_id])) {
+                    $r[$v->formation_id][] = $matieres[$v->matiere_id];
+                }
             }
         } else {
             foreach ($results as $v) {
-                $r[] = $matieres[$v->matiere_id];
+                if (!empty($matieres[$v->matiere_id])) {
+                    $r[] = $matieres[$v->matiere_id];
+                }
             }
         }
         $objects = $r;
-        return (!empty($objects)) ? reset($objects) : null;
+        return (!empty($objects)) ? $objects : null;
     }
 
     public function sendEmailPreinscription($session, $formationParticipants, $formationCommentaire) {
@@ -236,26 +239,23 @@ class Formation extends \App\Override\Model\CridonMvcModel
     protected function importFormations()
     {
         // get list of existing entite
-        $formations = mvc_model('Formation')->find(array(
+        $existing = mvc_model('Formation')->find(array(
             'conditions' => "id_form <> ''",
             'joins' => array('Post') //dummy condition to avoid join
         ));
-        $existing = assocToKeyVal($formations, 'id_form');
-        unset($formations);
+        $existing = assocToKeyVal($existing, 'id_form');
 
         // get list of existing matiere
-        $matiere = mvc_model('Matiere')->find(array(
+        $matieres = mvc_model('Matiere')->find(array(
             'joins' => array() //dummy condition to avoid join
         ));
-        $matieres = assocToKeyVal($matiere, 'code');
-        unset($matiere);
+        $matieres = assocToKeyVal($matieres, 'code');
 
         // get list of existing matiere
-        $juriste = mvc_model('UserCridon')->find(array(
+        $juristes = mvc_model('UserCridon')->find(array(
             'joins' => array() //dummy condition to avoid join
         ));
-        $juristes = assocToKeyVal($juriste, 'id_erp');
-        unset($juriste);
+        $juristes = assocToKeyVal($juristes, 'id_erp');
 
         $adapter = $this->adapter;
         $formationsInfos = array(
@@ -292,7 +292,7 @@ class Formation extends \App\Override\Model\CridonMvcModel
                         'id_form' => $data[$adapter::ZIDFORM],
                         'csn' => $data[$adapter::ZNUMERO],
                     );
-                    $content = $data[$adapter::ZOBJECTIF]->read(PHP_INT_MAX);
+                    $content = $data[$adapter::ZOBJECTIF]->read($adapter::CLOB_MAX_SIZE);
                     $content = wpautop(str_replace("\t", "    ", $content));
                     $pData = array(
                         'post_title' => mb_convert_encoding($data[$adapter::ZTITRE], 'UTF-8'),
@@ -304,7 +304,7 @@ class Formation extends \App\Override\Model\CridonMvcModel
                         // just the date, no time
                         $post_updated = date_create_from_format('Y-m-d|+',$existing[$aData['id_form']]->post->post_modified);
                         $erp_updated = date_create_from_format('d-M-y',$data['UPDDAT_0']);
-                        if ($post_updated->getTimestamp() < $erp_updated->getTimestamp() || true) {
+                        if ($post_updated->getTimestamp() < $erp_updated->getTimestamp()) {
                             $pData['ID'] = $existing[$data[$adapter::ZIDFORM]]->post_id;
                             $return = wp_update_post($pData, false);
                             if ($return !== 0) {

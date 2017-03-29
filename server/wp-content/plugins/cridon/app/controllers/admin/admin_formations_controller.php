@@ -41,8 +41,8 @@ class AdminFormationsController extends BaseAdminController
             'label' => 'Titre',
             'value_method' => 'post_edit_link'
         ),
-        'matiere' => array(
-            'label'=>'Matière',
+        'matieres' => array(
+            'label'=>'Matières',
             'value_method' => 'matiere_edit_link'
         )
     );
@@ -134,7 +134,15 @@ class AdminFormationsController extends BaseAdminController
         $matieres = mvc_model('Formation')->getMatieres($object->id);
         $object->matieres = $matieres;
         $this->prepareData($aOptionList, $object->matieres);
-        return empty($object->matiere) ? Config::$defaultMatiere['name'] : HtmlHelper::admin_object_link($object->matiere, array('action' => 'edit'));
+        if (!empty($object->matieres)) {
+            $return = '';
+            foreach ($object->matieres as $matiere) {
+                $return .= HtmlHelper::admin_object_link($matiere, array('action' => 'edit')) . ", ";
+            }
+        } else {
+            $return = Config::$defaultMatiere['name'];
+        }
+        return $return;
     }
 
     /**

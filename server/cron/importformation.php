@@ -1,25 +1,22 @@
 <?php
 /**
- * Description of importnotaire.php
+ * Description of importformation.php
  *
  * @package wp_cridon
- * @author eTech
- * @contributor Joelio
+ * @author Jetpulp
+ * @contributor chorgues
  */
 
 // load WP Core
 require_once '../wp-load.php';
 
-// Force update ?
-$force = isset($argv[1]) && $argv[1];
-
-// notaire model
+// formation model
 /**
  * @var $model Formation
  */
 ini_set("memory_limit","256M");
 $model = mvc_model('formation');
 // call import action
-$code = $model->importIntoFormation($force);
+$code = $model->importIntoFormation();
 
 echo $code;

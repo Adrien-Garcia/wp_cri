@@ -9,6 +9,7 @@
 interface DBConnect
 {
 
+    const CLOB_MAX_SIZE     = 4294967295;
     /****************** Table ZEXPNOTV Structure *******************/
     /**
      * @var string : category field in Output data
