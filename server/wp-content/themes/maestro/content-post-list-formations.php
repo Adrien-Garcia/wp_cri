@@ -38,7 +38,7 @@
             <?php if ( isset($formation->matiere) ): ?>
                 <div class="matiere"><?php echo $formation->matiere->label ?></div>
             <?php endif ?>
-            <h2><?php $formation->post->post_title ?></h2>
+            <h2><?php echo $formation->post->post_title ?></h2>
             <?php if (!empty($formation->post_excerpt)): ?>
                 <div class="chapeau">
                     <?php echo $formation->post->post_excerpt ?>

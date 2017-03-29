@@ -72,8 +72,10 @@ class CustomFormHelper extends MvcFormHelper {
             'name' => $this->input_name($field_name),
             'type' => 'text',
             'class' => 'datepicker',
-            'value' => date('Y-m-d')
+            'value' => date('d-m-Y')
         );
+        $timestamp = strtotime($options['value']);
+        $options['value'] = strftime('%d-%m-%G',$timestamp);
         $options = array_merge($defaults, $options);
         $attributes_html = self::attributes_html($options, 'input');
         $html = $this->before_input($field_name, $options);

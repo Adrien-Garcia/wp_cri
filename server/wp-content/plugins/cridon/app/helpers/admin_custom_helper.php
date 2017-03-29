@@ -18,5 +18,10 @@ class AdminCustomHelper extends MvcHelper
         $html = implode(' | ', $links);
         return '<td>'.$html.'</td>';
     }
+
+    public function dateToDbFormat($sDate, $format = 'd-m-Y') {
+        $timestamp = date_create_from_format($format, $sDate)->getTimestamp();
+        return strftime('%G-%m-%d',$timestamp);
+    }
 }
 

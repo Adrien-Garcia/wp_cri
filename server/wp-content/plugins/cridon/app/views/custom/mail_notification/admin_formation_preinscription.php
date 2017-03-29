@@ -7,7 +7,9 @@
 <br /><br /><br />
 Formation : <span class="section"><?php echo $name ; ?></span> <br /><br />
 <span class="newsletter_date">le <?php echo $date ; ?></span><br/>
+<?php if (!empty(trim($organisme))) : ?>
 <span class="introduction">au <?php echo $organisme ; ?></span><br />
+<?php endif; ?>
 <br />
-<i>Nombre de participant</i> : <?php echo $participants ; ?><br />
+<i>Nombre de participant(s)</i> : <?php echo $participants ; ?><br />
 <!-- Fin -->

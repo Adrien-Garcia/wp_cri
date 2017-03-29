@@ -229,10 +229,13 @@
 
 			.session {
 				width: 180px;
-			    position: absolute;
-			    top: 242px;
+			    //position: absolute;
+			    //top: 242px;
+			    float: left;
+			    clear: both;
 			    height: auto;
 			    padding: 10px;
+			    margin-right: 20px;
 
 			    p {
 
@@ -259,8 +262,10 @@
 
 			a.bt {
 				width: 180px;
-			    position: absolute;
-			    top: 330px;
+			    //position: absolute;
+			    //top: 330px;
+			    float: left;
+			    clear: both;
 			    @include transition(all 0.3s);
 
 			    &::before {
@@ -289,10 +294,6 @@
 					padding-bottom: 0;
 					margin-bottom: 30px;
 					min-height: 180px;
-
-					&:nth-child(4n) {
-						clear: both;
-					}
 
 					.session-item {
 						width: 100%;

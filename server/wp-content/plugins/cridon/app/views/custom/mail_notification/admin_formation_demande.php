@@ -9,5 +9,5 @@
 <h3>La demande</h3>
 <br />
 <i>Nom de la formation</i> : <span class="section"><?php echo $name ; ?></span> <br />
-<i>Nombre de participant</i> : <?php echo $participants ; ?><br />
+<i>Nombre de participant(s)</i> : <?php echo $participants ; ?><br />
 <!-- Fin -->

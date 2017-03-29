@@ -2,7 +2,6 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?> role="article">
     <!-- gestion de l'affichage sans session -->
 	<?php if (empty($sessions)): ?>
-        <div class="date sel-object-date"></div>
         <div class="session">
             <p class="horaire">Pas de session de programmée</p>
         </div>
@@ -139,9 +138,10 @@
                                 <?php if (!empty(trim($session->entite->office_email_adress_1))): ?>
                                     <p class="session-mail">Email : <a href="mailto:<?php echo $session->entite->office_email_adress_1 ?>"><?php echo $session->entite->office_email_adress_1 ?></a></p>
                                 <?php endif; ?>
-                            <?php endif; ?>
                             </div>
+                            <?php endif; ?>
                         <?php endif; ?>
+
                         <?php if (!empty($session->action) && !empty($session->action_label)): ?>
                             <a
                             <?php if (!$session->is_full) : ?>

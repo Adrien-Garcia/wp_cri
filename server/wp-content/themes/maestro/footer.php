@@ -11,7 +11,7 @@
 							<ul id="">
 								<li class="formations js-home-block-link">
 									<span><?php _e('Le catalogue formations'); ?></span>
-									<a href="/catalogue-formation/" title=""><span><?php _e('Consulter'); ?></span></a>
+									<a href="<?php echo MvcRouter::public_url(array('controller' => 'formations', 'action'     => 'catalog')) ?>" title=""><span><?php _e('Consulter'); ?></span></a>
 								</li>
 								<li class="cahier js-home-block-link">
 									<span><?php _e('Les cahiers du cridon Lyon'); ?></span>
