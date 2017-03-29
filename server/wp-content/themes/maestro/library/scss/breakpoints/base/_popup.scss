@@ -12,7 +12,45 @@
 	//padding: 10px 10px 0 10px;
 	background: #FFF;
 
+    .question_readability:not(.hidden) {
+        position: relative;
+        margin: 0 0 3px 0;
+        border: 1px solid $rouge;
+        padding: 0;
+        text-align: left;
+        font-size: 12px;
 
+        .attention {
+        	background-color: $rouge;
+    	    width: 100%;
+		    line-height: 25px;
+		    text-align: left;
+		    display: block;
+		    padding: 0 10px;
+		    text-transform: uppercase;
+		    color: #fff;
+        }
+
+        .message {
+        	display: block;
+        	padding: 10px;
+        	line-height: 18px;
+        }
+
+        &:after {
+            content: '';
+            border-left: 1px solid $rouge;
+            border-bottom: 1px solid $rouge;
+            transform: rotateZ(-45deg);
+            position: absolute;
+            display: block;
+            height: 12px;
+            width: 12px;
+            background: #fff;
+            left: 20px;
+            bottom: -7px;
+        }
+    }
 
 	.block_top{
 		padding-bottom: 30px;

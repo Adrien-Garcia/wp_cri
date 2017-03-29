@@ -9,7 +9,7 @@
 			<span class="texte"><?php _e('Poser une question'); ?></span>
 			<span class="expertise hidden js-expertise-niveau-text">Niveau expertise</span>
 		</div>
-		
+
 		<div class="onglets">
 			<div class="h2 open niveau-expertise js-question-button-expertise">1. <span><?php _e('Niveau d\'expertise'); ?></span></div>
 			<div class="h2 consultation js-question-button-consultation">2. <span><?php _e('Service / Delai'); ?></span></div>
@@ -71,7 +71,7 @@
                                         data-value="<?php echo $support->value ; ?>"
                                         data-expertise-id="<?php echo $support->id_expertise ; ?>"
                                         class="hidden js-question-support-radio">
-                                    
+
                                     <p class="description">
                                         <?php echo $support->description; ?>
                                     </p>
@@ -104,7 +104,7 @@
                                         data-value="<?php echo $support->value ; ?>"
                                         data-expertise-id="<?php echo $support->id_expertise ; ?>"
                                         class="hidden js-question-support-radio">
-                                    
+
                                     <p class="description">
                                         <?php echo $support->description; ?>
                                     </p>
@@ -125,7 +125,7 @@
 				</div>
 				<div class="block_droit">
 					<div class="form">
-						<?php 
+						<?php
 							$matieres = CriListQuestionsMatieres();
 						 ?>
 						<select name="question_matiere" id="question_matiere" class="js-question-select-matiere" >
@@ -156,7 +156,13 @@
 							<?php $icomp++; ?>
 						<?php endforeach; ?>
 						<input class="js-question-object" type="text" name="question_objet" id="question_objet" value="" placeholder="Objet de la question / Références de dossier" maxlength="80">
-						<textarea class="js-question-message" name="question_message" id="question_message" placeholder="Votre question"></textarea>
+
+                        <div class="js-question-readability question_readability hidden" >
+                            <span class="attention">Attention</span>
+                            <span class="message">Pensez à aérer votre texte en revenant à la ligne.</span>
+                        </div>
+
+                        <textarea class="js-question-message" name="question_message" id="question_message" placeholder="Votre question"></textarea>
 
                         <?php for ($i = 0; $i < 5; $i++) : ?>
 						<div class="fileUpload btn btn-primary js-file-hide <?php echo ($i == 0) ? "" : "hidden"; ?>">
@@ -171,14 +177,14 @@
 						<div class="sep"></div>
 						<div id="msgBlockQuestionId" class="js-question-error"></div>
 						<input class="js-question-submit analytics_Envoyer_question" type="submit" name="Envoyer ma question" value="Envoyer ma question">
-					    
+
                     </div>
-					
+
 				</div>
                 <div style=" clear:both; overflow:hidden; visibility:hidden; height:1px; display:block; margin:0;">&nbsp;</div>
 			</div>
 		</div>
-		
+
 	</div>
 	</form>
 
@@ -216,7 +222,7 @@
 						<span><?php _e('une question par téléphone'); ?></span>
 					</div>
 					<a href="/poser-une-question-par-telephone/" target="_blank">+</a>
-				</div>						
+				</div>
 			</div>
 
 			<div class="block demander js-question-documentation-button analytics_Demande_doc">
@@ -226,7 +232,7 @@
 						<span><?php _e('une documentation'); ?></span>
 					</div>
 					<a href="#">+</a>
-				</div>						
+				</div>
 			</div>
 
 			<div class="block prendre js-home-block-link analytics_Demande_rdv">
@@ -236,10 +242,10 @@
 						<span><?php _e('un rendez-vous'); ?></span>
 					</div>
 					<a href="mailto:visite@cridon-lyon.fr">+</a>
-				</div>						
+				</div>
 			</div>
 		</div>
-		
+
 	</div>
 
 </div>
