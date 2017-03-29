@@ -16,7 +16,7 @@
 
 
 				<div class="titre">
-					<span class="h1"><?php _e('Formation'); ?> - <?php echo $object->matiere->label ?></span>
+					<span class="h1"><?php _e('Formation'); ?></span>
 				</div>
 
 				<div class="sep"></div>
