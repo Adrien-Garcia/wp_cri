@@ -46,10 +46,6 @@
                                 <p>
                                    <a href="<?php echo $demande['formation']['url'] ; ?>" class="bt-plus">En savoir plus</a>
                                 </p>
-                                <div class="important">
-									<div class="titre">Important</div>
-									Pour organiser une formation, la participation de sept personnes à minima est requise.
-								</div>
 							</div>
 							<!-- Fin -->
                             <?php endif; ?>
@@ -58,15 +54,15 @@
 							<!-- Demande de Pré inscription -->
 							<div>
 								<div class="h3"><?php echo $demande['formation']['title']; ?></div>
-                                <?php echo apply_filters('the_content', $demande['formation']['content']); ?>
-                                <a href="<?php echo $demande['formation']['url'] ; ?>" class="bt-plus">En savoir plus</a>
-
                                 <div class="session">
                                     <div class="date">le <?php echo strftime('%d %b %G',strtotime($demande['formation']['date'])) ?>
                                     </div>
-    								<div class="organisme"><?php echo strtoupper($demande['formation']['organisme']) ; ?></div>
-    								<div class="horaire"><?php echo $demande['formation']['time'] ; ?></div>
+                                    <div class="organisme"><?php echo strtoupper($demande['formation']['organisme']) ; ?></div>
+                                    <div class="horaire"><?php echo $demande['formation']['time'] ; ?></div>
                                 </div>
+                                <br />
+                                <?php echo apply_filters('the_content', $demande['formation']['content']); ?>
+                                <a href="<?php echo $demande['formation']['url'] ; ?>" class="bt-plus">En savoir plus</a>
 							</div>
 							<!-- Fin -->
                             <?php endif; ?>
