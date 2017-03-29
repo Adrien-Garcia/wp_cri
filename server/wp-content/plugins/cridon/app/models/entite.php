@@ -35,6 +35,12 @@ class Entite extends \App\Override\Model\CridonMvcModel {
      */
     public $listDocs = array();
 
+    /**
+     * Get all 3 level prices for a given entite
+     * @param $entite
+     * @return array
+     * @throws Exception
+     */
     public function getRelatedPrices($entite) {
 
         // get number of active members of the office
@@ -55,7 +61,7 @@ class Entite extends \App\Override\Model\CridonMvcModel {
         $nbCollaboratorEntite = mvc_model('QueryBuilder')->countItems('notaire', $options, 'n.id');
 
         $subscriptionInfos = array();
-        foreach (Config::$pricesLevelsVeilles as $level => $prices) {
+        foreach (get_option('cridonline_prices_year_N') as $level => $prices) {
             // Tri du tableau de prix par clé descendante
             krsort($prices);
             foreach ($prices as $nbCollaborator => $price) {
@@ -69,10 +75,36 @@ class Entite extends \App\Override\Model\CridonMvcModel {
         return $subscriptionInfos;
     }
 
+    /**
+     * Get current / next subscription price for a given entite
+     * @param $entite
+     * @param bool $isNextLevel
+     * @return mixed
+     */
     public function getSubscriptionPrice($entite, $isNextLevel = false){
         $level = ($isNextLevel && !empty($entite->next_subscription_level)) ? $entite->next_subscription_level : $entite->subscription_level;
         $prices = $this->getRelatedPrices($entite);
         return $prices[$level];
+    }
+
+    /**
+     * Get all cridonline prices : year N and N+1
+     * @return array
+     */
+    public function getAllCridonlinePrices() {
+        return array(
+            'year_N' => get_option('cridonline_prices_year_N'),
+            'year_N_plus_1' => get_option('cridonline_prices_year_N_plus_1')
+        );
+    }
+
+    /**
+     * Updates year N cridonline prices with N+1 prices
+     * @return bool
+     */
+    public function yearlyUpdateCridonlinePrices(){
+        update_option('cridonline_prices_year_N',get_option('cridonline_prices_year_N_plus_1'));
+        return true;
     }
 
     /**
