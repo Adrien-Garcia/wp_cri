@@ -707,7 +707,8 @@ class FormationsController extends BaseActuController
                     'on'     => ' d.id_externe = f.id and d.type=\'formation\'',
                     'type'   => 'LEFT JOIN',
                 ),
-            )
+            ),
+            'group' => 'f.id'
         );
         $formations = $this->model->find($options);
 
