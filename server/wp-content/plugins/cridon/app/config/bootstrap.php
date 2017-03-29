@@ -1026,3 +1026,6 @@ function CridonlineAutologinLink()
     }
     return array($access, $url);
 }
+
+// WP-MVC : demarches --> demarch
+MvcInflector::rules('singular',array('irregular' => array('demarches' => 'demarche')));

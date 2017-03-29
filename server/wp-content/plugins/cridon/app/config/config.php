@@ -344,11 +344,12 @@ class Config {
     public static $listOfControllersWpMvcOnSidebar = array(
         'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
         'questions','soldes','supports','user_cridons','veilles','vie_cridons', 'sessions',
-        'evenements'
+        'evenements', 'demarches'
     );
     public static $listOfControllersWithNoActionAdd = array(
         'notaires',
-        'questions'
+        'questions',
+        'demarches'
     );
     
     //Admin wp_mvc action translation
@@ -396,6 +397,10 @@ class Config {
         'evenement' => array(
             'add'    => 'Ajout d\'un nouvel évènement',
             'edit'   => 'Modifier les informations d\'un évènement'
+        ),
+        'demarche' => array(
+            'add'    => 'Demarche',
+            'edit'   => 'Gérer une démarche'
         )
     );
     public static $titleFieldAdminForm = array(
@@ -770,5 +775,11 @@ class Config {
         's' => array(),
         'strike' => array(),
         'strong' => array(),
+    );
+
+    public static $labelWorflowFormation = array(
+        CONST_FORMATION_PREINSCRIPTION => 'Pré-inscription',
+        CONST_FORMATION_DEMANDE => 'Nouvelle session',
+        CONST_FORMATION_GENERIQUE => 'Nouvelle formation',
     );
 }

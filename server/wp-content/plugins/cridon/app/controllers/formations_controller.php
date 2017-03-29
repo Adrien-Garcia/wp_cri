@@ -432,25 +432,31 @@ class FormationsController extends BaseActuController
         if (is_array($element) && !empty($element['error'])) {
             return $element;
         }
+        /** @var Formation $model_formation */
         $model_formation = mvc_model('Formation');
+        /** @var Demarche $model_demarche */
+        $model_demarche = mvc_model('Demarche');
 
         $formationCommentaire = wp_kses(nl2br($params['formationCommentaire']), Config::$allowedMailTags);
 
         if ($type == CONST_FORMATION_PREINSCRIPTION || $type == CONST_FORMATION_DEMANDE) {
-            $formationParticipants = sanitize_text_field($params['formationParticipants']);
+            $content = sanitize_text_field($params['formationParticipants']);
         } else {
-            $formationTheme = sanitize_text_field($params['formationTheme']);
+            $content = sanitize_text_field($params['formationTheme']);
         }
+
+        $currentUser = CriNotaireData();
+        $model_demarche->createFromFormulaire($type, $currentUser, $content, $formationCommentaire, $element);
 
         switch ($type) {
             case CONST_FORMATION_PREINSCRIPTION :
-                $model_formation->sendEmailPreinscription($element, $formationParticipants, $formationCommentaire);
+                $model_formation->sendEmailPreinscription($element, $content, $formationCommentaire);
                 break;
             case CONST_FORMATION_DEMANDE :
-                $model_formation->sendEmailDemande($element, $formationParticipants, $formationCommentaire);
+                $model_formation->sendEmailDemande($element, $content, $formationCommentaire);
                 break;
             case CONST_FORMATION_GENERIQUE :
-                $model_formation->sendEmailGenerique($formationTheme, $formationCommentaire);
+                $model_formation->sendEmailGenerique($content, $formationCommentaire);
                 break;
         }
         return array('valid'=>' Votre demande a bien été envoyée. ');
