@@ -17,6 +17,30 @@ class Demarche extends \App\Override\Model\CridonMvcModel
         )
     );
 
+    protected $_csv_format = array(
+        'id',
+        'type',
+        'date_demande',
+        'details',
+        'lieu',
+        'horaire',
+        'commentaire_client',
+        'commentaire_cridon',
+        'notaire',
+        'notaire_crpcen',
+        'notaire_nom',
+        'notaire_prenom',
+        'notaire_mail',
+        'session',
+        'session_date',
+        'session_horaire',
+        'organisme_crpcen',
+        'organisme_name',
+        'formation',
+        'formation_titre',
+        'formation_matieres',
+    );
+
     public function createFromFormulaire($type, $currentUser, $content, $formationCommentaire, $element)
     {
         $date = new DateTime();
@@ -31,5 +55,100 @@ class Demarche extends \App\Override\Model\CridonMvcModel
             'date' => $date->format('Y-m-d'),
         );
         $this->create($data);
+    }
+
+    public function exportCsvDemarchesToFile($file_path, $complete = true, $with_header = true) {
+        if (!file_exists( dirname($file_path) )) {
+            mkdir(dirname($file_path), 0755, true);
+        }
+        $ressource = fopen($file_path, 'w+b');
+        $this->exportCsvDemarches($ressource , $complete, $with_header);
+        fclose($ressource);
+    }
+
+    public function exportCsvDemarches($ressource , $complete = true, $with_header = true) {
+        $demarches = $this->find(
+            array(
+                'joins'=>array('Session', 'Notaire')
+            )
+        );
+
+        if ($with_header) {
+            fputcsv($ressource, $this->_csv_format);
+        }
+        $lines = array();
+        foreach ($demarches as $demarche) {
+            $formation = mvc_model('formation')->find_by_id($demarche->formation_id,array(
+                'joins'=>array('Post')
+            ));
+            $session = mvc_model('session')->find_by_id($demarche->session_id,array(
+                'joins'=>array('Entite')
+            ));
+            $matieres = $demarche->formation->mvc_model->getMatieres($formation->id);
+            $arrayMatieres = array();
+            foreach ($matieres as $matiere) {
+                $arrayMatieres[] = $matiere->label;
+            }
+            $lines[] = array(
+                'id' => $demarche->id,
+                'type' => $demarche->type,
+                'date_demande' => $demarche->date,
+
+                'details' => $demarche->details, // TODO ?
+                'lieu' => 'LIEU', // TODO
+                'horaire' => 'HORAIRE', // TODO
+                'commentaire_client' => $demarche->commentaire_client,
+                'commentaire_cridon' => $demarche->commentaire_cridon,
+
+                'notaire' => $demarche->notaire_id, // TODO
+                'notaire_crpcen' => $demarche->notaire->crpcen,
+                'notaire_nom' => $demarche->notaire->last_name,
+                'notaire_prenom' => $demarche->notaire->first_name,
+                'notaire_mail' => $demarche->notaire->email_adress,
+
+                'session' => $session->id, // TODO
+                'session_date' => $session->date,
+                'session_horaire' => $session->timetable,
+                'organisme_crpcen' => $session->entite->crpcen,
+                'organisme_name' => $session->entite->office_name,
+
+                'formation' => $formation->id, // TODO
+                'formation_titre' => $formation->post->post_title,
+                'formation_matieres' => implode('|', $arrayMatieres),
+
+            );
+        }
+        $lines = $this->_validateDataForCsv($this->_csv_format, $lines);
+        foreach ($lines as $line) {
+            fputcsv($ressource, $line);
+        }
+
+    }
+
+    /**
+     * Organize csv columns to be the same order as the header
+     *
+     * @param array $header array of each columns
+     * @param array $data   array of arrays each being one csv line
+     *
+     * @throws Exception
+     * @return array
+     */
+    private function _validateDataForCsv($header, $data) {
+        $nbCol = count($header);
+        $newData = array();
+        foreach ($data as $key => $array) {
+            if (count($array) !== $nbCol) {
+                throw new Exception('Csv Export Exception : the line "'.$key.'" has an incorrect number of columns : expected '.$nbCol.' got '.count($array).'.');
+            }
+            $newData[$key] = array();
+            foreach ($header as $hKey => $column) {
+                if (!array_key_exists($column, $array)) {
+                    throw new Exception('Csv Export Exception : the line "'.$key.'" miss the "'.$column.'" key.');
+                }
+                $newData[$key][] = !isset($array[$column]) ? '' : $array[$column];
+            }
+        }
+        return $newData;
     }
 }

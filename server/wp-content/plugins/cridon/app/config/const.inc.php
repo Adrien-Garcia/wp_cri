@@ -1326,3 +1326,8 @@ if ( !defined( 'CONST_FORMATION_DEMANDE' ) ) {
 if ( !defined( 'CONST_FORMATION_GENERIQUE' ) ) {
     define( 'CONST_FORMATION_GENERIQUE', 3 );
 }
+
+// export CSV Demarche file path
+if ( !defined( 'CONST_EXPORT_CSV_DEMARCHE_FILE_PATH' ) ) {
+    define( 'CONST_EXPORT_CSV_DEMARCHE_FILE_PATH', WP_CONTENT_DIR . '/uploads/demarches' );
+}
