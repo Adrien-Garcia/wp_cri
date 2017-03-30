@@ -157,15 +157,12 @@ class Matiere extends \App\Override\Model\CridonMvcModel
         if (empty(self::$defaultMatiere)) {
             self::$defaultMatiere = mvc_model('matiere')->find_by_id(self::DEFAULT_MATIERE_ID);
         }
-        $defaultMatiere = self::$defaultMatiere;
 
         if (is_array($matieres)) {
-            if (count($matieres) === 1 && reset($matieres) instanceof self) {
+            if (count($matieres) === 1) {
                 return reset($matieres);
             }
-        } else if ($matieres instanceof self) {
-            return $matieres;
         }
-        return $defaultMatiere;
+        return self::$defaultMatiere;
     }
 }

@@ -135,10 +135,11 @@ class AdminFormationsController extends BaseAdminController
         $object->matieres = $matieres;
         $this->prepareData($aOptionList, $object->matieres);
         if (!empty($object->matieres)) {
-            $return = '';
+            $return = array();
             foreach ($object->matieres as $matiere) {
-                $return .= HtmlHelper::admin_object_link($matiere, array('action' => 'edit')) . ", ";
+                $return[] = HtmlHelper::admin_object_link($matiere, array('action' => 'edit'));
             }
+            $return = implode(' | ',$return);
         } else {
             $return = Config::$defaultMatiere['name'];
         }
