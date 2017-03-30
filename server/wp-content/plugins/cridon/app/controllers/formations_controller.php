@@ -80,6 +80,7 @@ class FormationsController extends BaseActuController
     public function show(){
         $params = $this->params;
         parent::show();
+        $this->object->matieres = $this->model->getMatieres($this->object->id);
         $formation = $this->object;
         $highlight = false;
         if (!empty($formation->id)) {
@@ -120,7 +121,10 @@ class FormationsController extends BaseActuController
 
         $matieres = mvc_model('Matiere')->find(array(
             'conditions' => array(
-                'displayed' => 1,
+                'OR' => array(
+                    'displayed' => 1,
+                    'id' => Matiere::DEFAULT_MATIERE_ID
+                )
             )
         ));
 
@@ -243,11 +247,11 @@ class FormationsController extends BaseActuController
         $formations = $this->model->find(array(
             'joins' => array(
                 'Post',
-                'Matiere',
             ),
         ));
         $formations = assocToKeyVal($formations, 'id');
-
+        // As current ORM does not handle multiple JOIN
+        $matieresByFormations = $this->model->getMatieres();
         // On récupère les organismes dont dépends l'étude
         $organismesAssociatedToEntite = array();
         if (!empty($notaire = CriNotaireData())){
@@ -269,8 +273,8 @@ class FormationsController extends BaseActuController
             );
             $lineSession = array(
                 'name'       => $formation->post->post_title,
-                'short_name' => $formation->short_name,
-                'matiere'    => $formation->matiere,
+                'csn'        => $formation->csn,
+                'matiere'   => Matiere::getOneMatiere($matieresByFormations[$formation->id]),
                 'time'       => $session->timetable,
                 'url'        => MvcRouter::public_url($urlOptions),
                 'id'         => $session->id,
@@ -672,13 +676,15 @@ class FormationsController extends BaseActuController
      */
     public function catalog($current = true)
     {
+        $matieresByFormations = mvc_model('formation')->getMatieres();
+        $matiereDefault = mvc_model('matiere')->find_by_id(Matiere::DEFAULT_MATIERE_ID);
         $option = get_option('cridon_next_year_catalog_published');
         $this->set('catalogPublished', $option);
 
-        $year = ($current ? date('Y') : Date ('Y', strtotime('+1 year')));
+        $year = ($current ? date('Y') : date('Y', strtotime('+1 year')));
         $options = array(
             'selects' => array(
-                'f.id','p.post_title', 'd.download_url','ma.label'
+                'f.id','p.post_title', 'd.download_url'
             ),
             'conditions' => array(
                 'm.year' => $year,
@@ -690,11 +696,6 @@ class FormationsController extends BaseActuController
                     'model'  => 'Post',
                     'alias'  => 'p',
                     'on'     => ' p.ID = f.post_id'
-                ),
-                array(
-                    'model'  => 'Matiere',
-                    'alias'  => 'ma',
-                    'on'     => ' ma.id = f.id_matiere'
                 ),
                 array(
                     'model'  => 'Millesime',
@@ -714,7 +715,17 @@ class FormationsController extends BaseActuController
 
         $sortedFormations = array();
         foreach($formations as $formation){
-            $sortedFormations[$formation->matiere->id][] = $formation;
+            if ($matieresByFormations[$formation->id] !== null) {
+                $formation->matieres = $matieresByFormations[$formation->id];
+                if (count($formations->matieres) === 1) {
+                    $sortedFormations[$formation->matieres[0]->id][] = $formation;
+                } else {
+                    $sortedFormations[Matiere::DEFAULT_MATIERE_ID][] = $formation;
+                }   
+            } else {
+                $formation->matieres = array($matiereDefault);
+                $sortedFormations[$matiereDefault->id][] = $formation;
+            }
         }
         ksort($sortedFormations);
         $this->set('sortedFormations', $sortedFormations);

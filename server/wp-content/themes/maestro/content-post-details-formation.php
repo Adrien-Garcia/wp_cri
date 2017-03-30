@@ -49,11 +49,13 @@
     <?php endif; ?>
 
 	<div class="details <?php if(!empty($niveau)){echo $niveau;} ?>">
-		<?php if (isset($object->matiere)) : ?>
+		<?php if (isset($object->matieres) && !empty($object->matieres)) : ?>
 
 		<div class="block_left">
 			<div class="img-cat">
-				<img class="sel-object-picto" src="<?php echo $object->matiere->picto ?>" alt="<?php echo $object->matiere->label ?>" />
+                <?php foreach ($object->matieres as $index => $matiere) : ?>
+                    <img class="sel-object-picto" src="<?php echo $matiere->picto ?>" alt="<?php echo $matiere->label ?>" />
+                <?php endforeach; ?>
 			</div>
 		</div>
 		<?php endif; ?>
@@ -61,8 +63,12 @@
 
 
 		<div class="block_right sel-object-content">
-		<?php if (isset($object->matiere)) : ?>
-			<div class="matiere"><?php echo $object->matiere->label ?></div>
+		<?php if (isset($object->matieres) && !empty($object->matieres)) : ?>
+			<div class="matiere">
+            <?php foreach ($object->matieres as $index => $matiere) : ?>
+                <span><?php echo $matiere->label ?></span>
+            <?php endforeach; ?>
+            </div>
 		<?php endif; ?>
 			<h1 class="entry-title single-title"><?php the_title() ?></h1>
 		<?php if (!empty($post->post_excerpt)): ?>

@@ -488,8 +488,34 @@ body.single,
             }
 		}
 
-		.details {
+		#inner-content article .details {
 			margin-bottom: 35px;
+
+			.block_left {
+				height: auto;
+
+				.img-cat {
+					height: auto;
+
+					img {
+						display: block;
+						margin-bottom: 5px;
+					}
+				}
+			}
+
+			.block_right {
+				.matiere {
+					background: none;
+					line-height: 18px;
+					padding: 0 !important;
+
+					span {
+						background: $vert;
+						padding: 0 3px;
+					}
+				}
+			}
 		}
 
 		.liste-sessions {

@@ -221,6 +221,24 @@ if ( !defined( 'CONST_DB_TABLE_ABONNE' ) ) {
     define( 'CONST_DB_TABLE_ABONNE', $prefix.'YABONNE' );
 }
 
+if ( !defined( 'CONST_DB_TABLE_FORMATION' ) ) {
+    switch ($env) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_TABLE_FORMATION', $prefix.'ZFORMV' );
+}
+
+
 
 // import CSV notaire file path
 if ( !defined( 'CONST_IMPORT_CSV_NOTAIRE_FILE_PATH' ) ) {

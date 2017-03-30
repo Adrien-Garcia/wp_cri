@@ -20,7 +20,7 @@ class AdminFormationsController extends BaseAdminController
      * Search join
      * @var array
      */
-    var $default_search_joins = array('Matiere','Post', 'Session');
+    var $default_search_joins = array('Post', 'Matiere');
 
     /**
      * Default searchable field
@@ -28,8 +28,7 @@ class AdminFormationsController extends BaseAdminController
      */
     var $default_searchable_fields = array(
         'id',
-        'Post.post_title',
-        'Matiere.label',
+        'Post.post_title'
     );
 
     /**
@@ -42,8 +41,8 @@ class AdminFormationsController extends BaseAdminController
             'label' => 'Titre',
             'value_method' => 'post_edit_link'
         ),
-        'matiere' => array(
-            'label'=>'Matière',
+        'matieres' => array(
+            'label'=>'Matières',
             'value_method' => 'matiere_edit_link'
         )
     );
@@ -132,8 +131,18 @@ class AdminFormationsController extends BaseAdminController
         $aOptionList = array(
             '__name'    => 'label'
         );
-        $this->prepareData($aOptionList, $object->matiere);
-        return empty($object->matiere) ? Config::$defaultMatiere['name'] : HtmlHelper::admin_object_link($object->matiere, array('action' => 'edit'));
+        $matieres = mvc_model('Formation')->getMatieres($object->id);
+        $object->matieres = $matieres;
+        $this->prepareData($aOptionList, $object->matieres);
+        if (!empty($object->matieres)) {
+            $return = '';
+            foreach ($object->matieres as $matiere) {
+                $return .= HtmlHelper::admin_object_link($matiere, array('action' => 'edit')) . ", ";
+            }
+        } else {
+            $return = Config::$defaultMatiere['name'];
+        }
+        return $return;
     }
 
     /**

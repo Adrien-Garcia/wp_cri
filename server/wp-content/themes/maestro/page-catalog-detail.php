@@ -32,7 +32,7 @@
                 <?php // var_dump($formations) ?>
                 <li class="matiere">
                     <div class="nom-matiere js-bt-matiere">
-                        <span><?php echo $formations[0]->matiere->label ?></span>
+                        <span><?php echo $formations[0]->matieres[0]->label ?></span>
                     </div>
                     <ul class="formations">
                         <?php foreach ($formations as $formation): ?>
