@@ -238,6 +238,23 @@ if ( !defined( 'CONST_DB_TABLE_FORMATION' ) ) {
     define( 'CONST_DB_TABLE_FORMATION', $prefix.'ZFORMV' );
 }
 
+if ( !defined( 'CONST_DB_VUE_SESSION' ) ) {
+    switch ($env) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_VUE_SESSION', $prefix.'ZSIONV' );
+}
+
 
 
 // import CSV notaire file path
