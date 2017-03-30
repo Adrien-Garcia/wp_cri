@@ -47,7 +47,7 @@ class Formation extends \App\Override\Model\CridonMvcModel
      *
      * @return \MvcModelObject
      */
-    public function getMatieres ($formation = null) {
+    public function getMatieres($formation = null) {
         global $wpdb;
         // get list of existing matiere
         $matieres = mvc_model('Matiere')->find(array(
