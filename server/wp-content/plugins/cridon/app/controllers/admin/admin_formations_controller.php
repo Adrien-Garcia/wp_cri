@@ -131,7 +131,7 @@ class AdminFormationsController extends BaseAdminController
         $aOptionList = array(
             '__name'    => 'label'
         );
-        $matieres = mvc_model('Formation')->getMatieres($object->id);
+        $matieres = mvc_model('Formation')->getMatieres($object);
         $object->matieres = $matieres;
         $this->prepareData($aOptionList, $object->matieres);
         if (!empty($object->matieres)) {

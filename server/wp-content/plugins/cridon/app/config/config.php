@@ -39,6 +39,13 @@ class Config {
             'controller'        => 'formations',
             'action'            => 'index'
         ),
+        'sessions' => array(
+            'value'             => 'sessions',
+            'name'              => 'session',
+            'model'             => 'Session',
+            'controller'        => 'sessions',
+            'action'            => 'index'
+        ),
         'cahier_cridons' => array(
             'value'             => 'cahier_cridons',
             'name'              => 'cahier_cridon',

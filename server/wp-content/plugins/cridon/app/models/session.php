@@ -2,6 +2,8 @@
 
 class Session extends \App\Override\Model\CridonMvcModel
 {
+    use MultiMatieresTrait;
+
     var $table = "{prefix}session";
     var $includes = array('Formation','Organisme');
     var $belongs_to = array(

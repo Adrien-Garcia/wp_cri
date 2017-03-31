@@ -4,6 +4,7 @@
 class Formation extends \App\Override\Model\CridonMvcModel
 {
     use DocumentsHolderTrait;
+    use MultiMatieresTrait;
 
     public $table = "{prefix}formation";
     public $includes = array('Post','Matiere', 'Session');
@@ -41,45 +42,6 @@ class Formation extends \App\Override\Model\CridonMvcModel
      * @var DBConnect
      */
     protected $adapter;
-    
-    /**
-     * Retrieve all Matieres for the formation
-     *
-     * @return \MvcModelObject
-     */
-    public function getMatieres($formation = null) {
-        global $wpdb;
-        // get list of existing matiere
-        $matieres = mvc_model('Matiere')->find(array(
-            'joins' => array() //dummy condition to avoid join
-        ));
-        $matieres = assocToKeyVal($matieres, 'id');
-        $select  = "SELECT fm.formation_id ,fm.matiere_id";
-        $query = $select."
-            FROM cri_formation f
-            LEFT JOIN cri_formation_matiere fm ON f.id = fm.formation_id ";
-        if (!empty($formation)) {
-            $query .= "WHERE f.id = ".$formation;
-        }
-        $query .= ";";
-        $results = $wpdb->get_results($query);
-        $r = array();
-        if (empty($formation)) {
-            foreach ($results as $v) {
-                if (!empty($matieres[$v->matiere_id])) {
-                    $r[$v->formation_id][] = $matieres[$v->matiere_id];
-                }
-            }
-        } else {
-            foreach ($results as $v) {
-                if (!empty($matieres[$v->matiere_id])) {
-                    $r[] = $matieres[$v->matiere_id];
-                }
-            }
-        }
-        $objects = $r;
-        return (!empty($objects)) ? $objects : null;
-    }
 
     public function sendEmailPreinscription($session, $formationParticipants, $formationCommentaire) {
         $data = $this->_prepareNotificationsMails();
