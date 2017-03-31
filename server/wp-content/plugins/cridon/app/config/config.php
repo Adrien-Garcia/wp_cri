@@ -39,19 +39,39 @@ class Config {
             'controller'        => 'formations',
             'action'            => 'index'
         ),
-        'sessions' => array(
-            'value'             => 'sessions',
-            'name'              => 'session',
-            'model'             => 'Session',
-            'controller'        => 'sessions',
-            'action'            => 'index'
-        ),
         'cahier_cridons' => array(
             'value'             => 'cahier_cridons',
             'name'              => 'cahier_cridon',
             'model'             => 'CahierCridon',
             'controller'        => 'cahier_cridons',
             'action'            => 'index'
+        )
+    );
+
+    public static $modelTable = array(
+        'veilles' => array(
+            'name'              => 'veille',   // Nom de la table
+            'model'             => 'Veille',   // Nom du MvcModel
+        ),
+        'flashes' => array(
+            'name'              => 'flash',
+            'model'             => 'Flash',
+        ),
+        'vie_cridons' => array(
+            'name'              => 'vie_cridon',
+            'model'             => 'VieCridon',
+        ),
+        'formations' => array(
+            'name'              => 'formation',
+            'model'             => 'Formation',
+        ),
+        'sessions' => array(
+            'name'              => 'session',
+            'model'             => 'Session',
+        ),
+        'cahier_cridons' => array(
+            'name'              => 'cahier_cridon',
+            'model'             => 'CahierCridon',
         )
     );
 

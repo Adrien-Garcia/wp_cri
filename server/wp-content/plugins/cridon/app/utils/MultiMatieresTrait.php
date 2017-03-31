@@ -15,7 +15,7 @@ trait MultiMatieresTrait
      */
     public function getMatieres($model = null) {
         global $wpdb;
-        $modelNames = assocToKeyVal(Config::$data, 'model', 'name');
+        $modelNames = assocToKeyVal(Config::$modelTable, 'model', 'name');
         $name = $modelNames[$model->__model_name];
         // get list of existing matiere
         $matieres = mvc_model('Matiere')->find(array(
