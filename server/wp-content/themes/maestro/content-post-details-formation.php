@@ -62,10 +62,10 @@
                     <div class="millesime">
                         Catalogue
                         <span>
-                            <?php for ($i = 0; $i < count($object->millesimes); $i++): ?>
-                                <?php if ($i > 0){echo ', ';} ?>
-                                <?php echo $object->millesimes[$i]->year; ?>
-                            <?php endfor;?>
+                            <?php
+                            $millesimes = assocToKeyVal($object->millesimes, 'id', 'year');
+                            echo implode(',', $millesimes);
+                            ?>
                         </span>
                     </div>
                 </div>
