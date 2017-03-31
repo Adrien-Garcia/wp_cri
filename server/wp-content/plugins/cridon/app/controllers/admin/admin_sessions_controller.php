@@ -25,6 +25,8 @@ class AdminSessionsController extends BaseAdminController
         'date',
     );
 
+    const SESSION_COMPLETE_MESSAGE = 'Session indiquée comme étant complète';
+
     /**
      * Default columns list
      * @var array
@@ -56,86 +58,19 @@ class AdminSessionsController extends BaseAdminController
         $this->set('objects', $collection['objects']);
         $this->set_pagination($collection);
         //Load custom helper
-        $this->load_helper('AdminNoview');
+        $this->load_helper('AdminSession');
     }
 
-    public function add(){
-        $this->setFormations();
-        $this->setOrganismes();
-        $this->prepareInputDate();
-        $this->create_or_save();
-        $this->load_helper('CustomForm');
-    }
-
-    public function edit() {
-        $this->setFormations();
-        $this->setOrganismes();
-        $this->prepareInputDate();
-        $this->verify_id_param();
-        $this->create_or_save();
-        $this->set_object();
-        $this->load_helper('CustomForm');
-    }
-
-    private function prepareInputDate()
-    {
-        wp_enqueue_script('jquery-ui-core');
-        wp_enqueue_script('jquery-ui-datepicker');
-
-        wp_enqueue_script('jquery-ui-i18n-fr', plugins_url('cridon/app/public/js/jquery.ui.datepicker-fr.js'), array('jquery-ui-datepicker'));
-        wp_register_script('formation-js', plugins_url('cridon/app/public/js/bo/formation.js'), array('jquery') );
-        wp_enqueue_script('formation-js');
-        wp_register_script('datepicker-js', plugins_url('cridon/app/public/js/bo/datepicker.js'), array('jquery') );
-        wp_enqueue_script('datepicker-js');
-        wp_enqueue_style('jquery-ui-css', plugins_url('cridon/app/public/css/jquery-ui.css'));
-    }
-
-    private function setFormations()
-    {
-        $this->load_model('Formation');
-        $formations = $this->Formation->find(array(
-            'selects' => array('id', 'Post.post_title', 'Matiere.code', 'Matiere.label'),
-            'joins' => array('Post', 'Matiere'),
-            'order' => 'Matiere.code DESC'
-        ));
-
-        $options = array();
-        if (is_array($formations) && count($formations) > 0) {
-            foreach ($formations as $formation) {
-                if (!isset($formation->post) || empty($formation->post->post_title)) {
-                    continue;
-                }
-                $option = new StdClass();
-                $option->__id = $formation->id;
-                $option->__name = $formation->post->post_title;
-                $option->__group = $formation->matiere->label;
-                $options[$formation->id] =  $option;
-            }
+    public function edit(){
+        $this->params['data']['is_full'] = 1;
+        $this->params['data']['id'] = $this->params['id'];
+        if ($this->model->save($this->params['data'])) {
+            $this->flash('notice', self::SESSION_COMPLETE_MESSAGE);
+            $url = MvcRouter::admin_url(array('controller' => $this->name, 'action' => 'index'));
+            $this->redirect($url);
+        } else {
+            $this->flash('error', $this->model->validation_error_html);
         }
-
-        $this->set('formations', $options);
-    }
-
-    private function setOrganismes()
-    {
-        $this->load_model('Entite');
-        $organismes = $this->Entite->find(array(
-            'selects' => array('id', 'office_name'),
-            'conditions' => array(
-                'is_organisme' => 1
-            ),
-            'joins' => array(),//dummy join to avoid loading of all relations
-            'order' => 'office_name'
-        ));
-
-        $options = array();
-        if (is_array($organismes) && count($organismes) > 0) {
-            foreach ($organismes as $organisme) {
-                $options[$organisme->id] =  $organisme->office_name;
-            }
-        }
-
-        $this->set('organismes', $options);
     }
 
     public function formationLink($object){
@@ -163,15 +98,6 @@ class AdminSessionsController extends BaseAdminController
         }
 
         return empty($object->organisme) ? null : $object->organisme->office_name;
-    }
-
-    public function create_or_save()
-    {
-        if (!empty($this->params['data'])) {
-            $this->load_helper('AdminCustom');
-            $this->params['data']['Session']['date'] = $this->admin_custom->dateToDbFormat($this->params['data']['Session']['date']);
-        }
-        parent::create_or_save();
     }
 
 

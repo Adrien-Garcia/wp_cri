@@ -351,6 +351,7 @@ class Config {
         'questions',
         'demarches',
         'cridonline_prices',
+        'sessions',
     );
     
     //Admin wp_mvc action translation
@@ -358,9 +359,12 @@ class Config {
         'view'   => 'Voir',
         'edit'   => 'Editer',
         'delete' => 'Supprimer',
-        'download' => 'Télécharger'
+        'download' => 'Télécharger',
+        'complete' => 'Indiquer comme complet',
+        'full' => 'Complet'
     );
     public static $msgConfirmDelete = 'Êtes-vous sur de vouloir supprimer';
+    public static $msgConfirmComplete = 'Voulez vous indiquer cette session comme étant complète ?';
     public static $btnTextAdmin = array(
         'add'    => 'Ajouter',
         'update' => 'Mettre à jour'
