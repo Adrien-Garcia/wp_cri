@@ -89,7 +89,7 @@ class Demarche extends \App\Override\Model\CridonMvcModel
             $session = mvc_model('session')->find_by_id($demarche->session_id, array(
                 'joins'=>array('Entite')
             ));
-            $matieres = $demarche->formation->mvc_model->getMatieres($formation->id);
+            $matieres = $demarche->formation->mvc_model->getMatieres($formation);
             $arrayMatieres = array();
             foreach ($matieres as $matiere) {
                 $arrayMatieres[] = $matiere->label;
