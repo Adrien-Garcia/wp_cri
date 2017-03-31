@@ -14,5 +14,12 @@ class Session extends \App\Override\Model\CridonMvcModel
         )
     );
     var $display_field = 'date';
+
+    public function getDuration($session)
+    {
+        return $session->time_unit_nb . ' ' . $session->time_unit . ($session->time_unit_nb > 1 ? 's' : '');
+    }
     
 }
+
+

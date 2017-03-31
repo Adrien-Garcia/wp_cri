@@ -36,6 +36,12 @@
                 <?php endif; ?>
             <p class="horaire <?php echo $nextSession->is_full ? ' complet ' :'' ; ?> "><?php echo $nextSession->is_full ? 'Complet' : $nextSession->timetable ?></p>
 
+            <p class="place"><?php echo $nextSession->place ?></p>
+            <?php 
+                $duree = mvc_model('Session')->getDuration($nextSession);
+            ?>
+            <p class="duree"><?php echo $duree ?></p>
+
         </div>
 
         <?php if (!empty($nextSession->action) && !empty($nextSession->action_label)): ?>
@@ -133,6 +139,11 @@
                             <p class="session-date"><?php echo strftime('%d %b %G',strtotime($session->date)) ?></p>
                             <p class="session-organisme"><?php echo $session->entite->office_name ?></p>
                             <p class="session-horaire <?php echo $session->is_full ? ' complet ' :'' ; ?> "><?php echo $session->is_full ? 'Complet' : $session->timetable ?></p>
+                            <p class="session-place"><?php echo $session->place ?></p>
+                            <?php 
+                                $duree = mvc_model('Session')->getDuration($session);
+                            ?>
+                            <p class="session-duree"><?php echo $duree ?></p>
                         </div>
                         <?php if ($session->contact_organisme): ?>
                             <?php if (!empty(trim($session->entite->tel)) || !empty(trim($session->entite->office_email_adress_1))): ?>
