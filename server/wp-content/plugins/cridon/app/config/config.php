@@ -430,8 +430,8 @@ class Config {
         'date'          => 'Date',
         'timetable'     => 'Horaire',
         'color'         => 'Couleur',
-        'export_start_date' => 'Date de début de l\'export',
-        'export_end_date'   => 'Date de fin de l\'export',
+        'export_start_date' => 'Export du',
+        'export_end_date'   => 'au',
         'export_complet'   => 'Export intégral',
     );
     //End translation

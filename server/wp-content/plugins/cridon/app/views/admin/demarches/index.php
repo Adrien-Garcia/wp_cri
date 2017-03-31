@@ -54,6 +54,8 @@ require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/nav.php';
     <h2><?php echo Config::$titleAdminForm['demarche']['export'] ?></h2>
     <?php echo $this->custom_form->create($model->name, array('enctype'=>true,'action' =>$this->action)); ?>
     <?php echo $this->custom_form->checkbox_input('export_complet', array('label' => Config::$titleFieldAdminForm['export_complet'])); ?>
+    <br />
+    <div class="export-dates">
     <?php echo $this->custom_form->date_input('export_start_date', array(
         'label' => Config::$titleFieldAdminForm['export_start_date'],
         'value' => date_create()->setTimestamp(0)->format('d-m-Y')
@@ -62,6 +64,9 @@ require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/nav.php';
         'label' => Config::$titleFieldAdminForm['export_end_date'],
         'value' => date('d-m-Y')
     )); ?>
+    </div>
+    <br />
+
     <?php echo $this->form->end(Config::$btnTextAdmin['export']); ?>
 
     <?php if (isset($exportUrl)) : ?>
@@ -82,6 +87,17 @@ require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/nav.php';
             </ul>
         </div>
     <?php endif; ?>
+    <script type="text/javascript">
+    //<![CDATA[
+    	jQuery('#DemarcheExportComplet').on('change', function() {
+            if (this.checked) {
+                jQuery('.export-dates').hide();
+            } else {
+                jQuery('.export-dates').show();
+            }
+        }).trigger('change');
+    //]]>
+    </script>
 </div>
 
 
