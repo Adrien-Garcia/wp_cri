@@ -1343,3 +1343,9 @@ if ( !defined( 'CONST_FORMATION_DEMANDE' ) ) {
 if ( !defined( 'CONST_FORMATION_GENERIQUE' ) ) {
     define( 'CONST_FORMATION_GENERIQUE', 3 );
 }
+
+// export CSV Demarche file path
+if ( !defined( 'CONST_EXPORT_CSV_DEMARCHE_FILE_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_EXPORT_CSV_DEMARCHE_FILE_PATH', ($uploadDir['basedir'] . DIRECTORY_SEPARATOR . 'demarches' . DIRECTORY_SEPARATOR) );
+}
