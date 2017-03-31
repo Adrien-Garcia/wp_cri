@@ -429,8 +429,8 @@
                     .content {
                         &::before,
                         &::after {
+                            background-color: $bleu;
                             @include gradient-opacity(transparentize($bleu, .4), opacify($bleu, 1));
-                            background: $bleu;
                             background-size: 100% 200%;
                         }
                     }
@@ -505,8 +505,8 @@
                     .content {
                         &::before,
                         &::after {
-                            @include gradient-opacity(transparentize($jaune, .4), opacify($jaune, 1));
                             background: $bleu;
+                            @include gradient-opacity(transparentize($jaune, .4), opacify($jaune, 1));
                             background-size: 100% 200%;
                         }
                     }
