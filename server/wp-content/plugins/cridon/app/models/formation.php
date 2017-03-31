@@ -81,6 +81,24 @@ class Formation extends \App\Override\Model\CridonMvcModel
         return (!empty($objects)) ? $objects : null;
     }
 
+    /**
+     * Retrieve all Millesimes for a formation
+     *
+     * @param $id_formation
+     * @return MvcModelObject
+     */
+    public function getMillesimes($id_formation){
+        if (empty($id_formation)){
+            return [];
+        }
+        $millesimes = mvc_model('Millesime')->find(array(
+            'conditions' => array(
+                'id_formation' => $id_formation
+            )
+        ));
+        return $millesimes;
+    }
+
     public function sendEmailPreinscription($session, $formationParticipants, $formationCommentaire) {
         $data = $this->_prepareNotificationsMails();
 

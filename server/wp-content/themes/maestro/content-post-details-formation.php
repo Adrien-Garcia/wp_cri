@@ -57,11 +57,19 @@
                     <img class="sel-object-picto" src="<?php echo $matiere->picto ?>" alt="<?php echo $matiere->label ?>" />
                 <?php endforeach; ?>
 			</div>
-            <div class="millesime-wrapper">
-                <div class="millesime">
-                    Catalogue <span>2017</span>
+            <?php if (!empty($object->millesimes)): ?>
+                <div class="millesime-wrapper">
+                    <div class="millesime">
+                        Catalogue
+                        <span>
+                            <?php for ($i = 0; $i < count($object->millesimes); $i++): ?>
+                                <?php if ($i > 0){echo ', ';} ?>
+                                <?php echo $object->millesimes[$i]->year; ?>
+                            <?php endfor;?>
+                        </span>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
 		</div>
 		<?php endif; ?>
 
@@ -127,7 +135,9 @@
             <img src="/wp-content/themes/maestro/library/images/logo-CSN_2017.jpg" alt="">
             <div class="num">
                 Certification CSN
-                <span>123 48 654 478</span>
+                <?php if (!empty($object->csn)) : ?>
+                    <span><?php echo $object->csn ?></span>
+                <?php endif; ?>
             </div>
         </div>
 
