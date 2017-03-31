@@ -718,9 +718,9 @@ class FormationsController extends BaseActuController
             if ($matieresByFormations[$formation->id] !== null) {
                 $formation->matieres = $matieresByFormations[$formation->id];
                 if (count($formations->matieres) === 1) {
-                    $sortedFormations[$formation->matieres[0]->id][] = $formation;
+                    $sortedFormations[reset($formation->matieres)->id][] = $formation;
                 } else {
-                    $sortedFormations[Matiere::DEFAULT_MATIERE_ID][] = $formation;
+                    $sortedFormations[$matiereDefault->id][] = $formation;
                 }   
             } else {
                 $formation->matieres = array($matiereDefault);
