@@ -68,6 +68,13 @@ class AdminDemarchesController extends BaseAdminController
     public function index() {
         $this->init_default_columns();
         $this->process_params_for_search();
+        $this->load_helper('CustomForm');
+        if (!empty($this->params['data']) && !empty($this->params['data']['Demarche'])) {
+            $filename = $this->exportCsvDemarches($this->params['data']['Demarche']);
+            $filename = wp_upload_dir()['baseurl'].'/demarches/'.$filename;
+            $this->set('exportUrl', $filename);
+        }
+        $this->set('exportedFiles',$this->_exportedFiles());
         if (!empty($_GET['option'])) {
             $this->params['conditions'][] = array('type ' => $_GET['option']);
         }
@@ -162,6 +169,82 @@ class AdminDemarchesController extends BaseAdminController
     }
 
     /**
+     * Generate csv from POST params
+     * @return string
+     */
+    public function exportCsvDemarches($data)
+    {
+        $start_date = $data['export_start_date'];
+        $end_date = $data['export_end_date'];
+        $start_date = date_create_from_format('d-m-Y', $start_date);
+        $end_date = date_create_from_format('d-m-Y', $end_date);
+        if ($start_date && $end_date) { // Si vrai date
+            $start_date = $start_date->format('Y-m-d');
+            $end_date = $end_date->format('Y-m-d');
+        }
+        if ($data['export_complet']) {
+            $start_date = $end_date = false;
+        }
+        $return = $this->_exportCsvDemarches($start_date, $end_date);
+        return $return;
+    }
+
+    /**
+     * export Demarches by dates
+     * @param string|bool $start_date
+     * @param string|bool $end_date
+     *
+     * @return string filename
+     */
+    private function _exportCsvDemarches($start_date = false, $end_date = false) {
+        $filename = 'demarches_';
+        if (!empty($start_date) && !empty($end_date)) {
+            $filename .= str_replace('-', '', $start_date).'_'.str_replace('-', '', $end_date);
+        } else {
+            $filename .= 'complet';
+        }
+        $filename .= '.csv';
+        $this->model->exportCsvDemarchesToFile(CONST_EXPORT_CSV_DEMARCHE_FILE_PATH . $filename, true, $start_date, $end_date);
+        return $filename;
+    }
+
+    /**
+     * @return array List of csv files
+     */
+    private function _exportedFiles() {
+        $files = array();
+        if (file_exists(CONST_EXPORT_CSV_DEMARCHE_FILE_PATH) && is_dir(CONST_EXPORT_CSV_DEMARCHE_FILE_PATH)) {
+            if ($dir = opendir(CONST_EXPORT_CSV_DEMARCHE_FILE_PATH)) {
+                while (false !== ($file = readdir($dir))) {
+                    if ($file != "." && $file != "..") {
+                        if (is_readable(CONST_EXPORT_CSV_DEMARCHE_FILE_PATH.DIRECTORY_SEPARATOR.$file) && substr($file, -4, 4) == ".csv") {
+                            $f = array(
+                                'url'   => wp_upload_dir()['baseurl'].'/demarches/'.$file,
+                            );
+                            if (substr($file, 0, 10) == "demarches_") {
+                                if ($file == "demarches_complet.csv") {
+                                    $f['label'] = 'Toutes les démarches';
+                                } else {
+                                    preg_match('/^demarches_(\d{8})_(\d{8}).csv$/', $file, $matches);
+                                    $start_date = date_create_from_format('Ymd' ,$matches[1]);
+                                    $end_date = date_create_from_format('Ymd', $matches[2]);
+                                    $f['label'] = 'Démarches du <b>'.$start_date->format('d/m/Y').'</b> au <b>'.$end_date->format('d/m/Y').'</b>';
+                                }
+                            } else {
+                                $f['label'] = 'Fichier inconnu';
+                            }
+                            $f['label'] .= ' <small>('.$file.')</small>';
+
+                            $files[] = $f;
+                        }
+                    }
+                }
+            }
+        }
+        return $files;
+    }
+
+    /**
      * Load script
      */
     protected function loadScripts()
@@ -171,5 +254,13 @@ class AdminDemarchesController extends BaseAdminController
 
         wp_register_script('formation-js', plugins_url('cridon/app/public/js/bo/filter.js'), array('jquery'));
         wp_enqueue_script('formation-js');
+
+        wp_enqueue_script('jquery-ui-core');
+        wp_enqueue_script('jquery-ui-datepicker');
+
+        wp_register_script('datepicker-js', plugins_url('cridon/app/public/js/bo/datepicker.js'), array('jquery') );
+        wp_enqueue_script('datepicker-js');
+        wp_enqueue_script('jquery-ui-i18n-fr', plugins_url('cridon/app/public/js/jquery.ui.datepicker-fr.js'), array('jquery-ui-datepicker'));
+        wp_enqueue_style('jquery-ui-css', plugins_url('cridon/app/public/css/jquery-ui.css'));
     }
 }

@@ -80,7 +80,7 @@ class FormationsController extends BaseActuController
     public function show(){
         $params = $this->params;
         parent::show();
-        $this->object->matieres = $this->model->getMatieres($this->object->id);
+        $this->object->matieres = $this->model->getMatieres($this->object);
         $this->object->millesimes = $this->model->getMillesimes($this->object->id);
         $formation = $this->object;
         $highlight = false;
@@ -123,7 +123,7 @@ class FormationsController extends BaseActuController
         $matieres = mvc_model('Matiere')->find(array(
             'conditions' => array(
                 'OR' => array(
-                    'displayed' => 1,
+                    'formation' => 1,
                     'id' => Matiere::DEFAULT_MATIERE_ID
                 )
             )
@@ -719,10 +719,10 @@ class FormationsController extends BaseActuController
             if ($matieresByFormations[$formation->id] !== null) {
                 $formation->matieres = $matieresByFormations[$formation->id];
                 if (count($formations->matieres) === 1) {
-                    $sortedFormations[$formation->matieres[0]->id][] = $formation;
+                    $sortedFormations[reset($formation->matieres)->id][] = $formation;
                 } else {
-                    $sortedFormations[Matiere::DEFAULT_MATIERE_ID][] = $formation;
-                }   
+                    $sortedFormations[$matiereDefault->id][] = $formation;
+                }
             } else {
                 $formation->matieres = array($matiereDefault);
                 $sortedFormations[$matiereDefault->id][] = $formation;

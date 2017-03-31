@@ -4,6 +4,7 @@
 class Formation extends \App\Override\Model\CridonMvcModel
 {
     use DocumentsHolderTrait;
+    use MultiMatieresTrait;
 
     public $table = "{prefix}formation";
     public $includes = array('Post','Matiere', 'Session');
@@ -44,45 +45,6 @@ class Formation extends \App\Override\Model\CridonMvcModel
      * @var DBConnect
      */
     protected $adapter;
-    
-    /**
-     * Retrieve all Matieres for the formation
-     *
-     * @return \MvcModelObject
-     */
-    public function getMatieres($formation = null) {
-        global $wpdb;
-        // get list of existing matiere
-        $matieres = mvc_model('Matiere')->find(array(
-            'joins' => array() //dummy condition to avoid join
-        ));
-        $matieres = assocToKeyVal($matieres, 'id');
-        $select  = "SELECT fm.formation_id ,fm.matiere_id";
-        $query = $select."
-            FROM cri_formation f
-            LEFT JOIN cri_formation_matiere fm ON f.id = fm.formation_id ";
-        if (!empty($formation)) {
-            $query .= "WHERE f.id = ".$formation;
-        }
-        $query .= ";";
-        $results = $wpdb->get_results($query);
-        $r = array();
-        if (empty($formation)) {
-            foreach ($results as $v) {
-                if (!empty($matieres[$v->matiere_id])) {
-                    $r[$v->formation_id][] = $matieres[$v->matiere_id];
-                }
-            }
-        } else {
-            foreach ($results as $v) {
-                if (!empty($matieres[$v->matiere_id])) {
-                    $r[] = $matieres[$v->matiere_id];
-                }
-            }
-        }
-        $objects = $r;
-        return (!empty($objects)) ? $objects : null;
-    }
 
     /**
      * Retrieve all Millesimes for a formation
@@ -237,6 +199,7 @@ class Formation extends \App\Override\Model\CridonMvcModel
                     $this->adapter = empty($this->adapter) ? CridonOCIAdapter::getInstance() : $this->adapter;
                 default :
                     $this->importFormations();
+                    $this->importSessions();
                     break;
             }
 
@@ -373,26 +336,27 @@ class Formation extends \App\Override\Model\CridonMvcModel
         }
     }
 
-    private function _update_matieres ($data, $id, $matieres) {
-        $this->_update_many_to_many('matiere', $data,$id, $matieres);
+    private function _update_matieres ($data, $id, $matieres, $isFormation = true) {
+        $this->_update_many_to_many('matiere', $data,$id, $matieres, $isFormation);
     }
 
-    private function _update_juristes ($data, $id, $juristes) {
-        $this->_update_many_to_many('juriste', $data,$id, $juristes);
+    private function _update_juristes ($data, $id, $juristes, $isFormation = true) {
+        $this->_update_many_to_many('juriste', $data,$id, $juristes, $isFormation);
     }
 
-    private function _update_many_to_many ($type, $data, $id, $existing) {
+    private function _update_many_to_many ($type, $data, $id, $existing, $isFormation = true) {
         global $wpdb;
         $type = strtolower($type);
         $columns = array(
-            constant('DBConnect::Z'.strtoupper($type).'1'),
-            constant('DBConnect::Z'.strtoupper($type).'2'),
-            constant('DBConnect::Z'.strtoupper($type).'3'),
-            constant('DBConnect::Z'.strtoupper($type).'4')
+            constant('DBConnect::Z' . ($isFormation ? '' : 'SESS_') . strtoupper($type).'1'),
+            constant('DBConnect::Z' . ($isFormation ? '' : 'SESS_') . strtoupper($type).'2'),
+            constant('DBConnect::Z' . ($isFormation ? '' : 'SESS_') . strtoupper($type).'3'),
+            constant('DBConnect::Z' . ($isFormation ? '' : 'SESS_') . strtoupper($type).'4')
         );
 
-        $wpdb->delete('cri_formation_'.$type , array('formation_id' => $id), array('%d'));
-        $query = "INSERT INTO `cri_formation_".$type."` (formation_id, ".$type."_id) VALUES ";
+        $table = $isFormation ? 'formation' : 'session';
+        $wpdb->delete('cri_'.$table.'_'.$type , array( $table.'_id' => $id), array('%d'));
+        $query = "INSERT INTO `cri_".$table."_".$type."` (".$table."_id, ".$type."_id) VALUES ";
         $insert = array();
         $toInsert = array();
         $place_holders = array();
@@ -415,8 +379,8 @@ class Formation extends \App\Override\Model\CridonMvcModel
                 $wpdb->query($prepared);
             }
         } catch (\Exception $e) {
-            writeLog('Error while updating '.$type.'s link to formation '.$id , 'formation.log');
-            writeLog($e, 'formation.log');
+            writeLog('Error while updating '.$type.'s link to '.$table.' '.$id , $table.'.log');
+            writeLog($e, $table.'.log');
         }
     }
 
@@ -436,6 +400,103 @@ class Formation extends \App\Override\Model\CridonMvcModel
                 'year' => intval(trim($year))
             );
             $millesime->save( $options );
+        }
+    }
+
+    protected function importSessions()
+    {
+        $existingSessions = mvc_model('Session')->find(array(
+            'joins' => array() //dummy condition to avoid join
+        ));
+        $existingSessions = assocToKeyVal($existingSessions, 'id_erp', 'id');
+
+        $existingFormations = mvc_model('Formation')->find(array(
+            'joins' => array() //dummy condition to avoid join
+        ));
+        $existingFormations = assocToKeyVal($existingFormations, 'id_form', 'id');
+
+        $existingOrganismes = mvc_model('Entite')->find(array(
+            'joins' => array(), //dummy condition to avoid join
+            'conditions' => array(
+                'is_organisme' => 1
+            )
+        ));
+        $existingOrganismes = assocToKeyVal($existingOrganismes, 'crpcen', 'id');
+
+        // get list of existing matiere
+        $matieres = mvc_model('Matiere')->find(array(
+            'joins' => array() //dummy condition to avoid join
+        ));
+        $matieres = assocToKeyVal($matieres, 'code');
+
+        // get list of existing matiere
+        $juristes = mvc_model('UserCridon')->find(array(
+            'joins' => array() //dummy condition to avoid join
+        ));
+        $juristes = assocToKeyVal($juristes, 'id_erp');
+
+        $adapter = $this->adapter;
+        $sessionsInfos = array(
+            $adapter::ZSESS_ID,
+            $adapter::ZSESS_FORM,
+            $adapter::ZSESS_ORG,
+            $adapter::ZSESS_ZLIEU,
+            $adapter::ZSESS_ZHORAIRE,
+            $adapter::ZSESS_DATEDEB,
+            $adapter::ZSESS_JOUR,
+            $adapter::ZSESS_NBRJOUR,
+            $adapter::ZSESS_DEMIJOUR,
+            $adapter::ZSESS_DEMINBR,
+            $adapter::ZSESS_ZPRIXCONF,
+            $adapter::ZSESS_MATIERE1,
+            $adapter::ZSESS_MATIERE2,
+            $adapter::ZSESS_MATIERE3,
+            $adapter::ZSESS_MATIERE4,
+            $adapter::ZSESS_JURISTE1,
+            $adapter::ZSESS_JURISTE2,
+            $adapter::ZSESS_JURISTE3,
+            $adapter::ZSESS_JURISTE4,
+            $adapter::ZSESS_UPDDAT,
+        );
+        $sessionsInfos = implode(', ', $sessionsInfos);
+
+        $sql = 'SELECT ' . $sessionsInfos . ' FROM ' . CONST_DB_VUE_SESSION;
+
+        $errors = array();
+        // exec query
+        $adapter->execute($sql);
+
+        while ($data = $adapter->fetchData()) {
+            if ( isset($data[$adapter::ZSESS_ID]) ) {
+                $data[$adapter::ZSESS_ID] = trim($data[$adapter::ZSESS_ID]);
+                if (!empty($data[$adapter::ZSESS_ID]) && isset($existingFormations[$data[$adapter::ZSESS_FORM]])) {
+                    $completeDay = ($data[$adapter::ZSESS_JOUR] == '2');
+                    $date = date_create_from_format('d-M-y', $data[$adapter::ZSESS_DATEDEB]);
+                    $aData = array(
+                        'id_erp' => $data[$adapter::ZSESS_ID],
+                        'date' => $date->format('Y-m-d'),
+                        'id_formation' => $existingFormations[$data[$adapter::ZSESS_FORM]],
+                        'id_organisme' => $existingOrganismes[$data[$adapter::ZSESS_ORG]],
+                        'timetable' => $data[$adapter::ZSESS_ZHORAIRE],
+                        'place' => $data[$adapter::ZSESS_ZLIEU],
+                        'time_unit' => $completeDay ? 'jour' : 'demi-journée',
+                        'time_unit_nb' => $completeDay ? $data[$adapter::ZSESS_NBRJOUR] : $data[$adapter::ZSESS_NBRJOUR],
+                        'price' => $data[$adapter::ZSESS_ZPRIXCONF],
+                    );
+                    /** @var Session $modelSession */
+                    $modelSession = mvc_model('Session');
+                    if (isset($existingSessions[$data[$adapter::ZSESS_ID]])) {
+                        $modelSession->update($existingSessions[$data[$adapter::ZSESS_ID]], $aData);
+                    } else {
+                        $id_session = $modelSession->insert($aData);
+                        $existingSessions[$data[$adapter::ZSESS_ID]] = $id_session;
+                    }
+                    $this->_update_matieres($data, $existingSessions[$data[$adapter::ZSESS_ID]], $matieres, false);
+                    $this->_update_juristes($data, $existingSessions[$data[$adapter::ZSESS_ID]], $juristes, false);
+                } elseif (!isset($existingFormations[$data[$adapter::ZSESS_FORM]])) {
+                    $errors[] = sprintf('Formation %s not found', $data[$adapter::ZSESS_FORM]);
+                }
+            }
         }
     }
 }

@@ -26,6 +26,7 @@ require_once 'post/CridonPostFactory.php';
 require_once 'CridonObjectFactory.php';
 require_once 'CridonTools.php';
 require_once 'DocumentsHolderTrait.php';
+require_once 'MultiMatieresTrait.php';
 require_once 'RoleManager.php';
 // Custom function used in template
 require_once 'functions.php';

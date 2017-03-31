@@ -233,10 +233,17 @@ function getPushFormations ($nb_date) {
 
     // On récupère toutes les sessions des dates souhaitées trié par date puis id descendant
 
-        $selectQuery = 'SELECT s.id as session_id, s.date as session_date, s.timetable as session_timetable,p.*,o.*,m.* FROM cri_session as s
+        $selectQuery = 'SELECT
+            s.id as __id,
+            s.id as session_id,
+            s.date as session_date,
+            s.timetable as session_horaire,
+            s.place as session_lieu,
+            p.*,
+            o.*
+        FROM cri_session as s
         INNER JOIN cri_entite o ON s.id_organisme = o.id
         INNER JOIN cri_formation f ON s.id_formation = f.id
-        INNER JOIN cri_matiere m   ON f.id_matiere   = m.id
         INNER JOIN cri_posts p ON f.post_id = p.ID
         INNER JOIN (
           SELECT s.date FROM cri_session as s
@@ -254,7 +261,11 @@ function getPushFormations ($nb_date) {
     // Si plus d'une session dans la journée, on set 'isOneOfMany' à 1
     $lastDate = '';
     $finalSessions = array();
+    /** @var Session $model */
+    $model = mvc_model('Session');
     foreach ($sessions as $session) {
+        $session->__model_name = 'Session';
+        $session->matieres = $model->getMatieres($session);
         $currentDate = $session->session_date;
         if ($currentDate == $lastDate){
             end($finalSessions)->isOneOfMany = 1;

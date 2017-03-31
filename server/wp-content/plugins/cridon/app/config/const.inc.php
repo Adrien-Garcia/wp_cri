@@ -238,6 +238,23 @@ if ( !defined( 'CONST_DB_TABLE_FORMATION' ) ) {
     define( 'CONST_DB_TABLE_FORMATION', $prefix.'ZFORMV' );
 }
 
+if ( !defined( 'CONST_DB_VUE_SESSION' ) ) {
+    switch ($env) {
+        case PROD:
+            $prefix = 'CLCRIDON.';
+            break;
+        case PREPROD:
+        case DEV:
+            $prefix = 'CLCRITST.';
+            break;
+        case LOCAL:
+        default:
+            $prefix = '';
+            break;
+    }
+    define( 'CONST_DB_VUE_SESSION', $prefix.'ZSIONV' );
+}
+
 
 
 // import CSV notaire file path
@@ -1325,4 +1342,10 @@ if ( !defined( 'CONST_FORMATION_DEMANDE' ) ) {
 }
 if ( !defined( 'CONST_FORMATION_GENERIQUE' ) ) {
     define( 'CONST_FORMATION_GENERIQUE', 3 );
+}
+
+// export CSV Demarche file path
+if ( !defined( 'CONST_EXPORT_CSV_DEMARCHE_FILE_PATH' ) ) {
+    $uploadDir = wp_upload_dir();
+    define( 'CONST_EXPORT_CSV_DEMARCHE_FILE_PATH', ($uploadDir['basedir'] . DIRECTORY_SEPARATOR . 'demarches' . DIRECTORY_SEPARATOR) );
 }
