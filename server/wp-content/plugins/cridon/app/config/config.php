@@ -363,7 +363,8 @@ class Config {
     public static $msgConfirmDelete = 'Êtes-vous sur de vouloir supprimer';
     public static $btnTextAdmin = array(
         'add'    => 'Ajouter',
-        'update' => 'Mettre à jour'
+        'update' => 'Mettre à jour',
+        'export' => 'Exporter'
     );
     //Titre sur les formulaires d'édition et d'ajout
     public static $titleAdminForm  = array(
@@ -401,7 +402,8 @@ class Config {
         ),
         'demarche' => array(
             'add'    => 'Demarche',
-            'edit'   => 'Gérer une démarche'
+            'edit'   => 'Gérer une démarche',
+            'export' => 'Exporter les démarches en CSV'
         )
     );
     public static $titleFieldAdminForm = array(
@@ -428,6 +430,9 @@ class Config {
         'date'          => 'Date',
         'timetable'     => 'Horaire',
         'color'         => 'Couleur',
+        'export_start_date' => 'Date de début de l\'export',
+        'export_end_date'   => 'Date de fin de l\'export',
+        'export_complet'   => 'Export intégral',
     );
     //End translation
 

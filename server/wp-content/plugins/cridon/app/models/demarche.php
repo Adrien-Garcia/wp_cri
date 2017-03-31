@@ -57,31 +57,36 @@ class Demarche extends \App\Override\Model\CridonMvcModel
         $this->create($data);
     }
 
-    public function exportCsvDemarchesToFile($file_path, $complete = true, $with_header = true) {
+    public function exportCsvDemarchesToFile($file_path, $with_header = true, $start_date = false, $end_date = false ) {
         if (!file_exists( dirname($file_path) )) {
-            mkdir(dirname($file_path), 0755, true);
+            mkdir(dirname($file_path), 0777, true);
         }
         $ressource = fopen($file_path, 'w+b');
-        $this->exportCsvDemarches($ressource , $complete, $with_header);
+        $this->exportCsvDemarches($ressource , $with_header, $start_date, $end_date);
         fclose($ressource);
     }
 
-    public function exportCsvDemarches($ressource , $complete = true, $with_header = true) {
-        $demarches = $this->find(
-            array(
-                'joins'=>array('Session', 'Notaire')
-            )
+    public function exportCsvDemarches($ressource , $with_header = true, $start_date = false, $end_date = false ) {
+        $reg_date = '/^[0-3]\d-[0-1]\d-\d{4}$/';
+        $options = array(
+            'joins'=>array('Notaire')
         );
+        if (!empty($start_date) && !empty($end_date)) {
+            if (preg_match($reg_date, $start_date) && preg_match($reg_date, $end_date)) {
+                $options['conditions'] = ' date > "'.$start_date.'" AND date < "'.$end_date.'" ';
+            }
+        }
+        $demarches = $this->find($options);
 
         if ($with_header) {
             fputcsv($ressource, $this->_csv_format);
         }
         $lines = array();
         foreach ($demarches as $demarche) {
-            $formation = mvc_model('formation')->find_by_id($demarche->formation_id,array(
+            $formation = mvc_model('formation')->find_by_id($demarche->formation_id, array(
                 'joins'=>array('Post')
             ));
-            $session = mvc_model('session')->find_by_id($demarche->session_id,array(
+            $session = mvc_model('session')->find_by_id($demarche->session_id, array(
                 'joins'=>array('Entite')
             ));
             $matieres = $demarche->formation->mvc_model->getMatieres($formation->id);

@@ -20,5 +20,9 @@ require_once '../wp-load.php';
  */
 $model = mvc_model('Demarche');
 // call export action
-$model->exportCsvDemarchesToFile(CONST_EXPORT_CSV_DEMARCHE_FILE_PATH . '/demarche_complet.csv');
+$model->exportCsvDemarchesToFile(CONST_EXPORT_CSV_DEMARCHE_FILE_PATH . 'demarches_complet.csv', true);
+echo CONST_EXPORT_CSV_DEMARCHE_FILE_PATH . 'demarches_complet.csv';
+echo "\n";
+echo wp_upload_dir()['baseurl']. '/demarches' . '/demarches_complet.csv';
+echo "\n";
 
