@@ -63,6 +63,19 @@
                     <img class="sel-object-picto" src="<?php echo $matiere->picto ?>" alt="<?php echo $matiere->label ?>" />
                 <?php endforeach; ?>
 			</div>
+            <?php if (!empty($object->millesimes)): ?>
+                <div class="millesime-wrapper">
+                    <div class="millesime">
+                        Catalogue
+                        <span>
+                            <?php
+                            $millesimes = assocToKeyVal($object->millesimes, 'id', 'year');
+                            echo implode(',', $millesimes);
+                            ?>
+                        </span>
+                    </div>
+                </div>
+            <?php endif; ?>
 		</div>
 		<?php endif; ?>
 
@@ -120,11 +133,19 @@
 				</ul>
 			</div>
                 <?php endif; ?>
-
-
             <?php endif; ?>
 
 		</div>
+
+        <div class="block_certification">
+            <img src="/wp-content/themes/maestro/library/images/logo-CSN_2017.jpg" alt="">
+            <div class="num">
+                Certification CSN
+                <?php if (!empty($object->csn)) : ?>
+                    <span><?php echo $object->csn ?></span>
+                <?php endif; ?>
+            </div>
+        </div>
 
 
 	</div>

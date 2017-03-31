@@ -14,6 +14,9 @@ class Formation extends \App\Override\Model\CridonMvcModel
     public $has_many = array(
         'Session' => array(
             'foreign_key' => 'id'
+        ),
+        'Millesime' => array(
+            'foreign_key' => 'id'
         )
     );
 
@@ -42,6 +45,24 @@ class Formation extends \App\Override\Model\CridonMvcModel
      * @var DBConnect
      */
     protected $adapter;
+
+    /**
+     * Retrieve all Millesimes for a formation
+     *
+     * @param $id_formation
+     * @return MvcModelObject
+     */
+    public function getMillesimes($id_formation){
+        if (empty($id_formation)){
+            return [];
+        }
+        $millesimes = mvc_model('Millesime')->find(array(
+            'conditions' => array(
+                'id_formation' => $id_formation
+            )
+        ));
+        return $millesimes;
+    }
 
     public function sendEmailPreinscription($session, $formationParticipants, $formationCommentaire) {
         $data = $this->_prepareNotificationsMails();

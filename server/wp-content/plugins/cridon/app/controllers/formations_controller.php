@@ -81,6 +81,7 @@ class FormationsController extends BaseActuController
         $params = $this->params;
         parent::show();
         $this->object->matieres = $this->model->getMatieres($this->object);
+        $this->object->millesimes = $this->model->getMillesimes($this->object->id);
         $formation = $this->object;
         $highlight = false;
         if (!empty($formation->id)) {

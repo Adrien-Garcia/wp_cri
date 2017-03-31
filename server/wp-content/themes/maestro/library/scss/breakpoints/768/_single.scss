@@ -162,9 +162,7 @@
 				}
 
 				.block_full{
-
-
-					clear: none;
+					//clear: none;
 					float: right;
 					width: 460px;
 					padding-left: 60px;
@@ -280,6 +278,41 @@
 					}
 			    }
 			}
+
+			.block_left {
+				.millesime-wrapper {
+					.millesime {
+		                width: 120px;
+		                left: -22px;
+		                top: 50px;
+		            }
+				}
+	        }
+
+	        .block_certification {
+	        	float: left;
+	        	margin-left: 60px;
+
+	            > img {
+	                width: 50px;
+	                height: 50px;
+	                float: left;
+	            }
+
+	            .num {
+	                margin-left: 10px;
+	                text-align: left;
+	                margin-right: 0;
+	                margin-top: 10px;
+
+
+	                span {
+	                    @include do-me;
+	                    display: block;
+	                }
+	            }
+	        }
+
 		}
 
 		.liste-sessions {

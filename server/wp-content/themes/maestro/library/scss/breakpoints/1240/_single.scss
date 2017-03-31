@@ -227,6 +227,55 @@
 			}
 
 		}
+		.details {
+			position: relative;
+			overflow: visible !important;
+		}
+
+		article {
+			.block_left {
+				.millesime-wrapper {
+		            .millesime {
+		                width: 120px;
+		                left: 30px;
+		                top: 50px; 
+		            }
+	            }
+	        }
+
+	        .block_certification {
+	        	float: none;
+			    clear: both;
+			    position: absolute;
+			    top: 0;
+			    right: -220px;
+			    margin-top: 0;
+			    width: 110px;
+
+	            > img {
+	                width: 70px;
+	                height: 70px;
+	                float: none;
+	                clear: both;
+	                display: block;
+	                margin: 0 auto;
+	            }
+
+	            .num {
+	                margin: 5px 0 0;
+	                width: 100%;
+	                text-align: center;
+
+
+	                span {
+	                    @include do-me;
+	                    display: block;
+	                }
+	            }
+	        }
+		}
+
+		
 
 		#inner-content article .details {
 			.block_left {
