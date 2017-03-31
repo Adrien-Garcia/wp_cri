@@ -13,6 +13,9 @@ class Formation extends \App\Override\Model\CridonMvcModel
     public $has_many = array(
         'Session' => array(
             'foreign_key' => 'id'
+        ),
+        'Millesime' => array(
+            'foreign_key' => 'id'
         )
     );
 
