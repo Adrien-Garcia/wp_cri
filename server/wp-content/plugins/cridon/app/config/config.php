@@ -39,6 +39,13 @@ class Config {
             'controller'        => 'formations',
             'action'            => 'index'
         ),
+        'sessions' => array(
+            'value'             => 'sessions',
+            'name'              => 'session',
+            'model'             => 'Session',
+            'controller'        => 'sessions',
+            'action'            => 'index'
+        ),
         'cahier_cridons' => array(
             'value'             => 'cahier_cridons',
             'name'              => 'cahier_cridon',
@@ -351,6 +358,7 @@ class Config {
         'questions',
         'demarches',
         'cridonline_prices',
+        'sessions',
     );
     
     //Admin wp_mvc action translation
@@ -358,9 +366,12 @@ class Config {
         'view'   => 'Voir',
         'edit'   => 'Editer',
         'delete' => 'Supprimer',
-        'download' => 'Télécharger'
+        'download' => 'Télécharger',
+        'complete' => 'Indiquer comme complet',
+        'full' => 'Complet'
     );
     public static $msgConfirmDelete = 'Êtes-vous sur de vouloir supprimer';
+    public static $msgConfirmComplete = 'Voulez vous indiquer cette session comme étant complète ?';
     public static $btnTextAdmin = array(
         'add'    => 'Ajouter',
         'update' => 'Mettre à jour',

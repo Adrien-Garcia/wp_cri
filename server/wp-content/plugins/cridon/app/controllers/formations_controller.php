@@ -80,7 +80,7 @@ class FormationsController extends BaseActuController
     public function show(){
         $params = $this->params;
         parent::show();
-        $this->object->matieres = $this->model->getMatieres($this->object->id);
+        $this->object->matieres = $this->model->getMatieres($this->object);
         $formation = $this->object;
         $highlight = false;
         if (!empty($formation->id)) {
