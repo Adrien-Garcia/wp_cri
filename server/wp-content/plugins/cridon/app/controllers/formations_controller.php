@@ -122,7 +122,7 @@ class FormationsController extends BaseActuController
         $matieres = mvc_model('Matiere')->find(array(
             'conditions' => array(
                 'OR' => array(
-                    'displayed' => 1,
+                    'formation' => 1,
                     'id' => Matiere::DEFAULT_MATIERE_ID
                 )
             )
@@ -721,7 +721,7 @@ class FormationsController extends BaseActuController
                     $sortedFormations[reset($formation->matieres)->id][] = $formation;
                 } else {
                     $sortedFormations[$matiereDefault->id][] = $formation;
-                }   
+                }
             } else {
                 $formation->matieres = array($matiereDefault);
                 $sortedFormations[$matiereDefault->id][] = $formation;
