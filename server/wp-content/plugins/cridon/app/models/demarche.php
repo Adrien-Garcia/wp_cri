@@ -22,8 +22,6 @@ class Demarche extends \App\Override\Model\CridonMvcModel
         'type',
         'date_demande',
         'details',
-        'lieu',
-        'horaire',
         'commentaire_client',
         'commentaire_cridon',
         'notaire',
@@ -34,6 +32,7 @@ class Demarche extends \App\Override\Model\CridonMvcModel
         'session',
         'session_date',
         'session_horaire',
+        'session_lieu',
         'organisme_crpcen',
         'organisme_name',
         'formation',
@@ -99,25 +98,24 @@ class Demarche extends \App\Override\Model\CridonMvcModel
                 'type' => $demarche->type,
                 'date_demande' => $demarche->date,
 
-                'details' => $demarche->details, // TODO ?
-                'lieu' => 'LIEU', // TODO
-                'horaire' => 'HORAIRE', // TODO
+                'details' => $demarche->details,
                 'commentaire_client' => $demarche->commentaire_client,
                 'commentaire_cridon' => $demarche->commentaire_cridon,
 
-                'notaire' => $demarche->notaire_id, // TODO
+                'notaire' => $demarche->notaire_id,
                 'notaire_crpcen' => $demarche->notaire->crpcen,
                 'notaire_nom' => $demarche->notaire->last_name,
                 'notaire_prenom' => $demarche->notaire->first_name,
                 'notaire_mail' => $demarche->notaire->email_adress,
 
-                'session' => $session->id, // TODO
+                'session' => $session->id,
                 'session_date' => $session->date,
                 'session_horaire' => $session->timetable,
+                'session_lieu' => $session->place,
                 'organisme_crpcen' => $session->entite->crpcen,
                 'organisme_name' => $session->entite->office_name,
 
-                'formation' => $formation->id, // TODO
+                'formation' => $formation->id,
                 'formation_titre' => $formation->post->post_title,
                 'formation_matieres' => implode('|', $arrayMatieres),
 
