@@ -846,6 +846,51 @@ interface DBConnect
 
     /****************** /Table ZFORMV Structure *******************/
 
+    /****************** Vue ZDIONV Structure *******************/
+
+    const ZSESS_ID = 'Z_CODEFORM_0'; // ID unique de la session /A  20
+
+    const ZSESS_FORM = 'Z_NUMERO_0'; // ID de la formation / A  20
+
+    const ZSESS_ORG = 'Z_ORG_0'; // ID de l'organisme de formation / BPC
+
+    const ZSESS_ZLIEU = 'ZLIEU_0'; // Lieu de la session de formation /A  250
+
+    const ZSESS_ZHORAIRE = 'ZHORAIRE_0'; // Horaires de la session de formation /A  50
+
+    const ZSESS_DATEDEB = 'Z_DATEDEB_0'; // Date de la session de formation /DDB
+
+    const ZSESS_JOUR = 'Z_JOUR_0'; // Session ayant lieu sur une journée / M (2=Oui, 1=Non)
+
+    const ZSESS_NBRJOUR = 'Z_NBRJOUR_0'; // Nombre de journées de la session / A  10
+
+    const ZSESS_DEMIJOUR = 'Z_DEMIJOUR_0'; // Session ayant lieu sur une 1/2 journée / M (2=Oui, 1=Non)
+
+    const ZSESS_DEMINBR = 'Z_DEMINBR_0'; // Nombre de 1/2 journées de la session / A  10
+
+    const ZSESS_ZPRIXCONF = 'ZPRIXCONF_0'; // Prix HT par personne de la session / A  10 (uniquement cas 1)
+
+    const ZSESS_MATIERE1 = 'Z_MATIERE_0'; // Matière du formateur 1 de la session / A 4
+
+    const ZSESS_MATIERE2 = 'Z_MATIERE2_0'; // Matière du formateur 2 de la session / A  4
+
+    const ZSESS_MATIERE3 = 'Z_MATIERE3_0'; // Matière du formateur 3 de la session / A  4
+
+    const ZSESS_MATIERE4 = 'Z_MATIERE4_0'; // Matière du formateur 4 de la session / A  4
+
+    const ZSESS_JURISTE1 = 'Z_JURISTE_0'; // Formateur 1 de la session / A  5
+
+    const ZSESS_JURISTE2 = 'Z_JURISTE2_0'; // Formateur 2 de la session / A  5
+
+    const ZSESS_JURISTE3 = 'Z_JURISTE3_0'; // Formateur 3 de la session / A  5
+
+    const ZSESS_JURISTE4 = 'Z_JURISTE4_0'; // Formateur 4 de la session / A  5
+
+    const ZSESS_UPDDAT = 'UPDDAT_0'; // Date de mise à jour / D
+
+
+    /****************** /Vue ZDIONV Structure *******************/
+
     /**
      * Get instance
      *
