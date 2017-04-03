@@ -342,6 +342,11 @@ App.Question = {
             this.$buttonQuestionSupportShortcut.on('click', function () {
                 self.eventButtonSupportClick($(this));
             });
+
+            this.$messageQuestionField.off('input.readability');
+            this.$messageQuestionField.on('input.readability', function () {
+                self.contentReadabilityChecker();
+            });
         }
 
         submitFunc = function () {
