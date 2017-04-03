@@ -123,7 +123,7 @@ $currentMonth = date('m-Y') == ($month . '-' . $year);
                                                                     <?php echo $session['is_full'] ? 'Complet' : $session['time'] ; ?>
                                                                     <p><?php echo $session['place'] ?></p>
                                                                     <p><?php echo $session['duree'] ?></p>
-                                                                    <p class="price"><?php echo $session['price'] ?>€ HT / Personne</p>
+                                                                    <p class="price"><?php echo $session['price'] ?>€ HT / personne</p>
                                                                 </div>
                                                             <?php endif; ?>
                                                             <?php if ($session['url']) : ?>
