@@ -43,6 +43,7 @@ App.Question = {
 
     owlCarouselSelector2: '#owl-niveau-expertise',
 
+    messageQuestionReadabilitySelector: '.js-question-readability',
 
     popupOverlaySelector: '#layer-posez-question',
 
