@@ -188,6 +188,11 @@ function add_menu_icons_styles(){
 	content: "\f338";
 }
 
+/***ENTITES CRIDON*/
+#adminmenu .toplevel_page_mvc_entites div.wp-menu-image:before {
+	content: "\f507";
+}
+
 /***MATIERES CRIDON*/
 #adminmenu .toplevel_page_mvc_matieres div.wp-menu-image:before {
 	content: "\f318";

@@ -318,7 +318,12 @@ class NotairesController extends BasePublicController
     {
         // access secured
         $this->cridonlinevalidation();
-        $this->renderView('contentcridonlineetape2', true);
+        $data = $this->renderView('contentcridonlineetape2', false);
+        $json = array(
+            'view' => $data
+        );
+
+        echo json_encode($json, JSON_HEX_QUOT | JSON_HEX_TAG);
         die();
     }
     /**
@@ -343,10 +348,16 @@ class NotairesController extends BasePublicController
      */
     public function cridonlinevalidation()
     {
+        session_start();
         $this->prepareSecureAccess(CONST_CRIDONLINESUBSCRIPTION_ROLE);
-        if (!empty($_GET['level']) && !empty($_GET['price'])) {
-            $this->set('level',$_GET['level']);
-            $this->set('price',$_GET['price']);
+        if (!empty($_REQUEST['level'])){
+            if (empty($promo = $_SESSION['cridonline_promo'])){
+                $promo = CONST_NO_PROMO;
+            }
+            $subscription_infos = mvc_model('Entite')->getSubscriptionInfos($_REQUEST['level'],$promo);
+            $this->set('level',$_REQUEST['level']);
+            $this->set('price',$subscription_infos['price']);
+            $this->set('message',$subscription_infos['front_message']);
         }
     }
     /**
@@ -406,6 +417,31 @@ class NotairesController extends BasePublicController
         die;
     }
 
+    /**
+     * Post code promo and saves it into the session
+     * @throws Exception
+     */
+    public function ajaxSetPromo(){
+        session_start();
+        $notaire = CriNotaireData();
+        $entite = mvc_model('Entite')->find_one_by_crpcen($notaire->crpcen);
+        if (empty($_REQUEST['code_promo'])
+            || !in_array($_REQUEST['code_promo'], array($entite->code_promo_offre_choc,$entite->code_promo_offre_privilege))) {
+            echo json_encode(array('error_promo' => CONST_CRIDONLINE_WRONG_PROMO_CODE));
+            die();
+        }
+        if (!in_array($_REQUEST['code_promo'],Config::$promo_available_for_level)){
+            echo json_encode(array('error_promo' => CONST_CRIDONLINE_PROMO_CODE_ONLY_PRIVILEGE));
+            die();
+        }
+
+        if ($_REQUEST['code_promo'] == $entite->code_promo_offre_choc){
+            $_SESSION['cridonline_promo'] = CONST_PROMO_CHOC;
+        } else {
+            $_SESSION['cridonline_promo'] = CONST_PROMO_PRIVILEGE;
+        }
+        $this->contentcridonlineetape2();
+    }
 
     public function ajaxVeilleSubscription()
     {
@@ -415,22 +451,33 @@ class NotairesController extends BasePublicController
             die();
         }
         // find the office
+        session_start();
         $entite = mvc_model('Entite')->find_one_by_crpcen($notaire->crpcen);
         if (!empty($entite) && !empty($_REQUEST['level']) && intval($_REQUEST['level']) > $entite->subscription_level) {
-            $subscriptionInfos = mvc_model('Entite')->getRelatedPrices($entite);
-            $subscription_price = $subscriptionInfos[$_REQUEST['level']];
-            $start_subscription_date = date('Y-m-d');
-            $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
-            $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+            if (empty($offre_promo = $_SESSION['cridonline_promo'])){
+                $offre_promo = CONST_NO_PROMO;
+            } else {
+                if ($_SESSION['cridonline_promo'] == CONST_PROMO_CHOC) {
+                    $code_promo_offre_choc = mvc_model('Entite')->getRandomPromoCode();
+                } else {
+                    $code_promo_offre_privilege = mvc_model('Entite')->getRandomPromoCode();
+                }
+                unset ($_SESSION['cridonline_promo']);
+            }
+            $subscriptionInfos = mvc_model('Entite')->getSubscriptionInfos($_REQUEST['level'],$offre_promo);
+
             $office = array(
                 'Entite' => array(
                     'crpcen'                     => $notaire->crpcen,
                     'subscription_level'         => $_REQUEST['level'],
-                    'start_subscription_date'    => $start_subscription_date,
-                    'echeance_subscription_date' => $echeance_subscription_date,
-                    'end_subscription_date'      => $end_subscription_date,
-                    'subscription_price'         => $subscription_price,
+                    'start_subscription_date'    => $subscriptionInfos['start_subscription_date'],
+                    'echeance_subscription_date' => $subscriptionInfos['echeance_subscription_date'],
+                    'end_subscription_date'      => $subscriptionInfos['end_subscription_date'],
+                    'subscription_price'         => $subscriptionInfos['price'],
                     'id_sepa'                    => $this->calculateSepaId($notaire,$entite),
+                    'offre_promo'                => isset($offre_promo) ? $offre_promo : '',
+                    'code_promo_offre_choc'      => isset($code_promo_offre_choc) ? $code_promo_offre_choc : $entite->code_promo_offre_choc,
+                    'code_promo_offre_privilege' => isset($code_promo_offre_privilege) ? $code_promo_offre_privilege : $entite->code_promo_offre_privilege,
                     'a_transmettre'              => CONST_CRIDONLINE_A_TRANSMETTRE_ERP
                 )
             );

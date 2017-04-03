@@ -815,6 +815,12 @@ if ( !defined( 'CONST_NEWSLETTER_MSGBLOCK_ID' ) ) {
 if ( !defined( 'CONST_CRIDONLINE_CGV_ERROR_MSG' ) ) {
     define( 'CONST_CRIDONLINE_CGV_ERROR_MSG', 'Vous devez accepter les conditions générales d\'utilisations pour souscrire à l\'offre CRID\'ONLINE' );
 }
+if ( !defined( 'CONST_CRIDONLINE_WRONG_PROMO_CODE' ) ) {
+    define( 'CONST_CRIDONLINE_WRONG_PROMO_CODE', 'Le code promo choisi n\'est pas correct' );
+}
+if ( !defined( 'CONST_CRIDONLINE_PROMO_CODE_ONLY_PRIVILEGE' ) ) {
+    define( 'CONST_CRIDONLINE_PROMO_CODE_ONLY_PRIVILEGE', 'Le code promo choisi n\'est pas disponible pour l\'offre CRID\'ONLINE Premium' );
+}
 if ( !defined( 'CONST_CRIDONLINE_LABEL_LEVEL_2' ) ) {
     define( 'CONST_CRIDONLINE_LABEL_LEVEL_2', 'Premium' );
 }
@@ -1308,6 +1314,9 @@ if ( !defined( 'CONST_ECHEANCE_SUBSCRIPTION_PROMO_CHOC' ) ) {
 }
 if ( !defined( 'CONST_END_SUBSCRIPTION_PROMO_CHOC' ) ) {
     define( 'CONST_END_SUBSCRIPTION_PROMO_CHOC', '2017-12-31' );
+}
+if ( !defined( 'CONST_NO_PROMO' ) ) {
+    define( 'CONST_NO_PROMO', 0 );
 }
 if ( !defined( 'CONST_PROMO_CHOC' ) ) {
     define( 'CONST_PROMO_CHOC', 1 );

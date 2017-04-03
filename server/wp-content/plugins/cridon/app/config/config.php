@@ -371,9 +371,10 @@ class Config {
     public static $listOfControllersWpMvcOnSidebar = array(
         'cahier_cridons','competences','documents','flashes','formations','matieres','notaires',
         'questions','soldes','supports','user_cridons','veilles','vie_cridons', 'sessions',
-        'evenements','demarches','cridonline_prices'
+        'evenements','demarches','cridonline_prices','entites'
     );
     public static $listOfControllersWithNoActionAdd = array(
+        'entites',
         'notaires',
         'questions',
         'demarches',
@@ -672,6 +673,22 @@ class Config {
     public static $cridonlineLevels = array (
         CONST_CRIDONLINE_LEVEL_2,
         CONST_CRIDONLINE_LEVEL_3
+    );
+
+    public static $promo_available_for_level = array(
+        CONST_PROMO_CHOC => array(
+            CONST_CRIDONLINE_LEVEL_2,
+            CONST_CRIDONLINE_LEVEL_3
+        ),
+        CONST_PROMO_PRIVILEGE => array(
+            CONST_CRIDONLINE_LEVEL_3
+        )
+    );
+
+    public static $cridonlineMessages = array (
+        'no_promo' => 'Vous avez choisi l\'offre CRID\'ONLINE %s pour <strong>%.2f € HT</strong> par an', // 1er %s : premium / excellence ; 2ème %s : price
+        'promo_choc' => '<u>Vous avez choisi l\'offre CRID\'ONLINE %s à <strong> %.2f € HT</strong> par an (fin de l\'année %s offerte)</u>', // 1er %s : label premium / excellence ; 2ème %s : price ; 3ème %s : date
+        'promo_privilege' => '<u>Vous avez choisi l\'offre CRID\'ONLINE Excellence pendant deux ans à <strong>%.2f € HT</strong> la première année</u>', // 1er %s : price
     );
 
     /**

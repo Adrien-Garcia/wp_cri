@@ -88,6 +88,66 @@ class Entite extends \App\Override\Model\CridonMvcModel {
     }
 
     /**
+     * Returns an array of all informations of a subscription : price, dates and front message
+     *
+     * @param $cridonlineLevel
+     * @param int $promo
+     * @return array|bool
+     * @throws Exception
+     */
+    public function getSubscriptionInfos($cridonlineLevel,$promo = CONST_NO_PROMO){
+        $notaire = CriNotaireData();
+        $entite = mvc_model('Entite')->find_one_by_crpcen($notaire->crpcen);
+        // La promotion existe-t-elle ?
+        if (!in_array($cridonlineLevel,array(CONST_CRIDONLINE_LEVEL_2,CONST_CRIDONLINE_LEVEL_3))
+            || !in_array($promo,array(CONST_NO_PROMO,CONST_PROMO_CHOC,CONST_PROMO_PRIVILEGE))){
+            return false;
+        }
+        // La promotion s'applique-t-elle ?
+        if (!in_array($cridonlineLevel, Config::$promo_available_for_level[$promo])){
+            $promo = CONST_NO_PROMO;
+        }
+        $prices = $this->getRelatedPrices($entite);
+        $label_offre = ($_REQUEST['level'] == CONST_CRIDONLINE_LEVEL_2 ? CONST_CRIDONLINE_LABEL_LEVEL_2 : CONST_CRIDONLINE_LABEL_LEVEL_3);
+        if ($promo == CONST_NO_PROMO){
+            //PAS D'OFFRE
+            $price = $prices[$cridonlineLevel];
+            $start_subscription_date = date('Y-m-d');
+            $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+            $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+            $front_message = sprintf(Config::$cridonlineMessages['no_promo'],$label_offre,$price);
+        } elseif ($promo == CONST_PROMO_CHOC) {
+            //CRIDONLINE PREMIUM OU EXCELLENCE + OFFRE CHOC : Abonnement au niveau 2 ou 3 aec la fin d'année en cours offerte
+            $price = $prices[$cridonlineLevel];
+            $start_subscription_date = date('Y-01-01', strtotime('+1 year')); // NextYear-01-01
+            $end_subscription_date = date('Y-12-01', strtotime('+1 year')); // NextYear-12-31
+            $echeance_subscription_date = date('Y-10-31', strtotime('+1 year')); // NextYear-10-31
+            $front_message = sprintf(Config::$cridonlineMessages['promo_choc'],$label_offre,$price,date('Y'));
+        } else {
+            //CRIDONLINE EXCELLENCE + OFFRE PRIVILÉGIÉ : Abonnement au niveau 3 au prix du niveau 2 ; 2 ans d'engagement
+            $price = $prices[CONST_CRIDONLINE_LEVEL_2];
+            $start_subscription_date = date('Y-m-d');
+            $end_subscription_date = date('Y-m-d', strtotime('+' . CONST_CRIDONLINE_SUBSCRIPTION_DURATION_DAYS . 'days'));
+            $echeance_subscription_date = date('Y-m-d', strtotime($end_subscription_date .'-'. CONST_CRIDONLINE_ECHEANCE_MONTH . 'month'));
+            $front_message = sprintf(Config::$cridonlineMessages['promo_privilege'],$price);
+        }
+        return array(
+            'price' => $price,
+            'start_subscription_date' => $start_subscription_date,
+            'echeance_subscription_date' => $echeance_subscription_date,
+            'end_subscription_date' => $end_subscription_date,
+            'front_message' => $front_message
+        );
+    }
+
+    /**
+     * @return string of 6 random uppercase caracters ([A-Z0-9])
+     */
+    public function getRandomPromoCode(){
+        return strtoupper(substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 6));
+    }
+
+    /**
      * Get all cridonline prices : year N and N+1
      * @return array
      */

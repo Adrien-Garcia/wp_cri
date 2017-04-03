@@ -337,6 +337,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         }
                     } else {
                         try {
+                            $aData['code_promo_offre_choc'] = mvc_model('entite')->getRandomPromoCode();
+                            $aData['code_promo_offre_privilege'] = mvc_model('entite')->getRandomPromoCode();
                             mvc_model('entite')->insert($aData);
                         } catch (\Exception $e) {
                             // write into logfile
@@ -2889,6 +2891,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                     `ce`.`tel` tel_office,
                     `ce`.`fax` fax_office,
                     `ce`.`office_email_adress_1`,
+                    `ce`.`code_promo_offre_choc` code_promo_offre_choc,
+                    `ce`.`code_promo_offre_privilege` code_promo_offre_privilege,
                     `cf`.`label` fonction,
                     `cfc`.`label` fonction_collaborateur
                 FROM
@@ -3016,8 +3020,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . (empty($notary->tel_office) ? ' ' : $this->replaceQuote($notary->tel_office)) . "', "; // TELOFF
                             $value .= "'" . (empty($notary->fax_office) ? ' ' : $this->replaceQuote($notary->fax_office)) . "', "; // FAXOFF
                             $value .= "'" . (empty($notary->office_email_adress_1) ? ' ' : $this->replaceQuote($notary->office_email_adress_1)) . "', "; // WEBOFF
-                            $value .= "' ', "; // ZPROMO1
-                            $value .= "' ', "; // ZPROMO2
+                            $value .= "'" . (empty($notary->code_promo_offre_choc) ? ' ' : $this->replaceQuote($notary->code_promo_offre_choc)) . "', "; // ZPROMO1
+                            $value .= "'" . (empty($notary->code_promo_offre_privilege) ? ' ' : $this->replaceQuote($notary->code_promo_offre_privilege)) . "', "; // ZPROMO2
                             $value .= "'" . $droitQuestEcrite . "', "; // YSREECR
                             $value .= "'" . $droitQuestTel . "', "; // YSRETEL
                             $value .= "'" . CONST_YTRAITEE_PAR_SITE . "', "; // YTRAITEE
