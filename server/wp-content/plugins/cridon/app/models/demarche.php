@@ -18,26 +18,26 @@ class Demarche extends \App\Override\Model\CridonMvcModel
     );
 
     protected $_csv_format = array(
-        'id',
-        'type',
-        'date_demande',
-        'details',
-        'commentaire_client',
-        'commentaire_cridon',
-        'notaire',
-        'notaire_crpcen',
-        'notaire_nom',
-        'notaire_prenom',
-        'notaire_mail',
-        'session',
-        'session_date',
-        'session_horaire',
-        'session_lieu',
-        'organisme_crpcen',
-        'organisme_name',
-        'formation',
-        'formation_titre',
-        'formation_matieres',
+        'id' => '',
+        'type' => '',
+        'date_demande' => '',
+        'details' => '',
+        'commentaire_client' => '',
+        'commentaire_cridon' => '',
+        'notaire' => '',
+        'notaire_crpcen' => '',
+        'notaire_nom' => '',
+        'notaire_prenom' => '',
+        'notaire_mail' => '',
+        'session' => '',
+        'session_date' => '',
+        'session_horaire' => '',
+        'session_lieu' => '',
+        'organisme_crpcen' => '',
+        'organisme_name' => '',
+        'formation' => '',
+        'formation_titre' => '',
+        'formation_matieres' => '',
     );
 
     public function createFromFormulaire($type, $currentUser, $content, $formationCommentaire, $element)
@@ -60,12 +60,12 @@ class Demarche extends \App\Override\Model\CridonMvcModel
         if (!file_exists( dirname($file_path) )) {
             mkdir(dirname($file_path), 0777, true);
         }
-        $ressource = fopen($file_path, 'w+b');
-        $this->exportCsvDemarches($ressource , $with_header, $start_date, $end_date);
-        fclose($ressource);
+        $resource = fopen($file_path, 'w+b');
+        $this->exportCsvDemarches($resource , $with_header, $start_date, $end_date);
+        fclose($resource);
     }
 
-    public function exportCsvDemarches($ressource , $with_header = true, $start_date = false, $end_date = false ) {
+    public function exportCsvDemarches($resource , $with_header = true, $start_date = false, $end_date = false ) {
         $reg_date = '/^[0-3]\d-[0-1]\d-\d{4}$/';
         $options = array(
             'joins'=>array('Notaire')
@@ -78,7 +78,7 @@ class Demarche extends \App\Override\Model\CridonMvcModel
         $demarches = $this->find($options);
 
         if ($with_header) {
-            fputcsv($ressource, $this->_csv_format);
+            fputcsv($resource, array_keys($this->_csv_format));
         }
         $lines = array();
         foreach ($demarches as $demarche) {
@@ -88,12 +88,17 @@ class Demarche extends \App\Override\Model\CridonMvcModel
             $session = mvc_model('session')->find_by_id($demarche->session_id, array(
                 'joins'=>array('Entite')
             ));
-            $matieres = $demarche->formation->mvc_model->getMatieres($formation);
+            $matieres = mvc_model('Formation')->getMatieres($formation);
             $arrayMatieres = array();
-            foreach ($matieres as $matiere) {
-                $arrayMatieres[] = $matiere->label;
+            if ($matieres) {
+                foreach ($matieres as $matiere) {
+                    $arrayMatieres[] = $matiere->label;
+                }
+            } else {
+                $arrayMatieres[] = "0";
             }
-            $lines[] = array(
+
+            $_line = array(
                 'id' => $demarche->id,
                 'type' => $demarche->type,
                 'date_demande' => $demarche->date,
@@ -103,27 +108,44 @@ class Demarche extends \App\Override\Model\CridonMvcModel
                 'commentaire_cridon' => $demarche->commentaire_cridon,
 
                 'notaire' => $demarche->notaire_id,
-                'notaire_crpcen' => $demarche->notaire->crpcen,
-                'notaire_nom' => $demarche->notaire->last_name,
-                'notaire_prenom' => $demarche->notaire->first_name,
-                'notaire_mail' => $demarche->notaire->email_adress,
 
-                'session' => $session->id,
-                'session_date' => $session->date,
-                'session_horaire' => $session->timetable,
-                'session_lieu' => $session->place,
-                'organisme_crpcen' => $session->entite->crpcen,
-                'organisme_name' => $session->entite->office_name,
+                'session' => $demarche->session_id,
 
-                'formation' => $formation->id,
-                'formation_titre' => $formation->post->post_title,
-                'formation_matieres' => implode('|', $arrayMatieres),
-
+                'formation' => $demarche->formation_id,
             );
+            $_notaire = $_session = $_formation = array();
+            if (!empty($demarche->notaire_id) && !empty($demarche->notaire)) {
+                $_notaire = array(
+                    'notaire_crpcen' => $demarche->notaire->crpcen,
+                    'notaire_nom' => $demarche->notaire->last_name,
+                    'notaire_prenom' => $demarche->notaire->first_name,
+                    'notaire_mail' => $demarche->notaire->email_adress,
+                );
+            }
+            if (!empty($demarche->session_id) && !empty($session)) {
+                $_session = array(
+                    'session_date' => $session->date,
+                    'session_horaire' => $session->timetable,
+                    'session_lieu' => $session->place,
+                    'organisme_crpcen' => $session->entite->crpcen,
+                    'organisme_name' => $session->entite->office_name,
+                );
+            }
+
+            if (!empty($demarche->formation_id) && !empty($formation)) {
+                $_formation = array(
+                    'formation_titre' => $formation->post->post_title,
+                    'formation_matieres' => implode('|', $arrayMatieres),
+                );
+            }
+
+            $_line = array_merge($this->_csv_format, $_line, $_notaire, $_session, $_formation);
+
+            $lines[] = $_line;
         }
-        $lines = $this->_validateDataForCsv($this->_csv_format, $lines);
+        $lines = $this->_validateDataForCsv(array_keys($this->_csv_format), $lines);
         foreach ($lines as $line) {
-            fputcsv($ressource, $line);
+            fputcsv($resource, $line);
         }
 
     }
