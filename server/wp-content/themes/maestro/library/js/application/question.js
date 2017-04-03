@@ -102,10 +102,10 @@ App.Question = {
             self.$selectQuestionCompetenceArray[$(this).data('matiere-id')] = $(this);
         });
 
-        this.$tabQuestionExpertise                 = $(this.tabQuestionExpertiseSelector);
+        this.$tabQuestionExpertise                  = $(this.tabQuestionExpertiseSelector);
         this.$tabQuestionConsultation               = $(this.tabQuestionConsultationSelector);
         this.$tabQuestionMaQuestion                 = $(this.tabQuestionMaQuestionSelector);
-        this.$buttonQuestionExpertise            = $(this.buttonQuestionExpertiseSelector);
+        this.$buttonQuestionExpertise               = $(this.buttonQuestionExpertiseSelector);
         this.$buttonQuestionConsultation            = $(this.buttonQuestionConsultationSelector);
         this.$buttonQuestionMaQuestion              = $(this.buttonQuestionMaQuestionSelector);
 
@@ -125,11 +125,12 @@ App.Question = {
 
         this.$objectQuestionField                   = $(this.objectQuestionFieldSelector);
         this.$messageQuestionField                  = $(this.messageQuestionFieldSelector);
+        this.$messageQuestionReadability            = $(this.messageQuestionReadabilitySelector);
 
         this.$textQuestionExpertise                 = $(this.textQuestionExpertiseSelector);
 
         this.$owlCarousel                           = $(this.owlCarouselSelector);
-        this.$owlCarousel2                           = $(this.owlCarouselSelector2);
+        this.$owlCarousel2                          = $(this.owlCarouselSelector2);
         this.$popupOverlay                          = $(this.popupOverlaySelector);
 
         this.$submitQuestion                        = $(this.submitQuestionSelector);
@@ -702,6 +703,24 @@ App.Question = {
 
 
         return false;
+    },
+
+    contentReadabilityChecker: function () {
+        var readability = 0;
+        var string = this.$messageQuestionField.val();
+        var arr = string.split('');
+        arr.forEach(function (char) {
+            if (char === '.') {
+                readability++;
+            } else if (char === '\n' || char === '\r') {
+                readability = 0;
+            }
+        });
+        if (readability < 5) {
+            this.$messageQuestionReadability.addClass('hidden');
+        } else {
+            this.$messageQuestionReadability.removeClass('hidden');
+        }
     },
 
     debug: function (t) {
