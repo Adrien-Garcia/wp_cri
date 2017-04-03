@@ -59,6 +59,9 @@
                                     </div>
                                     <div class="organisme"><?php echo strtoupper($demande['formation']['organisme']) ; ?></div>
                                     <div class="horaire"><?php echo $demande['formation']['time'] ; ?></div>
+                                    <div class="horaire"><?php echo $demande['formation']['duree'] ; ?></div>
+                                    <div class="horaire"><?php echo $demande['formation']['place'] ; ?></div>
+                                    <div class="horaire"><?php echo $demande['formation']['price'] ; ?> € HT</div>
                                 </div>
                                 <br />
                                 <?php echo apply_filters('the_content', $demande['formation']['content']); ?>

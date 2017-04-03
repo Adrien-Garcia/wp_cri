@@ -39,7 +39,7 @@ $currentMonth = date('m-Y') == ($month . '-' . $year);
                                 echo $actual_month;
                                 ?>
                             </div>
-                            
+
                         </div>
                         <ul class="calendar__header--weekdays"><!--
                             <?php for ($i=0;$i<7;$i++) : ?>
@@ -97,8 +97,8 @@ $currentMonth = date('m-Y') == ($month . '-' . $year);
                                         <ul class="calendar__day-sessions <?php echo $is_scrollable ? 'calendar__day-sessions--scrollable' : '' ; ?>">
                                             <?php if (is_array($day['sessions'])): ?>
                                             <?php foreach ($day['sessions'] as $index => $session) : ?>
-                                                <li 
-                                                    class="calendar__session js-calendar__session" 
+                                                <li
+                                                    class="calendar__session js-calendar__session"
                                                     data-session="<?php echo $session['id'] ; ?>"
                                                     data-block="calendar__session-block-<?php echo $date ; ?>"
                                                     style="background-color: <?php echo !empty($session['matiere']->color) ? $session['matiere']->color : '#000' ?>;"
@@ -121,6 +121,9 @@ $currentMonth = date('m-Y') == ($month . '-' . $year);
                                                             <?php if ($session['time'] || $session['is_full']) : ?>
                                                                 <div class="calendar__session-content--time <?php if ($session['is_full']): ?> calendar__session-content--time--full <?php endif; ?>">
                                                                     <?php echo $session['is_full'] ? 'Complet' : $session['time'] ; ?>
+                                                                    <p><?php echo $session['place'] ?></p>
+                                                                    <p><?php echo $session['duree'] ?></p>
+                                                                    <p><?php echo $session['price'] ?> €</p>
                                                                 </div>
                                                             <?php endif; ?>
                                                             <?php if ($session['url']) : ?>
@@ -173,7 +176,7 @@ $currentMonth = date('m-Y') == ($month . '-' . $year);
                         <?php foreach ($data['matieres'] as $index => $matiere) : ?>
                             <li style="color: <?php echo $matiere->color ?>; background-color: <?php echo $matiere->color ?>;"><span><?php echo $matiere->label ?></span></li>
                         <?php endforeach; ?>
-                    </ul>        
+                    </ul>
                 </div>
 
             </div>
