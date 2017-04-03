@@ -134,7 +134,7 @@
 								<li class="js-home-block-link">
 									<img src="<?php echo $formation->picto ?>" alt="<?php echo $formation->label ?>" />
 									<h4><?php echo get_the_title($formation->ID); ?></h4>
-									<div class="chapeau-categorie"><?php echo $formation->post_content ?></div>
+									<div class="chapeau-categorie"><?php // echo $formation->post_content ?> <?php echo truncate($formation->post_content,280, '...'); ?></div>
 									<a href="<?php echo get_permalink($formation->ID) ?>" class="bt-lire"><?php _e('Lire'); ?></a>
 									<?php if(!empty($formation->isOneOfMany) && $formation->isOneOfMany): ?>
 									    <a href="<?php echo mvc_public_url(array('controller' => 'formations', 'action' => 'index')) ?>" class="bt-all">Consulter toutes les formations du jour</a>

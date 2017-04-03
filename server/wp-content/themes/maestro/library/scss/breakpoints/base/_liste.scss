@@ -212,11 +212,7 @@
 				margin-top: 40px;
 
 				article{
-
-					margin-bottom: 20px;
-					//overflow: hidden;
-
-
+					margin-bottom: 40px;
 
 					.date{
 						height: 60px;
@@ -394,8 +390,11 @@
 							}
 
 							.lieux-formation {
+								margin-bottom: 10px;
+								line-height: 18px;
+
 								.organisme {
-									@include do-bo;
+									@include do-me;
 									font-size: 15px;
 									margin-bottom: 7px;
 								}
@@ -405,6 +404,7 @@
 									margin-top: 10px;
 									font-size: 15px;
 									position: relative;
+									margin-bottom: 0;
 
 									&::after {
 										content: '';
@@ -415,6 +415,21 @@
 									    top: -5px;
 									    left: 0;
 									}
+								}
+
+								.duree,
+								.place,
+								.price {
+									@include do-re;
+									margin: 0;
+									font-size: 15px;
+									position: relative;
+								}
+
+								.price {
+									margin-top: 3px;
+									color: $rouge;
+									//@include do-me;
 								}
 							}
 

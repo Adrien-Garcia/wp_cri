@@ -940,9 +940,14 @@ body.page-template-front-page{
 						height: 225px;
 
 						.chapeau-categorie{
-							max-height: 92px;
+							max-height: 126px;
 							height: auto;
 							margin-left: 40px;
+							clear: both;
+
+							p {
+								margin: 0;
+							}
 						}
 					}
 				}

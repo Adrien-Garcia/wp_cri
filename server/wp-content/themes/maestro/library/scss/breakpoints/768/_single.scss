@@ -222,7 +222,7 @@
 
 		}
 
-		article {
+		#inner-content article {
 			position: relative;
 
 			.session {
@@ -260,8 +260,6 @@
 
 			a.bt {
 				width: 180px;
-			    //position: absolute;
-			    //top: 330px;
 			    float: left;
 			    clear: both;
 			    @include transition(all 0.3s);
@@ -311,6 +309,11 @@
 	                    display: block;
 	                }
 	            }
+	        }
+
+	        .details .block_full {
+	        	padding-left: 0;
+	        	width: 400px;
 	        }
 
 		}
