@@ -58,7 +58,7 @@ require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/nav.php';
     <div class="export-dates">
     <?php echo $this->custom_form->date_input('export_start_date', array(
         'label' => Config::$titleFieldAdminForm['export_start_date'],
-        'value' => date_create()->setTimestamp(0)->format('d-m-Y')
+        'value' => date_create()->modify('-1 month')->format('d-m-Y')
     )); ?>
     <?php echo $this->custom_form->date_input('export_end_date', array(
         'label' => Config::$titleFieldAdminForm['export_end_date'],
@@ -70,14 +70,14 @@ require WP_PLUGIN_DIR.'/cridon/app/views/admin/common/nav.php';
     <?php echo $this->form->end(Config::$btnTextAdmin['export']); ?>
 
     <?php if (isset($exportUrl)) : ?>
-        <p>
-            <a href="<?php echo $exportUrl; ?>" target="_blank">Fichier d'export csv</a>
+        <p style="margin-left: 15px;">
+            <a href="<?php echo $exportUrl; ?>" target="_blank">Export réussi</a>
         </p>
     <?php endif; ?>
 
     <?php if (isset($exportedFiles)) : ?>
         <div style="margin-left: 15px;">
-            <h3>Liste des fichiers exportés : </h3>
+            <h3>Liste des fichiers exportés (du plus récent au plus ancien) : </h3>
             <ul style="list-style-type: disc; margin-left: 30px;">
                 <?php foreach ($exportedFiles as $exportedFile) : ?>
                     <li>

@@ -66,15 +66,15 @@ class Demarche extends \App\Override\Model\CridonMvcModel
     }
 
     public function exportCsvDemarches($resource , $with_header = true, $start_date = false, $end_date = false ) {
-        $reg_date = '/^\d{4}-[0-1]\d-[0-3]\d$/';
+        $reg_date = '/^\d{4}[0-1]\d[0-3]\d$/';
         $options = array(
             'joins'=>array('Notaire')
         );
         if (!empty($start_date) && !empty($end_date)) {
             if (preg_match($reg_date, $start_date) && preg_match($reg_date, $end_date)) {
-                $options['conditions'] = ' date > "'.$start_date.'" AND date < "'.$end_date.'" ';
+                $options['conditions'] = ' date >= "'.$start_date.'" AND date <= "'.$end_date.'" ';
             } else {
-                throw new Exception('CSV export : date format error, must be "Y-m-d"');
+                throw new Exception('CSV export : date format error, must be "Ymd"');
             }
         }
         $demarches = $this->find($options);

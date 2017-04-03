@@ -179,8 +179,8 @@ class AdminDemarchesController extends BaseAdminController
         $start_date = date_create_from_format('d-m-Y', $start_date);
         $end_date = date_create_from_format('d-m-Y', $end_date);
         if ($start_date && $end_date) { // Si vrai date
-            $start_date = $start_date->format('Y-m-d');
-            $end_date = $end_date->format('Y-m-d');
+            $start_date = $start_date->format('Ymd');
+            $end_date = $end_date->format('Ymd');
         }
         if ($data['export_complet']) {
             $start_date = $end_date = false;
@@ -220,6 +220,7 @@ class AdminDemarchesController extends BaseAdminController
                         if (is_readable(CONST_EXPORT_CSV_DEMARCHE_FILE_PATH.DIRECTORY_SEPARATOR.$file) && substr($file, -4, 4) == ".csv") {
                             $f = array(
                                 'url'   => wp_upload_dir()['baseurl'].'/demarches/'.$file,
+                                'modified' => filemtime(CONST_EXPORT_CSV_DEMARCHE_FILE_PATH.DIRECTORY_SEPARATOR.$file)
                             );
                             if (substr($file, 0, 10) == "demarches_") {
                                 if ($file == "demarches_complet.csv") {
@@ -241,6 +242,12 @@ class AdminDemarchesController extends BaseAdminController
                 }
             }
         }
+        usort($files, function($a, $b) {
+            if ($a['modified'] === $b['modified']) {
+                return 0;
+            }
+            return $a['modified'] < $b['modified'] ? +1 : -1;
+        });
         return $files;
     }
 
