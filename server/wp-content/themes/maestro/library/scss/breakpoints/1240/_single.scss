@@ -227,85 +227,87 @@
 			}
 
 		}
-		.details {
-			position: relative;
-			overflow: visible !important;
-		}
 
-		article {
-			.block_left {
-				.millesime-wrapper {
-		            .millesime {
-		                width: 120px;
-		                left: 30px;
-		                top: 50px; 
-		            }
-	            }
-	        }
+		#inner-content article {
 
-	        .block_certification {
-	        	float: none;
-			    clear: both;
-			    position: absolute;
-			    top: 0;
-			    right: -220px;
-			    margin-top: 0;
-			    width: 110px;
+			.details {
+				position: relative;
+				//overflow: visible !important;
+				width: 960px;
+				padding-right: 230px;
 
-	            > img {
-	                width: 70px;
-	                height: 70px;
-	                float: none;
-	                clear: both;
-	                display: block;
-	                margin: 0 auto;
-	            }
-
-	            .num {
-	                margin: 5px 0 0;
-	                width: 100%;
-	                text-align: center;
-
-
-	                span {
-	                    @include do-me;
-	                    display: block;
-	                }
-	            }
-	        }
-		}
-
-		
-
-		#inner-content article .details {
-			.block_left {
-				height: auto;
-
-				.img-cat {
-					width: 100%;
+				.block_left {
 					height: auto;
-					overflow: hidden;
 
-					img {
-						width: 47px;
-						height: 47px;
-						float: right;
-						margin-bottom: 6px;
+					.img-cat {
+						width: 100%;
+						height: auto;
+						overflow: hidden;
 
-						&:nth-child(2n-1) {
-							margin-left: 6px;
+						img {
+							width: 47px;
+							height: 47px;
+							float: right;
+							margin-bottom: 6px;
+
+							&:nth-child(2n-1) {
+								margin-left: 6px;
+							}
+						}
+					}
+
+					.millesime-wrapper {
+			            .millesime {
+			                width: 120px;
+			                left: 30px;
+			                top: 50px; 
+			            }
+		            }
+		        }
+
+		        .block_right {
+					.matiere {
+						line-height: 22px;
+						span {
+							padding: 0 5px;
 						}
 					}
 				}
-			}
 
-			.block_right {
-				.matiere {
-					line-height: 22px;
-					span {
-						padding: 0 5px;
-					}
+				.block_full {
+					width: 620px;
 				}
+
+		        .block_certification {
+		        	float: none;
+				    clear: both;
+				    position: absolute;
+				    top: 0;
+				    right: 0px;
+				    margin-top: 0;
+				    width: 110px;
+
+		            > img {
+		                width: 70px;
+		                height: 70px;
+		                float: none;
+		                clear: both;
+		                display: block;
+		                margin: 0 auto;
+		            }
+
+		            .num {
+		                margin: 5px 0 0;
+		                width: 100%;
+		                text-align: center;
+
+
+		                span {
+		                    @include do-me;
+		                    display: block;
+		                }
+		            }
+		        }
 			}
 		}
 
@@ -329,8 +331,6 @@
 							padding: 0 20px 0 0;
 						}
 					}
-
-					
 				}
 			}
 		}

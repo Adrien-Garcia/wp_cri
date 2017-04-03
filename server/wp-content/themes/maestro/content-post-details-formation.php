@@ -165,6 +165,7 @@
                                 $duree = mvc_model('Session')->getDuration($session);
                             ?>
                             <p class="session-duree"><?php echo $duree ?></p>
+                            <p class="session-price"><?php echo $session->price ?>€ HT / Personne</p>
                         </div>
                         <?php if ($session->contact_organisme): ?>
                             <?php if (!empty(trim($session->entite->tel)) || !empty(trim($session->entite->office_email_adress_1))): ?>

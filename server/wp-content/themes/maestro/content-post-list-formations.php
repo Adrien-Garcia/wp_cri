@@ -54,6 +54,12 @@
             <div class="lieux-formation">
                 <p class="organisme"><?php echo $session->entite->office_name ?></p>
                 <p class="horaire"><?php echo $session->timetable ?></p>
+                <p class="place"><?php echo $session->place ?></p>
+                <?php 
+                    $duree = mvc_model('Session')->getDuration($session);
+                ?>
+                <p class="duree"><?php echo $duree ?></p>
+                <p class="price"><?php echo $session->price ?>€ HT / Personne</p>
             </div>
             <a href="<?php echo get_permalink($formation->post->ID); ?>" title="<?php $formation->post->post_title ?>">Lire</a>
 		</div>
