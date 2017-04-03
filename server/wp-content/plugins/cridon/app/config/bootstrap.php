@@ -660,6 +660,9 @@ function init_meta_boxes_ui_component(){
         if(in_array($_GET['cridon_type'], Config::$contentWithMillesime)){
             add_meta_box('id_ui_meta_boxes_millesime', Config::$titleMetaboxMillesime , 'init_ui_meta_boxes', 'post', 'normal', 'default', 'Millesime');
         }
+        if(in_array($_GET['cridon_type'], Config::$contentWithMultipleMatieres)){
+            add_meta_box('id_ui_meta_boxes_matiere', Config::$titleMetaboxMatiere , 'init_ui_meta_boxes', 'post', 'normal', 'default', 'Matiere');
+        }
     }
 }
 
@@ -721,6 +724,13 @@ function saveFromUI( $model,$obj ){
     $config = assocToKeyVal(Config::$data, 'model', 'controller');
     if (!empty($model) && in_array($config[$model],Config::$contentWithMillesime)) {
         $ui_millesime_container = $cri_container->get('ui_millesime_container');
+        $ui_millesime_container->setModel($model);
+        $ui_millesime_container->setObject($obj);
+        $ui_millesime_container->save();
+    }
+
+    if (!empty($model) && in_array($config[$model],Config::$contentWithMultipleMatieres)) {
+        $ui_millesime_container = $cri_container->get('ui_matiere_container');
         $ui_millesime_container->setModel($model);
         $ui_millesime_container->setObject($obj);
         $ui_millesime_container->save();

@@ -99,6 +99,10 @@ class Config {
         'veilles',
         'flashes',
         'cahier_cridons',
+    );
+
+    //Content qualified by multiple "Matière"
+    public static $contentWithMultipleMatieres = array(
         'formations'
     );
 
