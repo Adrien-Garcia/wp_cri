@@ -276,10 +276,15 @@ class Formation extends \App\Override\Model\CridonMvcModel
                         'id_form' => $data[$adapter::ZIDFORM],
                         'csn' => $data[$adapter::ZNUMERO],
                     );
+                    $title = $data[$adapter::ZTITRE];
+                    $title = \ForceUTF8\Encoding::toLatin1($title);
+                    $title = \ForceUTF8\Encoding::toUTF8($title);
                     $content = $data[$adapter::ZOBJECTIF]->read($adapter::CLOB_MAX_SIZE);
+                    $content = \ForceUTF8\Encoding::toLatin1($content);
+                    $content = \ForceUTF8\Encoding::toUTF8($content);
                     $content = wpautop(str_replace("\t", "    ", $content));
                     $pData = array(
-                        'post_title' => mb_convert_encoding($data[$adapter::ZTITRE], 'UTF-8'),
+                        'post_title' => $title,
                         'post_content' => $content,
                         'post_status' => 'publish',
                     );

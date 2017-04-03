@@ -28,6 +28,7 @@ require_once 'CridonTools.php';
 require_once 'DocumentsHolderTrait.php';
 require_once 'MultiMatieresTrait.php';
 require_once 'RoleManager.php';
+require_once 'Encoding.php';
 // Custom function used in template
 require_once 'functions.php';
 
