@@ -425,19 +425,17 @@ class NotairesController extends BasePublicController
         session_start();
         $notaire = CriNotaireData();
         $entite = mvc_model('Entite')->find_one_by_crpcen($notaire->crpcen);
-        if (empty($_REQUEST['code_promo'])
-            || !in_array($_REQUEST['code_promo'], array($entite->code_promo_offre_choc,$entite->code_promo_offre_privilege))) {
+        if (empty($_REQUEST['code_promo']) || !in_array($_REQUEST['code_promo'], array($entite->code_promo_offre_choc,$entite->code_promo_offre_privilege))) {
             echo json_encode(array('error_promo' => CONST_CRIDONLINE_WRONG_PROMO_CODE));
             die();
         }
-        if (!in_array($_REQUEST['level'],Config::$promo_available_for_level[$_REQUEST['code_promo']])){
-            echo json_encode(array('error_promo' => CONST_CRIDONLINE_PROMO_CODE_ONLY_PRIVILEGE));
-            die();
-        }
-
         if ($_REQUEST['code_promo'] == $entite->code_promo_offre_choc){
             $_SESSION['cridonline_promo'] = CONST_PROMO_CHOC;
-        } else {
+        } elseif ($_REQUEST['code_promo'] == $entite->code_promo_offre_privilege){
+            if ($_REQUEST['level'] == CONST_CRIDONLINE_LEVEL_2) {
+                echo json_encode(array('error_promo' => CONST_CRIDONLINE_PROMO_CODE_ONLY_PRIVILEGE));
+                die();
+            }
             $_SESSION['cridonline_promo'] = CONST_PROMO_PRIVILEGE;
         }
         $this->contentcridonlineetape2();
