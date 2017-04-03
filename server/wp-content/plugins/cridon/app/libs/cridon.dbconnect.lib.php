@@ -737,6 +737,16 @@ interface DBConnect
     const WEBOFF = 'WEBOFF_0';
 
     /**
+     * @var string : Code promo offre choc
+     */
+    const ZPROMO1 = 'ZPROMO1_0';
+
+    /**
+     * @var string : Code promo offre privilège
+     */
+    const ZPROMO2 = 'ZPROMO2_0';
+
+    /**
      * @var string : ????
      */
     const YSREECR = 'YSREECR_0';
