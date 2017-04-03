@@ -430,7 +430,7 @@ class NotairesController extends BasePublicController
             echo json_encode(array('error_promo' => CONST_CRIDONLINE_WRONG_PROMO_CODE));
             die();
         }
-        if (!in_array($_REQUEST['code_promo'],Config::$promo_available_for_level)){
+        if (!in_array($_REQUEST['level'],Config::$promo_available_for_level[$_REQUEST['code_promo']])){
             echo json_encode(array('error_promo' => CONST_CRIDONLINE_PROMO_CODE_ONLY_PRIVILEGE));
             die();
         }
