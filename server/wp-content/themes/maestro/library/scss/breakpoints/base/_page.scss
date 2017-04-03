@@ -92,6 +92,18 @@
                 left: 0;
             }
         }
+
+        .place,
+        .duree,
+        .price {
+            @include do-re;
+            line-height: 18px;
+            font-size: 15px;
+        }
+
+        .price {
+            color: $rouge;
+        }
     }
 
     .required {

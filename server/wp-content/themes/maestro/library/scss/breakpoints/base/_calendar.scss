@@ -376,6 +376,20 @@ CALENDAR STYLES
     .calendar__session-content--place {
         line-height: 1;
         padding: 10px 0;
+        @include do-re;
+
+        p {
+            margin: 0;
+
+            &.price {
+                color: $rouge;
+                margin-top: 3px;
+            }
+        }
+    }
+
+    .calendar__session-content--place {
+        @include do-me;
     }
 
     .calendar__session-content--time--full {
