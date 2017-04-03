@@ -393,7 +393,7 @@ body.single,
 
                 &.organisme {
                     //padding: 0 80px;
-                    margin-bottom: 11px;
+                    //margin-bottom: 11px;
                     @include do-bo;
                 }
 
@@ -429,6 +429,10 @@ body.single,
                     }
 
 				}
+
+                &.price {
+                    @include do-bo;
+                }
 			}
 
 
@@ -617,7 +621,6 @@ body.single,
                                 }
 
                                 &-organisme {
-                                    @include do-me;
                                     font-size: 15px;
                                     margin-bottom: 10px;
                                     line-height: 18px;
