@@ -137,15 +137,15 @@
 
 		</div>
 
+        <?php if (!empty($object->csn)) : ?>
         <div class="block_certification">
             <img src="/wp-content/themes/maestro/library/images/logo-CSN_2017.jpg" alt="">
             <div class="num">
                 Certification CSN
-                <?php if (!empty($object->csn)) : ?>
                     <span><?php echo $object->csn ?></span>
-                <?php endif; ?>
             </div>
         </div>
+        <?php endif; ?>
 
 
 	</div>
