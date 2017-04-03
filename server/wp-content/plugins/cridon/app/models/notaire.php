@@ -2956,6 +2956,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 $query .= $adapter::TELOFF . ", ";   // TELOFF
                 $query .= $adapter::FAXOFF . ", ";   // FAXOFF
                 $query .= $adapter::WEBOFF . ", ";   // WEBOFF
+                $query .= $adapter::ZPROMO1 . ", ";   // ZPROMO1
+                $query .= $adapter::ZPROMO2 . ", ";   // ZPROMO2
                 $query .= $adapter::YSREECR . ", ";   // YSREECR
                 $query .= $adapter::YSRETEL . ", ";   // YSRETEL
                 $query .= $adapter::YTRAITEE . ", ";   // YTRAITEE
@@ -3014,6 +3016,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                             $value .= "'" . (empty($notary->tel_office) ? ' ' : $this->replaceQuote($notary->tel_office)) . "', "; // TELOFF
                             $value .= "'" . (empty($notary->fax_office) ? ' ' : $this->replaceQuote($notary->fax_office)) . "', "; // FAXOFF
                             $value .= "'" . (empty($notary->office_email_adress_1) ? ' ' : $this->replaceQuote($notary->office_email_adress_1)) . "', "; // WEBOFF
+                            $value .= "' ', "; // ZPROMO1
+                            $value .= "' ', "; // ZPROMO2
                             $value .= "'" . $droitQuestEcrite . "', "; // YSREECR
                             $value .= "'" . $droitQuestTel . "', "; // YSRETEL
                             $value .= "'" . CONST_YTRAITEE_PAR_SITE . "', "; // YTRAITEE
