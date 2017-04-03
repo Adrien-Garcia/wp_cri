@@ -275,11 +275,14 @@ class FormationsController extends BaseActuController
             $lineSession = array(
                 'name'       => $formation->post->post_title,
                 'csn'        => $formation->csn,
-                'matiere'   => Matiere::getOneMatiere($matieresByFormations[$formation->id]),
+                'matiere'    => Matiere::getOneMatiere($matieresByFormations[$formation->id]),
                 'time'       => $session->timetable,
                 'url'        => MvcRouter::public_url($urlOptions),
                 'id'         => $session->id,
-                'is_full'    => $session->is_full > 0
+                'is_full'    => $session->is_full > 0,
+                'duree'      => mvc_model('Session')->getDuration($session),
+                'place'      => $session->place,
+                'price'      => $session->price,
             );
             if (!$before_today) {
                 $lineSession['url'] .= '?'.http_build_query(array('sessionid' => $session->id));
@@ -641,7 +644,10 @@ class FormationsController extends BaseActuController
                 'organisme' => $session->entite->office_name,
                 'city' => $session->entite->city,
                 'date' => \DateTime::createFromFormat('Y-d-m', $session->date)->format('d/m/Y'),
-                'time' => $session->timetable
+                'time' => $session->timetable,
+                'duree' => mvc_model('Session')->getDuration($session),
+                'place' => $session->place,
+                'price' => $session->price,
             ),
             'ajax-action' => MvcRouter::public_url(array(
                 'controller'=> 'formations',

@@ -32,23 +32,16 @@
     }
 
     .session {
-        .organisme {
+        .organisme,
+        .date,
+        .horaire,
+        .price,
+        .duree,
+        .place {
             font-size: 15px;
-            line-height: 18px;
-        }
-
-        .horaire {
-            font-size: 15px;
-            line-height: 18px;
-        }
-
-        .date {
-            font-size: 18px;
             line-height: 18px;
         }
     }
-
-    
 
     .textarea {
         margin-bottom: 10px;
