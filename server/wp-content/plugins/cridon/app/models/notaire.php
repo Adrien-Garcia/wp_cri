@@ -24,6 +24,41 @@ class Notaire extends \App\Override\Model\CridonMvcModel
      */
     const IMPORT_OCI_OPTION = 'oci';
 
+    protected $export_columns = array(
+        DBConnect::YIDCOLLAB, // YIDCOLLAB
+        DBConnect::YCRPCEN, // YCRPCEN
+        DBConnect::CNTLNA, // CNTLNA
+        DBConnect::CCNCRM,   // CCNCRM
+        DBConnect::YIDNOT, // YIDNOT
+        DBConnect::CNTFNA,   // CNTFNA
+        DBConnect::CNTFNC,   // CNTFNC
+        DBConnect::YTXTFNC,   // YTXTFNC
+        DBConnect::WEB,   // WEB
+        DBConnect::TEL,   // TEL
+        DBConnect::CNTMOB,   // CNTMOB
+        DBConnect::FAX,   // FAX
+        DBConnect::YFINPRE,   // YFINPRE
+        DBConnect::YMDPWEB,   // YMDPWEB
+        DBConnect::ZMDPTEL,   // ZMDPTEL
+        DBConnect::ADDLIG1,   // ADDLIG1
+        DBConnect::ADDLIG2,   // ADDLIG2
+        DBConnect::ADDLIG3,   // ADDLIG3
+        DBConnect::POSCOD,   // POSCOD
+        DBConnect::CTY,   // CTY
+        DBConnect::TELOFF,   // TELOFF
+        DBConnect::FAXOFF,   // FAXOFF
+        DBConnect::WEBOFF,   // WEBOFF
+        DBConnect::ZPROMO1,   // ZPROMO1
+        DBConnect::ZPROMO2,   // ZPROMO2
+        DBConnect::YSREECR,   // YSREECR
+        DBConnect::YSRETEL,   // YSRETEL
+        DBConnect::YTRAITEE,   // YTRAITEE
+        DBConnect::YDDEMDPTEL,   // YDDEMDPTEL
+        DBConnect::YDDEMDPWEB,   // YDDEMDPWEB
+        DBConnect::YERR,   // YERR
+        DBConnect::YMESSERR,   // YMESSERR
+    );
+
     /**
      * @var string
      */
@@ -2937,38 +2972,8 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                 // requette commune
                 $query  = " INTO " . CONST_DB_TABLE_YNOTAIRE;
                 $query .= " (";
-                $query .= $adapter::YIDCOLLAB . ", "; // YIDCOLLAB
-                $query .= $adapter::YCRPCEN . ", "; // YCRPCEN
-                $query .= $adapter::CNTLNA . ", "; // CNTLNA
-                $query .= $adapter::CCNCRM . ", ";   // CCNCRM
-                $query .= $adapter::YIDNOT . ", "; // YIDNOT
-                $query .= $adapter::CNTFNA . ", ";   // CNTFNA
-                $query .= $adapter::CNTFNC . ", ";   // CNTFNC
-                $query .= $adapter::YTXTFNC . ", ";   // YTXTFNC
-                $query .= $adapter::WEB . ", ";   // WEB
-                $query .= $adapter::TEL . ", ";   // TEL
-                $query .= $adapter::CNTMOB . ", ";   // CNTMOB
-                $query .= $adapter::FAX . ", ";   // FAX
-                $query .= $adapter::YFINPRE . ", ";   // YFINPRE
-                $query .= $adapter::YMDPWEB . ", ";   // YMDPWEB
-                $query .= $adapter::ZMDPTEL . ", ";   // ZMDPTEL
-                $query .= $adapter::ADDLIG1 . ", ";   // ADDLIG1
-                $query .= $adapter::ADDLIG2 . ", ";   // ADDLIG2
-                $query .= $adapter::ADDLIG3 . ", ";   // ADDLIG3
-                $query .= $adapter::POSCOD . ", ";   // POSCOD
-                $query .= $adapter::CTY . ", ";   // CTY
-                $query .= $adapter::TELOFF . ", ";   // TELOFF
-                $query .= $adapter::FAXOFF . ", ";   // FAXOFF
-                $query .= $adapter::WEBOFF . ", ";   // WEBOFF
-                $query .= $adapter::ZPROMO1 . ", ";   // ZPROMO1
-                $query .= $adapter::ZPROMO2 . ", ";   // ZPROMO2
-                $query .= $adapter::YSREECR . ", ";   // YSREECR
-                $query .= $adapter::YSRETEL . ", ";   // YSRETEL
-                $query .= $adapter::YTRAITEE . ", ";   // YTRAITEE
-                $query .= $adapter::YDDEMDPTEL . ", ";   // YDDEMDPTEL
-                $query .= $adapter::YDDEMDPWEB . ", ";   // YDDEMDPWEB
-                $query .= $adapter::YERR . ", ";   // YERR
-                $query .= $adapter::YMESSERR . " ";   // YMESSERR
+                $columns = implode(', ',$this->export_columns);
+                $query .= $columns.' ';
                 $query .= ") ";
                 $query .= " VALUES ";
 
@@ -3048,7 +3053,7 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         }
                         // preparation requete en masse
                         if (count($queryBloc) > 0) {
-                            $blocs = array_chunk($queryBloc, 900);
+                            $blocs = array_chunk($queryBloc, 999/(count($this->export_columns)+1));
                             $queries = array();
                             foreach ($blocs as $bloc) {
                                 $query = 'INSERT ALL ';
