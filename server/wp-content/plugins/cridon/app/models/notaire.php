@@ -3053,7 +3053,9 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         }
                         // preparation requete en masse
                         if (count($queryBloc) > 0) {
-                            $blocs = array_chunk($queryBloc, 999/(count($this->export_columns)+1));
+                            $chunk_size = intval( 999/ ( count($this->export_columns) +1 )  );
+                            $chunk_size = $chunk_size ? $chunk_size : 1;
+                            $blocs = array_chunk($queryBloc, $chunk_size);
                             $queries = array();
                             foreach ($blocs as $bloc) {
                                 $query = 'INSERT ALL ';
