@@ -83,9 +83,9 @@
             <td width="560" style="background-color:#fff; text-align:left; color:#2e4867; font-size:14px;">
                 <p>Bonjour,
                 <br>
-                    Nous vous prions de trouver ci-après une facture concernant l'étude "<?php echo $office_name; ?>".
+                    Une nouvelle facture concernant l'étude "<?php echo $office_name; ?>" vient d'être ajoutée sur le site du CRIDON LYON.
                     <br /><br />
-                    Vous pouvez la télécharger dans votre espace <a href="<?php echo $home.'/notaires/' ?>">Mon Compte</a>, onglet "Mes factures".
+                    Vous pouvez la télécharger dans votre espace <a href="<?php echo home_url().'/notaires/' ?>">Mon Compte</a>, onglet "Mes factures".
                     <br /><br />
                     Cordialement,
                     <br />

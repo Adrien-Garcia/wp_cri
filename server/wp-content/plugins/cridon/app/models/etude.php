@@ -179,12 +179,8 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                                     if ($documentId) {
 
                                         if ($type === CONST_DOC_TYPE_FACTURE && $sendMail) {
-                                            $facture = new \stdClass();
-                                            $facture->name = $fileInfo['basename'];
-                                            $facture->download_url = home_url().$documentModel->generatePublicUrl($documentId);
-
                                             // send email to notaries
-                                            $this->sendEmailFacture($crpcen, $facture);
+                                            $this->sendEmailFacture($crpcen);
                                         }
 
                                         unset($crpcen);
@@ -293,9 +289,8 @@ class Etude extends \App\Override\Model\CridonMvcModel {
      * Envoie email de notification
      *
      * @param string $crpcen
-     * @param object $facture
      */
-    public function sendEmailFacture($crpcen, $facture)
+    public function sendEmailFacture($crpcen)
     {
         // en-tete email
         $headers = array('Content-Type: text/html; charset=UTF-8');
@@ -319,27 +314,23 @@ class Etude extends \App\Override\Model\CridonMvcModel {
         if (count($dest) > 0) {
             array_unique($dest);
             $vars    = array(
-                'office_name'           => $office_name
+                'office_name'           => $office_name,
             );
             $message = CriRenderView('mail_notification_facture', $vars, 'custom', false);
 
             $env = getenv('ENV');
-            if (empty($env) || ($env !== PROD)) {
-                if ($env === 'PREPROD') {
-                    $dest = Config::$notificationAddressPreprod;
-                } else {
-                    $dest = Config::$notificationAddressDev;
-                }
-                wp_mail($dest, Config::$mailSubjectNotifFacture, $message, $headers);
-            } else {
-                /**
-                 * wp_mail : envoie mail destinataire multiple
-                 *
-                 * @see wp-includes/pluggable.php : 228
-                 * @param string|array $to Array or comma-separated list of email addresses to send message.
-                 */
-                wp_mail($dest, Config::$mailSubjectNotifFacture, $message, $headers);
+
+            if (empty($env) || ($env !== PROD || $env !== PREPROD)) {
+                $dest = Config::$notificationAddressDev;
             }
+
+            /**
+             * wp_mail : envoie mail destinataire multiple
+             *
+             * @see wp-includes/pluggable.php : 228
+             * @param string|array $to Array or comma-separated list of email addresses to send message.
+             */
+            wp_mail($dest, Config::$mailSubjectNotifFacture, $message, $headers);
         }
     }
 
@@ -353,14 +344,10 @@ class Etude extends \App\Override\Model\CridonMvcModel {
     {
         global $wpdb;
 
-        // Notaire fonction
-        $notary_fonction = implode(', ', Config::$allowedNotaryFunction);
-
-        // requette
+        // requete permettant de récupérer tous les notaires activés d'une étude
         $query = "  SELECT
-                      `cn`.`id_wp_user`,
-                      `cn`.`id_fonction`,
                       `cn`.`email_adress`,
+                      `cn`.`id_wp_user`,
                       `ce`.`office_name`
                     FROM
                       `{$wpdb->prefix}notaire` cn
@@ -375,21 +362,21 @@ class Etude extends \App\Override\Model\CridonMvcModel {
                     WHERE
                       `cn`.`crpcen` = %s
                     AND
-                      `u`.`user_status` = %s";
+                      `u`.`user_status` = %s
+                    AND
+                      `cn`.`email_adress` <> ' '
+                    ";
 
-        $emailInfos = array();
-
-        /** @var Notaire $notaireModel */
-        $notaireModel = mvc_model('notaire');
-
-        foreach ($wpdb->get_results($wpdb->prepare($query, $crpcen, CONST_STATUS_ENABLED)) as $info) {
-            $userWP = get_user_by('id', $info->id_wp_user);
-            if (in_array($info->id_fonction, $notary_fonction) || $notaireModel->userHasRole($userWP, CONST_FINANCE_ROLE)) {
-                $emailInfos[] = $info;
+        $notaires = $wpdb->get_results($wpdb->prepare($query, $crpcen, CONST_STATUS_ENABLED));
+        $notaryListToNotify = array();
+        foreach($notaires as $notaire){
+            $user_meta = get_userdata($notaire->id_wp_user);
+            //TODO Mettre à jour avec les nouveaux roles (CONST_FACTURE_ROLE certainement)
+            if (in_array(CONST_FINANCE_ROLE,$user_meta->roles)){
+                $notaryListToNotify [] = $notaire;
             }
         }
-
-        return $emailInfos;
+        return $notaryListToNotify;
     }
 
 }
