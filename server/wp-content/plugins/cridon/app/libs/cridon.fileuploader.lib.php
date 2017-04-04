@@ -158,7 +158,7 @@ class CriFileUploader
      *
      * @return array|bool
      */
-    public function execute()
+    public function execute($suffix = '')
     {
         // Get directory
         $remdir = $this->uploaddir;
@@ -186,24 +186,19 @@ class CriFileUploader
             // check for all files, SIZE and FILE_TYPE
             for ($i = 0;$i < $num; $i++) {
                 $files = pathinfo($this->files['name'][$i]);
-                $filename = sanitize_title($files['basename']) . '.' . $files['extension'];
+                $filename = $files['basename'] . (!empty($suffix) ? '-' . $suffix : '') . '-' . date('His');
+                $filename = sanitize_title($filename) . '.' . $files['extension'];
                 $output = $filename;
                 //$this->errors[0][] = $filename;
-                if ( !empty( $filename)) {			   // this will check if any blank field is entered
-                    $add = $remdir . $filename;		   // upload directory path is set
-                    if (file_exists($add)) {
-                        $output = mt_rand(1, 10) . '_' . $filename;
-                        $add = $remdir . $output;
+                $add = $remdir . $filename;		   // upload directory path is set
+                if(is_uploaded_file($this->files['tmp_name'][$i]))
+                {
+                    move_uploaded_file($this->files['tmp_name'][$i], $add);
+                    if (!chmod( "$add", $this->permission)) { // set permission to the file.
+                        $this->errors[0][] = "Problems with copy of: " . $filename;
                     }
-                    if(is_uploaded_file($this->files['tmp_name'][$i]))
-                    {
-                        move_uploaded_file($this->files['tmp_name'][$i], $add);
-                        if (!chmod( "$add", $this->permission)) { // set permission to the file.
-                            $this->errors[0][] = "Problems with copy of: " . $filename;
-                        }
 
-                        $outputs[] = $output;
-                    }
+                    $outputs[] = $output;
                 }
             }
             return $outputs;

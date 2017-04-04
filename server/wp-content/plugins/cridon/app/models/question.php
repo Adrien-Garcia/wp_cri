@@ -459,7 +459,7 @@ class Question extends \App\Override\Model\CridonMvcModel
 
                     // validate file size, max upload authorized,...
                     if ($criFileUploader->validate()) {
-                        $listDocuments = $criFileUploader->execute();
+                        $listDocuments = $criFileUploader->execute($notaire->crpcen);
 
                         if (is_array($listDocuments) && count($listDocuments) > 0) {
                             foreach ($listDocuments as $document) {
@@ -1501,22 +1501,23 @@ class Question extends \App\Override\Model\CridonMvcModel
                         writeLog($e, 'exportquestionenerreurgrave.log');
 
                         // Try to send the info without the content of the question (which is then sent via email)
-                        $values = $this->prepareQueryValue($question,$documents,$competences,$resume);
+                        $values = $this->prepareQueryValue($question, $documents, $competences, $resume);
                         $query = 'INSERT '.$keys.$values;
                         try {
                             // Try to send the question without its content
                             $adapter->execute($query);
                             // Then send the content of the question via email
-                            $this->sendNotificationQuestionWithoutContent($question, $content);
+                            $this->sendNotificationQuestionWithoutContent($question, $question->content);
                         } catch (\Exception $e) {
                             // Since both request have failed, we send all the question information by email.
-                            $this->sendNotificationQuestionNotSent($question,$documents,$competences,$resume,$content);
+                            $this->sendNotificationQuestionNotSent($question, $documents, $competences, $resume, $question->content);
                             // write into logfile
                             writeLog($e, 'exportquestionenerreurgrave.log');
+                        } finally {
+                            $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . " WHERE id = " . $question->id;
+                            $this->wpdb->query($sql);
                         }
                     }
-                    $sql = " UPDATE {$this->table} SET transmis_erp = " . CONST_QUEST_TRANSMIS_ERP . ", flag_erreur = " . CONST_QUEST_SANS_ERREUR . " WHERE id = " . $question->id;
-                    $this->wpdb->query($sql);
                 }
             }
             return CONST_STATUS_CODE_OK;
@@ -1649,11 +1650,11 @@ class Question extends \App\Override\Model\CridonMvcModel
         $value .= "'" . ( empty($resume) ? ' ' : $resume ) . "', "; // ZQUEST_YRESUME_0
         $value .= "'" . $question->id_affectation . "', "; // ZQUEST_YSREASS_0
         $value .= "TO_DATE('" . date('d/m/Y', strtotime($question->creation_date)) . "', 'dd/mm/yyyy'), "; // ZQUEST_CREDAT_0
-        $value .= "'" . ( ( !empty($documents[0]) && !empty($documents[0]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[0]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_0
-        $value .= "'" . ( ( !empty($documents[1]) && !empty($documents[1]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[1]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_1
-        $value .= "'" . ( ( !empty($documents[2]) && !empty($documents[2]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[2]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_2
-        $value .= "'" . ( ( !empty($documents[3]) && !empty($documents[3]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[3]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_3
-        $value .= "'" . ( ( !empty($documents[4]) && !empty($documents[4]->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($documents[4]->id) : ' ' ) ."', "; // ZQUEST_ZLIENS_4
+        $value .= "'" . ( $this->getDocumentLink($documents[0]) ) ."', "; // ZQUEST_ZLIENS_0
+        $value .= "'" . ( $this->getDocumentLink($documents[1]) ) ."', "; // ZQUEST_ZLIENS_1
+        $value .= "'" . ( $this->getDocumentLink($documents[2]) ) ."', "; // ZQUEST_ZLIENS_2
+        $value .= "'" . ( $this->getDocumentLink($documents[3]) ) ."', "; // ZQUEST_ZLIENS_3
+        $value .= "'" . ( $this->getDocumentLink($documents[4]) ) ."', "; // ZQUEST_ZLIENS_4
         // HOTFIX
         $value .= ( empty($content) ? ' ' : $content) . ","; // ZTXTQUEST_0
         $value .= "'000000',"; // ZQUEST_SRENUM1_0
@@ -1664,12 +1665,17 @@ class Question extends \App\Override\Model\CridonMvcModel
         return $value;
     }
 
+    protected function getDocumentLink($doc)
+    {
+        return ( !empty($doc) && !empty($doc->id) ) ? get_site_url().mvc_model('Document')->generatePublicUrl($doc->id) : ' ';
+    }
+
     protected function sendNotificationQuestionWithoutContent($question,$content){
         $info = Config::$emailNotificationQuestionEmptyContent;
         wp_mail(
             $info['to'],
-            sprintf($info['subject'],$question->id),
-            sprintf($info['message'],$question->id,$question->client_number,$content)
+            sprintf($info['subject'], $question->id),
+            sprintf($info['message'], $question->id, $question->client_number, $content)
         );
     }
 
@@ -1678,7 +1684,9 @@ class Question extends \App\Override\Model\CridonMvcModel
         wp_mail(
             $info['to'],
             sprintf($info['subject'],$question->id),
-            sprintf($info['message'],$question->id,$question->client_number,
+            sprintf($info['message'],
+                $question->id,
+                $question->client_number,
                 $question->id,
                 0,
                 $question->client_number,
@@ -1699,11 +1707,11 @@ class Question extends \App\Override\Model\CridonMvcModel
                 $resume,
                 $question->id_affectation,
                 $question->creation_date,
-                $documents[0],
-                $documents[1],
-                $documents[2],
-                $documents[3],
-                $documents[4],
+                $this->getDocumentLink($documents[0]),
+                $this->getDocumentLink($documents[1]),
+                $this->getDocumentLink($documents[2]),
+                $this->getDocumentLink($documents[3]),
+                $this->getDocumentLink($documents[4]),
                 $content,
                 000000,
                 ' ',
@@ -1865,7 +1873,8 @@ class Question extends \App\Override\Model\CridonMvcModel
                 'Matiere.displayed' => 1,
             )
         ));
-        $matieres = assocToKeyVal($matieres, 'id', 'label');
+        $nomMatieres = assocToKeyVal($matieres, 'id', 'label');
+        $matieres = assocToKeyVal($matieres, 'id', 'code');
 
         foreach ($datas as $data) {
 
@@ -1894,6 +1903,8 @@ class Question extends \App\Override\Model\CridonMvcModel
                 wp_mkdir_p($path);
             }
 
+            $data[$indexes['CRPCEN']] = str_pad($data[$indexes['CRPCEN']], 5, '0', STR_PAD_LEFT);
+
             // question
             $question = $this->getQuestionBy($data[$indexes['CRPCEN']], $data[$indexes['SRENUM']]);
             if ($question->id) { // quest exist
@@ -1914,8 +1925,8 @@ class Question extends \App\Override\Model\CridonMvcModel
                         'srenum'           => $data[$indexes['SRENUM']],
                         'client_number'    => '8' . $data[$indexes['CRPCEN']],
                         'crpcen'           => $data[$indexes['CRPCEN']],
-                        'resume'           => empty($data[$indexes['OBJET']]) ? $matieres[$indexes['COMPETENCE']] : $data[$indexes['OBJET']],
-                        'id_competence_1'  => $data[$indexes['COMPETENCE']],
+                        'resume'           => empty($data[$indexes['OBJET']]) ? $nomMatieres[$data[$indexes['COMPETENCE']]] : $data[$indexes['OBJET']],
+                        'id_competence_1'  => $matieres[$data[$indexes['COMPETENCE']]],
                         'juriste'          => $data[$indexes['JURISTE']],
                         'id_support'       => $data[$indexes['SUPPORT']],
                         'id_affectation'   => $data[$indexes['CODE_AFFECTATION']],
