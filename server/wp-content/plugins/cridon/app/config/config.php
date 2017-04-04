@@ -859,11 +859,10 @@ class Config {
 
     /**
      * @var array : liste de type de document non liés aux models de WPMVC
-     * @TODO : à completer avec type relevé de consommation
      */
     public static $exceptedDocTypeForModel = array(
         CONST_DOC_TYPE_FACTURE,
-        CONST_DOC_TYPE_REEVE_CONSO
+        CONST_DOC_TYPE_RELEVE_CONSO
     );
 
     /**
