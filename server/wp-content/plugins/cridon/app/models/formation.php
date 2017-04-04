@@ -78,6 +78,9 @@ class Formation extends \App\Override\Model\CridonMvcModel
                 'participants'          => $formationParticipants,
                 'commentaire'           => $formationCommentaire,
                 'notaire'               => $data['notaire'],
+                'csn'                   => $session->formation->csn,
+                'horaire'               => $session->timetable,
+                'place'                 => $session->place,
             );
             $this->_sendNotificationMail($data['dest'], $vars, Config::$mailSubjectFormationPreinscription. ' : ' .$session->formation->post->post_title);
             $this->_sendAdminNotificationMail($data['adminDest'], $vars, Config::$mailSubjectAdminFormationPreinscription. ' : ' .$session->formation->post->post_title);
