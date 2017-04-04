@@ -3048,9 +3048,13 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         }
                         // preparation requete en masse
                         if (count($queryBloc) > 0) {
-                            $query = 'INSERT ALL ';
-                            $query .= implode(' ', $queryBloc);
-                            $query .= ' SELECT * FROM dual';
+                            $blocs = array_chunk($queryBloc, 900);
+                            $query = '';
+                            foreach ($blocs as $bloc) {
+                                $query .= 'INSERT ALL ';
+                                $query .= implode(' ', $bloc);
+                                $query .= ' SELECT * FROM dual;';
+                            }
                         }
                         break;
                     case CONST_DB_DEFAULT:
