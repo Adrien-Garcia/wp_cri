@@ -3049,11 +3049,12 @@ class Notaire extends \App\Override\Model\CridonMvcModel
                         // preparation requete en masse
                         if (count($queryBloc) > 0) {
                             $blocs = array_chunk($queryBloc, 900);
-                            $query = '';
+                            $queries = array();
                             foreach ($blocs as $bloc) {
-                                $query .= 'INSERT ALL ';
+                                $query = 'INSERT ALL ';
                                 $query .= implode(' ', $bloc);
-                                $query .= ' SELECT * FROM dual;';
+                                $query .= ' SELECT * FROM dual';
+                                $queries[] = $query;
                             }
                         }
                         break;
@@ -3122,22 +3123,24 @@ class Notaire extends \App\Override\Model\CridonMvcModel
             }
 
             // execution requete
-            if (!empty($query)) {
-                if ($result = $this->adapter->execute($query)) {
-                    // update cri_notaire.renew_pwd
-                    if (count($qListResetPWD) > 0) {
-                        $sql = " UPDATE {$this->table} SET renew_pwd = 0 WHERE id IN (" . implode(', ', $qListResetPWD) . ")";
-                        $this->wpdb->query($sql);
+            if (!empty($queries)) {
+                foreach ($queries as $query) {
+                    if ($result = $this->adapter->execute($query)) {
+                        // update cri_notaire.renew_pwd
+                        if (count($qListResetPWD) > 0) {
+                            $sql = " UPDATE {$this->table} SET renew_pwd = 0 WHERE id IN (" . implode(', ', $qListResetPWD) . ")";
+                            $this->wpdb->query($sql);
+                        }
+                        // update cri_notaire.cron_update
+                        if (count($qListCRUD) > 0) {
+                            $sql = " UPDATE {$this->table} SET cron_update_erp = 0 WHERE id IN (" . implode(', ', $qListCRUD) . ")";
+                            $this->wpdb->query($sql);
+                        }
+                    } else {
+                        // log erreur
+                        $error = sprintf(CONST_UPDATEERP_ERROR, date('d/m/Y à H:i:s'));
+                        writeLog($error, 'query_updateerp.log');
                     }
-                    // update cri_notaire.cron_update
-                    if (count($qListCRUD) > 0) {
-                        $sql = " UPDATE {$this->table} SET cron_update_erp = 0 WHERE id IN (" . implode(', ', $qListCRUD) . ")";
-                        $this->wpdb->query($sql);
-                    }
-                } else {
-                    // log erreur
-                    $error = sprintf(CONST_UPDATEERP_ERROR, date('d/m/Y à H:i:s'));
-                    writeLog($error, 'query_updateerp.log');
                 }
             }
 
